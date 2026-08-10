@@ -8,7 +8,7 @@
 
 - Quantum Arcade è, a conoscenza dell'autore, il primo corso in italiano che insegna l'informatica quantistica giocando con un simulatore quantistico reale.
 - L'algoritmo di Simon (livello 12) è il ponte fra Bernstein-Vazirani e Shor: è il primo vantaggio quantistico esponenziale dimostrato (Daniel Simon, 1994) e mostra che una misura può valere un'equazione lineare mod 2.
-- Il percorso è a spirale: il qubit viene introdotto al livello 1 con ampiezze positive/negative; i numeri complessi arrivano al livello 8, quando servono; onde e trasformata di Fourier arrivano ai livelli 14-17, subito prima della QFT.
+- Il percorso è a spirale: il qubit viene introdotto al livello 1 con ampiezze positive/negative; i numeri complessi arrivano al livello 8, quando servono; onde e trasformata di Fourier arrivano ai livelli 13-17, subito prima della QFT.
 - I livelli si sbloccano per padronanza dimostrata: una missione pratica nel mini-gioco più un quiz di richiamo, con tentativi illimitati e senza penalità (mastery learning + retrieval practice).
 - Le domande già viste tornano nel "Ripasso lampo" a intervalli crescenti (1, 3, 7, 21, 60 giorni) secondo il metodo Leitner.
 - Il circuito della QFT implementato nel sito è verificato da test automatici: riproduce esattamente la matrice di Fourier (1/√N)·e^{2πijk/N}.

@@ -248,6 +248,50 @@ console.log('\n[8] Segreti fuori dalla radice web');
   if (!colpevoli) ok();
 }
 
+/* ---------- 9. refusi ricorrenti dell'italiano ---------- */
+console.log('\n[9] Ortografia italiana');
+{
+  // Solo regole ad alta precisione: in queste pagine convivono prosa, formule e
+  // codice, e un controllo che grida al lupo per ogni virgola dentro un array
+  // non lo guarderebbe più nessuno. Meglio poche regole di cui fidarsi.
+    const REGOLE = [
+    // Solo regole ad alta precisione: in queste pagine convivono prosa, formule e
+    // codice, e un controllo che grida al lupo per ogni virgola dentro un array
+    // non lo guarderebbe più nessuno.
+    [/\bqual'è\b/gi, "qual è (senza apostrofo)"],
+    [/\bun'(altro|uomo|amico|anno|attimo|esempio|errore|angolo|insieme|numero|segno|passo|bit)\b/gi, "l'apostrofo di 'una' va solo davanti a parole femminili"],
+    [/\bpò\b/g, "po' (con apostrofo, non accento)"],
+    [/\b(perchè|poichè|affinchè|benchè|finchè|cosicchè|nonchè|ventitrè)\b/gi, "accento acuto: perché, poiché, affinché…"],
+    [/\bsè\b/g, "sé (accento acuto)"],
+    [/\b(fà|stà|dò|sù|quì|quà|và)\b/g, "senza accento: fa, sta, do, su, qui, qua, va"],
+    [/\bsopratutto\b/gi, "soprattutto"],
+    [/\bpropio\b/gi, "proprio"],
+    [/\baccellera/gi, "accelera (una l sola)"],
+    [/\bsucessiv/gi, "successivo (due s)"],
+    [/\befficen/gi, "efficiente / efficienza"],
+    [/\beccezzion/gi, "eccezione"],
+    [/\bfunzione? che che\b/gi, "parola ripetuta"],
+    [/\bdi di\b|\bil il\b|\bla la\b|\bche che\b|\bper per\b|\bcon con\b|\bnon non\b/gi, "parola ripetuta"],
+    [/\bA me mi\b/gi, "«a me mi» è ridondante"],
+    [/\bentrambi le\b/gi, "entrambe le"],
+    [/\bqualsiasi cose\b/gi, "qualsiasi cosa"],
+  ];
+
+  let refusi = 0;
+  for (const f of walk(join(ROOT, 'public_html'), n => /\.(html|js|txt)$/.test(n))) {
+    // i tag si tolgono SENZA metterci uno spazio, sennò nascono finti errori
+    const testo = readFileSync(f, 'utf8').replace(/<[^>]*>/g, '').replace(/https?:\/\/\S+/g, ' ');
+    for (const [re, spiega] of REGOLE) {
+      for (const m of testo.matchAll(re)) {
+        const ctx = testo.slice(Math.max(0, m.index - 40), m.index + 50).replace(/\s+/g, ' ');
+        warn(rel(f), `«…${ctx}…» → ${spiega}`);
+        refusi++;
+      }
+    }
+  }
+  if (!refusi) ok();
+}
+
 function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return h; }
 
 console.log(`\n${errors === 0 ? '✅' : '❌'}  ${checks} controlli superati · ${errors} errori · ${warnings} avvisi\n`);
