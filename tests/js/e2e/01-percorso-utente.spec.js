@@ -60,13 +60,24 @@ test.describe('percorso completo', () => {
     await expect(widget.first()).toBeVisible();
     expect(await widget.count()).toBeGreaterThan(2);
 
-    // il canvas ha davvero disegnato qualcosa (non è una tela vuota)
-    const disegnato = await page.locator('canvas').first().evaluate(c => {
-      const ctx = c.getContext('2d');
-      const d = ctx.getImageData(0, 0, c.width, Math.min(60, c.height)).data;
-      return d.some((v, i) => i % 4 !== 3 && v > 12);
-    });
-    expect(disegnato).toBe(true);
+    // Il canvas ha davvero disegnato qualcosa (non è una tela vuota).
+    // I mini-giochi disegnano al primo frame utile e solo quando entrano nello
+    // schermo, per non sprecare batteria: quindi prima lo porto in vista e poi
+    // ASPETTO che dipinga, invece di guardare una volta sola e sperare.
+    const tela = page.locator('canvas').first();
+    await tela.scrollIntoViewIfNeeded();
+
+    await expect.poll(
+      () => tela.evaluate(c => {
+        const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+        let accesi = 0;
+        for (let i = 0; i < d.length; i += 4) {
+          if (d[i] > 12 || d[i + 1] > 12 || d[i + 2] > 12) accesi++;
+        }
+        return accesi;
+      }),
+      { timeout: 8000, message: 'il mini-gioco non ha disegnato niente' },
+    ).toBeGreaterThan(50);
 
     // rispondo alle domande provando finché non becco quella giusta
     const domande = page.locator('.quiz-q');
