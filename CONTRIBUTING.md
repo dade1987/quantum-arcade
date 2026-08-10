@@ -195,6 +195,35 @@ finiranno in una sezione dedicata con il nome di chi le ha scoperte.
 
 ---
 
+## Con che licenza esce il tuo contributo
+
+Il progetto è **libero ma non commerciale**: chiunque può leggerlo, modificarlo, tradurlo,
+installarlo sul proprio server e usarlo in classe — anche in una scuola privata. Quello che
+non si può fare, senza accordo scritto, è **rivenderlo** o infilarlo dentro un prodotto a
+pagamento. Il testo completo è in [LICENSE](LICENSE):
+
+- **codice** → [PolyForm Noncommercial 1.0.0](LICENSE)
+- **contenuti didattici** → [CC BY-NC-SA 4.0](LICENSE)
+
+Aprendo una pull request accetti due cose:
+
+1. il tuo contributo esce **con queste stesse licenze** (regola standard: quello che entra
+   ha la licenza di quello che esce);
+2. autorizzi l'autore a includerlo nelle eventuali **licenze commerciali** che concede a chi
+   le chiede.
+
+Il punto 2 sembra sbilanciato ed è giusto spiegarlo: senza, basterebbe una sola pull request
+accettata per rendere impossibile qualunque accordo futuro, anche a chi ha scritto tutto il
+resto. Tu **mantieni il tuo copyright**, resti nella cronologia del progetto e nei crediti.
+Se la condizione non ti convince, scrivilo nella pull request: si discute (per esempio
+tenendo il tuo contributo in un file separato e marcato).
+
+Una precisazione onesta: una licenza non commerciale **non** è "open source" secondo la
+definizione dell'Open Source Initiative, perché limita i campi di utilizzo. Se per te è un
+criterio dirimente è meglio saperlo prima di scrivere codice, non dopo.
+
+---
+
 ## Perché questo documento è fatto così
 
 La revisione sistematica di **Steinmacher e colleghi** su 21 studi individua cinque famiglie

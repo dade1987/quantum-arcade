@@ -9,8 +9,8 @@
 [![Collaudo](https://github.com/dade1987/quantum-arcade/actions/workflows/collaudo.yml/badge.svg)](https://github.com/dade1987/quantum-arcade/actions/workflows/collaudo.yml)
 [![Copertura backend](https://img.shields.io/badge/copertura%20backend-100%25-success)](docs/BACKEND.md)
 [![Copertura frontend](https://img.shields.io/badge/copertura%20frontend-100%25%20righe-success)](tests/js/unit)
-[![Licenza](https://img.shields.io/badge/codice-MIT-blue)](LICENSE)
-[![Contenuti](https://img.shields.io/badge/contenuti-CC%20BY--SA%204.0-blue)](LICENSE)
+[![Codice](https://img.shields.io/badge/codice-PolyForm%20Noncommercial%201.0.0-blue)](LICENSE)
+[![Contenuti](https://img.shields.io/badge/contenuti-CC%20BY--NC--SA%204.0-blue)](LICENSE)
 
 [Come contribuire](CONTRIBUTING.md) · [Il metodo e le fonti](public_html/metodo.html) · [Architettura](docs/BACKEND.md)
 
@@ -142,12 +142,31 @@ Prima di aprire una pull request: `npm run test:all`.
   e far sentire stupido qualcuno lavora contro lo scopo del progetto.
 - [Sicurezza](SECURITY.md) — le vulnerabilità si segnalano in privato.
 
-## Licenze
+## Licenza — libera, ma non commerciale
 
-- **Codice**: [MIT](LICENSE) — fanne quello che vuoi.
-- **Contenuti didattici** (testi, quiz, glossario): [CC BY-SA 4.0](LICENSE) — riusali citando
-  la fonte e mantenendo la stessa licenza.
-- **Eccezione**: la fotografia dell'autore non è riutilizzabile fuori da questo progetto.
+Il progetto è aperto: si può leggere, studiare, modificare, tradurre, installare sul proprio
+server e usare in classe. Quello che non si può fare è **rivenderlo**.
+
+| | Licenza | In pratica |
+|---|---|---|
+| **Codice** (PHP, JS, CSS, test) | [PolyForm Noncommercial 1.0.0](LICENSE) | usalo e modificalo per qualunque scopo non commerciale |
+| **Contenuti didattici** (testi, quiz, glossario) | [CC BY-NC-SA 4.0](LICENSE) | riusali citando la fonte, senza scopo di lucro, con la stessa licenza |
+| **Fotografia dell'autore** | tutti i diritti riservati | non riutilizzabile fuori da questo progetto |
+
+**Scuola e ricerca sono sempre permesse**, anche in istituti privati e a retta: portare il
+corso in aula si può sempre, purché non sia il materiale stesso a essere venduto.
+
+**Uso commerciale**: si può, basta chiedere — l'autore concede licenze commerciali
+([Calendly](https://calendly.com/davidecavallini1987/meeting)).
+
+**Contribuendo** accetti che il tuo contributo esca con queste stesse licenze e che l'autore
+possa includerlo in eventuali licenze commerciali: senza, un singolo contributo bloccherebbe
+per sempre il progetto. Il dettaglio, e il perché, sono al punto 5 di [LICENSE](LICENSE).
+
+> Nota per chi conosce le definizioni: una licenza non commerciale **non** è "open source"
+> secondo l'Open Source Initiative, perché limita i campi di utilizzo. È una scelta
+> deliberata: il codice resta leggibile, modificabile e migliorabile da chiunque, ma il
+> lavoro non finisce rivenduto da altri.
 
 ## Crediti
 

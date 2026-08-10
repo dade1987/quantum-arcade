@@ -1,54 +1,224 @@
-Quantum Arcade — doppia licenza
-===============================
+Quantum Arcade — licenza libera per usi non commerciali
+=======================================================
 
-Questo progetto contiene due cose diverse, con due licenze diverse.
+Copyright (c) 2026 Davide Cavallini
 
 --------------------------------------------------------------------
-1. IL CODICE — Licenza MIT
+IN DUE RIGHE (riassunto, non ha valore legale: valgono i testi sotto)
+--------------------------------------------------------------------
+
+PUOI, gratis e senza chiedere niente a nessuno:
+  · usare il sito e giocarci, da solo o con la tua classe;
+  · scaricarlo, studiarlo, modificarlo, tradurlo;
+  · installarlo su un tuo server e usarlo con i tuoi studenti;
+  · pubblicare la tua versione modificata, purché resti alle stesse condizioni;
+  · contribuire al progetto: correzioni, livelli nuovi, traduzioni.
+
+NON PUOI, senza il permesso scritto dell'autore:
+  · venderlo, o venderne una versione modificata;
+  · usarlo dentro un prodotto o un servizio a pagamento;
+  · usarlo per un corso commerciale, un abbonamento, una piattaforma a pagamento;
+  · metterci pubblicità o usarlo per generare ricavi.
+
+SCUOLA E RICERCA SONO SEMPRE PERMESSE. Un insegnante che lo usa in classe,
+un'università, un ente pubblico, una biblioteca o un'associazione senza scopo
+di lucro possono usarlo liberamente, anche se l'istituto è privato e a
+retta — purché non sia il materiale stesso a essere venduto.
+
+VUOI USARLO A SCOPO COMMERCIALE? Si può, basta chiedere: l'autore concede
+licenze commerciali. Scrivi tramite https://calendly.com/davidecavallini1987/meeting
+oppure https://www.linkedin.com/in/davidecavallini/
+
+--------------------------------------------------------------------
+1. IL CODICE — PolyForm Noncommercial License 1.0.0
 --------------------------------------------------------------------
 
 Si applica a tutto il codice sorgente: PHP, JavaScript, CSS, configurazioni,
 test e strumenti.
 
-Copyright (c) 2026 Davide Cavallini
+Identificativo SPDX: PolyForm-Noncommercial-1.0.0
 
-Con la presente si concede gratuitamente a chiunque ottenga una copia di questo
-software e dei file di documentazione associati (il "Software") il permesso di
-utilizzare il Software senza restrizioni, inclusi senza limitazione i diritti di
-usare, copiare, modificare, unire, pubblicare, distribuire, concedere in
-sublicenza e/o vendere copie del Software, e di permettere alle persone a cui il
-Software è fornito di farlo, alle seguenti condizioni:
+Required Notice: Copyright 2026 Davide Cavallini (https://github.com/dade1987/quantum-arcade)
 
-L'avviso di copyright di cui sopra e questo avviso di permesso devono essere
-inclusi in tutte le copie o parti sostanziali del Software.
+Segue il testo ufficiale della licenza, riprodotto integralmente. In caso di
+divergenza fra questa copia e l'originale pubblicato su
+https://polyformproject.org/licenses/noncommercial/1.0.0 prevale l'originale.
 
-IL SOFTWARE VIENE FORNITO "COSÌ COM'È", SENZA GARANZIE DI ALCUN TIPO, ESPRESSE O
-IMPLICITE, INCLUSE MA NON LIMITATE ALLE GARANZIE DI COMMERCIABILITÀ, IDONEITÀ PER
-UNO SCOPO PARTICOLARE E NON VIOLAZIONE. IN NESSUN CASO GLI AUTORI O I TITOLARI
-DEL COPYRIGHT SARANNO RESPONSABILI PER QUALSIASI RECLAMO, DANNO O ALTRA
-RESPONSABILITÀ, SIA IN UN'AZIONE CONTRATTUALE, ILLECITO O ALTRO, DERIVANTE DA O
-IN CONNESSIONE CON IL SOFTWARE O L'USO O ALTRE OPERAZIONI NEL SOFTWARE.
+....................................................................
+
+# PolyForm Noncommercial License 1.0.0
+
+<https://polyformproject.org/licenses/noncommercial/1.0.0>
+
+## Acceptance
+
+In order to get any license under these terms, you must agree
+to them as both strict obligations and conditions to all
+your licenses.
+
+## Copyright License
+
+The licensor grants you a copyright license for the
+software to do everything you might do with the software
+that would otherwise infringe the licensor's copyright
+in it for any permitted purpose.  However, you may
+only distribute the software according to [Distribution
+License](#distribution-license) and make changes or new works
+based on the software according to [Changes and New Works
+License](#changes-and-new-works-license).
+
+## Distribution License
+
+The licensor grants you an additional copyright license
+to distribute copies of the software.  Your license
+to distribute covers distributing the software with
+changes and new works permitted by [Changes and New Works
+License](#changes-and-new-works-license).
+
+## Notices
+
+You must ensure that anyone who gets a copy of any part of
+the software from you also gets a copy of these terms or the
+URL for them above, as well as copies of any plain-text lines
+beginning with `Required Notice:` that the licensor provided
+with the software.  For example:
+
+> Required Notice: Copyright Yoyodyne, Inc. (http://example.com)
+
+## Changes and New Works License
+
+The licensor grants you an additional copyright license to
+make changes and new works based on the software for any
+permitted purpose.
+
+## Patent License
+
+The licensor grants you a patent license for the software that
+covers patent claims the licensor can license, or becomes able
+to license, that you would infringe by using the software.
+
+## Noncommercial Purposes
+
+Any noncommercial purpose is a permitted purpose.
+
+## Personal Uses
+
+Personal use for research, experiment, and testing for
+the benefit of public knowledge, personal study, private
+entertainment, hobby projects, amateur pursuits, or religious
+observance, without any anticipated commercial application,
+is use for a permitted purpose.
+
+## Noncommercial Organizations
+
+Use by any charitable organization, educational institution,
+public research organization, public safety or health
+organization, environmental protection organization,
+or government institution is use for a permitted purpose
+regardless of the source of funding or obligations resulting
+from the funding.
+
+## Fair Use
+
+You may have "fair use" rights for the software under the
+law. These terms do not limit them.
+
+## No Other Rights
+
+These terms do not allow you to sublicense or transfer any of
+your licenses to anyone else, or prevent the licensor from
+granting licenses to anyone else.  These terms do not imply
+any other licenses.
+
+## Patent Defense
+
+If you make any written claim that the software infringes or
+contributes to infringement of any patent, your patent license
+for the software granted under these terms ends immediately. If
+your company makes such a claim, your patent license ends
+immediately for work on behalf of your company.
+
+## Violations
+
+The first time you are notified in writing that you have
+violated any of these terms, or done anything with the software
+not covered by your licenses, your licenses can nonetheless
+continue if you come into full compliance with these terms,
+and take practical steps to correct past violations, within
+32 days of receiving notice.  Otherwise, all your licenses
+end immediately.
+
+## No Liability
+
+***As far as the law allows, the software comes as is, without
+any warranty or condition, and the licensor will not be liable
+to you for any damages arising out of these terms or the use
+or nature of the software, under any kind of legal claim.***
+
+## Definitions
+
+The **licensor** is the individual or entity offering these
+terms, and the **software** is the software the licensor makes
+available under these terms.
+
+**You** refers to the individual or entity agreeing to these
+terms.
+
+**Your company** is any legal entity, sole proprietorship,
+or other kind of organization that you work for, plus all
+organizations that have control over, are under the control of,
+or are under common control with that organization.  **Control**
+means ownership of substantially all the assets of an entity,
+or the power to direct its management and policies by vote,
+contract, or otherwise.  Control can be direct or indirect.
+
+**Your licenses** are all the licenses granted to you for the
+software under these terms.
+
+**Use** means anything you do with the software requiring one
+of your licenses.
+
+....................................................................
 
 --------------------------------------------------------------------
-2. I CONTENUTI DIDATTICI — Creative Commons BY-SA 4.0
+2. I CONTENUTI DIDATTICI — Creative Commons BY-NC-SA 4.0
 --------------------------------------------------------------------
 
 Si applica ai testi delle lezioni, alle spiegazioni, ai quiz, alle domande
-d'esame e al glossario (in pratica: tutto ciò che si legge).
+d'esame, al glossario e alle illustrazioni: in pratica tutto ciò che si legge
+e si guarda.
+
+Identificativo SPDX: CC-BY-NC-SA-4.0
 
 Sei libero di:
   · CONDIVIDERE — riprodurre e ridistribuire il materiale con qualsiasi mezzo;
-  · MODIFICARE — remixare, trasformare e basarti sul materiale, per qualunque
-    scopo, anche commerciale.
+  · MODIFICARE — remixare, trasformare e basarti sul materiale.
 
 Alle seguenti condizioni:
-  · ATTRIBUZIONE — devi riconoscere una menzione di paternità adeguata
-    ("Quantum Arcade di Davide Cavallini"), fornire un link alla licenza e
-    indicare se sono state effettuate modifiche;
-  · STESSA LICENZA — se remixi o trasformi il materiale, devi distribuire i tuoi
-    contributi con la stessa licenza.
+  · ATTRIBUZIONE — devi citare la paternità ("Quantum Arcade di Davide
+    Cavallini", con link a https://github.com/dade1987/quantum-arcade),
+    fornire un link alla licenza e indicare se hai fatto modifiche;
+  · NON COMMERCIALE — non puoi usare il materiale per scopi commerciali;
+  · STESSA LICENZA — se remixi o trasformi il materiale, devi distribuire i
+    tuoi contributi con la stessa licenza dell'originale.
 
-Testo completo: https://creativecommons.org/licenses/by-sa/4.0/deed.it
+Testo completo: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.it
+Riassunto ufficiale: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it
+
+Chiarimento dell'autore sull'uso didattico
+..........................................
+La licenza CC BY-NC-SA definisce "commerciale" un uso «rivolto principalmente
+a un vantaggio commerciale o a un compenso monetario». Per evitare dubbi
+all'insegnante che vorrebbe usare il corso, l'autore concede espressamente,
+in aggiunta alla licenza:
+
+  l'uso dei contenuti nell'attività didattica di qualunque scuola, università,
+  accademia, biblioteca, associazione o ente di formazione — anche privato e
+  anche a fronte di una retta — a condizione che il materiale (o un'opera
+  derivata) non sia esso stesso l'oggetto della vendita, di un abbonamento o
+  di un prodotto commerciale.
+
+In pratica: portarlo in aula si può sempre; rivenderlo no.
 
 --------------------------------------------------------------------
 3. ECCEZIONI
@@ -58,10 +228,57 @@ Testo completo: https://creativecommons.org/licenses/by-sa/4.0/deed.it
   da entrambe le licenze: non può essere riutilizzata al di fuori di questo
   progetto senza il suo consenso.
 
-· Il nome "Quantum Arcade" e il logo possono essere usati per riferirsi a questo
-  progetto e alle sue derivazioni dichiarate come tali, ma non per far credere
-  che una versione modificata sia quella ufficiale.
+· Il nome "Quantum Arcade" e il logo possono essere usati per riferirsi a
+  questo progetto e alle sue derivazioni dichiarate come tali, ma non per far
+  credere che una versione modificata sia quella ufficiale.
 
 · L'attestato di completamento è emesso da questo progetto e non è una
   certificazione accreditata da un ente terzo. Chi ospita una copia modificata
-  del sito NON deve presentarla come se rilasciasse attestati di Quantum Arcade.
+  del sito NON deve presentarla come se rilasciasse attestati di Quantum
+  Arcade.
+
+· Le fonti scientifiche citate in public_html/metodo.html appartengono ai
+  rispettivi autori ed editori: qui sono solo citate e collegate.
+
+· Le librerie di terze parti (Laravel, nwidart/laravel-modules, Neuron AI,
+  dompdf, Playwright e le altre elencate in composer.json e package.json)
+  restano soggette alle loro licenze originali, che sono più permissive di
+  questa e non vengono modificate da questo file.
+
+--------------------------------------------------------------------
+4. LICENZA COMMERCIALE
+--------------------------------------------------------------------
+
+Le condizioni qui sopra sono un'offerta al pubblico, non un divieto assoluto:
+l'autore mantiene tutti i diritti e può concedere licenze diverse.
+
+Se vuoi usare Quantum Arcade — codice, contenuti o entrambi — dentro un
+prodotto, un servizio o un corso a pagamento, si fa: serve un accordo scritto.
+Scrivi tramite https://calendly.com/davidecavallini1987/meeting
+
+--------------------------------------------------------------------
+5. CONTRIBUTI
+--------------------------------------------------------------------
+
+Chi apre una pull request accettata concede il proprio contributo alle stesse
+condizioni descritte qui (codice: PolyForm Noncommercial 1.0.0; contenuti:
+CC BY-NC-SA 4.0) e, in aggiunta, autorizza l'autore del progetto a includerlo
+nelle licenze commerciali di cui al punto 4.
+
+Senza questa seconda parte il progetto si bloccherebbe: basterebbe un solo
+contributo per rendere impossibile qualunque accordo futuro, anche a chi ha
+scritto il 99% del resto. Il contributore mantiene comunque il proprio
+copyright e resta citato nella cronologia del progetto.
+
+Se questa condizione non ti va bene, segnalalo nella pull request: si può
+sempre discutere una soluzione diversa (per esempio tenere il contributo in un
+file separato e chiaramente marcato).
+
+--------------------------------------------------------------------
+6. NESSUNA GARANZIA
+--------------------------------------------------------------------
+
+Il progetto è fornito "così com'è". È materiale didattico: è stato scritto con
+cura e verificato da test automatici, ma non è garantito privo di errori e non
+sostituisce un percorso di studi formale. L'autore non risponde di danni
+derivanti dal suo uso, nei limiti consentiti dalla legge.

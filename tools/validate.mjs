@@ -149,6 +149,15 @@ for (const f of htmlFiles) {
     if (existsSync(target)) ok();
     else err(name, `risorsa mancante: ${m[1]}`);
   }
+  // collegamenti interni fra pagine: un link rotto manda il giocatore in un
+  // vicolo cieco, ed è successo davvero dopo un riordino dei livelli.
+  const linkRe = /href\s*=\s*"([^":]+\.html)(?:[#?][^"]*)?"/g;
+  while ((m = linkRe.exec(raw))) {
+    const target = resolve(dirname(f), m[1]);
+    if (existsSync(target)) ok();
+    else err(name, `collegamento rotto: ${m[1]}`);
+  }
+
   // immagini senza alt
   const imgRe = /<img\b([^>]*)>/g;
   while ((m = imgRe.exec(raw))) {
