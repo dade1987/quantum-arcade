@@ -113,55 +113,59 @@ export const LEVELS = [
     title: 'Grover: amplificare la risposta giusta',
     desc: 'Guarda le barre delle ampiezze crescere passo dopo passo (e poi ricalare!).', xp: 130 },
 
+  { id: '12-simon', part: 'B', n: 12, file: 'lezioni/12-simon.html',
+    title: 'Simon: il periodo nascosto',
+    desc: 'Il primo vantaggio ESPONENZIALE dimostrato. E il ponte diretto verso Shor.', xp: 150 },
+
   // ---------- PARTE C — onde e Fourier, just-in-time ----------
-  { id: '12-onde', part: 'C', n: 12, file: 'lezioni/12-onde.html',
+  { id: '13-onde', part: 'C', n: 13, file: 'lezioni/13-onde.html',
     title: 'L\'onda: ampiezza, periodo, frequenza',
     desc: 'Ci serve per il passo successivo. Muovi i cursori e senti cosa cambia.', xp: 80 },
 
-  { id: '13-fase', part: 'C', n: 13, file: 'lezioni/13-fase.html',
+  { id: '14-fase', part: 'C', n: 14, file: 'lezioni/14-fase.html',
     title: 'La fase delle onde e i battimenti',
     desc: 'La stessa onda, spostata: dalla fase del qubit alla fase delle onde.', xp: 80 },
 
-  { id: '14-somma-onde', part: 'C', n: 14, file: 'lezioni/14-somma-onde.html',
+  { id: '15-somma-onde', part: 'C', n: 15, file: 'lezioni/15-somma-onde.html',
     title: 'Ogni segnale è una somma di onde',
     desc: 'Sfida: ricostruisci il segnale misterioso mescolando onde semplici.', xp: 90 },
 
-  { id: '15-dft', part: 'C', n: 15, file: 'lezioni/15-dft.html',
+  { id: '16-dft', part: 'C', n: 16, file: 'lezioni/16-dft.html',
     title: 'La DFT passo passo: il rilevatore di periodicità',
     desc: 'La formula smontata pezzo per pezzo, con le frecce che vedi ruotare.', xp: 140 },
 
-  { id: '16-fft', part: 'C', n: 16, file: 'lezioni/16-fft.html',
+  { id: '17-fft', part: 'C', n: 17, file: 'lezioni/17-fft.html',
     title: 'FFT: perché il computer ci mette N·log N',
     desc: 'Dividi et impera: da N² a N·log N, contato operazione per operazione.', xp: 80 },
 
   // ---------- PARTE D — il cuore ----------
-  { id: '17-qft', part: 'D', n: 17, file: 'lezioni/17-qft.html',
+  { id: '18-qft', part: 'D', n: 18, file: 'lezioni/18-qft.html',
     title: 'QFT: Fourier sulle ampiezze quantistiche',
     desc: 'Il cuore del corso: dalla DFT al circuito con Hadamard, rotazioni controllate e SWAP.', xp: 200 },
 
-  { id: '18-qpe', part: 'D', n: 18, file: 'lezioni/18-qpe.html',
+  { id: '19-qpe', part: 'D', n: 19, file: 'lezioni/19-qpe.html',
     title: 'Quantum Phase Estimation',
     desc: 'Leggere una fase nascosta come numero binario: la QFT usata al contrario.', xp: 150 },
 
-  { id: '19-shor', part: 'D', n: 19, file: 'lezioni/19-shor.html', boss: true,
+  { id: '20-shor', part: 'D', n: 20, file: 'lezioni/20-shor.html', boss: true,
     title: 'BOSS — Shor: dal periodo ai fattori',
     desc: 'Fattorizza 15 e 21 con le tue mani: periodo, picchi, frazioni continue, MCD.', xp: 250 },
 
-  { id: '20-rumore', part: 'D', n: 20, file: 'lezioni/20-rumore.html',
+  { id: '21-rumore', part: 'D', n: 21, file: 'lezioni/21-rumore.html',
     title: 'Rumore, decoerenza e correzione d\'errore',
     desc: 'Perché non hai ancora un computer quantistico in tasca. E come si combatte.', xp: 130 },
 
-  { id: '21-officina', part: 'D', n: 21, file: 'lezioni/21-officina.html', boss: true,
+  { id: '22-officina', part: 'D', n: 22, file: 'lezioni/22-officina.html', boss: true,
     title: 'OFFICINA — inventa il tuo algoritmo',
     desc: 'Sandbox creativa: monta blocchi, scegli una sfida, misura, batti il tuo record.', xp: 300 },
 
-  { id: '22-glossario', part: 'D', n: 22, file: 'lezioni/22-glossario.html',
+  { id: '23-glossario', part: 'D', n: 23, file: 'lezioni/23-glossario.html',
     title: 'Glossario e mappa completa',
     desc: 'Tutti i termini in una pagina, con il filo che li collega dall\'inizio alla fine.', xp: 120 },
 
-  { id: '23-esame', part: 'D', n: 23, file: 'lezioni/23-esame.html', boss: true,
+  { id: '24-esame', part: 'D', n: 24, file: 'lezioni/24-esame.html', boss: true,
     title: 'ESAME FINALE — attestato di completamento',
-    desc: '30 domande su tutto il corso. Dall\'80% in su generi il tuo attestato.', xp: 300 },
+    desc: '33 domande su tutto il corso. Dall\'80% in su generi il tuo attestato.', xp: 300 },
 ];
 
 export const TOTAL_XP = LEVELS.reduce((s, l) => s + l.xp, 0);

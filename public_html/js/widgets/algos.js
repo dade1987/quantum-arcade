@@ -1,5 +1,5 @@
 /* ============================================================
-   WIDGET degli algoritmi: Deutsch–Jozsa, Bernstein–Vazirani, Grover.
+   WIDGET degli algoritmi: Deutsch–Jozsa, Bernstein–Vazirani, Grover, Simon.
    Tutti costruiti sullo stesso schema in tre mosse:
      1. Hadamard su tutti  → tutte le possibilità insieme
      2. oracolo            → l'informazione entra nelle FASI
@@ -10,7 +10,8 @@ import { Stage, COL, bg, text, roundRect, dot, attachFX } from '../core/canvas.j
 import { widget, buttons, slider, controls, readout, h, choice } from '../core/ui.js';
 import {
   zeroState, applyGate, GATES, probs, label, sample, phaseOracle,
-  groverDiffusion, hadamardAll, clone,
+  groverDiffusion, hadamardAll, clone, functionOracle, extractInput,
+  solveMod2, measureRegister,
 } from '../core/qsim.js';
 import { ampsView, histogram } from './amps.js';
 import { sfx } from '../core/audio.js';
@@ -244,5 +245,259 @@ export function groverLab(host, opts = {}) {
   }
   reset();
   w.setFoot(`<b>Il conto che conta:</b> classicamente, per trovare un elemento fra ${N} servono in media ${N / 2} tentativi. Grover ne usa circa <b>√${N} = ${Math.round(Math.sqrt(N))}</b>. Non è esponenziale come Shor: è un guadagno "quadratico", ma vale per <b>qualsiasi</b> ricerca senza struttura.`);
+  return { state: st };
+}
+
+/* ------------------------------------------------------------
+   SIMON — il periodo nascosto (XOR)
+
+   È il ponte fra Bernstein–Vazirani e Shor: stessa idea (scrivere
+   l'informazione nelle fasi e rileggerla con una trasformata), ma
+   quello che si cerca non è più una stringa — è un PERIODO.
+
+   Qui il vantaggio quantistico diventa esponenziale per la prima
+   volta nel corso, ed è dimostrato: classicamente servono circa
+   √(2^n) domande (è il paradosso dei compleanni), quantisticamente
+   circa n.
+   ------------------------------------------------------------ */
+export function simonLab(host, opts = {}) {
+  const cfg = Object.assign({ n: 3, onWin: null, onSolved: null }, opts);
+  const n = cfg.n, N = 1 << n;
+  const w = widget(host, { title: 'Simon', subtitle: 'trova il periodo nascosto s: f(x) = f(x ⊕ s)' });
+
+  const bin = v => v.toString(2).padStart(n, '0');
+  const st = {
+    s: 0,
+    f: [],              // tabella della funzione (nascosta finché non la chiedi)
+    viste: new Map(),   // x → f(x), solo quelle già chieste classicamente
+    domandeClassiche: 0,
+    equazioni: [],      // le y misurate: ognuna dice y·s = 0
+    trovatoClassico: null,
+    risolto: null,
+    ultimaMisura: null,
+  };
+
+  /* ---------- la funzione segreta ---------- */
+  function nuovoSegreto() {
+    st.s = 1 + Math.floor(Math.random() * (N - 1));
+
+    // f due-a-uno: a ogni coppia {x, x⊕s} assegno un valore diverso, mescolato,
+    // così dal valore non si può indovinare niente del segreto.
+    const valori = [...Array(N).keys()].sort(() => Math.random() - 0.5);
+    st.f = new Array(N);
+    let k = 0;
+    for (let x = 0; x < N; x++) {
+      if (st.f[x] !== undefined) continue;
+      const v = valori[k++];
+      st.f[x] = v; st.f[x ^ st.s] = v;
+    }
+
+    st.viste.clear();
+    st.domandeClassiche = 0;
+    st.equazioni = [];
+    st.trovatoClassico = null;
+    st.risolto = null;
+    st.ultimaMisura = null;
+    amps.set(zeroState(n));
+    tabella.redraw();
+    upd();
+  }
+
+  /* ---------- la tabella di f, che si scopre una casella alla volta ---------- */
+  const tabHost = h('div');
+  w.body.appendChild(tabHost);
+
+  const tabella = new Stage(tabHost, {
+    height: 92,
+    draw(ctx, s) {
+      bg(ctx, s, '#080e1b');
+      const margine = 8;
+      const larg = (s.w - margine * 2) / N;
+
+      for (let x = 0; x < N; x++) {
+        const cx = margine + x * larg;
+        const noto = st.viste.has(x);
+        const evidenzia = st.trovatoClassico && (x === st.trovatoClassico[0] || x === st.trovatoClassico[1]);
+
+        roundRect(ctx, cx + 2, 26, larg - 4, 44, 7, {
+          fill: noto ? (evidenzia ? '#2a1e3f' : '#111c31') : '#0b1424',
+          stroke: evidenzia ? COL.pink : (noto ? COL.violet : COL.grid),
+          width: evidenzia ? 2 : 1,
+        });
+
+        text(ctx, bin(x), cx + larg / 2, 16, { size: 11, align: 'center', color: COL.txt });
+        text(ctx, noto ? bin(st.viste.get(x)) : '?', cx + larg / 2, 48, {
+          size: noto ? 13 : 16, align: 'center',
+          color: noto ? (evidenzia ? COL.pink : COL.txtBright) : COL.axis,
+        });
+      }
+
+      text(ctx, 'x', margine, 16, { size: 10, color: COL.axis, align: 'right' });
+      text(ctx, 'clicca una casella per chiedere f(x) all\'oracolo', s.w / 2, 82,
+        { size: 10, align: 'center', color: COL.axis });
+    },
+    onPointer(e) {
+      if (e.type !== 'down') return;
+      const margine = 8, larg = (tabella.w - margine * 2) / N;
+      const x = Math.floor((e.x - margine) / larg);
+      if (x >= 0 && x < N) chiediClassica(x);
+    },
+  });
+  const fxTab = attachFX(tabella);
+
+  /* ---------- le barre delle ampiezze ---------- */
+  const ampHost = h('div');
+  w.body.appendChild(ampHost);
+  const amps = ampsView(ampHost, { height: 165, showProb: true });
+  const fx = attachFX(amps.stage);
+
+  const out = readout('');
+
+  w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
+    h('button', { class: 'btn sm', onclick: () => chiediClassica(Math.floor(Math.random() * N)) },
+      '🐌 chiedi a caso'),
+    h('button', { class: 'btn sm primary', onclick: interrogazioneQuantistica },
+      '⚛️ interrogazione quantistica'),
+    h('button', { class: 'btn sm', onclick: risolvi }, '🧮 risolvi il sistema'),
+    h('button', { class: 'btn sm ghost', onclick: nuovoSegreto }, '🎲 nuovo segreto'),
+  ));
+  w.body.appendChild(out.root);
+
+  /* ---------- la strada lenta: chiedere finché due valori coincidono ---------- */
+  function chiediClassica(x) {
+    if (st.viste.has(x)) { sfx.cancel(); return; }
+
+    st.viste.set(x, st.f[x]);
+    st.domandeClassiche++;
+    sfx.tick();
+
+    for (const [altro, valore] of st.viste) {
+      if (altro !== x && valore === st.f[x]) {
+        st.trovatoClassico = [altro, x];
+        fxTab.win(); sfx.boost();
+        break;
+      }
+    }
+    tabella.redraw();
+    upd();
+  }
+
+  /* ---------- la strada quantistica: una domanda, una equazione ---------- */
+  function interrogazioneQuantistica() {
+    // 1. tutti gli ingressi insieme
+    const pieno = zeroState(2 * n);
+    const ingresso = [...Array(n).keys()];
+    const uscita = ingresso.map(q => q + n);
+    hadamardAll(pieno, ingresso);
+
+    // 2. una sola chiamata all'oracolo, su TUTTI gli x contemporaneamente
+    functionOracle(pieno, n, n, x => st.f[x]);
+
+    // 3. misuro l'uscita: non mi dice niente di utile, ma fa collassare
+    //    l'ingresso sui due soli x che davano quel risultato
+    const letto = measureRegister(pieno, uscita);
+    const dentro = extractInput(pieno, n, letto);
+    amps.set(clone(dentro));
+    sfx.measure();
+
+    // 4. le Hadamard rileggono la differenza fra i due x rimasti
+    setTimeout(() => {
+      hadamardAll(dentro, ingresso);
+      normalizzaSegno(dentro);
+      amps.set(clone(dentro));
+      const y = sample(dentro);
+      st.equazioni.push(y);
+      st.ultimaMisura = y;
+      sfx.gate();
+      upd();
+    }, 700);
+
+    upd();
+  }
+
+  /**
+   * Gira il segno di TUTTE le ampiezze se la prima è negativa.
+   *
+   * Un segno globale non è osservabile: nessuna misura può distinguere |ψ⟩ da
+   * −|ψ⟩, quindi questo non cambia la fisica di una virgola. Serve solo a non
+   * mostrare allo studente quattro barre rosse che sembrano un errore quando
+   * invece è il risultato giusto: ciò che conta sono i segni RELATIVI.
+   */
+  function normalizzaSegno(stato) {
+    for (let i = 0; i < stato.re.length; i++) {
+      if (Math.abs(stato.re[i]) > 1e-9 || Math.abs(stato.im[i]) > 1e-9) {
+        if (stato.re[i] < 0) {
+          for (let k = 0; k < stato.re.length; k++) { stato.re[k] *= -1; stato.im[k] *= -1; }
+        }
+        return stato;
+      }
+    }
+    return stato;
+  }
+
+  function risolvi() {
+    const r = solveMod2(st.equazioni, n);
+    if (!r.unica) { sfx.err(); st.risolto = { ...r, fallito: true }; upd(); return; }
+
+    st.risolto = r;
+    fx.win(); sfx.boss();
+    cfg.onWin && cfg.onWin();
+    cfg.onSolved && cfg.onSolved(r.s === st.s);
+    upd();
+  }
+
+  /* ---------- il pannello che spiega cosa sta succedendo ---------- */
+  function upd() {
+    const r = solveMod2(st.equazioni, n);
+    const servono = n - 1;
+
+    let m = `L'oracolo nasconde un <b>periodo s</b> di ${n} bit: <b>f(x) = f(x ⊕ s)</b>, `
+      + `cioè ogni valore esce esattamente <b>due volte</b>.\n\n`;
+
+    m += `<b>🐌 Strada classica</b> — domande fatte: <b>${st.domandeClassiche}</b> su ${N} possibili.\n`;
+    m += st.trovatoClassico
+      ? `Collisione trovata: f(${bin(st.trovatoClassico[0])}) = f(${bin(st.trovatoClassico[1])}) → `
+        + `<span class="g">s = ${bin(st.trovatoClassico[0])} ⊕ ${bin(st.trovatoClassico[1])} = ${bin(st.trovatoClassico[0] ^ st.trovatoClassico[1])}</span>\n`
+      : `Serve una <b>collisione</b>: due x diversi con lo stesso f. Con ${n} bit ne bastano poche, `
+        + `ma con 40 bit servirebbero <b>un milione</b> di domande.\n`;
+
+    m += `\n<b>⚛️ Strada quantistica</b> — interrogazioni: <b>${st.equazioni.length}</b>\n`;
+
+    if (st.ultimaMisura !== null) {
+      m += `Ultima misura: <b>y = ${bin(st.ultimaMisura)}</b> → equazione <b>${bin(st.ultimaMisura)} · s = 0</b>\n`;
+    }
+    if (st.equazioni.length) {
+      m += `Equazioni raccolte: ${st.equazioni.map(bin).join(', ')}\n`;
+      m += `Indipendenti: <b>${r.rango}</b> su ${servono} necessarie — `;
+      m += r.rango >= servono
+        ? `<span class="g">bastano: premi "risolvi il sistema"</span>\n`
+        : `possibili segreti ancora in gioco: <b>${r.candidati.length}</b>\n`;
+    } else {
+      m += `Premi il bottone quantistico: <b>una sola</b> chiamata all'oracolo dà un'equazione su s.\n`;
+    }
+
+    m += `\n<span class="muted">Con ${n} bit il vantaggio non si vede — ed è giusto così: `
+      + `il punto non è quante domande servono <b>adesso</b>, ma <b>come crescono i due numeri</b>. `
+      + `Con 40 bit: classicamente ~1.048.576 domande, quantisticamente ~39. `
+      + `Con 80 bit il computer classico non finisce prima della fine dell'universo.</span>\n`;
+
+    if (st.risolto?.fallito) {
+      m += `\n<span class="a">Con queste equazioni il sistema ha ancora ${st.risolto.candidati.length} soluzioni: `
+        + `serve un'altra interrogazione.</span>`;
+    } else if (st.risolto) {
+      m += `\n<span class="g">Sistema risolto: s = ${bin(st.risolto.s)}</span> — `
+        + `${st.risolto.s === st.s ? 'ed è davvero il periodo nascosto ✓' : '✗'}\n`
+        + `Ti sono bastate <b>${st.equazioni.length}</b> interrogazioni quantistiche.`;
+    }
+
+    out.set(m);
+  }
+
+  nuovoSegreto();
+  w.setFoot('<b>Perché una misura sola dà un\'equazione:</b> dopo l\'oracolo i due soli ingressi rimasti '
+    + 'sono x₀ e x₀⊕s. Le Hadamard finali li fanno interferire, e le y per cui <b>y·s = 1</b> ricevono '
+    + 'due contributi opposti che si <b>cancellano</b>. Sopravvivono solo le y con <b>y·s = 0</b>: '
+    + 'ogni misura è una riga di un sistema lineare, e con n−1 righe indipendenti il periodo è tuo.');
+
   return { state: st };
 }

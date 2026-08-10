@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { LEVELS } from '../../../public_html/js/core/levels.js';
 
 /**
  * Il percorso completo di chi arriva sul sito:
@@ -36,7 +37,9 @@ test.describe('percorso completo', () => {
     await expect(page.getByRole('heading', { name: /Impara l'informatica quantistica/ })).toBeVisible();
     await expect(page.locator('#account-banner')).toBeVisible();
     // la mappa elenca tutti i livelli
-    await expect(page.locator('.level')).toHaveCount(27);
+    // il numero viene da levels.js, non scritto a mano: aggiungere un livello
+    // non deve far fallire un test che non c'entra niente
+    await expect(page.locator('.level')).toHaveCount(LEVELS.length);
   });
 
   test('un livello è chiuso a chi non ha l\'account', async ({ page }) => {

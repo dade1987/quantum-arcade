@@ -84,15 +84,15 @@ class ChatTest extends TestCase
     public function test_le_conversazioni_collegano_messaggi_utente_e_livello(): void
     {
         $user = User::factory()->create();
-        $conv = Conversation::create(['session_id' => 'S9', 'user_id' => $user->id, 'level_id' => '17-qft']);
+        $conv = Conversation::create(['session_id' => 'S9', 'user_id' => $user->id, 'level_id' => '18-qft']);
         ChatMessage::create(['conversation_id' => $conv->id, 'role' => 'user', 'content' => 'ciao']);
         ChatMessage::create([
             'conversation_id' => $conv->id, 'role' => 'assistant', 'content' => 'ciao a te',
-            'sources' => ['/lezioni/17-qft.html'], 'latency_ms' => 120,
+            'sources' => ['/lezioni/18-qft.html'], 'latency_ms' => 120,
         ]);
 
         $this->assertCount(2, $conv->messages);
-        $this->assertSame(['/lezioni/17-qft.html'], $conv->messages->last()->sources);
+        $this->assertSame(['/lezioni/18-qft.html'], $conv->messages->last()->sources);
         $this->assertSame($conv->id, ChatMessage::first()->conversation->id);
     }
 
@@ -114,8 +114,8 @@ class ChatTest extends TestCase
         $this->assertStringContainsString('Non inventare mai', $istruzioni);
         $this->assertStringContainsString('ATTESTATO DI COMPLETAMENTO', $istruzioni);
 
-        $conContesto = (new QuantumTutor('17-qft'))->instructions();
-        $this->assertStringContainsString('17-qft', $conContesto);
+        $conContesto = (new QuantumTutor('18-qft'))->instructions();
+        $this->assertStringContainsString('18-qft', $conContesto);
     }
 
     public function test_l_indicizzazione_a_secco_non_chiama_le_api_e_conta_i_pezzi(): void

@@ -16,7 +16,7 @@ import { stepper } from '../js/core/formula.js';
 import { shorLab } from '../js/widgets/qft.js';
 
 const L = renderLesson({
-  id: '19-shor',
+  id: '20-shor',
   lead: `Il boss finale della teoria. Shor (1994) è l'algoritmo che ha reso il calcolo quantistico un affare di stato:
          fattorizza numeri enormi in tempo polinomiale, e con essi manda in pensione la crittografia RSA.
          Il bello è che <b>quasi tutto è matematica classica</b>: la parte quantistica è una sola, e la conosci già.`,
@@ -70,12 +70,12 @@ mod 15: 1   7   4  13   1   7   4  13   1 …
                <li>Si <b>misura il secondo registro</b>. Esce un valore a caso — e non ci interessa quale!
                    L'effetto importante è un altro: il primo registro <b>collassa</b> su tutti e soli gli x che danno
                    quel risultato, cioè su un <b>pettine</b> con passo r.</li>
-               <li>Si applica la <b>QFT</b> al primo registro: il pettine diventa <b>picchi</b> sui multipli di M/r (livello 17).</li>
+               <li>Si applica la <b>QFT</b> al primo registro: il pettine diventa <b>picchi</b> sui multipli di M/r (livello 18).</li>
                <li>Si <b>misura</b>: esce un numero y vicino a un multiplo di M/r.</li>
                <li>Si torna al classico: dalle <b>frazioni continue</b> di y/M si ricava r.</li>
              </ol>
              <div class="callout key"><b>Il punto che quasi tutti sbagliano:</b> la misura del passo 3 sembra distruggere tutto.
-             Invece no, ed è il regalo che avevi visto al livello 17: <b>lo sfasamento del pettine non sposta i picchi</b>.
+             Invece no, ed è il regalo che avevi visto al livello 18: <b>lo sfasamento del pettine non sposta i picchi</b>.
              Qualunque cosa esca dal secondo registro, l'informazione sul periodo resta intatta.</div>`,
     },
     {

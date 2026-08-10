@@ -190,7 +190,7 @@ un silenzio non lo è mai.
 ## Chi partecipa
 
 Chi contribuisce in modo sostanziale viene citato nel `README` e, se vuole, nella pagina
-dei crediti del sito. Le pipeline interessanti trovate nell'**officina** (livello 21)
+dei crediti del sito. Le pipeline interessanti trovate nell'**officina** (livello 22)
 finiranno in una sezione dedicata con il nome di chi le ha scoperte.
 
 ---

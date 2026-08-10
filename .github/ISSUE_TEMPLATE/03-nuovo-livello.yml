@@ -24,6 +24,6 @@ body:
     id: dove
     attributes:
       label: Dove andrebbe messo, e cosa dà per scontato?
-      placeholder: "dopo il livello 16, dà per scontata la DFT"
+      placeholder: "dopo il livello 17, dà per scontata la DFT"
     validations:
       required: true

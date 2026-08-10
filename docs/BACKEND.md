@@ -60,7 +60,7 @@ XP = massimo, livelli/missioni = unione, ripasso = si tiene la scatola più bass
 `level_events` registra in forma aggregata dove i giocatori si bloccano.
 
 ### Certificates
-- `GET /api/exam/questions` → 30 domande mescolate **senza le risposte esatte**;
+- `GET /api/exam/questions` → tutte le domande della banca, mescolate, **senza le risposte esatte**;
 - `POST /api/exam/submit` → correzione **lato server**, salvataggio del tentativo,
   emissione dell'attestato se ≥ 80%;
 - `GET /verifica/{code}` → pagina pubblica di verifica;

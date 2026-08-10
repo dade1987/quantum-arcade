@@ -7,6 +7,7 @@ import {
   measureRegister, blochVector, opMatrix, applyOp, runCircuit, circuitMatrix,
   qftOps, qftGateCount, hadamardAll, phaseOracle, groverDiffusion,
   gcd, modpow, periodOf, continuedFraction,
+  functionOracle, extractInput, solveMod2, parita,
 } from '../../../public_html/js/core/qsim.js';
 
 const vicino = (a, b, t = 1e-9) => Math.abs(a - b) < t;
@@ -276,5 +277,112 @@ describe('aritmetica per Shor', () => {
     assert.ok(continuedFraction(0.375, 16).conv.some(c => c.p === 3 && c.q === 8));
     assert.ok(continuedFraction(0.5, 8).conv.some(c => c.q === 2));
     assert.ok(continuedFraction(0, 8).conv.length >= 1);
+  });
+});
+
+/* ------------------------------------------------------------------
+   Simon: oracolo a due registri, estrazione e sistema mod 2.
+   ------------------------------------------------------------------ */
+describe('oracoli a due registri e algebra mod 2', () => {
+  const NIN = 3, S = 0b101;
+  // funzione due-a-uno con periodo XOR: f(x) = f(x ⊕ s)
+  const f = x => Math.min(x, x ^ S);
+
+  test('l\'oracolo scrive f(x) nel secondo registro senza toccare il primo', () => {
+    const st = basisState(2 * NIN, 0b011);            // x = 3, y = 0
+    functionOracle(st, NIN, NIN, f);
+    const atteso = 0b011 | (f(3) << NIN);
+    assert.ok(vicino(probs(st)[atteso], 1), 'tutta la probabilità sullo stato |x⟩|f(x)⟩');
+  });
+
+  test('applicato due volte torna al punto di partenza (è reversibile)', () => {
+    const st = basisState(2 * NIN, 0b010);
+    functionOracle(st, NIN, NIN, f);
+    functionOracle(st, NIN, NIN, f);
+    assert.ok(vicino(probs(st)[0b010], 1), 'y ⊕ f(x) ⊕ f(x) = y');
+  });
+
+  test('su una sovrapposizione crea entanglement fra i due registri', () => {
+    const st = zeroState(2 * NIN);
+    hadamardAll(st, [0, 1, 2]);
+    functionOracle(st, NIN, NIN, f);
+
+    // Float64Array.map riconverte a numeri: serve un array vero per accoppiare valore e indice
+    const p = Array.from(probs(st));
+    // 8 ingressi, ma solo 4 valori distinti di f: ogni coppia x, x⊕s condivide l'uscita
+    const vivi = p.map((v, i) => [v, i]).filter(([v]) => v > 1e-9);
+    assert.equal(vivi.length, 8);
+    for (const [v, i] of vivi) {
+      const x = i & 0b111, y = i >> NIN;
+      assert.equal(y, f(x), 'ogni ramo ha l\'uscita coerente con il proprio ingresso');
+      assert.ok(vicino(v, 1 / 8));
+    }
+  });
+
+  test('misurata l\'uscita, l\'ingresso resta sui due x che collidono', () => {
+    const st = zeroState(2 * NIN);
+    hadamardAll(st, [0, 1, 2]);
+    functionOracle(st, NIN, NIN, f);
+    const letto = measureRegister(st, [3, 4, 5], () => 0.01);
+
+    const dentro = extractInput(st, NIN, letto);
+    const p = Array.from(probs(dentro));
+    const sopravvissuti = p.map((v, i) => [v, i]).filter(([v]) => v > 1e-9).map(([, i]) => i);
+
+    assert.equal(sopravvissuti.length, 2, 'esattamente due: x0 e x0 ⊕ s');
+    assert.equal(sopravvissuti[0] ^ sopravvissuti[1], S, 'la loro differenza XOR È il segreto');
+    assert.ok(vicino(p[sopravvissuti[0]], 0.5));
+  });
+
+  test('dopo le Hadamard finali sopravvivono solo le y ortogonali a s', () => {
+    const st = zeroState(2 * NIN);
+    hadamardAll(st, [0, 1, 2]);
+    functionOracle(st, NIN, NIN, f);
+    const letto = measureRegister(st, [3, 4, 5], () => 0.01);
+
+    const dentro = extractInput(st, NIN, letto);
+    hadamardAll(dentro, [0, 1, 2]);
+
+    probs(dentro).forEach((v, y) => {
+      if (v > 1e-9) assert.equal(parita(y & S), 0, `y=${y} deve soddisfare y·s = 0`);
+    });
+  });
+
+  test('extractInput su un valore impossibile non divide per zero', () => {
+    const st = zeroState(2 * NIN);
+    const vuoto = extractInput(st, NIN, 0b111);
+    assert.ok(probs(vuoto).every(v => v === 0));
+  });
+
+  test('parita conta i bit a 1', () => {
+    assert.equal(parita(0), 0);
+    assert.equal(parita(0b1011), 1);
+    assert.equal(parita(0b1010), 0);
+  });
+
+  test('solveMod2 trova il segreto quando le equazioni bastano', () => {
+    // s = 101: servono 2 equazioni indipendenti ortogonali a s
+    const r = solveMod2([0b010, 0b111], 3);
+    assert.equal(r.s, 0b101);
+    assert.ok(r.unica);
+    assert.equal(r.rango, 2);
+  });
+
+  test('con poche equazioni le soluzioni sono più d\'una (per questo si ripete)', () => {
+    const r = solveMod2([0b010], 3);
+    assert.ok(!r.unica);
+    assert.ok(r.candidati.length > 1);
+  });
+
+  test('scarta le equazioni ripetute, nulle e dipendenti', () => {
+    const r = solveMod2([0b010, 0b010, 0, 0b111, 0b101], 3);
+    assert.equal(r.rango, 2, '0b101 = 0b010 ⊕ 0b111: non aggiunge informazione');
+    assert.equal(r.s, 0b101);
+  });
+
+  test('senza equazioni nessun bit è vincolato', () => {
+    const r = solveMod2([], 3);
+    assert.equal(r.rango, 0);
+    assert.equal(r.candidati.length, 7, 'tutti i segreti non nulli sono possibili');
   });
 });

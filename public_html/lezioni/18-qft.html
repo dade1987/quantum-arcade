@@ -16,8 +16,8 @@ import { formula, stepper } from '../js/core/formula.js';
 import { qftLab, qftPeriodLab } from '../js/widgets/qft.js';
 
 const L = renderLesson({
-  id: '17-qft',
-  lead: `Ci siamo. Prendiamo la DFT del livello 15 e la applichiamo <b>non</b> a dei dati registrati,
+  id: '18-qft',
+  lead: `Ci siamo. Prendiamo la DFT del livello 16 e la applichiamo <b>non</b> a dei dati registrati,
          ma alle <b>ampiezze di uno stato quantistico</b>. Il risultato è la QFT: stessa matematica, hardware diverso,
          conseguenze enormi.`,
 
@@ -144,7 +144,7 @@ const L = renderLesson({
       why: 'n Hadamard + n(n−1)/2 rotazioni + gli SWAP: con 20 qubit bastano circa 210 porte per un milione di ampiezze.' },
     { q: 'Se uno stato ha periodo r, dopo la QFT i picchi si trovano…',
       options: ['sui multipli di r', 'sui multipli di N/r', 'sempre in 0', 'a caso'], correct: 1,
-      why: 'Periodo piccolo → picchi distanziati, periodo grande → picchi ravvicinati. È la relazione inversa fra periodo e frequenza del livello 12.' },
+      why: 'Periodo piccolo → picchi distanziati, periodo grande → picchi ravvicinati. È la relazione inversa fra periodo e frequenza del livello 13.' },
     { q: 'Perché la QFT non serve a calcolare lo spettro di un file audio?',
       options: ['perché è imprecisa', 'perché misurando si legge un solo risultato, non l\'intero spettro', 'perché è lenta', 'perché funziona solo su 2 qubit'], correct: 1,
       why: 'Trasforma tutte le ampiezze in pochissime porte, ma la misura ne restituisce una sola: serve a organizzare interferenze, non a produrre liste di numeri leggibili.' },

@@ -142,7 +142,7 @@ export function twoWaves(host, opts = {}) {
 export function manyArrows(host, opts = {}) {
   const cfg = Object.assign({ onChange: null }, opts);
   const w = widget(host, { title: 'Tante frecce insieme', subtitle: 'ordine = somma grande, disordine = zero' });
-  const st = { n: 12, spread: 180, seed: 1 };
+  const st = { n: 13, spread: 180, seed: 1 };
   let angles = [];
   const gen = () => {
     angles = [];

@@ -69,7 +69,7 @@ describe('store: XP e padronanza', () => {
     store.resetAll();
     store.setFreeMode(true);
     assert.ok(store.freeMode());
-    assert.ok(store.isUnlocked('19-shor'));
+    assert.ok(store.isUnlocked('20-shor'));
     assert.ok(store.isUnlocked('id-che-non-esiste'));
   });
 

@@ -128,7 +128,7 @@ export function examLab(host, opts = {}) {
             h('div', { class: 'att-top' }, 'QUANTUM ARCADE'),
             h('div', { class: 'att-sub' }, 'Attestato di completamento del corso'),
             h('div', { class: 'att-name' }, r.certificate.name),
-            h('p', { class: 'att-txt', html: `ha completato i 27 livelli di <b>“Informatica quantistica giocando”</b> superando l'esame finale con <b>${r.percent}%</b> di risposte esatte.` }),
+            h('p', { class: 'att-txt', html: `ha completato i 28 livelli di <b>“Informatica quantistica giocando”</b> superando l'esame finale con <b>${r.percent}%</b> di risposte esatte.` }),
             h('div', { class: 'att-row' },
               h('div', {}, h('div', { class: 'att-lab' }, 'Codice'), h('div', { class: 'mono' }, r.certificate.code)),
               h('div', {}, h('div', { class: 'att-lab' }, 'Verifica pubblica'), h('div', {}, h('a', { href: r.certificate.url }, r.certificate.url))),

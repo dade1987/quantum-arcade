@@ -271,6 +271,106 @@ export function groverDiffusion(st, qubits) {
   return st;
 }
 
+/* ---------------- oracoli a due registri (Simon, Shor) ---------------- */
+
+/**
+ * Oracolo di funzione: |x⟩|y⟩ → |x⟩|y ⊕ f(x)⟩.
+ *
+ * È l'unico modo di "chiamare una funzione" in modo quantistico: siccome ogni
+ * operazione dev'essere reversibile, il risultato non SOSTITUISCE l'ingresso —
+ * viene sommato (in XOR) a un secondo registro. Partendo con y = 0 il secondo
+ * registro finisce a f(x), e da lì si può tornare indietro.
+ *
+ * Convenzione dei bit: il registro d'ingresso sono i qubit 0…nIn−1 (i bit bassi
+ * dell'indice), quello d'uscita i qubit nIn…nIn+nOut−1 (i bit alti).
+ */
+export function functionOracle(st, nIn, nOut, f) {
+  const maschera = (1 << nIn) - 1;
+  const re = new Float64Array(st.re.length);
+  const im = new Float64Array(st.im.length);
+
+  for (let i = 0; i < st.re.length; i++) {
+    if (st.re[i] === 0 && st.im[i] === 0) continue;
+    const x = i & maschera;
+    const y = i >> nIn;
+    const dest = x | (((y ^ (f(x) & ((1 << nOut) - 1))) & ((1 << nOut) - 1)) << nIn);
+    re[dest] += st.re[i];
+    im[dest] += st.im[i];
+  }
+
+  st.re.set(re);
+  st.im.set(im);
+  return st;
+}
+
+/**
+ * Estrae il registro d'ingresso quando quello d'uscita è già stato misurato.
+ *
+ * Dopo la misura dell'uscita restano in gioco solo gli stati con quel valore:
+ * il registro d'ingresso torna a essere uno stato puro di nIn qubit, e questo
+ * lo tira fuori (rinormalizzato) così si può disegnarlo e trasformarlo da solo.
+ */
+export function extractInput(st, nIn, valoreUscita) {
+  const fuori = zeroState(nIn);
+  const base = valoreUscita << nIn;
+  let norma = 0;
+
+  for (let x = 0; x < (1 << nIn); x++) {
+    const re = st.re[base | x], im = st.im[base | x];
+    fuori.re[x] = re; fuori.im[x] = im;
+    norma += re * re + im * im;
+  }
+
+  norma = Math.sqrt(norma);
+  if (norma > 0) {
+    for (let x = 0; x < (1 << nIn); x++) { fuori.re[x] /= norma; fuori.im[x] /= norma; }
+  }
+  return fuori;
+}
+
+/**
+ * Risolve un sistema di equazioni y·s = 0 (mod 2) — l'ultimo passo di Simon,
+ * che è classico: eliminazione di Gauss con XOR al posto della sottrazione.
+ *
+ * Ritorna { s, unica } dove `s` è la soluzione non nulla e `unica` dice se ce
+ * n'è una sola: con meno di n−1 equazioni indipendenti le soluzioni sono più
+ * d'una, ed è esattamente il motivo per cui l'algoritmo va ripetuto.
+ */
+export function solveMod2(equazioni, n) {
+  const righe = [...new Set(equazioni.filter(e => e !== 0))];
+  const pivot = [];          // righe ridotte, una per bit pivotale
+  const bitPivot = [];
+
+  for (let r of righe) {
+    for (let k = 0; k < pivot.length; k++) {
+      if (r & (1 << bitPivot[k])) r ^= pivot[k];
+    }
+    if (r === 0) continue;                       // dipendente dalle precedenti
+    let b = 0;
+    while (!((r >> b) & 1)) b++;                 // primo bit a 1
+    pivot.push(r);
+    bitPivot.push(b);
+  }
+
+  const rango = pivot.length;
+  const candidati = [];
+
+  // n bit, `rango` vincoli indipendenti → 2^(n−rango) soluzioni: con n piccolo
+  // le proviamo tutte, che è più chiaro (e più corto) di ricostruire la base.
+  for (let s = 1; s < (1 << n); s++) {
+    if (righe.every(r => parita(r & s) === 0)) candidati.push(s);
+  }
+
+  return { s: candidati[0] ?? null, unica: candidati.length === 1, rango, candidati };
+}
+
+/** Parità dei bit a 1 (il prodotto scalare mod 2 si calcola con questa). */
+export function parita(v) {
+  let p = 0;
+  while (v) { p ^= v & 1; v >>= 1; }
+  return p;
+}
+
 /* ---------------- aritmetica modulare (Shor) ---------------- */
 
 export const gcd = (a, b) => { while (b) { [a, b] = [b, a % b]; } return a; };

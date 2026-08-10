@@ -15,15 +15,15 @@ import { renderLesson } from '../js/core/lesson.js';
 import { costLab, butterflyLab } from '../js/widgets/fftlab.js';
 
 const L = renderLesson({
-  id: '16-fft',
-  lead: `La DFT del livello 15 è corretta ma lenta: per N numeri fa N×N moltiplicazioni. La <b>FFT</b> ottiene
+  id: '17-fft',
+  lead: `La DFT del livello 16 è corretta ma lenta: per N numeri fa N×N moltiplicazioni. La <b>FFT</b> ottiene
          lo stesso identico risultato con molte meno operazioni. Capire <i>perché</i> è importante, perché la QFT
          quantistica usa lo stesso trucco — spinto molto più in là.`,
 
   steps: [
     {
       t: 'Il problema: N² cresce malissimo',
-      html: `<p>Rileggi la formula del livello 15: per <b>ogni</b> frequenza k devi sommare <b>N</b> pezzi. E le frequenze
+      html: `<p>Rileggi la formula del livello 16: per <b>ogni</b> frequenza k devi sommare <b>N</b> pezzi. E le frequenze
              da testare sono N. Totale: <b>N × N</b> operazioni.</p>
              <table class="table">
                <tr><th>N (campioni)</th><th>DFT diretta (N²)</th><th>Tempo indicativo</th></tr>
@@ -73,7 +73,7 @@ const L = renderLesson({
              <br><br>La QFT serve quando ti interessa una <b>proprietà globale</b> — tipicamente una <b>periodicità</b> —
              che, dopo la trasformata, diventa il risultato <b>più probabile</b>. Non serve a stampare lo spettro di un MP3.</div>
              <p>Questa distinzione è la cosa che distingue chi ha capito il calcolo quantistico da chi ripete slogan.
-             Tienila stretta: torneremo a batterci sopra al livello 17.</p>`,
+             Tienila stretta: torneremo a batterci sopra al livello 18.</p>`,
     },
     {
       t: '💡 Prova tu',
@@ -82,7 +82,7 @@ const L = renderLesson({
         <p><b>2.</b> La FFT classica richiede che N sia una potenza di 2. Secondo te perché? <span class="muted">(indizio: dimezzare)</span></p>
         <p><b>3.</b> Con 30 qubit avresti oltre un miliardo di ampiezze e la QFT userebbe circa 465 porte.
            Se potessi leggerle tutte, avresti battuto la FFT di un fattore enorme. Perché il "se" è impossibile?</p>
-        <p class="mb0"><b>4.</b> Domanda da tenere aperta fino al livello 17: quale <b>domanda</b> potresti fare a un milione
+        <p class="mb0"><b>4.</b> Domanda da tenere aperta fino al livello 18: quale <b>domanda</b> potresti fare a un milione
            di ampiezze, tale che la risposta sia <b>un solo numero</b>?</p>
       </div>`,
     },

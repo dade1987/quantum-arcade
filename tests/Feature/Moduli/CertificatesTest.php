@@ -34,7 +34,12 @@ class CertificatesTest extends TestCase
     {
         $r = $this->actingAs(User::factory()->create())->getJson('/api/exam/questions')->assertOk();
 
-        $this->assertSame(30, $r->json('total'));
+        // il numero non è fissato: cresce quando si aggiungono livelli (Simon ne
+        // ha portate 3). Quello che deve restare vero è che l'esame le manda tutte
+        // e che sono abbastanza da coprire il corso.
+        $totale = count(config('certificates.questions'));
+        $this->assertSame($totale, $r->json('total'));
+        $this->assertGreaterThanOrEqual(30, $totale);
         $this->assertSame(80, $r->json('pass'));
         foreach ($r->json('questions') as $q) {
             $this->assertArrayNotHasKey('c', $q, 'la soluzione non deve uscire dal server');
@@ -76,7 +81,7 @@ class CertificatesTest extends TestCase
         $r = $this->actingAs($user)->postJson('/api/exam/submit', ['answers' => $this->tutteSbagliate()]);
 
         $r->assertOk()->assertJsonPath('passed', false)->assertJsonPath('certificate', null);
-        $this->assertCount(30, $r->json('review'));
+        $this->assertCount(count(config('certificates.questions')), $r->json('review'));
         $this->assertArrayHasKey('why', $r->json('review')[0]);
         $this->assertDatabaseCount('certificates', 0);
     }

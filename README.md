@@ -18,7 +18,7 @@
 
 ---
 
-27 livelli interattivi che partono dalle **basi di matematica delle medie** e arrivano alla
+28 livelli interattivi che partono dalle **basi di matematica delle medie** e arrivano alla
 **trasformata di Fourier quantistica**, alla **stima di fase** e all'**algoritmo di Shor**.
 Ogni concetto ha un mini-gioco: prima muovi, poi capisci. Sotto c'è un simulatore quantistico
 a vettore di stato scritto da zero, verificato dai test: il circuito della QFT riproduce
@@ -60,7 +60,7 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
   index.php                front controller di Laravel
   metodo.html              scelte didattiche e ricerche che le sostengono
   privacy.html             informativa GDPR
-  lezioni/*.html           27 livelli
+  lezioni/*.html           28 livelli
   css/style.css            tema unico
   js/core/                 motore del gioco
     levels.js              ordine dei livelli e prerequisiti (fonte di verità)
