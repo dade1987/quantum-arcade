@@ -40,7 +40,11 @@ export async function initAccount() {
     const r = await api.me();
     current = r.authenticated ? r.user : null;
   } catch (e) {
-    if (e.status === 0) offline = true;     // nessun backend raggiungibile
+    // Backend assente o rotto: irraggiungibile (0), non installato (404, come
+    // su un host statico) o in errore (5xx). In tutti e tre i casi registrarsi
+    // è comunque impossibile, quindi il gioco prosegue in locale invece di
+    // sbarrare i livelli a chi non può fare niente per sbloccarli.
+    if (e.status === 0 || e.status === 404 || e.status >= 500) offline = true;
     current = null;
   }
 
