@@ -72,7 +72,8 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
     lesson.js  ui.js  formula.js
   js/widgets/              i mini-giochi (uno o più per livello)
 
-dati/banca-esame.js        banca domande dell'esame — FUORI dalla radice web
+dati/banca-esame-esempio.js   banca domande pubblica (per chi contribuisce)
+                           l'esame vero sta in banca-esame-riservata.js, che NON è in git
 
 Modules/                   moduli nwidart
   Accounts/                registrazione, conferma email, accesso, profilo
@@ -114,7 +115,7 @@ sintassi PHP, JSON e SVG. Lanciarlo prima di ogni pubblicazione.
 | Quando | Comando |
 |---|---|
 | Hai modificato i livelli | `php artisan chat:ingest` (riallinea il tutor) |
-| Hai modificato l'esame (`dati/banca-esame.js`) | `npm run exam:sync` |
+| Hai modificato l'esame (`dati/banca-esame-*.js`) | `npm run exam:sync` |
 | Vuoi sapere dove il corso non è chiaro | `php artisan chat:report` |
 | Prima di pubblicare | `npm run test:all` |
 | Sul server, dopo ogni caricamento | `bash tools/messa-online.sh` |

@@ -178,11 +178,22 @@ class ControllaInstallazione extends Command
     private function controllaAttestati(): void
     {
         $domande = count((array) config('certificates.questions', []));
+        $vere    = (bool) config('certificates.questions_are_real');
 
         $this->esito(
-            $domande >= 30 ? 'ok' : 'errore',
+            $domande >= 10 ? 'ok' : 'errore',
             "Banca domande d'esame: {$domande} domande",
-            'L\'esame le pesca da qui, lato server. Si rigenera dal gioco con: npm run exam:sync',
+            'L\'esame le pesca da qui, lato server. Si rigenera con: npm run exam:sync',
+        );
+
+        // Le domande d'esempio sono pubbliche su GitHub: se l'esame vero gira
+        // con quelle, chiunque può passarlo copiando, e l'attestato non vale niente.
+        $this->esito(
+            $vere ? 'ok' : 'avviso',
+            $vere ? 'In uso la banca domande riservata' : 'In uso la banca domande D\'ESEMPIO',
+            'Le domande d\'esempio stanno nel repository pubblico: online serve quella riservata. '
+            . 'Genera Modules/Certificates/config/domande-riservate.php con npm run exam:sync '
+            . 'e caricalo sul server (non è in git, quindi non arriva con il deploy).',
         );
 
         $this->esito(

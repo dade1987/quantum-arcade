@@ -195,6 +195,18 @@ finiranno in una sezione dedicata con il nome di chi le ha scoperte.
 
 ---
 
+## Una nota sulle domande d'esame
+
+Nel repository trovi `dati/banca-esame-esempio.js`: sono domande vere ma **pubbliche**, e
+servono a far girare sito e test in locale. L'esame che rilascia l'attestato usa una banca
+diversa, che non sta in git e non è scaricabile da nessuna parte — perché un esame le cui
+risposte si possono leggere non misura niente.
+
+Se vuoi proporre domande nuove, aprine una issue o mandale nella pull request modificando la
+banca d'esempio: le valuto e, se sono buone, entrano in quella vera.
+
+---
+
 ## Con che licenza esce il tuo contributo
 
 Il progetto è **libero ma non commerciale**: chiunque può leggerlo, modificarlo, tradurlo,

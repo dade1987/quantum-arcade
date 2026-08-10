@@ -165,7 +165,7 @@ export const LEVELS = [
 
   { id: '24-esame', part: 'D', n: 24, file: 'lezioni/24-esame.html', boss: true,
     title: 'ESAME FINALE — attestato di completamento',
-    desc: '33 domande su tutto il corso. Dall\'80% in su generi il tuo attestato.', xp: 300 },
+    desc: 'Tutte le domande del corso, in una volta sola. Dall\'80% in su generi il tuo attestato.', xp: 300 },
 ];
 
 export const TOTAL_XP = LEVELS.reduce((s, l) => s + l.xp, 0);

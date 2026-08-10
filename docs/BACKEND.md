@@ -68,9 +68,21 @@ XP = massimo, livelli/missioni = unione, ripasso = si tiene la scatola più bass
 - `GET /api/badge/{code}.json` → Open Badge / Verifiable Credential.
 
 La banca domande sta in `Modules/Certificates/config/config.php`, generata da
-`npm run exam:sync` a partire da `dati/banca-esame.js`. Quel file sta **fuori da
-`public_html`** apposta: dentro sarebbe scaricabile con l'URL, risposte comprese.
-Una sola fonte di verità, e le soluzioni non raggiungono mai il browser.
+`npm run exam:sync`. Le domande hanno un problema che nessun altro contenuto ha:
+**se si possono leggere, l'esame non misura niente**. E si possono leggere in due modi —
+dall'URL, se il file sta in `public_html`, e da GitHub, visto che il repository è pubblico.
+Quindi le banche sono due:
+
+| File | In git? | A cosa serve |
+|---|---|---|
+| `dati/banca-esame-esempio.js` | sì | far girare sito e test a chi contribuisce |
+| `dati/banca-esame-riservata.js` | **no** | l'esame vero, solo sul tuo computer e sul server |
+
+`npm run exam:sync` genera da ciascuna il rispettivo file PHP; `config.php` carica quello
+riservato se lo trova, altrimenti quello d'esempio. **Il file `domande-riservate.php` non
+arriva con il deploy** (non è in git): va caricato a mano una volta, e rifatto quando cambi
+le domande. `php artisan sito:controlla` avvisa in giallo se online sta girando quella
+d'esempio.
 
 ### Chat — il tutor
 Agente **RAG con Neuron AI** (PHP puro, nessun processo Node da tenere acceso):

@@ -27,6 +27,7 @@ class ControllaInstallazioneTest extends TestCase
             'mail.default'          => 'smtp',
             'mail.from.address'     => 'no-reply@quantumarcade.it',
             'certificates.questions' => array_fill(0, 30, ['id' => 1]),
+            'certificates.questions_are_real' => true,
             'dompdf.public_path'    => base_path('public_html'),
             'chat.provider'         => 'deepseek',
             'chat.key'              => 'una-chiave',
@@ -118,6 +119,17 @@ class ControllaInstallazioneTest extends TestCase
             // i test successivi falliscono con "cannot start a transaction"
             config(['database.default' => $vera]);
         }
+    }
+
+    public function test_avvisa_se_online_gira_con_le_domande_d_esempio(): void
+    {
+        $this->serverPerfetto();
+        config(['certificates.questions_are_real' => false]);
+
+        // è un avviso, non un errore: il sito funziona, ma l'attestato non vale
+        $this->artisan('sito:controlla')
+            ->expectsOutputToContain('D\'ESEMPIO')
+            ->assertSuccessful();
     }
 
     public function test_si_accorge_se_la_banca_domande_e_vuota(): void

@@ -25,6 +25,13 @@ auth.json
 # resta comunque fuori dal repository.
 **/.auth/
 
+# L'ESAME VERO non entra nel repository: se le risposte si possono leggere,
+# l'attestato non misura più niente. Nel repository resta solo la banca
+# d'esempio; queste due si generano con `npm run exam:sync` e si caricano
+# a mano sul server.
+/dati/banca-esame-riservata.js
+/Modules/Certificates/config/domande-riservate.php
+
 # archivio vettoriale del tutor: si rigenera con `php artisan chat:ingest`
 /storage/app/rag
 
