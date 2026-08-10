@@ -9,7 +9,7 @@ import { dirname, join } from 'node:path';
  * vede un iscritto.
  */
 
-const AUTH = join(dirname(new URL(import.meta.url).pathname), '../.auth/utente.json');
+const AUTH = join(dirname(new URL(import.meta.url).pathname), '../../.auth/utente.json');
 
 setup('crea account di collaudo e salva la sessione', async ({ page, context }) => {
   mkdirSync(dirname(AUTH), { recursive: true });

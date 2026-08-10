@@ -20,8 +20,10 @@ auth.json
 /storage/logs/*
 !/storage/logs/.gitignore
 
-# sessione salvata dai test end-to-end (cookie di un account reale)
-/tests/.auth
+# sessione salvata dai test end-to-end (cookie di un account reale).
+# La regola è volutamente larga: se un percorso sbaglia cartella, il file
+# resta comunque fuori dal repository.
+**/.auth/
 
 # archivio vettoriale del tutor: si rigenera con `php artisan chat:ingest`
 /storage/app/rag

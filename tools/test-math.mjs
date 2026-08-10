@@ -1,12 +1,12 @@
 /* Verifica numerica dei moduli matematici (nessun DOM richiesto).
    Uso: node tools/test-math.mjs                                        */
 
-import { dft, fft, fromArray, magnitudes, costs } from '../js/core/dsp.js';
+import { dft, fft, fromArray, magnitudes, costs } from '../public_html/js/core/dsp.js';
 import {
   zeroState, basisState, applyGate, GATES, probs, qftOps, circuitMatrix,
   blochVector, groverDiffusion, phaseOracle, hadamardAll, modpow, periodOf,
   continuedFraction, gcd, clone, runCircuit,
-} from '../js/core/qsim.js';
+} from '../public_html/js/core/qsim.js';
 
 let pass = 0, fail = 0;
 const near = (a, b, tol = 1e-9) => Math.abs(a - b) < tol;
