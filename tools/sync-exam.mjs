@@ -13,7 +13,7 @@ lines.push('<?php');
 lines.push('');
 lines.push('/*');
 lines.push(' * GENERATO AUTOMATICAMENTE da tools/sync-exam.mjs — non modificare a mano.');
-lines.push(' * Fonte: js/widgets/exam.js');
+lines.push(' * Fonte: public_html/js/data/exam-bank.js');
 lines.push(' *');
 lines.push(" * Le domande stanno qui e non nel browser: se le risposte esatte fossero");
 lines.push(' * nel codice della pagina, l\'attestato non dimostrerebbe nulla.');

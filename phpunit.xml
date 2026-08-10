@@ -13,14 +13,15 @@
         </testsuite>
     </testsuites>
 
-    <!-- La copertura guarda SOLO il codice scritto da noi: i moduli.
-         Lo scheletro generato da Laravel non è codice nostro da collaudare. -->
+    <!-- La copertura guarda SOLO il codice scritto da noi: i moduli e i
+         comandi. Lo scheletro generato da Laravel non è codice nostro. -->
     <source>
         <include>
             <directory>Modules/Accounts/app</directory>
             <directory>Modules/Progress/app</directory>
             <directory>Modules/Certificates/app</directory>
             <directory>Modules/Chat/app</directory>
+            <directory>app/Console</directory>
         </include>
         <exclude>
             <directory>Modules/*/app/Providers</directory>

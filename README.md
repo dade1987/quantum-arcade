@@ -116,12 +116,26 @@ sintassi PHP, JSON e SVG. Lanciarlo prima di ogni pubblicazione.
 | Hai modificato l'esame (`public_html/js/data/exam-bank.js`) | `npm run exam:sync` |
 | Vuoi sapere dove il corso non è chiaro | `php artisan chat:report` |
 | Prima di pubblicare | `npm run test:all` |
+| Sul server, dopo ogni caricamento | `bash tools/messa-online.sh` |
+| Per sapere se il server è a posto | `php artisan sito:controlla --produzione` |
 
 ---
 
 ## Messa online (Hostinger, un solo dominio)
 
 Su Hostinger la web root è già `public_html`: si carica il progetto nella home e funziona.
+
+```bash
+cp .env.example .env && nano .env     # una volta sola
+php artisan key:generate
+bash tools/messa-online.sh            # dipendenze, migrazioni, cache, indice, controllo
+```
+
+L'ultimo passo dello script è `php artisan sito:controlla --produzione`, che verifica
+una per una le cose che altrimenti si scoprono dagli utenti — `.env` scaricabile dal web,
+`APP_DEBUG` acceso, SMTP non configurato, PDF puntato alla cartella sbagliata — e per
+ognuna dice **come si risolve**.
+
 Istruzioni complete, variabili d'ambiente e cron: [docs/BACKEND.md](docs/BACKEND.md).
 
 ---

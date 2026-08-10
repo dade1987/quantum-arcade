@@ -172,24 +172,44 @@ database, codice dei moduli e archivio del tutor restano protetti.
 
 1. **Carica il progetto nella home** (Git deploy, SSH o File Manager).
    Se `public_html` esiste già ed è vuota, sovrascrivila con quella del progetto.
-2. Da SSH:
+2. Da SSH, prepara il `.env` (una volta sola):
    ```bash
    cd ~
-   composer install --no-dev --optimize-autoloader
    cp .env.example .env && nano .env      # vedi la sezione 4
    php artisan key:generate
-   php artisan migrate --force
-   php artisan config:cache && php artisan route:cache && php artisan view:cache
-   php artisan chat:ingest                # indicizza i contenuti per il tutor
-   chmod -R 775 storage bootstrap/cache
    ```
-3. **HTTPS**: attiva il certificato gratuito dal pannello e forza il redirect a https.
-4. **Cron** (pannello Hostinger, ogni minuto):
+3. Lancia lo script di messa online — fa tutto il resto nell'ordine giusto e si
+   ferma al primo passo che fallisce:
+   ```bash
+   bash tools/messa-online.sh
+   ```
+   Dipendenze, permessi, migrazioni, cache, indice del tutor e **controllo
+   pre-volo**. Va rilanciato a ogni aggiornamento del sito: non tocca il `.env`
+   e non cancella dati.
+4. **HTTPS**: attiva il certificato gratuito dal pannello e forza il redirect a https.
+5. **Cron** (pannello Hostinger, ogni minuto):
    ```
    php ~/artisan schedule:run >> /dev/null 2>&1
    ```
-5. **Prova**: registrati, controlla che arrivi l'email, fai l'esame, scarica il PDF,
-   apri `/verifica/{codice}` da un browser in incognito.
+6. **Prova a mano** quello che nessuno script può verificare: registrati con un
+   indirizzo vero, controlla che l'email di conferma arrivi (e non in spam), fai
+   l'esame, scarica il PDF, apri `/verifica/{codice}` da un browser in incognito.
+
+### Il controllo pre-volo
+
+```bash
+php artisan sito:controlla --produzione
+```
+
+Verifica una per una le cose che altrimenti si scoprono dagli utenti: versione ed
+estensioni di PHP, `APP_KEY`, `APP_URL` in https, `APP_DEBUG` spento, permessi di
+`storage`, presenza di `index.php` e `index.html` in `public_html`, **`.env` non
+scaricabile dal web**, connessione al database e tabelle create, SMTP configurato
+(con `MAIL_MAILER=log` nessuno riceve la conferma), banca domande dell'esame,
+`dompdf` puntato alla cartella giusta, chiave del tutor e indice dei contenuti.
+
+Ogni riga rossa dice anche **come si risolve**. Esce con codice di errore se
+qualcosa impedisce di aprire al pubblico, quindi si può mettere in uno script.
 
 ### Se non hai accesso SSH (piani base)
 
