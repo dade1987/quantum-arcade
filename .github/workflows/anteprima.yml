@@ -5,11 +5,16 @@ name: Anteprima
 #
 # Non tocca la produzione e non pubblica niente del backend: sale solo quello
 # che c'è dentro public_html, senza il front controller di Laravel.
+#
+# UNA VOLTA SOLA, A MANO: Impostazioni → Pages → Source: «GitHub Actions».
+# Il token dei flussi non ha il permesso di accendere Pages da solo (l'API
+# risponde «Resource not accessible by integration»), quindi il primo
+# interruttore lo gira una persona. Dopo, questo flusso fa tutto da sé.
 
 on:
   workflow_dispatch:
   push:
-    branches: [claude/sito-lezioni-nomi-6fvbkq]
+    branches: [main]
     paths:
       - 'public_html/**'
       - 'tools/anteprima.sh'
@@ -38,10 +43,8 @@ jobs:
       - name: Prepara la copia statica
         run: bash tools/anteprima.sh _anteprima
 
-      - name: Accendi Pages, se è la prima volta
+      - name: Leggi la configurazione di Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
