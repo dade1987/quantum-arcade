@@ -133,7 +133,7 @@ Quattro cose non negoziabili, perché sono la differenza fra un widget e un gioc
 ## Modificare il backend
 
 ```bash
-php artisan test                       # 71 test, devono restare verdi
+php artisan test                       # 84 test, devono restare verdi
 XDEBUG_MODE=coverage php artisan test --coverage
 ```
 
@@ -198,9 +198,9 @@ finiranno in una sezione dedicata con il nome di chi le ha scoperte.
 ## Con che licenza esce il tuo contributo
 
 Il progetto è **libero ma non commerciale**: chiunque può leggerlo, modificarlo, tradurlo,
-installarlo sul proprio server e usarlo in classe — anche in una scuola privata. Quello che
-non si può fare, senza accordo scritto, è **rivenderlo** o infilarlo dentro un prodotto a
-pagamento. Il testo completo è in [LICENSE](LICENSE):
+installarlo sul proprio server e usarlo nella scuola pubblica, all'università o in un doposcuola
+gratuito. Quello che non si può fare, senza accordo scritto, è **guadagnarci**: rivenderlo,
+infilarlo in un prodotto a pagamento o usarlo per insegnare in un corso a pagamento. Il testo completo è in [LICENSE](LICENSE):
 
 - **codice** → [PolyForm Noncommercial 1.0.0](LICENSE)
 - **contenuti didattici** → [CC BY-NC-SA 4.0](LICENSE)

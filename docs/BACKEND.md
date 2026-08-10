@@ -74,8 +74,20 @@ e le soluzioni non raggiungono mai il browser.
 ### Chat — il tutor
 Agente **RAG con Neuron AI** (PHP puro, nessun processo Node da tenere acceso):
 
-- `Modules/Chat/app/Agents/QuantumTutor.php` — istruzioni, provider Anthropic,
-  embeddings OpenAI, archivio vettoriale **su file** (`FileVectorStore`);
+- `Modules/Chat/app/Agents/QuantumTutor.php` — istruzioni e fabbriche dei fornitori.
+  **Chi risponde** si sceglie dal `.env` (`CHAT_PROVIDER`): `deepseek` (predefinito),
+  `anthropic`, `openai`. **Come si cerca** si sceglie con `CHAT_EMBEDDINGS`;
+- `Modules/Chat/app/Embeddings/EmbeddingLocale.php` — embedding calcolati in casa,
+  senza API. Esiste perché **DeepSeek non offre un'API di embedding**: senza questo
+  servirebbe una seconda chiave, di un secondo fornitore, solo per la ricerca.
+  È feature hashing su parole, radici e coppie di parole; costo zero, nessuna rete,
+  189 pezzi indicizzati in mezzo secondo. Il limite (dichiarato) è che non capisce i
+  sinonimi: se serve più precisione si passa a `CHAT_EMBEDDINGS=openai` e una chiave;
+- archivio vettoriale **su file** (`FileVectorStore`), creato da solo alla prima
+  installazione. Neuron AI supporta anche Qdrant, Chroma, Pinecone, Weaviate,
+  Elasticsearch e MariaDB, ma il primo gruppo sono servizi da tenere accesi e
+  `MariaDBVectorStore` richiede MariaDB 11.7+ con tipo `VECTOR` nativo: su hosting
+  condiviso l'archivio su file è l'unico che regge davvero;
 - `php artisan chat:ingest` — legge le pagine in `public_html/`, le spezza in blocchi
   e calcola gli embedding. **Da rilanciare dopo ogni modifica ai contenuti**;
 - `php artisan chat:report` — domande più frequenti, livelli più citati, risposte bocciate:
@@ -121,15 +133,17 @@ MAIL_ENCRYPTION=ssl
 MAIL_FROM_ADDRESS=no-reply@iltuodominio.it
 MAIL_FROM_NAME="Quantum Arcade"
 
-ANTHROPIC_API_KEY=...          # tutor
-OPENAI_API_KEY=...             # embeddings per la ricerca
-CHAT_MODEL=claude-sonnet-4-6
-CHAT_EMBEDDINGS_MODEL=text-embedding-3-small
+CHAT_PROVIDER=deepseek         # deepseek | anthropic | openai
+CHAT_API_KEY=...               # la chiave del fornitore scelto
+CHAT_MODEL=                    # vuoto = predefinito del fornitore
+CHAT_EMBEDDINGS=locale         # nessuna chiave, nessun costo (vedi sopra)
+CHAT_TOP_K=6
 CHAT_RATE_PER_HOUR=30
 CHAT_STORE_CONVERSATIONS=true
 ```
 
-Senza le chiavi AI il tutor risponde «non sono configurato» e **il resto del sito funziona
+Serve **una chiave sola**, quella del modello che risponde: la ricerca dentro il sito è
+locale. Senza chiave il tutor risponde «non sono configurato» e **il resto del sito funziona
 normalmente**: non è un blocco.
 
 ---

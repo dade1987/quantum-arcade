@@ -31,7 +31,7 @@ class ChatController extends Controller
         }
         RateLimiter::hit($key, 3600);
 
-        if (! config('chat.anthropic_key')) {
+        if (! config('chat.key')) {
             return response()->json([
                 'ok'      => false,
                 'message' => 'Il tutor non è ancora configurato su questo server.',

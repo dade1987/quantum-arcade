@@ -77,7 +77,7 @@ Modules/                   moduli nwidart
   Accounts/                registrazione, conferma email, accesso, profilo
   Progress/                progressi salvati sul server
   Certificates/            esame corretto lato server, attestato PDF, verifica pubblica
-  Chat/                    tutor AI (Neuron AI, RAG sui contenuti del sito)
+  Chat/                    tutor AI (Neuron AI, RAG sui contenuti del sito, embedding locali)
 
 tests/
   Feature/Moduli/          test PHP dei quattro moduli (100% di copertura)
@@ -94,7 +94,7 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ```bash
 npm test                 # motore del gioco (102 test) + validazione di tutti i file
 npm run test:coverage    # copertura del frontend
-npm run test:php         # 71 test dei moduli Laravel
+npm run test:php         # 84 test dei moduli Laravel
 npm run test:php:coverage
 npm run test:e2e         # 67 test Playwright (desktop + telefono)
 npm run test:all         # tutto
@@ -145,7 +145,8 @@ Prima di aprire una pull request: `npm run test:all`.
 ## Licenza — libera, ma non commerciale
 
 Il progetto è aperto: si può leggere, studiare, modificare, tradurre, installare sul proprio
-server e usare in classe. Quello che non si può fare è **rivenderlo**.
+server e usare nella scuola pubblica. Quello che non si può fare, senza accordo, è
+**guadagnarci**: rivenderlo o insegnarlo in un corso a pagamento.
 
 | | Licenza | In pratica |
 |---|---|---|
@@ -153,11 +154,15 @@ server e usare in classe. Quello che non si può fare è **rivenderlo**.
 | **Contenuti didattici** (testi, quiz, glossario) | [CC BY-NC-SA 4.0](LICENSE) | riusali citando la fonte, senza scopo di lucro, con la stessa licenza |
 | **Fotografia dell'autore** | tutti i diritti riservati | non riutilizzabile fuori da questo progetto |
 
-**Scuola e ricerca sono sempre permesse**, anche in istituti privati e a retta: portare il
-corso in aula si può sempre, purché non sia il materiale stesso a essere venduto.
+**Scuola pubblica, ricerca e no profit: sempre libero.** Scuole statali e paritarie,
+università, biblioteche, enti pubblici, associazioni senza scopo di lucro, doposcuola
+gratuiti e chiunque studi per conto proprio possono usarlo senza chiedere niente.
 
-**Uso commerciale**: si può, basta chiedere — l'autore concede licenze commerciali
-([Calendly](https://calendly.com/davidecavallini1987/meeting)).
+**Formazione a pagamento: serve un accordo.** Accademie private, enti di formazione
+professionale, corsi aziendali, bootcamp e ripetizioni retribuite sono usi commerciali —
+non vietati, da concordare. Vale anche quando ciò che si vende è la docenza e non il
+materiale: se lo studente paga, si passa da un accordo. Di norma è una formalità:
+[scrivimi](https://calendly.com/davidecavallini1987/meeting).
 
 **Contribuendo** accetti che il tuo contributo esca con queste stesse licenze e che l'autore
 possa includerlo in eventuali licenze commerciali: senza, un singolo contributo bloccherebbe

@@ -18,12 +18,24 @@ NON PUOI, senza il permesso scritto dell'autore:
   · venderlo, o venderne una versione modificata;
   · usarlo dentro un prodotto o un servizio a pagamento;
   · usarlo per un corso commerciale, un abbonamento, una piattaforma a pagamento;
+  · usarlo per insegnare in un corso a pagamento, anche solo come materiale
+    di supporto;
   · metterci pubblicità o usarlo per generare ricavi.
 
-SCUOLA E RICERCA SONO SEMPRE PERMESSE. Un insegnante che lo usa in classe,
-un'università, un ente pubblico, una biblioteca o un'associazione senza scopo
-di lucro possono usarlo liberamente, anche se l'istituto è privato e a
-retta — purché non sia il materiale stesso a essere venduto.
+SCUOLA PUBBLICA, RICERCA E NO PROFIT SONO SEMPRE PERMESSE, gratuitamente e
+senza chiedere niente a nessuno:
+  · scuole statali e paritarie, di ogni ordine e grado;
+  · università ed enti di ricerca pubblici;
+  · biblioteche, musei, enti pubblici;
+  · associazioni ed enti del terzo settore senza scopo di lucro;
+  · doposcuola, gruppi di studio e ripetizioni non a pagamento;
+  · chiunque studi per conto proprio.
+
+FORMAZIONE A PAGAMENTO: SERVE UN ACCORDO. Accademie private, scuole di
+formazione professionale, corsi aziendali, bootcamp, ripetizioni retribuite e
+qualunque didattica per cui lo studente (o il suo datore di lavoro) paga sono
+usi commerciali. Non sono vietati: sono da concordare, e l'accordo è
+normalmente semplice.
 
 VUOI USARLO A SCOPO COMMERCIALE? Si può, basta chiedere: l'autore concede
 licenze commerciali. Scrivi tramite https://calendly.com/davidecavallini1987/meeting
@@ -205,20 +217,41 @@ Alle seguenti condizioni:
 Testo completo: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.it
 Riassunto ufficiale: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it
 
-Chiarimento dell'autore sull'uso didattico
-..........................................
-La licenza CC BY-NC-SA definisce "commerciale" un uso «rivolto principalmente
-a un vantaggio commerciale o a un compenso monetario». Per evitare dubbi
-all'insegnante che vorrebbe usare il corso, l'autore concede espressamente,
-in aggiunta alla licenza:
+Chiarimento dell'autore su cosa conta come "commerciale"
+.......................................................
+La licenza CC BY-NC-SA definisce commerciale un uso «rivolto principalmente a
+un vantaggio commerciale o a un compenso monetario». Poiché la formula lascia
+spazio a interpretazioni, l'autore precisa come la intende:
 
-  l'uso dei contenuti nell'attività didattica di qualunque scuola, università,
-  accademia, biblioteca, associazione o ente di formazione — anche privato e
-  anche a fronte di una retta — a condizione che il materiale (o un'opera
-  derivata) non sia esso stesso l'oggetto della vendita, di un abbonamento o
-  di un prodotto commerciale.
+  È USO COMMERCIALE, e richiede quindi un accordo scritto, l'impiego dei
+  contenuti in qualunque attività formativa per cui qualcuno paga: accademie
+  e scuole private a scopo di lucro, enti di formazione professionale, corsi
+  aziendali, bootcamp, master, webinar a pagamento, ripetizioni retribuite,
+  contenuti dietro abbonamento o paywall. Non importa se ciò che si vende è
+  "il corso" o "la docenza": se lo studente paga, è uso commerciale.
 
-In pratica: portarlo in aula si può sempre; rivenderlo no.
+  NON è uso commerciale, ed è quindi libero, l'impiego da parte di scuole
+  statali e paritarie, università ed enti di ricerca pubblici, biblioteche,
+  musei, enti pubblici, associazioni ed enti del terzo settore senza scopo di
+  lucro, doposcuola e gruppi di studio gratuiti, e di chiunque studi per
+  conto proprio. Che l'ente riceva finanziamenti, contributi o quote
+  associative non lo rende commerciale: conta che gli studenti non paghino
+  per la formazione in cui il materiale viene usato.
+
+In pratica: se qualcuno incassa per insegnarlo, si passa da un accordo —
+che di norma è una formalità (punto 4).
+
+Nota tecnica sul codice
+.......................
+La PolyForm Noncommercial 1.0.0 ha una clausola propria ("Noncommercial
+Organizations") che considera permesso l'uso da parte di qualunque istituto
+educativo, a prescindere dai finanziamenti. Quella clausola riguarda IL SOLO
+CODICE: il motore del gioco, il simulatore, il backend. I contenuti didattici
+— lezioni, spiegazioni, quiz, domande d'esame, glossario, cioè ciò che rende
+il progetto un corso — restano soggetti alla CC BY-NC-SA 4.0 e al chiarimento
+qui sopra. Un'accademia a pagamento può quindi partire dal codice per farci
+un proprio strumento, ma non può usare le lezioni di Quantum Arcade nei
+propri corsi senza accordo.
 
 --------------------------------------------------------------------
 3. ECCEZIONI

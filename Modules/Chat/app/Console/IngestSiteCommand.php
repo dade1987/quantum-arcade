@@ -70,12 +70,16 @@ class IngestSiteCommand extends Command
             return self::SUCCESS;
         }
 
-        if (! config('chat.embeddings_key')) {
-            $this->error('Manca OPENAI_API_KEY nel .env: serve per calcolare gli embedding.');
+        if (QuantumTutor::embeddingsRichiedonoChiave() && ! config('chat.embeddings_key')) {
+            $this->error('CHAT_EMBEDDINGS=' . config('chat.embeddings')
+                . ' richiede una chiave: mettila in CHAT_EMBEDDINGS_KEY nel .env, '
+                . 'oppure usa CHAT_EMBEDDINGS=locale (nessuna chiave, nessun costo).');
             return self::FAILURE;
         }
 
-        $this->info('Calcolo gli embedding e salvo l\'archivio…');
+        $this->info(QuantumTutor::embeddingsRichiedonoChiave()
+            ? 'Calcolo gli embedding e salvo l\'archivio…'
+            : 'Calcolo gli embedding in locale (nessuna chiamata alle API) e salvo l\'archivio…');
         app(QuantumTutor::class)->reindexBySource($documents);
 
         $this->info('✅ Fatto. Il tutor adesso conosce il sito aggiornato.');

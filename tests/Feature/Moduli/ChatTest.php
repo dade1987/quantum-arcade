@@ -27,7 +27,7 @@ class ChatTest extends TestCase
 
     public function test_senza_chiavi_configurate_lo_dice_invece_di_rompersi(): void
     {
-        config(['chat.anthropic_key' => null]);
+        config(['chat.key' => null]);
 
         $this->postJson('/api/chat', ['message' => 'Cos\'è un qubit?', 'session_id' => 'S1'])
             ->assertStatus(503)
@@ -37,7 +37,7 @@ class ChatTest extends TestCase
 
     public function test_rifiuta_messaggi_vuoti_o_troppo_lunghi(): void
     {
-        config(['chat.anthropic_key' => 'finta']);
+        config(['chat.key' => 'finta']);
 
         $this->postJson('/api/chat', ['session_id' => 'S1'])->assertStatus(422);
         $this->postJson('/api/chat', ['message' => 'x', 'session_id' => 'S1'])->assertStatus(422);
@@ -47,7 +47,7 @@ class ChatTest extends TestCase
 
     public function test_il_limite_di_domande_all_ora_protegge_dagli_abusi(): void
     {
-        config(['chat.rate_per_hour' => 2, 'chat.anthropic_key' => null]);
+        config(['chat.rate_per_hour' => 2, 'chat.key' => null]);
 
         $this->postJson('/api/chat', ['message' => 'una', 'session_id' => 'S']);
         $this->postJson('/api/chat', ['message' => 'due', 'session_id' => 'S']);
@@ -128,7 +128,8 @@ class ChatTest extends TestCase
 
     public function test_l_indicizzazione_si_ferma_se_mancano_le_chiavi(): void
     {
-        config(['chat.embeddings_key' => null]);
+        // vale solo per gli embedding via API: quelli locali non hanno chiavi
+        config(['chat.embeddings' => 'openai', 'chat.embeddings_key' => null]);
         $this->artisan('chat:ingest')->assertFailed();
     }
 
@@ -151,7 +152,7 @@ class ChatTest extends TestCase
 
     private function tutorFinto(string $risposta): void
     {
-        config(['chat.anthropic_key' => 'finta']);
+        config(['chat.key' => 'finta']);
 
         $this->app->bind(QuantumTutor::class, fn () => new class($risposta) extends QuantumTutor {
             public function __construct(private string $risposta) { parent::__construct(null); }
@@ -203,7 +204,7 @@ class ChatTest extends TestCase
 
     public function test_se_il_modello_va_in_errore_la_risposta_e_pulita(): void
     {
-        config(['chat.anthropic_key' => 'finta']);
+        config(['chat.key' => 'finta']);
         $this->app->bind(QuantumTutor::class, fn () => new class extends QuantumTutor {
             public function __construct() { parent::__construct(null); }
             public function ask(string $question): string { throw new \RuntimeException('modello non raggiungibile'); }
@@ -226,7 +227,7 @@ class ChatTest extends TestCase
 
     public function test_ask_senza_rete_fallisce_in_modo_pulito(): void
     {
-        config(['chat.anthropic_key' => 'chiave-finta', 'chat.embeddings_key' => 'chiave-finta']);
+        config(['chat.key' => 'chiave-finta', 'chat.embeddings_key' => 'chiave-finta']);
 
         // Nessuna chiamata vera al modello: la chiave è inventata, quindi
         // l'agente deve sollevare un'eccezione — che il controller trasforma
@@ -289,18 +290,103 @@ class ChatTest extends TestCase
         rmdir($dir);
     }
 
-    public function test_l_agente_costruisce_provider_embeddings_e_archivio(): void
+    public function test_con_gli_embedding_via_api_l_indicizzazione_avvisa_che_sta_spendendo(): void
     {
-        config([
-            'chat.anthropic_key' => 'k', 'chat.model' => 'claude-sonnet-4-6',
-            'chat.embeddings_key' => 'k2', 'chat.embeddings_model' => 'text-embedding-3-small',
-        ]);
+        config(['chat.embeddings' => 'openai', 'chat.embeddings_key' => 'finta']);
 
+        $dir = sys_get_temp_dir() . '/qa-public-api-' . uniqid();
+        mkdir($dir, 0o777, true);
+        file_put_contents($dir . '/pagina.html', '<html><title>Livello</title><body>'
+            . str_repeat('La fase decide come si sommano le frecce. ', 80) . '</body></html>');
+        $this->app->usePublicPath($dir);
+
+        // niente chiamate vere: l'agente finto non calcola nulla
+        $this->app->bind(QuantumTutor::class, fn () => new class extends QuantumTutor {
+            public function __construct() { parent::__construct(null); }
+            public function reindexBySource(array $documents, int $chunkSize = 50): void {}
+        });
+
+        $this->artisan('chat:ingest')
+            ->expectsOutputToContain('Calcolo gli embedding e salvo')
+            ->assertSuccessful();
+
+        unlink($dir . '/pagina.html');
+        rmdir($dir);
+    }
+
+    /* ---------------- fornitori intercambiabili ---------------- */
+
+    /** Chiama un metodo protetto dell'agente (le fabbriche di Neuron AI lo sono). */
+    private function fabbrica(QuantumTutor $tutor, string $nome): object
+    {
+        return (new \ReflectionMethod($tutor, $nome))->invoke($tutor);
+    }
+
+    public function test_il_fornitore_si_cambia_dal_env_senza_toccare_il_codice(): void
+    {
+        config(['chat.key' => 'k', 'chat.model' => null]);
         $tutor = new QuantumTutor('01-qubit');
-        $metodo = fn (string $nome) => (new \ReflectionMethod($tutor, $nome))->invoke($tutor);
 
-        $this->assertInstanceOf(\NeuronAI\Providers\Anthropic\Anthropic::class, $metodo('provider'));
-        $this->assertInstanceOf(\NeuronAI\RAG\Embeddings\OpenAIEmbeddingsProvider::class, $metodo('embeddings'));
-        $this->assertInstanceOf(\NeuronAI\RAG\VectorStore\FileVectorStore::class, $metodo('vectorStore'));
+        config(['chat.provider' => 'deepseek']);
+        $this->assertInstanceOf(\NeuronAI\Providers\Deepseek\Deepseek::class, $this->fabbrica($tutor, 'provider'));
+
+        config(['chat.provider' => 'anthropic']);
+        $this->assertInstanceOf(\NeuronAI\Providers\Anthropic\Anthropic::class, $this->fabbrica($tutor, 'provider'));
+
+        config(['chat.provider' => 'openai']);
+        $this->assertInstanceOf(\NeuronAI\Providers\OpenAI\OpenAI::class, $this->fabbrica($tutor, 'provider'));
+
+        // un nome sconosciuto non fa esplodere il sito: si ripiega su DeepSeek
+        config(['chat.provider' => 'fornitore-inventato']);
+        $this->assertInstanceOf(\NeuronAI\Providers\Deepseek\Deepseek::class, $this->fabbrica($tutor, 'provider'));
+    }
+
+    public function test_ogni_fornitore_ha_un_modello_predefinito_sensato(): void
+    {
+        $this->assertSame('deepseek-chat', QuantumTutor::MODELLI['deepseek']);
+        $this->assertArrayHasKey('anthropic', QuantumTutor::MODELLI);
+        $this->assertArrayHasKey('openai', QuantumTutor::MODELLI);
+    }
+
+    public function test_la_ricerca_e_locale_per_default_e_puo_diventare_api(): void
+    {
+        config(['chat.embeddings_key' => 'k2', 'chat.embeddings_model' => null]);
+        $tutor = new QuantumTutor();
+
+        config(['chat.embeddings' => 'locale']);
+        $this->assertInstanceOf(\Modules\Chat\Embeddings\EmbeddingLocale::class, $this->fabbrica($tutor, 'embeddings'));
+        $this->assertFalse(QuantumTutor::embeddingsRichiedonoChiave());
+
+        foreach ([
+            'openai'  => \NeuronAI\RAG\Embeddings\OpenAIEmbeddingsProvider::class,
+            'gemini'  => \NeuronAI\RAG\Embeddings\GeminiEmbeddingsProvider::class,
+            'mistral' => \NeuronAI\RAG\Embeddings\MistralEmbeddingsProvider::class,
+            'voyage'  => \NeuronAI\RAG\Embeddings\VoyageEmbeddingsProvider::class,
+        ] as $nome => $classe) {
+            config(['chat.embeddings' => $nome]);
+            $this->assertInstanceOf($classe, $this->fabbrica($tutor, 'embeddings'), "embeddings=$nome");
+            $this->assertTrue(QuantumTutor::embeddingsRichiedonoChiave(), "embeddings=$nome richiede una chiave");
+        }
+    }
+
+    public function test_l_archivio_vettoriale_si_crea_da_solo_alla_prima_installazione(): void
+    {
+        // la cartella è esclusa dal repository: alla prima installazione non c'è
+        $rag = storage_path('app/rag');
+        $archivio = $rag . '/quantum-arcade.store';
+        $salvato = file_exists($archivio) ? file_get_contents($archivio) : null;
+
+        @unlink($archivio);
+        @rmdir($rag);
+
+        $this->assertInstanceOf(
+            \NeuronAI\RAG\VectorStore\FileVectorStore::class,
+            $this->fabbrica(new QuantumTutor(), 'vectorStore'),
+        );
+        $this->assertFileExists($archivio, 'la cartella e l\'archivio vuoto devono essere creati');
+
+        if ($salvato !== null) {
+            file_put_contents($archivio, $salvato);   // non distruggo l'indice di chi sviluppa
+        }
     }
 }

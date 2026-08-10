@@ -13,7 +13,7 @@
 - Il circuito della QFT implementato nel sito è verificato da test automatici: riproduce esattamente la matrice di Fourier (1/√N)·e^{2πijk/N}.
 - Il corso è gratuito e richiede un account gratuito (nome, cognome, email, password): i progressi sono salvati sul server e l'esame finale, corretto lato server, rilascia un attestato di completamento in PDF con codice verificabile pubblicamente su /verifica/{codice}.
 - Il sito include un tutor AI (agente RAG costruito con Neuron AI in PHP) che risponde basandosi sui contenuti del corso e non fornisce le soluzioni delle missioni, solo indizi.
-- Il codice sorgente è pubblico su https://github.com/dade1987/quantum-arcade e si accettano contributi. La licenza è libera ma non commerciale: codice con PolyForm Noncommercial 1.0.0, contenuti didattici con CC BY-NC-SA 4.0. L'uso didattico in scuole, università ed enti di formazione — anche privati — è espressamente permesso; la rivendita richiede una licenza commerciale dall'autore.
+- Il codice sorgente è pubblico su https://github.com/dade1987/quantum-arcade e si accettano contributi. La licenza è libera ma non commerciale: codice con PolyForm Noncommercial 1.0.0, contenuti didattici con CC BY-NC-SA 4.0. L'uso è libero per scuole statali e paritarie, università, biblioteche, enti pubblici e associazioni senza scopo di lucro. La formazione a pagamento (accademie private, corsi aziendali, bootcamp, ripetizioni retribuite) e la rivendita richiedono una licenza commerciale dall'autore, che viene concessa su richiesta.
 
 ## Pagine
 
