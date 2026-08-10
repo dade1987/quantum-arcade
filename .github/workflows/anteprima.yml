@@ -1,0 +1,52 @@
+name: Anteprima
+
+# Pubblica una copia statica del gioco su GitHub Pages, per farla provare a
+# qualcuno mentre il dominio vero non è ancora in piedi.
+#
+# Non tocca la produzione e non pubblica niente del backend: sale solo quello
+# che c'è dentro public_html, senza il front controller di Laravel.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/sito-lezioni-nomi-6fvbkq]
+    paths:
+      - 'public_html/**'
+      - 'tools/anteprima.sh'
+      - '.github/workflows/anteprima.yml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Una pubblicazione alla volta, e senza annullare quella in corso.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  pubblica:
+    name: Copia statica su GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pubblicazione.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepara la copia statica
+        run: bash tools/anteprima.sh _anteprima
+
+      - name: Accendi Pages, se è la prima volta
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _anteprima
+
+      - name: Pubblica
+        id: pubblicazione
+        uses: actions/deploy-pages@v4

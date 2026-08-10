@@ -64,3 +64,6 @@ yarn-error.log
 /.zed
 .DS_Store
 Thumbs.db
+
+# copia statica per l'anteprima su GitHub Pages
+/_anteprima
