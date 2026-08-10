@@ -1,0 +1,249 @@
+/* ============================================================
+   IMPALCATURA DELLE LEZIONI
+   Ogni pagina descrive solo i CONTENUTI; qui costruiamo topbar,
+   barra XP, passi, missioni, quiz di richiamo, prova di padronanza
+   e navigazione.
+
+   Scelte didattiche (vedi metodo.html per le fonti):
+   · si gioca PRIMA di leggere la teoria (esplorazione → formalizzazione);
+   · il quiz è retrieval practice, con feedback immediato e riprove illimitate;
+   · si sblocca il livello successivo solo dimostrando la padronanza,
+     sia PRATICA (missioni nel gioco) sia DICHIARATIVA (quiz).
+   ============================================================ */
+
+import { LEVELS, PARTS, levelById, neighbours } from './levels.js';
+import * as store from './store.js';
+import { h } from './ui.js';
+import { sfx, wireSounds, soundButton } from './audio.js';
+import { initAccount, accountButton, requireAccount } from './account.js';
+import { mountTutor } from '../widgets/chat.js';
+
+function topbar(base = '../') {
+  const bar = h('header', { class: 'topbar' },
+    h('div', { class: 'wrap-wide topbar-in' },
+      h('a', { class: 'brand', href: base + 'index.html' },
+        h('img', { class: 'logo', src: base + 'assets/logo.svg', alt: '', width: 30, height: 30 }),
+        h('span', {}, 'Quantum Arcade', h('small', {}, 'informatica quantistica giocando')),
+      ),
+      h('span', { class: 'topbar-spacer' }),
+      h('div', { id: 'xp-host' }),
+      soundButton(),
+      accountButton(),
+      h('a', { class: 'btn sm ghost', href: base + 'index.html' }, '🗺️ Mappa'),
+    ));
+  document.body.prepend(bar);
+  store.mountXpBar(bar.querySelector('#xp-host'));
+  wireSounds();
+}
+
+/* ---------------- missioni ---------------- */
+
+function missionBlock(lessonId, { key, title, text, xp = 25 }, onDone) {
+  const box = h('div', { class: 'mission' + (store.missionDone(lessonId, key) ? ' done' : '') },
+    h('div', { class: 'mh' }, '🎯 Missione', h('span', { class: 'muted', style: { fontWeight: '600' } }, `+${xp} XP`)),
+    h('div', { html: `<b>${title}</b> — ${text}` }),
+    h('div', { class: 'mstat small dim', style: { marginTop: '6px' } },
+      store.missionDone(lessonId, key) ? '✓ completata' : 'in corso…'),
+  );
+  return {
+    root: box, key,
+    complete() {
+      if (store.missionDone(lessonId, key)) return;
+      store.setMission(lessonId, key, true);
+      store.award(`mission:${lessonId}/${key}`, xp, 'missione');
+      sfx.mission();
+      box.classList.add('done');
+      box.querySelector('.mstat').textContent = '✓ completata';
+      onDone && onDone();
+    },
+    done: () => store.missionDone(lessonId, key),
+  };
+}
+
+/* ---------------- quiz ---------------- */
+
+function quizBlock(lessonId, quiz, onChange) {
+  const wrap = h('section', { class: 'panel' },
+    h('h2', { class: 'panel-title', style: { marginTop: 0 } }, h('span', { class: 'dot' }), 'Controllo rapido'),
+    h('p', { class: 'small muted', style: { marginTop: '-4px' } },
+      'Rispondere a memoria — anche sbagliando — fa imparare più che rileggere. Se sbagli, riprova: non c\'è nessuna penalità.'),
+  );
+
+  quiz.forEach((q, qi) => {
+    const opts = h('div', { class: 'quiz-opts' });
+    const why = h('div', { class: 'quiz-why hidden' });
+    const retry = h('button', { class: 'btn tiny hidden', onclick: () => reset() }, '🔄 riprova');
+
+    const buttons = q.options.map((o, oi) => {
+      const b = h('button', { class: 'quiz-opt', type: 'button' }, o);
+      b.addEventListener('click', () => answer(oi));
+      opts.appendChild(b);
+      return b;
+    });
+
+    function answer(oi) {
+      const right = oi === q.correct;
+      buttons.forEach((c, ci) => {
+        c.disabled = true;
+        if (ci === q.correct) c.classList.add('right');
+        else if (ci === oi) c.classList.add('wrong');
+      });
+      why.className = 'quiz-why';
+      why.innerHTML = (right ? '✅ ' : '❌ ') + q.why;
+      retry.className = right ? 'btn tiny hidden' : 'btn tiny';
+      store.recordQuiz(lessonId, qi, right, q);
+      right ? sfx.ok() : sfx.err();
+      if (right) store.award(`quiz:${lessonId}/${qi}`, 15, 'risposta esatta');
+      onChange && onChange();
+    }
+    function reset() {
+      buttons.forEach(b => { b.disabled = false; b.classList.remove('right', 'wrong'); });
+      why.className = 'quiz-why hidden';
+      retry.className = 'btn tiny hidden';
+    }
+
+    if (store.quizOk(lessonId, qi) === true) {
+      buttons.forEach((b, ci) => { b.disabled = true; if (ci === q.correct) b.classList.add('right'); });
+      why.className = 'quiz-why'; why.innerHTML = '✅ ' + q.why;
+    }
+
+    wrap.appendChild(h('div', { class: 'quiz-q' },
+      h('div', { class: 'qt', html: `${qi + 1}. ${q.q}` }), opts, why,
+      h('div', { style: { marginTop: '7px' } }, retry)));
+  });
+  return wrap;
+}
+
+/* ---------------- prova di padronanza ---------------- */
+
+function gateBlock(lv, missions, quiz, next) {
+  const box = h('section', { class: 'panel', id: 'gate' });
+  function render() {
+    const mDone = missions.filter(m => m.done()).length;
+    const qDone = quiz.filter((_, i) => store.quizOk(lv.id, i) === true).length;
+    const ok = mDone === missions.length && qDone === quiz.length;
+    const wasDone = store.isLessonDone(lv.id);
+    if (ok && !wasDone) { store.completeLesson(lv.id); sfx.levelUp(); }
+
+    box.innerHTML = '';
+    box.appendChild(h('h2', { class: 'panel-title', style: { marginTop: 0 } },
+      h('span', { class: 'dot' }), ok ? '✅ Livello superato' : '🔒 Prova di padronanza'));
+    box.appendChild(h('p', { class: 'small dim', style: { marginTop: '-4px' } },
+      ok ? 'Hai dimostrato di saperlo <b>fare</b> e di saperlo <b>spiegare</b>. Il livello successivo è sbloccato.'
+        : 'Per sbloccare il livello successivo servono due cose: averlo fatto nel gioco e saperlo richiamare a memoria. Nessuna fretta e nessun punteggio negativo.'));
+    const list = h('ul', { style: { margin: '10px 0 0' } });
+    if (missions.length) list.appendChild(h('li', { html: `${mDone === missions.length ? '✅' : '⬜'} Missioni completate: <b>${mDone}/${missions.length}</b>` }));
+    if (quiz.length) list.appendChild(h('li', { html: `${qDone === quiz.length ? '✅' : '⬜'} Domande risposte correttamente: <b>${qDone}/${quiz.length}</b>` }));
+    if (!missions.length && !quiz.length) list.appendChild(h('li', { html: '✅ Livello di sola lettura: nessuna prova richiesta.' }));
+    box.appendChild(list);
+    if (ok && next) box.appendChild(h('div', { class: 'btn-row', style: { marginTop: '14px' } },
+      h('a', { class: 'btn primary', href: next.file.replace('lezioni/', '') }, `▶ Vai al livello ${next.n}: ${next.title}`)));
+    if (!ok) box.appendChild(h('p', { class: 'small muted', style: { marginTop: '10px', marginBottom: 0 } },
+      'Sei bloccato? Torna sul mini-gioco del passo corrispondente: la risposta si vede muovendo i cursori. ' +
+      'In alternativa, dalla mappa puoi attivare la <b>modalità libera</b> (per adulti curiosi o per rivedere).'));
+  }
+  render();
+  return { root: box, render };
+}
+
+/* ---------------- pagina completa ---------------- */
+
+export function renderLesson(cfg) {
+  const lv = levelById(cfg.id);
+  if (!lv) throw new Error('Livello non trovato: ' + cfg.id);
+  const part = PARTS.find(p => p.id === lv.part);
+  const { prev, next } = neighbours(cfg.id);
+  document.title = `${lv.n}. ${lv.title} — Quantum Arcade`;
+  topbar();
+
+  const app = document.getElementById('app') || document.body.appendChild(h('main', { id: 'app' }));
+  app.className = 'wrap';
+
+  // Registro delle missioni: vive qui fuori perché serve sia al montaggio
+  // della lezione sia all'oggetto restituito da renderLesson.
+  const missions = [];
+  let gate = null;
+  const api = {
+    mission(o) {
+      const m = missionBlock(cfg.id, o, () => gate && gate.render());
+      missions.push(m);
+      return m;
+    },
+  };
+
+  // L'accesso è richiesto per giocare: i progressi vivono sul server.
+  // initAccount() è asincrono, quindi il contenuto viene montato dopo il controllo.
+  initAccount().then(() => {
+    if (!requireAccount(app, `${lv.n} — ${lv.title}`)) return;
+    mountLesson();
+    mountTutor({ levelId: lv.id, levelTitle: `${lv.n} — ${lv.title}` });
+  });
+
+  function mountLesson() {
+
+  // livello bloccato → avviso, ma contenuto comunque leggibile in modalità libera
+  if (!store.isUnlocked(cfg.id)) {
+    const reqLv = levelById(lv.req);
+    app.appendChild(h('div', { class: 'panel', style: { marginTop: '28px', borderColor: 'rgba(251,191,36,.5)' } },
+      h('h2', { class: 'panel-title', style: { marginTop: 0, color: 'var(--amber)' } }, h('span', { class: 'dot', style: { background: 'var(--amber)' } }), '🔒 Livello ancora chiuso'),
+      h('p', { html: `Per aprire questo livello devi prima superare la prova del livello <b>${reqLv ? reqLv.n + ' — ' + reqLv.title : lv.req}</b>. È così apposta: ogni livello usa gli attrezzi costruiti nel precedente, e saltarli rende tutto più difficile del necessario.` }),
+      h('div', { class: 'btn-row' },
+        reqLv ? h('a', { class: 'btn primary', href: reqLv.file.replace('lezioni/', '') }, '← Vai al livello richiesto') : null,
+        h('a', { class: 'btn ghost', href: '../index.html' }, '🗺️ Mappa'),
+        h('button', { class: 'btn ghost', onclick: () => { store.setFreeMode(true); location.reload(); } }, '🔓 Modalità libera (adulti/ripasso)'),
+      )));
+    return;   // livello chiuso: non montiamo il resto
+  }
+
+  app.appendChild(h('div', { class: 'lesson-hero' },
+    h('nav', { class: 'crumbs', 'aria-label': 'percorso' },
+      h('a', { href: '../index.html' }, 'Mappa'), ' › ', part.title, ' › ', `Livello ${lv.n}`),
+    h('div', { class: 'btn-row', style: { marginBottom: '10px' } },
+      h('span', { class: `tag ${part.color}` }, `Livello ${lv.n}`),
+      h('span', { class: 'tag amber' }, `${lv.xp} XP`),
+      lv.boss ? h('span', { class: 'tag' }, '☠ BOSS') : null,
+    ),
+    h('h1', {}, lv.title),
+    h('p', { class: 'lead', html: cfg.lead || lv.desc }),
+  ));
+
+  cfg.steps.forEach((s, i) => {
+    const sec = h('section', { class: 'step', id: 'p' + (i + 1) },
+      h('div', { class: 'step-h' }, h('span', { class: 'step-n' }, String(i + 1).padStart(2, '0')), h('h2', {}, s.t)),
+    );
+    if (s.html) sec.appendChild(h('div', { html: s.html }));
+    app.appendChild(sec);
+    if (s.mount) {
+      const holder = h('div');
+      sec.appendChild(holder);
+      try { s.mount(holder, api); }
+      catch (err) {
+        holder.appendChild(h('div', { class: 'callout warn', html: `⚠️ Widget non caricato: ${err.message}` }));
+        console.error(err);
+      }
+    }
+    if (s.after) sec.appendChild(h('div', { html: s.after }));
+  });
+
+  if (cfg.outro) app.appendChild(h('div', { class: 'step', html: cfg.outro }));
+
+  const quiz = cfg.quiz || [];
+  if (quiz.length) app.appendChild(quizBlock(cfg.id, quiz, () => gate && gate.render()));
+
+  gate = gateBlock(lv, missions, quiz, next);
+  app.appendChild(gate.root);
+
+  app.appendChild(h('nav', { class: 'nav-foot' },
+    prev ? h('a', { class: 'btn ghost', href: prev.file.replace('lezioni/', '') }, '← ' + prev.title)
+      : h('a', { class: 'btn ghost', href: '../index.html' }, '← Mappa'),
+    h('a', { class: 'btn ghost', href: '../metodo.html' }, '🔬 Come è fatto questo corso'),
+    next ? h('a', { class: 'btn primary', href: next.file.replace('lezioni/', '') }, next.title + ' →')
+      : h('a', { class: 'btn primary', href: '../index.html' }, 'Torna alla mappa →'),
+  ));
+
+  } // fine mountLesson
+
+  return { app, mission: (o) => api.mission(o) };
+}
+
+export { store, LEVELS };

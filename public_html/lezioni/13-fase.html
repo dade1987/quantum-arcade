@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="La fase di un'onda: sfasamento, ritardo temporale e interferenza fra due onde, con simulatore interattivo.">
+<title>2 · La fase — Quantum Arcade</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+import { formula, stepper } from '../js/core/formula.js';
+import { waveLab } from '../js/widgets/wave.js';
+import { twoWaves } from '../js/widgets/twowaves.js';
+
+const L = renderLesson({
+  id: '13-fase',
+  lead: `La fase l'hai già incontrata due volte: come <b>longitudine</b> sulla sfera di Bloch (livello 2) e come
+         <b>direzione della freccia</b> (livello 8). Qui la vediamo nella sua terza forma: lo <b>spostamento di un'onda</b>.
+         È sempre la stessa cosa — e sta per diventare il cuore della trasformata di Fourier.`,
+
+  steps: [
+    {
+      t: 'Che cos\'è la fase, in parole poverissime',
+      html: `
+        <p>Immagina due amici sull'altalena. Vanno alla stessa velocità e arrivano alla stessa altezza:
+        stessa <b>frequenza</b>, stessa <b>ampiezza</b>. Ma uno è <b>avanti</b> rispetto all'altro: mentre uno sale, l'altro scende.</p>
+        <p>Quella differenza si chiama <b>fase</b>. La fase risponde a una sola domanda:</p>
+        <div class="callout key"><b>«A che punto del giro ti trovi?»</b><br>
+        Non "quanto sei alto" (quella è l'ampiezza), non "quanto vai veloce" (quella è la frequenza).
+        Solo: <b>in quale punto del ciclo</b>.</div>
+        <p>Siccome un ciclo è un giro completo, la fase si misura in <b>gradi</b> (0° … 360°) oppure in <b>radianti</b>
+        (0 … 2π, dove 2π = un giro). Sono due unità di misura per la stessa cosa, come chilometri e miglia.</p>
+        <table class="table">
+          <tr><th>Fase</th><th>In radianti</th><th>Dove sei nel giro</th><th>Che effetto ha</th></tr>
+          <tr><td class="mono">0°</td><td class="mono">0</td><td>al punto di partenza (in cima)</td><td>onda "normale"</td></tr>
+          <tr><td class="mono">90°</td><td class="mono">π/2</td><td>un quarto di giro avanti</td><td>l'onda è slittata di ¼ di ciclo</td></tr>
+          <tr><td class="mono">180°</td><td class="mono">π</td><td>mezzo giro avanti</td><td>l'onda è <b>capovolta</b></td></tr>
+          <tr><td class="mono">270°</td><td class="mono">3π/2</td><td>tre quarti di giro</td><td>slittata di ¾</td></tr>
+          <tr><td class="mono">360°</td><td class="mono">2π</td><td>giro completo</td><td><b>identica a 0°</b>: sei tornato al via</td></tr>
+        </table>`,
+      mount: el => {
+        waveLab(el, {
+          A: 1, f: 1, phi: 0, showPeriod: false,
+          title: 'Muovi SOLO la fase', subtitle: 'guarda: l\'onda scivola, ma non cambia forma',
+        });
+      },
+    },
+
+    {
+      t: 'Fase = ritardo nel tempo (la formuletta che le collega)',
+      html: `
+        <p>Spostare la fase equivale a far partire l'onda un po' <b>prima</b> o un po' <b>dopo</b>.
+        Il legame fra i due modi di dirlo è semplice:</p>
+        <div class="formula">ritardo Δt = <span class="hl-k">φ</span> / (360° · <span class="hl-n">f</span>)
+        &nbsp;&nbsp;&nbsp;oppure&nbsp;&nbsp;&nbsp; <span class="hl-k">φ</span> = 360° · <span class="hl-n">f</span> · Δt</div>
+        <p>Esempio con numeri veri: onda da <b>f = 2 Hz</b> (un ciclo dura 0,5 s) sfasata di <b>90°</b>.
+        Novanta gradi sono un quarto di giro, quindi il ritardo è un quarto di 0,5 s, cioè <b>0,125 s</b>.
+        Con la formula: 90/(360·2) = 0,125 s. Torna.</p>
+        <div class="callout"><b>Perché è importante:</b> la fase non è un'informazione "in più" e opzionale.
+        È l'informazione su <b>quando</b> succedono le cose. Due suoni con le stesse frequenze ma fasi diverse
+        possono essere due parole diverse.</div>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Esercizio guidato', html: 'Onda a <b>f = 4 Hz</b>. Quanto dura un ciclo intero?' },
+          { h: 'Passo 1', html: 'T = 1/f = 1/4 = <b>0,25 s</b>. Questo è il tempo di UN giro completo, cioè di 360°.' },
+          { h: 'Passo 2', html: 'Se la sfaso di <b>180°</b>, cioè <b>mezzo</b> giro, il ritardo è mezzo periodo: 0,25/2 = <b>0,125 s</b>.' },
+          { h: 'Passo 3', html: 'Verifica con la formula: Δt = φ/(360·f) = 180/(360·4) = 180/1440 = <b>0,125 s</b>. ✔' },
+          { h: 'Morale', html: 'La fase è un <b>orologio</b>: 360° = un giro = un periodo. Convertire fase↔tempo è solo una proporzione.' },
+        ]);
+      },
+    },
+
+    {
+      t: 'Due onde sfasate: la cosa più importante del corso',
+      html: `
+        <p>Adesso il pezzo grosso. Prendiamo <b>due</b> onde identiche e cambiamo solo la fase di una.
+        Poi le <b>sommiamo</b> (è quello che succede fisicamente quando due suoni arrivano insieme al tuo orecchio,
+        o due onde luminose allo stesso punto).</p>
+        <ul>
+          <li>Differenza di fase <b>0°</b> → le due si aiutano: l'onda risultante è <b>il doppio</b>. È l'<b>interferenza costruttiva</b>.</li>
+          <li>Differenza di fase <b>180°</b> → una spinge in su mentre l'altra spinge in giù: risultato <b>zero</b>, silenzio totale.
+              È l'<b>interferenza distruttiva</b>.</li>
+          <li>In mezzo → qualcosa di intermedio.</li>
+        </ul>
+        <p>Nel pannello in basso ci sono le <b>frecce</b>: ogni onda è disegnata come una freccia lunga quanto la sua ampiezza
+        e inclinata quanto la sua fase. Sommare due onde = <b>attaccare le due frecce testa-coda</b>. Tienilo a mente:
+        è letteralmente lo stesso disegno che useremo per i qubit.</p>`,
+      mount: el => {
+        const m = L.mission({ key: 'cancella', title: 'Silenzio!', text: 'trova la combinazione che fa sparire completamente la somma (barra sotto 0,06).', xp: 45 });
+        el.appendChild(m.root);
+        twoWaves(el, {
+          A1: 1, p1: 0, A2: 0.6, p2: 40,
+          onChange: s => { if (s.mag < 0.06) m.complete(); },
+        });
+      },
+    },
+
+    {
+      t: 'Perché serviranno i numeri complessi (anticipazione)',
+      html: `
+        <p>Per descrivere completamente un'onda a una certa frequenza servono <b>due</b> numeri:
+        <b>quanto è grande</b> (ampiezza) e <b>a che punto del giro è</b> (fase).</p>
+        <p>Tenere due numeri separati è scomodo: quando sommi due onde devi fare conti di trigonometria pesanti.
+        Ma se disegni ogni onda come una <b>freccia</b> — lunghezza = ampiezza, inclinazione = fase —
+        allora sommare due onde diventa banale: <b>attacchi le frecce</b>.</p>
+        <div class="callout key">Un <b>numero complesso</b> non è altro che il nome matematico di quella freccia.
+        Non è "immaginario" nel senso di "finto": è una coppia (lunghezza, angolo) scritta in modo comodo.
+        (Lo hai costruito al livello 8.)</div>
+        <p class="dim">Curiosità: negli auricolari con cancellazione del rumore c'è esattamente questo.
+        Il microfono ascolta il rumore, l'elettronica genera la stessa onda sfasata di <b>180°</b>, e la somma fa… silenzio.
+        Interferenza distruttiva applicata, venduta a 300 euro.</p>`,
+    },
+
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Nel widget delle due onde, metti A = 1 e B = 1 con differenza di fase 120°. Quanto vale la somma?
+        (Non è né 2 né 0: c'è un valore preciso e c'è un motivo geometrico.)</p>
+        <p><b>2.</b> Riesci a far sparire la somma se le due ampiezze sono <b>diverse</b>? Perché?</p>
+        <p><b>3.</b> Se avessi <b>tre</b> onde uguali, con quali fasi le faresti cancellare tutte insieme?
+        <span class="muted">(indizio: pensa a tre frecce che chiudono un triangolo)</span></p>
+        <p class="mb0"><b>4.</b> Questa cancellazione a tre è esattamente il trucco che userà la QFT per far sparire
+        le risposte sbagliate. Tienilo da parte.</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Due onde identiche sfasate di 180° vengono sommate. Cosa si ottiene?',
+      options: ['Un\'onda doppia', 'Zero (si cancellano)', 'Un\'onda con frequenza doppia', 'La stessa onda di prima'],
+      correct: 1,
+      why: 'Mezzo giro di sfasamento significa che una è capovolta rispetto all\'altra: dove una sale l\'altra scende, e la somma è <b>zero</b>. È l\'interferenza distruttiva.' },
+    { q: 'Un\'onda a 5 Hz viene sfasata di 90°. Di quanto è "in ritardo" nel tempo?',
+      options: ['0,05 s', '0,25 s', '0,5 s', '90 s'],
+      correct: 0,
+      why: 'T = 1/5 = 0,2 s. Novanta gradi sono un quarto di giro: 0,2/4 = <b>0,05 s</b>. Con la formula: 90/(360·5) = 0,05 s.' },
+    { q: 'Perché per descrivere un\'onda a una data frequenza servono DUE numeri?',
+      options: ['Perché servono ampiezza e fase', 'Perché servono seno e coseno separati', 'Perché il tempo è bidimensionale', 'Non è vero: ne basta uno'],
+      correct: 0,
+      why: 'Ampiezza (quanto è grande) e fase (a che punto del ciclo si trova). Due numeri = una freccia = un <b>numero complesso</b>. Il fatto che si possa scrivere anche come "tot di coseno + tot di seno" è lo stesso concetto visto da un\'altra angolazione.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> la fase dice <b>a che punto del giro</b> sei;
+          360° = un giro intero = un periodo; due onde in fase si sommano, due onde in opposizione si cancellano.
+          Ampiezza + fase = una freccia. Prossimo livello: come si costruisce un segnale complicato sommando onde semplici.</div>`,
+});
+</script>
+</body>
+</html>

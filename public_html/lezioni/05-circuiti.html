@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5 · Laboratorio dei circuiti — Quantum Arcade</title>
+<meta name="description" content="Costruisci circuiti quantistici a più qubit con un simulatore reale: porte, controlli, misure, istogrammi. Sandbox libera con presets Bell, GHZ e QFT.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+import { circuitLab } from '../js/widgets/circuit.js';
+
+const L = renderLesson({
+  id: '05-circuiti',
+  lead: `Livello-officina: qui non si impara una cosa nuova, si <b>mette in pratica</b> tutto quello di prima.
+         Un circuito quantistico è solo una <b>partitura</b>: i qubit sono i righi, le porte sono le note, si legge da sinistra a destra.`,
+
+  steps: [
+    {
+      t: 'Come si legge un circuito',
+      html: `<p>Regole di lettura, tutte qui:</p>
+             <ul>
+               <li>ogni <b>riga orizzontale</b> è un qubit; parte sempre da |0⟩ (a sinistra).</li>
+               <li>il tempo scorre da <b>sinistra a destra</b>: le porte si applicano nell'ordine in cui le incontri.</li>
+               <li>un <b>quadratino</b> con una lettera è una porta su quel qubit.</li>
+               <li>un <b>pallino</b> collegato a un simbolo ⊕ è un <b>controllo</b>: "fai questa cosa <i>solo se</i> il qubit del pallino è 1".</li>
+               <li>alla fine c'è (sottinteso) il <b>misuratore</b>.</li>
+             </ul>
+             <div class="callout"><b>Attenzione a una cosa che confonde:</b> il circuito si legge come un programma,
+             ma <b>non</b> è un programma classico. Non ci sono "se... allora" decisi durante l'esecuzione:
+             tutte le strade vengono percorse insieme, e il risultato lo decide l'interferenza.</div>`,
+    },
+    {
+      t: 'La sandbox',
+      html: `<p>Scegli una porta dalla tavolozza, clicca sulla griglia per piazzarla. Per le porte a due qubit
+             (CNOT, CZ, SWAP) clicca <b>prima il controllo, poi il bersaglio</b>. Clicca una porta già piazzata per toglierla.</p>
+             <p><b>Le tre cose da guardare sempre:</b></p>
+             <ol>
+               <li>le <b>barre delle ampiezze</b> (altezza = quanto è grande, colore = fase/segno);</li>
+               <li>l'<b>istogramma delle misure</b>: quello che vedresti davvero eseguendo il circuito 200 volte;</li>
+               <li>lo <b>stato scritto</b> sotto: la formula con tutti i termini.</li>
+             </ol>`,
+      mount: (el, api) => {
+        const m1 = api.mission({ key: 'ghz', title: 'Costruisci un GHZ', text: 'crea lo stato |000⟩ + |111⟩ (H su q0, poi due CNOT a catena) e misuralo 200 volte.', xp: 50 });
+        el.appendChild(m1.root);
+        circuitLab(el, {
+          n: 3, maxCols: 8,
+          onChange: ({ state, n }) => {
+            const p = (i) => state.re[i] ** 2 + state.im[i] ** 2;
+            if (n === 3 && Math.abs(p(0) - 0.5) < 0.02 && Math.abs(p(7) - 0.5) < 0.02) m1.complete();
+          },
+        });
+      },
+      after: `<div class="callout key"><b>Esperimenti consigliati</b> (in ordine di sorpresa crescente):
+              <ol style="margin:8px 0 0">
+                <li><b>H su q0</b> e basta: due barre uguali. Semplice.</li>
+                <li><b>H su q0, H su q1, H su q2</b>: otto barre uguali. Hai messo in gioco <b>tutte</b> le 8 possibilità con 3 porte.</li>
+                <li><b>H q0 → CNOT q0→q1</b>: lo stato di Bell. Solo 00 e 11.</li>
+                <li><b>H q0 → CNOT q0→q1 → CNOT q1→q2</b>: GHZ. Tre qubit tutti d'accordo fra loro.</li>
+                <li>Preset <b>QFT su 3 qubit</b>: guarda quante porte servono e che disegno fanno le fasi. Ci torneremo al livello 17.</li>
+              </ol></div>`,
+    },
+    {
+      t: 'Il conto delle risorse (quello che conta nella realtà)',
+      html: `<p>Quando si progetta un algoritmo vero, si contano tre cose:</p>
+             <table class="table">
+               <tr><th>Risorsa</th><th>Cos'è</th><th>Perché conta</th></tr>
+               <tr><td><b>Numero di qubit</b></td><td>quante righe ha il circuito</td><td>i computer reali ne hanno pochi e imperfetti</td></tr>
+               <tr><td><b>Profondità</b></td><td>quante colonne (passi in sequenza)</td><td>più è profondo, più tempo passa e più il rumore rovina tutto (livello 20)</td></tr>
+               <tr><td><b>Numero di porte a 2 qubit</b></td><td>quante CNOT/CZ</td><td>sono le più difficili da realizzare e le più rumorose</td></tr>
+             </table>
+             <p>Nel simulatore puoi contarle a occhio: è un ottimo esercizio prima di passare agli algoritmi veri.</p>
+             <div class="callout warn"><b>Perché il tuo browser ce la fa:</b> qui simuliamo 3 qubit, cioè 8 ampiezze.
+             Con 30 qubit servirebbero più di un miliardo di numeri complessi. È il motivo per cui i simulatori classici
+             si fermano intorno ai 40 qubit anche sui supercomputer — e il motivo per cui i computer quantistici veri servono.</div>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Costruisci un circuito che produca <b>tutte e 8</b> le uscite con la stessa probabilità. Quante porte servono?</p>
+        <p><b>2.</b> Ora prova a produrre <b>solo</b> |101⟩ con certezza. Quante porte servono? Che differenza c'è rispetto al punto 1?</p>
+        <p><b>3.</b> Crea uno stato di Bell e poi applica <b>H su entrambi</b> i qubit. Cosa succede? Riesci a spiegarlo?</p>
+        <p class="mb0"><b>4.</b> Sfida vera: costruisci un circuito che dia |00⟩ e |11⟩ con probabilità <b>diverse</b> (per esempio 80/20)
+           invece che 50/50. <span class="muted">(indizio: al posto della H usa una rotazione RY con l'angolo giusto)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'In un circuito quantistico, il pallino pieno collegato a un\'altra porta indica…',
+      options: ['una misura', 'un qubit di controllo', 'un errore', 'la fine del circuito'], correct: 1,
+      why: 'È il controllo: la porta collegata agisce solo sulla parte di stato in cui quel qubit vale 1.' },
+    { q: 'Quante porte servono per mettere 3 qubit in sovrapposizione uniforme (8 risultati equiprobabili)?',
+      options: ['8', '3 (una H per qubit)', '1', '24'], correct: 1,
+      why: 'Una Hadamard per qubit: 3 porte per 8 possibilità. Con n porte se ne ottengono 2^n — è il primo assaggio del vantaggio quantistico.' },
+    { q: 'La "profondità" di un circuito è…',
+      options: ['il numero di qubit', 'il numero di passi in sequenza', 'il numero di misure', 'la memoria usata'], correct: 1,
+      why: 'Le colonne, cioè quanto tempo il circuito resta in esecuzione. È la risorsa che il rumore punisce di più.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> saper leggere e costruire circuiti. Da qui in poi
+          ogni algoritmo che incontrerai sarà "solo" un circuito con una regia precisa delle interferenze.
+          Prossimo livello: cosa <b>non</b> si può fare con i qubit (e come aggirarlo).</div>`,
+});
+</script>
+</body>
+</html>

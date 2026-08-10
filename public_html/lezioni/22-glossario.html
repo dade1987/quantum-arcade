@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>22 · Glossario e mappa completa — Quantum Arcade</title>
+<meta name="description" content="Glossario completo dell'informatica quantistica in italiano: ampiezza, fase, qubit, entanglement, oracolo, QFT, decoerenza e tutti i termini del corso, con la mappa che li collega.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+
+const L = renderLesson({
+  id: '22-glossario',
+  lead: `Tutto il vocabolario in una pagina sola, nell'ordine in cui l'hai incontrato — così puoi tornarci ogni volta
+         che una parola ti sfugge. In fondo c'è il <b>filo</b> completo: come si arriva da "2 + 2" a Shor senza salti.`,
+
+  steps: [
+    {
+      t: 'Il filo conduttore, dall\'inizio alla fine',
+      html: `<pre style="line-height:1.75"><code>numeri con il segno (0·1)
+   └─ probabilità = quadrato (0·1) ────────────────┐
+coordinate e gradi (0·2)                           │
+   └─ freccia = punto = coppia di numeri           │
+seno e coseno = ombre di un punto che gira (0·3)   │
+probabilità e frequenze (0·4)                      │
+                                                   ▼
+QUBIT = due ampiezze (1) ── misura → |ampiezza|² ──┘
+   ├─ sfera di Bloch: latitudine = probabilità, longitudine = fase (2)
+   ├─ porte = rotazioni; H·Z·H = X (3)
+   ├─ due qubit → 4 ampiezze → ENTANGLEMENT (4)
+   ├─ circuiti (5)
+   └─ no-cloning → teletrasporto (6)
+                    │
+INTERFERENZA: le ampiezze si sommano, poi si eleva al quadrato (7)
+   └─ due segni non bastano → FRECCE COMPLESSE, e^{iθ} (8)
+                    │
+   ├─ oracolo: scrive nelle fasi → Deutsch–Jozsa (9)
+   ├─ stringa segreta nelle fasi → Bernstein–Vazirani (10)
+   └─ amplificazione → Grover (11)
+                    │
+ONDE: ampiezza, periodo, frequenza (12) → fase (13) → somma di onde (14)
+   └─ DFT: "ruota e somma" trova le periodicità (15) → FFT (16)
+                    │
+QFT = DFT sulle ampiezze, con n²/2 porte (17)
+   ├─ QPE: leggere una fase come numero (18)
+   └─ SHOR: periodo → picchi → frazioni continue → fattori (19)
+                    │
+rumore e correzione d'errore (20) · officina creativa (21) · esame (23)</code></pre>
+             <div class="callout key"><b>Se dovessi riassumere l'intero corso in una frase:</b>
+             «Un computer quantistico esplora tutte le possibilità insieme e organizza le <b>fasi</b> in modo che
+             le risposte sbagliate si <b>cancellino</b> e quella giusta diventi <b>molto probabile</b>.»
+             Tutto il resto sono dettagli tecnici su come si organizzano quelle fasi.</div>`,
+    },
+    {
+      t: 'Glossario A–Z',
+      html: `
+        <table class="table">
+          <tr><th style="width:26%">Termine</th><th>Che cosa significa (in italiano vero)</th><th style="width:12%">Livello</th></tr>
+          <tr><td><b>Ampiezza</b></td><td>Il numero (in generale una freccia complessa) associato a un possibile risultato. Il suo <b>quadrato</b> è la probabilità. Può essere negativa: da qui l'interferenza.</td><td>1</td></tr>
+          <tr><td><b>Ampiezza (di un'onda)</b></td><td>Quanto è alta un'onda; nel suono è il volume.</td><td>12</td></tr>
+          <tr><td><b>Autostato / autovalore</b></td><td>Stato che un'operazione lascia identico a parte una fase; quella fase è l'autovalore.</td><td>18</td></tr>
+          <tr><td><b>Base di misura</b></td><td>La "direzione" lungo cui si misura. Misurare in base Z dà 0/1; in base X dà +/−. Non esiste uno stato certo in tutte le basi.</td><td>2</td></tr>
+          <tr><td><b>Bloch (sfera di)</b></td><td>Mappa di tutti gli stati di un qubit: nord |0⟩, sud |1⟩, equatore le sovrapposizioni al 50%.</td><td>2</td></tr>
+          <tr><td><b>Born (regola di)</b></td><td>Probabilità = |ampiezza|². Il ponte fra matematica e laboratorio.</td><td>1</td></tr>
+          <tr><td><b>Bra-ket</b></td><td>Notazione |ψ⟩ per gli stati (ket) e ⟨ψ| per i "duali" (bra). È solo una scatola per dire "questo è uno stato".</td><td>1</td></tr>
+          <tr><td><b>CNOT</b></td><td>Porta a due qubit: ribalta il bersaglio solo se il controllo vale 1. Su una sovrapposizione crea entanglement.</td><td>4</td></tr>
+          <tr><td><b>Decoerenza</b></td><td>L'ambiente "misura" involontariamente il sistema e distrugge le fasi. Il nemico numero uno dell'hardware.</td><td>20</td></tr>
+          <tr><td><b>Dense coding</b></td><td>Mandare 2 bit classici trasmettendo 1 qubit, sfruttando entanglement già condiviso.</td><td>6</td></tr>
+          <tr><td><b>DFT</b></td><td>Trasformata di Fourier discreta: "ruota ogni dato e somma" per scoprire le periodicità.</td><td>15</td></tr>
+          <tr><td><b>Diffusore</b></td><td>In Grover: riflette le ampiezze attorno alla media, amplificando quella marcata.</td><td>11</td></tr>
+          <tr><td><b>Entanglement</b></td><td>Stato di più qubit che non si può descrivere qubit per qubit: l'informazione sta nella relazione.</td><td>4</td></tr>
+          <tr><td><b>Fase</b></td><td>"A che punto del giro sei". Non cambia le probabilità, ma decide cosa si cancellerà. L'ingrediente segreto di tutto.</td><td>1, 2, 8, 13</td></tr>
+          <tr><td><b>FFT</b></td><td>Algoritmo classico che calcola la DFT in N·log N invece di N² (dividi et impera).</td><td>16</td></tr>
+          <tr><td><b>Frequenza</b></td><td>Quanti cicli al secondo (Hz). Inversa del periodo: f = 1/T.</td><td>12</td></tr>
+          <tr><td><b>Grover</b></td><td>Ricerca in √N tentativi invece di N/2. Guadagno quadratico, valido per qualunque ricerca senza struttura.</td><td>11</td></tr>
+          <tr><td><b>Hadamard (H)</b></td><td>La porta più importante: crea e disfa le sovrapposizioni. È lei che trasforma le fasi in probabilità osservabili.</td><td>1, 3</td></tr>
+          <tr><td><b>Interferenza</b></td><td>Le ampiezze si sommano prima del quadrato: quelle concordi si rinforzano, quelle opposte si annullano.</td><td>7</td></tr>
+          <tr><td><b>Misura</b></td><td>Operazione irreversibile: sceglie un risultato a caso secondo |ampiezza|² e riscrive lo stato.</td><td>1, 2</td></tr>
+          <tr><td><b>No-cloning</b></td><td>Non esiste una macchina che copia uno stato quantistico sconosciuto.</td><td>6</td></tr>
+          <tr><td><b>Numero complesso</b></td><td>Una freccia: lunghezza + angolo. e^{iθ} è la freccia lunga 1 all'angolo θ.</td><td>8</td></tr>
+          <tr><td><b>Oracolo</b></td><td>Scatola nera che marca con un segno meno gli stati che soddisfano una condizione: scrive l'informazione nelle fasi.</td><td>9</td></tr>
+          <tr><td><b>Periodo</b></td><td>Ogni quanto una cosa si ripete. T = 1/f.</td><td>12</td></tr>
+          <tr><td><b>Phase kickback</b></td><td>Il trucco per cui la fase generata da un oracolo "rimbalza" sul registro di controllo.</td><td>9, 18</td></tr>
+          <tr><td><b>Porta (gate)</b></td><td>Operazione reversibile (unitaria) su uno o più qubit: sulla sfera è sempre una rotazione.</td><td>3</td></tr>
+          <tr><td><b>Post-quantistica (crittografia)</b></td><td>Algoritmi classici resistenti a Shor e Grover; standardizzati dal NIST nel 2024.</td><td>19</td></tr>
+          <tr><td><b>QFT</b></td><td>Trasformata di Fourier sulle ampiezze: n²/2 porte, trasforma periodicità in picchi.</td><td>17</td></tr>
+          <tr><td><b>QPE</b></td><td>Stima di fase: copia una fase nei qubit di lettura e la rende misurabile con la QFT inversa.</td><td>18</td></tr>
+          <tr><td><b>Qubit</b></td><td>Unità elementare: due ampiezze, una per |0⟩ e una per |1⟩.</td><td>1</td></tr>
+          <tr><td><b>Shor</b></td><td>Fattorizzazione in tempo polinomiale, riducendo il problema alla ricerca di un periodo.</td><td>19</td></tr>
+          <tr><td><b>Sindrome (misura di)</b></td><td>Misura che rivela <b>dove</b> è avvenuto un errore senza rivelare l'informazione codificata.</td><td>20</td></tr>
+          <tr><td><b>Sovrapposizione</b></td><td>Stato in cui più risultati hanno ampiezza diversa da zero contemporaneamente.</td><td>1</td></tr>
+          <tr><td><b>SWAP</b></td><td>Porta che scambia due qubit; chiude il circuito della QFT.</td><td>5, 17</td></tr>
+          <tr><td><b>Teletrasporto</b></td><td>Trasferire uno stato usando entanglement + 2 bit classici. L'originale viene distrutto.</td><td>6</td></tr>
+          <tr><td><b>Unitaria (operazione)</b></td><td>Conserva la probabilità totale ed è reversibile: tutte le porte lo sono, la misura no.</td><td>3</td></tr>
+        </table>`,
+    },
+    {
+      t: 'Gli errori più comuni (che ora sai riconoscere)',
+      html: `<div class="grid-2">
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Prova tutte le soluzioni in parallelo"</h3>
+                 <p class="mb0 dim">Le esplora tutte, ma <b>ne può leggere una sola</b>. Il vantaggio nasce dall'interferenza
+                 che elimina le sbagliate, non dal parallelismo in sé.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Un qubit è 0 e 1 insieme"</h3>
+                 <p class="mb0 dim">È una lista di <b>ampiezze</b>, cioè di frecce. Il "0 e 1 insieme" non spiega perché
+                 due Hadamard riportino il qubit a zero: le frecce sì.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "L'ampiezza è la probabilità"</h3>
+                 <p class="mb0 dim">La probabilità è il suo <b>quadrato</b>. Ampiezza 0,6 → probabilità 36%, non 60%.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "L'entanglement trasmette informazione istantanea"</h3>
+                 <p class="mb0 dim">No: chi sta dall'altra parte vede solo esiti casuali. Per usarli serve un canale classico
+                 normale (teletrasporto, livello 6).</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "I computer quantistici sostituiranno i nostri"</h3>
+                 <p class="mb0 dim">Sono acceleratori specializzati per pochi problemi con struttura adatta.
+                 Per scrivere una mail resteranno inutili per sempre.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "La QFT è una FFT più veloce"</h3>
+                 <p class="mb0 dim">Trasforma 2^n ampiezze con n²/2 porte, ma non puoi leggerle: serve a far interferire,
+                 non a produrre spettri.</p></div>
+             </div>`,
+    },
+    {
+      t: 'Dove continuare',
+      html: `<ul>
+               <li><b>Qiskit</b> (IBM, Python) — il modo più diretto per far girare i circuiti che hai costruito qui
+                   su simulatori seri e su hardware reale, gratuitamente.</li>
+               <li><b>Nielsen &amp; Chuang</b>, <i>Quantum Computation and Quantum Information</i> — il libro di riferimento.
+                   Dopo questo corso, i primi capitoli ti saranno familiari.</li>
+               <li><b>Certificazioni riconosciute</b>: se ti serve un titolo spendibile, guarda alla certificazione
+                   ufficiale di IBM su Qiskit e ai corsi universitari online (edX, Coursera) rilasciati da atenei accreditati.
+                   L'attestato del prossimo livello è dell'autore di questo corso, non di un ente accreditato: serve a
+                   dimostrare il percorso fatto, non a sostituire una certificazione ufficiale.</li>
+               <li><b>Il mio canale YouTube</b> e gli articoli su <b>Red Hot Cyber</b>, linkati in home.</li>
+             </ul>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Qual è il riassunto corretto del vantaggio quantistico?',
+      options: ['prova tutte le soluzioni e legge la migliore', 'organizza le fasi in modo che le risposte sbagliate si cancellino', 'è semplicemente più veloce', 'usa più memoria'], correct: 1,
+      why: 'Esplorare tutto è gratis; il difficile è <b>leggere</b>. L\'interferenza serve a rendere molto probabile la risposta giusta.' },
+    { q: 'Ampiezza 0,6: qual è la probabilità?',
+      options: ['60%', '36%', '6%', '80%'], correct: 1,
+      why: 'Regola di Born: 0,6² = 0,36.' },
+    { q: 'L\'entanglement permette comunicazione più veloce della luce?',
+      options: ['sì', 'no: gli esiti sono casuali e serve un canale classico', 'solo con i fotoni', 'solo su brevi distanze'], correct: 1,
+      why: 'Le correlazioni si vedono solo confrontando i risultati, e il confronto viaggia a velocità normale.' },
+  ],
+
+  outro: `<div class="callout ok">Hai tutto. Resta solo una cosa: <b>l'esame finale</b>. Trenta domande su tutto il percorso,
+          tempo libero, tentativi illimitati — e, dall'80% in su, il tuo attestato.</div>`,
+});
+</script>
+</body>
+</html>

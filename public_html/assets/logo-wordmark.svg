@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 140" width="620" height="140" role="img" aria-label="Quantum Arcade — informatica quantistica giocando">
+  <defs>
+    <linearGradient id="w-g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="0.55" stop-color="#7dd3fc"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="w-g2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#f472b6"/>
+      <stop offset="1" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="w-txt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e8edf9"/>
+      <stop offset="0.6" stop-color="#7dd3fc"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <radialGradient id="w-core" cx="0.4" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="#e9fbff"/>
+      <stop offset="0.45" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#1e3a8a" stop-opacity="0.15"/>
+    </radialGradient>
+    <filter id="w-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g transform="translate(10,10) scale(0.94)" filter="url(#w-glow)">
+    <circle cx="60" cy="60" r="34" fill="none" stroke="url(#w-g1)" stroke-width="7" stroke-linecap="round"/>
+    <path d="M78 78 L100 100" fill="none" stroke="url(#w-g2)" stroke-width="9" stroke-linecap="round"/>
+    <ellipse cx="60" cy="60" rx="34" ry="13" fill="none" stroke="#a78bfa" stroke-opacity="0.55" stroke-width="2" transform="rotate(-28 60 60)"/>
+    <ellipse cx="60" cy="60" rx="13" ry="34" fill="none" stroke="#22d3ee" stroke-opacity="0.35" stroke-width="2" transform="rotate(-28 60 60)"/>
+    <circle cx="60" cy="60" r="9" fill="url(#w-core)"/>
+    <path d="M60 60 L84 38" stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M84 38 l-9.5 1.6 l4.2 4.9 z" fill="#fbbf24"/>
+  </g>
+
+  <text x="140" y="66" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="44" font-weight="800" letter-spacing="-0.5" fill="url(#w-txt)">QUANTUM ARCADE</text>
+
+  <path d="M141 92 q9 -12 18 0 t18 0 t18 0" fill="none" stroke="#34d399" stroke-opacity="0.75" stroke-width="3" stroke-linecap="round"/>
+
+  <text x="212" y="97" font-family="ui-monospace, Menlo, Consolas, monospace"
+        font-size="15" letter-spacing="2.4" fill="#8fa0c4">INFORMATICA QUANTISTICA GIOCANDO</text>
+</svg>

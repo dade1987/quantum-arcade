@@ -1,0 +1,57 @@
+# ---------------------------------------------------------------
+# Dipendenze (si ricostruiscono con composer install / npm install)
+# ---------------------------------------------------------------
+/node_modules
+/vendor
+
+# ---------------------------------------------------------------
+# Segreti e dati personali: NON devono MAI finire nel repository
+# ---------------------------------------------------------------
+.env
+.env.*
+!.env.example
+auth.json
+
+# database locale: contiene gli account di prova (email vere di chi collauda)
+/database/*.sqlite
+/database/*.sqlite-journal
+
+# i log contengono i link di accesso monouso e gli indirizzi email
+/storage/logs/*
+!/storage/logs/.gitignore
+
+# sessione salvata dai test end-to-end (cookie di un account reale)
+/tests/.auth
+
+# archivio vettoriale del tutor: si rigenera con `php artisan chat:ingest`
+/storage/app/rag
+
+# ---------------------------------------------------------------
+# Cache e artefatti
+# ---------------------------------------------------------------
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/pail
+/bootstrap/cache/*.php
+.phpunit.result.cache
+/.phpunit.cache
+/public_html/hot
+/public_html/storage
+
+# risultati dei collaudi
+/test-results
+/tests/report
+/coverage
+npm-debug.log
+yarn-error.log
+
+# ---------------------------------------------------------------
+# Editor e sistema operativo
+# ---------------------------------------------------------------
+/.idea
+/.vscode
+/.fleet
+/.zed
+.DS_Store
+Thumbs.db

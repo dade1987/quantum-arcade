@@ -1,0 +1,67 @@
+Quantum Arcade — doppia licenza
+===============================
+
+Questo progetto contiene due cose diverse, con due licenze diverse.
+
+--------------------------------------------------------------------
+1. IL CODICE — Licenza MIT
+--------------------------------------------------------------------
+
+Si applica a tutto il codice sorgente: PHP, JavaScript, CSS, configurazioni,
+test e strumenti.
+
+Copyright (c) 2026 Davide Cavallini
+
+Con la presente si concede gratuitamente a chiunque ottenga una copia di questo
+software e dei file di documentazione associati (il "Software") il permesso di
+utilizzare il Software senza restrizioni, inclusi senza limitazione i diritti di
+usare, copiare, modificare, unire, pubblicare, distribuire, concedere in
+sublicenza e/o vendere copie del Software, e di permettere alle persone a cui il
+Software è fornito di farlo, alle seguenti condizioni:
+
+L'avviso di copyright di cui sopra e questo avviso di permesso devono essere
+inclusi in tutte le copie o parti sostanziali del Software.
+
+IL SOFTWARE VIENE FORNITO "COSÌ COM'È", SENZA GARANZIE DI ALCUN TIPO, ESPRESSE O
+IMPLICITE, INCLUSE MA NON LIMITATE ALLE GARANZIE DI COMMERCIABILITÀ, IDONEITÀ PER
+UNO SCOPO PARTICOLARE E NON VIOLAZIONE. IN NESSUN CASO GLI AUTORI O I TITOLARI
+DEL COPYRIGHT SARANNO RESPONSABILI PER QUALSIASI RECLAMO, DANNO O ALTRA
+RESPONSABILITÀ, SIA IN UN'AZIONE CONTRATTUALE, ILLECITO O ALTRO, DERIVANTE DA O
+IN CONNESSIONE CON IL SOFTWARE O L'USO O ALTRE OPERAZIONI NEL SOFTWARE.
+
+--------------------------------------------------------------------
+2. I CONTENUTI DIDATTICI — Creative Commons BY-SA 4.0
+--------------------------------------------------------------------
+
+Si applica ai testi delle lezioni, alle spiegazioni, ai quiz, alle domande
+d'esame e al glossario (in pratica: tutto ciò che si legge).
+
+Sei libero di:
+  · CONDIVIDERE — riprodurre e ridistribuire il materiale con qualsiasi mezzo;
+  · MODIFICARE — remixare, trasformare e basarti sul materiale, per qualunque
+    scopo, anche commerciale.
+
+Alle seguenti condizioni:
+  · ATTRIBUZIONE — devi riconoscere una menzione di paternità adeguata
+    ("Quantum Arcade di Davide Cavallini"), fornire un link alla licenza e
+    indicare se sono state effettuate modifiche;
+  · STESSA LICENZA — se remixi o trasformi il materiale, devi distribuire i tuoi
+    contributi con la stessa licenza.
+
+Testo completo: https://creativecommons.org/licenses/by-sa/4.0/deed.it
+
+--------------------------------------------------------------------
+3. ECCEZIONI
+--------------------------------------------------------------------
+
+· La fotografia in public_html/assets/davide.jpeg ritrae l'autore ed è esclusa
+  da entrambe le licenze: non può essere riutilizzata al di fuori di questo
+  progetto senza il suo consenso.
+
+· Il nome "Quantum Arcade" e il logo possono essere usati per riferirsi a questo
+  progetto e alle sue derivazioni dichiarate come tali, ma non per far credere
+  che una versione modificata sia quella ufficiale.
+
+· L'attestato di completamento è emesso da questo progetto e non è una
+  certificazione accreditata da un ente terzo. Chi ospita una copia modificata
+  del sito NON deve presentarla come se rilasciasse attestati di Quantum Arcade.

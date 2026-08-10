@@ -1,0 +1,29 @@
+name: "✨ Proposta di livello o mini-gioco"
+description: "Un argomento che manca, o un modo migliore di spiegarne uno"
+labels: ["proposta"]
+body:
+  - type: input
+    id: argomento
+    attributes:
+      label: Argomento
+      placeholder: "esempio: algoritmo di Simon, correzione d'errore con codici di superficie"
+    validations:
+      required: true
+
+  - type: textarea
+    id: gioco
+    attributes:
+      label: Cosa si tocca?
+      description: >
+        In questo progetto ogni concetto ha un mini-gioco. Cosa muove chi legge,
+        e cosa deve vedere succedere?
+    validations:
+      required: true
+
+  - type: input
+    id: dove
+    attributes:
+      label: Dove andrebbe messo, e cosa dà per scontato?
+      placeholder: "dopo il livello 16, dà per scontata la DFT"
+    validations:
+      required: true

@@ -1,0 +1,26 @@
+{
+  "name": "quantum-arcade",
+  "version": "1.0.0",
+  "description": "Quantum Arcade — corso-videogioco in italiano di informatica quantistica (Laravel + gioco statico in public/)",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "php artisan serve --port=8010",
+    "validate": "node tools/validate.mjs",
+    "test": "node --test tests/js/unit/ && node tools/validate.mjs",
+    "test:coverage": "node --test --experimental-test-coverage tests/js/unit/",
+    "test:php": "php artisan test",
+    "test:php:coverage": "XDEBUG_MODE=coverage php artisan test --coverage",
+    "test:e2e": "playwright test",
+    "test:all": "npm run test && npm run test:php && npm run test:e2e",
+    "exam:sync": "node tools/sync-exam.mjs",
+    "chat:ingest": "php artisan chat:ingest",
+    "chat:report": "php artisan chat:report"
+  },
+  "author": "Davide Cavallini",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "happy-dom": "^20.11.2"
+  }
+}

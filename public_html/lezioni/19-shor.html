@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>19 · BOSS — Algoritmo di Shor — Quantum Arcade</title>
+<meta name="description" content="L'algoritmo di Shor spiegato e giocato passo passo: dalla fattorizzazione al periodo di a^x mod N, QFT, misura, frazioni continue e MCD. Con simulatore interattivo.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+import { stepper } from '../js/core/formula.js';
+import { shorLab } from '../js/widgets/qft.js';
+
+const L = renderLesson({
+  id: '19-shor',
+  lead: `Il boss finale della teoria. Shor (1994) è l'algoritmo che ha reso il calcolo quantistico un affare di stato:
+         fattorizza numeri enormi in tempo polinomiale, e con essi manda in pensione la crittografia RSA.
+         Il bello è che <b>quasi tutto è matematica classica</b>: la parte quantistica è una sola, e la conosci già.`,
+
+  steps: [
+    {
+      t: 'Perché fattorizzare è difficile (e perché ci interessa)',
+      html: `<p>Moltiplicare è facile: 3 × 5 = 15, lo fa un bambino. Il contrario — dato 15, trovare 3 e 5 — è facile
+             solo perché il numero è minuscolo. Con un numero di 600 cifre, il miglior algoritmo classico conosciuto
+             impiegherebbe <b>più tempo dell'età dell'universo</b>.</p>
+             <p>Su questa asimmetria si regge <b>RSA</b>, cioè buona parte della sicurezza di internet:
+             la chiave pubblica è un numero enorme, la chiave privata sono i suoi fattori.</p>
+             <div class="callout warn"><b>Perché se ne parla oggi, se i computer quantistici sono ancora piccoli?</b>
+             Per l'attacco <b>"harvest now, decrypt later"</b>: chi intercetta oggi traffico cifrato può conservarlo
+             e decifrarlo fra dieci o vent'anni. Per i dati che devono restare segreti a lungo (sanitari, militari,
+             industriali) la minaccia è <b>già adesso</b>. È il motivo per cui il NIST ha standardizzato
+             algoritmi <b>post-quantistici</b> nel 2024.</div>`,
+    },
+    {
+      t: 'La mossa geniale: da fattori a periodo',
+      html: `<p>Shor non attacca la fattorizzazione di petto. La <b>trasforma</b> in un altro problema:</p>
+             <div class="callout key">Per fattorizzare N, trova il <b>periodo r</b> della funzione
+             <code>f(x) = a^x mod N</code>, dove a è un numero scelto a caso.</div>
+             <p>"mod N" vuol dire "prendi il resto della divisione per N". Facciamo un esempio con a = 7 e N = 15:</p>
+             <pre><code>x:      0   1   2   3   4   5   6   7   8 …
+7^x:    1   7  49 343 2401 …
+mod 15: 1   7   4  13   1   7   4  13   1 …
+        └───── si ripete ogni 4 ─────┘     →  r = 4</code></pre>
+             <p>Il numero 1 torna dopo <b>4</b> passi: il periodo è r = 4. E da qui i fattori si ottengono con due conti
+             che si facevano già nell'Ottocento.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Passo 1', html: 'Abbiamo r = 4, che è <b>pari</b> (serve che lo sia).' },
+          { h: 'Passo 2', html: 'Calcoliamo <code>a^(r/2) mod N</code> = 7² mod 15 = 49 mod 15 = <b>4</b>.' },
+          { h: 'Passo 3', html: 'Perché funziona: sappiamo che a^r ≡ 1, quindi (a^(r/2))² − 1 ≡ 0, cioè<br><code>(a^(r/2) − 1)(a^(r/2) + 1) ≡ 0 mod N</code>.<br>Il prodotto è multiplo di N, quindi i due fattori "si spartiscono" i fattori di N.' },
+          { h: 'Passo 4', html: 'Basta calcolare i massimi comuni divisori:<br><code>MCD(4 − 1, 15) = MCD(3, 15) = <b>3</b></code><br><code>MCD(4 + 1, 15) = MCD(5, 15) = <b>5</b></code>' },
+          { h: 'Fatto', html: '<b>15 = 3 × 5.</b> E l\'MCD si calcola in un lampo con l\'algoritmo di Euclide (300 a.C. circa!).' },
+          { h: 'Quando non funziona', html: 'Se r è <b>dispari</b>, oppure se a^(r/2) ≡ −1 mod N, il tentativo è sprecato: si sceglie un altro a e si ricomincia. Succede in meno della metà dei casi, quindi bastano pochi tentativi.' },
+        ], { doneLabel: 'Matematica classica chiara!' });
+      },
+    },
+    {
+      t: 'E il computer quantistico dove entra?',
+      html: `<p>In un punto solo: <b>trovare il periodo r</b>. Classicamente dovresti calcolare a^x mod N per un x dopo l'altro
+             finché non torna 1 — e per numeri grandi sono esponenzialmente tanti tentativi.</p>
+             <p>Quantisticamente si fa così:</p>
+             <ol>
+               <li>Si mette il primo registro in <b>sovrapposizione uniforme</b> su tutti gli x (Hadamard: livello 3).</li>
+               <li>Si calcola <b>a^x mod N</b> in sovrapposizione, scrivendo il risultato in un secondo registro.
+                   Ora i due registri sono <b>intrecciati</b> (livello 4).</li>
+               <li>Si <b>misura il secondo registro</b>. Esce un valore a caso — e non ci interessa quale!
+                   L'effetto importante è un altro: il primo registro <b>collassa</b> su tutti e soli gli x che danno
+                   quel risultato, cioè su un <b>pettine</b> con passo r.</li>
+               <li>Si applica la <b>QFT</b> al primo registro: il pettine diventa <b>picchi</b> sui multipli di M/r (livello 17).</li>
+               <li>Si <b>misura</b>: esce un numero y vicino a un multiplo di M/r.</li>
+               <li>Si torna al classico: dalle <b>frazioni continue</b> di y/M si ricava r.</li>
+             </ol>
+             <div class="callout key"><b>Il punto che quasi tutti sbagliano:</b> la misura del passo 3 sembra distruggere tutto.
+             Invece no, ed è il regalo che avevi visto al livello 17: <b>lo sfasamento del pettine non sposta i picchi</b>.
+             Qualunque cosa esca dal secondo registro, l'informazione sul periodo resta intatta.</div>`,
+    },
+    {
+      t: 'Fattorizza con le tue mani',
+      html: `<p>Scegli N, scegli a, guarda la tabella dei resti (le celle verdi sono i punti in cui torna 1),
+             poi premi «misura» e segui i passaggi. Se ti va male, rimisura: fa parte del gioco.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'shor', title: 'Rompi RSA (in piccolo)', text: 'trova i fattori di un numero completando tutti i passaggi.', xp: 90 });
+        el.appendChild(m.root);
+        shorLab(el, { onWin: () => m.complete() });
+      },
+      after: `<div class="callout"><b>Sulle frazioni continue:</b> la misura non dà y esattamente uguale a un multiplo di M/r,
+              ma un numero vicino. Le frazioni continue sono un metodo classico per trovare la frazione <b>più semplice</b>
+              vicina a un numero dato: da y/M ≈ k/r si legge il denominatore r. È lo stesso metodo con cui si scopre che
+              π ≈ 22/7.</div>`,
+    },
+    {
+      t: 'Quanto costa davvero (e perché RSA non è ancora rotta)',
+      html: `<table class="table">
+               <tr><th></th><th>Classico (migliore noto)</th><th>Shor</th></tr>
+               <tr><td>Tempo per fattorizzare un numero di b bit</td><td>circa e^(b^{1/3}) — <b>esponenziale</b></td><td>circa b³ — <b>polinomiale</b></td></tr>
+               <tr><td>RSA-2048</td><td>oltre l'età dell'universo</td><td>ore… <b>su un computer che non esiste ancora</b></td></tr>
+             </table>
+             <p>Le stime più citate parlano di qualche <b>milione</b> di qubit fisici (per ottenere qualche migliaio di qubit
+             "logici" corretti dagli errori) per attaccare RSA-2048. Oggi i processori migliori hanno qualche centinaio
+             di qubit fisici rumorosi. La distanza è enorme — ma il conto è ingegneristico, non teorico,
+             e cala di anno in anno.</p>
+             <div class="callout ok"><b>La reazione del mondo reale:</b> nell'agosto 2024 il NIST ha pubblicato i primi
+             standard di crittografia <b>post-quantistica</b> (ML-KEM, ML-DSA, SLH-DSA), basati su problemi matematici
+             che né Shor né Grover sanno attaccare. La migrazione è già iniziata: browser e messaggistica moderni
+             usano già scambi di chiavi ibridi post-quantistici.</div>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Con N = 15, prova <b>tutti</b> gli a validi (2, 4, 7, 8, 11, 13, 14): quali hanno periodo dispari
+           e quindi non funzionano?</p>
+        <p><b>2.</b> Perché a = 1 non serve a niente? E perché a deve avere MCD(a, N) = 1?
+           <span class="muted">(se non lo fosse, avresti già trovato un fattore senza scomodare la quantistica!)</span></p>
+        <p><b>3.</b> Con N = 21, quale a dà il periodo più corto? Un periodo corto rende l'algoritmo più facile o più difficile?</p>
+        <p class="mb0"><b>4.</b> Da inventore: Shor funziona perché la funzione a^x mod N ha una <b>struttura periodica nascosta</b>.
+           Quale altro problema famoso ha una struttura nascosta che la QFT potrebbe far emergere?
+           <i>(Suggerimento: il logaritmo discreto — infatti Shor rompe anche quello, e con esso la crittografia a curve ellittiche.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'A quale problema Shor riduce la fattorizzazione?',
+      options: ['trovare il periodo di a^x mod N', 'ordinare una lista', 'cercare in un database', 'sommare numeri primi'], correct: 0,
+      why: 'Trovato il periodo r (pari), i fattori si ottengono con MCD(a^{r/2} ∓ 1, N): matematica classica elementare.' },
+    { q: 'Perché misurare il secondo registro non rovina l\'algoritmo?',
+      options: ['perché non lo si misura davvero', 'perché lo sfasamento del pettine non sposta i picchi della QFT', 'perché il risultato è sempre 1', 'perché i registri non sono entangled'], correct: 1,
+      why: 'La collassa su un pettine con offset casuale, ma le probabilità dopo la QFT dipendono solo dal periodo, non dall\'offset.' },
+    { q: 'A cosa servono le frazioni continue in Shor?',
+      options: ['a preparare lo stato iniziale', 'a ricavare il periodo r dal numero misurato y/M', 'a ridurre il rumore', 'a calcolare l\'MCD'], correct: 1,
+      why: 'Approssimano y/M con la frazione più semplice k/r: il denominatore è il periodo cercato.' },
+    { q: 'Perché RSA-2048 non è ancora stata rotta da Shor?',
+      options: ['perché l\'algoritmo è sbagliato', 'perché servono milioni di qubit fisici corretti dagli errori', 'perché RSA è immune', 'perché è vietato'], correct: 1,
+      why: 'È un problema ingegneristico (rumore, correzione d\'errore, scala), non teorico. Per questo esistono già gli standard post-quantistici NIST del 2024.' },
+    { q: 'Qual è la contromisura giusta contro Shor?',
+      options: ['chiavi RSA più lunghe', 'passare ad algoritmi post-quantistici (basati su reticoli, hash…)', 'usare AES-128', 'spegnere internet'], correct: 1,
+      why: 'Allungare le chiavi RSA non basta: Shor scala in modo polinomiale. Serve cambiare il problema matematico sottostante.' },
+  ],
+
+  outro: `<div class="callout ok"><b>BOSS SCONFITTO.</b> Hai visto l'algoritmo più famoso della storia del calcolo quantistico
+          e — cosa più importante — sai <b>perché</b> funziona: periodicità → pettine → QFT → picchi → frazioni continue → fattori.
+          Restano tre cose: perché non ce l'hai ancora in tasca (rumore), inventare qualcosa di tuo (officina) e l'esame.</div>`,
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Numeri complessi ed e^{iθ} spiegati come frecce che ruotano: modulo, fase, formula di Eulero e perché moltiplicare significa ruotare.">
+<title>4 · La freccia che gira — Quantum Arcade</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+import { formula, stepper } from '../js/core/formula.js';
+import { phasorLab, multiplyLab } from '../js/widgets/phasor.js';
+
+const L = renderLesson({
+  id: '08-frecce',
+  lead: `Al livello 7 abbiamo visto il limite dei segni + e −: due sole direzioni. Adesso diamo alle ampiezze
+         la libertà di puntare <b>ovunque</b>. L'attrezzo si chiama <b>numero complesso</b> e il suo simbolo più temuto,
+         <b>e^{iθ}</b>, è semplicemente la lancetta di un orologio.`,
+
+  steps: [
+    {
+      t: 'Il problema pratico che stiamo risolvendo',
+      html: `
+        <p>Ricapitoliamo dove siamo. Un'ampiezza quantistica ha bisogno di <b>due</b> informazioni:
+        <b>quanto è grande</b> (che decide la probabilità) e <b>in che direzione punta</b>
+        (la <b>fase</b>: la longitudine sulla sfera di Bloch del livello 2).</p>
+        <p>Finora le direzioni erano due sole: avanti (+) e indietro (−). Ma per cancellare molte possibilità insieme
+        servono tante direzioni, e servono conti comodi: sommare due ampiezze deve restare facile, e <b>ruotarle</b>
+        pure. L'oggetto matematico che fa esattamente questo si chiama <b>numero complesso</b>.</p>
+        <div class="callout warn"><b>Sfatiamo subito il nome.</b> "Immaginario" è un termine storico infelice, scelto da gente
+        che li trovava sospetti. Non c'è niente di finto: sono <b>coppie di numeri</b> con una regola di moltiplicazione
+        particolarmente furba. Se preferisci, chiamali <b>"frecce"</b> per tutto il corso: funziona lo stesso.</div>`,
+    },
+
+    {
+      t: 'Un numero complesso è una freccia sul foglio',
+      html: `
+        <p>Prendi un foglio con due assi. L'asse orizzontale lo chiamiamo <b>reale</b>, quello verticale <b>immaginario</b>.
+        Una freccia che parte dall'origine si descrive in due modi equivalenti:</p>
+        <ul>
+          <li><b>Coordinate:</b> "vai 3 a destra e 4 in su" → si scrive <code>3 + 4i</code>. Quella <b>i</b> è solo un'etichetta
+              che vuol dire "questo pezzo è verticale".</li>
+          <li><b>Lunghezza e angolo:</b> "lunga 5, inclinata di 53°" → è la stessa freccia, detta in modo diverso.</li>
+        </ul>
+        <p>La lunghezza si chiama <b>modulo</b>, l'angolo si chiama <b>fase</b> (o argomento). Il legame è il teorema di Pitagora:</p>
+        <div class="formula">|z| = √(<span class="hl-n">a</span>² + <span class="hl-k">b</span>²)&nbsp;&nbsp;&nbsp;&nbsp;
+        con z = <span class="hl-n">a</span> + <span class="hl-k">b</span>i&nbsp;&nbsp;&nbsp;&nbsp;
+        (esempio: |3 + 4i| = √(9+16) = √25 = 5)</div>
+        <div class="callout key">Quindi: <b>ampiezza = lunghezza della freccia</b>, <b>fase = angolo della freccia</b>.
+        Un solo oggetto porta entrambe le informazioni. Era esattamente quello che ci serviva.</div>`,
+    },
+
+    {
+      t: 'e^{iθ}: la freccia lunga 1 che punta all\'angolo θ',
+      html: `
+        <p>Ecco il simbolo che spaventa tutti. Prendiamolo alla leggera, perché significa una cosa sola:</p>
+        <div class="formula" style="font-size:19px">e<sup>iθ</sup> = cos θ + i · sin θ &nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="muted" style="font-size:13px">(formula di Eulero)</span></div>
+        <p>Tradotto: <b>«la freccia lunga 1 che punta all'angolo θ»</b>. La sua ombra sull'asse orizzontale è
+        <b>cos θ</b>, quella sull'asse verticale è <b>sin θ</b>. Tutto qui.</p>
+        <p>Trascina la freccia nel gioco qui sotto e guarda le due ombre (gialla e verde) muoversi.
+        A destra vedi le due onde che ne escono: <b>il coseno e il seno non sono altro che le ombre di un pallino che gira</b>.</p>`,
+      mount: el => {
+        phasorLab(el, { theta: Math.PI / 4, spin: 0 });
+        formula(el, {
+          title: 'e^{iθ} smontato pezzo per pezzo',
+          parts: [
+            { t: 'e', id: 'e', color: 'amber', name: 'il numero di Eulero (2,718…)', say: 'È solo una costante, come π. Qui non ti serve sapere da dove viene: serve per una proprietà comodissima, cioè che moltiplicare due esponenziali equivale a SOMMARE gli esponenti.', ex: 'e^a · e^b = e^(a+b) — questa proprietà, applicata agli angoli, diventa "ruotare due volte = sommare gli angoli".' },
+            { t: '^{ i', id: 'i', color: 'violet', name: 'l\'unità immaginaria', say: 'La i vuol dire "direzione verticale". La sua unica regola è: i × i = −1. Da questa singola regola discende tutto il resto, comprese le rotazioni.', ex: 'Moltiplicare per i = ruotare di 90° in senso antiorario. Fallo due volte e ottieni −1, cioè un giro di 180°: infatti i·i = −1.' },
+            { t: 'θ }', id: 'th', color: 'cyan', name: 'l\'angolo', say: 'Quanto è ruotata la freccia, misurato in radianti (2π = giro completo). È la FASE del livello 2, cioè la longitudine sulla sfera di Bloch.', ex: 'θ = π/2 (90°) → e^{iπ/2} = i, la freccia che punta in alto.' },
+            { t: '=' },
+            { t: 'cos θ', id: 'cos', color: 'amber', name: 'l\'ombra orizzontale', say: 'La proiezione della freccia sull\'asse reale: quanto è "spostata a destra".' },
+            { t: '+ i ·' },
+            { t: 'sin θ', id: 'sin', color: 'green', name: 'l\'ombra verticale', say: 'La proiezione sull\'asse immaginario: quanto è "spostata in alto".' },
+          ],
+        });
+      },
+    },
+
+    {
+      t: 'Le quattro posizioni da imparare a memoria',
+      html: `
+        <p>Ci sono quattro angoli che torneranno <b>continuamente</b> nel resto del corso (e sono gli stessi che compaiono
+        nella QFT a 2 qubit). Impararli a colpo d'occhio ti farà risparmiare ore:</p>
+        <table class="table">
+          <tr><th>Angolo</th><th>e^{iθ} vale</th><th>Freccia</th><th>Come leggerlo</th></tr>
+          <tr><td class="mono">0°</td><td class="mono">1</td><td style="font-size:20px">→</td><td>destra, punto di partenza</td></tr>
+          <tr><td class="mono">90°</td><td class="mono">i</td><td style="font-size:20px">↑</td><td>un quarto di giro</td></tr>
+          <tr><td class="mono">180°</td><td class="mono">−1</td><td style="font-size:20px">←</td><td>mezzo giro: <b>il segno meno è una rotazione!</b></td></tr>
+          <tr><td class="mono">270°</td><td class="mono">−i</td><td style="font-size:20px">↓</td><td>tre quarti di giro</td></tr>
+        </table>
+        <div class="callout key"><b>Rivelazione importante:</b> il <b>segno meno</b> non è "il contrario", è
+        <b>una rotazione di mezzo giro</b>. Ecco perché al livello 7 due ampiezze opposte si cancellavano:
+        una era l'altra moltiplicata per −1, cioè girata di mezzo giro.</div>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Perché i × i = −1?', html: 'Moltiplicare per <b>i</b> significa ruotare di 90°. Farlo <b>due volte</b> significa ruotare di 180°, cioè arrivare dalla parte opposta. E "la parte opposta di 1" è −1. Quindi i·i = −1. Non è una stranezza: è geometria.' },
+          { h: 'E i × i × i × i?', html: 'Quattro rotazioni da 90° = 360° = giro completo = sei tornato a <b>1</b>. Infatti i⁴ = 1. Le potenze di i girano in tondo: 1, i, −1, −i, 1, i, −1, −i…' },
+          { h: 'A cosa serve tutto questo?', html: 'Nella trasformata di Fourier moltiplicheremo i dati per e^{-i2πkn/N}. Adesso sai cosa significa: <b>far ruotare ogni dato di un certo angolo</b>. Nient\'altro.' },
+          { h: 'E nel quantistico?', html: 'Le "porte di fase" (S, T, R) fanno esattamente questo alle ampiezze dei qubit: moltiplicano per e^{iθ}, cioè <b>ruotano la freccia</b> senza cambiarne la lunghezza. Quindi non cambiano le probabilità… ma cambiano tutto il resto.' },
+        ]);
+      },
+    },
+
+    {
+      t: 'Moltiplicare = ruotare (il trucco che fa funzionare tutto)',
+      html: `
+        <p>Ultima regola, ed è quella che rende i numeri complessi <b>irrinunciabili</b>:</p>
+        <div class="callout key">Quando <b>moltiplichi</b> due frecce: le <b>lunghezze si moltiplicano</b> e gli <b>angoli si sommano</b>.</div>
+        <p>Conseguenza pratica: se moltiplichi una freccia qualsiasi per e^{iθ} (che è lunga 1),
+        la lunghezza <b>non cambia</b> e l'angolo <b>aumenta di θ</b>. Cioè: <b>moltiplicare per e^{iθ} = ruotare di θ</b>.</p>
+        <p>Trascina le frecce A e B nel gioco e verifica: la freccia rosa (il prodotto) ha sempre lunghezza |A|·|B| e angolo ∠A + ∠B.</p>`,
+      mount: el => {
+        const m = L.mission({ key: 'rot90', title: 'Rotazione a comando', text: 'porta A a lunghezza 1 con angolo 0°, e B a lunghezza 1 con angolo 90°: il prodotto deve finire esattamente su i.', xp: 40 });
+        el.appendChild(m.root);
+        const lab = multiplyLab(el);
+        const check = setInterval(() => {
+          const a = lab.state.a, b = lab.state.b;
+          const dg = t => ((t * 180 / Math.PI) % 360 + 360) % 360;
+          const near = (x, y, t) => Math.abs(x - y) < t;
+          if (near(a.r, 1, .12) && (dg(a.th) < 10 || dg(a.th) > 350) && near(b.r, 1, .12) && near(dg(b.th), 90, 10)) {
+            m.complete(); clearInterval(check);
+          }
+        }, 400);
+      },
+    },
+
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Nel primo gioco metti la velocità di rotazione a 1 giro/s e guarda le due onde a destra.
+           Quale delle due (cos o sin) è "avanti" rispetto all'altra? Di quanti gradi?</p>
+        <p><b>2.</b> Che numero è e^{i·360°}? E e^{i·720°}? Cosa ti dice questo sul fatto che la fase sia
+           un'informazione "circolare"?</p>
+        <p><b>3.</b> Nel gioco della moltiplicazione, tieni B lungo <b>0,5</b>: cosa succede alla freccia prodotto
+           se continui a ruotare A? Disegna mentalmente la traiettoria.</p>
+        <p class="mb0"><b>4.</b> Sfida vera: come faresti a <b>ruotare all'indietro</b> di θ usando una moltiplicazione?
+           <span class="muted">(indizio: che angolo ha e^{-iθ}?)</span> Questa è la differenza fra la trasformata diretta e quella inversa.</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Quanto vale e^{iπ} (cioè e^{i·180°})?',
+      options: ['1', 'i', '−1', '0'],
+      correct: 2,
+      why: 'Mezzo giro porta la freccia da "destra" a "sinistra": e^{iπ} = <b>−1</b>. Scritta come e^{iπ} + 1 = 0, è la celebre identità di Eulero, che mette insieme e, i, π, 1 e 0.' },
+    { q: 'Cosa fa geometricamente la moltiplicazione per e^{iθ}?',
+      options: ['Allunga la freccia di θ', 'Ruota la freccia di θ senza cambiarne la lunghezza', 'Cambia il segno', 'Non fa nulla'],
+      correct: 1,
+      why: 'e^{iθ} ha lunghezza 1, quindi nel prodotto le lunghezze non cambiano; gli angoli invece si sommano. È una <b>rotazione pura</b> — il mattone di Fourier e delle porte di fase quantistiche.' },
+    { q: 'Perché un numero complesso è comodo per descrivere un\'onda?',
+      options: ['Perché è più preciso', 'Perché conserva insieme ampiezza (lunghezza) e fase (angolo)', 'Perché elimina la fase', 'Perché fa i conti da solo'],
+      correct: 1,
+      why: 'Un solo oggetto porta entrambe le informazioni che servono a descrivere un\'onda a una data frequenza, e le operazioni (somma = attacca le frecce, moltiplicazione = ruota) diventano geometriche invece che trigonometriche.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> numero complesso = freccia (lunghezza + angolo);
+          <b>e^{iθ} = freccia lunga 1 all'angolo θ</b> = cos θ + i·sin θ; moltiplicare per e^{iθ} = <b>ruotare</b>;
+          il segno meno è una rotazione di 180°. Le porte S, T e P(θ) del livello 3 adesso hanno un senso preciso:
+          ruotano l'ampiezza di |1⟩ di un angolo. Nei prossimi livelli useremo questo per costruire algoritmi veri.</div>`,
+});
+</script>
+</body>
+</html>

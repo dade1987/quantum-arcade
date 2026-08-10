@@ -1,0 +1,36 @@
+name: "🐛 Qualcosa non funziona"
+description: "Errori, grafica rotta, mini-giochi che non rispondono"
+labels: ["bug"]
+body:
+  - type: textarea
+    id: cosa
+    attributes:
+      label: Cosa succede
+      description: "Se hai una schermata, incollala pure: aiuta moltissimo."
+    validations:
+      required: true
+
+  - type: textarea
+    id: passi
+    attributes:
+      label: Come si riproduce
+      placeholder: |
+        1. apro /lezioni/11-grover.html
+        2. trascino il cursore fino a…
+        3. compare…
+    validations:
+      required: true
+
+  - type: input
+    id: ambiente
+    attributes:
+      label: Browser e dispositivo
+      placeholder: "Firefox 141 su Linux · Safari su iPhone 13"
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Errori nella console del browser (F12 → Console)
+      render: text

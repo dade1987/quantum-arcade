@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Motori generativi / AI: contenuti liberamente citabili con attribuzione
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://quantumarcade.it/sitemap.xml

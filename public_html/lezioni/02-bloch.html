@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9 · La sfera di Bloch — Quantum Arcade</title>
+<meta name="description" content="La sfera di Bloch spiegata giocando: nord |0⟩, sud |1⟩, equatore sovrapposizioni. Misura, collasso e basi di misura diverse.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+import { blochLab } from '../js/widgets/bloch.js';
+import { stepper } from '../js/core/formula.js';
+
+const L = renderLesson({
+  id: '02-bloch',
+  lead: `Due frecce complesse sono scomode da disegnare. Fortunatamente lo stato di <b>un</b> qubit si può rappresentare
+         come <b>un punto su una palla</b>: la sfera di Bloch. È la mappa che useremo per tutto il resto del corso.`,
+
+  steps: [
+    {
+      t: 'Perché una sfera',
+      html: `<p>Uno stato è <code>a|0⟩ + b|1⟩</code> con <code>|a|² + |b|² = 1</code>. Sembrano 4 numeri (due complessi),
+             ma due vincoli li riducono a <b>due soli angoli</b>:</p>
+             <ul>
+               <li>la normalizzazione (le probabilità fanno 1) toglie un grado di libertà;</li>
+               <li>la <b>fase globale</b> non è osservabile: moltiplicare tutto lo stato per e^{iα} non cambia nessuna
+                   probabilità di nessun esperimento. Quindi conta solo la <b>differenza</b> di fase fra a e b.</li>
+             </ul>
+             <p>Restano due angoli — e due angoli è esattamente ciò che serve per individuare un punto su una <b>sfera</b>
+             (come latitudine e longitudine sul mappamondo).</p>
+             <div class="formula">|ψ⟩ = cos(<span class="hl-k">θ</span>/2)·|0⟩ + e^{i<span class="hl-x">φ</span>}·sin(<span class="hl-k">θ</span>/2)·|1⟩</div>
+             <table class="table">
+               <tr><th>Sulla sfera</th><th>Nello stato</th><th>Cosa vedi misurando</th></tr>
+               <tr><td>Polo <b>nord</b></td><td class="mono">|0⟩</td><td>sempre 0</td></tr>
+               <tr><td>Polo <b>sud</b></td><td class="mono">|1⟩</td><td>sempre 1</td></tr>
+               <tr><td><b>Equatore</b></td><td class="mono">(|0⟩ ± |1⟩)/√2 ecc.</td><td>50% e 50%</td></tr>
+               <tr><td>Latitudine (θ)</td><td>quanto |1⟩ c'è</td><td>cambia le probabilità</td></tr>
+               <tr><td>Longitudine (φ)</td><td>la <b>fase</b></td><td><b>non cambia niente</b>… finché non applichi altre porte</td></tr>
+             </table>`,
+    },
+    {
+      t: 'Gioca con la sfera',
+      html: `<p>Trascina la palla per girarla. I bottoni applicano le porte (le studieremo bene al prossimo livello, qui
+             servono solo per muoversi). Il pulsante <b>MISURA</b> fa la cosa seria: sceglie a caso fra 0 e 1 con le
+             probabilità dello stato e poi <b>butta la freccia su un polo</b>.</p>
+             <p><b>Esperimenti da fare, in ordine:</b></p>
+             <ol>
+               <li>Premi <b>H</b>: la freccia va dal polo nord all'<b>equatore</b> (stato |+⟩, 50/50).</li>
+               <li>Premi <b>S</b> e poi ancora <b>S</b>: la freccia gira <b>lungo</b> l'equatore. Le probabilità non cambiano mai:
+                   stai muovendo <b>solo la fase</b>.</li>
+               <li>Premi <b>H</b> di nuovo: torni al polo. Le fasi decidono <b>dove</b> torni.</li>
+               <li>Premi <b>MISURA</b> con la freccia sull'equatore: esce 0 o 1 a caso, e la freccia <b>salta</b> su un polo.
+                   Da lì, misurare di nuovo dà sempre lo stesso risultato: la sovrapposizione è persa per sempre.</li>
+             </ol>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'equatore', title: 'Giro dell\'equatore', text: 'porta il qubit sull\'equatore (H) e poi fai almeno due rotazioni di fase (S o P) senza cambiare le probabilità.', xp: 40 });
+        el.appendChild(m.root);
+        let hs = 0, ps = 0;
+        blochLab(el, {
+          onChange: (s, hist) => {
+            hs = hist.filter(x => x === 'H').length;
+            ps = hist.filter(x => x === 'S' || x.startsWith('P(')).length;
+            if (hs >= 1 && ps >= 2) m.complete();
+          },
+        });
+      },
+    },
+    {
+      t: 'La misura: cosa succede davvero',
+      html: `<p>Misurare non è "leggere un valore che c'era già". È un'operazione che:</p>
+             <ol>
+               <li>sceglie un risultato <b>a caso</b>, con probabilità |a|² e |b|²;</li>
+               <li><b>riscrive</b> lo stato: dopo, il qubit è esattamente nello stato corrispondente al risultato ottenuto;</li>
+               <li>è <b>irreversibile</b>: l'informazione sulla fase è persa.</li>
+             </ol>
+             <div class="callout warn"><b>Attenzione al malinteso "serve un osservatore umano".</b> No. "Misura" qui significa
+             <b>qualunque interazione</b> con un sistema abbastanza grande da registrare l'esito: un rivelatore, una molecola
+             d'aria, un fotone che rimbalza. Anche 20 grammi d'acqua contengono qualcosa come 10²⁴ particelle: contro una cosa
+             del genere, la sovrapposizione non sopravvive. Questo fenomeno ha un nome — <b>decoerenza</b> — e ci torniamo al livello 20.</div>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Situazione', html: 'Qubit nello stato <code>0,6|0⟩ + 0,8|1⟩</code>. Che probabilità ho di leggere 1?' },
+          { h: 'Conto', html: '|0,8|² = <b>0,64</b> → 64%. E di leggere 0: |0,6|² = 0,36 → 36%. Somma: 100% ✓' },
+          { h: 'Misuro e ottengo 1', html: 'Da questo istante lo stato è <b>esattamente |1⟩</b>. Non "0,8 di |1⟩": proprio |1⟩.' },
+          { h: 'Misuro di nuovo', html: 'Ottengo <b>1 con certezza</b>. E ancora 1. Per sempre, finché non applico altre porte. Il collasso è definitivo.' },
+          { h: 'La domanda cattiva', html: 'Posso ricostruire lo stato originale (0,6 e 0,8) da una sola misura? <b>No.</b> Mi serve preparare lo stesso stato molte volte e misurarlo molte volte. È il motivo per cui gli esperimenti quantistici si fanno a migliaia di ripetizioni.' },
+        ], { doneLabel: 'Chiaro!' });
+      },
+    },
+    {
+      t: 'Basi diverse: misurare "di traverso"',
+      html: `<p>Finora abbiamo misurato sempre lungo l'asse nord-sud (la base <b>Z</b>, cioè "0 oppure 1").
+             Ma si può misurare anche lungo l'asse dell'equatore (base <b>X</b>, cioè "|+⟩ oppure |−⟩"):
+             è esattamente ciò che facevi ruotando il <b>filtro polaroid</b> nel livello 8.</p>
+             <ul>
+               <li>Uno stato <b>|0⟩</b> misurato in base Z dà 0 con certezza; misurato in base X dà 50/50.</li>
+               <li>Uno stato <b>|+⟩</b> misurato in base X dà + con certezza; misurato in base Z dà 50/50.</li>
+             </ul>
+             <div class="callout key"><b>Non esiste uno stato che sia certo in tutte le basi.</b> È il principio di
+             indeterminazione, versione qubit: più sei "definito" lungo un asse, più sei indeterminato lungo quelli
+             perpendicolari. Sulla sfera è ovvio: la freccia non può puntare a nord <i>e</i> a est contemporaneamente.</div>
+             <p class="dim small">Trucco pratico che useremo negli algoritmi: per misurare in base X basta applicare una
+             <b>H</b> e poi misurare normalmente. La H "ruota" la sfera portando l'equatore ai poli.</p>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Parti da |0⟩, applica H, poi Z, poi H. Dove finisci? Prova a prevederlo, poi verifica.
+           <span class="muted">(risposta: |1⟩ — cioè H·Z·H = X!)</span></p>
+        <p><b>2.</b> Esiste una sequenza di porte che porta |0⟩ sull'asse Y (lo stato |i⟩)? <span class="muted">(sì: H poi S)</span></p>
+        <p><b>3.</b> Dopo aver misurato, prova a riapplicare H: la freccia torna sull'equatore, ma <b>l'informazione di prima
+           è persa</b>. In che senso "persa", se lo stato è di nuovo in sovrapposizione?</p>
+        <p class="mb0"><b>4.</b> Se la fase globale non è osservabile, perché la fase <b>relativa</b> lo è?
+           <span class="muted">(indizio: guarda cosa succede se moltiplichi per −1 solo il pezzo con |1⟩ e poi applichi H)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Sulla sfera di Bloch, l\'equatore corrisponde a stati che…',
+      options: ['danno sempre 0', 'danno sempre 1', 'danno 50% e 50%', 'sono entangled'], correct: 2,
+      why: 'Sull\'equatore le due ampiezze hanno la stessa lunghezza: cambia solo la fase, cioè la longitudine.' },
+    { q: 'Che effetto ha una porta di fase (S, T, P) sulla sfera?',
+      options: ['sposta la freccia verso il polo', 'fa girare la freccia lungo un parallelo, senza cambiare le probabilità', 'misura il qubit', 'non fa nulla'], correct: 1,
+      why: 'Cambia la longitudine (la fase), non la latitudine: le probabilità di misura restano identiche… finché non intervengono altre porte come H.' },
+    { q: 'Dopo aver misurato un qubit e ottenuto 1, misurandolo di nuovo si ottiene…',
+      options: ['0 o 1 a caso', 'sempre 1', 'sempre 0', 'un errore'], correct: 1,
+      why: 'La misura ha fatto collassare lo stato su |1⟩: da lì in poi il risultato è certo, finché non si applicano altre porte.' },
+    { q: 'La fase globale (moltiplicare tutto lo stato per e^{iα})…',
+      options: ['cambia le probabilità', 'non è osservabile', 'crea entanglement', 'inverte il qubit'], correct: 1,
+      why: 'Nessun esperimento può rivelarla: per questo la sfera di Bloch, che la ignora, basta a descrivere completamente un qubit. La fase <b>relativa</b> fra |0⟩ e |1⟩ invece è osservabilissima.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> un qubit = un punto su una sfera; latitudine = probabilità,
+          longitudine = fase; misurare = far saltare la freccia su un polo, in modo casuale e irreversibile.
+          Adesso vediamo, una per una, le <b>porte</b> che muovono questa freccia.</div>`,
+});
+</script>
+</body>
+</html>

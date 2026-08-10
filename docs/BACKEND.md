@@ -1,0 +1,212 @@
+# Backend — Laravel + moduli nwidart, tutto su un solo dominio
+
+Il backend **è già costruito e funzionante**. Questo documento spiega com'è fatto,
+come si avvia in locale e come si mette online su Hostinger — un dominio solo, un deploy solo.
+
+---
+
+## 1. Come è organizzato
+
+```
+Modules/                       moduli nwidart (uno per dominio funzionale)
+├── Accounts/                  registrazione, conferma email, accesso, profilo
+├── Progress/                  salvataggio progressi lato server
+├── Certificates/              esame corretto dal server, attestato, PDF, verifica
+└── Chat/                      tutor AI (Neuron AI) e archivio conversazioni
+
+public_html/                   ← WEB ROOT (nome obbligato da Hostinger)
+├── index.php                  front controller Laravel
+└── index.html css/ js/ lezioni/ assets/    il gioco (nessun passaggio di build)
+
+storage/app/rag/               archivio vettoriale del tutor (file, niente DB extra)
+```
+
+**Non esiste una cartella `backend/`**: il progetto Laravel *è* la radice del repository.
+Il gioco non viene copiato né compilato: i file in `public_html/` sono quelli che si modificano.
+
+**Un solo dominio.** Apache serve i file statici se esistono (regola standard di Laravel),
+altrimenti passa a PHP. Quindi:
+
+| URL | Chi risponde |
+|---|---|
+| `/` , `/lezioni/…` , `/css/…` | il gioco statico |
+| `/api/*` | Laravel (moduli) |
+| `/verifica/{codice}` | Laravel (pagina pubblica di verifica) |
+| `/attestato/{codice}.pdf` | Laravel (PDF generato al volo) |
+
+---
+
+## 2. Cosa fa ogni modulo
+
+### Accounts
+Registrazione con **nome, cognome, data di nascita, email, password**
+(i dati anagrafici servono all'attestato: senza, non è verificabile da terzi).
+Conferma email tramite link monouso; nel database si salva **solo l'hash** del token.
+Accesso con email+password, oppure con link via email se la password è persa.
+Cancellazione completa dell'account in un click (GDPR art. 17), con eliminazione a cascata.
+
+| Rotta | Cosa fa |
+|---|---|
+| `POST /api/auth/register` | crea l'account e invia la mail di conferma |
+| `POST /api/auth/login` | accesso con password (rate limit 8 tentativi/15 min) |
+| `POST /api/auth/magic` | manda un link di accesso (risposta identica anche se l'email non esiste) |
+| `GET /api/auth/verify?token=` | conferma email e apre la sessione |
+| `POST /api/auth/profile` · `/password` · `/resend` · `/logout` | gestione account |
+| `DELETE /api/auth/me` | cancella tutto |
+
+### Progress
+Una riga per utente con XP e uno stato JSON. La fusione fra dispositivi **non perde mai nulla**:
+XP = massimo, livelli/missioni = unione, ripasso = si tiene la scatola più bassa.
+`level_events` registra in forma aggregata dove i giocatori si bloccano.
+
+### Certificates
+- `GET /api/exam/questions` → 30 domande mescolate **senza le risposte esatte**;
+- `POST /api/exam/submit` → correzione **lato server**, salvataggio del tentativo,
+  emissione dell'attestato se ≥ 80%;
+- `GET /verifica/{code}` → pagina pubblica di verifica;
+- `GET /attestato/{code}.pdf` → PDF A4 orizzontale (dompdf);
+- `GET /api/badge/{code}.json` → Open Badge / Verifiable Credential.
+
+La banca domande sta in `Modules/Certificates/config/config.php`, generata da
+`npm run exam:sync` a partire da `public_html/js/data/exam-bank.js`: una sola fonte di verità,
+e le soluzioni non raggiungono mai il browser.
+
+### Chat — il tutor
+Agente **RAG con Neuron AI** (PHP puro, nessun processo Node da tenere acceso):
+
+- `Modules/Chat/app/Agents/QuantumTutor.php` — istruzioni, provider Anthropic,
+  embeddings OpenAI, archivio vettoriale **su file** (`FileVectorStore`);
+- `php artisan chat:ingest` — legge le pagine in `public_html/`, le spezza in blocchi
+  e calcola gli embedding. **Da rilanciare dopo ogni modifica ai contenuti**;
+- `php artisan chat:report` — domande più frequenti, livelli più citati, risposte bocciate:
+  è la lista dei livelli da riscrivere;
+- conversazioni salvate in `conversations` / `chat_messages` con voto 👍/👎.
+
+Regole scritte nel prompt: risponde solo con quello che trova nel sito, cita il livello,
+**non dà le soluzioni delle missioni** (solo indizi) e non promette certificazioni accreditate.
+
+---
+
+## 3. Avvio in locale
+
+```bash
+composer install
+cp .env.example .env            # se non c'è già
+php artisan key:generate
+touch database/database.sqlite  # oppure configura MySQL
+php artisan migrate
+php artisan serve --port=8010   # oppure: npm start
+# → http://127.0.0.1:8010
+```
+
+I contenuti si modificano direttamente in `public_html/`: nessun passaggio di build, nessun watcher.
+
+Con `MAIL_MAILER=log` le email di conferma finiscono in `storage/logs/laravel.log`:
+comodo per provare la registrazione senza configurare la posta.
+
+---
+
+## 4. Variabili d'ambiente
+
+```env
+APP_URL=https://iltuodominio.it
+DB_CONNECTION=mysql            # su Hostinger
+
+MAIL_MAILER=smtp               # casella del dominio creata dal pannello Hostinger
+MAIL_HOST=smtp.hostinger.com
+MAIL_PORT=465
+MAIL_USERNAME=no-reply@iltuodominio.it
+MAIL_PASSWORD=...
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS=no-reply@iltuodominio.it
+MAIL_FROM_NAME="Quantum Arcade"
+
+ANTHROPIC_API_KEY=...          # tutor
+OPENAI_API_KEY=...             # embeddings per la ricerca
+CHAT_MODEL=claude-sonnet-4-6
+CHAT_EMBEDDINGS_MODEL=text-embedding-3-small
+CHAT_RATE_PER_HOUR=30
+CHAT_STORE_CONVERSATIONS=true
+```
+
+Senza le chiavi AI il tutor risponde «non sono configurato» e **il resto del sito funziona
+normalmente**: non è un blocco.
+
+---
+
+## 5. Messa online su Hostinger
+
+Hostinger serve **sempre** la cartella `public_html` e non la si può rinominare: per questo
+la cartella pubblica di Laravel qui **si chiama già `public_html`** (glielo dice
+`bootstrap/app.php` con `usePublicPath`). Non c'è nessun pannello da toccare.
+
+### Struttura sul server
+
+```
+~/                          ← home dell'hosting
+├── app/  bootstrap/  config/  database/  Modules/  routes/  storage/  vendor/
+├── artisan  composer.json  .env
+└── public_html/            ← l'unica cartella raggiungibile dal web
+    ├── index.php               front controller Laravel
+    └── index.html css/ js/ lezioni/ assets/   il gioco
+```
+
+Tutto ciò che sta **fuori** da `public_html` non è raggiungibile dal browser: `.env`,
+database, codice dei moduli e archivio del tutor restano protetti.
+
+### Passi
+
+1. **Carica il progetto nella home** (Git deploy, SSH o File Manager).
+   Se `public_html` esiste già ed è vuota, sovrascrivila con quella del progetto.
+2. Da SSH:
+   ```bash
+   cd ~
+   composer install --no-dev --optimize-autoloader
+   cp .env.example .env && nano .env      # vedi la sezione 4
+   php artisan key:generate
+   php artisan migrate --force
+   php artisan config:cache && php artisan route:cache && php artisan view:cache
+   php artisan chat:ingest                # indicizza i contenuti per il tutor
+   chmod -R 775 storage bootstrap/cache
+   ```
+3. **HTTPS**: attiva il certificato gratuito dal pannello e forza il redirect a https.
+4. **Cron** (pannello Hostinger, ogni minuto):
+   ```
+   php ~/artisan schedule:run >> /dev/null 2>&1
+   ```
+5. **Prova**: registrati, controlla che arrivi l'email, fai l'esame, scarica il PDF,
+   apri `/verifica/{codice}` da un browser in incognito.
+
+### Se non hai accesso SSH (piani base)
+
+`composer install` va lanciato in locale e la cartella `vendor/` caricata insieme al resto;
+le migrazioni si possono eseguire una volta sola da una rotta protetta temporanea, oppure
+importando lo schema SQL da phpMyAdmin. In quel caso ricordati di rimuovere la rotta subito dopo.
+
+### Node in produzione non serve
+Node è usato soltanto per i test e per il validatore. Il sito gira con PHP e basta.
+
+---
+
+## 6. Manutenzione
+
+| Quando | Comando |
+|---|---|
+| Hai modificato i livelli | `php artisan chat:ingest` |
+| Hai modificato l'esame | `npm run exam:sync` poi `php artisan config:cache` |
+| Vuoi sapere dove il corso non è chiaro | `php artisan chat:report` |
+| Prima di ogni pubblicazione | `npm run test:all` (unitari + PHP + end-to-end + validazione) |
+
+---
+
+## 7. Cosa resta da decidere (non è codice, sono scelte tue)
+
+- **Certificazione accreditata**: oggi l'attestato è rilasciato dall'autore ed è verificabile,
+  ma **non è accreditato**. Per renderlo tale serve un ente terzo: accordo con un ente di
+  formazione/ateneo che co-firmi, oppure uno schema ISO/IEC 17024 con accreditamento Accredia.
+  Finché non c'è, il sito lo dichiara apertamente (ed è la scelta giusta).
+- **Informativa privacy**: `privacy.html` è completa ma va integrata con i nomi reali dei
+  fornitori scelti (hosting, SMTP, modello AI) e con i relativi accordi art. 28 GDPR.
+- **Minori di 14 anni**: serve il consenso di chi esercita la responsabilità genitoriale.
+  Oggi è scritto nell'informativa; se il pubblico scolastico diventa importante,
+  vale la pena aggiungere un flusso dedicato per le classi.

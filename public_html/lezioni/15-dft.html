@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="La trasformata di Fourier discreta (DFT) smontata simbolo per simbolo, con le frecce rotanti che si sommano o si cancellano.">
+<title>6 · La DFT passo passo — Quantum Arcade</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+import { formula, stepper } from '../js/core/formula.js';
+import { dftLab, windingLab } from '../js/widgets/dftlab.js';
+
+const L = renderLesson({
+  id: '15-dft',
+  lead: `Ci siamo: la formula che spaventa mezzo internet. Alla fine di questo livello la leggerai come si legge
+         una ricetta della nonna, perché ogni suo pezzo lo avrai <b>mosso con le mani</b>.`,
+
+  steps: [
+    {
+      t: 'Il problema, detto in italiano',
+      html: `
+        <p>Un computer non vede una curva continua: vede una <b>lista di numeri</b>, i <b>campioni</b>.
+        Per esempio la lista di 4 numeri:</p>
+        <pre><code>x = [ 1 , 0 , 1 , 0 ]
+      n=0 n=1 n=2 n=3</code></pre>
+        <p>La domanda è sempre la stessa: <b>quali periodicità ci sono dentro questa lista?</b>
+        Guardandola a occhio si vede che si ripete ogni 2 posizioni. La DFT (Discrete Fourier Transform)
+        è l'attrezzo che <b>lo scopre da solo</b>, e lo fa per tutte le periodicità possibili in un colpo solo.</p>
+        <div class="callout"><b>Nota sul nome:</b> "discreta" vuol dire soltanto che lavora su una lista finita di numeri
+        invece che su una curva continua. Niente di più profondo.</div>`,
+    },
+
+    {
+      t: 'La formula. Adesso. Senza girarci intorno',
+      html: `
+        <div class="formula" style="font-size:20px">
+          <span class="hl-x">X(k)</span> = Σ<sub>n=0</sub><sup>N−1</sup> <span class="hl-n">x(n)</span> · e<sup>−i·2π·<span class="hl-k">k</span>·<span class="hl-n">n</span>/<span class="hl-N">N</span></sup>
+        </div>
+        <p>Tocca ogni pezzo qui sotto: ognuno ha un significato concreto e un esempio numerico.
+        Poi, sotto, c'è il gioco dove <b>quella stessa formula la vedi girare</b>.</p>`,
+      mount: el => {
+        formula(el, {
+          title: 'La DFT smontata — tocca ogni simbolo',
+          hint: 'Nessun simbolo resta misterioso: toccali tutti, uno per uno.',
+          parts: [
+            { t: 'X(k)', id: 'X', color: 'pink', name: 'il risultato per la frequenza k', say: 'Un numero complesso, cioè una freccia. La sua LUNGHEZZA dice quanto quella frequenza è presente nel segnale; il suo ANGOLO dice con che fase.', ex: 'Se |X(2)| è grande e |X(1)| ≈ 0, il segnale ha una periodicità che corrisponde a k=2 e non a k=1.' },
+            { t: '=' },
+            { t: 'Σ', id: 'S', color: 'green', name: 'somma tutti i pezzi', say: 'Somma quello che segue per n = 0, 1, 2, …, N−1. Cioè: prendi ogni campione, fai la sua parte di conto, e butta tutto in un unico totale.', ex: 'Con N = 4: X(k) = (pezzo di n=0) + (pezzo di n=1) + (pezzo di n=2) + (pezzo di n=3).' },
+            { t: 'x(n)', id: 'x', color: 'cyan', name: 'il campione numero n', say: 'Il tuo dato grezzo: il valore misurato all\'istante n. Nel gioco è l\'altezza della barretta che trascini.', ex: 'x = [1, 0, 1, 0] → x(0)=1, x(1)=0, x(2)=1, x(3)=0.' },
+            { t: '·' },
+            { t: 'e^{−i·2π', id: 'e', color: 'violet', name: 'la freccia che ruota', say: 'La freccia lunga 1 all\'angolo indicato (livello 8!). Il segno MENO indica che ruotiamo in senso orario. Moltiplicare x(n) per questa freccia significa: prendi il dato e RUOTALO.', ex: 'e^{−i·2π·(1/4)} = e^{−i·90°} = −i, cioè "ruota di un quarto di giro in senso orario".' },
+            { t: 'k', id: 'k', color: 'amber', name: 'la frequenza che stai testando', say: 'k è la domanda: "c\'è una periodicità che fa esattamente k cicli dentro la finestra?". Cambiando k cambi la VELOCITÀ con cui girano le frecce.', ex: 'k=0 → nessuna rotazione (tutte le frecce restano ferme, e la somma è la media). k=1 → un giro completo distribuito su tutti i campioni. k=2 → due giri.' },
+            { t: '·' },
+            { t: 'n', id: 'n', color: 'cyan', name: 'il numero del campione', say: 'Fa da "tempo". Più il campione è avanti nella lista, più viene ruotato. È questo che trasforma la rotazione in una scansione ordinata.', ex: 'Per k=1 e N=4: n=0 ruota di 0°, n=1 di 90°, n=2 di 180°, n=3 di 270°.' },
+            { t: '/', id: 'div' , color: 'green', name: 'diviso', say: 'La divisione per N distribuisce i giri su tutti i campioni: serve a far tornare esattamente k giri completi quando arrivi in fondo alla lista.' },
+            { t: 'N}', id: 'N', color: 'green', name: 'quanti campioni hai', say: 'La lunghezza della lista. Determina anche QUANTE frequenze puoi testare: esattamente N, cioè k = 0, 1, …, N−1. Non di più: con pochi dati non puoi distinguere infinite frequenze.', ex: 'N = 8 campioni → 8 frequenze testabili, da k=0 a k=7.' },
+          ],
+        });
+      },
+      after: `<div class="callout key"><b>Traduzione completa in italiano:</b><br>
+              «Per ogni frequenza k: prendi ogni dato, <b>ruotalo</b> di un angolo che cresce man mano che vai avanti
+              nella lista, e <b>somma</b> tutte le frecce ottenute. Se la somma è lunga, quella frequenza c'è. Se è corta, non c'è.»
+              <br>Fine. Non c'è nient'altro dentro quella formula.</div>`,
+    },
+
+    {
+      t: 'Il gioco: guarda le frecce ruotare davvero',
+      html: `
+        <p>Ecco la formula in movimento. A sinistra ci sono i tuoi dati <b>x(n)</b> (trascina le barrette con il mouse!).
+        Al centro le <b>N frecce ruotate</b> attaccate testa-coda: quella rosa è la somma, cioè X(k).
+        In basso lo <b>spettro</b>: la lunghezza di X(k) per ogni k (cliccabile).</p>
+        <p><b>Cosa provare, nell'ordine:</b></p>
+        <ol>
+          <li>Lascia il preset <code>1 0 1 0…</code> e metti <b>k = 0</b>: nessuna rotazione, le frecce vanno tutte a destra, somma grande.</li>
+          <li>Metti <b>k = 1</b>: le frecce si sparpagliano e si richiudono su sé stesse → somma ≈ 0. <b>Quella frequenza non c'è.</b></li>
+          <li>Metti <b>k = 4</b> (con N=8): tutte le frecce dei campioni pari puntano a destra… somma grande.
+              <b>Trovata la periodicità!</b></li>
+          <li>Premi «somma le frecce una alla volta» per vedere il totale costruirsi passo dopo passo.</li>
+        </ol>`,
+      mount: el => {
+        const m = L.mission({ key: 'trovak', title: 'Trova la periodicità', text: 'carica il preset "periodo 4" e trova un k in cui la somma supera 1,5 (barra alta nello spettro).', xp: 60 });
+        el.appendChild(m.root);
+        dftLab(el, {
+          N: 8, preset: 'alternato', k: 0,
+          onChange: s => {
+            const isP4 = s.x.every((v, i) => Math.abs(v - (i % 4 === 0 ? 1 : 0)) < 0.01);
+            if (isP4 && s.mag > 1.5) m.complete();
+          },
+        });
+      },
+    },
+
+    {
+      t: 'Facciamo il conto a mano: x = [1, 0, 1, 0]',
+      html: `<p>Adesso il conto vero, tutto scritto, con N = 4. Serve per convincerti che il gioco non bara.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'k = 0 (nessuna rotazione)', html: `Gli angoli sono tutti 0°, quindi ogni freccia punta a destra:<br>
+            <code>X(0) = 1·(→) + 0·(→) + 1·(→) + 0·(→) = 2</code><br>
+            <b>|X(0)| = 2.</b> Il valore per k = 0 è sempre la <b>somma dei dati</b> (cioè, a meno di N, la loro media).` },
+          { h: 'k = 1 (un giro distribuito su 4 campioni)', html: `Gli angoli sono 0°, −90°, −180°, −270°:<br>
+            <code>X(1) = 1·(→) + 0·(↓) + 1·(←) + 0·(↑) = (+1) + (−1) = 0</code><br>
+            <b>|X(1)| = 0.</b> Le due frecce non nulle sono opposte: <b>cancellazione perfetta</b>.` },
+          { h: 'k = 2 (due giri)', html: `Gli angoli sono 0°, −180°, −360°, −540°, cioè →, ←, →, ←:<br>
+            <code>X(2) = 1·(→) + 0·(←) + 1·(→) + 0·(←) = 2</code><br>
+            <b>|X(2)| = 2.</b> Ecco la periodicità: il segnale si ripete <b>ogni 2 campioni</b>, e k=2 significa proprio
+            "2 cicli dentro una finestra da 4".` },
+          { h: 'k = 3', html: `<code>X(3) = 1·(→) + 0 + 1·(←) + 0 = 0</code><br>
+            <b>|X(3)| = 0.</b> Come k=1.` },
+          { h: 'Risultato finale', html: `Spettro = <b>[2, 0, 2, 0]</b>.<br>
+            Il segnale <code>[1,0,1,0]</code> nel tempo diventa <code>[2,0,2,0]</code> nelle frequenze:
+            "c'è una componente costante e una a due cicli, e nient'altro". <br>
+            <b>Abbiamo cambiato punto di vista, non abbiamo perso informazione</b>: da questi 4 numeri si può tornare indietro esattamente.` },
+          { h: 'Prova nel gioco', html: `Nel widget sopra, metti i 4 valori (o usa il preset alternato con N=8, che dà lo stesso schema
+            raddoppiato) e confronta lo spettro con i numeri che abbiamo appena calcolato. <b>Coincidono.</b>` },
+        ], { doneLabel: 'Fatto il conto!' });
+      },
+    },
+
+    {
+      t: 'La versione "arrotolata": la stessa cosa, ancora più visiva',
+      html: `
+        <p>Esiste un secondo modo di guardare la trasformata, che a molti fa scattare la lampadina definitiva.</p>
+        <p>Prendi il segnale e <b>arrotolalo attorno a un cerchio</b>: invece di srotolarlo nel tempo, lo avvolgi
+        a una certa velocità. Poi guarda dove sta il <b>centro di massa</b> della figura che esce
+        (immaginala fatta di fil di ferro: dove metteresti il dito per tenerla in equilibrio?).</p>
+        <ul>
+          <li>Velocità di avvolgimento <b>sbagliata</b> → i pezzi pesanti finiscono sparsi tutt'attorno → il centro di massa è
+              vicino all'origine → quella frequenza non c'è.</li>
+          <li>Velocità <b>azzeccata</b> → tutti i picchi del segnale finiscono <b>dalla stessa parte</b> → il centro di massa
+              schizza via → quella frequenza c'è.</li>
+        </ul>
+        <p>Nel gioco: premi «scansiona tutte le frequenze» e guarda in basso comparire i <b>picchi</b> esattamente
+        sulle frequenze contenute nel segnale.</p>`,
+      mount: el => windingLab(el, { freqs: [2, 5] }),
+    },
+
+    {
+      t: 'Le cose che confondono tutti (e la risposta)',
+      html: `
+        <h3>Cosa vuol dire esattamente k?</h3>
+        <p>Non è "k Hz". È <b>"k cicli completi nella finestra di N campioni"</b>. Per convertire in Hz serve sapere
+        ogni quanto hai campionato: se prendi <code>fs</code> campioni al secondo, allora
+        <b>frequenza in Hz = k · fs / N</b>.</p>
+        <h3>Perché lo spettro è "specchiato"?</h3>
+        <p>Se i dati sono numeri reali, noterai che |X(k)| e |X(N−k)| sono uguali. Non è un bug: k e N−k sono
+        <b>la stessa velocità di rotazione, in verso opposto</b> — come dire "3 giri in avanti" e "3 giri indietro".
+        Per questo, su dati reali, metà spettro è ridondante.</p>
+        <h3>Perché c'è il segno meno nell'esponente?</h3>
+        <p>Pura convenzione: nella trasformata <b>diretta</b> si ruota in senso orario, nell'<b>inversa</b> in senso antiorario
+        (segno più) e si divide per N. Alcuni testi — e la QFT quantistica! — usano il segno <b>più</b> per la diretta.
+        Non cambia la sostanza: cambia solo il verso di rotazione, quindi il segno delle fasi.</p>
+        <div class="callout"><b>Ricostruzione (trasformata inversa):</b> <br>
+        <code>x(n) = (1/N) · Σ_k X(k) · e^{+i·2π·k·n/N}</code><br>
+        Cioè: rimetti insieme tutte le onde con le loro ampiezze e fasi. È la <b>sintesi</b> del livello 14, scritta bene.</div>`,
+    },
+
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Metti tutti i campioni uguali a 1 (preset "tutto uguale"). Che spettro esce? Perché tutte le altre barre sono zero?</p>
+        <p><b>2.</b> Metti un solo campione a 1 e tutti gli altri a 0 (preset "un solo colpo"). Guarda lo spettro:
+           è <b>piatto</b>. Che cosa vuol dire "un impulso contiene tutte le frequenze"? Prova a spiegarlo con le frecce.</p>
+        <p><b>3.</b> Prendi il preset "3 cicli" e sposta <b>un solo</b> campione. Quante barre dello spettro cambiano?
+           <span class="muted">(risposta scomoda: praticamente tutte — ogni campione partecipa a ogni frequenza)</span></p>
+        <p class="mb0"><b>4.</b> Sfida creativa: riesci a costruire, trascinando le barrette, un segnale il cui spettro abbia
+           <b>due</b> picchi uguali e nient'altro? E uno che abbia un picco solo in k=1?</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Nella formula della DFT, cosa fa esattamente e^{−i·2πkn/N}?',
+      options: ['Amplifica il campione', 'Ruota il campione di un angolo che dipende da k e n', 'Elimina il rumore', 'Calcola la media'],
+      correct: 1,
+      why: 'È la freccia lunga 1 all\'angolo −2πkn/N: moltiplicare per lei <b>ruota</b> il campione, senza cambiarne la lunghezza. Tutta la DFT è "ruota e somma".' },
+    { q: 'X(0) (cioè k = 0) corrisponde a…',
+      options: ['la frequenza più alta', 'la somma di tutti i campioni (la componente costante)', 'sempre zero', 'la fase iniziale'],
+      correct: 1,
+      why: 'Con k = 0 tutti gli angoli sono zero: nessuna rotazione, quindi si sommano i dati così come sono. È la componente "continua", il valor medio del segnale moltiplicato per N.' },
+    { q: 'Il segnale [1,0,1,0] ha spettro [2,0,2,0]. Perché |X(1)| = 0?',
+      options: ['Perché il segnale è troppo corto', 'Perché le frecce dei due campioni non nulli risultano opposte e si cancellano', 'Perché k=1 non esiste', 'Perché la somma dei dati è 2'],
+      correct: 1,
+      why: 'Con k=1 e N=4, il campione n=0 non ruota (freccia →) e il campione n=2 ruota di 180° (freccia ←). Uno più uno in direzioni opposte fa <b>zero</b>: interferenza distruttiva perfetta.' },
+    { q: 'Con N = 8 campioni, quante frequenze diverse puoi testare?',
+      options: ['infinite', '8 (da k=0 a k=7)', '4', 'dipende dall\'ampiezza'],
+      correct: 1,
+      why: 'Esattamente N. Con 8 numeri in ingresso escono 8 numeri complessi in uscita: nessuna informazione creata, nessuna persa — solo cambiata di forma.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> la DFT è <b>«ruota e somma»</b> ripetuto per ogni frequenza k.
+          Le frecce allineate danno un picco (frequenza presente), quelle sparpagliate danno zero (assente).
+          Da qui in poi, ogni volta che vedrai <code>e^{±i2πkn/N}</code> — anche dentro un circuito quantistico —
+          saprai leggerlo a colpo d'occhio.</div>`,
+});
+</script>
+</body>
+</html>

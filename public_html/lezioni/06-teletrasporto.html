@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6 · No-cloning e teletrasporto — Quantum Arcade</title>
+<meta name="description" content="Teorema di no-cloning, teletrasporto quantistico e dense coding spiegati passo passo con simulatore: cosa si può e cosa non si può fare con i qubit.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+import { stepper } from '../js/core/formula.js';
+import { teleportLab } from '../js/widgets/quantum2.js';
+
+const L = renderLesson({
+  id: '06-teletrasporto',
+  lead: `Tre risultati famosi, tutti conseguenza di quello che già sai: <b>non puoi copiare un qubit</b>,
+         <b>puoi spostarlo</b> (teletrasporto) e <b>puoi imbucare due bit in un qubit solo</b> (dense coding).
+         Nessuna magia: solo entanglement e misura.`,
+
+  steps: [
+    {
+      t: 'Il teorema di no-cloning',
+      html: `<p>Domanda ragionevole: se un qubit è delicato, perché non farne una copia di sicurezza?</p>
+             <p><b>Non si può.</b> E la dimostrazione è così semplice che sta in cinque righe.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Ipotesi', html: 'Supponiamo esista una macchina fotocopiatrice quantistica <b>C</b> che, dato uno stato qualsiasi |ψ⟩ e un foglio bianco |0⟩, produce due copie: <code>C(|ψ⟩|0⟩) = |ψ⟩|ψ⟩</code>.' },
+          { h: 'Test 1', html: 'Funziona su |0⟩: <code>C(|0⟩|0⟩) = |0⟩|0⟩</code> ✓' },
+          { h: 'Test 2', html: 'Funziona su |1⟩: <code>C(|1⟩|0⟩) = |1⟩|1⟩</code> ✓' },
+          { h: 'Test 3 — la trappola', html: 'Proviamo su |+⟩ = (|0⟩+|1⟩)/√2.<br>Siccome ogni porta quantistica è <b>lineare</b> (agisce separatamente su ogni pezzo e poi somma), la macchina deve dare:<br><code>(|0⟩|0⟩ + |1⟩|1⟩)/√2</code>' },
+          { h: 'Ma noi volevamo…', html: '<code>|+⟩|+⟩ = (|00⟩ + |01⟩ + |10⟩ + |11⟩)/2</code>, che ha <b>quattro</b> termini.<br>I due risultati sono <b>diversi</b>: il primo è uno stato di Bell (entangled), il secondo no.' },
+          { h: 'Conclusione', html: 'La fotocopiatrice universale <b>non può esistere</b>. Puoi copiare i due stati di base, ma non le sovrapposizioni. È il <b>teorema di no-cloning</b> (Wootters e Zurek, 1982).' },
+          { h: 'Conseguenze pratiche', html: '• Niente backup di uno stato quantistico → la correzione d\'errore quantistica deve essere molto più furba (livello 20).<br>• Un intercettatore non può copiare i qubit di una comunicazione senza lasciare traccia → è la base della <b>crittografia quantistica</b> (QKD).' },
+        ], { doneLabel: 'Dimostrazione capita!' });
+      },
+    },
+    {
+      t: 'Se non posso copiarlo… posso almeno spostarlo?',
+      html: `<p>Sì. Si chiama <b>teletrasporto quantistico</b> ed è stato dimostrato in laboratorio migliaia di volte
+             (fra edifici, via fibra, e persino verso satelliti).</p>
+             <p>La ricetta usa tre qubit:</p>
+             <ul>
+               <li><b>q0</b>: il qubit misterioso che Alice vuole mandare (lei stessa non sa cosa contiene!);</li>
+               <li><b>q1</b> e <b>q2</b>: una coppia <b>entangled</b> preparata prima; q1 resta ad Alice, q2 va a Bob.</li>
+             </ul>
+             <p>Premi «passo successivo» e segui il commento sotto il grafico.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'teleport', title: 'Teletrasporta uno stato', text: 'esegui tutti i passi e porta la differenza fra il qubit di partenza e quello di Bob a zero.', xp: 55 });
+        el.appendChild(m.root);
+        teleportLab(el, { onDone: () => m.complete() });
+      },
+      after: `<div class="callout warn"><b>Le tre cose da non fraintendere:</b>
+              <ol style="margin:8px 0 0">
+                <li><b>Non viaggia materia:</b> il qubit di Bob era già lì. Viene <i>riconfigurato</i>, non spedito.</li>
+                <li><b>Non è istantaneo:</b> servono <b>2 bit classici</b> che Alice deve comunicare normalmente
+                    (telefono, fibra, piccione). Senza quelli, Bob ha solo rumore. Niente informazione più veloce della luce.</li>
+                <li><b>L'originale muore:</b> la misura di Alice distrugge lo stato di partenza. È un <b>trasferimento</b>,
+                    non una copia — e infatti il no-cloning resta salvo.</li>
+              </ol></div>`,
+    },
+    {
+      t: 'Dense coding: due bit dentro un qubit',
+      html: `<p>Il trucco inverso, scoperto da Bennett e Wiesner. Alice e Bob condividono in anticipo una coppia entangled.
+             Poi Alice, agendo <b>solo sul suo qubit</b>, può mandare a Bob <b>due bit classici</b> spedendogli
+             <b>un solo qubit</b>.</p>
+             <table class="table">
+               <tr><th>Bit da mandare</th><th>Cosa applica Alice al suo qubit</th><th>Stato di Bell risultante</th></tr>
+               <tr><td class="mono">00</td><td>niente (I)</td><td class="mono">(|00⟩ + |11⟩)/√2</td></tr>
+               <tr><td class="mono">01</td><td>X</td><td class="mono">(|10⟩ + |01⟩)/√2</td></tr>
+               <tr><td class="mono">10</td><td>Z</td><td class="mono">(|00⟩ − |11⟩)/√2</td></tr>
+               <tr><td class="mono">11</td><td>Z poi X</td><td class="mono">(|10⟩ − |01⟩)/√2</td></tr>
+             </table>
+             <p>I quattro stati risultanti sono <b>perfettamente distinguibili</b> da Bob (che ha entrambi i qubit dopo aver
+             ricevuto quello di Alice): applica CNOT e H e legge due bit netti.</p>
+             <div class="callout"><b>Il bilancio onesto:</b> non è "informazione gratis". La coppia entangled va distribuita
+             <i>prima</i>, e quello costa. Ma è la dimostrazione che l'entanglement è una <b>risorsa</b> vera e propria,
+             che si può spendere — esattamente come banda o memoria.</div>
+             <p class="dim small">Nota per i curiosi: teletrasporto e dense coding sono due facce della stessa medaglia.
+             Nel primo spendi 1 coppia entangled + 2 bit classici per mandare 1 qubit. Nel secondo spendi 1 coppia entangled
+             + 1 qubit per mandare 2 bit classici.</p>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Nel teletrasporto, cosa vede Bob <b>prima</b> di ricevere i due bit classici?
+           <span class="muted">(uno stato completamente casuale: nessuna informazione, altrimenti si violerebbe la relatività)</span></p>
+        <p><b>2.</b> Prova a teletrasportare uno stato con θ = 0 (cioè |0⟩): funziona? È un caso interessante o banale?</p>
+        <p><b>3.</b> Se Alice sbaglia e applica la correzione X quando doveva applicare Z, cosa riceve Bob?</p>
+        <p class="mb0"><b>4.</b> Domanda da crittografo: se un intercettatore prova a leggere i qubit in transito,
+           cosa succede allo stato? E come se ne accorgono Alice e Bob? <i>(È esattamente il protocollo BB84.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Il teorema di no-cloning dice che…',
+      options: ['non si può misurare un qubit', 'non esiste una macchina che copia uno stato quantistico sconosciuto', 'non si possono creare stati entangled', 'i qubit si perdono dopo un secondo'], correct: 1,
+      why: 'La linearità delle operazioni quantistiche rende impossibile una fotocopiatrice universale: funzionerebbe sugli stati di base ma sbaglierebbe su tutte le sovrapposizioni.' },
+    { q: 'Nel teletrasporto quantistico, cosa viaggia da Alice a Bob?',
+      options: ['il qubit fisico', 'due bit classici, per canale normale', 'niente', 'un fotone entangled'], correct: 1,
+      why: 'Il qubit di Bob è già lì (entangled). Ad Alice servono solo due bit classici per dirgli quale correzione applicare: per questo non si supera la velocità della luce.' },
+    { q: 'Dopo il teletrasporto, lo stato originale di Alice…',
+      options: ['resta identico', 'è distrutto dalla misura', 'diventa entangled con Bob', 'raddoppia'], correct: 1,
+      why: 'È un trasferimento, non una copia: la misura di Alice distrugge l\'originale. Ecco perché il no-cloning non viene violato.' },
+    { q: 'Il dense coding permette di…',
+      options: ['inviare 2 bit classici usando 1 qubit e una coppia entangled già condivisa', 'copiare un qubit', 'comprimere i file', 'misurare due qubit insieme'], correct: 0,
+      why: 'L\'entanglement condiviso in anticipo è una risorsa che si può "spendere" per raddoppiare la capacità di un canale quantistico.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Parte A completata!</b> Sai cos'è un qubit, come si misura, come si manipola,
+          cos'è l'entanglement e cosa si può (e non si può) fare. Nella Parte B alziamo l'asticella:
+          ampiezze che puntano in qualsiasi direzione, e i primi algoritmi che battono davvero il computer classico.</div>`,
+});
+</script>
+</body>
+</html>

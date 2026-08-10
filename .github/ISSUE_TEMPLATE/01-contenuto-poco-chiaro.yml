@@ -1,0 +1,43 @@
+name: "📖 Un contenuto non si capisce"
+description: "Una spiegazione, un mini-gioco o una domanda del quiz risultano confusi"
+labels: ["contenuto"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Questa è la segnalazione **più utile** che puoi fare a questo progetto.
+        Se qualcosa non si capisce è un difetto del corso, non tuo.
+
+  - type: input
+    id: livello
+    attributes:
+      label: In quale livello?
+      placeholder: "esempio: 11 — Grover, oppure 0·3 — Seno e coseno"
+    validations:
+      required: true
+
+  - type: textarea
+    id: punto
+    attributes:
+      label: Qual è il punto esatto in cui ti sei perso?
+      description: Copia la frase, oppure descrivi cosa stavi facendo nel mini-gioco.
+    validations:
+      required: true
+
+  - type: textarea
+    id: aspettativa
+    attributes:
+      label: Cosa ti aspettavi succedesse o venisse spiegato?
+
+  - type: dropdown
+    id: preparazione
+    attributes:
+      label: Con che preparazione sei arrivato?
+      description: Serve a capire per chi il passaggio è troppo ripido.
+      options:
+        - Nessuna, sono partito dalla Parte 0
+        - Scuola superiore
+        - Università scientifica
+        - Lavoro nel settore
+    validations:
+      required: true

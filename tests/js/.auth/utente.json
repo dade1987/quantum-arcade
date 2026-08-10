@@ -1,0 +1,49 @@
+{
+  "cookies": [
+    {
+      "name": "XSRF-TOKEN",
+      "value": "eyJpdiI6Inl3bGVuNEJRQk5ZNHdDZEJTVkw3QlE9PSIsInZhbHVlIjoiQ3Z6aEVFQWtlcStMejlSM0pmRGx3TE5aMXorcHA3RXdrekpRMHFnMzduYTlYQWhaOUtwN3pQamo1OHIycVYraUUwK3MwT0hOWE5vUGZ4SEwyOTc5YXdqaVU0OGNqTldZVExZQzcyajVpZjUxZFlyMjdyZDVJTnR4Uyt6clNzOHMiLCJtYWMiOiI1MGY3MzQwZjYzMWU0Njc1ZjE4OGExMGMzZjdmZTJhZjk2YzY3NTAzNTE0MGE0OTYzZmIwYmYxMTliMTYyNmYyIiwidGFnIjoiIn0%3D",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1786372427.012182,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "laravel-session",
+      "value": "eyJpdiI6IjFJTHhKK3BDUHNUb2ZSWDRDYXpoVmc9PSIsInZhbHVlIjoicE93QWowUEozbUpZcTJqS0tSQ0s2Vll3ZVFtbytXZHZmcmZaVm1EL0hSMDYveEU1bEUrQjVoMGR0WnUxNzZ6T01HME5KYWhVeDJ5Z1V1a05seWJ5VWsrNi9wNTcrQVZLU1l1SUthSS9Bd05HNUpVam5NQkZBbFByM2MyNW1sWnAiLCJtYWMiOiIzNjNmZTc2NDE0ZmQzMWIwMGMzMGIxNjcyMGEyNzc3Y2I1NjIxZWEzN2Y2YzlkY2UwNDQwNDYyYjQ0YzJmOTA4IiwidGFnIjoiIn0%3D",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1786372427.012268,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d",
+      "value": "eyJpdiI6InVWVlYvSDU2VW05VFVMdzJBN01hRVE9PSIsInZhbHVlIjoiTnVQUDF3WjBIRDhFZmJwazVWbXNMcWgrdWlUSHYrSnNZNzhRaHlseDVFMHVjM1RpdytNRksraCt2NlZkVElVbkErOGJmTmtQWWZTdWc0bjBESGJiZ0lCdGZSWDE4eGEzMkR5OVZPYmxQYWEvU3hCeGFPR2VLT1BrYUFkbExLZ3VDNEN2SFlWSm51SGZyK2hEc2NqdEdQOVJia1ZWRldlQy9zZXFpK0tveDdUNlNEemtNUHJGVnVBaHl5ZDJuejMwVktyOTVUdlBIZ2htU1lRSndxTXJXWnY2Nk9zR3QwUjdYMy8yRlkvT0FYMD0iLCJtYWMiOiI3YmY1OWUwZjE5NTJlYTRmNTNkOWRlZWI3Yzk2MmZmNzNhNWQ3YzFjNjI5YWE2Yjg1MzYxMjJlMTA1OGUwNWJmIiwidGFnIjoiIn0%3D",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1820925227.012291,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "http://127.0.0.1:8010",
+      "localStorage": [
+        {
+          "name": "quantum-arcade:v2",
+          "value": "{\"free\":true}"
+        },
+        {
+          "name": "quantum-arcade:sound",
+          "value": "off"
+        }
+      ]
+    }
+  ]
+}

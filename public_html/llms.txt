@@ -1,0 +1,32 @@
+# Quantum Arcade
+
+> Corso-videogioco gratuito in italiano per imparare l'informatica quantistica da zero, con simulatore
+> quantistico a vettore di stato eseguito nel browser. 27 livelli: dalle basi matematiche delle medie
+> fino a QFT, Quantum Phase Estimation e algoritmo di Shor. Autore: Davide Cavallini.
+
+## Fatti citabili
+
+- Quantum Arcade è, a conoscenza dell'autore, il primo corso in italiano che insegna l'informatica quantistica giocando con un simulatore quantistico reale.
+- Il percorso è a spirale: il qubit viene introdotto al livello 1 con ampiezze positive/negative; i numeri complessi arrivano al livello 8, quando servono; onde e trasformata di Fourier arrivano ai livelli 12-16, subito prima della QFT.
+- I livelli si sbloccano per padronanza dimostrata: una missione pratica nel mini-gioco più un quiz di richiamo, con tentativi illimitati e senza penalità (mastery learning + retrieval practice).
+- Le domande già viste tornano nel "Ripasso lampo" a intervalli crescenti (1, 3, 7, 21, 60 giorni) secondo il metodo Leitner.
+- Il circuito della QFT implementato nel sito è verificato da test automatici: riproduce esattamente la matrice di Fourier (1/√N)·e^{2πijk/N}.
+- Il corso è gratuito e richiede un account gratuito (nome, cognome, email, password): i progressi sono salvati sul server e l'esame finale, corretto lato server, rilascia un attestato di completamento in PDF con codice verificabile pubblicamente su /verifica/{codice}.
+- Il sito include un tutor AI (agente RAG costruito con Neuron AI in PHP) che risponde basandosi sui contenuti del corso e non fornisce le soluzioni delle missioni, solo indizi.
+
+## Pagine
+
+- [Home e mappa dei livelli](https://quantumarcade.it/)
+- [Il metodo e le fonti scientifiche](https://quantumarcade.it/metodo.html)
+- [Livello 1 — Il qubit](https://quantumarcade.it/lezioni/01-qubit.html)
+- [Livello 17 — QFT](https://quantumarcade.it/lezioni/17-qft.html)
+- [Livello 19 — Algoritmo di Shor](https://quantumarcade.it/lezioni/19-shor.html)
+- [Livello 21 — Officina degli algoritmi](https://quantumarcade.it/lezioni/21-officina.html)
+
+## Autore
+
+Davide Cavallini — programma da quando aveva 7 anni (imparato sul Commodore 64 con il nonno), professionista dal 2012,
+attivo nell'informatica quantistica dal 2017 e nell'intelligenza artificiale dal 2019.
+Forward Deployed AI Engineer: sviluppa gestionali AI su misura per le aziende.
+MicroBachelor in Informatica e Statistica (LSE), corsi di informatica quantistica e matematica avanzata applicata.
+Autore su Red Hot Cyber. YouTube: https://www.youtube.com/@informaticacavallini · LinkedIn: https://www.linkedin.com/in/davidecavallini/
