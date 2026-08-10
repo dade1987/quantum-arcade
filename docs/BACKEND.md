@@ -68,8 +68,9 @@ XP = massimo, livelli/missioni = unione, ripasso = si tiene la scatola più bass
 - `GET /api/badge/{code}.json` → Open Badge / Verifiable Credential.
 
 La banca domande sta in `Modules/Certificates/config/config.php`, generata da
-`npm run exam:sync` a partire da `public_html/js/data/exam-bank.js`: una sola fonte di verità,
-e le soluzioni non raggiungono mai il browser.
+`npm run exam:sync` a partire da `dati/banca-esame.js`. Quel file sta **fuori da
+`public_html`** apposta: dentro sarebbe scaricabile con l'URL, risposte comprese.
+Una sola fonte di verità, e le soluzioni non raggiungono mai il browser.
 
 ### Chat — il tutor
 Agente **RAG con Neuron AI** (PHP puro, nessun processo Node da tenere acceso):

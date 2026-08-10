@@ -2,7 +2,7 @@
 
 /*
  * GENERATO AUTOMATICAMENTE da tools/sync-exam.mjs — non modificare a mano.
- * Fonte: public_html/js/data/exam-bank.js
+ * Fonte: dati/banca-esame.js (fuori dalla radice web: le soluzioni non sono scaricabili)
  *
  * Le domande stanno qui e non nel browser: se le risposte esatte fossero
  * nel codice della pagina, l'attestato non dimostrerebbe nulla.

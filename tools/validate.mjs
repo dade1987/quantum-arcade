@@ -226,6 +226,28 @@ for (const f of walk(ROOT, n => n.endsWith('.json'))) {
   catch (e) { err(rel(f), 'JSON non valido: ' + e.message); }
 }
 
+/* ---------- 8. le soluzioni dell'esame non devono essere scaricabili ---------- */
+console.log('\n[8] Segreti fuori dalla radice web');
+{
+  // Tutto ciò che sta dentro public_html è scaricabile da chiunque conosca
+  // l'URL: nessun controllo di accesso, nessuna eccezione. Le risposte esatte
+  // dell'esame lì dentro renderebbero l'attestato una formalità.
+  const banca = join(ROOT, 'dati/banca-esame.js');
+  if (existsSync(banca)) ok();
+  else err('dati/banca-esame.js', 'la banca domande non è al suo posto (fuori dalla radice web)');
+
+  let colpevoli = 0;
+  for (const f of walk(join(ROOT, 'public_html'), n => n.endsWith('.js') || n.endsWith('.json'))) {
+    const src = readFileSync(f, 'utf8');
+    if (/export\s+const\s+EXAM\b/.test(src) || /\bc:\s*\d\s*,\s*w:\s*'/.test(src)) {
+      err(rel(f), 'contiene le soluzioni dell\'esame: dentro public_html sono scaricabili da chiunque. '
+        + 'La banca domande va in dati/banca-esame.js, e sul server ci arriva solo tramite npm run exam:sync.');
+      colpevoli++;
+    }
+  }
+  if (!colpevoli) ok();
+}
+
 function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return h; }
 
 console.log(`\n${errors === 0 ? '✅' : '❌'}  ${checks} controlli superati · ${errors} errori · ${warnings} avvisi\n`);

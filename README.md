@@ -71,7 +71,8 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
     canvas.js  audio.js    motore grafico 2D + suoni arcade
     lesson.js  ui.js  formula.js
   js/widgets/              i mini-giochi (uno o più per livello)
-  js/data/exam-bank.js     banca domande dell'esame (fonte di verità)
+
+dati/banca-esame.js        banca domande dell'esame — FUORI dalla radice web
 
 Modules/                   moduli nwidart
   Accounts/                registrazione, conferma email, accesso, profilo
@@ -113,7 +114,7 @@ sintassi PHP, JSON e SVG. Lanciarlo prima di ogni pubblicazione.
 | Quando | Comando |
 |---|---|
 | Hai modificato i livelli | `php artisan chat:ingest` (riallinea il tutor) |
-| Hai modificato l'esame (`public_html/js/data/exam-bank.js`) | `npm run exam:sync` |
+| Hai modificato l'esame (`dati/banca-esame.js`) | `npm run exam:sync` |
 | Vuoi sapere dove il corso non è chiaro | `php artisan chat:report` |
 | Prima di pubblicare | `npm run test:all` |
 | Sul server, dopo ogni caricamento | `bash tools/messa-online.sh` |
