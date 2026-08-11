@@ -691,13 +691,16 @@ input[type=checkbox] { accent-color: var(--cyan); width: 15px; height: 15px; }
   .btn, button, .f-tok, .tab, .chip { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 
   .btn, .btn.sm { min-height: 44px; padding-top: 10px; padding-bottom: 10px; font-size: 14px; }
+  /* i tasti-icona ("X", "+1", il muto) sono alti ma strettissimi: un dito
+     non è più preciso in orizzontale che in verticale */
+  .btn, .f-tok { min-width: 44px; justify-content: center; }
   /* Nella barra in alto un'etichetta che va a capo raddoppia l'altezza del
      bottone e sfonda la barra. Solo lì si tiene tutto su una riga: altrove i
      bottoni hanno etichette lunghe e devono poter andare a capo, se no
      sbordano dal bordo destro dello schermo. */
   .topbar .btn { white-space: nowrap; }
   .topbar-in { height: auto; min-height: 60px; padding: 7px 0; }
-  .btn.tiny { min-height: 40px; padding: 8px 13px; font-size: 12.5px; }
+  .btn.tiny { min-height: 44px; padding: 8px 13px; font-size: 12.5px; }
   .f-tok { min-height: 44px; }
   .brand { min-height: 44px; }
 
@@ -708,6 +711,10 @@ input[type=checkbox] { accent-color: var(--cyan); width: 15px; height: 15px; }
   input[type=checkbox], input[type=radio] { width: 24px; height: 24px; }
 
   /* testo minuto: 11 px in mano, in movimento, è sotto la soglia del leggibile */
+  /* i collegamenti in fondo alla pagina sono impilati e alti 22px: uno sopra
+     l'altro, si sbaglia bersaglio. Restano testo, ma con aria intorno. */
+  .nav-foot a { padding: 11px 4px; }
+
   .tag, .xp-label, .att-note, .field-hint { font-size: 12.5px; }
   .level .lv-n, .level .lv-xp { font-size: 12.5px; }
   .brand small { font-size: 12px; }

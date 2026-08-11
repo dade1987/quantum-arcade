@@ -93,7 +93,7 @@ const CONTROLLI = () => ({
       if (!r.width || !r.height) continue;
       const st = getComputedStyle(el);
       if (st.display === 'none') continue;
-      if (el.tagName === 'A' && st.display === 'inline' && el.closest('p, li, small, td, figcaption')) continue;
+      if (el.tagName === 'A' && st.display === 'inline') continue;   // link dentro una frase: esentati dalla linea guida
       if (r.width < 44 || r.height < 44) {
         piccoli.push(`${el.tagName.toLowerCase()}.${String(el.className || '').split(' ')[0]}"${(el.textContent || '').trim().slice(0, 14)}" ${Math.round(r.width)}×${Math.round(r.height)}`);
       }
