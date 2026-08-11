@@ -71,3 +71,6 @@ Thumbs.db
 # rapporto dell'audit di giocabilità
 /tests/giocabilita.json
 /tests/testi-canvas.json
+
+# copia locale di QuantumSim usata dalla verifica incrociata (non è nostro codice)
+/.quantumsim

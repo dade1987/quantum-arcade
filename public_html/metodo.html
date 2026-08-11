@@ -195,7 +195,25 @@ duraturo. Un tutor compiacente farebbe sembrare tutto più facile e lascerebbe m
 <p>Ogni risposta cita il livello e ne mette il link: l'obiettivo del tutor è <b>riportarti dentro al gioco</b>,
 non sostituirlo. E se una domanda non trova risposta nei contenuti, lo dice invece di inventare.</p>
 
-<h2>14. Il testo del sito: quali tecniche di persuasione uso, dichiarate</h2>
+<h2>14. Come faccio a sapere che il simulatore non mente</h2>
+<p>Un corso che insegna con un simulatore ha un problema di fondo: se il simulatore sbaglia, insegna l'errore —
+e lo insegna in modo convincente, perché lo fa vedere. I test del progetto controllano le proprietà che ci si
+aspetta (le porte restano unitarie, la QFT riproduce <i>esattamente</i> la matrice di Fourier, le probabilità
+sommano a uno). Ma quei test sono scritti da me, sullo stesso ragionamento con cui è scritto il simulatore:
+se l'errore sta nel ragionamento, i test lo confermano invece di trovarlo.</p>
+<p>Per questo il simulatore è confrontato con un'<b>implementazione indipendente</b>:
+<a href="https://github.com/francescosisini/QuantumSim" target="_blank" rel="noopener">QuantumSim</a>, scritto in C
+da <b>Francesco Sisini</b>. Trecento circuiti generati a caso — fino a 4 qubit, con Hadamard, Pauli, S, T, T†,
+rotazioni di fase, CNOT, CZ e Toffoli — vengono eseguiti da entrambi i simulatori e le ampiezze confrontate una
+per una. Linguaggi diversi, autori diversi, codice scritto senza conoscersi: <b>lo scarto massimo è dell'ordine
+di 10⁻¹⁵</b>, cioè il limite della precisione dei numeri del computer. Un errore comune a entrambi, a quel punto,
+è molto improbabile.</p>
+<p class="dim small">QuantumSim è rilasciato con licenza GNU GPL v3 e <b>non è incluso in questo sito</b>: viene
+scaricato e compilato solo quando si lancia la verifica (<code>npm run test:incrociato</code>), come un attrezzo
+da banco di prova. Ringrazio Francesco Sisini per avermene concesso l'uso — e soprattutto perché è dai
+<b>suoi libri</b> che ho cominciato a imparare questa materia.</p>
+
+<h2>15. Il testo del sito: quali tecniche di persuasione uso, dichiarate</h2>
 <p>Questo sito ha anche uno scopo professionale: farmi conoscere come persona che costruisce sistemi AI e insegna.
 Trovo corretto dichiarare quali leve sto usando, così puoi valutarle:</p>
 <table class="table">
@@ -216,7 +234,7 @@ Trovo corretto dichiarare quali leve sto usando, così puoi valutarle:</p>
 Le tecniche di persuasione applicate a un'affermazione falsa non sono marketing: sono un imbroglio,
 e su un sito che insegna a distinguere il vero dal verosimile sarebbero anche ridicole.</div>
 
-<h2>15. Come è scritto per i motori di ricerca e per le AI</h2>
+<h2>16. Come è scritto per i motori di ricerca e per le AI</h2>
 <p>Metà delle ricerche oggi finisce dentro una risposta generata da un'AI invece che in una lista di link.
 Le indicazioni emerse dalla ricerca sulla <i>Generative Engine Optimization</i> sono coerenti con lo scrivere bene:</p>
 <ul>
@@ -247,6 +265,7 @@ di dubbia provenienza.</p>
   <li>Bjork, R. A. — <i>Desirable Difficulties in Theory and Practice</i>: perché ciò che rende l'apprendimento più faticoso sul momento lo rende più solido nel tempo. — <a href="https://www.researchgate.net/publication/347931447_Desirable_Difficulties_in_Theory_and_Practice" target="_blank" rel="noopener">testo</a></li>
   <li>Kivetz, R., Urminsky, O., Zheng, Y. (2006). <i>The Goal-Gradient Hypothesis Resurrected</i>. Journal of Marketing Research. — <a href="https://business.columbia.edu/insights/chazen-global-insights/goal-gradient-hypothesis-resurrected" target="_blank" rel="noopener">sintesi Columbia Business School</a></li>
   <li>Nunes, J. C., Drèze, X. (2006). <i>The Endowed Progress Effect: How Artificial Advancement Increases Effort</i>. Journal of Consumer Research. — <a href="https://www.researchgate.net/publication/23547282_The_Endowed_Progress_Effect_How_Artificial_Advancement_Increases_Effort" target="_blank" rel="noopener">testo</a></li>
+  <li>Sisini, F. — <i>QuantumSim</i>, simulatore di circuiti quantistici in C, e i libri divulgativi dello stesso autore da cui è cominciato il mio percorso in questa materia. — <a href="https://github.com/francescosisini/QuantumSim" target="_blank" rel="noopener">repository</a></li>
   <li>Bruner, J. S. (1960). <i>The Process of Education</i> — il curriculum a spirale: tornare sugli stessi concetti a livelli via via più profondi.</li>
   <li>Sweller, J. — teoria del carico cognitivo; Mayer, R. E. — principi di apprendimento multimediale (coerenza, segnalazione, contiguità, segmentazione, pre-addestramento, stile colloquiale).</li>
   <li>Hattie, J., Timperley, H. (2007). <i>The Power of Feedback</i>; Shute, V. (2008). <i>Focus on Formative Feedback</i> — il feedback funziona se immediato, specifico e riferito al compito.</li>
