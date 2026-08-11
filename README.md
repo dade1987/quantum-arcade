@@ -99,6 +99,7 @@ npm run test:coverage    # copertura del frontend
 npm run test:php         # 84 test dei moduli Laravel
 npm run test:php:coverage
 npm run test:e2e         # 67 test Playwright (desktop + telefono)
+npm run test:incrociato  # confronta il simulatore con QuantumSim (implementazione indipendente)
 npm run test:all         # tutto
 ```
 
@@ -188,6 +189,18 @@ per sempre il progetto. Il dettaglio, e il perché, sono al punto 5 di [LICENSE]
 > secondo l'Open Source Initiative, perché limita i campi di utilizzo. È una scelta
 > deliberata: il codice resta leggibile, modificabile e migliorabile da chiunque, ma il
 > lavoro non finisce rivenduto da altri.
+
+## Ringraziamenti
+
+**Francesco Sisini** — per [QuantumSim](https://github.com/francescosisini/QuantumSim), il suo simulatore di
+circuiti quantistici in C, che qui serve come **implementazione indipendente** contro cui verificare il
+simulatore di questo progetto: trecento circuiti generati a caso, due programmi scritti da persone diverse in
+linguaggi diversi, scarto massimo dell'ordine di 10⁻¹⁵. Lo ringrazio per avermene concesso liberamente l'uso, e
+soprattutto perché **è dai suoi libri che ho cominciato a imparare questa materia**.
+
+> QuantumSim è rilasciato con licenza GNU GPL v3 e **non è incluso in questo progetto**: `npm run test:incrociato`
+> lo scarica in `.quantumsim/` (fuori da git), lo compila e lo interroga. Resta un attrezzo del banco di prova,
+> non una dipendenza del sito.
 
 ## Crediti
 
