@@ -148,6 +148,34 @@ function gateBlock(lv, missions, quiz, next) {
 
 /* ---------------- pagina completa ---------------- */
 
+/**
+ * "Non ho capito" — un tocco, niente da scrivere.
+ *
+ * Il contributo più prezioso a questo corso è sapere DOVE non si capisce, ma
+ * finora per dirlo bisognava aprire una issue su GitHub: cosa che chi si sta
+ * perdendo non farà mai. Qui basta un pulsante in fondo a ogni passo.
+ *
+ * Non costruisce un canale nuovo: apre il tutor con la domanda già scritta.
+ * Così la segnalazione finisce nelle conversazioni, che sono esattamente
+ * quello che `php artisan chat:report` legge per dire dove il corso non è
+ * chiaro. Se il server non c'è, la nota resta almeno in questo browser.
+ */
+function nonHoCapito(titoloPasso, apriTutor) {
+  const b = h('button', { class: 'btn tiny ghost', style: { marginTop: '10px' } }, '🤔 non ho capito questo passaggio');
+  b.addEventListener('click', () => {
+    try {
+      const k = 'quantum-arcade:non-capito';
+      const el = JSON.parse(localStorage.getItem(k) || '[]');
+      el.push({ passo: titoloPasso, quando: new Date().toISOString() });
+      localStorage.setItem(k, JSON.stringify(el.slice(-50)));
+    } catch { /* modalità privata: pazienza */ }
+    b.textContent = '✓ grazie, segnalato';
+    b.disabled = true;
+    apriTutor && apriTutor(titoloPasso);
+  });
+  return h('div', {}, b);
+}
+
 export function renderLesson(cfg) {
   const lv = levelById(cfg.id);
   if (!lv) throw new Error('Livello non trovato: ' + cfg.id);
@@ -173,10 +201,11 @@ export function renderLesson(cfg) {
 
   // L'accesso è richiesto per giocare: i progressi vivono sul server.
   // initAccount() è asincrono, quindi il contenuto viene montato dopo il controllo.
+  let tutor = null;
   initAccount().then(() => {
     if (!requireAccount(app, `${lv.n} — ${lv.title}`)) return;
+    tutor = mountTutor({ levelId: lv.id, levelTitle: `${lv.n} — ${lv.title}` });
     mountLesson();
-    mountTutor({ levelId: lv.id, levelTitle: `${lv.n} — ${lv.title}` });
   });
 
   function mountLesson() {
@@ -223,6 +252,11 @@ export function renderLesson(cfg) {
       }
     }
     if (s.after) sec.appendChild(h('div', { html: s.after }));
+    sec.appendChild(nonHoCapito(s.t, titolo => {
+      if (!tutor) return;
+      tutor.open();
+      tutor.ask(`Non ho capito il passaggio "${titolo}". Me lo rispieghi in modo più semplice, senza formule?`);
+    }));
   });
 
   if (cfg.outro) app.appendChild(h('div', { class: 'step', html: cfg.outro }));

@@ -181,3 +181,90 @@ export function hadamardMap(host) {
   stage.pause();
   return { stage };
 }
+
+/* ------------------------------------------------------------
+   IL QUADRATO DELLA PROBABILITÀ
+
+   "probabilità = |ampiezza|²" è il punto in cui, provando il corso, una
+   persona si è fermata dicendo "per me è arabo". Il problema non era la
+   difficoltà del concetto: era che il simbolo arrivava prima del fenomeno.
+
+   Qui il quadrato lo si vede. Il lato è l'ampiezza, e la probabilità è
+   l'AREA. Trascini il lato, l'area cresce più in fretta del lato, e la
+   percentuale segue l'area. Nessuno ti dice "elevalo al quadrato": lo
+   guardi succedere. Il nome della cosa arriva alla fine, come didascalia.
+   ------------------------------------------------------------ */
+export function probabilitaQuadrato(host, opts = {}) {
+  const cfg = Object.assign({ onWin: null, need: 3 }, opts);
+  const w = widget(host, {
+    title: 'Perché si eleva al quadrato',
+    subtitle: 'il lato è l\'ampiezza, l\'area è la probabilità',
+  });
+  const st = { a: 0.8, centrati: 0, fatti: new Set(), bersaglio: 0.5 };
+  const BERSAGLI = [0.5, 0.25, 0.09, 0.64];
+
+  const stage = new Stage(w.body, {
+    height: 260,
+    draw(ctx, s) {
+      bg(ctx, s);
+      const p = st.a * st.a;
+      const vicino = Math.abs(p - st.bersaglio) < 0.02;
+
+      text(ctx, vicino ? '✓ CENTRATO!' : `🎯 fai diventare l'area ${Math.round(st.bersaglio * 100)}%`,
+        16, 18, { size: 13, weight: '800', mono: false, color: vicino ? COL.green : COL.amber, max: s.w - 32 });
+
+      // il quadrato: lato = ampiezza, area = probabilità
+      const lato = Math.min(s.h - 92, s.w * 0.42);
+      const x0 = 20, y0 = 40;
+      roundRect(ctx, x0, y0, lato, lato, 4, { stroke: '#2b3b5e' });
+      const l = lato * st.a;
+      roundRect(ctx, x0, y0 + lato - l, l, l, 3, { fill: 'rgba(34,211,238,.30)', stroke: COL.cyan });
+
+      // il lato, misurato
+      ctx.strokeStyle = COL.amber; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x0, y0 + lato + 12); ctx.lineTo(x0 + l, y0 + lato + 12); ctx.stroke();
+      text(ctx, `lato = ${st.a.toFixed(2)}`, x0, y0 + lato + 28, { size: 11.5, color: COL.amber, max: lato });
+
+      // la lettura, a destra del quadrato
+      const rx = x0 + lato + 18;
+      const spazio = s.w - rx - 14;
+      text(ctx, 'AREA', rx, y0 + 16, { size: 11, color: '#7f8fb3', max: spazio });
+      text(ctx, `${(p * 100).toFixed(0)}%`, rx, y0 + 44, { size: 26, weight: '800', color: COL.cyan, max: spazio });
+      text(ctx, 'è la probabilità', rx, y0 + 66, { size: 11, color: '#7f8fb3', max: spazio });
+      text(ctx, `${st.a.toFixed(2)} × ${st.a.toFixed(2)}`, rx, y0 + 92, { size: 13, color: COL.txt, max: spazio });
+      text(ctx, `= ${p.toFixed(2)}`, rx, y0 + 112, { size: 13, color: COL.cyan, max: spazio });
+
+      text(ctx, s.w < 430 ? 'dimezza il lato: l\'area diventa un quarto' : 'dimezza il lato e l\'area diventa un quarto, non la metà',
+        16, s.h - 12, { size: 11, color: '#6f7fa3', max: s.w - 32 });
+    },
+  });
+
+  const out = readout('');
+  const sl = slider({
+    label: 'Lunghezza del lato (l\'ampiezza)', min: 0, max: 1, step: 0.01, value: st.a,
+    fmt: v => (+v).toFixed(2),
+    oninput: v => { st.a = +v; upd(); },
+  });
+  w.body.appendChild(sl.root);
+  w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '8px' } },
+    BERSAGLI.map(b => h('button', {
+      class: 'btn sm', onclick: () => { st.bersaglio = b; upd(); },
+    }, `obiettivo ${Math.round(b * 100)}%`))));
+  w.body.appendChild(out.root);
+
+  function upd() {
+    const p = st.a * st.a;
+    const vicino = Math.abs(p - st.bersaglio) < 0.02;
+    out.set(`Lato <b>${st.a.toFixed(2)}</b> → area <b>${(p * 100).toFixed(1)}%</b>\n` +
+      `Il lato è cresciuto di poco, l'area di molto: è questo che vuol dire "al quadrato".` +
+      (vicino ? `\n<span class="g">🎯 centrato!</span>` : ''));
+    stage.redraw();
+    if (vicino && !st.fatti.has(st.bersaglio)) {
+      st.fatti.add(st.bersaglio); sfx.ok();
+      if (st.fatti.size >= cfg.need) cfg.onWin && cfg.onWin(st.fatti.size);
+    }
+  }
+  upd();
+  w.setFoot('<b>Adesso il nome:</b> quello che hai appena mosso si chiama <b>ampiezza</b>, e l\'area del quadrato — cioè l\'ampiezza moltiplicata per sé stessa — è la <b>probabilità</b> di ottenere quel risultato quando misuri. Si scrive <code>|ampiezza|²</code>: sono le stesse tre cose che hai davanti, scritte corte.');
+  return { state: st };
+}

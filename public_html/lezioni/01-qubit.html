@@ -13,7 +13,7 @@
 <script type="module">
 import { renderLesson } from '../js/core/lesson.js';
 import { formula, stepper } from '../js/core/formula.js';
-import { qubitBuilder, coinVsQubit, hadamardMap } from '../js/widgets/qubit.js';
+import { qubitBuilder, coinVsQubit, hadamardMap, probabilitaQuadrato } from '../js/widgets/qubit.js';
 import { polaroidLab } from '../js/widgets/quantum2.js';
 
 const L = renderLesson({
@@ -73,6 +73,18 @@ qubit:      [ ampiezza di 0 , ampiezza di 1 ]
               Il filtro <b>misura</b>, e la misura <b>riscrive</b> lo stato: dopo il filtro a 45°, il fotone <b>è</b> a 45°,
               e da lì ha di nuovo il 50% di probabilità di passare a 90°. La misura in fisica quantistica non è
               "guardare senza toccare": è un'operazione che cambia il sistema.</div>`,
+    },
+    {
+      t: 'Perché la probabilità si ottiene elevando al quadrato',
+      html: `<p>Prima di scrivere qualunque formula, guardiamo la cosa succedere. Il numero che
+             descrive un risultato — quanto quel risultato "pesa" — qui è il <b>lato di un quadrato</b>.
+             La probabilità di ottenerlo è l'<b>area</b>.</p>
+             <p>Muovi il lato e guarda l'area: cresce molto più in fretta. Dimezza il lato e l'area
+             diventa un quarto, non la metà. Non c'è niente da imparare a memoria, c'è da guardare.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'quadrato', title: 'Il quadrato della probabilità', text: 'centra tre aree diverse muovendo il lato.', xp: 25 });
+        probabilitaQuadrato(el, { need: 3, onWin: () => m.done() });
+      },
     },
     {
       t: 'Come si scrive uno stato: la notazione di Dirac',
