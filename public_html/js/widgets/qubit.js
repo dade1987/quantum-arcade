@@ -143,7 +143,9 @@ export function coinVsQubit(host, opts = {}) {
 export function hadamardMap(host) {
   const w = widget(host, { title: 'Cosa fa esattamente H', subtitle: 'le quattro regole, disegnate' });
   const stage = new Stage(w.body, {
-    height: 250,
+    // impilati servono due riquadri per riga: più alto, se no la nota in
+    // fondo finisce sopra l'ultimo
+    height: window.innerWidth < 430 ? 300 : 250,
     draw(ctx, s) {
       bg(ctx, s);
       const rows = [

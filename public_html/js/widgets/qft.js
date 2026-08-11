@@ -258,7 +258,9 @@ export function shorLab(host, opts = {}) {
           stroke: isStart ? COL.green : '#22304d',
         });
         text(ctx, String(v), cx + cw / 2, 50, { size: 13, align: 'center', color: isStart ? COL.green : COL.txt });
-        text(ctx, 'x=' + x, cx + cw / 2, 82, { size: 9.5, align: 'center', color: '#6f7fa3' });
+        // colonne strette: si alternano le etichette invece di sovrapporle
+        if (cw > 30) text(ctx, 'x=' + x, cx + cw / 2, 82, { size: 9.5, align: 'center', color: '#6f7fa3', max: cw });
+        else if (cw > 15 && x % 2 === 0) text(ctx, String(x), cx + cw / 2, 82, { size: 9.5, align: 'center', color: '#6f7fa3', max: cw });
       }
       if (r) {
         text(ctx, `il valore 1 ritorna ogni ${r} passi → PERIODO r = ${r}`, 12, 108, { size: 12, color: COL.green });

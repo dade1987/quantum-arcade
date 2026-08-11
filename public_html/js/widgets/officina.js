@@ -118,16 +118,24 @@ export function officina(host, opts = {}) {
     },
     draw(ctx, s) {
       bg(ctx, s);
-      text(ctx, 'la tua pipeline (clicca un blocco per toglierlo) — poi premi LANCIA', 12, 12, { size: 11, color: COL.txt });
-      const bw = 118, x0 = 12;
+      text(ctx, s.w < 430 ? 'la tua pipeline (clicca un blocco per toglierlo)' : 'la tua pipeline (clicca un blocco per toglierlo) — poi premi LANCIA',
+        12, 12, { size: 11, color: COL.txt, max: s.w - 24 });
+      /* I blocchi erano larghi 118 px fissi: con quattro blocchi servivano
+         oltre 500 px e su un telefono gli ultimi finivano fuori dalla tela,
+         insieme alla scritta MISURA. Ora la larghezza si divide lo spazio
+         che c'è, riservando il posto per MISURA in fondo. */
+      const x0 = 12;
+      const spazioMisura = 74;
+      const nBlocchi = Math.max(1, st.pipe.length);
+      const bw = Math.min(118, (s.w - x0 - spazioMisura - 8) / nBlocchi);
       st.pipe.forEach((b, i) => {
         const B = BLOCKS[b];
         roundRect(ctx, x0 + i * bw, 22, bw - 10, 46, 8, { fill: 'rgba(255,255,255,.03)', stroke: B.col, width: 1.6 });
-        text(ctx, B.lab, x0 + i * bw + (bw - 10) / 2, 45, { size: 12, align: 'center', color: B.col, mono: false, weight: '700' });
+        text(ctx, B.lab, x0 + i * bw + (bw - 10) / 2, 45, { size: 12, align: 'center', color: B.col, mono: false, weight: '700', max: bw - 14 });
         if (i < st.pipe.length - 1) text(ctx, '→', x0 + (i + 1) * bw - 7, 45, { size: 13, align: 'center', color: '#4a5877' });
       });
       if (!st.pipe.length) text(ctx, '(vuota — aggiungi blocchi qui sotto)', 14, 45, { size: 12, color: '#5b6b90' });
-      text(ctx, '📏 MISURA', x0 + st.pipe.length * bw + 8, 45, { size: 12, color: '#6f7fa3', mono: false });
+      text(ctx, '📏 MISURA', Math.min(x0 + st.pipe.length * bw + 8, s.w - spazioMisura), 45, { size: 12, color: '#6f7fa3', mono: false, max: spazioMisura - 6 });
     },
   });
   const fx = attachFX(pipeStage);   // scintille, lampi e suono ai traguardi

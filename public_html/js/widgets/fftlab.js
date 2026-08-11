@@ -25,14 +25,26 @@ export function costLab(host, opts = {}) {
         { lab: 'QFT (porte del circuito quantistico)', val: c.qftGates, col: COL.green, note: 'n(n+1)/2 + swap' },
       ];
       const maxLog = Math.log10(Math.max(...items.map(i => i.val)) + 10);
-      text(ctx, `N = 2^${st.n} = ${N.toLocaleString('it-IT')} numeri  (cioè ${st.n} qubit)`, 12, 18, { size: 13, color: COL.txt });
+      text(ctx, `N = 2^${st.n} = ${N.toLocaleString('it-IT')} numeri  (cioè ${st.n} qubit)`, 12, 18, { size: 13, color: COL.txt, max: s.w - 24 });
       items.forEach((it, i) => {
-        const y = 46 + i * 62;
+        const y = 46 + i * (s.w < 430 ? 70 : 62);
         const bw = (Math.log10(it.val + 10) / maxLog) * (s.w - 220);
         roundRect(ctx, 12, y, s.w - 24, 50, 8, { fill: '#0d1526', stroke: '#1a2440' });
         roundRect(ctx, 20, y + 22, Math.max(3, bw), 18, 5, { fill: it.col, alpha: .85 });
-        text(ctx, it.lab, 20, y + 12, { size: 11.5, color: COL.txt });
-        text(ctx, it.note, s.w - 30, y + 12, { size: 10.5, align: 'right', color: '#5b6b90' });
+        /* Il nome dell'algoritmo e la sua formula stavano sulla stessa riga,
+           uno a sinistra e una a destra, senza sapere l'uno dell'altra: su
+           schermo stretto si incontravano in mezzo. Ora la formula si prende
+           lo spazio che le serve e il nome usa quello che resta; sotto una
+           certa larghezza la formula va sulla riga di sotto. */
+        const largaNota = ctx.measureText(it.note).width + 30;
+        const stretta = s.w < 430;
+        if (stretta) {
+          text(ctx, it.lab, 20, y + 12, { size: 11.5, color: COL.txt, max: s.w - 46 });
+          text(ctx, it.note, 20, y + 46, { size: 10.5, color: '#5b6b90', max: s.w - 46 });
+        } else {
+          text(ctx, it.lab, 20, y + 12, { size: 11.5, color: COL.txt, max: s.w - 40 - largaNota });
+          text(ctx, it.note, s.w - 30, y + 12, { size: 10.5, align: 'right', color: '#5b6b90' });
+        }
         text(ctx, it.val.toLocaleString('it-IT'), 28 + Math.max(3, bw), y + 32, { size: 12, color: it.col });
       });
     },

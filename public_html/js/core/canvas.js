@@ -264,9 +264,13 @@ export function complexAxes(ctx, P, { r = 1, labels = true, unitCircle = true } 
   ctx.stroke();
   if (unitCircle) circle(ctx, P.cx, P.cy, R, { stroke: '#2a3a5c', dash: [4, 5] });
   if (labels) {
-    text(ctx, 'reale →', P.cx + R * 1.28, P.cy + 12, { size: 10, color: '#59688c' });
-    text(ctx, '↑ immaginario', P.cx + 6, P.cy - R * 1.28, { size: 10, color: '#59688c' });
-    text(ctx, '1', P.X(1) + 4, P.cy + 11, { size: 10, color: '#59688c' });
+    /* "reale →" stava appoggiata sull'asse orizzontale, che le passava
+       attraverso come una riga di cancellatura; "↑ immaginario" finiva sotto
+       le scritte di lettura in alto. Ora stanno appena discoste. */
+    text(ctx, 'reale →', P.cx + R * 1.28, P.cy + 17, { size: 10, align: 'right', color: '#59688c' });
+    // a metà dell'asse, non in cima: in cima ci sono le righe di lettura
+    text(ctx, '↑ immag.', P.cx - 10, P.cy - R * 0.62, { size: 10, align: 'right', color: '#59688c' });
+    text(ctx, '1', P.X(1) + 4, P.cy + 30, { size: 10, color: '#59688c' });
     text(ctx, 'i', P.cx + 6, P.Y(1) - 2, { size: 10, color: '#59688c' });
   }
   ctx.restore();

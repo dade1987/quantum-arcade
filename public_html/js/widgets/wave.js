@@ -5,7 +5,7 @@
    Opzionale: onda bersaglio da ricalcare (missione).
    ============================================================ */
 
-import { Stage, COL, bg, grid, plot, dot, text, arrow, circle, attachFX } from '../core/canvas.js';
+import { Stage, COL, bg, grid, plot, dot, text, arrow, circle, roundRect, attachFX } from '../core/canvas.js';
 import { widget, slider, controls, buttons, h, readout } from '../core/ui.js';
 import { sfx, playTone  } from '../core/audio.js';
 
@@ -63,7 +63,14 @@ export function waveLab(host, opts = {}) {
       const xA = px(Math.min(tPeak, cfg.tMax * 0.9));
       arrow(ctx, xA, py(0), xA, py(state.A), { color: COL.amber, width: 1.6, head: 7 });
       arrow(ctx, xA, py(state.A), xA, py(0), { color: COL.amber, width: 1.6, head: 7 });
-      text(ctx, `A = ${state.A.toFixed(2)}`, xA + 7, py(state.A / 2), { size: 11, color: COL.amber });
+      /* La scritta dell'ampiezza si disegna alla fine (vedi in fondo): le
+         tratteggiate del periodo, che vengono dopo, le passavano sopra. */
+
+      const scriviAmpiezza = () => {
+        const etA = `A = ${state.A.toFixed(2)}`;
+        roundRect(ctx, xA + 9, py(state.A) + 4, 62, 17, 4, { fill: 'rgba(8,14,27,.9)' });
+        text(ctx, etA, xA + 13, py(state.A) + 13, { size: 11, color: COL.amber, max: 56 });
+      };
 
       // periodo: tra due massimi consecutivi
       if (cfg.showPeriod) {
@@ -91,6 +98,8 @@ export function waveLab(host, opts = {}) {
         const tt = (s.t * 0.45) % cfg.tMax;
         dot(ctx, px(tt), py(y(tt)), 5, COL.cyan);
       }
+
+      scriviAmpiezza();   // per ultima: così niente le passa sopra
     },
   });
   const fx = attachFX(stage);   // scintille, lampi e suono ai traguardi

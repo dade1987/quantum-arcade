@@ -108,7 +108,8 @@ export function dftLab(host, opts = {}) {
       // il valore non sale mai fin sopra il titolo del riquadro
       const yVal = Math.max(r.y + 26, mid - hgt + (hgt >= 0 ? -12 : 12));
       text(ctx, st.x[i].toFixed(2), cx, yVal, { size: 9.5, align: 'center', color: COL.txt });
-      if (cw > 18) text(ctx, 'n=' + i, cx, r.y + r.h - 8, { size: 9.5, align: 'center', color: '#6f7fa3' });
+      if (cw > 26) text(ctx, 'n=' + i, cx, r.y + r.h - 8, { size: 9.5, align: 'center', color: '#6f7fa3', max: cw });
+      else if (cw > 15 && i % 4 === 0) text(ctx, String(i), cx, r.y + r.h - 8, { size: 9.5, align: 'center', color: '#6f7fa3', max: cw * 2 });
     }
   }
 
@@ -140,12 +141,24 @@ export function dftLab(host, opts = {}) {
     if (upTo === N) {
       arrow(ctx, P.cx, P.cy, P.X(total.re), P.Y(total.im), { color: COL.pink, width: 3.6, head: 12 });
       const mag = Math.hypot(total.re, total.im);
-      text(ctx, `X(${st.k}) = ${mag.toFixed(2)}`, P.X(total.re) + 8, P.Y(total.im) - 8, { size: 12, color: COL.pink });
+      const etX = `X(${st.k}) = ${mag.toFixed(2)}`;
+      const larghX = 12 + etX.length * 7;
+      // la punta della freccia può stare vicino al bordo: il fondino e la
+      // scritta rientrano invece di uscire dalla tela
+      const exX = Math.min(P.X(total.re) + 4, r.x + r.w - larghX - 6);
+      roundRect(ctx, exX, P.Y(total.im) - 19, larghX, 17, 4, { fill: 'rgba(8,14,27,.82)' });
+      text(ctx, etX, exX + 4, P.Y(total.im) - 10, { size: 12, color: COL.pink, max: larghX - 8 });
     }
     // posizioni dell'orologio: dove punta e^{-i2πkn/N}
+    /* I numeri stanno attorno all'orologio: quando k è alto due indici finiscono
+       nella stessa posizione angolare e le cifre si sovrappongono. Si tiene il
+       primo che occupa quel punto. */
+    const presi = [];
     for (let n = 0; n < N; n++) {
       const th = -2 * Math.PI * st.k * n / N;
       const cx2 = P.cx + Math.cos(th) * (R + 14), cy2 = P.cy - Math.sin(th) * (R + 14);
+      if (presi.some(q => Math.hypot(q[0] - cx2, q[1] - cy2) < 13)) continue;
+      presi.push([cx2, cy2]);
       text(ctx, String(n), cx2, cy2, { size: 9.5, align: 'center', color: n < upTo ? hsl(n, N) : '#39466a' });
     }
     if (st.anim) text(ctx, `sto sommando la freccia n = ${Math.min(N - 1, Math.floor(st.prog))}`, r.x + 8, r.y + r.h - 8, { size: 10.5, color: COL.amber });
@@ -165,8 +178,12 @@ export function dftLab(host, opts = {}) {
       const sel = k === st.k;
       roundRect(ctx, cx - Math.min(17, cw / 2 - 3), base - hgt, Math.min(34, cw - 6), Math.max(1.5, hgt), 3,
         { fill: sel ? COL.amber : COL.violet, alpha: sel ? 1 : .55 });
-      text(ctx, 'k=' + k, cx, base + 9, { size: 9.5, align: 'center', color: sel ? COL.amber : '#6f7fa3' });
-      if (m[k] > maxM * 0.02) text(ctx, m[k].toFixed(1), cx, base - hgt - 7, { size: 9, align: 'center', color: '#8fa0c4' });
+      // se le colonne sono strette le etichette si toccherebbero: se ne
+      // scrive una ogni due, più sempre quella selezionata
+      if (cw > 26 || sel || (cw > 15 && k % 4 === 0)) {
+        text(ctx, (cw > 26 ? 'k=' : '') + k, cx, base + 9, { size: 9.5, align: 'center', color: sel ? COL.amber : '#6f7fa3', max: cw });
+      }
+      if (m[k] > maxM * 0.02) text(ctx, m[k].toFixed(1), cx, Math.max(r.y + 26, base - hgt - 7), { size: 9, align: 'center', color: '#8fa0c4', max: cw * 1.6 });
     }
   }
 

@@ -54,7 +54,9 @@ export function phasorLab(host, opts = {}) {
       // marcatori dei quattro punti chiave
       [[0, '1'], [Math.PI / 2, 'i'], [Math.PI, '−1'], [-Math.PI / 2, '−i']].forEach(([a, l]) => {
         dot(ctx, P.X(Math.cos(a)), P.Y(Math.sin(a)), 2.6, '#4d5f86', false);
-        text(ctx, l, P.X(1.16 * Math.cos(a)), P.Y(1.16 * Math.sin(a)), { size: 11, align: 'center', color: '#7185ab' });
+        // il marcatore a sinistra (−1) usciva di qualche pixel: si tiene dentro
+        const mx = Math.max(12, Math.min(s.w - 12, P.X(1.16 * Math.cos(a))));
+        text(ctx, l, mx, P.Y(1.16 * Math.sin(a)), { size: 11, align: 'center', color: '#7185ab' });
       });
 
       if (!cfg.showWave) return;
@@ -147,7 +149,10 @@ export function multiplyLab(host, opts = {}) {
         const x = P.X(o.r * Math.cos(o.th)), y = P.Y(o.r * Math.sin(o.th));
         arrow(ctx, P.cx, P.cy, x, y, { color: col, width: 2.6 });
         dot(ctx, x, y, 5, col);
-        text(ctx, lab, x + 8, y - 8, { size: 12, color: col });
+        // la lettera segue la punta della freccia, che può capitare ovunque:
+        // un fondino la stacca da assi ed etichette che ci passano dietro
+        roundRect(ctx, x + 4, y - 18, 10 + lab.length * 8, 16, 4, { fill: 'rgba(8,14,27,.8)' });
+        text(ctx, lab, x + 8, y - 10, { size: 12, color: col, max: 8 + lab.length * 8 });
       };
       dr(A, COL.cyan, 'A');
       dr(B, COL.amber, 'B');

@@ -90,10 +90,32 @@ const SPIA = () => {
   };
 
   // le linee: raccolgo i punti del percorso e li registro quando viene tracciato
-  const beginPath = P.beginPath, moveTo = P.moveTo, lineTo = P.lineTo, stroke = P.stroke;
+  const beginPath = P.beginPath, moveTo = P.moveTo, lineTo = P.lineTo, stroke = P.stroke, arcTo = P.arcTo, fill = P.fill;
   P.beginPath = function () { this.__punti = []; return beginPath.apply(this, arguments); };
   P.moveTo = function (x, y) { (this.__punti = this.__punti || []).push([x, y]); return moveTo.apply(this, arguments); };
   P.lineTo = function (x, y) { (this.__punti = this.__punti || []).push([x, y]); return lineTo.apply(this, arguments); };
+  P.arcTo = function (x1, y1, x2, y2) {
+    (this.__punti = this.__punti || []).push([x1, y1], [x2, y2]);
+    return arcTo.apply(this, arguments);
+  };
+  /* Un riempimento di percorso — per esempio il fondino dietro una scritta,
+     che roundRect disegna con arcTo — copre ciò che sta sotto esattamente come
+     un fillRect. Senza registrarlo, una linea nascosta dal fondino sembrerebbe
+     ancora barrare la scritta. */
+  P.fill = function () {
+    try {
+      const p = this.__punti || [];
+      const st = String(this.fillStyle);
+      const trasp = /rgba\([^)]*,\s*0?\.\d+\)/.test(st) && parseFloat(st.split(',').pop()) < 0.5;
+      if (p.length >= 2 && this.globalAlpha > 0.5 && !trasp) {
+        const xs = p.map(q => q[0]), ys = p.map(q => q[1]);
+        const x = Math.min(...xs), y = Math.min(...ys);
+        window.__disegni.push({ tipo: 'rett', x, y, w: Math.max(...xs) - x, h: Math.max(...ys) - y, colore: String(this.fillStyle).slice(0, 24), ...tela(this) });
+      }
+    } catch { }
+    return fill.apply(this, arguments);
+  };
+
   P.stroke = function () {
     try {
       const p = this.__punti || [];
@@ -166,15 +188,39 @@ const ANALIZZA = (soloTela) => {
 
   // una linea (spesso un tratteggio) che passa in mezzo a una scritta
   const barrate = [];
+  const fondini = dis.map((d, i) => ({ ...d, ordine: i })).filter(d => d.tipo === 'rett');
+  const protetta = (t, l) => fondini.some(f => {
+    if (f.ordine < l.ordine || f.ordine > t.ordine) return false;
+    const fx = Math.min(f.x, f.x + f.w), fX = Math.max(f.x, f.x + f.w);
+    const fy = Math.min(f.y, f.y + f.h), fY = Math.max(f.y, f.y + f.h);
+    return fx <= t.sinistra + 2 && fX >= t.destra - 2 && fy <= t.alto + 2 && fY >= t.basso - 2;
+  });
+  /* Quanta parte della scritta attraversa davvero il segmento.
+     Prendere il rettangolo di ingombro del segmento sarebbe sbagliato: una
+     diagonale che passa lontano dalla scritta ha comunque un ingombro che la
+     contiene, e verrebbe segnalata a torto. Si campiona il segmento e si
+     guarda quanto di esso cade dentro la scatola del testo. */
+  const attraversa = (t, l) => {
+    const passi = 48;
+    let dentro = 0, primo = null, ultimo = null;
+    for (let i = 0; i <= passi; i++) {
+      const x = l.x1 + (l.x2 - l.x1) * (i / passi);
+      const y = l.y1 + (l.y2 - l.y1) * (i / passi);
+      if (x >= t.sinistra && x <= t.destra && y >= t.alto - l.spessore && y <= t.basso + l.spessore) {
+        dentro++;
+        if (primo === null) primo = x;
+        ultimo = x;
+      }
+    }
+    return dentro ? Math.abs(ultimo - primo) : 0;
+  };
+
   for (const l of dis.map((d, i) => ({ ...d, ordine: i })).filter(d => d.tipo === 'linea')) {
     for (const t of testi) {
       if (t.ordine > l.ordine) continue;
-      const lx = Math.min(l.x1, l.x2), lX = Math.max(l.x1, l.x2);
-      const ly = Math.min(l.y1, l.y2), lY = Math.max(l.y1, l.y2);
-      const ox = Math.min(t.destra, lX) - Math.max(t.sinistra, lx);
-      const oy = Math.min(t.basso, lY + l.spessore) - Math.max(t.alto, ly - l.spessore);
+      const ox = attraversa(t, l);
       // deve attraversare la scritta, non sfiorarla: almeno metà larghezza
-      if (ox > Math.max(12, t.larghezza * 0.5) && oy > 1) {
+      if (ox > Math.max(12, t.larghezza * 0.5) && !protetta(t, l)) {
         barrate.push({ testo: t.testo.slice(0, 34), tratteggio: !!l.tratteggio, px: Math.round(ox) });
         break;
       }
