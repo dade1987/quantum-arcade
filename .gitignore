@@ -67,3 +67,6 @@ Thumbs.db
 
 # copia statica per l'anteprima su GitHub Pages
 /_anteprima
+
+# rapporto dell'audit di giocabilità
+/tests/giocabilita.json
