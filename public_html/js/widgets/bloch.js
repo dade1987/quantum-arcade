@@ -41,8 +41,13 @@ export function blochSphere(host, opts = {}) {
     },
     draw(ctx, s) {
       bg(ctx, s);
-      const R = Math.min(s.w, s.h) / 2 - 34;
-      const cx = s.w / 2, cy = s.h / 2;
+      /* Le righe di lettura (θ, φ, lunghezza) stanno in alto a sinistra. La
+         palla era centrata sull'intera tela, quindi su uno schermo stretto il
+         polo |0⟩ finiva proprio sopra la riga della fase. Ora la palla si
+         centra nello spazio che resta sotto l'intestazione. */
+      const cima = cfg.showAngles ? 56 : 10;
+      const R = Math.min(s.w, s.h - cima) / 2 - 34;
+      const cx = s.w / 2, cy = cima + (s.h - cima) / 2;
 
       // interpolazione morbida verso lo stato nuovo
       shown.x += (target.x - shown.x) * 0.18;
@@ -102,11 +107,14 @@ export function blochSphere(host, opts = {}) {
       if (cfg.showAngles) {
         const th = Math.acos(Math.max(-1, Math.min(1, shown.z / (len || 1)))) * 180 / Math.PI;
         const ph = ((Math.atan2(shown.y, shown.x) * 180 / Math.PI) % 360 + 360) % 360;
-        text(ctx, `θ = ${th.toFixed(0)}°  (quanto è "giù")`, 10, 16, { size: 11, color: COL.txt });
-        text(ctx, `φ = ${ph.toFixed(0)}°  (la FASE, giro sull'equatore)`, 10, 32, { size: 11, color: COL.violet });
-        if (len < 0.98) text(ctx, `lunghezza ${len.toFixed(2)} < 1 → qubit intrecciato con altri`, 10, 48, { size: 10.5, color: COL.amber });
+        const stretto = s.w < 430;
+        text(ctx, `θ = ${th.toFixed(0)}°  (quanto è "giù")`, 10, 16, { size: 11, color: COL.txt, max: s.w - 20 });
+        text(ctx, stretto ? `φ = ${ph.toFixed(0)}°  (la FASE)` : `φ = ${ph.toFixed(0)}°  (la FASE, giro sull'equatore)`,
+          10, 32, { size: 11, color: COL.violet, max: s.w - 20 });
+        if (len < 0.98) text(ctx, stretto ? `lunghezza ${len.toFixed(2)} < 1 → intrecciato` : `lunghezza ${len.toFixed(2)} < 1 → qubit intrecciato con altri`,
+          10, 48, { size: 10.5, color: COL.amber, max: s.w - 20 });
       }
-      text(ctx, 'trascina per girare la palla', s.w - 10, s.h - 8, { size: 10, align: 'right', color: '#4a5877' });
+      text(ctx, 'trascina per girare la palla', s.w - 10, s.h - 8, { size: 10, align: 'right', color: '#4a5877', max: s.w - 20 });
     },
   });
 
