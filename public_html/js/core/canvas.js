@@ -30,6 +30,11 @@ export class Stage {
 
     this._ro = new ResizeObserver(() => this.resize());
     this._ro.observe(this.el);
+    // l'altezza dipende anche da quella della finestra: girare il telefono
+    // cambia solo quella, e il ResizeObserver del contenitore non se ne accorge
+    this._onResize = () => this.resize();
+    window.addEventListener('resize', this._onResize);
+    window.addEventListener('orientationchange', this._onResize);
     this.resize();
 
     this._io = new IntersectionObserver(es => { this.visible = es[0].isIntersecting; }, { threshold: 0.02 });
@@ -42,13 +47,27 @@ export class Stage {
 
   resize() {
     const rect = this.el.getBoundingClientRect();
-    const w = Math.max(200, rect.width || this.host.clientWidth || 600);
-    const h = this._aspect ? w / this._aspect : this._height;
+    let w = Math.max(200, rect.width || this.host.clientWidth || 600);
+    let h = this._aspect ? w / this._aspect : this._height;
+
+    // Su uno schermo basso — un telefono girato in orizzontale — un gioco più
+    // alto della finestra costringe a scorrere mentre si gioca: si perde di
+    // vista metà partita proprio nel momento in cui serve guardarla. Quindi il
+    // gioco non supera mai i tre quarti dell'altezza disponibile.
+    const massimo = Math.max(200, Math.round(window.innerHeight * 0.75));
+    if (h > massimo) {
+      h = massimo;
+      // se il widget ha chiesto proporzioni fisse, stringo anche la larghezza
+      // invece di schiacciare il disegno
+      if (this._aspect) w = Math.min(w, h * this._aspect);
+    }
+
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     this.w = w; this.h = h;
     this.canvas.width = Math.round(w * dpr);
     this.canvas.height = Math.round(h * dpr);
     this.canvas.style.height = h + 'px';
+    this.canvas.style.width = this._aspect ? w + 'px' : '';
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     this.dirty = true;
   }
@@ -98,7 +117,11 @@ export class Stage {
   pause() { this.playing = false; this.dirty = true; }
   toggle() { this.playing = !this.playing; this.dirty = true; return this.playing; }
   redraw() { this.dirty = true; }
-  destroy() { this._ro.disconnect(); this._io.disconnect(); }
+  destroy() {
+    this._ro.disconnect(); this._io.disconnect();
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('orientationchange', this._onResize);
+  }
 }
 
 /* ---------------- helper di disegno ---------------- */

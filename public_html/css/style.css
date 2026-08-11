@@ -533,7 +533,14 @@ input[type=checkbox] { accent-color: var(--cyan); width: 15px; height: 15px; }
   width: min(520px, 100%); background: linear-gradient(180deg, #131c33, #0e1526);
   border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
   box-shadow: var(--shadow);
-  max-height: calc(100vh - 40px); overflow-y: auto;     /* su schermi bassi si scorre */
+  /* Su Safari mobile 100vh è l'altezza della finestra COME SE la barra degli
+     indirizzi fosse nascosta: una finestra alta 100vh finisce sotto la barra e
+     i bottoni in fondo diventano irraggiungibili. `dvh` è l'altezza davvero
+     visibile in questo momento; la riga con vh resta come ripiego per i
+     browser vecchi, che ignorano la seconda. */
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
 }
 .modal-card h3 { font-size: 21px; }
 
@@ -552,7 +559,9 @@ input[type=checkbox] { accent-color: var(--cyan); width: 15px; height: 15px; }
 
 .tutor-panel {
   display: none; flex-direction: column;
-  width: min(400px, calc(100vw - 36px)); height: min(560px, calc(100vh - 120px));
+  width: min(400px, calc(100vw - 36px));
+  height: min(560px, calc(100vh - 120px));
+  height: min(560px, calc(100dvh - 120px));   /* vedi nota su dvh in .modal-card */
   background: linear-gradient(180deg, #101a30, #0b1120);
   border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
   box-shadow: 0 24px 60px rgba(0, 0, 0, .6);
@@ -664,4 +673,60 @@ input[type=checkbox] { accent-color: var(--cyan); width: 15px; height: 15px; }
   .btn { padding: 8px 11px; font-size: 13px; }
   .btn.sm { padding: 5px 9px; font-size: 12px; }
   .att-row { gap: 16px; }
+}
+
+/* ---------------- Dita, non frecce del mouse ----------------
+   Su un touchscreen il bersaglio non è un pixel: è un polpastrello, largo
+   circa 9 mm. Le linee guida (WCAG 2.5.5) chiedono 44×44 px, e i bottoni qui
+   erano alti 34. Si alzano i bersagli e si ingrandisce il testo minuto SOLO
+   dove si tocca — `pointer: coarse` —, così sul computer la densità resta
+   quella pensata e nessuna schermata si allarga.
+
+   I collegamenti dentro un discorso restano come sono, apposta: la stessa
+   linea guida li esenta, e ingrossarli spezzerebbe la lettura. */
+
+@media (pointer: coarse) {
+  /* niente rettangolo grigio al tocco, e nessuna attesa di mezzo secondo per
+     capire se era un doppio tocco: in un gioco quel ritardo si sente */
+  .btn, button, .f-tok, .tab, .chip { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+  .btn, .btn.sm { min-height: 44px; padding-top: 10px; padding-bottom: 10px; font-size: 14px; }
+  /* Nella barra in alto un'etichetta che va a capo raddoppia l'altezza del
+     bottone e sfonda la barra. Solo lì si tiene tutto su una riga: altrove i
+     bottoni hanno etichette lunghe e devono poter andare a capo, se no
+     sbordano dal bordo destro dello schermo. */
+  .topbar .btn { white-space: nowrap; }
+  .topbar-in { height: auto; min-height: 60px; padding: 7px 0; }
+  .btn.tiny { min-height: 40px; padding: 8px 13px; font-size: 12.5px; }
+  .f-tok { min-height: 44px; }
+  .brand { min-height: 44px; }
+
+  /* cursori: la pista resta sottile, ma la zona da afferrare diventa un dito */
+  input[type=range] { height: 44px; }
+  input[type=range]::-webkit-slider-thumb { width: 26px; height: 26px; margin-top: -10.5px; }
+  input[type=range]::-moz-range-thumb { width: 24px; height: 24px; }
+  input[type=checkbox], input[type=radio] { width: 24px; height: 24px; }
+
+  /* testo minuto: 11 px in mano, in movimento, è sotto la soglia del leggibile */
+  .tag, .xp-label, .att-note, .field-hint { font-size: 12.5px; }
+  .level .lv-n, .level .lv-xp { font-size: 12.5px; }
+  .brand small { font-size: 12px; }
+  code, td.mono, .table .mono { font-size: 12.5px; }
+}
+
+/* ---------------- Telefono girato in orizzontale ----------------
+   390 px di altezza in tutto: ogni pixel speso in intestazione è un pixel
+   tolto al gioco. La barra si stringe al minimo indispensabile e il
+   sottotitolo del marchio sparisce, come già fa sugli schermi stretti. */
+
+@media (max-height: 460px) and (pointer: coarse) {
+  .topbar-in { min-height: 0; padding: 5px 0; gap: 9px; }
+  .brand small { display: none; }
+  .brand { font-size: 14px; }
+  h1 { font-size: clamp(22px, 4vw, 28px); }
+
+  /* il pallino del tutor galleggia sopra il gioco: qui si fa più piccolo e si
+     sposta nell'angolo, per coprire meno campo da gioco */
+  #qa-tutor { right: 10px; bottom: 10px; }
+  .tutor-bubble { width: 46px; height: 46px; font-size: 20px; }
 }
