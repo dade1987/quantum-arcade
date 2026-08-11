@@ -95,7 +95,7 @@ export function dftLab(host, opts = {}) {
 
   function drawSamples(ctx, r) {
     roundRect(ctx, r.x, r.y, r.w, r.h, 8, { stroke: '#1a2440' });
-    text(ctx, 'x(n) — i tuoi dati (trascinali!)', r.x + 8, r.y + 12, { size: 11, color: COL.txt });
+    text(ctx, 'x(n) — i tuoi dati (trascinali!)', r.x + 8, r.y + 12, { size: 11, color: COL.txt, max: r.w - 16 });
     const mid = r.y + r.h / 2;
     const cw = r.w / N;
     ctx.strokeStyle = COL.axis; ctx.beginPath(); ctx.moveTo(r.x + 4, mid); ctx.lineTo(r.x + r.w - 4, mid); ctx.stroke();
@@ -105,7 +105,9 @@ export function dftLab(host, opts = {}) {
       const col = hsl(i, N);
       roundRect(ctx, cx - Math.min(15, cw / 2 - 3), mid - Math.max(0, hgt), Math.min(30, cw - 6), Math.abs(hgt) || 1.5, 3, { fill: col, alpha: .85 });
       dot(ctx, cx, mid - hgt, 4, col, false);
-      text(ctx, st.x[i].toFixed(2), cx, mid - hgt + (hgt >= 0 ? -12 : 12), { size: 9.5, align: 'center', color: COL.txt });
+      // il valore non sale mai fin sopra il titolo del riquadro
+      const yVal = Math.max(r.y + 26, mid - hgt + (hgt >= 0 ? -12 : 12));
+      text(ctx, st.x[i].toFixed(2), cx, yVal, { size: 9.5, align: 'center', color: COL.txt });
       if (cw > 18) text(ctx, 'n=' + i, cx, r.y + r.h - 8, { size: 9.5, align: 'center', color: '#6f7fa3' });
     }
   }

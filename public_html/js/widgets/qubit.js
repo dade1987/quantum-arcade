@@ -150,19 +150,32 @@ export function hadamardMap(host) {
         { inp: '|0⟩', out: ['+1/√2 · |0⟩', '+1/√2 · |1⟩'], sign: [1, 1] },
         { inp: '|1⟩', out: ['+1/√2 · |0⟩', '−1/√2 · |1⟩'], sign: [1, -1] },
       ];
+      /* La tabella era disegnata a coordinate fisse: i due riquadri partivano a
+         130 e 320 px ed erano larghi 175, cioè servivano quasi 500 px. Su un
+         telefono la tela ne ha 300 e la metà destra finiva fuori. Ora la
+         larghezza è calcolata, e sotto una certa soglia i due risultati si
+         impilano invece di stare affiancati. */
+      const etichetta = 92;
+      const impila = s.w < 430;
+      const boxW = impila ? s.w - etichetta - 24 : Math.min(175, (s.w - etichetta - 30) / 2);
+      const passoRiga = impila ? 118 : 100;
       rows.forEach((r, i) => {
-        const y = 34 + i * 100;
-        text(ctx, 'H ' + r.inp + '  =', 16, y + 26, { size: 15, color: COL.txt });
+        const y = 26 + i * passoRiga;
+        text(ctx, 'H ' + r.inp + '  =', 16, y + 26, { size: 15, color: COL.txt, max: etichetta - 20 });
         r.out.forEach((o, j) => {
-          const x = 130 + j * 190;
-          roundRect(ctx, x, y, 175, 52, 8, { fill: r.sign[j] > 0 ? 'rgba(52,211,153,.10)' : 'rgba(251,113,133,.10)', stroke: r.sign[j] > 0 ? 'rgba(52,211,153,.5)' : 'rgba(251,113,133,.5)' });
-          text(ctx, o, x + 12, y + 20, { size: 13, color: r.sign[j] > 0 ? COL.green : COL.red });
-          const ax = x + 140, ay = y + 30;
+          const x = impila ? etichetta : etichetta + j * (boxW + 12);
+          const yb = impila ? y + j * 56 : y;
+          roundRect(ctx, x, yb, boxW, 52, 8, { fill: r.sign[j] > 0 ? 'rgba(52,211,153,.10)' : 'rgba(251,113,133,.10)', stroke: r.sign[j] > 0 ? 'rgba(52,211,153,.5)' : 'rgba(251,113,133,.5)' });
+          text(ctx, o, x + 12, yb + 20, { size: 13, color: r.sign[j] > 0 ? COL.green : COL.red, max: boxW - 24 });
+          const ax = x + boxW - 35, ay = yb + 30;
           arrow(ctx, ax - 16, ay, ax + 16 * r.sign[j], ay, { color: r.sign[j] > 0 ? COL.green : COL.red, width: 2.4 });
-          text(ctx, r.sign[j] > 0 ? 'freccia →' : 'freccia ←', x + 12, y + 40, { size: 10.5, color: '#8fa0c4' });
+          text(ctx, r.sign[j] > 0 ? 'freccia →' : 'freccia ←', x + 12, yb + 40, { size: 10.5, color: '#8fa0c4', max: boxW - 60 });
         });
       });
-      text(ctx, 'L\'unica differenza fra le due righe è quel MENO. Tutta l\'interferenza quantistica nasce da lì.', 16, s.h - 16, { size: 11.5, color: COL.amber });
+      text(ctx, s.w < 430
+        ? 'La differenza è quel MENO: da lì nasce l\'interferenza.'
+        : 'L\'unica differenza fra le due righe è quel MENO. Tutta l\'interferenza quantistica nasce da lì.',
+        16, s.h - 16, { size: 11.5, color: COL.amber, max: s.w - 32 });
     },
   });
   stage.pause();

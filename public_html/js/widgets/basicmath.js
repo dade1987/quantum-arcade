@@ -556,14 +556,24 @@ export function diceLab(host, opts = {}) {
       const rect = { x: 16, y: 30, w: s.w - 32, h: s.h - 72 };
       const cw = rect.w / N;
       const teor = 1 / N;
-      text(ctx, `${st.total} lanci — la riga tratteggiata è la probabilità teorica (${(teor * 100).toFixed(1)}%)`, 16, 16, { size: 11.5, color: COL.txt });
-      // linea teorica
-      const yT = rect.y + rect.h - teor * rect.h * 2.2;
+      // su schermo stretto la stessa cosa detta più corta, invece che troncata
+      const stretto = s.w < 420;
+      text(ctx, stretto
+        ? `${st.total} lanci — tratteggio = teoria (${(teor * 100).toFixed(1)}%)`
+        : `${st.total} lanci — la riga tratteggiata è la probabilità teorica (${(teor * 100).toFixed(1)}%)`,
+        16, 16, { size: 11.5, color: COL.txt, max: s.w - 32 });
+      /* Fondo scala: con il dado (1/6) moltiplicare per 2.2 andava bene, ma con
+         la moneta (1/2) la riga teorica finiva al 110% dell'altezza, cioè fuori
+         dal grafico e in mezzo alla didascalia. Ora il fondo scala si adatta,
+         e la riga teorica cade sempre dentro il riquadro. */
+      const fondo = Math.min(1, Math.max(0.62, teor * 2.2));
+      const yDi = pr => rect.y + rect.h - Math.min(1, pr / fondo) * rect.h;
+      const yT = yDi(teor);
       ctx.strokeStyle = COL.amber; ctx.setLineDash([5, 4]);
       ctx.beginPath(); ctx.moveTo(rect.x, yT); ctx.lineTo(rect.x + rect.w, yT); ctx.stroke(); ctx.setLineDash([]);
       for (let i = 0; i < N; i++) {
         const p = st.total ? st.counts[i] / st.total : 0;
-        const hgt = p * rect.h * 2.2;
+        const hgt = rect.y + rect.h - yDi(p);
         const x = rect.x + cw * i + 5;
         roundRect(ctx, x, rect.y + rect.h - hgt, cw - 10, Math.max(1, hgt), 4, { fill: COL.cyan, alpha: .85 });
         text(ctx, st.total ? (p * 100).toFixed(1) + '%' : '', x + (cw - 10) / 2, rect.y + rect.h - hgt - 8, { size: 10, align: 'center', color: COL.txt });
@@ -689,12 +699,16 @@ export function sinCosLab(host, opts = {}) {
       // banda dei valori, sempre in fondo e su una riga sola
       roundRect(ctx, 8, s.h - 50, s.w - 16, 42, 8, { fill: 'rgba(255,255,255,.03)', stroke: '#1a2440' });
       const cw = (s.w - 32) / 3;
-      text(ctx, 'ombra orizzontale', 18, s.h - 36, { size: 10, color: '#7f8fb3' });
-      text(ctx, `coseno = ${Math.cos(rad).toFixed(2)}`, 18, s.h - 20, { size: 14, color: COL.amber });
-      text(ctx, 'altezza', 18 + cw, s.h - 36, { size: 10, color: '#7f8fb3' });
-      text(ctx, `seno = ${Math.sin(rad).toFixed(2)}`, 18 + cw, s.h - 20, { size: 14, color: COL.green });
-      text(ctx, 'raggio del cerchio', 18 + 2 * cw, s.h - 36, { size: 10, color: '#7f8fb3' });
-      text(ctx, '= 1 (sempre)', 18 + 2 * cw, s.h - 20, { size: 14, color: COL.cyan });
+      // ogni voce resta dentro la sua colonna, se no su schermo stretto i
+      // valori a 14px si scavalcano fra loro
+      const col = cw - 10;
+      const corto = col < 105;
+      text(ctx, corto ? 'ombra orizz.' : 'ombra orizzontale', 18, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
+      text(ctx, `coseno = ${Math.cos(rad).toFixed(2)}`, 18, s.h - 20, { size: 14, color: COL.amber, max: col });
+      text(ctx, 'altezza', 18 + cw, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
+      text(ctx, `seno = ${Math.sin(rad).toFixed(2)}`, 18 + cw, s.h - 20, { size: 14, color: COL.green, max: col });
+      text(ctx, corto ? 'raggio' : 'raggio del cerchio', 18 + 2 * cw, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
+      text(ctx, '= 1 (sempre)', 18 + 2 * cw, s.h - 20, { size: 14, color: COL.cyan, max: col });
 
       fx.draw(ctx);
     },
