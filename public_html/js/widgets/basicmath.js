@@ -19,10 +19,13 @@ function hud(ctx, s, { goal = '', closeness = 0, hit = false, sub = '' }) {
     fill: hit ? 'rgba(52,211,153,.16)' : 'rgba(255,255,255,.035)',
     stroke: hit ? COL.green : '#22304d',
   });
-  text(ctx, hit ? '✓ CENTRATO!' : '🎯 ' + goal, 18, 23, { size: 13, color: hit ? COL.green : COL.amber, mono: false, weight: '800' });
+  // la barra sta a destra: l'obiettivo si ferma prima, invece di finirci sotto
   const bw = Math.min(180, s.w * 0.32);
-  proximityBar(ctx, s.w - bw - 18, 15, bw, 10, hit ? 1 : closeness);
-  if (sub) text(ctx, sub, 18, 48, { size: 11, color: '#7f8fb3' });
+  const barraX = s.w - bw - 18;
+  text(ctx, hit ? '✓ CENTRATO!' : '🎯 ' + goal, 18, 23,
+    { size: 13, color: hit ? COL.green : COL.amber, mono: false, weight: '800', max: barraX - 18 - 10 });
+  proximityBar(ctx, barraX, 15, bw, 10, hit ? 1 : closeness);
+  if (sub) text(ctx, sub, 18, 48, { size: 11, color: '#7f8fb3', max: s.w - 36 });
   return 46;
 }
 
@@ -55,7 +58,7 @@ export function numberLine(host, opts = {}) {
     draw(ctx, s) {
       bg(ctx, s);
       const dist = Math.abs(st.pos - st.target);
-      hud(ctx, s, { goal: `porta il razzo su ${st.target}`, closeness: 1 - Math.min(1, dist / 14), hit: dist < 1e-9,
+      const hudH = hud(ctx, s, { goal: `porta il razzo su ${st.target}`, closeness: 1 - Math.min(1, dist / 14), hit: dist < 1e-9,
                     sub: 'usa i bottoni: +1, −1, doppio, metà, cambia segno' });
       const y = s.h / 2 + 18;
       const L = 30, R = s.w - 30;
@@ -68,8 +71,13 @@ export function numberLine(host, opts = {}) {
         ctx.beginPath(); ctx.moveTo(X(v), y - (big ? 9 : 5)); ctx.lineTo(X(v), y + (big ? 9 : 5)); ctx.stroke();
         if (big) text(ctx, String(v), X(v), y + 22, { size: 11, align: 'center', color: v < 0 ? COL.red : '#7f8fb3' });
       }
-      text(ctx, 'numeri negativi ← ', L + 60, y - 34, { size: 11, align: 'right', color: COL.red });
-      text(ctx, ' → numeri positivi', X(0) + 10, y - 34, { size: 11, color: COL.green });
+      /* Le due scritte di orientamento stavano sopra la linea, alla stessa
+         altezza del bersaglio: su uno schermo stretto il bersaglio ci finiva
+         sopra. Ora stanno appoggiate ai due estremi, subito sotto l'HUD, dove
+         non passa nient'altro. */
+      const yEtichette = hudH + 13;
+      text(ctx, 'negativi ←', L, yEtichette, { size: 11, align: 'left', color: COL.red, max: s.w / 2 - L - 6 });
+      text(ctx, '→ positivi', R, yEtichette, { size: 11, align: 'right', color: COL.green, max: s.w / 2 - 36 });
       // bersaglio
       roundRect(ctx, X(st.target) - 13, y - 40, 26, 20, 5, { fill: 'rgba(251,191,36,.2)', stroke: COL.amber });
       text(ctx, String(st.target), X(st.target), y - 30, { size: 12, align: 'center', color: COL.amber });

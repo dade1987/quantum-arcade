@@ -185,12 +185,51 @@ export function dot(ctx, x, y, r = 4, color = COL.cyan, glow = true) {
   ctx.restore();
 }
 
-export function text(ctx, str, x, y, { color = COL.txt, size = 12, align = 'left', baseline = 'middle', weight = '600', mono = true } = {}) {
+/**
+ * Scrive dentro la tela, garantendo che la scritta ci stia.
+ *
+ * Le didascalie sono state scritte guardando uno schermo largo. Su un telefono
+ * la stessa tela è larga 300 px invece di 900, e una riga come "usa i bottoni:
+ * +1, −1, doppio, metà, cambia segno" finiva tagliata a metà parola: il testo
+ * c'era, ma nessuno poteva leggerlo.
+ *
+ * Qui si calcola lo spazio davvero disponibile fino al bordo (tenendo conto
+ * dell'allineamento), si rimpicciolisce il carattere quanto basta — mai sotto
+ * i 9 px, o diventerebbe illeggibile per un altro motivo — e solo se non basta
+ * ancora si tronca con i puntini. Con `max` si può restringere lo spazio a
+ * mano, per esempio quando accanto c'è una barra da non coprire.
+ */
+export function text(ctx, str, x, y, { color = COL.txt, size = 12, align = 'left', baseline = 'middle', weight = '600', mono = true, max = null } = {}) {
   ctx.save();
+  const famiglia = mono ? 'ui-monospace, Menlo, Consolas, monospace' : 'system-ui, sans-serif';
+  const font = corpo => `${weight} ${corpo}px ${famiglia}`;
+  ctx.font = font(size);
+
+  const scala = ctx.getTransform().a || 1;
+  const larghezzaTela = ctx.canvas.width / scala;
+  const margine = 4;
+  let spazio = max;
+  if (spazio == null) {
+    if (align === 'center') spazio = Math.min(x, larghezzaTela - x) * 2 - margine;
+    else if (align === 'right' || align === 'end') spazio = x - margine;
+    else spazio = larghezzaTela - x - margine;
+  }
+
+  let scritta = String(str);
+  if (spazio > 16) {
+    let larghezza = ctx.measureText(scritta).width;
+    if (larghezza > spazio) {
+      ctx.font = font(Math.max(9, size * spazio / larghezza));
+      if (ctx.measureText(scritta).width > spazio) {
+        while (scritta.length > 1 && ctx.measureText(scritta + '…').width > spazio) scritta = scritta.slice(0, -1);
+        scritta += '…';
+      }
+    }
+  }
+
   ctx.fillStyle = color;
-  ctx.font = `${weight} ${size}px ${mono ? 'ui-monospace, Menlo, Consolas, monospace' : 'system-ui, sans-serif'}`;
   ctx.textAlign = align; ctx.textBaseline = baseline;
-  ctx.fillText(str, x, y);
+  ctx.fillText(scritta, x, y);
   ctx.restore();
 }
 
