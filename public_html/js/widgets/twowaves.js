@@ -70,26 +70,28 @@ export function twoWaves(host, opts = {}) {
       arrow(ctx, P.X(v1.x), P.Y(v1.y), P.X(sum.x), P.Y(sum.y), { color: COL.amber, width: 2.6 });
       arrow(ctx, P.cx, P.cy, P.X(sum.x), P.Y(sum.y), { color: COL.pink, width: 3.4, head: 11 });
       text(ctx, 'A', P.X(v1.x / 2) + 8, P.Y(v1.y / 2), { size: 12, color: COL.cyan });
-      text(ctx, 'B', P.X((v1.x + sum.x) / 2) + 8, P.Y((v1.y + sum.y) / 2), { size: 12, color: COL.amber });
+      // la lettera resta nella metà sinistra: a destra ci sono le letture
+      text(ctx, 'B', Math.min(P.X((v1.x + sum.x) / 2) + 8, s.w * 0.52), P.Y((v1.y + sum.y) / 2), { size: 12, color: COL.amber });
 
       const mag = Math.hypot(sum.x, sum.y);
       // barra "quanto è grande la somma"
-      const bx = s.w * 0.56, bw = s.w - bx - 24;
-      text(ctx, 'ampiezza della somma', bx, 26, { size: 11.5, color: COL.txt });
+      // si lascia posto al numero in fondo alla barra, se no finisce fuori
+      const bx = s.w * 0.56, bw = s.w - bx - 58;
+      text(ctx, 'ampiezza della somma', bx, 26, { size: 11.5, color: COL.txt, max: s.w - bx - 12 });
       roundRect(ctx, bx, 36, bw, 20, 6, { fill: '#131f38', stroke: COL.line });
       const frac = Math.min(1, mag / (st.A1 + st.A2 || 1));
       roundRect(ctx, bx, 36, Math.max(2, bw * frac), 20, 6, { fill: mag < 0.06 ? COL.red : (frac > .92 ? COL.green : COL.pink) });
-      text(ctx, mag.toFixed(2), bx + bw + 6, 46, { size: 12, color: COL.txt });
+      text(ctx, mag.toFixed(2), bx + bw + 6, 46, { size: 12, color: COL.txt, max: s.w - (bx + bw) - 10 });
 
       const diff = (((st.p2 - st.p1) % 360) + 360) % 360;
       let verdict, col;
       if (mag < 0.06) { verdict = 'INTERFERENZA DISTRUTTIVA — si annullano!'; col = COL.red; }
       else if (frac > 0.95) { verdict = 'INTERFERENZA COSTRUTTIVA — si sommano!'; col = COL.green; }
       else { verdict = 'interferenza parziale'; col = COL.amber; }
-      text(ctx, verdict, bx, 76, { size: 12, color: col });
-      text(ctx, `differenza di fase = ${diff.toFixed(0)}°`, bx, 96, { size: 11.5, color: COL.violet });
-      text(ctx, `(0° = in fase · 180° = in opposizione)`, bx, 114, { size: 10.5, color: '#5b6b90' });
-      if (st.f !== st.f2) text(ctx, 'frequenze diverse: le frecce girano a velocità diverse', bx, 134, { size: 10.5, color: '#5b6b90' });
+      text(ctx, verdict, bx, 76, { max: s.w - bx - 12, size: 12, color: col });
+      text(ctx, `differenza di fase = ${diff.toFixed(0)}°`, bx, 96, { max: s.w - bx - 12, size: 11.5, color: COL.violet });
+      text(ctx, `(0° = in fase · 180° = in opposizione)`, bx, 114, { max: s.w - bx - 12, size: 10.5, color: '#5b6b90' });
+      if (st.f !== st.f2) text(ctx, 'frequenze diverse: le frecce girano a velocità diverse', bx, 134, { max: s.w - bx - 12, size: 10.5, color: '#5b6b90' });
     },
   });
   const fx = attachFX(phas);   // scintille, lampi e suono ai traguardi

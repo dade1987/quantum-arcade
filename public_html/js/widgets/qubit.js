@@ -143,28 +143,130 @@ export function coinVsQubit(host, opts = {}) {
 export function hadamardMap(host) {
   const w = widget(host, { title: 'Cosa fa esattamente H', subtitle: 'le quattro regole, disegnate' });
   const stage = new Stage(w.body, {
-    height: 250,
+    // impilati servono due riquadri per riga: più alto, se no la nota in
+    // fondo finisce sopra l'ultimo
+    height: window.innerWidth < 430 ? 300 : 250,
     draw(ctx, s) {
       bg(ctx, s);
       const rows = [
         { inp: '|0⟩', out: ['+1/√2 · |0⟩', '+1/√2 · |1⟩'], sign: [1, 1] },
         { inp: '|1⟩', out: ['+1/√2 · |0⟩', '−1/√2 · |1⟩'], sign: [1, -1] },
       ];
+      /* La tabella era disegnata a coordinate fisse: i due riquadri partivano a
+         130 e 320 px ed erano larghi 175, cioè servivano quasi 500 px. Su un
+         telefono la tela ne ha 300 e la metà destra finiva fuori. Ora la
+         larghezza è calcolata, e sotto una certa soglia i due risultati si
+         impilano invece di stare affiancati. */
+      const etichetta = 92;
+      const impila = s.w < 430;
+      const boxW = impila ? s.w - etichetta - 24 : Math.min(175, (s.w - etichetta - 30) / 2);
+      const passoRiga = impila ? 118 : 100;
       rows.forEach((r, i) => {
-        const y = 34 + i * 100;
-        text(ctx, 'H ' + r.inp + '  =', 16, y + 26, { size: 15, color: COL.txt });
+        const y = 26 + i * passoRiga;
+        text(ctx, 'H ' + r.inp + '  =', 16, y + 26, { size: 15, color: COL.txt, max: etichetta - 20 });
         r.out.forEach((o, j) => {
-          const x = 130 + j * 190;
-          roundRect(ctx, x, y, 175, 52, 8, { fill: r.sign[j] > 0 ? 'rgba(52,211,153,.10)' : 'rgba(251,113,133,.10)', stroke: r.sign[j] > 0 ? 'rgba(52,211,153,.5)' : 'rgba(251,113,133,.5)' });
-          text(ctx, o, x + 12, y + 20, { size: 13, color: r.sign[j] > 0 ? COL.green : COL.red });
-          const ax = x + 140, ay = y + 30;
+          const x = impila ? etichetta : etichetta + j * (boxW + 12);
+          const yb = impila ? y + j * 56 : y;
+          roundRect(ctx, x, yb, boxW, 52, 8, { fill: r.sign[j] > 0 ? 'rgba(52,211,153,.10)' : 'rgba(251,113,133,.10)', stroke: r.sign[j] > 0 ? 'rgba(52,211,153,.5)' : 'rgba(251,113,133,.5)' });
+          text(ctx, o, x + 12, yb + 20, { size: 13, color: r.sign[j] > 0 ? COL.green : COL.red, max: boxW - 24 });
+          const ax = x + boxW - 35, ay = yb + 30;
           arrow(ctx, ax - 16, ay, ax + 16 * r.sign[j], ay, { color: r.sign[j] > 0 ? COL.green : COL.red, width: 2.4 });
-          text(ctx, r.sign[j] > 0 ? 'freccia →' : 'freccia ←', x + 12, y + 40, { size: 10.5, color: '#8fa0c4' });
+          text(ctx, r.sign[j] > 0 ? 'freccia →' : 'freccia ←', x + 12, yb + 40, { size: 10.5, color: '#8fa0c4', max: boxW - 60 });
         });
       });
-      text(ctx, 'L\'unica differenza fra le due righe è quel MENO. Tutta l\'interferenza quantistica nasce da lì.', 16, s.h - 16, { size: 11.5, color: COL.amber });
+      text(ctx, s.w < 430
+        ? 'La differenza è quel MENO: da lì nasce l\'interferenza.'
+        : 'L\'unica differenza fra le due righe è quel MENO. Tutta l\'interferenza quantistica nasce da lì.',
+        16, s.h - 16, { size: 11.5, color: COL.amber, max: s.w - 32 });
     },
   });
   stage.pause();
   return { stage };
+}
+
+/* ------------------------------------------------------------
+   IL QUADRATO DELLA PROBABILITÀ
+
+   "probabilità = |ampiezza|²" è il punto in cui, provando il corso, una
+   persona si è fermata dicendo "per me è arabo". Il problema non era la
+   difficoltà del concetto: era che il simbolo arrivava prima del fenomeno.
+
+   Qui il quadrato lo si vede. Il lato è l'ampiezza, e la probabilità è
+   l'AREA. Trascini il lato, l'area cresce più in fretta del lato, e la
+   percentuale segue l'area. Nessuno ti dice "elevalo al quadrato": lo
+   guardi succedere. Il nome della cosa arriva alla fine, come didascalia.
+   ------------------------------------------------------------ */
+export function probabilitaQuadrato(host, opts = {}) {
+  const cfg = Object.assign({ onWin: null, need: 3 }, opts);
+  const w = widget(host, {
+    title: 'Perché si eleva al quadrato',
+    subtitle: 'il lato è l\'ampiezza, l\'area è la probabilità',
+  });
+  const st = { a: 0.8, centrati: 0, fatti: new Set(), bersaglio: 0.5 };
+  const BERSAGLI = [0.5, 0.25, 0.09, 0.64];
+
+  const stage = new Stage(w.body, {
+    height: 260,
+    draw(ctx, s) {
+      bg(ctx, s);
+      const p = st.a * st.a;
+      const vicino = Math.abs(p - st.bersaglio) < 0.02;
+
+      text(ctx, vicino ? '✓ CENTRATO!' : `🎯 fai diventare l'area ${Math.round(st.bersaglio * 100)}%`,
+        16, 18, { size: 13, weight: '800', mono: false, color: vicino ? COL.green : COL.amber, max: s.w - 32 });
+
+      // il quadrato: lato = ampiezza, area = probabilità
+      const lato = Math.min(s.h - 92, s.w * 0.42);
+      const x0 = 20, y0 = 40;
+      roundRect(ctx, x0, y0, lato, lato, 4, { stroke: '#2b3b5e' });
+      const l = lato * st.a;
+      roundRect(ctx, x0, y0 + lato - l, l, l, 3, { fill: 'rgba(34,211,238,.30)', stroke: COL.cyan });
+
+      // il lato, misurato
+      ctx.strokeStyle = COL.amber; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x0, y0 + lato + 12); ctx.lineTo(x0 + l, y0 + lato + 12); ctx.stroke();
+      text(ctx, `lato = ${st.a.toFixed(2)}`, x0, y0 + lato + 28, { size: 11.5, color: COL.amber, max: lato });
+
+      // la lettura, a destra del quadrato
+      const rx = x0 + lato + 18;
+      const spazio = s.w - rx - 14;
+      text(ctx, 'AREA', rx, y0 + 16, { size: 11, color: '#7f8fb3', max: spazio });
+      text(ctx, `${(p * 100).toFixed(0)}%`, rx, y0 + 44, { size: 26, weight: '800', color: COL.cyan, max: spazio });
+      text(ctx, 'è la probabilità', rx, y0 + 66, { size: 11, color: '#7f8fb3', max: spazio });
+      text(ctx, `${st.a.toFixed(2)} × ${st.a.toFixed(2)}`, rx, y0 + 92, { size: 13, color: COL.txt, max: spazio });
+      text(ctx, `= ${p.toFixed(2)}`, rx, y0 + 112, { size: 13, color: COL.cyan, max: spazio });
+
+      text(ctx, s.w < 430 ? 'dimezza il lato: l\'area diventa un quarto' : 'dimezza il lato e l\'area diventa un quarto, non la metà',
+        16, s.h - 12, { size: 11, color: '#6f7fa3', max: s.w - 32 });
+    },
+  });
+
+  const out = readout('');
+  const sl = slider({
+    label: 'Lunghezza del lato (l\'ampiezza)', min: 0, max: 1, step: 0.01, value: st.a,
+    fmt: v => (+v).toFixed(2),
+    oninput: v => { st.a = +v; upd(); },
+  });
+  w.body.appendChild(sl.root);
+  w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '8px' } },
+    BERSAGLI.map(b => h('button', {
+      class: 'btn sm', onclick: () => { st.bersaglio = b; upd(); },
+    }, `obiettivo ${Math.round(b * 100)}%`))));
+  w.body.appendChild(out.root);
+
+  function upd() {
+    const p = st.a * st.a;
+    const vicino = Math.abs(p - st.bersaglio) < 0.02;
+    out.set(`Lato <b>${st.a.toFixed(2)}</b> → area <b>${(p * 100).toFixed(1)}%</b>\n` +
+      `Il lato è cresciuto di poco, l'area di molto: è questo che vuol dire "al quadrato".` +
+      (vicino ? `\n<span class="g">🎯 centrato!</span>` : ''));
+    stage.redraw();
+    if (vicino && !st.fatti.has(st.bersaglio)) {
+      st.fatti.add(st.bersaglio); sfx.ok();
+      if (st.fatti.size >= cfg.need) cfg.onWin && cfg.onWin(st.fatti.size);
+    }
+  }
+  upd();
+  w.setFoot('<b>Adesso il nome:</b> quello che hai appena mosso si chiama <b>ampiezza</b>, e l\'area del quadrato — cioè l\'ampiezza moltiplicata per sé stessa — è la <b>probabilità</b> di ottenere quel risultato quando misuri. Si scrive <code>|ampiezza|²</code>: sono le stesse tre cose che hai davanti, scritte corte.');
+  return { state: st };
 }

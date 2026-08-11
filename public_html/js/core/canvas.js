@@ -185,12 +185,51 @@ export function dot(ctx, x, y, r = 4, color = COL.cyan, glow = true) {
   ctx.restore();
 }
 
-export function text(ctx, str, x, y, { color = COL.txt, size = 12, align = 'left', baseline = 'middle', weight = '600', mono = true } = {}) {
+/**
+ * Scrive dentro la tela, garantendo che la scritta ci stia.
+ *
+ * Le didascalie sono state scritte guardando uno schermo largo. Su un telefono
+ * la stessa tela è larga 300 px invece di 900, e una riga come "usa i bottoni:
+ * +1, −1, doppio, metà, cambia segno" finiva tagliata a metà parola: il testo
+ * c'era, ma nessuno poteva leggerlo.
+ *
+ * Qui si calcola lo spazio davvero disponibile fino al bordo (tenendo conto
+ * dell'allineamento), si rimpicciolisce il carattere quanto basta — mai sotto
+ * i 9 px, o diventerebbe illeggibile per un altro motivo — e solo se non basta
+ * ancora si tronca con i puntini. Con `max` si può restringere lo spazio a
+ * mano, per esempio quando accanto c'è una barra da non coprire.
+ */
+export function text(ctx, str, x, y, { color = COL.txt, size = 12, align = 'left', baseline = 'middle', weight = '600', mono = true, max = null } = {}) {
   ctx.save();
+  const famiglia = mono ? 'ui-monospace, Menlo, Consolas, monospace' : 'system-ui, sans-serif';
+  const font = corpo => `${weight} ${corpo}px ${famiglia}`;
+  ctx.font = font(size);
+
+  const scala = ctx.getTransform().a || 1;
+  const larghezzaTela = ctx.canvas.width / scala;
+  const margine = 4;
+  let spazio = max;
+  if (spazio == null) {
+    if (align === 'center') spazio = Math.min(x, larghezzaTela - x) * 2 - margine;
+    else if (align === 'right' || align === 'end') spazio = x - margine;
+    else spazio = larghezzaTela - x - margine;
+  }
+
+  let scritta = String(str);
+  if (spazio > 16) {
+    let larghezza = ctx.measureText(scritta).width;
+    if (larghezza > spazio) {
+      ctx.font = font(Math.max(9, size * spazio / larghezza));
+      if (ctx.measureText(scritta).width > spazio) {
+        while (scritta.length > 1 && ctx.measureText(scritta + '…').width > spazio) scritta = scritta.slice(0, -1);
+        scritta += '…';
+      }
+    }
+  }
+
   ctx.fillStyle = color;
-  ctx.font = `${weight} ${size}px ${mono ? 'ui-monospace, Menlo, Consolas, monospace' : 'system-ui, sans-serif'}`;
   ctx.textAlign = align; ctx.textBaseline = baseline;
-  ctx.fillText(str, x, y);
+  ctx.fillText(scritta, x, y);
   ctx.restore();
 }
 
@@ -225,9 +264,13 @@ export function complexAxes(ctx, P, { r = 1, labels = true, unitCircle = true } 
   ctx.stroke();
   if (unitCircle) circle(ctx, P.cx, P.cy, R, { stroke: '#2a3a5c', dash: [4, 5] });
   if (labels) {
-    text(ctx, 'reale →', P.cx + R * 1.28, P.cy + 12, { size: 10, color: '#59688c' });
-    text(ctx, '↑ immaginario', P.cx + 6, P.cy - R * 1.28, { size: 10, color: '#59688c' });
-    text(ctx, '1', P.X(1) + 4, P.cy + 11, { size: 10, color: '#59688c' });
+    /* "reale →" stava appoggiata sull'asse orizzontale, che le passava
+       attraverso come una riga di cancellatura; "↑ immaginario" finiva sotto
+       le scritte di lettura in alto. Ora stanno appena discoste. */
+    text(ctx, 'reale →', P.cx + R * 1.28, P.cy + 17, { size: 10, align: 'right', color: '#59688c' });
+    // a metà dell'asse, non in cima: in cima ci sono le righe di lettura
+    text(ctx, '↑ immag.', P.cx - 10, P.cy - R * 0.62, { size: 10, align: 'right', color: '#59688c' });
+    text(ctx, '1', P.X(1) + 4, P.cy + 30, { size: 10, color: '#59688c' });
     text(ctx, 'i', P.cx + 6, P.Y(1) - 2, { size: 10, color: '#59688c' });
   }
   ctx.restore();

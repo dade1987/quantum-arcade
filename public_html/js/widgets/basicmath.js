@@ -19,10 +19,13 @@ function hud(ctx, s, { goal = '', closeness = 0, hit = false, sub = '' }) {
     fill: hit ? 'rgba(52,211,153,.16)' : 'rgba(255,255,255,.035)',
     stroke: hit ? COL.green : '#22304d',
   });
-  text(ctx, hit ? '✓ CENTRATO!' : '🎯 ' + goal, 18, 23, { size: 13, color: hit ? COL.green : COL.amber, mono: false, weight: '800' });
+  // la barra sta a destra: l'obiettivo si ferma prima, invece di finirci sotto
   const bw = Math.min(180, s.w * 0.32);
-  proximityBar(ctx, s.w - bw - 18, 15, bw, 10, hit ? 1 : closeness);
-  if (sub) text(ctx, sub, 18, 48, { size: 11, color: '#7f8fb3' });
+  const barraX = s.w - bw - 18;
+  text(ctx, hit ? '✓ CENTRATO!' : '🎯 ' + goal, 18, 23,
+    { size: 13, color: hit ? COL.green : COL.amber, mono: false, weight: '800', max: barraX - 18 - 10 });
+  proximityBar(ctx, barraX, 15, bw, 10, hit ? 1 : closeness);
+  if (sub) text(ctx, sub, 18, 48, { size: 11, color: '#7f8fb3', max: s.w - 36 });
   return 46;
 }
 
@@ -55,7 +58,7 @@ export function numberLine(host, opts = {}) {
     draw(ctx, s) {
       bg(ctx, s);
       const dist = Math.abs(st.pos - st.target);
-      hud(ctx, s, { goal: `porta il razzo su ${st.target}`, closeness: 1 - Math.min(1, dist / 14), hit: dist < 1e-9,
+      const hudH = hud(ctx, s, { goal: `porta il razzo su ${st.target}`, closeness: 1 - Math.min(1, dist / 14), hit: dist < 1e-9,
                     sub: 'usa i bottoni: +1, −1, doppio, metà, cambia segno' });
       const y = s.h / 2 + 18;
       const L = 30, R = s.w - 30;
@@ -68,8 +71,13 @@ export function numberLine(host, opts = {}) {
         ctx.beginPath(); ctx.moveTo(X(v), y - (big ? 9 : 5)); ctx.lineTo(X(v), y + (big ? 9 : 5)); ctx.stroke();
         if (big) text(ctx, String(v), X(v), y + 22, { size: 11, align: 'center', color: v < 0 ? COL.red : '#7f8fb3' });
       }
-      text(ctx, 'numeri negativi ← ', L + 60, y - 34, { size: 11, align: 'right', color: COL.red });
-      text(ctx, ' → numeri positivi', X(0) + 10, y - 34, { size: 11, color: COL.green });
+      /* Le due scritte di orientamento stavano sopra la linea, alla stessa
+         altezza del bersaglio: su uno schermo stretto il bersaglio ci finiva
+         sopra. Ora stanno appoggiate ai due estremi, subito sotto l'HUD, dove
+         non passa nient'altro. */
+      const yEtichette = hudH + 13;
+      text(ctx, 'negativi ←', L, yEtichette, { size: 11, align: 'left', color: COL.red, max: s.w / 2 - L - 6 });
+      text(ctx, '→ positivi', R, yEtichette, { size: 11, align: 'right', color: COL.green, max: s.w / 2 - 36 });
       // bersaglio
       roundRect(ctx, X(st.target) - 13, y - 40, 26, 20, 5, { fill: 'rgba(251,191,36,.2)', stroke: COL.amber });
       text(ctx, String(st.target), X(st.target), y - 30, { size: 12, align: 'center', color: COL.amber });
@@ -162,7 +170,7 @@ export function percentLab(host, opts = {}) {
       const ty = gy + gh - gh * goal.v;
       ctx.strokeStyle = COL.amber; ctx.lineWidth = 2; ctx.setLineDash([6, 4]);
       ctx.beginPath(); ctx.moveTo(gx - 8, ty); ctx.lineTo(gx + gw + 8, ty); ctx.stroke(); ctx.setLineDash([]);
-      text(ctx, goal.lab, gx - 12, ty, { size: 12, align: 'right', color: COL.amber });
+      text(ctx, goal.lab, gx + 4, ty - 10, { size: 12, align: 'left', color: COL.amber, max: gw - 8 });
 
       // ---- la torta ----
       const R = Math.min(64, (s.h - top) / 2 - 24), cx = gx + gw + 100, cy = gy + gh / 2;
@@ -248,7 +256,7 @@ export function squareRootLab(host, opts = {}) {
         goal: need ? `trova il lato che dà area ${st.asked}` : 'muovi il lato e guarda l\'area',
         closeness: need ? 1 - Math.min(1, Math.abs(st.x - need) / 0.6) : 0,
         hit: need ? Math.abs(st.x - need) < 0.02 : false,
-        sub: 'area = lato × lato · il lato è la "radice quadrata" dell\'area',
+        sub: 'il lato è la "radice quadrata" dell\'area',
       });
       const size = 130, x0 = 26, y0 = s.h - 26;
       roundRect(ctx, x0, y0 - size, size, size, 4, { stroke: '#2b3b5e' });
@@ -258,13 +266,15 @@ export function squareRootLab(host, opts = {}) {
       text(ctx, `lato = ${st.x.toFixed(2)}`, x0 + side / 2, y0 + 22, { size: 11, align: 'center', color: COL.amber });
       text(ctx, `area = ${(st.x * st.x).toFixed(3)}`, x0 + side / 2, y0 - side / 2, { size: 12, align: 'center', color: COL.txt });
       const tx = x0 + size + 34;
-      text(ctx, 'lato × lato = area', tx, 40, { size: 13, color: COL.txt });
-      text(ctx, `${st.x.toFixed(2)} × ${st.x.toFixed(2)} = ${(st.x * st.x).toFixed(3)}`, tx, 62, { size: 14, color: COL.cyan });
-      text(ctx, 'e al contrario:', tx, 96, { size: 13, color: COL.txt });
-      text(ctx, `√${(st.x * st.x).toFixed(3)} = ${st.x.toFixed(2)}`, tx, 118, { size: 14, color: COL.green });
-      text(ctx, 'la radice quadrata è la domanda:', tx, 150, { size: 11, color: '#7f8fb3' });
-      text(ctx, '"che lato serve per avere questa area?"', tx, 166, { size: 11, color: '#7f8fb3' });
-      if (st.x < 1) text(ctx, '⚠ se il lato è minore di 1, l\'area è ANCORA PIÙ PICCOLA', tx, 196, { size: 11, color: COL.amber });
+      const spazioD = s.w - tx - 12;
+      // la colonna comincia sotto l'HUD e la sua riga di istruzioni
+      text(ctx, 'lato × lato = area', tx, 74, { size: 13, color: COL.txt, max: spazioD });
+      text(ctx, `${st.x.toFixed(2)} × ${st.x.toFixed(2)} = ${(st.x * st.x).toFixed(3)}`, tx, 96, { max: spazioD, size: 14, color: COL.cyan });
+      text(ctx, 'e al contrario:', tx, 128, { max: spazioD, size: 13, color: COL.txt });
+      text(ctx, `√${(st.x * st.x).toFixed(3)} = ${st.x.toFixed(2)}`, tx, 150, { max: spazioD, size: 14, color: COL.green });
+      text(ctx, 'la radice quadrata è la domanda:', tx, 172, { size: 11, color: '#7f8fb3', max: spazioD });
+      text(ctx, '"che lato serve per questa area?"', tx, 188, { size: 11, color: '#7f8fb3', max: spazioD });
+      if (st.x < 1) text(ctx, '⚠ lato minore di 1 → area ancora più piccola', tx, 212, { size: 11, color: COL.amber, max: spazioD });
       fx.draw(ctx);
     },
   });
@@ -382,7 +392,7 @@ export function gridLab(host, opts = {}) {
       const d = Math.hypot(st.tx - st.x, st.ty - st.y);
       hud(ctx, s, { goal: `trova il bersaglio nascosto — colpiti ${st.hits}/${cfg.need}`,
                     closeness: 1 - Math.min(1, d / 12), hit: st.x === st.tx && st.y === st.ty,
-                    sub: 'clicca sulla griglia o usa i cursori, poi premi SPARA' });
+                    sub: s.w < 430 ? 'clicca sulla griglia, poi SPARA' : 'clicca sulla griglia o usa i cursori, poi premi SPARA' });
       const P = plane(s);
       // griglia
       for (let v = -6; v <= 6; v++) {
@@ -390,8 +400,10 @@ export function gridLab(host, opts = {}) {
         ctx.beginPath(); ctx.moveTo(P.X(v), P.Y(-6)); ctx.lineTo(P.X(v), P.Y(6)); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(P.X(-6), P.Y(v)); ctx.lineTo(P.X(6), P.Y(v)); ctx.stroke();
         if (v !== 0) {
-          text(ctx, String(v), P.X(v), P.Y(0) + 12, { size: 9.5, align: 'center', color: '#5b6b90' });
-          text(ctx, String(v), P.X(0) - 12, P.Y(v), { size: 9.5, align: 'center', color: '#5b6b90' });
+          // vicino all'origine i numeri dei due assi si incontrerebbero:
+          // quello verticale sta più largo, e il −1 orizzontale si salta
+          if (v !== -1) text(ctx, String(v), P.X(v), P.Y(0) + 12, { size: 9.5, align: 'center', color: '#5b6b90' });
+          text(ctx, String(v), P.X(0) - 20, P.Y(v), { size: 9.5, align: 'center', color: '#5b6b90' });
         }
       }
       text(ctx, 'x →', P.X(6) - 4, P.Y(0) - 10, { size: 11, align: 'right', color: COL.cyan });
@@ -413,7 +425,13 @@ export function gridLab(host, opts = {}) {
   });
   const fx = new FX(stage);
   stage.pause();
-  function plane(s) { const u = Math.min(s.w, s.h - 40) / 13.5; return makePlane(s.w / 2, s.h / 2 + 18, u); }
+  // 62px in alto sono l'HUD più la riga di istruzioni: il piano comincia sotto,
+  // se no l'etichetta "6" dell'asse ci finisce dentro
+  function plane(s) {
+    const cima = 62;
+    const u = Math.min(s.w, s.h - cima - 16) / 13.5;
+    return makePlane(s.w / 2, cima + (s.h - cima) / 2, u);
+  }
 
   const sx = slider({ label: 'x (destra/sinistra)', min: -6, max: 6, step: 1, value: 0, fmt: v => String(v), oninput: v => { st.x = v; upd(); } });
   const sy = slider({ label: 'y (su/giù)', min: -6, max: 6, step: 1, value: 0, fmt: v => String(v), oninput: v => { st.y = v; upd(); } });
@@ -493,7 +511,8 @@ export function angleLab(host, opts = {}) {
       arrow(ctx, cx, cy, cx + R * .8, cy, { color: '#3d5080', width: 1.6, head: 6 });
       const tr = Math.PI * st.target / 180;
       arrow(ctx, cx, cy, cx + R * Math.cos(tr), cy - R * Math.sin(tr), { color: COL.amber, width: 2, head: 8, dash: [5, 4], alpha: .8 });
-      text(ctx, `${st.a}°`, cx, cy + R + 26, { size: 15, align: 'center', color: COL.cyan });
+      roundRect(ctx, cx - 30, cy + R + 15, 60, 22, 5, { fill: 'rgba(8,14,27,.9)' });
+      text(ctx, `${st.a}°`, cx, cy + R + 26, { size: 15, align: 'center', color: COL.cyan, max: 52 });
       fx.draw(ctx);
     },
   });
@@ -548,14 +567,24 @@ export function diceLab(host, opts = {}) {
       const rect = { x: 16, y: 30, w: s.w - 32, h: s.h - 72 };
       const cw = rect.w / N;
       const teor = 1 / N;
-      text(ctx, `${st.total} lanci — la riga tratteggiata è la probabilità teorica (${(teor * 100).toFixed(1)}%)`, 16, 16, { size: 11.5, color: COL.txt });
-      // linea teorica
-      const yT = rect.y + rect.h - teor * rect.h * 2.2;
+      // su schermo stretto la stessa cosa detta più corta, invece che troncata
+      const stretto = s.w < 420;
+      text(ctx, stretto
+        ? `${st.total} lanci — tratteggio = teoria (${(teor * 100).toFixed(1)}%)`
+        : `${st.total} lanci — la riga tratteggiata è la probabilità teorica (${(teor * 100).toFixed(1)}%)`,
+        16, 16, { size: 11.5, color: COL.txt, max: s.w - 32 });
+      /* Fondo scala: con il dado (1/6) moltiplicare per 2.2 andava bene, ma con
+         la moneta (1/2) la riga teorica finiva al 110% dell'altezza, cioè fuori
+         dal grafico e in mezzo alla didascalia. Ora il fondo scala si adatta,
+         e la riga teorica cade sempre dentro il riquadro. */
+      const fondo = Math.min(1, Math.max(0.62, teor * 2.2));
+      const yDi = pr => rect.y + rect.h - Math.min(1, pr / fondo) * rect.h;
+      const yT = yDi(teor);
       ctx.strokeStyle = COL.amber; ctx.setLineDash([5, 4]);
       ctx.beginPath(); ctx.moveTo(rect.x, yT); ctx.lineTo(rect.x + rect.w, yT); ctx.stroke(); ctx.setLineDash([]);
       for (let i = 0; i < N; i++) {
         const p = st.total ? st.counts[i] / st.total : 0;
-        const hgt = p * rect.h * 2.2;
+        const hgt = rect.y + rect.h - yDi(p);
         const x = rect.x + cw * i + 5;
         roundRect(ctx, x, rect.y + rect.h - hgt, cw - 10, Math.max(1, hgt), 4, { fill: COL.cyan, alpha: .85 });
         text(ctx, st.total ? (p * 100).toFixed(1) + '%' : '', x + (cw - 10) / 2, rect.y + rect.h - hgt - 8, { size: 10, align: 'center', color: COL.txt });
@@ -656,7 +685,9 @@ export function sinCosLab(host, opts = {}) {
       arrow(ctx, g.cx, g.cy, g.cx, py, { color: COL.green, width: 4, head: 9 });
       arrow(ctx, g.cx, g.cy, px, py, { color: COL.cyan, width: 2.4, head: 9 });
       dot(ctx, px, py, 6, COL.cyan);
-      text(ctx, `${st.a}°`, g.cx, g.cy + g.R + 22, { size: 13, align: 'center', color: COL.cyan });
+      // fondino: sotto passano gli assi e i tratteggi del punto
+      roundRect(ctx, g.cx - 26, g.cy + g.R + 12, 52, 19, 5, { fill: 'rgba(8,14,27,.9)' });
+      text(ctx, `${st.a}°`, g.cx, g.cy + g.R + 22, { size: 13, align: 'center', color: COL.cyan, max: 46 });
 
       // onda a destra (solo se c'è spazio davvero)
       const x0 = g.cx + g.R + 46, wD = s.w - x0 - 16;
@@ -681,12 +712,16 @@ export function sinCosLab(host, opts = {}) {
       // banda dei valori, sempre in fondo e su una riga sola
       roundRect(ctx, 8, s.h - 50, s.w - 16, 42, 8, { fill: 'rgba(255,255,255,.03)', stroke: '#1a2440' });
       const cw = (s.w - 32) / 3;
-      text(ctx, 'ombra orizzontale', 18, s.h - 36, { size: 10, color: '#7f8fb3' });
-      text(ctx, `coseno = ${Math.cos(rad).toFixed(2)}`, 18, s.h - 20, { size: 14, color: COL.amber });
-      text(ctx, 'altezza', 18 + cw, s.h - 36, { size: 10, color: '#7f8fb3' });
-      text(ctx, `seno = ${Math.sin(rad).toFixed(2)}`, 18 + cw, s.h - 20, { size: 14, color: COL.green });
-      text(ctx, 'raggio del cerchio', 18 + 2 * cw, s.h - 36, { size: 10, color: '#7f8fb3' });
-      text(ctx, '= 1 (sempre)', 18 + 2 * cw, s.h - 20, { size: 14, color: COL.cyan });
+      // ogni voce resta dentro la sua colonna, se no su schermo stretto i
+      // valori a 14px si scavalcano fra loro
+      const col = cw - 10;
+      const corto = col < 105;
+      text(ctx, corto ? 'ombra orizz.' : 'ombra orizzontale', 18, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
+      text(ctx, `coseno = ${Math.cos(rad).toFixed(2)}`, 18, s.h - 20, { size: 14, color: COL.amber, max: col });
+      text(ctx, 'altezza', 18 + cw, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
+      text(ctx, `seno = ${Math.sin(rad).toFixed(2)}`, 18 + cw, s.h - 20, { size: 14, color: COL.green, max: col });
+      text(ctx, corto ? 'raggio' : 'raggio del cerchio', 18 + 2 * cw, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
+      text(ctx, '= 1 (sempre)', 18 + 2 * cw, s.h - 20, { size: 14, color: COL.cyan, max: col });
 
       fx.draw(ctx);
     },

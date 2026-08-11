@@ -70,3 +70,4 @@ Thumbs.db
 
 # rapporto dell'audit di giocabilità
 /tests/giocabilita.json
+/tests/testi-canvas.json
