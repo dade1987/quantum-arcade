@@ -122,9 +122,9 @@ export function synthLab(host, opts = {}) {
 export function squareLab(host) {
   const w = widget(host, { title: t('Quante onde servono per fare uno spigolo?'), subtitle: t('la serie di Fourier dell\'onda quadra') });
   const st = { n: 1 };
-  const partial = (t, n) => {
+  const partial = (tempo, n) => {
     let v = 0;
-    for (let k = 1; k <= n; k += 2) v += (4 / (Math.PI * k)) * Math.sin(2 * Math.PI * k * t);
+    for (let k = 1; k <= n; k += 2) v += (4 / (Math.PI * k)) * Math.sin(2 * Math.PI * k * tempo);
     return v;
   };
   const stage = new Stage(w.body, {

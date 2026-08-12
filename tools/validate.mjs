@@ -131,14 +131,66 @@ for (const { f, src } of allSources) {
    file `t` è anche la funzione che traduce, e una variabile locale la copre
    senza che nessuno se ne accorga — finché qualcuno non apre la pagina in
    spagnolo e trova un errore invece della frase. Meglio scoprirlo qui. */
+/* Il sorgente senza commenti né stringhe, con la lunghezza intatta.
+   Serve perché le frasi da tradurre parlano proprio di codice — dentro le
+   lezioni ci sono `const t = …` scritti come esempio — e senza questo passaggio
+   il controllo qui sotto griderebbe al lupo per un pezzo di testo. Le
+   posizioni restano quelle originali, così il numero di riga è quello vero. */
+function senzaStringhe(src) {
+  // ogni carattere rimosso diventa uno spazio: stessa lunghezza, stessi indici
+  return src.replace(
+    /\/\*[\s\S]*?\*\/|\/\/[^\n]*|'(?:[^'\\\n]|\\.)*'|"(?:[^"\\\n]|\\.)*"|`(?:[^`\\]|\\.)*`/g,
+    m => m.replace(/[^\n]/g, ' '),
+  );
+}
+
 console.log('\n[3b] La funzione t() non è oscurata da variabili locali');
+
+/* Un'occorrenza di «t» che CREA un nome nuovo, cioè che copre il traduttore.
+   Non basta cercare `const t`: la prima versione di questo controllo faceva
+   solo quello, e si è lasciata sfuggire `const s = build(), t = transformed()`
+   — secondo dichiaratore, stessa riga — che ha rotto il livello 18 in tutte
+   e tre le lingue. Le forme sono tre, e vanno cercate tutte. */
+function ombreDiT(src) {
+  const ombre = [];
+  const nota = (indice, come) => ombre.push({ indice, come });
+
+  // 1. dichiarazioni, in qualunque posizione dell'elenco:
+  //    const t = …   ·   let a, t;   ·   const s = f(), t = g();
+  for (const m of src.matchAll(/\b(?:const|let|var)\s+([\s\S]*?);/g)) {
+    const elenco = m[1];
+    let profondita = 0, pezzo = '', pezzi = [];
+    for (const ch of elenco) {
+      if ('([{'.includes(ch)) profondita++;
+      else if (')]}'.includes(ch)) profondita--;
+      if (ch === ',' && profondita === 0) { pezzi.push(pezzo); pezzo = ''; continue; }
+      pezzo += ch;
+    }
+    pezzi.push(pezzo);
+    // il nome è quello che sta prima dell'«=»; se non c'è «=», è il pezzo intero
+    if (pezzi.some(p => p.split('=')[0].trim() === 't')) nota(m.index, 'dichiarazione');
+  }
+
+  // 2. parametri di funzione: function f(t) · (a, t) => · function (t) {
+  for (const m of src.matchAll(/(?:function\s*[\w$]*\s*)\(([^()]*)\)|\(([^()]*)\)\s*=>/g)) {
+    const parametri = (m[1] ?? m[2] ?? '').split(',').map(p => p.split('=')[0].trim());
+    if (parametri.includes('t')) nota(m.index, 'parametro');
+  }
+
+  // 3. la freccia senza parentesi, che è la forma più frequente: .map(t => …)
+  for (const m of src.matchAll(/(?:^|[^\w$.])t\s*=>/g)) nota(m.index, 'parametro');
+
+  return ombre;
+}
+
 for (const { f, src } of allSources) {
   if (!/import\s*\{[^}]*\bt\b[^}]*\}\s*from\s*['"][^'"]*i18n\.js['"]/.test(src)) continue;
-  const locali = [...src.matchAll(/(?:^|[;{(\s])(?:const|let|var)\s+t\s*[=,]/g)];
-  if (locali.length) {
-    const riga = src.slice(0, locali[0].index).split('\n').length;
-    err(rel(f), `dichiara una variabile locale «t» (riga ~${riga}) ma importa anche t() da i18n.js: `
-      + 'la variabile oscura il traduttore. Rinomina la variabile (per esempio in «tempo»).');
+  const ombre = ombreDiT(senzaStringhe(src));
+  if (ombre.length) {
+    const { indice, come } = ombre[0];
+    const riga = src.slice(0, indice).split('\n').length;
+    err(rel(f), `usa «t» come ${come} (riga ~${riga}) ma importa anche t() da i18n.js: `
+      + 'il nome locale oscura il traduttore. Rinominalo (per esempio in «tempo» o «tok»).');
   } else ok();
 }
 

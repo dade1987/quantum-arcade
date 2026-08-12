@@ -134,9 +134,9 @@ export function qftPeriodLab(host, opts = {}) {
   w.body.appendChild(out.root);
 
   function upd() {
-    const s = build(), t = transformed();
-    a1.set(s); a2.set(t);
-    const p = probs(t);
+    const s = build(), tr = transformed();
+    a1.set(s); a2.set(tr);
+    const p = probs(tr);
     const peaks = [];
     for (let i = 0; i < N; i++) if (p[i] > 0.05) peaks.push({ i, p: p[i] });
     out.set(

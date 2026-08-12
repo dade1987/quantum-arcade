@@ -36,6 +36,14 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], viewport: { width: 1366, height: 900 } },
     },
 
+    // 2b. le tre lingue: anche qui senza sessione, perché il sito tradotto
+    // deve funzionare per chi ci capita, non solo per chi è già iscritto
+    {
+      name: 'lingue',
+      testMatch: /04-lingue\.spec\.js/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1366, height: 900 } },
+    },
+
     // 3. audit grafico: usa la sessione salvata, così entra in tutti i livelli
     {
       name: 'grafica',

@@ -62,10 +62,10 @@ export const GATES = {
   Tdg:{ name: 'T†', m: [c(1), c(0), c(0), c(S2, -S2)], desc: t('Ruota la fase di |1⟩ di −45°.') },
 };
 
-export const P  = t => [c(1), c(0), c(0), c(Math.cos(t), Math.sin(t))];       // fase e^{iθ} su |1>
-export const RX = t => [c(Math.cos(t / 2)), c(0, -Math.sin(t / 2)), c(0, -Math.sin(t / 2)), c(Math.cos(t / 2))];
-export const RY = t => [c(Math.cos(t / 2)), c(-Math.sin(t / 2)), c(Math.sin(t / 2)), c(Math.cos(t / 2))];
-export const RZ = t => [c(Math.cos(t / 2), -Math.sin(t / 2)), c(0), c(0), c(Math.cos(t / 2), Math.sin(t / 2))];
+export const P  = th => [c(1), c(0), c(0), c(Math.cos(th), Math.sin(th))];       // fase e^{iθ} su |1>
+export const RX = th => [c(Math.cos(th / 2)), c(0, -Math.sin(th / 2)), c(0, -Math.sin(th / 2)), c(Math.cos(th / 2))];
+export const RY = th => [c(Math.cos(th / 2)), c(-Math.sin(th / 2)), c(Math.sin(th / 2)), c(Math.cos(th / 2))];
+export const RZ = th => [c(Math.cos(th / 2), -Math.sin(th / 2)), c(0), c(0), c(Math.cos(th / 2), Math.sin(th / 2))];
 
 /* ---------------- applicazione porte ---------------- */
 

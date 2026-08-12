@@ -118,7 +118,7 @@ export function dftLab(host, opts = {}) {
     roundRect(ctx, r.x, r.y, r.w, r.h, 8, { stroke: '#1a2440' });
     const { terms, cum, total } = dftTerms(sig(), st.k);
     const maxR = Math.max(1e-6, Math.abs(total.re), Math.abs(total.im),
-      ...cum.map(c => Math.hypot(c.re, c.im)), ...terms.map(t => Math.hypot(t.re, t.im)));
+      ...cum.map(c => Math.hypot(c.re, c.im)), ...terms.map(x => Math.hypot(x.re, x.im)));
     const R = Math.min(r.w, r.h) / 2 - 26;
     const P = makePlane(r.x + r.w / 2, r.y + r.h / 2 + 4, R / (maxR * 1.06));
 
@@ -233,7 +233,7 @@ export function windingLab(host, opts = {}) {
   const cfg = Object.assign({ freqs: [2, 5], title: t('Arrotola il segnale attorno al cerchio'), subtitle: t('e guarda il centro di massa') }, opts);
   const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
   const st = { f: 1, sweep: false };
-  const sigFn = t => cfg.freqs.reduce((s, fr) => s + Math.cos(2 * Math.PI * fr * t), 0) / cfg.freqs.length + 1.15;
+  const sigFn = tempo => cfg.freqs.reduce((s, fr) => s + Math.cos(2 * Math.PI * fr * tempo), 0) / cfg.freqs.length + 1.15;
 
   const stage = new Stage(w.body, {
     height: 370,
