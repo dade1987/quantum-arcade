@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>18 · Quantum Phase Estimation — Quantum Arcade</title>
+<meta name="description" content="Quantum phase estimation (QPE) explained by playing: how to read a hidden phase as a binary number using the inverse QFT. The engine of Shor and of quantum chemistry.">
+<link rel="canonical" href="https://quantumarcade.it/en/lessons/19-qpe.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/19-qpe.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/19-qpe.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/19-qpe.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/19-qpe.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { stepper } from '../../js/core/formula.js';
+import { qpeLab } from '../../js/widgets/qft.js';
+
+const L = renderLesson({
+  id: '19-qpe',
+  lead: `A quantum operation, applied to certain special states, leaves them identical apart from a <b>phase</b>.
+         That phase is a number we would like to <b>read</b>… but phases are invisible to measurements.
+         The QPE is the machine that makes them visible — and it is the real engine of Shor.`,
+
+  steps: [
+    {
+      t: 'The problem: reading the invisible',
+      html: `<p>There are special states (they are called <b>eigenstates</b>) which, under a certain operation U, do not change
+             except for a phase factor:</p>
+             <div class="formula">U|u⟩ = e^{2πi<span class="hl-k">φ</span>}·|u⟩ &nbsp;&nbsp;&nbsp;<span class="muted">with φ between 0 and 1</span></div>
+             <p>If you apply U and then measure, you notice <b>nothing</b>: the probabilities are identical (level 1: the phase cannot be seen).
+             And yet that number φ is worth gold: in quantum chemistry it is the <b>energy</b> of a molecule, in Shor it is
+             what hides the <b>period</b>.</p>
+             <div class="callout key"><b>The idea of the QPE, in one line:</b> do not measure the phase.
+             <b>Copy it into the qubits</b>, in the form of a binary number, and then measure those.</div>`,
+    },
+    {
+      t: 'How a phase gets copied into qubits',
+      html: `<p>You need a trick you already know from level 9: the <b>phase kickback</b>.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Preparation', html: 'Take <b>t</b> "reading" qubits and put them all in superposition with Hadamards. Next to them, keep the special state |u⟩.' },
+          { h: 'Controlled applications', html: 'Apply <b>controlled U</b> from the first reading qubit: 1 time. Then controlled U from the second: <b>2 times</b>. From the third: <b>4 times</b>. And so on, doubling each time.' },
+          { h: 'What happens', html: 'Every application of U adds the phase e^{2πiφ}. Applying it 2^j times, qubit number j gets loaded with a phase <b>e^{2πi·2^j·φ}</b>. The state |u⟩ never changes: the phase "kicks back" entirely onto the reading qubits.' },
+          { h: 'The intermediate result', html: 'The t reading qubits are now in a state whose phases draw exactly the number φ written in binary, with one full turn per digit. It is the same state you would get by applying the QFT to the number φ·2^t.' },
+          { h: 'The final move', html: 'You apply the <b>inverse QFT</b> (QFT†): since the QFT turns numbers into phases, its inverse turns those phases <b>back into a number</b>. Now you just have to measure the t qubits and read the binary digits of φ.' },
+          { h: 'The precision', html: 'With t qubits you read φ with t binary digits, that is with precision 1/2^t. <b>Every extra reading qubit doubles the precision.</b>' },
+        ], { doneLabel: 'Mechanism understood!' });
+      },
+    },
+    {
+      t: 'Try it: convenient phases and awkward ones',
+      html: `<p>Move the hidden phase and the number of reading qubits. Look at the histogram:</p>
+             <ul>
+               <li>if φ is <b>exactly representable</b> with t binary digits (for example ½, ¼, ⅜),
+                   one single bar comes out at <b>100%</b>;</li>
+               <li>if it is not (for example ⅓), the probability <b>spreads out</b> around the right value —
+                   but it stays concentrated: at least about <b>40%</b> on the closest value, and over 80% on one of the two neighbours.</li>
+             </ul>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'qpe', title: 'Increase the precision', text: 'take the reading qubits up to at least 5 and watch the peak narrow.', xp: 60 });
+        el.appendChild(m.root);
+        qpeLab(el, { t: 4, onWin: () => m.complete() });
+      },
+      after: `<div class="callout"><b>That "40%" is not a defect:</b> it is enough. You just repeat the algorithm a few times
+              and take the most frequent result. In quantum computing you live with probability:
+              what matters is that the right answer is <b>much more probable</b> than the others, not that it is certain.</div>`,
+    },
+    {
+      t: 'What it is for, concretely',
+      html: `<table class="table">
+               <tr><th>Field</th><th>What the "phase" φ is</th><th>Why it is useful</th></tr>
+               <tr><td><b>Shor's algorithm</b></td><td>linked to the <b>period</b> of a^x mod N</td><td>find the period → factorise (level 20)</td></tr>
+               <tr><td><b>Quantum chemistry</b></td><td>the <b>energy</b> of a molecular state</td><td>computing bond energies: it is the main "useful" application expected</td></tr>
+               <tr><td><b>Quantum linear algebra</b></td><td>the <b>eigenvalues</b> of a matrix</td><td>a subroutine of HHL-type algorithms</td></tr>
+             </table>
+             <div class="callout warn"><b>The hidden cost:</b> the QPE requires applying U <b>2^t times</b> in total
+             (1 + 2 + 4 + … ). If U is expensive to build, the bill rises quickly.
+             It is one of the reasons why QPE-based algorithms — Shor included — need quantum computers
+             far bigger and more stable than today's. We talk about it at level 21.</div>`,
+    },
+    {
+      t: '💡 Try it yourself',
+      html: `<div class="callout think">
+        <p><b>1.</b> With t = 3 qubits, which phases are read <b>exactly</b>? <span class="muted">(the multiples of 1/8)</span></p>
+        <p><b>2.</b> Set φ = 0.3 and increase t from 2 to 7: watch the peak narrow. At what t is the reading "good enough"?</p>
+        <p><b>3.</b> Why apply U 2^j times instead of j times? What would happen using weights 1, 2, 3, 4 instead of 1, 2, 4, 8?</p>
+        <p class="mb0"><b>4.</b> As an inventor: the QPE is "the QFT backwards". Could you imagine an algorithm that uses
+           <b>two</b> QFTs, one on the way out and one on the way back? <i>(They exist: they are called "quantum walk" algorithms.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'What is Quantum Phase Estimation for?',
+      options: ['measuring the position of a qubit', 'reading a hidden phase as a binary number', 'creating entanglement', 'correcting errors'], correct: 1,
+      why: 'It copies the phase into the reading qubits through controlled applications of U and then makes it readable with the inverse QFT.' },
+    { q: 'How many times must U be applied from reading qubit number j?',
+      options: ['1 time', 'j times', '2^j times', 'none'], correct: 2,
+      why: 'The weights double (1, 2, 4, 8…) because that way the accumulated phases correspond to the binary digits of the number we are after.' },
+    { q: 'What is the effect of adding one reading qubit?',
+      options: ['it doubles the precision', 'it halves the time', 'nothing changes', 'it only doubles the noise'], correct: 0,
+      why: 'With t qubits the precision is 1/2^t: every extra qubit adds a binary digit (but it also doubles the number of applications of U).' },
+    { q: 'If the phase is not exactly representable with t bits…',
+      options: ['the algorithm fails', 'the probability concentrates on the closest values', 'zero always comes out', 'another algorithm is needed'], correct: 1,
+      why: 'You still get the correct value with high probability (over 40% on the closest one): you just repeat a few times and take the most frequent result.' },
+  ],
+
+  outro: `<div class="callout ok"><b>What you take home:</b> phases cannot be measured, but they can be <b>copied into qubits</b>
+          and then read with the inverse QFT; the precision doubles for every qubit added; it is the engine of Shor
+          and of quantum chemistry. Now you have all the pieces: <b>let us go and factorise.</b></div>`,
+});
+</script>
+</body>
+</html>
