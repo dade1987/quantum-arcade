@@ -7,6 +7,7 @@
 import { Stage, COL, bg, grid, arrow, circle, dot, text, roundRect, makePlane, FX, proximityBar } from '../core/canvas.js';
 import { widget, slider, controls, buttons, readout, h, choice } from '../core/ui.js';
 import { sfx } from '../core/audio.js';
+import { t, num } from '../core/i18n.js';
 
 /* ------------------------------------------------------------
    HUD comune a tutti i mini-giochi della Parte 0:
@@ -22,7 +23,7 @@ function hud(ctx, s, { goal = '', closeness = 0, hit = false, sub = '' }) {
   // la barra sta a destra: l'obiettivo si ferma prima, invece di finirci sotto
   const bw = Math.min(180, s.w * 0.32);
   const barraX = s.w - bw - 18;
-  text(ctx, hit ? '✓ CENTRATO!' : '🎯 ' + goal, 18, 23,
+  text(ctx, hit ? '✓ ' + t('CENTRATO!') : '🎯 ' + goal, 18, 23,
     { size: 13, color: hit ? COL.green : COL.amber, mono: false, weight: '800', max: barraX - 18 - 10 });
   proximityBar(ctx, barraX, 15, bw, 10, hit ? 1 : closeness);
   if (sub) text(ctx, sub, 18, 48, { size: 11, color: '#7f8fb3', max: s.w - 36 });
@@ -44,7 +45,7 @@ function nearSound() {
    ------------------------------------------------------------ */
 export function numberLine(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
-  const w = widget(host, { title: 'La linea dei numeri', subtitle: 'raggiungi il bersaglio in poche mosse' });
+  const w = widget(host, { title: t('La linea dei numeri'), subtitle: t('raggiungi il bersaglio in poche mosse') });
   const st = { pos: 1, target: 8, moves: 0, hist: [] };
   const newTarget = () => {
     const cands = [8, -4, 6, -6, 12, -8, 3, -3, 10];
@@ -58,8 +59,8 @@ export function numberLine(host, opts = {}) {
     draw(ctx, s) {
       bg(ctx, s);
       const dist = Math.abs(st.pos - st.target);
-      const hudH = hud(ctx, s, { goal: `porta il razzo su ${st.target}`, closeness: 1 - Math.min(1, dist / 14), hit: dist < 1e-9,
-                    sub: 'usa i bottoni: +1, −1, doppio, metà, cambia segno' });
+      const hudH = hud(ctx, s, { goal: t('porta il razzo su :bersaglio', { bersaglio: st.target }), closeness: 1 - Math.min(1, dist / 14), hit: dist < 1e-9,
+                    sub: t('usa i bottoni: +1, −1, doppio, metà, cambia segno') });
       const y = s.h / 2 + 18;
       const L = 30, R = s.w - 30;
       const X = v => L + ((v + 14) / 28) * (R - L);
@@ -76,12 +77,12 @@ export function numberLine(host, opts = {}) {
          sopra. Ora stanno appoggiate ai due estremi, subito sotto l'HUD, dove
          non passa nient'altro. */
       const yEtichette = hudH + 13;
-      text(ctx, 'negativi ←', L, yEtichette, { size: 11, align: 'left', color: COL.red, max: s.w / 2 - L - 6 });
-      text(ctx, '→ positivi', R, yEtichette, { size: 11, align: 'right', color: COL.green, max: s.w / 2 - 36 });
+      text(ctx, t('negativi') + ' ←', L, yEtichette, { size: 11, align: 'left', color: COL.red, max: s.w / 2 - L - 6 });
+      text(ctx, '→ ' + t('positivi'), R, yEtichette, { size: 11, align: 'right', color: COL.green, max: s.w / 2 - 36 });
       // bersaglio
       roundRect(ctx, X(st.target) - 13, y - 40, 26, 20, 5, { fill: 'rgba(251,191,36,.2)', stroke: COL.amber });
       text(ctx, String(st.target), X(st.target), y - 30, { size: 12, align: 'center', color: COL.amber });
-      text(ctx, 'bersaglio', X(st.target), y - 48, { size: 10, align: 'center', color: COL.amber });
+      text(ctx, t('bersaglio'), X(st.target), y - 48, { size: 10, align: 'center', color: COL.amber });
       // razzo
       const hit = Math.abs(st.pos - st.target) < 1e-9;
       dot(ctx, X(st.pos), y, 9, hit ? COL.green : COL.cyan);
@@ -97,18 +98,18 @@ export function numberLine(host, opts = {}) {
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
     { label: '+1', onclick: () => move(v => v + 1, '+1') },
     { label: '−1', onclick: () => move(v => v - 1, '−1') },
-    { label: '×2 (doppio)', onclick: () => move(v => v * 2, '×2') },
-    { label: '÷2 (metà)', onclick: () => move(v => v / 2, '÷2') },
-    { label: '× (−1) cambia segno', onclick: () => move(v => -v, '×(−1)') },
-    { label: '🎲 nuovo bersaglio', class: 'sm primary', onclick: newTarget },
+    { label: '×2 ' + t('(doppio)'), onclick: () => move(v => v * 2, '×2') },
+    { label: '÷2 ' + t('(metà)'), onclick: () => move(v => v / 2, '÷2') },
+    { label: '× (−1) ' + t('cambia segno'), onclick: () => move(v => -v, '×(−1)') },
+    { label: '🎲 ' + t('nuovo bersaglio'), class: 'sm primary', onclick: newTarget },
   ])));
   w.body.appendChild(out.root);
 
   function upd() {
     const hit = Math.abs(st.pos - st.target) < 1e-9;
-    out.set(`Sei su <b>${st.pos}</b>, il bersaglio è <b>${st.target}</b>. Mosse: ${st.moves}\n` +
-      `Percorso: ${st.hist.length ? st.hist.join(' → ') : '—'}` +
-      (hit ? `\n<span class="g">🎯 CENTRATO in ${st.moves} mosse!</span>` : ''));
+    out.set(t('Sei su <b>:posizione</b>, il bersaglio è <b>:bersaglio</b>. Mosse: :mosse', { posizione: st.pos, bersaglio: st.target, mosse: st.moves }) + '\n' +
+      t('Percorso: :percorso', { percorso: st.hist.length ? st.hist.join(' → ') : '—' }) +
+      (hit ? '\n<span class="g">🎯 ' + t('CENTRATO in :mosse mosse!', { mosse: st.moves }) + '</span>' : ''));
     stage.redraw();
     if (hit && st.moves > 0 && !st.won) {
       st.won = true; sfx.ok();
@@ -117,7 +118,7 @@ export function numberLine(host, opts = {}) {
     } else if (!hit) { st.won = false; near(1 - Math.min(1, Math.abs(st.pos - st.target) / 14)); }
   }
   upd();
-  w.setFoot('<b>Da notare:</b> "×2" è un salto che raddoppia la distanza da zero, "÷2" la dimezza, "×(−1)" ti ribalta dall\'altra parte. Fra poco useremo le stesse tre mosse su una <b>freccia</b> invece che su un punto: raddoppiarla, dimezzarla, girarla dall\'altra parte.');
+  w.setFoot(t('<b>Da notare:</b> "×2" è un salto che raddoppia la distanza da zero, "÷2" la dimezza, "×(−1)" ti ribalta dall\'altra parte. Fra poco useremo le stesse tre mosse su una <b>freccia</b> invece che su un punto: raddoppiarla, dimezzarla, girarla dall\'altra parte.'));
   return { state: st };
 }
 
@@ -126,14 +127,14 @@ export function numberLine(host, opts = {}) {
    ------------------------------------------------------------ */
 export function percentLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null, need: 3 }, opts);
-  const w = widget(host, { title: 'Frazioni = decimali = percentuali', subtitle: 'riempi il bicchiere fino alla riga!' });
+  const w = widget(host, { title: t('Frazioni = decimali = percentuali'), subtitle: t('riempi il bicchiere fino alla riga!') });
 
   const GOALS = [
-    { v: 0.5,  lab: '1/2', say: 'metà bicchiere' },
-    { v: 0.25, lab: '1/4', say: 'un quarto' },
-    { v: 0.75, lab: '3/4', say: 'tre quarti' },
-    { v: 0.2,  lab: '1/5', say: 'un quinto' },
-    { v: 0.1,  lab: '1/10', say: 'un decimo' },
+    { v: 0.5,  lab: '1/2', say: t('metà bicchiere') },
+    { v: 0.25, lab: '1/4', say: t('un quarto') },
+    { v: 0.75, lab: '3/4', say: t('tre quarti') },
+    { v: 0.2,  lab: '1/5', say: t('un quinto') },
+    { v: 0.1,  lab: '1/10', say: t('un decimo') },
   ];
   const st = { v: 0.35, gi: 0, hits: 0, hit: false, done: new Set() };
   const near = nearSound();
@@ -148,9 +149,9 @@ export function percentLab(host, opts = {}) {
       const goal = GOALS[st.gi];
       const closeness = 1 - Math.min(1, Math.abs(st.v - goal.v) / 0.5);
       const top = hud(ctx, s, {
-        goal: `riempi fino a ${goal.lab}  (${goal.say})`,
+        goal: t('riempi fino a :etichetta  (:spiegazione)', { etichetta: goal.lab, spiegazione: goal.say }),
         closeness, hit: st.hit,
-        sub: 'muovi il cursore qui sotto — la riga tratteggiata è il bersaglio',
+        sub: t('muovi il cursore qui sotto — la riga tratteggiata è il bersaglio'),
       });
 
       // ---- il bicchiere (metafora concreta) ----
@@ -191,9 +192,9 @@ export function percentLab(host, opts = {}) {
         text(ctx, `${(st.v * 100).toFixed(0)}%`, tx, cy - 34, { size: 30, color: st.hit ? COL.green : COL.cyan, weight: '800' });
         text(ctx, `= ${st.v.toFixed(2)}`, tx, cy + 4, { size: 17, color: COL.amber });
         text(ctx, `= ${frac(st.v)}`, tx, cy + 30, { size: 17, color: COL.violet });
-        text(ctx, 'percentuale · decimale · frazione', tx, cy + 56, { size: 10.5, color: '#5b6b90' });
+        text(ctx, t('percentuale · decimale · frazione'), tx, cy + 56, { size: 10.5, color: '#5b6b90' });
       }
-      text(ctx, `centrati: ${st.hits}/${cfg.need}`, s.w - 14, s.h - 12, { size: 11, align: 'right', color: '#7f8fb3' });
+      text(ctx, t('centrati: :fatti/:totali', { fatti: st.hits, totali: cfg.need }), s.w - 14, s.h - 12, { size: 11, align: 'right', color: '#7f8fb3' });
       fx.draw(ctx);
     },
   });
@@ -201,12 +202,12 @@ export function percentLab(host, opts = {}) {
   stage.pause();
 
   const s1 = slider({
-    label: 'Quanto riempi', min: 0, max: 1, step: .01, value: st.v,
+    label: t('Quanto riempi'), min: 0, max: 1, step: .01, value: st.v,
     fmt: v => (v * 100).toFixed(0) + '%', oninput: v => { st.v = v; upd(); },
   });
   w.body.appendChild(controls(s1.root));
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
-    ...GOALS.map((g, i) => h('button', { class: 'btn sm', onclick: () => { st.gi = i; st.hit = false; upd(); } }, 'obiettivo ' + g.lab)),
+    ...GOALS.map((g, i) => h('button', { class: 'btn sm', onclick: () => { st.gi = i; st.hit = false; upd(); } }, t('obiettivo') + ' ' + g.lab)),
   ));
   const out = readout('');
   w.body.appendChild(out.root);
@@ -226,15 +227,15 @@ export function percentLab(host, opts = {}) {
       if (st.hits >= cfg.need) cfg.onWin && cfg.onWin();
     }
     out.set(
-      `Adesso il bicchiere è pieno per <b>${(st.v * 100).toFixed(0)}%</b> = <b>${st.v.toFixed(2)}</b> = <b>${frac(st.v)}</b>\n` +
-      `Sono tre modi di scrivere <b>la stessa quantità</b>: "per cento" vuol dire letteralmente "ogni 100".\n` +
-      (st.hit ? '<span class="g">✓ Perfetto! Prova un altro obiettivo.</span>'
-              : `Obiettivo: <b>${goal.lab}</b> (${goal.say}) → ${(goal.v * 100).toFixed(0)}%. ` +
-                (st.v < goal.v ? 'Sei <b>sotto</b>: alza il cursore.' : 'Sei <b>sopra</b>: abbassa il cursore.')));
+      t('Adesso il bicchiere è pieno per <b>:percento%</b> = <b>:decimale</b> = <b>:frazione</b>', { percento: (st.v * 100).toFixed(0), decimale: st.v.toFixed(2), frazione: frac(st.v) }) + '\n' +
+      t('Sono tre modi di scrivere <b>la stessa quantità</b>: "per cento" vuol dire letteralmente "ogni 100".') + '\n' +
+      (st.hit ? '<span class="g">✓ ' + t('Perfetto! Prova un altro obiettivo.') + '</span>'
+              : t('Obiettivo: <b>:etichetta</b> (:spiegazione) → :percento%.', { etichetta: goal.lab, spiegazione: goal.say, percento: (goal.v * 100).toFixed(0) }) + ' ' +
+                (st.v < goal.v ? t('Sei <b>sotto</b>: alza il cursore.') : t('Sei <b>sopra</b>: abbassa il cursore.'))));
     stage.redraw();
   }
   upd();
-  w.setFoot('Nel resto del corso le probabilità appariranno come <b>percentuale</b> (50%) o come <b>numero fra 0 e 1</b> (0,5): ormai sai che sono la stessa cosa.');
+  w.setFoot(t('Nel resto del corso le probabilità appariranno come <b>percentuale</b> (50%) o come <b>numero fra 0 e 1</b> (0,5): ormai sai che sono la stessa cosa.'));
   return { state: st };
 }
 
@@ -243,7 +244,7 @@ export function percentLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function squareRootLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
-  const w = widget(host, { title: 'Quadrato e radice quadrata', subtitle: 'il lato e l\'area di un quadrato' });
+  const w = widget(host, { title: t('Quadrato e radice quadrata'), subtitle: t('il lato e l\'area di un quadrato') });
   const st = { x: 0.7, hits: 0, asked: null, won: false };
 
   const near = nearSound();
@@ -253,51 +254,51 @@ export function squareRootLab(host, opts = {}) {
       bg(ctx, s);
       const need = st.asked !== null && st.asked !== undefined ? Math.sqrt(st.asked) : null;
       hud(ctx, s, {
-        goal: need ? `trova il lato che dà area ${st.asked}` : 'muovi il lato e guarda l\'area',
+        goal: need ? t('trova il lato che dà area :area', { area: st.asked }) : t("muovi il lato e guarda l'area"),
         closeness: need ? 1 - Math.min(1, Math.abs(st.x - need) / 0.6) : 0,
         hit: need ? Math.abs(st.x - need) < 0.02 : false,
-        sub: 'il lato è la "radice quadrata" dell\'area',
+        sub: t('il lato è la "radice quadrata" dell\'area'),
       });
       const size = 130, x0 = 26, y0 = s.h - 26;
       roundRect(ctx, x0, y0 - size, size, size, 4, { stroke: '#2b3b5e' });
       const side = st.x * size;
       roundRect(ctx, x0, y0 - side, side, side, 4, { fill: COL.cyan, alpha: .35, stroke: COL.cyan });
       arrow(ctx, x0, y0 + 12, x0 + side, y0 + 12, { color: COL.amber, width: 1.6, head: 6 });
-      text(ctx, `lato = ${st.x.toFixed(2)}`, x0 + side / 2, y0 + 22, { size: 11, align: 'center', color: COL.amber });
-      text(ctx, `area = ${(st.x * st.x).toFixed(3)}`, x0 + side / 2, y0 - side / 2, { size: 12, align: 'center', color: COL.txt });
+      text(ctx, t('lato') + ` = ${st.x.toFixed(2)}`, x0 + side / 2, y0 + 22, { size: 11, align: 'center', color: COL.amber });
+      text(ctx, t('area') + ` = ${(st.x * st.x).toFixed(3)}`, x0 + side / 2, y0 - side / 2, { size: 12, align: 'center', color: COL.txt });
       const tx = x0 + size + 34;
       const spazioD = s.w - tx - 12;
       // la colonna comincia sotto l'HUD e la sua riga di istruzioni
-      text(ctx, 'lato × lato = area', tx, 74, { size: 13, color: COL.txt, max: spazioD });
+      text(ctx, t('lato × lato = area'), tx, 74, { size: 13, color: COL.txt, max: spazioD });
       text(ctx, `${st.x.toFixed(2)} × ${st.x.toFixed(2)} = ${(st.x * st.x).toFixed(3)}`, tx, 96, { max: spazioD, size: 14, color: COL.cyan });
-      text(ctx, 'e al contrario:', tx, 128, { max: spazioD, size: 13, color: COL.txt });
+      text(ctx, t('e al contrario:'), tx, 128, { max: spazioD, size: 13, color: COL.txt });
       text(ctx, `√${(st.x * st.x).toFixed(3)} = ${st.x.toFixed(2)}`, tx, 150, { max: spazioD, size: 14, color: COL.green });
-      text(ctx, 'la radice quadrata è la domanda:', tx, 172, { size: 11, color: '#7f8fb3', max: spazioD });
-      text(ctx, '"che lato serve per questa area?"', tx, 188, { size: 11, color: '#7f8fb3', max: spazioD });
-      if (st.x < 1) text(ctx, '⚠ lato minore di 1 → area ancora più piccola', tx, 212, { size: 11, color: COL.amber, max: spazioD });
+      text(ctx, t('la radice quadrata è la domanda:'), tx, 172, { size: 11, color: '#7f8fb3', max: spazioD });
+      text(ctx, t('"che lato serve per questa area?"'), tx, 188, { size: 11, color: '#7f8fb3', max: spazioD });
+      if (st.x < 1) text(ctx, '⚠ ' + t('lato minore di 1 → area ancora più piccola'), tx, 212, { size: 11, color: COL.amber, max: spazioD });
       fx.draw(ctx);
     },
   });
   const fx = new FX(stage);
   stage.pause();
-  const s1 = slider({ label: 'Lato del quadrato', min: 0.05, max: 1, step: .01, value: st.x, oninput: v => { st.x = v; upd(); } });
+  const s1 = slider({ label: t('Lato del quadrato'), min: 0.05, max: 1, step: .01, value: st.x, oninput: v => { st.x = v; upd(); } });
   w.body.appendChild(controls(s1.root));
   const out = readout('');
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
-    { label: 'area = 0,25 → che lato?', onclick: () => ask(0.25) },
-    { label: 'area = 0,5 → che lato?', onclick: () => ask(0.5) },
-    { label: 'area = 0,01 → che lato?', onclick: () => ask(0.01) },
+    { label: t('area = 0,25 → che lato?'), onclick: () => ask(0.25) },
+    { label: t('area = 0,5 → che lato?'), onclick: () => ask(0.5) },
+    { label: t('area = 0,01 → che lato?'), onclick: () => ask(0.01) },
   ])));
   w.body.appendChild(out.root);
   function ask(a) { st.asked = a; st.won = false; upd(); }
   function upd() {
-    let msg = `Lato <b>${st.x.toFixed(2)}</b> → area <b>${(st.x * st.x).toFixed(3)}</b>\n`;
+    let msg = t('Lato <b>:lato</b> → area <b>:area</b>', { lato: st.x.toFixed(2), area: (st.x * st.x).toFixed(3) }) + '\n';
     if (st.asked !== null && st.asked !== undefined) {
       const asked = st.asked;
       const need = Math.sqrt(asked);
       const ok = Math.abs(st.x - need) < 0.02;
-      msg += `Cerchi il lato che dà area ${asked}: la risposta è √${asked} = <b>${need.toFixed(2)}</b>. ` +
-        (ok ? '<span class="g">✓ ci sei!</span>' : 'Muovi il cursore fin lì.');
+      msg += t('Cerchi il lato che dà area :area: la risposta è √:area = <b>:lato</b>.', { area: asked, lato: need.toFixed(2) }) + ' ' +
+        (ok ? '<span class="g">✓ ' + t('ci sei!') + '</span>' : t('Muovi il cursore fin lì.'));
       if (ok && !st.won) {
         st.won = true; st.hits++; sfx.ok();
         fx.burst(90, stage.h - 80); fx.flash();
@@ -308,7 +309,7 @@ export function squareRootLab(host, opts = {}) {
     stage.redraw();
   }
   upd();
-  w.setFoot('<b>Perché ci servirà:</b> nel quantistico ogni possibilità ha una "freccia" (l\'ampiezza) e la probabilità di vederla è <b>l\'area del suo quadrato</b>. Ampiezza 0,7 → probabilità 0,49 ≈ 50%. Ampiezza 1/√2 ≈ 0,71 → probabilità esattamente 0,5.');
+  w.setFoot(t('<b>Perché ci servirà:</b> nel quantistico ogni possibilità ha una "freccia" (l\'ampiezza) e la probabilità di vederla è <b>l\'area del suo quadrato</b>. Ampiezza 0,7 → probabilità 0,49 ≈ 50%. Ampiezza 1/√2 ≈ 0,71 → probabilità esattamente 0,5.'));
   return { state: st };
 }
 
@@ -317,17 +318,17 @@ export function squareRootLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function powersLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
-  const w = widget(host, { title: 'Raddoppia, raddoppia, raddoppia…', subtitle: 'le potenze di 2 (e perché i qubit sono speciali)' });
+  const w = widget(host, { title: t('Raddoppia, raddoppia, raddoppia…'), subtitle: t('le potenze di 2 (e perché i qubit sono speciali)') });
   const st = { n: 3, won: false };
   const stage = new Stage(w.body, {
     height: 220,
     draw(ctx, s) {
       bg(ctx, s);
       const N = Math.pow(2, st.n);
-      text(ctx, `2 moltiplicato per sé stesso ${st.n} volte:`, 14, 20, { size: 12, color: COL.txt });
+      text(ctx, t('2 moltiplicato per sé stesso :n volte:', { n: st.n }), 14, 20, { size: 12, color: COL.txt });
       const chain = Array.from({ length: st.n }, () => '2').join(' × ') || '1';
-      text(ctx, `${chain} = ${N.toLocaleString('it-IT')}`, 14, 44, { size: 15, color: COL.cyan });
-      text(ctx, `si scrive 2^${st.n}`, 14, 66, { size: 12, color: COL.amber });
+      text(ctx, `${chain} = ${num(N)}`, 14, 44, { size: 15, color: COL.cyan });
+      text(ctx, t('si scrive 2^:n', { n: st.n }), 14, 66, { size: 12, color: COL.amber });
       // puntini
       const maxDots = 256;
       const shown = Math.min(N, maxDots);
@@ -336,30 +337,30 @@ export function powersLab(host, opts = {}) {
         const cx2 = 18 + (i % cols) * 11, cy2 = 96 + Math.floor(i / cols) * 11;
         dot(ctx, cx2, cy2, r, `hsl(${(i / Math.max(1, shown)) * 300}, 85%, 62%)`, false);
       }
-      if (N > maxDots) text(ctx, `… e altri ${(N - maxDots).toLocaleString('it-IT')} (non ci stanno nello schermo)`, 18, 196, { size: 11, color: COL.amber });
-      text(ctx, `${st.n} qubit → ${N.toLocaleString('it-IT')} possibilità contemporanee`, 14, s.h - 8, { size: 12, color: COL.green });
+      if (N > maxDots) text(ctx, t('… e altri :quanti (non ci stanno nello schermo)', { quanti: num(N - maxDots) }), 18, 196, { size: 11, color: COL.amber });
+      text(ctx, t(':n qubit → :quante possibilità contemporanee', { n: st.n, quante: num(N) }), 14, s.h - 8, { size: 12, color: COL.green });
       fx.draw(ctx);
     },
   });
   const fx = new FX(stage);
   stage.pause();
-  const s1 = slider({ label: 'Quante volte raddoppi (n)', min: 0, max: 20, step: 1, value: st.n, fmt: v => `n = ${v} → 2^${v} = ${Math.pow(2, v).toLocaleString('it-IT')}`, oninput: v => { st.n = v; upd(); } });
+  const s1 = slider({ label: t('Quante volte raddoppi (n)'), min: 0, max: 20, step: 1, value: st.n, fmt: v => `n = ${v} → 2^${v} = ${num(Math.pow(2, v))}`, oninput: v => { st.n = v; upd(); } });
   w.body.appendChild(controls(s1.root));
   const out = readout('');
   w.body.appendChild(out.root);
   function upd() {
     const N = Math.pow(2, st.n);
     out.set(
-      `<b>2^${st.n} = ${N.toLocaleString('it-IT')}</b>\n` +
-      `Un chicco di riso sulla prima casella, due sulla seconda, quattro sulla terza…\n` +
-      `alla casella ${st.n + 1} ce ne sono già ${N.toLocaleString('it-IT')}.\n` +
-      (st.n >= 10 ? '<span class="a">Ecco perché "raddoppiare ogni volta" fa numeri assurdi in fretta.</span>' : '') +
-      (st.n >= 20 ? '\n<span class="g">Con 20 qubit un computer quantistico maneggia più di un milione di ampiezze insieme.</span>' : ''));
+      `<b>2^${st.n} = ${num(N)}</b>\n` +
+      t('Un chicco di riso sulla prima casella, due sulla seconda, quattro sulla terza…') + '\n' +
+      t('alla casella :casella ce ne sono già :quanti.', { casella: st.n + 1, quanti: num(N) }) + '\n' +
+      (st.n >= 10 ? '<span class="a">' + t('Ecco perché "raddoppiare ogni volta" fa numeri assurdi in fretta.') + '</span>' : '') +
+      (st.n >= 20 ? '\n<span class="g">' + t('Con 20 qubit un computer quantistico maneggia più di un milione di ampiezze insieme.') + '</span>' : ''));
     stage.redraw();
     if (st.n >= 20 && !st.won) { st.won = true; sfx.ok(); fx.burst(stage.w / 2, stage.h / 2); fx.flash(); cfg.onWin && cfg.onWin(); }
   }
   upd();
-  w.setFoot('Con <b>n bit</b> classici puoi rappresentare uno solo di 2^n valori alla volta. Con <b>n qubit</b> lo stato è descritto da <b>tutte</b> le 2^n ampiezze insieme. Questa singola riga è il motivo per cui l\'informatica quantistica esiste.');
+  w.setFoot(t("Con <b>n bit</b> classici puoi rappresentare uno solo di 2^n valori alla volta. Con <b>n qubit</b> lo stato è descritto da <b>tutte</b> le 2^n ampiezze insieme. Questa singola riga è il motivo per cui l'informatica quantistica esiste."));
   return { state: st };
 }
 
@@ -368,7 +369,7 @@ export function powersLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function gridLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null, need: 3 }, opts);
-  const w = widget(host, { title: 'Coordinate: (x, y)', subtitle: 'colpisci il bersaglio' });
+  const w = widget(host, { title: t('Coordinate: (x, y)'), subtitle: t('colpisci il bersaglio') });
   const near = nearSound();
   const st = { tx: 3, ty: 2, x: 0, y: 0, hits: 0, shots: [] };
   const newT = () => {
@@ -390,9 +391,9 @@ export function gridLab(host, opts = {}) {
     draw(ctx, s) {
       bg(ctx, s);
       const d = Math.hypot(st.tx - st.x, st.ty - st.y);
-      hud(ctx, s, { goal: `trova il bersaglio nascosto — colpiti ${st.hits}/${cfg.need}`,
+      hud(ctx, s, { goal: t('trova il bersaglio nascosto — colpiti :fatti/:totali', { fatti: st.hits, totali: cfg.need }),
                     closeness: 1 - Math.min(1, d / 12), hit: st.x === st.tx && st.y === st.ty,
-                    sub: s.w < 430 ? 'clicca sulla griglia, poi SPARA' : 'clicca sulla griglia o usa i cursori, poi premi SPARA' });
+                    sub: s.w < 430 ? t('clicca sulla griglia, poi SPARA') : t('clicca sulla griglia o usa i cursori, poi premi SPARA') });
       const P = plane(s);
       // griglia
       for (let v = -6; v <= 6; v++) {
@@ -433,13 +434,13 @@ export function gridLab(host, opts = {}) {
     return makePlane(s.w / 2, cima + (s.h - cima) / 2, u);
   }
 
-  const sx = slider({ label: 'x (destra/sinistra)', min: -6, max: 6, step: 1, value: 0, fmt: v => String(v), oninput: v => { st.x = v; upd(); } });
-  const sy = slider({ label: 'y (su/giù)', min: -6, max: 6, step: 1, value: 0, fmt: v => String(v), oninput: v => { st.y = v; upd(); } });
+  const sx = slider({ label: t('x (destra/sinistra)'), min: -6, max: 6, step: 1, value: 0, fmt: v => String(v), oninput: v => { st.x = v; upd(); } });
+  const sy = slider({ label: t('y (su/giù)'), min: -6, max: 6, step: 1, value: 0, fmt: v => String(v), oninput: v => { st.y = v; upd(); } });
   w.body.appendChild(controls(sx.root, sy.root));
   const out = readout('');
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
-    { label: '🎯 SPARA!', class: 'sm primary', onclick: () => fire() },
-    { label: '🎲 nuovo bersaglio', onclick: newT },
+    { label: '🎯 ' + t('SPARA!'), class: 'sm primary', onclick: () => fire() },
+    { label: '🎲 ' + t('nuovo bersaglio'), onclick: newT },
   ])));
   w.body.appendChild(out.root);
 
@@ -455,15 +456,17 @@ export function gridLab(host, opts = {}) {
   function upd(justHit) {
     const dx = st.tx - st.x, dy = st.ty - st.y;
     let hint = '';
-    if (justHit) hint = `<span class="g">🎯 COLPITO! (${st.hits}/${cfg.need})</span>`;
-    else hint = `Indizio: il bersaglio è ${dx === 0 ? 'sulla tua colonna' : (dx > 0 ? `${dx} passi a DESTRA` : `${-dx} passi a SINISTRA`)}` +
-      ` e ${dy === 0 ? 'sulla tua riga' : (dy > 0 ? `${dy} passi in SU` : `${-dy} passi in GIÙ`)}.`;
-    out.set(`Il tuo punto: <b>x = ${st.x}</b>, <b>y = ${st.y}</b>\n` +
-      `Si scrive così: <b>(${st.x}, ${st.y})</b> — prima sempre la x (orizzontale), poi la y (verticale).\n${hint}`);
+    if (justHit) hint = '<span class="g">🎯 ' + t('COLPITO! (:fatti/:totali)', { fatti: st.hits, totali: cfg.need }) + '</span>';
+    else hint = t('Indizio: il bersaglio è :orizzontale e :verticale.', {
+      orizzontale: dx === 0 ? t('sulla tua colonna') : (dx > 0 ? t(':passi passi a DESTRA', { passi: dx }) : t(':passi passi a SINISTRA', { passi: -dx })),
+      verticale: dy === 0 ? t('sulla tua riga') : (dy > 0 ? t(':passi passi in SU', { passi: dy }) : t(':passi passi in GIÙ', { passi: -dy })),
+    });
+    out.set(t('Il tuo punto: <b>x = :x</b>, <b>y = :y</b>', { x: st.x, y: st.y }) + '\n' +
+      t('Si scrive così: <b>(:x, :y)</b> — prima sempre la x (orizzontale), poi la y (verticale).', { x: st.x, y: st.y }) + `\n${hint}`);
     stage.redraw();
   }
   upd();
-  w.setFoot('Una coppia di numeri (x, y) individua <b>un punto</b> sul piano, oppure — che è lo stesso — <b>una freccia</b> che parte dal centro. Fra due livelli chiameremo quella stessa freccia "numero complesso": x sarà la parte reale e y quella immaginaria.');
+  w.setFoot(t('Una coppia di numeri (x, y) individua <b>un punto</b> sul piano, oppure — che è lo stesso — <b>una freccia</b> che parte dal centro. Fra due livelli chiameremo quella stessa freccia "numero complesso": x sarà la parte reale e y quella immaginaria.'));
   return { state: st };
 }
 
@@ -472,7 +475,7 @@ export function gridLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function angleLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null, need: 3 }, opts);
-  const w = widget(host, { title: 'Angoli: il giro completo è 360°', subtitle: 'porta la lancetta dove ti chiedo' });
+  const w = widget(host, { title: t('Angoli: il giro completo è 360°'), subtitle: t('porta la lancetta dove ti chiedo') });
   const st = { a: 0, target: 90, hits: 0, won: false };
   const targets = [90, 180, 270, 45, 135, 360];
 
@@ -489,8 +492,8 @@ export function angleLab(host, opts = {}) {
     draw(ctx, s) {
       bg(ctx, s);
       const dd = Math.abs(((st.a - st.target % 360) % 360 + 540) % 360 - 180);
-      hud(ctx, s, { goal: `porta la lancetta a ${st.target}°`, closeness: 1 - Math.min(1, (180 - dd) / 180 === 0 ? 1 : dd / 180), hit: st.a === (st.target % 360),
-                    sub: 'trascina la lancetta o usa il cursore · un giro intero = 360°' });
+      hud(ctx, s, { goal: t('porta la lancetta a :gradi°', { gradi: st.target }), closeness: 1 - Math.min(1, (180 - dd) / 180 === 0 ? 1 : dd / 180), hit: st.a === (st.target % 360),
+                    sub: t('trascina la lancetta o usa il cursore · un giro intero = 360°') });
       const R = Math.min(s.w, s.h - 40) / 2 - 34;
       const cx = s.w / 2, cy = s.h / 2 + 24;
       circle(ctx, cx, cy, R, { stroke: '#2b3b5e', fill: '#0d1524' });
@@ -519,10 +522,10 @@ export function angleLab(host, opts = {}) {
   const fx = new FX(stage);
   stage.pause();
 
-  const s1 = slider({ label: 'Angolo', min: 0, max: 360, step: 5, value: 0, fmt: v => v + '°', oninput: v => { st.a = v; upd(); } });
+  const s1 = slider({ label: t('Angolo'), min: 0, max: 360, step: 5, value: 0, fmt: v => v + '°', oninput: v => { st.a = v; upd(); } });
   w.body.appendChild(controls(s1.root));
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons(
-    targets.map(t => ({ label: `vai a ${t}°`, onclick: () => { st.target = t; upd(); } })))));
+    targets.map(gradi => ({ label: t('vai a :gradi°', { gradi }), onclick: () => { st.target = gradi; upd(); } })))));
   const out = readout('');
   w.body.appendChild(out.root);
 
@@ -539,14 +542,14 @@ export function angleLab(host, opts = {}) {
     }
     const frac = st.a / 360;
     out.set(
-      `Sei a <b>${st.a}°</b> = <b>${(frac).toFixed(3)}</b> di giro completo` +
-      (st.a === 90 ? ' (un quarto di giro)' : st.a === 180 ? ' (mezzo giro)' : st.a === 270 ? ' (tre quarti)' : st.a === 0 ? ' (punto di partenza)' : '') + '\n' +
-      `Un giro intero = <b>360°</b>. Mezzo giro = 180°. Un quarto = 90°.\n` +
-      (ok ? '<span class="g">✓ Sei sul bersaglio!</span>' : `Porta la lancetta su ${st.target}°.`));
+      t('Sei a <b>:gradi°</b> = <b>:frazione</b> di giro completo', { gradi: st.a, frazione: frac.toFixed(3) }) +
+      (st.a === 90 ? ' ' + t('(un quarto di giro)') : st.a === 180 ? ' ' + t('(mezzo giro)') : st.a === 270 ? ' ' + t('(tre quarti)') : st.a === 0 ? ' ' + t('(punto di partenza)') : '') + '\n' +
+      t('Un giro intero = <b>360°</b>. Mezzo giro = 180°. Un quarto = 90°.') + '\n' +
+      (ok ? '<span class="g">✓ ' + t('Sei sul bersaglio!') + '</span>' : t('Porta la lancetta su :gradi°.', { gradi: st.target })));
     stage.redraw();
   }
   upd();
-  w.setFoot('<b>Perché ci serve:</b> nel corso, "fase" vorrà dire esattamente questo — <b>a che punto del giro sei</b>. E 360° sarà sempre uguale a 0°, perché dopo un giro completo sei tornato al punto di partenza.');
+  w.setFoot(t('<b>Perché ci serve:</b> nel corso, "fase" vorrà dire esattamente questo — <b>a che punto del giro sei</b>. E 360° sarà sempre uguale a 0°, perché dopo un giro completo sei tornato al punto di partenza.'));
   return { state: st };
 }
 
@@ -555,7 +558,7 @@ export function angleLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function diceLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
-  const w = widget(host, { title: 'Lancia e conta', subtitle: 'la probabilità si vede solo con tanti lanci' });
+  const w = widget(host, { title: t('Lancia e conta'), subtitle: t('la probabilità si vede solo con tanti lanci') });
   const st = { faces: 2, counts: [0, 0], total: 0, won: false };
   const setFaces = f => { st.faces = f; st.counts = new Array(f).fill(0); st.total = 0; upd(); };
 
@@ -570,8 +573,8 @@ export function diceLab(host, opts = {}) {
       // su schermo stretto la stessa cosa detta più corta, invece che troncata
       const stretto = s.w < 420;
       text(ctx, stretto
-        ? `${st.total} lanci — tratteggio = teoria (${(teor * 100).toFixed(1)}%)`
-        : `${st.total} lanci — la riga tratteggiata è la probabilità teorica (${(teor * 100).toFixed(1)}%)`,
+        ? t(':lanci lanci — tratteggio = teoria (:percento%)', { lanci: st.total, percento: (teor * 100).toFixed(1) })
+        : t(':lanci lanci — la riga tratteggiata è la probabilità teorica (:percento%)', { lanci: st.total, percento: (teor * 100).toFixed(1) }),
         16, 16, { size: 11.5, color: COL.txt, max: s.w - 32 });
       /* Fondo scala: con il dado (1/6) moltiplicare per 2.2 andava bene, ma con
          la moneta (1/2) la riga teorica finiva al 110% dell'altezza, cioè fuori
@@ -588,7 +591,7 @@ export function diceLab(host, opts = {}) {
         const x = rect.x + cw * i + 5;
         roundRect(ctx, x, rect.y + rect.h - hgt, cw - 10, Math.max(1, hgt), 4, { fill: COL.cyan, alpha: .85 });
         text(ctx, st.total ? (p * 100).toFixed(1) + '%' : '', x + (cw - 10) / 2, rect.y + rect.h - hgt - 8, { size: 10, align: 'center', color: COL.txt });
-        const lab = N === 2 ? (i === 0 ? 'TESTA' : 'CROCE') : String(i + 1);
+        const lab = N === 2 ? (i === 0 ? t('TESTA') : t('CROCE')) : String(i + 1);
         text(ctx, lab, x + (cw - 10) / 2, rect.y + rect.h + 14, { size: 11, align: 'center', color: '#7f8fb3' });
         text(ctx, String(st.counts[i]), x + (cw - 10) / 2, rect.y + rect.h + 28, { size: 10, align: 'center', color: '#5b6b90' });
       }
@@ -603,12 +606,12 @@ export function diceLab(host, opts = {}) {
     upd();
   };
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
-    h('button', { class: 'btn sm', onclick: () => setFaces(2) }, '🪙 moneta (2 facce)'),
-    h('button', { class: 'btn sm', onclick: () => setFaces(6) }, '🎲 dado (6 facce)'),
-    h('button', { class: 'btn sm primary', onclick: () => roll(1) }, 'lancia 1'),
-    h('button', { class: 'btn sm primary', onclick: () => roll(10) }, 'lancia 10'),
-    h('button', { class: 'btn sm primary', onclick: () => roll(1000) }, 'lancia 1000'),
-    h('button', { class: 'btn sm', onclick: () => setFaces(st.faces) }, '↺ azzera'),
+    h('button', { class: 'btn sm', onclick: () => setFaces(2) }, '🪙 ' + t('moneta (2 facce)')),
+    h('button', { class: 'btn sm', onclick: () => setFaces(6) }, '🎲 ' + t('dado (6 facce)')),
+    h('button', { class: 'btn sm primary', onclick: () => roll(1) }, t('lancia :quanti', { quanti: 1 })),
+    h('button', { class: 'btn sm primary', onclick: () => roll(10) }, t('lancia :quanti', { quanti: 10 })),
+    h('button', { class: 'btn sm primary', onclick: () => roll(1000) }, t('lancia :quanti', { quanti: 1000 })),
+    h('button', { class: 'btn sm', onclick: () => setFaces(st.faces) }, '↺ ' + t('azzera')),
   ));
   const out = readout('');
   w.body.appendChild(out.root);
@@ -618,16 +621,16 @@ export function diceLab(host, opts = {}) {
     const errs = st.counts.map(c => Math.abs((st.total ? c / st.total : 0) * 100 - teor));
     const maxErr = Math.max(...errs);
     out.set(
-      `Probabilità teorica di ogni faccia: <b>1/${st.faces}</b> = ${teor.toFixed(1)}%\n` +
-      `Dopo <b>${st.total}</b> lanci, lo scostamento massimo dalla teoria è <b>${st.total ? maxErr.toFixed(1) : '—'}%</b>\n` +
+      t('Probabilità teorica di ogni faccia: <b>1/:facce</b> = :percento%', { facce: st.faces, percento: teor.toFixed(1) }) + '\n' +
+      t('Dopo <b>:lanci</b> lanci, lo scostamento massimo dalla teoria è <b>:errore%</b>', { lanci: st.total, errore: st.total ? maxErr.toFixed(1) : '—' }) + '\n' +
       (st.total >= 1000 && maxErr < 5
-        ? '<span class="g">Vedi? Con tanti lanci le percentuali si sistemano da sole. Si chiama legge dei grandi numeri.</span>'
-        : 'Fai altri lanci e guarda le barre avvicinarsi alla riga tratteggiata.'));
+        ? '<span class="g">' + t('Vedi? Con tanti lanci le percentuali si sistemano da sole. Si chiama legge dei grandi numeri.') + '</span>'
+        : t('Fai altri lanci e guarda le barre avvicinarsi alla riga tratteggiata.')));
     stage.redraw();
     if (st.total >= 1000 && !st.won) { st.won = true; sfx.ok(); fx.burst(stage.w / 2, stage.h / 2); fx.flash(); cfg.onWin && cfg.onWin(); }
   }
   upd();
-  w.setFoot('<b>Attenzione al tranello:</b> con pochi lanci le percentuali ballano parecchio. Nel corso misureremo i qubit centinaia di volte proprio per questo: una misura sola non dice quasi nulla, tante misure disegnano la forma della probabilità.');
+  w.setFoot(t('<b>Attenzione al tranello:</b> con pochi lanci le percentuali ballano parecchio. Nel corso misureremo i qubit centinaia di volte proprio per questo: una misura sola non dice quasi nulla, tante misure disegnano la forma della probabilità.'));
   return { state: st };
 }
 
@@ -638,7 +641,7 @@ export function diceLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function sinCosLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null, need: 3 }, opts);
-  const w = widget(host, { title: 'Seno e coseno: le due ombre', subtitle: 'trascina il punto sul cerchio' });
+  const w = widget(host, { title: t('Seno e coseno: le due ombre'), subtitle: t('trascina il punto sul cerchio') });
   const st = { a: 40, quiz: null, hits: 0, won: false };
   const near = nearSound();
 
@@ -663,7 +666,7 @@ export function sinCosLab(host, opts = {}) {
     draw(ctx, s) {
       bg(ctx, s);
       hud(ctx, s, {
-        goal: st.quiz ? `porta il punto a ${st.quiz.a}° e leggi il ${st.quiz.which}` : 'trascina il punto sul cerchio',
+        goal: st.quiz ? t('porta il punto a :gradi° e leggi il :quale', { gradi: st.quiz.a, quale: t(st.quiz.which) }) : t('trascina il punto sul cerchio'),
         closeness: st.quiz ? 1 - Math.min(1, Math.abs(((st.a - st.quiz.a) % 360 + 540) % 360 - 180) / 180) : 0,
         hit: st.quiz ? st.a === st.quiz.a : false,
       });
@@ -704,7 +707,7 @@ export function sinCosLab(host, opts = {}) {
         dot(ctx, cx2, g.cy - Math.sin(rad) * g.R, 5, COL.green);
         ctx.strokeStyle = 'rgba(52,211,153,.3)'; ctx.setLineDash([3, 4]);
         ctx.beginPath(); ctx.moveTo(g.cx, py); ctx.lineTo(cx2, g.cy - Math.sin(rad) * g.R); ctx.stroke(); ctx.setLineDash([]);
-        text(ctx, 'l\'altezza disegnata mentre l\'angolo cresce = un\'ONDA', x0, g.top + 4, { size: 10.5, color: '#6f7fa3' });
+        text(ctx, t("l'altezza disegnata mentre l'angolo cresce = un'ONDA"), x0, g.top + 4, { size: 10.5, color: '#6f7fa3' });
         ['0°', '90°', '180°', '270°', '360°'].forEach((l, i) =>
           text(ctx, l, x0 + (wD * i) / 4, g.bot - 4, { size: 9.5, align: 'center', color: '#5b6b90' }));
       }
@@ -716,12 +719,12 @@ export function sinCosLab(host, opts = {}) {
       // valori a 14px si scavalcano fra loro
       const col = cw - 10;
       const corto = col < 105;
-      text(ctx, corto ? 'ombra orizz.' : 'ombra orizzontale', 18, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
-      text(ctx, `coseno = ${Math.cos(rad).toFixed(2)}`, 18, s.h - 20, { size: 14, color: COL.amber, max: col });
-      text(ctx, 'altezza', 18 + cw, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
-      text(ctx, `seno = ${Math.sin(rad).toFixed(2)}`, 18 + cw, s.h - 20, { size: 14, color: COL.green, max: col });
-      text(ctx, corto ? 'raggio' : 'raggio del cerchio', 18 + 2 * cw, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
-      text(ctx, '= 1 (sempre)', 18 + 2 * cw, s.h - 20, { size: 14, color: COL.cyan, max: col });
+      text(ctx, corto ? t('ombra orizz.') : t('ombra orizzontale'), 18, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
+      text(ctx, t('coseno') + ` = ${Math.cos(rad).toFixed(2)}`, 18, s.h - 20, { size: 14, color: COL.amber, max: col });
+      text(ctx, t('altezza'), 18 + cw, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
+      text(ctx, t('seno') + ` = ${Math.sin(rad).toFixed(2)}`, 18 + cw, s.h - 20, { size: 14, color: COL.green, max: col });
+      text(ctx, corto ? t('raggio') : t('raggio del cerchio'), 18 + 2 * cw, s.h - 36, { size: 10, color: '#7f8fb3', max: col });
+      text(ctx, '= 1 ' + t('(sempre)'), 18 + 2 * cw, s.h - 20, { size: 14, color: COL.cyan, max: col });
 
       fx.draw(ctx);
     },
@@ -729,13 +732,13 @@ export function sinCosLab(host, opts = {}) {
   const fx = new FX(stage);
   stage.pause();
 
-  const s1 = slider({ label: 'Angolo', min: 0, max: 360, step: 5, value: st.a, fmt: v => v + '°', oninput: v => { st.a = v; upd(); } });
+  const s1 = slider({ label: t('Angolo'), min: 0, max: 360, step: 5, value: st.a, fmt: v => v + '°', oninput: v => { st.a = v; upd(); } });
   w.body.appendChild(controls(s1.root));
   const out = readout('');
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
     { label: '0°', onclick: () => set(0) }, { label: '90°', onclick: () => set(90) },
     { label: '180°', onclick: () => set(180) }, { label: '270°', onclick: () => set(270) },
-    { label: '🎯 mettimi alla prova', class: 'sm primary', onclick: () => quiz() },
+    { label: '🎯 ' + t('mettimi alla prova'), class: 'sm primary', onclick: () => quiz() },
   ])));
   w.body.appendChild(out.root);
 
@@ -748,14 +751,16 @@ export function sinCosLab(host, opts = {}) {
   }
   function upd() {
     const rad = st.a * Math.PI / 180;
-    let msg = `A <b>${st.a}°</b>:  coseno = <span class="a">${Math.cos(rad).toFixed(3)}</span>   ·   seno = <span class="g">${Math.sin(rad).toFixed(3)}</span>\n` +
-      `Il coseno è quanto sei spostato a <b>destra</b>, il seno quanto sei <b>in alto</b>. Entrambi stanno sempre fra −1 e +1.`;
+    let msg = t('A <b>:gradi°</b>:  coseno = <span class="a">:coseno</span>   ·   seno = <span class="g">:seno</span>', { gradi: st.a, coseno: Math.cos(rad).toFixed(3), seno: Math.sin(rad).toFixed(3) }) + '\n' +
+      t('Il coseno è quanto sei spostato a <b>destra</b>, il seno quanto sei <b>in alto</b>. Entrambi stanno sempre fra −1 e +1.');
     if (st.quiz) {
       const target = st.quiz.which === 'seno' ? Math.sin(st.quiz.a * Math.PI / 180) : Math.cos(st.quiz.a * Math.PI / 180);
       const mine = st.quiz.which === 'seno' ? Math.sin(rad) : Math.cos(rad);
       const ok = st.a === st.quiz.a;
-      msg += `\n\n🎯 <b>Prova:</b> porta il punto a <b>${st.quiz.a}°</b> e guarda quanto vale il <b>${st.quiz.which}</b>.` +
-        (ok ? ` <span class="g">Risposta: ${target.toFixed(2)} ✓</span>` : ` (adesso sei a ${st.a}°, dove il ${st.quiz.which} vale ${mine.toFixed(2)})`);
+      msg += '\n\n🎯 <b>' + t('Prova:') + '</b> ' +
+        t('porta il punto a <b>:gradi°</b> e guarda quanto vale il <b>:quale</b>.', { gradi: st.quiz.a, quale: t(st.quiz.which) }) +
+        (ok ? ' <span class="g">' + t('Risposta: :valore', { valore: target.toFixed(2) }) + ' ✓</span>'
+            : ' ' + t('(adesso sei a :gradi°, dove il :quale vale :valore)', { gradi: st.a, quale: t(st.quiz.which), valore: mine.toFixed(2) }));
       if (ok) {
         st.hits++; st.quiz = null; sfx.ok();
         const g = geo(stage); fx.burst(g.cx, g.cy); fx.flash();
@@ -766,6 +771,6 @@ export function sinCosLab(host, opts = {}) {
     stage.redraw();
   }
   upd();
-  w.setFoot('<b>Da qui nasce tutto:</b> se il punto continua a girare, la sua altezza disegna un\'<b>onda</b> (il seno) e la sua ombra ne disegna un\'altra (il coseno), identica ma <b>spostata di 90°</b>. Questa è la definizione di onda che useremo nel livello 1.');
+  w.setFoot(t("<b>Da qui nasce tutto:</b> se il punto continua a girare, la sua altezza disegna un'<b>onda</b> (il seno) e la sua ombra ne disegna un'altra (il coseno), identica ma <b>spostata di 90°</b>. Questa è la definizione di onda che useremo nel livello 1."));
   return { state: st };
 }

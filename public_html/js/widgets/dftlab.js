@@ -11,21 +11,22 @@ import { sfx } from '../core/audio.js';
 import { Stage, COL, bg, grid, arrow, circle, dot, text, roundRect, makePlane, hsl, attachFX } from '../core/canvas.js';
 import { widget, slider, controls, buttons, readout, h, choice } from '../core/ui.js';
 import { fromArray, dft, dftTerms, magnitudes } from '../core/dsp.js';
+import { t } from '../core/i18n.js';
 
 const PRESETS = {
   'alternato': { label: '1 0 1 0 …', gen: N => Array.from({ length: N }, (_, i) => i % 2 === 0 ? 1 : 0) },
-  'costante': { label: 'tutto uguale', gen: N => Array.from({ length: N }, () => 1) },
-  'impulso': { label: 'un solo colpo', gen: N => Array.from({ length: N }, (_, i) => i === 0 ? 1 : 0) },
-  'coseno1': { label: '1 ciclo', gen: N => Array.from({ length: N }, (_, i) => Math.cos(2 * Math.PI * i / N)) },
-  'coseno3': { label: '3 cicli', gen: N => Array.from({ length: N }, (_, i) => Math.cos(2 * Math.PI * 3 * i / N)) },
-  'periodo4': { label: 'periodo 4', gen: N => Array.from({ length: N }, (_, i) => (i % 4 === 0 ? 1 : 0)) },
-  'casuale': { label: '🎲 a caso', gen: N => Array.from({ length: N }, () => Math.round((Math.random() * 2 - 1) * 10) / 10) },
+  'costante': { label: t('tutto uguale'), gen: N => Array.from({ length: N }, () => 1) },
+  'impulso': { label: t('un solo colpo'), gen: N => Array.from({ length: N }, (_, i) => i === 0 ? 1 : 0) },
+  'coseno1': { label: t('1 ciclo'), gen: N => Array.from({ length: N }, (_, i) => Math.cos(2 * Math.PI * i / N)) },
+  'coseno3': { label: t('3 cicli'), gen: N => Array.from({ length: N }, (_, i) => Math.cos(2 * Math.PI * 3 * i / N)) },
+  'periodo4': { label: t('periodo 4'), gen: N => Array.from({ length: N }, (_, i) => (i % 4 === 0 ? 1 : 0)) },
+  'casuale': { label: '🎲 ' + t('a caso'), gen: N => Array.from({ length: N }, () => Math.round((Math.random() * 2 - 1) * 10) / 10) },
 };
 
 export function dftLab(host, opts = {}) {
   const cfg = Object.assign({
-    N: 8, preset: 'alternato', k: 1, title: 'La macchina di Fourier',
-    subtitle: 'trascina i campioni, cambia k, guarda le frecce',
+    N: 8, preset: 'alternato', k: 1, title: t('La macchina di Fourier'),
+    subtitle: t('trascina i campioni, cambia k, guarda le frecce'),
     onChange: null, showMission: false,
   }, opts);
 
@@ -95,7 +96,7 @@ export function dftLab(host, opts = {}) {
 
   function drawSamples(ctx, r) {
     roundRect(ctx, r.x, r.y, r.w, r.h, 8, { stroke: '#1a2440' });
-    text(ctx, 'x(n) — i tuoi dati (trascinali!)', r.x + 8, r.y + 12, { size: 11, color: COL.txt, max: r.w - 16 });
+    text(ctx, t('x(n) — i tuoi dati (trascinali!)'), r.x + 8, r.y + 12, { size: 11, color: COL.txt, max: r.w - 16 });
     const mid = r.y + r.h / 2;
     const cw = r.w / N;
     ctx.strokeStyle = COL.axis; ctx.beginPath(); ctx.moveTo(r.x + 4, mid); ctx.lineTo(r.x + r.w - 4, mid); ctx.stroke();
@@ -127,13 +128,12 @@ export function dftLab(host, opts = {}) {
     ctx.moveTo(P.cx - R - 6, P.cy); ctx.lineTo(P.cx + R + 6, P.cy);
     ctx.moveTo(P.cx, P.cy - R - 6); ctx.lineTo(P.cx, P.cy + R + 6); ctx.stroke();
     circle(ctx, P.cx, P.cy, P.scale, { stroke: '#22304d', dash: [3, 5] });
-    text(ctx, `frecce ruotate a velocità k = ${st.k}`, r.x + 8, r.y + 12, { size: 11, color: COL.txt });
+    text(ctx, t('frecce ruotate a velocità k = :k', { k: st.k }), r.x + 8, r.y + 12, { size: 11, color: COL.txt });
 
     const upTo = st.anim ? Math.min(N, Math.floor(st.prog)) : N;
     // catena testa-coda
     let px = P.cx, py = P.cy;
     for (let n = 0; n < upTo; n++) {
-      const t = terms[n];
       const nx = P.X(cum[n].re), ny = P.Y(cum[n].im);
       arrow(ctx, px, py, nx, ny, { color: hsl(n, N), width: 2.2, head: 7, alpha: .95 });
       px = nx; py = ny;
@@ -161,7 +161,7 @@ export function dftLab(host, opts = {}) {
       presi.push([cx2, cy2]);
       text(ctx, String(n), cx2, cy2, { size: 9.5, align: 'center', color: n < upTo ? hsl(n, N) : '#39466a' });
     }
-    if (st.anim) text(ctx, `sto sommando la freccia n = ${Math.min(N - 1, Math.floor(st.prog))}`, r.x + 8, r.y + r.h - 8, { size: 10.5, color: COL.amber });
+    if (st.anim) text(ctx, t('sto sommando la freccia n = :n', { n: Math.min(N - 1, Math.floor(st.prog)) }), r.x + 8, r.y + r.h - 8, { size: 10.5, color: COL.amber });
   }
 
   function drawSpectrum(ctx, r) {
@@ -170,7 +170,7 @@ export function dftLab(host, opts = {}) {
     const m = magnitudes(X);
     const maxM = Math.max(1e-6, ...m);
     const cw = r.w / N;
-    text(ctx, '|X(k)| — quanto c\'è di ogni frequenza (clicca una barra)', r.x + 8, r.y + 11, { size: 11, color: COL.txt });
+    text(ctx, t("|X(k)| — quanto c'è di ogni frequenza (clicca una barra)"), r.x + 8, r.y + 11, { size: 11, color: COL.txt });
     const base = r.y + r.h - 16;
     for (let k = 0; k < N; k++) {
       const cx = r.x + cw * (k + .5);
@@ -189,12 +189,12 @@ export function dftLab(host, opts = {}) {
 
   const out = readout('');
   const sK = slider({
-    label: 'Frequenza da testare <b>k</b> (cicli sull\'intera finestra)', min: 0, max: N - 1, step: 1, value: st.k,
+    label: t("Frequenza da testare <b>k</b> (cicli sull'intera finestra)"), min: 0, max: N - 1, step: 1, value: st.k,
     fmt: v => 'k = ' + v, oninput: v => { st.k = v; upd(); },
   });
   w.body.appendChild(controls(sK.root));
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
-    { label: '▶ somma le frecce una alla volta', onclick: () => { st.anim = !st.anim; st.prog = 0; } },
+    { label: '▶ ' + t('somma le frecce una alla volta'), onclick: () => { st.anim = !st.anim; st.prog = 0; } },
     ...Object.entries(PRESETS).map(([k2, p]) => ({ label: p.label, onclick: () => { st.x = p.gen(N); upd(); } })),
   ])));
   w.body.appendChild(out.root);
@@ -203,16 +203,18 @@ export function dftLab(host, opts = {}) {
     const { terms, total } = dftTerms(sig(), st.k);
     const mag = Math.hypot(total.re, total.im);
     const ph = Math.atan2(total.im, total.re) * 180 / Math.PI;
-    let lines = terms.map((t, n) => {
+    let lines = terms.map((termine, n) => {
       const ang = ((-360 * st.k * n / N) % 360 + 360) % 360;
-      return `  n=${n}: x=${st.x[n].toFixed(2)} ruotato di ${ang.toFixed(0)}° → (${t.re.toFixed(2)}, ${t.im.toFixed(2)}i)`;
+      return '  ' + t('n=:n: x=:x ruotato di :gradi° → (:re, :imi)', {
+        n, x: st.x[n].toFixed(2), gradi: ang.toFixed(0), re: termine.re.toFixed(2), im: termine.im.toFixed(2),
+      });
     }).join('\n');
     out.set(
       `<b>X(${st.k}) = Σ x(n) · e^(−i·2π·${st.k}·n/${N})</b>\n${lines}\n` +
-      `  <b>somma =</b> <span class="p">${total.re.toFixed(2)} ${total.im < 0 ? '−' : '+'} ${Math.abs(total.im).toFixed(2)}i</span>` +
-      `   → lunghezza <span class="a">${mag.toFixed(2)}</span>, fase ${((ph % 360) + 360) % 360 | 0}°\n` +
-      (mag < 0.35 ? '  <span class="c">Le frecce si sono cancellate: questa frequenza NON c\'è.</span>'
-        : '  <span class="g">Le frecce si sono allineate: questa frequenza C\'È.</span>'));
+      '  <b>' + t('somma =') + `</b> <span class="p">${total.re.toFixed(2)} ${total.im < 0 ? '−' : '+'} ${Math.abs(total.im).toFixed(2)}i</span>` +
+      '   → ' + t('lunghezza <span class="a">:lunghezza</span>, fase :fase°', { lunghezza: mag.toFixed(2), fase: ((ph % 360) + 360) % 360 | 0 }) + '\n' +
+      (mag < 0.35 ? '  <span class="c">' + t("Le frecce si sono cancellate: questa frequenza NON c'è.") + '</span>'
+        : '  <span class="g">' + t("Le frecce si sono allineate: questa frequenza C'È.") + '</span>'));
     stage.redraw();
     cfg.onChange && cfg.onChange({ x: st.x.slice(), k: st.k, mag });
   }
@@ -228,7 +230,7 @@ export function dftLab(host, opts = {}) {
    ------------------------------------------------------------ */
 
 export function windingLab(host, opts = {}) {
-  const cfg = Object.assign({ freqs: [2, 5], title: 'Arrotola il segnale attorno al cerchio', subtitle: 'e guarda il centro di massa' }, opts);
+  const cfg = Object.assign({ freqs: [2, 5], title: t('Arrotola il segnale attorno al cerchio'), subtitle: t('e guarda il centro di massa') }, opts);
   const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
   const st = { f: 1, sweep: false };
   const sigFn = t => cfg.freqs.reduce((s, fr) => s + Math.cos(2 * Math.PI * fr * t), 0) / cfg.freqs.length + 1.15;
@@ -245,10 +247,10 @@ export function windingLab(host, opts = {}) {
 
       // segnale
       roundRect(ctx, wRect.x, wRect.y, wRect.w, wRect.h, 8, { stroke: '#1a2440' });
-      text(ctx, `segnale: ${cfg.freqs.join(' Hz + ')} Hz`, wRect.x + 8, wRect.y + 12, { size: 11, color: COL.txt });
+      text(ctx, t('segnale: :frequenze Hz', { frequenze: cfg.freqs.join(' Hz + ') }), wRect.x + 8, wRect.y + 12, { size: 11, color: COL.txt });
       ctx.strokeStyle = COL.cyan; ctx.lineWidth = 2; ctx.beginPath();
       for (let i = 0; i <= 300; i++) {
-        const t = i / 300, X = wRect.x + t * wRect.w, Y = wRect.y + wRect.h - (sigFn(t) / 2.4) * (wRect.h - 26) - 8;
+        const tempo = i / 300, X = wRect.x + tempo * wRect.w, Y = wRect.y + wRect.h - (sigFn(tempo) / 2.4) * (wRect.h - 26) - 8;
         i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y);
       }
       ctx.stroke();
@@ -264,7 +266,7 @@ export function windingLab(host, opts = {}) {
       ctx.strokeStyle = COL.amber; ctx.lineWidth = 1.6; ctx.globalAlpha = .9; ctx.beginPath();
       const M = 460;
       for (let i = 0; i < M; i++) {
-        const t = i / M, v = sigFn(t), th = -2 * Math.PI * st.f * t;
+        const tempo = i / M, v = sigFn(tempo), th = -2 * Math.PI * st.f * tempo;
         const x = v * Math.cos(th), y = v * Math.sin(th);
         sr += x; si += y;
         const X = P.X(x), Y = P.Y(y);
@@ -275,16 +277,16 @@ export function windingLab(host, opts = {}) {
       arrow(ctx, P.cx, P.cy, P.X(sr), P.Y(si), { color: COL.pink, width: 3, head: 10 });
       dot(ctx, P.X(sr), P.Y(si), 5, COL.pink);
       text(ctx, `f = ${st.f.toFixed(2)} Hz`, cRect.x + 8, cRect.y + 12, { size: 11.5, color: COL.txt });
-      text(ctx, `centro di massa = ${Math.hypot(sr, si).toFixed(3)}`, cRect.x + 8, cRect.y + 28, { size: 11, color: COL.pink });
+      text(ctx, t('centro di massa = :valore', { valore: Math.hypot(sr, si).toFixed(3) }), cRect.x + 8, cRect.y + 28, { size: 11, color: COL.pink });
 
       // grafico dello "spettro" continuo
       roundRect(ctx, gRect.x, gRect.y, gRect.w, gRect.h, 8, { stroke: '#1a2440' });
-      text(ctx, 'quanto vale il centro di massa al variare di f →', gRect.x + 8, gRect.y + 11, { size: 10.5, color: '#6f7fa3' });
+      text(ctx, t('quanto vale il centro di massa al variare di f') + ' →', gRect.x + 8, gRect.y + 11, { size: 10.5, color: '#6f7fa3' });
       ctx.strokeStyle = COL.green; ctx.lineWidth = 1.8; ctx.beginPath();
       for (let i = 0; i <= 200; i++) {
         const f = 0.2 + (i / 200) * 7.8;
         let ar = 0, ai = 0;
-        for (let j = 0; j < 160; j++) { const t = j / 160, v = sigFn(t), th = -2 * Math.PI * f * t; ar += v * Math.cos(th); ai += v * Math.sin(th); }
+        for (let j = 0; j < 160; j++) { const tempo = j / 160, v = sigFn(tempo), th = -2 * Math.PI * f * tempo; ar += v * Math.cos(th); ai += v * Math.sin(th); }
         const mag = Math.hypot(ar / 160, ai / 160);
         const X = gRect.x + (i / 200) * gRect.w, Y = gRect.y + gRect.h - 6 - mag * (gRect.h - 22) * 1.7;
         i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y);
@@ -297,11 +299,11 @@ export function windingLab(host, opts = {}) {
   });
   const fx = attachFX(stage);   // scintille, lampi e suono ai traguardi
 
-  const sF = slider({ label: 'Velocità di avvolgimento <b>f</b>', min: 0.2, max: 8, step: .02, value: st.f, fmt: v => v.toFixed(2) + ' Hz', oninput: v => { st.f = v; st.sweep = false; } });
+  const sF = slider({ label: t('Velocità di avvolgimento <b>f</b>'), min: 0.2, max: 8, step: .02, value: st.f, fmt: v => v.toFixed(2) + ' Hz', oninput: v => { st.f = v; st.sweep = false; } });
   w.body.appendChild(controls(sF.root));
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
-    { label: '▶ scansiona tutte le frequenze', onclick: () => { st.sweep = !st.sweep; } },
+    { label: '▶ ' + t('scansiona tutte le frequenze'), onclick: () => { st.sweep = !st.sweep; } },
   ])));
-  w.setFoot(`Quando la velocità di avvolgimento <b>coincide con una frequenza contenuta nel segnale</b> (qui ${cfg.freqs.join(' Hz e ')} Hz), i "picchi" del segnale finiscono sempre dalla stessa parte del cerchio e il centro di massa scappa via dall'origine. È esattamente ciò che calcola la formula della trasformata.`);
+  w.setFoot(t('Quando la velocità di avvolgimento <b>coincide con una frequenza contenuta nel segnale</b> (qui :frequenze Hz), i "picchi" del segnale finiscono sempre dalla stessa parte del cerchio e il centro di massa scappa via dall\'origine. È esattamente ciò che calcola la formula della trasformata.', { frequenze: cfg.freqs.join(' Hz e ') }));
   return { stage, state: st };
 }
