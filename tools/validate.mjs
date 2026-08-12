@@ -324,6 +324,46 @@ if (existsSync(certCfg)) {
   else ok();
 }
 
+/* ---------- 5c. la sitemap conosce tutte le pagine, in tutte le lingue ----------
+   Una pagina che non sta nella sitemap esiste ma non la trova nessuno, e con
+   tre copie del sito il conto sale a novanta indirizzi: quello che prima si
+   controllava a occhio adesso non si controlla più. Qui si confronta la
+   sitemap con i file che ci sono davvero, nei due sensi — pagine dimenticate
+   e indirizzi che puntano al vuoto. */
+{
+  const mappa = join(ROOT, 'public_html/sitemap.xml');
+
+  if (!existsSync(mappa)) {
+    err('public_html/sitemap.xml', 'assente: nessun motore di ricerca troverà le pagine tradotte');
+  } else {
+    const src = readFileSync(mappa, 'utf8');
+    const indirizzi = new Set([...src.matchAll(/<loc>https:\/\/quantumarcade\.it\/(.*?)<\/loc>/g)].map(m => m[1]));
+
+    // le pagine vere: tutti gli .html sotto public_html che non sono frammenti
+    const attese = new Set();
+    for (const l of LINGUE) {
+      if (!existsSync(join(ROOT, 'public_html', l.dir, 'index.html'))) continue;   // lingua non pubblicata
+      attese.add(l.dir);                                                            // la radice si scrive senza index.html
+      for (const f of walk(join(ROOT, 'public_html', l.dir), n => n.endsWith('.html'))) {
+        const via = rel(f).replace('public_html/', '');
+        if (via.endsWith('index.html')) continue;                                   // già contata come radice
+        if (linguaDi(rel(f)).code !== l.code) continue;                             // file di un'altra copia del sito
+        attese.add(via);
+      }
+    }
+
+    for (const via of attese) {
+      if (indirizzi.has(via)) ok();
+      else err('public_html/sitemap.xml', `non elenca /${via} — esegui \`npm run sitemap\``);
+    }
+    for (const via of indirizzi) {
+      const f = join(ROOT, 'public_html', via === '' || via.endsWith('/') ? via + 'index.html' : via);
+      if (existsSync(f)) ok();
+      else err('public_html/sitemap.xml', `elenca /${via}, che non esiste`);
+    }
+  }
+}
+
 /* ---------- 6. Backend PHP ---------- */
 console.log('\n[6] Backend PHP (Laravel + moduli)');
 const backend = join(ROOT, 'Modules');

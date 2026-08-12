@@ -1,3 +1,7 @@
+# Il sito esiste in tre lingue — italiano nella radice, inglese in /en/,
+# spagnolo in /es/ — e sono tre edizioni complete, non copie parziali:
+# vanno indicizzate tutte. Quale mostrare a chi lo dicono i rimandi
+# hreflang, presenti in ogni pagina e nella sitemap.
 User-agent: *
 Allow: /
 
