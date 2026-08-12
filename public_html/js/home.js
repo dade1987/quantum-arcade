@@ -17,12 +17,12 @@ initAccount().then(() => {
   renderMap(); renderStatus(); renderReview();
   mountTutor({});
 
-  // Chi non è ancora entrato: il bottone principale porta alla registrazione.
+  // Chi non è ancora entrato vede il banner dell'account, ma il bottone
+  // principale continua a portare al gioco: la Parte 0 e il livello 1 sono
+  // aperti a tutti, e chiedere di registrarsi prima di aver fatto vedere
+  // qualcosa è il modo più veloce di far chiudere la pagina. La registrazione
+  // resta a un clic, nel banner qui sotto.
   if (!isLogged() && !isOffline()) {
-    const cont = document.getElementById('continue');
-    cont.textContent = '▶ Crea il tuo account e inizia (gratis)';
-    cont.href = '#';
-    cont.addEventListener('click', e => { e.preventDefault(); openRegister(); });
     const banner = document.getElementById('account-banner');
     if (banner) banner.classList.remove('hidden');
     const bl = document.getElementById('banner-login');
