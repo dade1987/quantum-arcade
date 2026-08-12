@@ -42,9 +42,27 @@ class QuantumTutor extends RAG
      */
     public function __construct(
         protected ?string $levelContext = null,
+        protected ?string $lingua = null,
     ) {
+        $this->lingua ??= app()->getLocale();
+
         parent::__construct();
     }
+
+    /**
+     * Come parlare a chi ha chiesto, e dove mandarlo.
+     *
+     * Il corpus del RAG resta italiano — è il sito sorgente, ed è quello che
+     * l'ingest indicizza — ma la risposta deve arrivare nella lingua di chi ha
+     * scritto, con i link della SUA copia del sito: mandare un ispanofono su
+     * /lezioni/07-interferenza.html sarebbe una risposta giusta in una pagina
+     * che non sa leggere.
+     */
+    private const LINGUE = [
+        'it' => ['nome' => 'italiano', 'prefisso' => '/lezioni/',       'esempio' => '/lezioni/07-interferenza.html'],
+        'en' => ['nome' => 'inglese',  'prefisso' => '/en/lessons/',    'esempio' => '/en/lessons/07-interference.html'],
+        'es' => ['nome' => 'spagnolo', 'prefisso' => '/es/lecciones/',  'esempio' => '/es/lecciones/07-interferencia.html'],
+    ];
 
     /** Modello predefinito di ciascun fornitore, se il .env non ne impone uno. */
     public const MODELLI = [
@@ -140,23 +158,37 @@ class QuantumTutor extends RAG
             ? "\n\nLo studente in questo momento sta giocando il livello: {$this->levelContext}. Tienilo presente."
             : '';
 
+        $l = self::LINGUE[$this->lingua] ?? self::LINGUE['it'];
+
         return <<<TXT
-        Sei il tutor di "Quantum Arcade", un corso-videogioco in italiano che insegna l'informatica
+        Sei il tutor di "Quantum Arcade", un corso-videogioco che insegna l'informatica
         quantistica partendo dalle basi di matematica delle medie fino all'algoritmo di Shor.
         L'autore del corso è Davide Cavallini.
 
+        LINGUA
+        - I documenti che ti vengono passati sono in italiano, perché l'italiano è la lingua
+          sorgente del corso. La tua RISPOSTA però va scritta in {$l['nome']}, sempre e comunque,
+          qualunque sia la lingua della domanda: è la lingua in cui lo studente sta leggendo il sito.
+        - Traduci i concetti, non le pagine: i link restano quelli, i nomi propri e le sigle
+          (Hadamard, CNOT, QFT, Shor) non si traducono.
+
         COME RISPONDI
-        - Sempre in italiano, dando del tu, con frasi corte e concrete. Niente gergo non spiegato.
+        - Dando del tu, con frasi corte e concrete. Niente gergo non spiegato.
         - Usa le stesse metafore del corso: le ampiezze sono FRECCE, la fase è "a che punto del giro sei",
           l'interferenza è "frecce che si sommano o si cancellano", la misura è "il collasso".
         - Massimo 6-8 righe, salvo che ti chiedano esplicitamente di approfondire.
         - Quando l'argomento è trattato in un livello, DILLO e mettine il link, per esempio:
-          "lo trovi nel livello 7 → /lezioni/07-interferenza.html".
+          "{$l['esempio']}". I link devono SEMPRE cominciare con {$l['prefisso']}: è la copia
+          del sito che lo studente sta leggendo, e le altre non le capirebbe.
         - Il NUMERO del livello non si inventa e non si ricorda a memoria: è quello scritto
-          all'inizio del nome del file. 02-bloch.html è il livello 2, 11-grover.html è il
+          all'inizio del nome del file. 02-bloch è il livello 2, 11-grover è il
           livello 11. I file che iniziano per 00- sono la "Parte 0" e non hanno numero:
           chiamali per nome ("il livello sulle coordinate"). Se non sei sicuro del numero,
           scrivi solo il link senza numero.
+        - I documenti recuperati citano i file italiani (per esempio 07-interferenza.html).
+          Tu devi riscriverli con il nome che hanno nella lingua dello studente: stesso numero
+          iniziale, prefisso {$l['prefisso']}. Se non conosci il nome tradotto, cita il livello
+          per numero e argomento senza link, invece di inventarne uno che non esiste.
 
         REGOLE FERREE
         - Rispondi SOLO con quello che trovi nei documenti recuperati dal sito. Se non c'è, di':

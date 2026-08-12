@@ -19,12 +19,17 @@ class MagicLinkMail extends Mailable
         public bool $isNew = false,
     ) {}
 
+    /**
+     * L'oggetto va tradotto qui e non nella vista: è l'unica riga che si legge
+     * nella lista dei messaggi, e arrivare in italiano a chi sta facendo il
+     * corso in spagnolo è il modo più veloce per finire nel cestino.
+     */
     public function envelope(): Envelope
     {
         return new Envelope(
             subject: $this->isNew
-                ? 'Benvenuto in Quantum Arcade — conferma la tua email'
-                : 'Il tuo link di accesso a Quantum Arcade',
+                ? __('Benvenuto in Quantum Arcade — conferma la tua email')
+                : __('Il tuo link di accesso a Quantum Arcade'),
         );
     }
 

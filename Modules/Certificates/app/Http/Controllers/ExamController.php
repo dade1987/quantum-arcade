@@ -28,12 +28,44 @@ class ExamController extends Controller
             'ok'        => true,
             'pass'      => self::PASS,
             'total'     => $bank->count(),
-            'questions' => $bank->map(fn ($q, $i) => [
-                'id'      => $q['id'],
-                'q'       => $q['q'],
-                'options' => $q['o'],
-            ]),
+            'questions' => $bank->map(function (array $q): array {
+                $testo = $this->tradotta($q);
+
+                return ['id' => $q['id'], 'q' => $testo['q'], 'options' => $testo['o']];
+            }),
         ]);
+    }
+
+    /**
+     * La domanda nella lingua di chi la sta leggendo.
+     *
+     * Le traduzioni viaggiano dentro la domanda (vedi dati/banca-esame-esempio.js)
+     * e non in lang/*.json, per un motivo preciso: l'indice della risposta giusta
+     * è uno solo per tutte le lingue, quindi le opzioni tradotte devono restare
+     * nello stesso ordine di quelle italiane. Tenerle nello stesso record è ciò
+     * che rende visibile — e correggibile — un ordine sbagliato.
+     *
+     * Se la traduzione manca (per esempio nella banca riservata caricata a mano
+     * sul server) si ricade sull'italiano: una domanda in una lingua sola è un
+     * fastidio, una domanda corretta con la risposta di un'altra è un esame rotto.
+     *
+     * @param  array<string, mixed> $q
+     * @return array{q: string, o: array<int, string>, w: string}
+     */
+    private function tradotta(array $q): array
+    {
+        $lingua = app()->getLocale();
+        $t      = is_array($q[$lingua] ?? null) ? $q[$lingua] : [];
+
+        // le opzioni tradotte valgono solo se sono tante quante le originali:
+        // altrimenti l'indice della risposta giusta punterebbe altrove
+        $opzioni = (is_array($t['o'] ?? null) && count($t['o']) === count($q['o'])) ? $t['o'] : $q['o'];
+
+        return [
+            'q' => $t['q'] ?? $q['q'],
+            'o' => $opzioni,
+            'w' => $t['w'] ?? $q['w'],
+        ];
     }
 
     /** POST /api/exam/submit  { answers: {id: indice}, seconds } */
@@ -54,13 +86,14 @@ class ExamController extends Controller
             $given   = $data['answers'][$id] ?? null;
             $correct = $given !== null && (int) $given === (int) $q['c'];
             $score  += $correct ? 1 : 0;
+            $testo   = $this->tradotta($q);
             $review[] = [
                 'id'      => $id,
-                'q'       => $q['q'],
-                'correct' => $q['o'][$q['c']],
-                'yours'   => $given !== null ? ($q['o'][$given] ?? '—') : '—',
+                'q'       => $testo['q'],
+                'correct' => $testo['o'][$q['c']],
+                'yours'   => $given !== null ? ($testo['o'][$given] ?? '—') : '—',
                 'ok'      => $correct,
-                'why'     => $q['w'],
+                'why'     => $testo['w'],
             ];
         }
 

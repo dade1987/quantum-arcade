@@ -29,6 +29,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->redirectGuestsTo(fn () => null);   // le API rispondono 401 JSON, non redirect
+
+        /*
+         * Il sito esiste in italiano, inglese e spagnolo, ma il backend è uno solo:
+         * ogni risposta va tradotta nella lingua di chi ha chiesto. Vale sia per le
+         * API (messaggi di errore, esame) sia per le pagine servite da Laravel
+         * (verifica dell'attestato, PDF, email di accesso).
+         */
+        $middleware->web(prepend: [\App\Http\Middleware\ImpostaLingua::class]);
+        $middleware->api(prepend: [\App\Http\Middleware\ImpostaLingua::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

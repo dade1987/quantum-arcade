@@ -26,6 +26,11 @@ import { resolve } from 'node:path';
 
 const esc = s => String(s).replaceAll('\\', '\\\\').replaceAll("'", "\\'");
 
+/* Le lingue in cui l'esame può essere sostenuto. Se una domanda non porta la
+   traduzione, quella lingua ricade sull'italiano: meglio una domanda in una
+   lingua sola che una domanda tradotta a metà, con opzioni fuori ordine. */
+const LINGUE = ['en', 'es'];
+
 /** Trasforma un elenco di domande nel file PHP che il backend caricherà. */
 function scriviPhp(domande, destinazione, provenienza) {
   const righe = [
@@ -49,6 +54,20 @@ function scriviPhp(domande, destinazione, provenienza) {
     righe.push(`        'o'  => ['${q.o.map(esc).join("', '")}'],`);
     righe.push(`        'c'  => ${q.c},`);
     righe.push(`        'w'  => '${esc(q.w)}',`);
+
+    // Le traduzioni stanno dentro la domanda, non in lang/*.json: l'indice della
+    // risposta giusta è uno solo per tutte le lingue, e tenerle vicine è l'unico
+    // modo perché non si scolleghino dall'ordine delle opzioni.
+    for (const lingua of LINGUE) {
+      const t = q[lingua];
+      if (!t) continue;
+      righe.push(`        '${lingua}' => [`);
+      righe.push(`            'q' => '${esc(t.q ?? q.q)}',`);
+      righe.push(`            'o' => ['${(t.o ?? q.o).map(esc).join("', '")}'],`);
+      righe.push(`            'w' => '${esc(t.w ?? q.w)}',`);
+      righe.push('        ],');
+    }
+
     righe.push('    ],');
   });
 
@@ -71,7 +90,8 @@ for (const b of banche) {
   }
   const { EXAM } = await import(pathToFileURL(resolve(b.js)).href);
   const n = scriviPhp(EXAM, b.php, b.js);
-  console.log(`✅ ${n} domande ${b.etichetta} → ${b.php}`);
+  const tradotte = LINGUE.map(l => `${EXAM.filter(q => q[l]).length}/${n} ${l}`).join(', ');
+  console.log(`✅ ${n} domande ${b.etichetta} → ${b.php}   (tradotte: ${tradotte})`);
   almenoUna = true;
 }
 

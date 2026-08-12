@@ -5,12 +5,20 @@ namespace Modules\Certificates\Http\Controllers;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Middleware\ImpostaLingua;
 use Illuminate\Routing\Controller;
 use Modules\Certificates\Models\Certificate;
 
 class CertificateController extends Controller
 {
-    /** GET /verifica/{code} — pagina pubblica: chiunque può controllare un attestato. */
+    /**
+     * GET /verifica/{code} — pagina pubblica: chiunque può controllare un attestato.
+     *
+     * È l'unica pagina del sito che arriva a gente che non ci è mai passata: la si
+     * riceve su LinkedIn o allegata a un CV. Quindi ha il suo cambio-lingua, e i
+     * link al corso puntano alla copia del sito nella lingua in cui la si sta
+     * leggendo, non alla radice italiana.
+     */
     public function show(string $code)
     {
         $certificate = Certificate::with('attempt')->where('code', strtoupper($code))->first();
@@ -18,7 +26,15 @@ class CertificateController extends Controller
         return response()->view('certificates::verify', [
             'certificate' => $certificate,
             'code'        => strtoupper($code),
+            'home'        => $this->home(app()->getLocale()),
+            'lingue'      => ImpostaLingua::LINGUE,
         ], $certificate ? 200 : 404);
+    }
+
+    /** La radice del sito nella lingua indicata: '/', '/en/', '/es/'. */
+    private function home(string $lingua): string
+    {
+        return $lingua === 'it' ? '/' : '/' . $lingua . '/';
     }
 
     /**
@@ -31,7 +47,7 @@ class CertificateController extends Controller
     {
         $c = Certificate::with(['user', 'attempt'])->where('code', strtoupper($code))->firstOrFail();
 
-        abort_if(! $c->isValid(), 410, 'Attestato revocato.');
+        abort_if(! $c->isValid(), 410, __('Attestato revocato.'));
 
         $pdf = Pdf::loadView('certificates::pdf', [
             'c'         => $c,
@@ -40,7 +56,7 @@ class CertificateController extends Controller
             'verifyUrl' => $c->verifyUrl(),
         ])->setPaper('a4', 'landscape');
 
-        $name = 'Attestato-QuantumArcade-' . str_replace(' ', '-', $c->holder_name) . '.pdf';
+        $name = __('Attestato') . '-QuantumArcade-' . str_replace(' ', '-', $c->holder_name) . '.pdf';
 
         return $request->boolean('inline')
             ? $pdf->stream($name)
@@ -59,7 +75,7 @@ class CertificateController extends Controller
             '@context' => 'https://www.w3.org/ns/credentials/v2',
             'id'       => $c->verifyUrl(),
             'type'     => ['VerifiableCredential', 'OpenBadgeCredential'],
-            'name'     => 'Quantum Arcade — Attestato di completamento',
+            'name'     => 'Quantum Arcade — ' . __('Attestato di completamento del corso'),
             'issuer'   => [
                 'id'   => url('/'),
                 'type' => ['Profile'],
@@ -74,15 +90,15 @@ class CertificateController extends Controller
                 'achievement'  => [
                     'id'          => url('/#course'),
                     'type'        => ['Achievement'],
-                    'name'        => 'Informatica quantistica giocando — percorso completo',
-                    'description' => 'Ha completato i ' . config('certificates.levels_count') . ' livelli del corso, dalle basi matematiche alla trasformata di Fourier quantistica e all\'algoritmo di Shor, superando l\'esame finale con il ' . $c->percent . '%.',
-                    'criteria'    => ['narrative' => 'Superamento dell\'esame finale a risposta multipla con almeno l\'80% di risposte corrette, corretto lato server.'],
+                    'name'        => __('Informatica quantistica giocando') . ' — ' . __('percorso completo'),
+                    'description' => __('Ha completato i :livelli livelli del corso, dalle basi matematiche alla trasformata di Fourier quantistica e all\'algoritmo di Shor, superando l\'esame finale con il :percento%.', ['livelli' => config('certificates.levels_count'), 'percento' => $c->percent]),
+                    'criteria'    => ['narrative' => __('Superamento dell\'esame finale a risposta multipla con almeno l\'80% di risposte corrette, corretto lato server.')],
                 ],
             ],
             'evidence' => [[
                 'id'          => $c->verifyUrl(),
-                'name'        => 'Pagina di verifica pubblica',
-                'description' => 'Attestato di completamento rilasciato dall\'autore del corso. Non è una certificazione accreditata da un ente terzo.',
+                'name'        => __('Verifica pubblica'),
+                'description' => __('Attestato di completamento rilasciato dall\'autore del corso. Non costituisce una certificazione accreditata da un ente terzo.'),
             ]],
             'revoked' => ! $c->isValid(),
         ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);

@@ -26,7 +26,7 @@ class ChatController extends Controller
         if (RateLimiter::tooManyAttempts($key, config('chat.rate_per_hour'))) {
             return response()->json([
                 'ok'      => false,
-                'message' => 'Hai fatto molte domande di fila: riprova fra ' . RateLimiter::availableIn($key) . ' secondi.',
+                'message' => __('Hai fatto molte domande di fila: riprova fra :secondi secondi.', ['secondi' => RateLimiter::availableIn($key)]),
             ], 429);
         }
         RateLimiter::hit($key, 3600);
@@ -34,7 +34,7 @@ class ChatController extends Controller
         if (! config('chat.key')) {
             return response()->json([
                 'ok'      => false,
-                'message' => 'Il tutor non è ancora configurato su questo server.',
+                'message' => __('Il tutor non è ancora configurato su questo server.'),
             ], 503);
         }
 
@@ -46,14 +46,17 @@ class ChatController extends Controller
         $started = microtime(true);
 
         try {
-            $tutor = app()->makeWith(QuantumTutor::class, ['levelContext' => $data['level_id'] ?? null]);
+            $tutor = app()->makeWith(QuantumTutor::class, [
+                'levelContext' => $data['level_id'] ?? null,
+                'lingua'       => app()->getLocale(),
+            ]);
             $answer = $tutor->ask($data['message']);
         } catch (\Throwable $e) {
             report($e);
 
             return response()->json([
                 'ok'      => false,
-                'message' => 'Il tutor ha avuto un problema. Riprova fra poco.',
+                'message' => __('Il tutor ha avuto un problema. Riprova fra poco.'),
             ], 500);
         }
 
@@ -102,10 +105,16 @@ class ChatController extends Controller
         return response()->json(['ok' => true]);
     }
 
-    /** Estrae i link ai livelli citati, per mostrarli come bottoni sotto la risposta. */
+    /**
+     * Estrae i link ai livelli citati, per mostrarli come bottoni sotto la risposta.
+     *
+     * Il sito esiste in tre copie con cartelle diverse (/lezioni/, /en/lessons/,
+     * /es/lecciones/): il tutor cita quella della lingua in cui sta rispondendo,
+     * quindi vanno riconosciute tutte e tre.
+     */
     private function extractLinks(string $answer): array
     {
-        preg_match_all('#/lezioni/[\w\-]+\.html#', $answer, $m);
+        preg_match_all('#/(?:lezioni|en/lessons|es/lecciones)/[\w\-]+\.html#', $answer, $m);
 
         return array_values(array_unique($m[0] ?? []));
     }

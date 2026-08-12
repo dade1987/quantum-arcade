@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="{{ app()->getLocale() }}">
 <head>
 <meta charset="utf-8">
 <style>
@@ -50,39 +50,37 @@
 
   <div class="pad">
     <div class="brand">QUANTUM ARCADE</div>
-    <div class="kicker">Attestato di completamento del corso</div>
+    <div class="kicker">{{ __('Attestato di completamento del corso') }}</div>
 
     <div class="name">{{ $c->holder_name }}</div>
     @if($user?->birth_date)
-      <div class="born">nato/a il {{ $user->birth_date->format('d/m/Y') }}</div>
+      <div class="born">{{ __('nato/a il :data', ['data' => $user->birth_date->format('d/m/Y')]) }}</div>
     @endif
 
     <div class="body">
-      ha completato il percorso <b>&laquo;Informatica quantistica giocando&raquo;</b>: {{ config('certificates.levels_count') }} livelli interattivi
-      che coprono onde e trasformata di Fourier, qubit e misura, porte quantistiche ed entanglement,
-      no-cloning e teletrasporto, gli algoritmi di Deutsch&ndash;Jozsa, Bernstein&ndash;Vazirani e Grover,
-      la trasformata di Fourier quantistica, la stima di fase e l'algoritmo di Shor.
+      {!! __('ha completato il percorso <b>&laquo;Informatica quantistica giocando&raquo;</b>: :livelli livelli interattivi che coprono onde e trasformata di Fourier, qubit e misura, porte quantistiche ed entanglement, no-cloning e teletrasporto, gli algoritmi di Deutsch&ndash;Jozsa, Bernstein&ndash;Vazirani e Grover, la trasformata di Fourier quantistica, la stima di fase e l\'algoritmo di Shor.', ['livelli' => config('certificates.levels_count')]) !!}
       <br><br>
-      Ha superato l'esame finale a risposta multipla, <b>corretto dal server</b>, con
-      <b>{{ $c->percent }}%</b> di risposte esatte
-      ({{ $attempt?->score ?? '—' }} su {{ $attempt?->total ?? 30 }} domande).
+      {!! __('Ha superato l\'esame finale a risposta multipla, <b>corretto dal server</b>, con <b>:percento%</b> di risposte esatte (:giuste su :totale domande).', [
+        'percento' => $c->percent,
+        'giuste'   => $attempt?->score ?? '—',
+        'totale'   => $attempt?->total ?? 30,
+      ]) !!}
     </div>
   </div>
 
   <div class="footer">
   <table class="meta">
     <tr>
-      <td><span class="lab">Rilasciato il</span><br>{{ $c->issued_at->format('d/m/Y') }}</td>
-      <td><span class="lab">Codice attestato</span><br><span class="code">{{ $c->code }}</span></td>
-      <td><span class="lab">Versione corso</span><br>{{ $c->course_version }}</td>
-      <td><span class="lab">Autore del corso</span><br>Davide Cavallini</td>
-      <td><span class="lab">Verifica pubblica</span><br>{{ $verifyUrl }}</td>
+      <td><span class="lab">{{ __('Rilasciato il') }}</span><br>{{ $c->issued_at->format('d/m/Y') }}</td>
+      <td><span class="lab">{{ __('Codice attestato') }}</span><br><span class="code">{{ $c->code }}</span></td>
+      <td><span class="lab">{{ __('Versione corso') }}</span><br>{{ $c->course_version }}</td>
+      <td><span class="lab">{{ __('Autore del corso') }}</span><br>Davide Cavallini</td>
+      <td><span class="lab">{{ __('Verifica pubblica') }}</span><br>{{ $verifyUrl }}</td>
     </tr>
   </table>
 
   <p class="note">
-    Attestato di completamento rilasciato dall'autore del corso e verificabile pubblicamente all'indirizzo indicato sopra.
-    Non costituisce una certificazione accreditata da un ente terzo né un titolo di studio.
+    {{ __('Attestato di completamento rilasciato dall\'autore del corso e verificabile pubblicamente all\'indirizzo indicato sopra. Non costituisce una certificazione accreditata da un ente terzo né un titolo di studio.') }}
   </p>
   </div>
 </body>
