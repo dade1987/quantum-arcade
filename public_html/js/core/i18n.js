@@ -66,6 +66,12 @@ export function t(frase, params = null) {
   return out;
 }
 
+/** Numero scritto come lo scrive la lingua corrente (separatori delle migliaia). */
+export function num(n) {
+  try { return Number(n).toLocaleString(LOCALE_TAGS[LOCALE] || 'it-IT'); }
+  catch { return String(n); }
+}
+
 /* ---------------- indirizzi ---------------- */
 
 /* Le pagine fisse cambiano nome insieme alla lingua: un indirizzo in

@@ -6,6 +6,7 @@
 
 import { Stage, COL, bg, arrow, circle, text, roundRect, phaseColor, dot } from '../core/canvas.js';
 import { probs, label } from '../core/qsim.js';
+import { t } from '../core/i18n.js';
 
 /** Disegna le ampiezze dentro un rettangolo di un canvas già esistente. */
 export function drawAmps(ctx, rect, st, opts = {}) {
@@ -92,7 +93,7 @@ export function phaseLegend(host) {
         ctx.fillStyle = phaseColor((i / w) * Math.PI * 2);
         ctx.fillRect(x0 + i, 12, 1, 14);
       }
-      text(ctx, 'fase →', 10, 19, { size: 11, color: COL.txt });
+      text(ctx, t('fase') + ' →', 10, 19, { size: 11, color: COL.txt });
       ['0°', '90°', '180°', '270°', '360°'].forEach((l, i) => {
         text(ctx, l, x0 + (w * i) / 4, 36, { size: 10, align: 'center', color: '#6f7fa3' });
       });
@@ -104,7 +105,7 @@ export function phaseLegend(host) {
 
 /** Istogramma di misure ripetute (shots). counts: array di interi. */
 export function histogram(host, opts = {}) {
-  const cfg = Object.assign({ height: 160, n: 2, title: 'Risultati delle misure' }, opts);
+  const cfg = Object.assign({ height: 160, n: 2, title: t('Risultati delle misure') }, opts);
   let counts = new Array(1 << cfg.n).fill(0);
   const stage = new Stage(host, {
     height: cfg.height,
@@ -114,7 +115,7 @@ export function histogram(host, opts = {}) {
       const N = counts.length;
       const rect = { x: 10, y: 20, w: s.w - 20, h: s.h - 46 };
       const cw = rect.w / N;
-      text(ctx, `${cfg.title} — ${total} misure`, rect.x, 10, { size: 11, color: COL.txt });
+      text(ctx, cfg.title + ' — ' + t(':quante misure', { quante: total }), rect.x, 10, { size: 11, color: COL.txt });
       ctx.strokeStyle = COL.axis; ctx.beginPath();
       ctx.moveTo(rect.x, rect.y + rect.h + .5); ctx.lineTo(rect.x + rect.w, rect.y + rect.h + .5); ctx.stroke();
       const maxC = Math.max(1, ...counts);

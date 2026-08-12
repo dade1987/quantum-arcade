@@ -8,6 +8,8 @@
    Uno stato è { n, re: Float64Array(2^n), im: Float64Array(2^n) }.
    ============================================================ */
 
+import { t } from './i18n.js';
+
 export function zeroState(n) {
   const size = 1 << n;
   const st = { n, re: new Float64Array(size), im: new Float64Array(size) };
@@ -49,15 +51,15 @@ const c = (re, im = 0) => ({ re, im });
 const S2 = 1 / Math.SQRT2;
 
 export const GATES = {
-  I:  { name: 'I',  m: [c(1), c(0), c(0), c(1)],  desc: 'Non fa nulla (identità).' },
-  X:  { name: 'X',  m: [c(0), c(1), c(1), c(0)],  desc: 'NOT quantistico: scambia |0⟩ e |1⟩.' },
-  Y:  { name: 'Y',  m: [c(0), c(0, -1), c(0, 1), c(0)], desc: 'Rotazione di 180° attorno all\'asse Y.' },
-  Z:  { name: 'Z',  m: [c(1), c(0), c(0), c(-1)], desc: 'Lascia |0⟩, gira di 180° la fase di |1⟩.' },
-  H:  { name: 'H',  m: [c(S2), c(S2), c(S2), c(-S2)], desc: 'Hadamard: crea (e disfa) la sovrapposizione.' },
-  S:  { name: 'S',  m: [c(1), c(0), c(0), c(0, 1)], desc: 'Ruota la fase di |1⟩ di 90°.' },
-  Sdg:{ name: 'S†', m: [c(1), c(0), c(0), c(0, -1)], desc: 'Ruota la fase di |1⟩ di −90°.' },
-  T:  { name: 'T',  m: [c(1), c(0), c(0), c(S2, S2)], desc: 'Ruota la fase di |1⟩ di 45°.' },
-  Tdg:{ name: 'T†', m: [c(1), c(0), c(0), c(S2, -S2)], desc: 'Ruota la fase di |1⟩ di −45°.' },
+  I:  { name: 'I',  m: [c(1), c(0), c(0), c(1)],  desc: t('Non fa nulla (identità).') },
+  X:  { name: 'X',  m: [c(0), c(1), c(1), c(0)],  desc: t('NOT quantistico: scambia |0⟩ e |1⟩.') },
+  Y:  { name: 'Y',  m: [c(0), c(0, -1), c(0, 1), c(0)], desc: t('Rotazione di 180° attorno all\'asse Y.') },
+  Z:  { name: 'Z',  m: [c(1), c(0), c(0), c(-1)], desc: t('Lascia |0⟩, gira di 180° la fase di |1⟩.') },
+  H:  { name: 'H',  m: [c(S2), c(S2), c(S2), c(-S2)], desc: t('Hadamard: crea (e disfa) la sovrapposizione.') },
+  S:  { name: 'S',  m: [c(1), c(0), c(0), c(0, 1)], desc: t('Ruota la fase di |1⟩ di 90°.') },
+  Sdg:{ name: 'S†', m: [c(1), c(0), c(0), c(0, -1)], desc: t('Ruota la fase di |1⟩ di −90°.') },
+  T:  { name: 'T',  m: [c(1), c(0), c(0), c(S2, S2)], desc: t('Ruota la fase di |1⟩ di 45°.') },
+  Tdg:{ name: 'T†', m: [c(1), c(0), c(0), c(S2, -S2)], desc: t('Ruota la fase di |1⟩ di −45°.') },
 };
 
 export const P  = t => [c(1), c(0), c(0), c(Math.cos(t), Math.sin(t))];       // fase e^{iθ} su |1>

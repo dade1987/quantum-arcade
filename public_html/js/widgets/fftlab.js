@@ -7,10 +7,11 @@ import { Stage, COL, bg, text, roundRect, dot, arrow, attachFX } from '../core/c
 import { widget, slider, controls, readout, h } from '../core/ui.js';
 import { sfx } from '../core/audio.js';
 import { costs } from '../core/dsp.js';
+import { t, num } from '../core/i18n.js';
 
 export function costLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
-  const w = widget(host, { title: 'Quanto costa?', subtitle: 'sposta il cursore: quante operazioni servono' });
+  const w = widget(host, { title: t('Quanto costa?'), subtitle: t('sposta il cursore: quante operazioni servono') });
   const st = { n: 4, won: false };
 
   const stage = new Stage(w.body, {
@@ -20,12 +21,12 @@ export function costLab(host, opts = {}) {
       const N = 1 << st.n;
       const c = costs(N);
       const items = [
-        { lab: 'DFT diretta (la formula)', val: c.dftMul, col: COL.red, note: 'N × N' },
-        { lab: 'FFT (algoritmo classico veloce)', val: c.fftMul, col: COL.amber, note: '(N/2)·log₂N' },
-        { lab: 'QFT (porte del circuito quantistico)', val: c.qftGates, col: COL.green, note: 'n(n+1)/2 + swap' },
+        { lab: t('DFT diretta (la formula)'), val: c.dftMul, col: COL.red, note: 'N × N' },
+        { lab: t('FFT (algoritmo classico veloce)'), val: c.fftMul, col: COL.amber, note: '(N/2)·log₂N' },
+        { lab: t('QFT (porte del circuito quantistico)'), val: c.qftGates, col: COL.green, note: 'n(n+1)/2 + swap' },
       ];
       const maxLog = Math.log10(Math.max(...items.map(i => i.val)) + 10);
-      text(ctx, `N = 2^${st.n} = ${N.toLocaleString('it-IT')} numeri  (cioè ${st.n} qubit)`, 12, 18, { size: 13, color: COL.txt, max: s.w - 24 });
+      text(ctx, t('N = 2^:n = :N numeri  (cioè :n qubit)', { n: st.n, N: num(N) }), 12, 18, { size: 13, color: COL.txt, max: s.w - 24 });
       items.forEach((it, i) => {
         const y = 46 + i * (s.w < 430 ? 70 : 62);
         const bw = (Math.log10(it.val + 10) / maxLog) * (s.w - 220);
@@ -45,7 +46,7 @@ export function costLab(host, opts = {}) {
           text(ctx, it.lab, 20, y + 12, { size: 11.5, color: COL.txt, max: s.w - 40 - largaNota });
           text(ctx, it.note, s.w - 30, y + 12, { size: 10.5, align: 'right', color: '#5b6b90' });
         }
-        text(ctx, it.val.toLocaleString('it-IT'), 28 + Math.max(3, bw), y + 32, { size: 12, color: it.col });
+        text(ctx, num(it.val), 28 + Math.max(3, bw), y + 32, { size: 12, color: it.col });
       });
     },
   });
@@ -54,8 +55,8 @@ export function costLab(host, opts = {}) {
 
   const out = readout('');
   const s = slider({
-    label: 'Numero di qubit <b>n</b>  (N = 2^n campioni/ampiezze)', min: 1, max: 20, step: 1, value: st.n,
-    fmt: v => `n=${v} → N=${(1 << v).toLocaleString('it-IT')}`,
+    label: t('Numero di qubit <b>n</b>  (N = 2^n campioni/ampiezze)'), min: 1, max: 20, step: 1, value: st.n,
+    fmt: v => `n=${v} → N=${num(1 << v)}`,
     oninput: v => { st.n = v; upd(); },
   });
   w.body.appendChild(controls(s.root));
@@ -64,13 +65,13 @@ export function costLab(host, opts = {}) {
   function upd() {
     const N = 1 << st.n, c = costs(N);
     out.set(
-      `Con <b>${N.toLocaleString('it-IT')}</b> valori:\n` +
-      `  DFT diretta : <span class="p">${c.dftMul.toLocaleString('it-IT')}</span> moltiplicazioni\n` +
-      `  FFT         : <span class="a">${Math.round(c.fftMul).toLocaleString('it-IT')}</span> "farfalle"  → ${Math.round(c.ratio).toLocaleString('it-IT')}× più veloce della DFT\n` +
-      `  QFT         : <span class="g">${c.qftGates}</span> porte quantistiche\n\n` +
-      `<b>ATTENZIONE al trucco:</b> la FFT ti restituisce <b>tutti</b> i ${N.toLocaleString('it-IT')} numeri, e li puoi leggere.\n` +
-      `La QFT trasforma ${N.toLocaleString('it-IT')} ampiezze con ${c.qftGates} porte, ma quando misuri ottieni <b>un solo</b> risultato.\n` +
-      `Serve quindi a far <b>interferire</b> le ampiezze, non a stampare la lista.`);
+      t('Con <b>:N</b> valori:', { N: num(N) }) + '\n' +
+      t('  DFT diretta : <span class="p">:quante</span> moltiplicazioni', { quante: num(c.dftMul) }) + '\n' +
+      t('  FFT         : <span class="a">:quante</span> "farfalle"  → :volte× più veloce della DFT', { quante: num(Math.round(c.fftMul)), volte: num(Math.round(c.ratio)) }) + '\n' +
+      t('  QFT         : <span class="g">:quante</span> porte quantistiche', { quante: c.qftGates }) + '\n\n' +
+      t('<b>ATTENZIONE al trucco:</b> la FFT ti restituisce <b>tutti</b> i :N numeri, e li puoi leggere.', { N: num(N) }) + '\n' +
+      t('La QFT trasforma :N ampiezze con :porte porte, ma quando misuri ottieni <b>un solo</b> risultato.', { N: num(N), porte: c.qftGates }) + '\n' +
+      t('Serve quindi a far <b>interferire</b> le ampiezze, non a stampare la lista.'));
     stage.redraw();
     if (st.n >= 16 && !st.won) { st.won = true; fx.win(); sfx.ok(); cfg.onWin && cfg.onWin(); }
   }
@@ -83,7 +84,7 @@ export function costLab(host, opts = {}) {
    ------------------------------------------------------------ */
 
 export function butterflyLab(host) {
-  const w = widget(host, { title: 'Dividi e conquista', subtitle: 'come la FFT taglia il lavoro a metà, ogni volta' });
+  const w = widget(host, { title: t('Dividi e conquista'), subtitle: t('come la FFT taglia il lavoro a metà, ogni volta') });
   const st = { level: 0 };
   const N = 8;
 
@@ -114,17 +115,17 @@ export function butterflyLab(host) {
           g.forEach((v, i) => text(ctx, String(v), x + cw * (i + .5), y + (rowH - 16) / 2, { size: 11, align: 'center', color: gi % 2 ? COL.amber : COL.cyan }));
           x += gw + cw * 0.6;
         });
-        const label = l === 0 ? '1 problema da 8' : `${groups.length} problemi da ${8 / groups.length}`;
+        const label = l === 0 ? t('1 problema da 8') : t(':quanti problemi da :quanto', { quanti: groups.length, quanto: 8 / groups.length });
         text(ctx, label, s.w - 14, y + 4, { size: 10.5, align: 'right', color: '#5b6b90' });
       }
-      text(ctx, 'ogni riga: indici pari a sinistra, dispari a destra', 14, 14, { size: 11, color: COL.txt });
+      text(ctx, t('ogni riga: indici pari a sinistra, dispari a destra'), 14, 14, { size: 11, color: COL.txt });
     },
   });
   const fx = attachFX(stage);   // scintille, lampi e suono ai traguardi
   stage.pause();
 
-  const s = slider({ label: 'Quante volte dividiamo', min: 0, max: 3, step: 1, value: 0, fmt: v => v + ' divisioni', oninput: v => { st.level = v; stage.redraw(); } });
+  const s = slider({ label: t('Quante volte dividiamo'), min: 0, max: 3, step: 1, value: 0, fmt: v => v + ' ' + t('divisioni'), oninput: v => { st.level = v; stage.redraw(); } });
   w.body.appendChild(controls(s.root));
-  w.setFoot('Una DFT su 8 punti costa 8×8 = 64 moltiplicazioni. Ma una DFT su 8 punti si può scrivere usando <b>due</b> DFT su 4 punti (pari e dispari) più 8 combinazioni finali. Ripetendo il trucco fino in fondo: <b>log₂8 = 3 livelli</b> × 8 = 24 operazioni invece di 64. Più N cresce, più il risparmio esplode.');
+  w.setFoot(t('Una DFT su 8 punti costa 8×8 = 64 moltiplicazioni. Ma una DFT su 8 punti si può scrivere usando <b>due</b> DFT su 4 punti (pari e dispari) più 8 combinazioni finali. Ripetendo il trucco fino in fondo: <b>log₂8 = 3 livelli</b> × 8 = 24 operazioni invece di 64. Più N cresce, più il risparmio esplode.'));
   return { stage };
 }

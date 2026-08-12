@@ -10,30 +10,31 @@ import { zeroState, applyOp, clone, probs, label, sample, GATES, qftOps } from '
 import { ampsView, histogram } from './amps.js';
 import { str as cstr } from '../core/complex.js';
 import { sfx } from '../core/audio.js';
+import { t } from '../core/i18n.js';
 
 const PALETTE = [
-  { g: 'H', lab: 'H', col: COL.cyan, desc: 'Hadamard: crea sovrapposizione' },
-  { g: 'X', lab: 'X', col: COL.pink, desc: 'NOT quantistico' },
-  { g: 'Y', lab: 'Y', col: COL.pink, desc: 'rotazione 180° attorno a Y' },
-  { g: 'Z', lab: 'Z', col: COL.violet, desc: 'segno meno su |1⟩' },
-  { g: 'S', lab: 'S', col: COL.violet, desc: 'fase +90° su |1⟩' },
-  { g: 'T', lab: 'T', col: COL.violet, desc: 'fase +45° su |1⟩' },
-  { g: 'CNOT', lab: '⊕ CNOT', col: COL.amber, desc: 'NOT controllato: clicca prima il controllo, poi il bersaglio' },
-  { g: 'CZ', lab: 'CZ', col: COL.amber, desc: 'Z controllata' },
-  { g: 'SWAP', lab: '⇄ SWAP', col: COL.green, desc: 'scambia due qubit' },
+  { g: 'H', lab: 'H', col: COL.cyan, desc: t('Hadamard: crea sovrapposizione') },
+  { g: 'X', lab: 'X', col: COL.pink, desc: t('NOT quantistico') },
+  { g: 'Y', lab: 'Y', col: COL.pink, desc: t('rotazione 180° attorno a Y') },
+  { g: 'Z', lab: 'Z', col: COL.violet, desc: t('segno meno su |1⟩') },
+  { g: 'S', lab: 'S', col: COL.violet, desc: t('fase +90° su |1⟩') },
+  { g: 'T', lab: 'T', col: COL.violet, desc: t('fase +45° su |1⟩') },
+  { g: 'CNOT', lab: '⊕ CNOT', col: COL.amber, desc: t('NOT controllato: clicca prima il controllo, poi il bersaglio') },
+  { g: 'CZ', lab: 'CZ', col: COL.amber, desc: t('Z controllata') },
+  { g: 'SWAP', lab: '⇄ SWAP', col: COL.green, desc: t('scambia due qubit') },
 ];
 
 const PRESETS = {
-  bell: { n: 2, name: 'Stato di Bell', ops: [{ g: 'H', t: 0, c: [] }, { g: 'X', t: 1, c: [0] }] },
-  ghz: { n: 3, name: 'GHZ (3 qubit)', ops: [{ g: 'H', t: 0, c: [] }, { g: 'X', t: 1, c: [0] }, { g: 'X', t: 2, c: [1] }] },
-  sup: { n: 3, name: 'Sovrapposizione totale', ops: [{ g: 'H', t: 0, c: [] }, { g: 'H', t: 1, c: [] }, { g: 'H', t: 2, c: [] }] },
-  hh: { n: 1, name: 'H·H = identità', ops: [{ g: 'H', t: 0, c: [] }, { g: 'H', t: 0, c: [] }] },
+  bell: { n: 2, name: t('Stato di Bell'), ops: [{ g: 'H', t: 0, c: [] }, { g: 'X', t: 1, c: [0] }] },
+  ghz: { n: 3, name: t('GHZ (3 qubit)'), ops: [{ g: 'H', t: 0, c: [] }, { g: 'X', t: 1, c: [0] }, { g: 'X', t: 2, c: [1] }] },
+  sup: { n: 3, name: t('Sovrapposizione totale'), ops: [{ g: 'H', t: 0, c: [] }, { g: 'H', t: 1, c: [] }, { g: 'H', t: 2, c: [] }] },
+  hh: { n: 1, name: t('H·H = identità'), ops: [{ g: 'H', t: 0, c: [] }, { g: 'H', t: 0, c: [] }] },
   hzh: { n: 1, name: 'H·Z·H = X', ops: [{ g: 'H', t: 0, c: [] }, { g: 'Z', t: 0, c: [] }, { g: 'H', t: 0, c: [] }] },
-  qft3: { n: 3, name: 'QFT su 3 qubit', ops: qftOps(3) },
+  qft3: { n: 3, name: t('QFT su 3 qubit'), ops: qftOps(3) },
 };
 
 export function circuitLab(host, opts = {}) {
-  const cfg = Object.assign({ n: 3, maxCols: 10, preset: null, onChange: null, title: 'Laboratorio dei circuiti', subtitle: 'scegli una porta, clicca sulla griglia' }, opts);
+  const cfg = Object.assign({ n: 3, maxCols: 10, preset: null, onChange: null, title: t('Laboratorio dei circuiti'), subtitle: t('scegli una porta, clicca sulla griglia') }, opts);
   const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
 
   const st = {
@@ -112,9 +113,9 @@ export function circuitLab(host, opts = {}) {
       if (st.pending) {
         const cx = x0 + st.pending.col * colW + colW / 2, y = y0 + st.pending.row * rowH;
         dot(ctx, cx, y, 6, COL.red);
-        text(ctx, 'ora clicca il bersaglio', cx + 12, y - 18, { size: 10, color: COL.red });
+        text(ctx, t('ora clicca il bersaglio'), cx + 12, y - 18, { size: 10, color: COL.red });
       }
-      text(ctx, st.step >= 0 ? `passo ${st.step + 1}/${st.ops.length}` : 'circuito completo', s.w - 12, 14, { size: 11, align: 'right', color: COL.amber });
+      text(ctx, st.step >= 0 ? t('passo :i/:totali', { i: st.step + 1, totali: st.ops.length }) : t('circuito completo'), s.w - 12, 14, { size: 11, align: 'right', color: COL.amber });
     },
   });
   const fx = attachFX(circ);   // scintille, lampi e suono ai traguardi
@@ -131,18 +132,18 @@ export function circuitLab(host, opts = {}) {
   w.body.appendChild(palRow);
 
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '8px' } },
-    h('button', { class: 'btn sm', onclick: () => { st.ops.pop(); update(); } }, '⌫ togli ultima'),
-    h('button', { class: 'btn sm', onclick: () => { st.ops = []; st.step = -1; update(); } }, '🗑 svuota'),
-    h('button', { class: 'btn sm primary', onclick: () => shots(200) }, '📏 misura 200 volte'),
-    h('button', { class: 'btn sm', onclick: () => { hist.reset(st.n); } }, '↺ azzera misure'),
+    h('button', { class: 'btn sm', onclick: () => { st.ops.pop(); update(); } }, '⌫ ' + t('togli ultima')),
+    h('button', { class: 'btn sm', onclick: () => { st.ops = []; st.step = -1; update(); } }, '🗑 ' + t('svuota')),
+    h('button', { class: 'btn sm primary', onclick: () => shots(200) }, '📏 ' + t('misura 200 volte')),
+    h('button', { class: 'btn sm', onclick: () => { hist.reset(st.n); } }, '↺ ' + t('azzera misure')),
     ...Object.entries(PRESETS).map(([k, p]) => h('button', {
       class: 'btn sm ghost', onclick: () => { st.n = Math.max(st.n, p.n); st.ops = p.ops.map(o => ({ ...o })); st.step = -1; rebuild(); },
     }, p.name)),
   ));
 
   const stepS = slider({
-    label: 'Esegui passo per passo', min: -1, max: 0, step: 1, value: -1,
-    fmt: v => v < 0 ? 'tutto' : `dopo il passo ${v + 1}`,
+    label: t('Esegui passo per passo'), min: -1, max: 0, step: 1, value: -1,
+    fmt: v => v < 0 ? t('tutto') : t('dopo il passo :n', { n: v + 1 }),
     oninput: v => { st.step = v; update(false); },
   });
   w.body.appendChild(controls(stepS.root));
@@ -203,14 +204,14 @@ export function circuitLab(host, opts = {}) {
     for (let i = 0; i < p.length; i++) {
       if (p[i] > 1e-6) terms.push(`${cstr({ re: s.re[i], im: s.im[i] })} |${label(i, st.n)}⟩`);
     }
-    out.set(`<b>Stato attuale:</b>\n|ψ⟩ = ${terms.join('  +  ') || '—'}\n` +
-      `Porte: ${st.ops.length} · qubit: ${st.n}\n` +
-      `Probabilità più alta: ${(Math.max(...p) * 100).toFixed(1)}% su |${label(p.indexOf(Math.max(...p)), st.n)}⟩`);
+    out.set('<b>' + t('Stato attuale:') + `</b>\n|ψ⟩ = ${terms.join('  +  ') || '—'}\n` +
+      t('Porte: :porte · qubit: :qubit', { porte: st.ops.length, qubit: st.n }) + '\n' +
+      t('Probabilità più alta: :percento% su |:stato⟩', { percento: (Math.max(...p) * 100).toFixed(1), stato: label(p.indexOf(Math.max(...p)), st.n) }));
     circ.redraw();
     cfg.onChange && cfg.onChange({ ops: st.ops, state: s, n: st.n });
   }
   update();
 
-  w.setFoot('Le <b>barre colorate</b> sono le ampiezze: altezza = quanto è grande, colore e freccia = la fase. Due barre uguali ma di colore opposto sono due frecce opposte: se un\'altra porta le fa incontrare, <b>si cancellano</b>.');
+  w.setFoot(t('Le <b>barre colorate</b> sono le ampiezze: altezza = quanto è grande, colore e freccia = la fase. Due barre uguali ma di colore opposto sono due frecce opposte: se un\'altra porta le fa incontrare, <b>si cancellano</b>.'));
   return { state: st, update, get statevector() { return currentState(st.step); } };
 }

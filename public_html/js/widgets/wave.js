@@ -8,6 +8,7 @@
 import { Stage, COL, bg, grid, plot, dot, text, arrow, circle, roundRect, attachFX } from '../core/canvas.js';
 import { widget, slider, controls, buttons, h, readout } from '../core/ui.js';
 import { sfx, playTone  } from '../core/audio.js';
+import { t } from '../core/i18n.js';
 
 export function waveLab(host, opts = {}) {
   const cfg = Object.assign({
@@ -16,12 +17,12 @@ export function waveLab(host, opts = {}) {
     target: null,            // {A, f, phi} da ricalcare
     tol: { A: 0.08, f: 0.12, phi: 12 },
     onChange: null, onMatch: null,
-    title: 'Laboratorio dell\'onda', subtitle: 'muovi i cursori e guarda cosa cambia',
+    title: t('Laboratorio dell\'onda'), subtitle: t('muovi i cursori e guarda cosa cambia'),
   }, opts);
 
   const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
   const state = { A: cfg.A, f: cfg.f, phi: cfg.phi, matched: false };
-  const y = (t, s = state) => s.A * Math.cos(2 * Math.PI * s.f * t + s.phi * Math.PI / 180);
+  const y = (tempo, s = state) => s.A * Math.cos(2 * Math.PI * s.f * tempo + s.phi * Math.PI / 180);
 
   const stage = new Stage(w.body, {
     height: 300,
@@ -30,7 +31,7 @@ export function waveLab(host, opts = {}) {
       const L = 52, R = 14, T = 16, B = 34;
       const rect = { x: L, y: T, w: s.w - L - R, h: s.h - T - B };
       const yMax = 1.75;
-      const px = t => rect.x + (t / cfg.tMax) * rect.w;
+      const px = tempo => rect.x + (tempo / cfg.tMax) * rect.w;
       const py = v => rect.y + rect.h / 2 - (v / yMax) * (rect.h / 2);
 
       grid(ctx, rect.x, rect.y, rect.w, rect.h, rect.w / (cfg.tMax * 4), rect.h / 7);
@@ -41,18 +42,18 @@ export function waveLab(host, opts = {}) {
       ctx.moveTo(rect.x, py(0)); ctx.lineTo(rect.x + rect.w, py(0));
       ctx.moveTo(rect.x, rect.y); ctx.lineTo(rect.x, rect.y + rect.h);
       ctx.stroke();
-      for (let t = 0; t <= cfg.tMax + 1e-6; t += 0.5) {
-        text(ctx, t.toFixed(1) + 's', px(t), rect.y + rect.h + 13, { size: 10, align: 'center', color: '#5b6b90' });
+      for (let tempo = 0; tempo <= cfg.tMax + 1e-6; tempo += 0.5) {
+        text(ctx, tempo.toFixed(1) + 's', px(tempo), rect.y + rect.h + 13, { size: 10, align: 'center', color: '#5b6b90' });
       }
       text(ctx, '+1', L - 8, py(1), { size: 10, align: 'right', color: '#5b6b90' });
       text(ctx, '0', L - 8, py(0), { size: 10, align: 'right', color: '#5b6b90' });
       text(ctx, '−1', L - 8, py(-1), { size: 10, align: 'right', color: '#5b6b90' });
-      text(ctx, 'tempo →', rect.x + rect.w, rect.y + rect.h + 26, { size: 10, align: 'right', color: '#5b6b90' });
+      text(ctx, t('tempo') + ' →', rect.x + rect.w, rect.y + rect.h + 26, { size: 10, align: 'right', color: '#5b6b90' });
 
       // onda bersaglio
       if (cfg.target) {
         plot(ctx, rect, u => y(u * cfg.tMax, cfg.target), { color: COL.pink, width: 2, dash: [6, 5], alpha: .85, yMin: -yMax, yMax });
-        text(ctx, 'bersaglio', rect.x + 8, rect.y + 12, { size: 11, color: COL.pink });
+        text(ctx, t('bersaglio'), rect.x + 8, rect.y + 12, { size: 11, color: COL.pink });
       }
 
       // onda dell'utente
@@ -90,7 +91,7 @@ export function waveLab(host, opts = {}) {
         const x0 = px(0), xs = px(tPeak);
         const yl = py(1.5);
         arrow(ctx, x0, yl, xs, yl, { color: COL.violet, width: 1.5, head: 6 });
-        text(ctx, `sfasamento φ = ${state.phi.toFixed(0)}°`, x0 + 6, yl - 10, { size: 11, color: COL.violet });
+        text(ctx, t('sfasamento') + ` φ = ${state.phi.toFixed(0)}°`, x0 + 6, yl - 10, { size: 11, color: COL.violet });
       }
 
       // pallino animato
@@ -105,15 +106,15 @@ export function waveLab(host, opts = {}) {
   const fx = attachFX(stage);   // scintille, lampi e suono ai traguardi
 
   const out = readout('');
-  const sA = slider({ label: 'Ampiezza <b>A</b> — quanto è "alta" l\'onda', min: 0.1, max: 1.5, step: 0.01, value: state.A, fmt: v => v.toFixed(2), oninput: v => { state.A = v; upd(); } });
-  const sF = slider({ label: 'Frequenza <b>f</b> — quanti cicli al secondo', min: 0.25, max: 6, step: 0.05, value: state.f, fmt: v => v.toFixed(2) + ' Hz', oninput: v => { state.f = v; upd(); } });
-  const sP = slider({ label: 'Fase <b>φ</b> — di quanto è spostata', min: -180, max: 180, step: 1, value: state.phi, fmt: v => v.toFixed(0) + '°', oninput: v => { state.phi = v; upd(); } });
+  const sA = slider({ label: t('Ampiezza <b>A</b> — quanto è "alta" l\'onda'), min: 0.1, max: 1.5, step: 0.01, value: state.A, fmt: v => v.toFixed(2), oninput: v => { state.A = v; upd(); } });
+  const sF = slider({ label: t('Frequenza <b>f</b> — quanti cicli al secondo'), min: 0.25, max: 6, step: 0.05, value: state.f, fmt: v => v.toFixed(2) + ' Hz', oninput: v => { state.f = v; upd(); } });
+  const sP = slider({ label: t('Fase <b>φ</b> — di quanto è spostata'), min: -180, max: 180, step: 1, value: state.phi, fmt: v => v.toFixed(0) + '°', oninput: v => { state.phi = v; upd(); } });
 
   const row = controls(sA.root, sF.root, sP.root);
   w.body.appendChild(row);
   const btns = buttons([
-    cfg.sound ? { label: '🔊 Ascolta questa frequenza', onclick: () => playTone(Math.min(2000, Math.max(80, state.f * 110)), 1.0) } : null,
-    { label: '⏯ Pausa/Play', onclick: () => stage.toggle() },
+    cfg.sound ? { label: '🔊 ' + t('Ascolta questa frequenza'), onclick: () => playTone(Math.min(2000, Math.max(80, state.f * 110)), 1.0) } : null,
+    { label: '⏯ ' + t('Pausa/Play'), onclick: () => stage.toggle() },
   ].filter(Boolean));
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, btns));
   w.body.appendChild(out.root);
@@ -126,13 +127,14 @@ export function waveLab(host, opts = {}) {
       const dF = Math.abs(state.f - cfg.target.f);
       let dP = Math.abs(((state.phi - cfg.target.phi + 540) % 360) - 180);
       const okA = dA <= cfg.tol.A, okF = dF <= cfg.tol.f, okP = dP <= cfg.tol.phi;
-      extra = `\n<b>Bersaglio:</b> ampiezza ${okA ? '<span class="g">✓</span>' : '<span class="a">✗</span>'} · frequenza ${okF ? '<span class="g">✓</span>' : '<span class="a">✗</span>'} · fase ${okP ? '<span class="g">✓</span>' : '<span class="a">✗</span>'}`;
-      if (okA && okF && okP && !state.matched) { state.matched = true; fx.win(); sfx.ok(); cfg.onMatch && cfg.onMatch(); extra += '  <span class="g">— PERFETTO!</span>'; }
+      const segno = ok => ok ? '<span class="g">✓</span>' : '<span class="a">✗</span>';
+      extra = '\n' + t('<b>Bersaglio:</b> ampiezza :a · frequenza :f · fase :p', { a: segno(okA), f: segno(okF), p: segno(okP) });
+      if (okA && okF && okP && !state.matched) { state.matched = true; fx.win(); sfx.ok(); cfg.onMatch && cfg.onMatch(); extra += '  <span class="g">— ' + t('PERFETTO!') + '</span>'; }
     }
     out.set(
       `<b>y(t) = A · cos(2π · f · t + φ)</b>\n` +
       `y(t) = <span class="a">${state.A.toFixed(2)}</span> · cos(2π · <span class="c">${state.f.toFixed(2)}</span> · t <span class="p">${state.phi >= 0 ? '+' : '−'} ${Math.abs(state.phi).toFixed(0)}°</span>)\n` +
-      `periodo T = 1/f = <span class="g">${T.toFixed(3)} s</span>  ·  in ${cfg.tMax} s ci stanno ${(state.f * cfg.tMax).toFixed(2)} cicli` + extra);
+      t('periodo T = 1/f = <span class="g">:T s</span>  ·  in :durata s ci stanno :cicli cicli', { T: T.toFixed(3), durata: cfg.tMax, cicli: (state.f * cfg.tMax).toFixed(2) }) + extra);
     stage.redraw();
     cfg.onChange && cfg.onChange({ ...state });
   }
@@ -147,7 +149,7 @@ export function waveLab(host, opts = {}) {
    ------------------------------------------------------------ */
 
 export function clockWave(host, opts = {}) {
-  const cfg = Object.assign({ f: 1, title: 'Il giro completo = un periodo', subtitle: 'il pallino gira, l\'onda esce a destra' }, opts);
+  const cfg = Object.assign({ f: 1, title: t('Il giro completo = un periodo'), subtitle: t('il pallino gira, l\'onda esce a destra') }, opts);
   const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
   const st = { f: cfg.f };
 
@@ -192,13 +194,13 @@ export function clockWave(host, opts = {}) {
       ctx.moveTo(hx, hy); ctx.lineTo(x0, cy - Math.sin(theta) * R); ctx.stroke(); ctx.setLineDash([]);
       dot(ctx, x0, cy - Math.sin(theta) * R, 4.5, COL.cyan);
       text(ctx, `f = ${st.f.toFixed(2)} Hz → T = ${(1 / st.f).toFixed(2)} s`, x0 + wD, cy - R - 6, { size: 11, align: 'right', color: COL.green });
-      text(ctx, 'altezza del pallino, disegnata nel tempo', x0, cy + R + 14, { size: 10.5, color: '#5b6b90' });
+      text(ctx, t('altezza del pallino, disegnata nel tempo'), x0, cy + R + 14, { size: 10.5, color: '#5b6b90' });
     },
   });
   const fx = attachFX(stage);   // scintille, lampi e suono ai traguardi
 
-  const sf = slider({ label: 'Velocità di rotazione <b>f</b>', min: 0.15, max: 3, step: 0.05, value: st.f, fmt: v => v.toFixed(2) + ' giri/s', oninput: v => { st.f = v; } });
+  const sf = slider({ label: t('Velocità di rotazione <b>f</b>'), min: 0.15, max: 3, step: 0.05, value: st.f, fmt: v => v.toFixed(2) + ' ' + t('giri/s'), oninput: v => { st.f = v; } });
   w.body.appendChild(controls(sf.root));
-  w.setFoot('Un <b>giro completo</b> del pallino = <b>un ciclo</b> dell\'onda. Se il pallino fa 2 giri al secondo, l\'onda ha frequenza 2 Hz e periodo ½ secondo. Frequenza e periodo sono la stessa informazione, letta in due modi: <b>T = 1/f</b>.');
+  w.setFoot(t('Un <b>giro completo</b> del pallino = <b>un ciclo</b> dell\'onda. Se il pallino fa 2 giri al secondo, l\'onda ha frequenza 2 Hz e periodo ½ secondo. Frequenza e periodo sono la stessa informazione, letta in due modi: <b>T = 1/f</b>.'));
   return { stage, state: st };
 }

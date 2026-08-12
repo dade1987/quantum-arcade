@@ -9,6 +9,7 @@ import { widget, buttons, controls, slider, readout, h } from '../core/ui.js';
 import { zeroState, applyGate, GATES, RZ, RX, RY, P, blochVector, probs, measureQubit } from '../core/qsim.js';
 import { str as cstr } from '../core/complex.js';
 import { sfx } from '../core/audio.js';
+import { t } from '../core/i18n.js';
 
 /** Renderer riutilizzabile: ritorna {stage, set(state), view} */
 export function blochSphere(host, opts = {}) {
@@ -61,18 +62,18 @@ export function blochSphere(host, opts = {}) {
         ctx.strokeStyle = col; ctx.lineWidth = 1; if (dash) ctx.setLineDash(dash);
         ctx.beginPath();
         for (let i = 0; i <= 90; i++) {
-          const t = (i / 90) * Math.PI * 2;
-          const p = proj(fn(t), cx, cy, R);
+          const ang = (i / 90) * Math.PI * 2;
+          const p = proj(fn(ang), cx, cy, R);
           i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y);
         }
         ctx.stroke(); ctx.setLineDash([]);
       };
-      ring(t => ({ x: Math.cos(t), y: Math.sin(t), z: 0 }), '#2c3c60');           // equatore
-      ring(t => ({ x: Math.cos(t), y: 0, z: Math.sin(t) }), '#233150', [3, 4]);
-      ring(t => ({ x: 0, y: Math.cos(t), z: Math.sin(t) }), '#233150', [3, 4]);
+      ring(a => ({ x: Math.cos(a), y: Math.sin(a), z: 0 }), '#2c3c60');           // equatore
+      ring(a => ({ x: Math.cos(a), y: 0, z: Math.sin(a) }), '#233150', [3, 4]);
+      ring(a => ({ x: 0, y: Math.cos(a), z: Math.sin(a) }), '#233150', [3, 4]);
       for (const zz of [-0.5, 0.5]) {
         const r = Math.sqrt(1 - zz * zz);
-        ring(t => ({ x: r * Math.cos(t), y: r * Math.sin(t), z: zz }), '#1d2942', [2, 5]);
+        ring(a => ({ x: r * Math.cos(a), y: r * Math.sin(a), z: zz }), '#1d2942', [2, 5]);
       }
 
       // assi
@@ -108,13 +109,13 @@ export function blochSphere(host, opts = {}) {
         const th = Math.acos(Math.max(-1, Math.min(1, shown.z / (len || 1)))) * 180 / Math.PI;
         const ph = ((Math.atan2(shown.y, shown.x) * 180 / Math.PI) % 360 + 360) % 360;
         const stretto = s.w < 430;
-        text(ctx, `θ = ${th.toFixed(0)}°  (quanto è "giù")`, 10, 16, { size: 11, color: COL.txt, max: s.w - 20 });
-        text(ctx, stretto ? `φ = ${ph.toFixed(0)}°  (la FASE)` : `φ = ${ph.toFixed(0)}°  (la FASE, giro sull'equatore)`,
+        text(ctx, `θ = ${th.toFixed(0)}°  ` + t('(quanto è "giù")'), 10, 16, { size: 11, color: COL.txt, max: s.w - 20 });
+        text(ctx, `φ = ${ph.toFixed(0)}°  ` + (stretto ? t('(la FASE)') : t("(la FASE, giro sull'equatore)")),
           10, 32, { size: 11, color: COL.violet, max: s.w - 20 });
-        if (len < 0.98) text(ctx, stretto ? `lunghezza ${len.toFixed(2)} < 1 → intrecciato` : `lunghezza ${len.toFixed(2)} < 1 → qubit intrecciato con altri`,
+        if (len < 0.98) text(ctx, stretto ? t('lunghezza :quanto < 1 → intrecciato', { quanto: len.toFixed(2) }) : t('lunghezza :quanto < 1 → qubit intrecciato con altri', { quanto: len.toFixed(2) }),
           10, 48, { size: 10.5, color: COL.amber, max: s.w - 20 });
       }
-      text(ctx, 'trascina per girare la palla', s.w - 10, s.h - 8, { size: 10, align: 'right', color: '#4a5877', max: s.w - 20 });
+      text(ctx, t('trascina per girare la palla'), s.w - 10, s.h - 8, { size: 10, align: 'right', color: '#4a5877', max: s.w - 20 });
     },
   });
 
@@ -133,7 +134,7 @@ export function blochLab(host, opts = {}) {
   const cfg = Object.assign({
     gates: ['X', 'Y', 'Z', 'H', 'S', 'Sdg', 'T', 'Tdg'],
     showRotations: true, onChange: null, target: null,
-    title: 'Il tuo qubit', subtitle: 'applica le porte e guarda la freccia muoversi',
+    title: t('Il tuo qubit'), subtitle: t('applica le porte e guarda la freccia muoversi'),
   }, opts);
   const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
   let st = zeroState(1);
@@ -153,17 +154,17 @@ export function blochLab(host, opts = {}) {
     }, GATES[g].name))));
 
   if (cfg.showRotations) {
-    const sRz = slider({ label: 'Rotazione di fase <b>P(θ)</b> — gira sull\'equatore', min: 0, max: 360, step: 5, value: 0, fmt: v => v + '°', oninput: () => { } });
-    const bRz = h('button', { class: 'btn sm violet', onclick: () => apply(P(sRz.value * Math.PI / 180), `P(${sRz.value}°)`) }, 'applica P(θ)');
-    const sRy = slider({ label: 'Rotazione <b>RY(θ)</b> — spinge verso il basso', min: 0, max: 360, step: 5, value: 90, fmt: v => v + '°', oninput: () => { } });
-    const bRy = h('button', { class: 'btn sm violet', onclick: () => apply(RY(sRy.value * Math.PI / 180), `RY(${sRy.value}°)`) }, 'applica RY(θ)');
+    const sRz = slider({ label: t('Rotazione di fase <b>P(θ)</b> — gira sull\'equatore'), min: 0, max: 360, step: 5, value: 0, fmt: v => v + '°', oninput: () => { } });
+    const bRz = h('button', { class: 'btn sm violet', onclick: () => apply(P(sRz.value * Math.PI / 180), `P(${sRz.value}°)`) }, t('applica P(θ)'));
+    const sRy = slider({ label: t('Rotazione <b>RY(θ)</b> — spinge verso il basso'), min: 0, max: 360, step: 5, value: 90, fmt: v => v + '°', oninput: () => { } });
+    const bRy = h('button', { class: 'btn sm violet', onclick: () => apply(RY(sRy.value * Math.PI / 180), `RY(${sRy.value}°)`) }, t('applica RY(θ)'));
     right.appendChild(controls(sRz.root, bRz));
     right.appendChild(controls(sRy.root, bRy));
   }
 
   right.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
-    h('button', { class: 'btn sm primary', onclick: () => measure() }, '📏 MISURA'),
-    h('button', { class: 'btn sm', onclick: () => { st = zeroState(1); history.length = 0; upd(); } }, '↺ riparti da |0⟩'),
+    h('button', { class: 'btn sm primary', onclick: () => measure() }, '📏 ' + t('MISURA')),
+    h('button', { class: 'btn sm', onclick: () => { st = zeroState(1); history.length = 0; upd(); } }, '↺ ' + t('riparti da |0⟩')),
   ));
   right.appendChild(out.root);
 
@@ -177,8 +178,8 @@ export function blochLab(host, opts = {}) {
     const p1 = probs(st)[1];
     const bit = measureQubit(st, 0);
     sfx.measure(bit);
-    history.push(`MISURA→${bit}`);
-    upd(`Hai misurato <b>${bit}</b> (probabilità era ${(bit ? p1 : 1 - p1).toFixed(2)}). Lo stato è <b>collassato</b> su |${bit}⟩: la sovrapposizione è persa.`);
+    history.push(t('MISURA') + '→' + bit);
+    upd(t('Hai misurato <b>:bit</b> (probabilità era :p). Lo stato è <b>collassato</b> su |:bit⟩: la sovrapposizione è persa.', { bit, p: (bit ? p1 : 1 - p1).toFixed(2) }));
   }
   function upd(extra = '') {
     sphere.set(st);
@@ -186,13 +187,13 @@ export function blochLab(host, opts = {}) {
     const p = probs(st);
     out.set(
       `<b>|ψ⟩ = ${cstr(a)}·|0⟩ + ${cstr(b)}·|1⟩</b>\n` +
-      `probabilità di leggere 0: <span class="g">${(p[0] * 100).toFixed(1)}%</span>   ·   di leggere 1: <span class="a">${(p[1] * 100).toFixed(1)}%</span>\n` +
-      `(regola: probabilità = |ampiezza|², cioè lunghezza della freccia al quadrato)\n` +
-      `porte applicate: ${history.length ? history.join(' → ') : '— nessuna —'}` +
+      t('probabilità di leggere 0: <span class="g">:p0%</span>   ·   di leggere 1: <span class="a">:p1%</span>', { p0: (p[0] * 100).toFixed(1), p1: (p[1] * 100).toFixed(1) }) + '\n' +
+      t('(regola: probabilità = |ampiezza|², cioè lunghezza della freccia al quadrato)') + '\n' +
+      t('porte applicate: :elenco', { elenco: history.length ? history.join(' → ') : '— ' + t('nessuna') + ' —' }) +
       (extra ? '\n\n' + extra : ''));
     cfg.onChange && cfg.onChange(st, history);
   }
   upd();
-  w.setFoot('<b>Nota fondamentale:</b> due stati possono avere le <b>stesse probabilità</b> ma <b>fase diversa</b> (stessa altezza sulla sfera, punto diverso sull\'equatore). Le probabilità non li distinguono, ma un\'altra porta H sì: è lì che vive tutta la potenza quantistica.');
+  w.setFoot(t('<b>Nota fondamentale:</b> due stati possono avere le <b>stesse probabilità</b> ma <b>fase diversa</b> (stessa altezza sulla sfera, punto diverso sull\'equatore). Le probabilità non li distinguono, ma un\'altra porta H sì: è lì che vive tutta la potenza quantistica.'));
   return { sphere, get state() { return st; }, apply, reset: () => { st = zeroState(1); history.length = 0; upd(); }, update: upd };
 }

@@ -125,6 +125,23 @@ for (const { f, src } of allSources) {
   }
 }
 
+/* ---------- 3b. la t() delle traduzioni non deve essere oscurata ----------
+   Il gioco è pieno di matematica, e in matematica `t` è il tempo: `const t = i / N`
+   dentro un ciclo di disegno è la cosa più naturale del mondo. Ma nello stesso
+   file `t` è anche la funzione che traduce, e una variabile locale la copre
+   senza che nessuno se ne accorga — finché qualcuno non apre la pagina in
+   spagnolo e trova un errore invece della frase. Meglio scoprirlo qui. */
+console.log('\n[3b] La funzione t() non è oscurata da variabili locali');
+for (const { f, src } of allSources) {
+  if (!/import\s*\{[^}]*\bt\b[^}]*\}\s*from\s*['"][^'"]*i18n\.js['"]/.test(src)) continue;
+  const locali = [...src.matchAll(/(?:^|[;{(\s])(?:const|let|var)\s+t\s*[=,]/g)];
+  if (locali.length) {
+    const riga = src.slice(0, locali[0].index).split('\n').length;
+    err(rel(f), `dichiara una variabile locale «t» (riga ~${riga}) ma importa anche t() da i18n.js: `
+      + 'la variabile oscura il traduttore. Rinomina la variabile (per esempio in «tempo»).');
+  } else ok();
+}
+
 /* ---------- 4. struttura HTML ---------- */
 console.log('\n[4] Struttura delle pagine HTML');
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);

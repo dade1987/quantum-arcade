@@ -48,9 +48,9 @@ export function formula(host, { title = '', parts, hint = t('Tocca un pezzo dell
     root, select,
     /** aggiorna il valore numerico mostrato accanto a un simbolo */
     setValue(id, txt) {
-      const t = toks.get(id); if (!t) return;
-      let v = t.el.querySelector('.f-v');
-      if (!v) { v = h('span', { class: 'f-v' }); t.el.appendChild(v); }
+      const tok = toks.get(id); if (!tok) return;
+      let v = tok.el.querySelector('.f-v');
+      if (!v) { v = h('span', { class: 'f-v' }); tok.el.appendChild(v); }
       v.innerHTML = txt;
     },
   };
