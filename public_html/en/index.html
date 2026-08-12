@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Quantum Arcade — Quantum computing by playing | free interactive course in English</title>
+<meta name="description" content="Free game-course in English to learn quantum computing from scratch: waves, phase, complex numbers, the Fourier transform (DFT), qubits, gates, entanglement, Grover, QFT and Shor's algorithm. 28 interactive levels with a real quantum simulator. By Davide Cavallini.">
+<meta name="author" content="Davide Cavallini">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://quantumarcade.it/en/">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Quantum Arcade">
+<meta property="og:title" content="Quantum Arcade — learn quantum computing by playing">
+<meta property="og:description" content="28 interactive levels in English: from waves to the quantum Fourier transform and Shor's algorithm. With a real quantum simulator and unlock-by-mastery.">
+<meta property="og:image" content="https://quantumarcade.it/assets/logo-wordmark.svg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+
+<!-- Structured data: it helps both search engines and generative (AI) engines
+     understand what this resource is, who wrote it and what it teaches. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Course",
+      "@id": "https://quantumarcade.it/en/#course",
+      "name": "Quantum Arcade — Quantum computing by playing",
+      "description": "Free interactive course in English that teaches quantum computing starting from waves and the Fourier transform all the way to the QFT and Shor's algorithm, through 28 playable levels with a state-vector quantum simulator.",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "isBasedOn": "https://github.com/dade1987/quantum-arcade",
+      "educationalLevel": "Middle school and up",
+      "teaches": [
+        "Waves: amplitude, frequency, period, phase",
+        "Complex numbers and the complex exponential e^{iθ}",
+        "Constructive and destructive interference",
+        "Discrete Fourier transform (DFT) and FFT",
+        "Qubits, the Bloch sphere, measurement and probability",
+        "One- and two-qubit quantum gates, entanglement",
+        "Deutsch-Jozsa, Bernstein-Vazirani, Grover and Simon algorithms",
+        "Exponential quantum advantage and the hidden period problem",
+        "Quantum Fourier transform (QFT)",
+        "Quantum Phase Estimation and Shor's algorithm"
+      ],
+      "provider": { "@id": "https://quantumarcade.it/#author" },
+      "author": { "@id": "https://quantumarcade.it/#author" },
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT6H"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://quantumarcade.it/#author",
+      "name": "Davide Cavallini",
+      "jobTitle": "Forward Deployed AI Engineer",
+      "description": "Programming since the age of 7 (learned on a Commodore 64 with his grandfather), professionally since 2012, working in quantum computing since 2017 and in artificial intelligence since 2019. Forward Deployed AI Engineer, builds bespoke AI business systems for companies. University background in mathematics and statistics at the London School of Economics. Writer at Red Hot Cyber and educator on YouTube.",
+      "image": "https://quantumarcade.it/assets/davide.jpeg",
+      "sameAs": [
+        "https://www.youtube.com/@informaticacavallini",
+        "https://www.linkedin.com/in/davidecavallini/",
+        "https://www.redhotcyber.com/post/author/davide-cavallini/",
+        "https://calendly.com/davidecavallini1987/meeting"
+      ],
+      "knowsAbout": [
+        "artificial intelligence applied to business",
+        "bespoke AI business systems",
+        "quantum computing",
+        "software development",
+        "cybersecurity"
+      ],
+      "alumniOf": { "@type": "EducationalOrganization", "name": "London School of Economics and Political Science" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://quantumarcade.it/en/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need to know maths already to learn quantum computing?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Quantum Arcade starts with a Part 0 devoted to the basics (negative numbers, fractions and percentages, coordinates, degrees, probability) written for anyone who has finished middle school. Sine, cosine, complex numbers and the complex exponential are built inside the course, starting from a point turning on a circle." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the quantum Fourier transform (QFT), in plain words?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The QFT is the Fourier transform applied to the amplitudes of a quantum state. Just as the classical Fourier transform turns a signal in time into a list of frequencies, the QFT turns information held in the position of the amplitudes into information held in their phases. It is built from Hadamard gates, controlled phase rotations and final SWAPs, for a total of about n²/2 gates on n qubits." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does Shor's algorithm use the Fourier transform?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Shor reduces factoring a number to the problem of finding the period of the function f(x) = a^x mod N. The period is hidden in the amplitudes of a quantum state: the QFT turns it into measurable probability peaks. From the measured value, using continued fractions, you recover the period r and from there the factors via GCD(a^(r/2) ± 1, N)." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a qubit like a loaded coin?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. A coin shuffled twice stays random, while a qubit hit with two Hadamard gates returns with certainty to its starting state. The difference is interference: quantum amplitudes are complex numbers with a direction and can cancel each other out, something classical probabilities never do." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Quantum Arcade free? Do I have to register?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, it is completely free. You need a free account (first name, last name, email and password) because progress is saved on the server and because the final exam, graded server-side, issues a PDF certificate of completion with a publicly verifiable code." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#map-section">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap-wide topbar-in">
+    <a class="brand" href="index.html">
+      <img class="logo" src="../assets/logo.svg" alt="" width="30" height="30">
+      <span>Quantum Arcade<small>quantum computing by playing</small></span>
+    </a>
+    <span class="topbar-spacer"></span>
+    <div id="xp-host"></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <div style="padding:46px 0 6px">
+    <span class="tag cyan">🎮 free game-course in English</span>
+    <h1 style="margin-top:14px">Learn quantum computing<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">by actually playing it.</span></h1>
+    <p class="lead">
+      Twenty-eight interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
+      (frequency, period, phase) and arrive at the <b>quantum Fourier transform</b> and <b>Shor's algorithm</b>.
+      Every formula is taken apart piece by piece, and every piece is something you can
+      <b>touch, drag and break</b> until the penny drops.
+    </p>
+    <!-- People who tried the site asked "but who is it for?". If someone has to
+         ask, the home page has already failed: here the answer comes before the
+         question, with the prerequisite stated in everyday words. -->
+    <div class="callout ok" style="margin:16px 0 6px">
+      <b>Who it is for:</b> if you finished middle school and know what a percentage is, this course is for you.
+      <b>No physics needed</b>, no university, no prior trigonometry: sine, cosine and complex numbers
+      get built right here, by playing, at the moment you need them.
+    </div>
+
+    <p id="progress-line" class="dim" style="font-size:15px"></p>
+    <div class="btn-row" style="margin:18px 0 6px">
+      <a class="btn primary" id="continue" href="lessons/01-qubit.html">▶ Start</a>
+      <a class="btn ghost" href="lessons/00-numbers.html">🧮 I am starting from absolute zero (Part 0)</a>
+      <a class="btn ghost" href="#map-section">🗺️ All the levels</a>
+      <a class="btn ghost" href="method.html">🔬 The method (and the research)</a>
+    </div>
+  </div>
+
+  <div class="panel hidden" id="account-banner" style="border-color:rgba(34,211,238,.45);margin-top:6px">
+    <div class="grid-2" style="align-items:center">
+      <div>
+        <h3 style="margin-top:0">You can start right now — the account comes later</h3>
+        <p class="mb0 dim"><b>Part 0</b> and <b>level 1</b> can be played without registering: five whole levels,
+        enough to tell whether this course is for you. The account (first name, last name, email and password:
+        <b>it is free</b> and takes under a minute) is there to <b>save your progress on the server</b> — so you
+        find it again on every device and it does not die with the browser cache — and because the
+        <b>final certificate</b> carries your details and has to be verifiable by anyone.</p>
+      </div>
+      <div class="btn-row" style="justify-content:flex-end">
+        <a class="btn primary" href="#" id="banner-login">✍️ Create your account</a>
+        <a class="btn ghost" href="privacy.html">How I handle your data</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TL;DR — useful to human readers and to generative engines ============ -->
+  <div class="tldr">
+    <b>In short:</b> Quantum Arcade is a free course in English that teaches quantum computing
+    with interactive mini-games and a state-vector simulator written from scratch.
+    You start from waves and the classical Fourier transform, build qubits, gates and entanglement,
+    and arrive at Grover, QFT, Quantum Phase Estimation and Shor. Every level unlocks by <b>demonstrating mastery</b>
+    (a hands-on mission in the game + a recall quiz), and questions you have already seen come back days later
+    in the <b>Flash review</b>. To play you need a <b>free account</b> (first name, last name, email): progress is saved
+    on the server and follows you anywhere, the <b>AI tutor</b> answers your questions, and the final exam — graded by the
+    server — issues a <b>PDF certificate</b> with a publicly verifiable code.
+  </div>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <h2 id="how-it-works">How it works</h2>
+  <div class="grid-3">
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>1 · Touch first</h3>
+      <p class="mb0 dim">Every concept arrives as a mini-game: sliders, arrows to drag, circuits to assemble.
+      First you move and get it wrong, then you read the explanation. That is not a gimmick: learning this way lasts longer.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>2 · All the maths is here</h3>
+      <p class="mb0 dim">This is not a "no formulas" course: they are <b>all</b> here, from the simplest to the heaviest.
+      But every symbol is a button: touch it and it tells you what it does, with the real numbers you are moving in the game.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>3 · It ends with inventing</h3>
+      <p class="mb0 dim">The last level is a <b>workshop</b>: you stack quantum blocks like bricks,
+      try them on open challenges and go after your own record. There you do not repeat: you <b>invent</b>.</p>
+    </div>
+  </div>
+
+  <!-- ============ REVIEW ============ -->
+  <h2 id="flash-review">🔁 Flash review</h2>
+  <p class="dim">A few questions, asked again at the right moment (after 1 day, then 3, then 7, then 21).
+  It is the combination of <b>active recall</b> and <b>spaced repetition</b>: of all the study techniques measured
+  by research, these are the two that work best.</p>
+  <div class="panel" id="ripasso"></div>
+
+  <!-- ============ AUTHOR ============ -->
+  <h2 id="author">Who made this course</h2>
+  <div class="panel">
+    <div class="author">
+      <div>
+        <img src="../assets/davide.jpeg" alt="Davide Cavallini, Forward Deployed AI Engineer and author of the course" width="320" height="320">
+        <div class="cap">Davide Cavallini · Forward Deployed AI Engineer</div>
+      </div>
+      <div class="who">
+        <h3 style="margin-top:0">Hi, I am Davide Cavallini</h3>
+        <p class="dim" style="margin-bottom:10px">
+          I have been programming since I was <b>7</b>: I learned with my grandfather on a <b>Commodore 64</b>,
+          and I never stopped. <b>Professionally since 2012</b>, I came to <b>quantum computing in 2017</b>
+          and to <b>artificial intelligence in 2019</b>.
+        </p>
+        <p class="dim" style="margin-bottom:10px">
+          Today I am a <b>Forward Deployed AI Engineer</b>: my job is getting artificial intelligence
+          <b>inside companies</b>, not into slides. Concretely, I build <b>bespoke AI business systems</b>:
+          management software tailored to the client's real process, with AI placed where it produces
+          measurable results (and removed from where it is just for show).
+        </p>
+        <p class="dim" style="margin-bottom:10px">
+          <b>Background:</b> university studies in <b>mathematics and statistics</b> at the <b>London School of Economics (LSE)</b>,
+          plus specialist courses in <b>quantum computing</b> and in <b>advanced mathematics applied to quantum computation</b>
+          (the full path is on my LinkedIn profile).
+        </p>
+        <p class="dim" style="margin-bottom:10px">
+          <b>I have taught for years:</b> courses and lectures across <b>8 different organisations</b> — private and
+          <b>public</b> companies, schools, academies and vocational training programmes — and I also give
+          <b>one-to-one lessons</b> for people who prefer to go at their own pace.
+        </p>
+        <p class="dim" style="margin-bottom:10px">
+          I am part of <b>Red Hot Cyber</b>, where I write about cybersecurity, development and emerging technologies.
+          On my <b>YouTube channel</b> I teach programming, cybersecurity and quantum computing:
+          Quantum Arcade grew out of that, rewritten from scratch as a video game because
+          <b>watching is not enough, you have to get your hands in it</b>.
+        </p>
+        <p class="dim" style="margin-bottom:14px">
+          This is, as far as I know, the <b>first site in Italian</b> that teaches quantum computing
+          <b>by playing</b>, with a real quantum simulator under the hood instead of fake animations —
+          and this English edition is a full translation of it, not a summary.
+        </p>
+        <div class="btn-row">
+          <a class="btn sm primary" href="https://calendly.com/davidecavallini1987/meeting" target="_blank" rel="noopener">📅 Book a chat</a>
+          <a class="btn sm" href="https://www.youtube.com/@informaticacavallini" target="_blank" rel="noopener">▶ YouTube channel</a>
+          <a class="btn sm" href="https://www.linkedin.com/in/davidecavallini/" target="_blank" rel="noopener">in LinkedIn</a>
+          <a class="btn sm" href="https://www.redhotcyber.com/post/author/davide-cavallini/" target="_blank" rel="noopener">🔥 Articles on Red Hot Cyber</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ WORK WITH ME ============ -->
+  <h2 id="work-with-me">Let's work together</h2>
+  <p class="dim" style="max-width:72ch">
+    This course is free and will stay free. If it was useful to you and your company, school or personal path
+    needs someone who can <b>do</b> or <b>teach</b> these things, here is what I do — with the real numbers,
+    unpadded.
+  </p>
+
+  <div class="grid-3" style="margin-top:8px">
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Bespoke AI business systems</h3>
+      <p class="dim">Process analysis, design and production rollout of management software with AI built in:
+      document extraction, internal assistants, automation, integration with the systems the company already uses.</p>
+      <p class="mb0 dim"><b>How it starts:</b> half a day of analysis to find where AI produces a real return
+      and — above all — where it is better <b>not</b> to put it.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Training for companies and schools</h3>
+      <p class="dim">I have taught at <b>8 organisations</b> across private and public companies, schools and academies.
+      Same approach as this site: you touch it, you get it wrong, you understand it.</p>
+      <p class="mb0 dim"><b>Formats:</b> from a one-hour talk up to a complete programme with a lab.
+      Topics: applied AI, development, cybersecurity, quantum computing.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>One-to-one lessons</h3>
+      <p class="dim">One to one, at your pace, on your concrete goal: preparing for an exam, really understanding
+      a topic, setting up a project, picking code back up after years away.</p>
+      <p class="mb0 dim"><b>Also fine</b> if you are starting from zero: Part 0 of this site came directly
+      out of beginners' questions.</p>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:16px;border-color:rgba(34,211,238,.45)">
+    <div class="grid-2" style="align-items:center">
+      <div>
+        <h3 style="margin-top:0">Twenty minutes, no strings attached</h3>
+        <p class="mb0 dim">Pick your slot from the calendar. If after the chat the right answer is
+        "you do not need this", I will say so: I care more that a project makes sense than that it starts.</p>
+      </div>
+      <div class="btn-row" style="justify-content:flex-end">
+        <a class="btn primary" href="https://calendly.com/davidecavallini1987/meeting" target="_blank" rel="noopener">
+          📅 Book a call
+        </a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/davidecavallini/" target="_blank" rel="noopener">💬 LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MAP ============ -->
+  <h2 id="map-section">🗺️ The level map</h2>
+  <p class="dim">Each level opens by passing the previous one's check: a <b>hands-on mission</b> inside the game
+  plus the <b>recall quiz</b>. Unlimited attempts, no penalty, no grade.
+  <b>Part 0</b> and <b>level 1</b> are always open.</p>
+  <div id="map"></div>
+
+  <!-- ============ FAQ ============ -->
+  <h2 id="questions">Frequently asked questions</h2>
+  <div class="grid-2">
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Do I need to know maths already?</h3>
+      <p class="mb0 dim">No. <b>Part 0</b> covers negative numbers, fractions and percentages, coordinates, degrees and probability:
+      it is written for someone who has just finished middle school. Sine, cosine, complex numbers and e^{iθ} get built
+      inside the course, starting from a point turning on a circle.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Is it a real simulator?</h3>
+      <p class="mb0 dim">Yes: a state-vector simulator written from scratch (complex amplitudes, controlled gates,
+      probabilistic measurement, entanglement). The QFT circuit you assemble is checked by automated tests:
+      it reproduces the Fourier matrix <b>exactly</b>.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Do I have to register?</h3>
+      <p class="dim">Yes, and it is free: first name, last name, email and password. It is not about collecting data —
+      it is because <b>progress is saved on the server</b> (you find it again on every device) and because the
+      <b>final certificate</b> carries your details and a code anyone can verify. If the state lived only in the browser,
+      anyone could edit it and the certificate would be worth nothing.</p>
+      <p class="mb0 dim"><a href="privacy.html">How I handle your data →</a>
+      <label class="check" style="display:flex;margin-top:10px"><input type="checkbox" id="freemode"> free mode (unlock every level)</label>
+      <button class="btn tiny" id="reset" style="margin-top:8px">reset local progress</button></p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>How long does it take?</h3>
+      <p class="mb0 dim">Each level is 10–20 minutes played without rushing; the whole path is a long afternoon.
+      But the final <b>workshop</b> can keep you busy for weeks, because there the solutions are not written down anywhere.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>I am a teacher: can I use it in class?</h3>
+      <p class="dim">If you teach in a <b>state or state-recognised school</b>, at a university, in a library, in a public body
+      or in a non-profit association: yes, freely and without asking for anything. The same goes for after-school clubs
+      and free study groups. You can download everything, modify it, translate it or install it on your own server:
+      the <a href="https://github.com/dade1987/quantum-arcade" target="_blank" rel="noopener">code is public</a>
+      and contributions are welcome.</p>
+      <p class="mb0 dim">If instead the training is <b>paid</b> — private academy, corporate course, bootcamp,
+      paid tutoring — an agreement is needed, and it is usually a formality:
+      <a href="https://calendly.com/davidecavallini1987/meeting" target="_blank" rel="noopener">book a slot</a>.
+      All the details are in the <a href="https://github.com/dade1987/quantum-arcade/blob/main/LICENSE" target="_blank" rel="noopener">licence</a>.</p>
+    </div>
+  </div>
+
+  <nav class="nav-foot" style="justify-content:center;gap:18px;flex-wrap:wrap">
+    <a class="dim small" href="method.html">The method and the scientific sources</a>
+    <span class="muted small">·</span>
+    <a class="dim small" href="privacy.html">Privacy and data</a>
+    <span class="muted small">·</span>
+    <a class="dim small" href="https://github.com/dade1987/quantum-arcade" target="_blank" rel="noopener">Source code on GitHub</a>
+    <span class="muted small">·</span>
+    <a class="dim small" href="https://github.com/dade1987/quantum-arcade/blob/main/LICENSE" target="_blank" rel="noopener">Free non-commercial licence</a>
+    <span class="muted small">·</span>
+    <span class="muted small">Quantum Arcade · by Davide Cavallini · made in Italy</span>
+  </nav>
+
+</main>
+
+<script type="module" src="../js/home.js"></script>
+</body>
+</html>
