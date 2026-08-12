@@ -107,7 +107,13 @@ export function alternates() {
   if (typeof document === 'undefined') return out;
   document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(l => {
     const lang = l.getAttribute('hreflang').slice(0, 2);
-    if (LOCALES.includes(lang)) out[lang] = l.getAttribute('href');
+    if (!LOCALES.includes(lang)) return;
+    /* I <link> portano l'indirizzo assoluto, perché è quello che i motori di
+       ricerca pretendono. Il selettore però deve funzionare anche in locale e
+       in anteprima: si tiene solo il percorso, così resta sul dominio da cui
+       stai leggendo. */
+    try { out[lang] = new URL(l.getAttribute('href'), location.href).pathname; }
+    catch { out[lang] = l.getAttribute('href'); }
   });
   return out;
 }
