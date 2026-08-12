@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>21 · TALLER — inventa tu algoritmo — Quantum Arcade</title>
+<meta name="description" content="Un cajón de arena creativo: monta tuberías cuánticas con bloques (Hadamard, oráculo, QFT, difusor), afronta retos con funciones secretas e intenta resolverlos con las menos interrogaciones posibles.">
+<link rel="canonical" href="https://quantumarcade.it/es/lecciones/22-taller.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/22-officina.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/22-workshop.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/22-taller.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/22-officina.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { officina } from '../../js/widgets/officina.js';
+
+const L = renderLesson({
+  id: '22-officina',
+  lead: `Hasta aquí has <b>recorrido</b> algoritmos inventados por otros. Ahora te toca a ti: aquí no hay una solución escrita
+         en ninguna parte. Tienes bloques, tienes retos con una función secreta dentro, y un contador que mide
+         lo listo que has sido. <b>Este nivel no se "termina": se mejora.</b>`,
+
+  steps: [
+    {
+      t: 'La paleta del inventor',
+      html: `<p>Todo algoritmo cuántico que has visto está hecho de los mismos cuatro tiempos:</p>
+             <div class="formula" style="font-size:15px">
+               <span class="hl-n">pon todo en juego</span> → <span class="hl-k">escribe la información en las fases</span>
+               → <span class="hl-N">haz interferir</span> → <span class="hl-x">mide</span>
+             </div>
+             <table class="table">
+               <tr><th>Bloque</th><th>Qué hace</th><th>Dónde lo has visto</th></tr>
+               <tr><td><b>H sobre todos</b></td><td>todas las posibilidades con la misma amplitud</td><td>niveles 3, 9, 10, 11</td></tr>
+               <tr><td><b>❓ ORÁCULO</b></td><td>lo único que "sabe" la respuesta. <b>Cada uso cuenta como una pregunta</b></td><td>niveles 9, 10, 11</td></tr>
+               <tr><td><b>📢 Difusor</b></td><td>refleja alrededor de la media: amplifica lo que el oráculo ha marcado</td><td>nivel 11 (Grover)</td></tr>
+               <tr><td><b>QFT / QFT†</b></td><td>convierte periodicidad en picos (y viceversa)</td><td>niveles 18, 19, 20</td></tr>
+               <tr><td><b>− sobre |0…0⟩</b> y <b>X sobre todos</b></td><td>ladrillos para construir difusores distintos</td><td>—</td></tr>
+             </table>
+             <div class="callout key"><b>Regla del juego:</b> gana quien resuelve el reto con <b>menos interrogaciones
+             del oráculo</b>. No cuenta cuántas puertas uses: cuenta cuántas veces preguntas. Es exactamente el criterio con el que
+             se miden los algoritmos en la investigación de verdad (<i>query complexity</i>).</div>`,
+    },
+    {
+      t: 'El taller',
+      html: `<p>Elige un reto, construye la tubería, pulsa <b>LANZA</b>, mira el histograma e intenta dar la respuesta.
+             Si te equivocas no pasa nada: cambia la tubería y vuelve a probar.</p>
+             <p><b>Los cuatro retos</b> (y tu objetivo mínimo):</p>
+             <ul>
+               <li><b>¿Constante o equilibrada?</b> — objetivo: <b>1 interrogación</b>.</li>
+               <li><b>La cadena secreta</b> — objetivo: <b>1 interrogación</b>.</li>
+               <li><b>Encuentra la aguja</b> — objetivo: <b>2 interrogaciones</b> con N = 8 (Grover óptimo).</li>
+               <li><b>Encuentra el periodo</b> — objetivo: <b>1 interrogación</b> + la transformada adecuada.</li>
+             </ul>`,
+      mount: (el, api) => {
+        const m1 = api.mission({ key: 'solve1', title: 'Primera victoria', text: 'resuelve un reto cualquiera.', xp: 60 });
+        const m2 = api.mission({ key: 'solve-eff', title: 'Con una sola pregunta', text: 'resuelve un reto usando UNA sola interrogación del oráculo.', xp: 90 });
+        el.append(m1.root, m2.root);
+        officina(el, {
+          n: 3,
+          onSolve: ({ queries }) => { m1.complete(); if (queries <= 1) m2.complete(); },
+        });
+      },
+      after: `<div class="callout"><b>Si las barras salen todas iguales tras el lanzamiento</b>, quiere decir que has puesto todo en juego
+              y has interrogado al oráculo, pero no has hecho <b>interferir</b> nada: la medida te dará un resultado al azar.
+              Falta el tercer tiempo. Prueba a añadir H sobre todos (o una QFT) <b>después</b> del oráculo.</div>`,
+    },
+    {
+      t: 'Cómo se inventa de verdad un algoritmo cuántico',
+      html: `<p>No existe una receta, pero existe un <b>método</b> que los investigadores usan de verdad. Pruébalo aquí dentro:</p>
+             <ol>
+               <li><b>Pregúntate qué estructura tiene el problema.</b> ¿Periódica? ¿Lineal? ¿Ninguna estructura?
+                   Sin estructura, lo máximo que se puede obtener es Grover (√N): está demostrado.</li>
+               <li><b>Encuentra una manera de escribir esa estructura en las fases.</b> Es el papel del oráculo:
+                   convierte "qué x me interesa" en "qué x tienen un signo distinto".</li>
+               <li><b>Encuentra la transformación que hace visible esa estructura.</b>
+                   Hadamard si la estructura es lineal (Bernstein–Vazirani), QFT si es periódica (Shor),
+                   difusor si es un único elemento marcado (Grover).</li>
+               <li><b>Cuenta las interrogaciones y la profundidad.</b> Si tu algoritmo usa 1000 puertas para ahorrarse
+                   una pregunta, en hardware real has perdido.</li>
+               <li><b>Intenta batirlo clásicamente.</b> La mitad de las "ventajas cuánticas" anunciadas han caído así.
+                   Si no consigues batirlo, quizá tengas algo.</li>
+             </ol>
+             <div class="callout think"><b>Retos abiertos para probar aquí dentro</b> (ninguno tiene una solución escrita en el sitio):
+             <ol style="margin:8px 0 0">
+               <li>En el reto del <b>periodo</b>, la QFT tras el oráculo funciona. Pero ¿hace falta de verdad <b>toda</b> la QFT,
+                   o basta con algo más sencillo cuando r es una potencia de 2?</li>
+               <li>En el reto de la <b>aguja</b>: ¿qué pasa si aplicas <b>dos</b> oráculos seguidos sin difusor en medio?
+                   ¿Y si pones el difusor <b>antes</b> del oráculo?</li>
+               <li>¿Consigues construir una tubería que resuelva <b>dos retos distintos</b> sin modificarla?</li>
+               <li>Diseña una tubería que, en vez de dar la respuesta segura, la dé con un 70% de probabilidad
+                   pero usando <b>menos</b> interrogaciones. ¿Es un compromiso aceptable? ¿Cuándo?</li>
+               <li>Inventa un <b>quinto reto</b> que te gustaría que existiera, y pregúntate qué bloque te falta
+                   para resolverlo. Ese bloque que falta es, muy probablemente, un algoritmo nuevo.</li>
+             </ol></div>`,
+    },
+    {
+      t: 'Tu cuaderno',
+      html: `<p>Los algoritmos no salen al primer intento. Lleva la cuenta de lo que has probado — aunque sea solo en papel —
+             con tres columnas: <b>tubería</b>, <b>interrogaciones usadas</b>, <b>qué he observado</b>.
+             El "qué he observado" es la columna que cuenta: ahí es donde se ven los patrones.</p>
+             <div class="callout ok"><b>Un consejo de quien programa:</b> cuando una tubería hace algo inesperado,
+             <b>no la borres</b>. Primero entiende <i>por qué</i> ha hecho eso. La mitad de los descubrimientos científicos han
+             empezado con un "qué raro, no tenía que pasar".</div>
+             <p class="dim small">Si encuentras algo interesante, escríbemelo: las mejores tuberías de los jugadores
+             acabarán en una sección dedicada de este sitio, con el nombre de quien las ha encontrado.</p>`,
+    },
+  ],
+
+  quiz: [
+    { q: '¿Cuál es la estructura común a todos los algoritmos cuánticos vistos en el curso?',
+      options: ['medida → puerta → medida', 'superposición → oráculo (fases) → interferencia → medida', 'copia → comparación → elección', 'entrelazamiento → teletransporte'], correct: 1,
+      why: 'Solo cambia el tercer tiempo: Hadamard para estructuras lineales, QFT para estructuras periódicas, difusor para un elemento marcado.' },
+    { q: 'Si tras el oráculo todas las probabilidades siguen iguales, ¿qué falta?',
+      options: ['más cúbits', 'una transformación que haga interferir las amplitudes', 'más interrogaciones', 'nada, así está bien'], correct: 1,
+      why: 'El oráculo escribe en las fases, que son invisibles a la medida. Sin un paso de interferencia (H, QFT, difusor) el resultado es aleatorio.' },
+    { q: 'Para un problema sin ninguna estructura, la máxima ventaja cuántica alcanzable es…',
+      options: ['exponencial', 'cuadrática (Grover)', 'ninguna', 'infinita'], correct: 1,
+      why: 'Es un límite demostrado: sin estructura que aprovechar, ni siquiera un ordenador cuántico puede hacer mejor que unas √N interrogaciones.' },
+  ],
+
+  outro: `<div class="callout ok"><b>No hay un "completado" para este nivel, y está bien así.</b>
+          Vuelve por aquí cada vez que se te ocurra una idea. Quedan dos etapas: el <b>glosario</b> con el mapa completo
+          de todo el recorrido, y el <b>examen final</b> con el certificado.</div>`,
+});
+</script>
+</body>
+</html>
