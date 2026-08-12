@@ -243,6 +243,12 @@ php artisan package:discover
 `tools/messa-online.sh` lo fa già in questo modo, quindi se usi lo script non incontri
 il problema. `php artisan sito:controlla` segnala in giallo quando `proc_open` è disattivato.
 
+Lo stesso `proc_open` mancante colpiva anche il **tutor**: Neuron AI manda le sue tracce
+a Inspector in un processo separato, e ogni domanda finiva in errore 500 con
+`PHP function 'proc_open' is not available` (anche senza Inspector configurato).
+`ChatServiceProvider` ora, dove `proc_open` non c'è, impone a Inspector il trasporto
+`sync`: non serve toccare il `.env`.
+
 ### Se non hai accesso SSH (piani base)
 
 `composer install` va lanciato in locale e la cartella `vendor/` caricata insieme al resto;

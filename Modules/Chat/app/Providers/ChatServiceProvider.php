@@ -37,6 +37,39 @@ class ChatServiceProvider extends ModuleServiceProvider
         RouteServiceProvider::class,
     ];
 
+    public function register(): void
+    {
+        parent::register();
+
+        $this->tracciamentoSenzaProcOpen();
+    }
+
+    /**
+     * Neuron AI manda le sue tracce a Inspector, e lo fa in un processo separato
+     * (proc_open) per non rallentare la risposta. Sugli hosting condivisi
+     * proc_open è quasi sempre disattivato: il trasporto asincrono non si riesce
+     * nemmeno a costruire e la prima domanda al tutor muore con
+     * "PHP function 'proc_open' is not available" — anche a chi Inspector non lo
+     * usa affatto, perché l'osservatore predefinito viene creato comunque.
+     *
+     * Qui diciamo a Inspector di usare il trasporto "sync" (cURL, che c'è
+     * sempre). Senza INSPECTOR_INGESTION_KEY non parte nessuna richiesta: la
+     * libreria raccoglie e spedisce solo se una chiave c'è. Dove proc_open
+     * esiste non tocchiamo niente, così il tracciamento resta asincrono.
+     *
+     * La configurazione si legge da $_ENV: è l'unica fonte che
+     * InspectorObserver::instance() guarda, quindi env() o config() non
+     * basterebbero.
+     */
+    private function tracciamentoSenzaProcOpen(): void
+    {
+        if (function_exists('proc_open')) {
+            return;
+        }
+
+        $_ENV['INSPECTOR_TRANSPORT'] = 'sync';
+    }
+
     /**
      * Define module schedules.
      * 

@@ -148,6 +148,41 @@ class ChatTest extends TestCase
         $this->artisan('chat:report')->expectsOutputToContain('nessuna, per ora')->assertSuccessful();
     }
 
+    /**
+     * Sugli hosting condivisi proc_open è quasi sempre disattivato. Neuron AI
+     * manda le sue tracce a Inspector in un processo separato, e senza proc_open
+     * la prima domanda al tutor moriva con "PHP function 'proc_open' is not
+     * available" — anche senza aver mai configurato Inspector.
+     *
+     * Una funzione non si può disattivare a runtime: il collaudo gira in un PHP
+     * a parte, avviato com'è sul server dell'hosting.
+     */
+    public function test_il_tutor_parte_anche_dove_proc_open_e_disattivato(): void
+    {
+        if ($this->phpSenzaProcOpen('echo (int) function_exists("proc_open");') !== '0') {
+            $this->markTestSkipped('questo PHP non applica -d disable_functions');
+        }
+
+        $uscita = $this->phpSenzaProcOpen(
+            'require ' . var_export(base_path('vendor/autoload.php'), true) . ';'
+            . '$app = require ' . var_export(base_path('bootstrap/app.php'), true) . ';'
+            . '$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();'
+            . 'NeuronAI\Observability\EventBus::emit("una-domanda", new stdClass());'
+            . 'echo "vivo";'
+        );
+
+        $this->assertStringNotContainsString('proc_open', $uscita);
+        $this->assertStringContainsString('vivo', $uscita, "l'agente è morto all'avvio: {$uscita}");
+    }
+
+    /** Esegue del codice in un PHP senza proc_open e restituisce quello che stampa. */
+    private function phpSenzaProcOpen(string $codice): string
+    {
+        return trim((string) shell_exec(
+            escapeshellarg(PHP_BINARY) . ' -d disable_functions=proc_open -r ' . escapeshellarg($codice) . ' 2>&1'
+        ));
+    }
+
     /* ---------------- il giro completo, con un tutor finto ---------------- */
 
     private function tutorFinto(string $risposta): void
