@@ -77,6 +77,26 @@ class ControllaInstallazione extends Command
 
     private function controllaChiaveEAmbiente(bool $produzione): void
     {
+        // Trappola classica degli hosting condivisi: la riga di comando e il sito
+        // usano DUE versioni di PHP diverse. Composer installa le dipendenze
+        // guardando quella della riga di comando; se il sito ne ha una più
+        // vecchia, ogni pagina PHP risponde 500 con un messaggio che parla di
+        // Composer e non dice dove si cambia la versione.
+        $richiesta = $this->versioneRichiestaDalleDipendenze();
+
+        if ($richiesta !== null) {
+            // Verde quando la riga di comando basta: un avviso permanente
+            // diventerebbe rumore, e il rumore si smette di leggerlo.
+            $this->esito(
+                version_compare(PHP_VERSION, $richiesta, '>=') ? 'ok' : 'errore',
+                "Le dipendenze installate richiedono PHP >= {$richiesta} — controlla che anche il SITO usi questa versione",
+                'Questo controllo gira da riga di comando (PHP ' . PHP_VERSION . '), ma il SITO può usare '
+                . 'una versione diversa: si imposta nel pannello dell\'hosting. Se è più vecchia, ogni pagina '
+                . 'dinamica risponde 500 dicendo "Your Composer dependencies require a PHP version". '
+                . 'Allinea la versione del sito a quella della riga di comando.',
+            );
+        }
+
         // Sugli hosting condivisi proc_open è quasi sempre disattivato: non è un
         // guaio per il sito, ma fa fallire gli script di Composer. Meglio dirlo
         // prima che scoprirlo da un messaggio di errore incomprensibile.
@@ -110,6 +130,24 @@ class ControllaInstallazione extends Command
                 . 'Online va sempre false.',
             );
         }
+    }
+
+    /**
+     * Versione di PHP pretesa dai pacchetti installati, letta dal controllo che
+     * Composer stesso genera in vendor/composer/platform_check.php.
+     */
+    private function versioneRichiestaDalleDipendenze(): ?string
+    {
+        $file = base_path('vendor/composer/platform_check.php');
+
+        if (! is_readable($file)) {
+            return null;
+        }
+        if (! preg_match('/PHP_VERSION_ID\s*>=\s*(\d)(\d{2})(\d{2})/', (string) file_get_contents($file), $m)) {
+            return null;
+        }
+
+        return sprintf('%d.%d.%d', $m[1], (int) $m[2], (int) $m[3]);
     }
 
     private function controllaCartelle(): void

@@ -92,6 +92,66 @@ class ControllaInstallazioneTest extends TestCase
             ->assertSuccessful();
     }
 
+    public function test_avvisa_sulla_versione_di_php_pretesa_dalle_dipendenze(): void
+    {
+        $this->serverPerfetto();
+
+        // il file lo genera Composer: se c'è, il comando deve leggerlo e spiegare
+        // che la versione del SITO può essere diversa da quella della riga di comando
+        if (is_readable(base_path('vendor/composer/platform_check.php'))) {
+            $this->artisan('sito:controlla')
+                ->expectsOutputToContain('Le dipendenze installate richiedono PHP')
+                ->assertSuccessful();
+        } else {
+            $this->markTestSkipped('vendor/composer/platform_check.php non presente');
+        }
+    }
+
+    public function test_senza_il_controllo_di_composer_non_dice_niente_sulla_versione(): void
+    {
+        $this->serverPerfetto();
+
+        $vero = base_path('vendor/composer/platform_check.php');
+        $copia = $vero . '.spostato';
+        $c_era = is_readable($vero);
+
+        if ($c_era) {
+            rename($vero, $copia);
+        }
+
+        try {
+            $this->artisan('sito:controlla')
+                ->doesntExpectOutputToContain('Le dipendenze installate richiedono PHP')
+                ->assertSuccessful();
+        } finally {
+            if ($c_era) {
+                rename($copia, $vero);
+            }
+        }
+    }
+
+    public function test_se_il_controllo_di_composer_ha_un_formato_inatteso_non_inventa_niente(): void
+    {
+        $this->serverPerfetto();
+
+        $file = base_path('vendor/composer/platform_check.php');
+        if (! is_readable($file)) {
+            $this->markTestSkipped('vendor/composer/platform_check.php non presente');
+        }
+
+        $originale = file_get_contents($file);
+        file_put_contents($file, "<?php\n// niente che assomigli a un vincolo di versione\n");
+
+        try {
+            // meglio tacere che stampare una versione inventata
+            $this->artisan('sito:controlla')
+                ->doesntExpectOutputToContain('Le dipendenze installate richiedono PHP')
+                ->assertSuccessful();
+        } finally {
+            file_put_contents($file, $originale);
+        }
+    }
+
     public function test_si_accorge_se_mancano_le_tabelle(): void
     {
         $this->serverPerfetto();
