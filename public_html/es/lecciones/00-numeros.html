@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0·1 · Números — Quantum Arcade</title>
+<meta name="description" content="Números negativos, dobles y mitades, fracciones y porcentajes, potencias de 2 y raíz cuadrada: las bases matemáticas para la computación cuántica, explicadas jugando.">
+<link rel="canonical" href="https://quantumarcade.it/es/lecciones/00-numeros.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-numeri.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-numbers.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/00-numeros.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/00-numeri.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { numberLine, percentLab, squareRootLab, powersLab } from '../../js/widgets/basicmath.js';
+
+const L = renderLesson({
+  id: '00-numeri',
+  lead: `Este nivel sirve para una sola cosa: que llegues al resto del curso sin tener que decir nunca
+         "ya, pero eso no lo di en el colegio". Son cuatro juegos. Si los superas, tienes <b>todas</b> las matemáticas
+         que hacen falta para entender los cúbits.`,
+
+  steps: [
+    {
+      t: 'Números por encima y por debajo del cero',
+      html: `<p>La <b>recta numérica</b> es un camino recto con el cero en medio. A la derecha los números positivos
+             (1, 2, 3…), a la izquierda los <b>negativos</b> (−1, −2, −3…). Un número negativo no es "menos que nada":
+             es la misma distancia al cero, pero <b>del otro lado</b>.</p>
+             <p>En el juego tienes cinco movimientos: +1, −1, ×2 (doble), ÷2 (mitad) y ×(−1), que te da la vuelta al otro lado.
+             Intenta llegar al objetivo con el menor número de movimientos.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'linea', title: 'Tiro al blanco', text: 'llega a un objetivo en la recta numérica.', xp: 20 });
+        el.appendChild(m.root);
+        numberLine(el, { onWin: () => m.complete() });
+      },
+      after: `<div class="callout key"><b>Para tener en cuenta más adelante:</b> multiplicar por <b>−1</b> quiere decir
+              "vete al lado contrario". Dentro de unos niveles descubrirás que, para una <b>flecha</b>, multiplicar por −1
+              significa <b>girarla media vuelta</b>. Es exactamente la misma idea.</div>`,
+    },
+    {
+      t: 'Mitad, un cuarto, 50%: tres maneras de decir lo mismo',
+      html: `<p>Una <b>fracción</b> como 3/4 quiere decir "divide en 4 partes iguales y toma 3".
+             Un <b>decimal</b> como 0,75 es el mismo número escrito con coma.
+             Un <b>porcentaje</b> como 75% es otra vez el mismo número, referido a 100.</p>
+             <table class="table">
+               <tr><th>Fracción</th><th>Decimal</th><th>Porcentaje</th><th>En palabras</th></tr>
+               <tr><td class="mono">1/2</td><td class="mono">0,5</td><td class="mono">50%</td><td>mitad</td></tr>
+               <tr><td class="mono">1/4</td><td class="mono">0,25</td><td class="mono">25%</td><td>un cuarto</td></tr>
+               <tr><td class="mono">3/4</td><td class="mono">0,75</td><td class="mono">75%</td><td>tres cuartos</td></tr>
+               <tr><td class="mono">1/1</td><td class="mono">1</td><td class="mono">100%</td><td>todo</td></tr>
+             </table>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'perc', title: 'El pastelero preciso', text: 'acierta dos objetivos distintos con el deslizador.', xp: 20 });
+        el.appendChild(m.root);
+        percentLab(el, { onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'El cuadrado y la raíz (hace falta DE VERDAD, no es un capricho)',
+      html: `<p>"Elevar al cuadrado" quiere decir multiplicar un número por sí mismo: 3² = 3×3 = 9.
+             La <b>raíz cuadrada</b> hace la pregunta inversa: "¿qué número multiplicado por sí mismo da 9?" → √9 = 3.</p>
+             <p>La manera más fácil de verlo es un cuadrado dibujado: el <b>lado</b> es el número, el <b>área</b> es su cuadrado.</p>
+             <div class="callout warn"><b>Lo raro que tienes que ver con tus propios ojos:</b> si el lado es <b>menor que 1</b>,
+             ¡el área es <b>todavía más pequeña</b>! 0,5 × 0,5 = 0,25. Mueve el deslizador y compruébalo: es contraintuitivo,
+             pero será utilísimo, porque en el mundo cuántico las "amplitudes" son casi siempre menores que 1.</div>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'radice', title: 'El lado correcto', text: 'encuentra el lado que produce cierta área (es decir, calcula una raíz cuadrada).', xp: 25 });
+        el.appendChild(m.root);
+        squareRootLab(el, { onWin: () => m.complete() });
+      },
+      after: `<div class="callout key"><b>Adelanto:</b> en el resto del curso te encontrarás muchísimas veces el número
+              <b>1/√2 ≈ 0,707</b>. ¿Por qué? Porque su cuadrado da exactamente <b>0,5</b>, es decir el 50%.
+              Es el número que describe un cúbit "a medio camino entre 0 y 1".</div>`,
+    },
+    {
+      t: 'Duplica, duplica, duplica: las potencias de 2',
+      html: `<p>Hay una leyenda: un rey promete a un inventor un grano de arroz en la primera casilla del tablero,
+             dos en la segunda, cuatro en la tercera, y así duplicando. Parece poco. En la casilla 64 harían falta
+             más granos de los que existen en la Tierra.</p>
+             <p>Esa duplicación se escribe <b>2^n</b> ("dos elevado a n") y quiere decir "multiplica 2 por sí mismo n veces".</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'pow', title: 'Hasta un millón', text: 'lleva el deslizador a n = 20 y mira en cuántos valores se convierte.', xp: 20 });
+        el.appendChild(m.root);
+        powersLab(el, { onWin: () => m.complete() });
+      },
+      after: `<div class="callout ok"><b>Por qué es el número más importante del curso:</b> con <b>n cúbits</b> el estado del sistema
+              lo describen <b>2^n números</b> todos juntos. 10 cúbits → 1.024 números. 50 cúbits → más de un billón.
+              Toda la potencia (y toda la dificultad) de la computación cuántica nace de esa línea.</div>`,
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> En el juego de la recta: partiendo de 1, ¿cuál es el menor número de movimientos para llegar a −8?</p>
+        <p><b>2.</b> ¿Cuál es el lado de un cuadrado de área 0,49? ¿Y de área 1? <span class="muted">(la segunda es una trampa simpática)</span></p>
+        <p><b>3.</b> ¿Cuántas veces tienes que duplicar 1 para pasar de 1.000? ¿Y para pasar de 1.000.000?</p>
+        <p class="mb0"><b>4.</b> Si 1/√2 al cuadrado da 0,5, ¿cuánto da (1/√2) + (1/√2)? ¿Es mayor o menor que 1?
+        <span class="muted">(sorpresa: da alrededor de 1,41. Las amplitudes se suman de forma distinta a las probabilidades — lo notarás en el nivel 1.)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: '¿Cuánto da 0,5 × 0,5?', options: ['1', '0,25', '0,5', '2,5'], correct: 1,
+      why: 'Multiplicando dos números menores que 1 el resultado es todavía más pequeño: 0,25, es decir el 25%.' },
+    { q: '¿A qué porcentaje corresponde 3/4?', options: ['34%', '43%', '75%', '30%'], correct: 2,
+      why: '3 dividido entre 4 da 0,75, es decir 75 partes de 100 = 75%.' },
+    { q: 'Con 8 cúbits, ¿cuántos estados distintos se pueden describir a la vez?', options: ['8', '16', '64', '256'], correct: 3,
+      why: '2^8 = 256. Cada cúbit de más <b>duplica</b> el número de amplitudes.' },
+    { q: '¿Qué quiere decir multiplicar un número por −1?', options: ['reducirlo a la mitad', 'anularlo', 'mandarlo al lado contrario respecto al cero', 'elevarlo al cuadrado'], correct: 2,
+      why: 'Cambia solo la dirección, no la distancia al cero. Para una flecha, será una rotación de 180°.' },
+  ],
+
+  outro: `<div class="callout ok"><b>¡Hecho!</b> Ya tienes números negativos, porcentajes, cuadrados, raíces y potencias de 2.
+          En el nivel siguiente añadimos dos cosas: las <b>coordenadas</b> (para decir dónde está un punto) y los <b>grados</b>
+          (para decir cuánto ha girado una flecha).</div>`,
+});
+</script>
+</body>
+</html>
