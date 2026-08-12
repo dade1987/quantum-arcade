@@ -11,7 +11,8 @@
    4. struttura minima dell'HTML: tag bilanciati, head completo,
       link a css/js esistenti, attributi obbligatori
    5. coerenza con levels.js: ogni livello ha il suo file e viceversa,
-      e l'id dichiarato nella pagina è quello giusto
+      l'id dichiarato nella pagina è quello giusto, e il numero di livelli
+      scritto nei testi (home, README, attestato) è quello vero
    6. sintassi dei file Python e degli SVG/JSON
    ============================================================ */
 
@@ -186,6 +187,61 @@ for (const n of lessonFiles) {
   else ok();
 }
 console.log(`  → ${declared.length} livelli dichiarati, ${lessonFiles.length} file presenti`);
+
+/* ---------- 5b. il numero di livelli scritto a parole nei testi ----------
+   Il controllo sopra guarda solo levels.js e i file delle lezioni. Ma il
+   conteggio è anche SCRITTO, in una dozzina di punti: meta description, titolo
+   della home, README, schermata di premiazione dell'esame e — quello che conta
+   davvero — l'attestato e la sua pagina pubblica di verifica.
+
+   Quei numeri erano rimasti a 27 dopo l'aggiunta del livello 12: lo studente si
+   ritrovava un PDF che diceva 27 e un sito che diceva 28. Chi verifica
+   l'attestato di qualcun altro trova due numeri diversi e smette di fidarsi di
+   entrambi, che è esattamente il contrario di quello che serve a un attestato.
+   Da qui in poi il numero scritto deve combaciare con LEVELS, ovunque. */
+const N_LIVELLI = declared.length;
+const A_PAROLE = {
+  20: 'venti', 21: 'ventuno', 22: 'ventidue', 23: 'ventitré', 24: 'ventiquattro',
+  25: 'venticinque', 26: 'ventisei', 27: 'ventisette', 28: 'ventotto',
+  29: 'ventinove', 30: 'trenta', 31: 'trentuno', 32: 'trentadue',
+};
+const PAROLA_GIUSTA = A_PAROLE[N_LIVELLI];
+const testi = [
+  ...htmlFiles,
+  ...jsFiles,
+  join(ROOT, 'README.md'),
+  ...(existsSync(join(ROOT, 'Modules')) ? walk(join(ROOT, 'Modules'), n => n.endsWith('.php')) : []),
+].filter(existsSync);
+
+for (const f of testi) {
+  const src = readFileSync(f, 'utf8');
+  let m;
+  const cifre = /(\d+)\s+livelli\b/g;
+  while ((m = cifre.exec(src))) {
+    // "livelli" non parla sempre del corso: la lezione sulla FFT dice "log₂8 = 3
+    // livelli" di ricorsione. Sotto la decina non è mai un conteggio del corso,
+    // e sopra non è mai altro — la soglia separa i due usi senza casi ambigui.
+    if (Number(m[1]) < 10) continue;
+    if (Number(m[1]) === N_LIVELLI) ok();
+    else err(rel(f), `dice "${m[1]} livelli" ma in levels.js ce ne sono ${N_LIVELLI}`);
+  }
+  const parole = new RegExp(`\\b(${Object.values(A_PAROLE).join('|')})\\s+livelli\\b`, 'gi');
+  while ((m = parole.exec(src))) {
+    if (m[1].toLowerCase() === PAROLA_GIUSTA) ok();
+    else err(rel(f), `dice "${m[1]} livelli" ma in levels.js ce ne sono ${N_LIVELLI} ("${PAROLA_GIUSTA}")`);
+  }
+}
+
+/* Il PHP non legge levels.js: si tiene la sua copia del numero in
+   Modules/Certificates/config/config.php, ed è quella che finisce stampata
+   sull'attestato. Qui si controlla che la copia non sia rimasta indietro. */
+const certCfg = join(ROOT, 'Modules/Certificates/config/config.php');
+if (existsSync(certCfg)) {
+  const m = readFileSync(certCfg, 'utf8').match(/'levels_count'\s*=>\s*(\d+)/);
+  if (!m) err(rel(certCfg), "manca 'levels_count': l'attestato non sa quanti livelli ha il corso");
+  else if (Number(m[1]) !== N_LIVELLI) err(rel(certCfg), `levels_count = ${m[1]} ma in levels.js ce ne sono ${N_LIVELLI}`);
+  else ok();
+}
 
 /* ---------- 6. Backend PHP ---------- */
 console.log('\n[6] Backend PHP (Laravel + moduli)');

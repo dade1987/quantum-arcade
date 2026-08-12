@@ -28,6 +28,19 @@ return [
     // Versione del corso, stampata sull'attestato
     'course_version' => '1.0',
 
+    /*
+     * Quanti livelli ha il corso. È scritto sull'attestato, sul PDF e sulla
+     * pagina pubblica di verifica: se non combacia con quello che dice il sito,
+     * chi controlla l'attestato di qualcun altro trova due numeri diversi e non
+     * si fida più di nessuno dei due.
+     *
+     * La sorgente vera è l'elenco LEVELS in public_html/js/core/levels.js: qui
+     * c'è una copia perché il PHP quel file non lo legge. A tenerli allineati
+     * ci pensa `npm run validate`, che confronta i due numeri e si ferma se
+     * hanno preso strade diverse — è già successo aggiungendo il livello 12.
+     */
+    'levels_count' => 28,
+
     // Vero quando sul server c'è l'esame vero e non quello d'esempio:
     // lo usa `php artisan sito:controlla` per avvisare prima di aprire al pubblico.
     'questions_are_real' => file_exists($riservate),

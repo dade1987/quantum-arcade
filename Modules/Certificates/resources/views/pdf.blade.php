@@ -58,7 +58,7 @@
     @endif
 
     <div class="body">
-      ha completato il percorso <b>&laquo;Informatica quantistica giocando&raquo;</b>: 27 livelli interattivi
+      ha completato il percorso <b>&laquo;Informatica quantistica giocando&raquo;</b>: {{ config('certificates.levels_count') }} livelli interattivi
       che coprono onde e trasformata di Fourier, qubit e misura, porte quantistiche ed entanglement,
       no-cloning e teletrasporto, gli algoritmi di Deutsch&ndash;Jozsa, Bernstein&ndash;Vazirani e Grover,
       la trasformata di Fourier quantistica, la stima di fase e l'algoritmo di Shor.

@@ -35,7 +35,7 @@
       <div class="att-sub">Attestato di completamento del corso</div>
       <div class="att-name">{{ $certificate->holder_name }}</div>
       <p class="att-txt">
-        ha completato il percorso <b>“Informatica quantistica giocando”</b> — 27 livelli interattivi,
+        ha completato il percorso <b>“Informatica quantistica giocando”</b> — {{ config('certificates.levels_count') }} livelli interattivi,
         dalle basi matematiche fino alla trasformata di Fourier quantistica e all'algoritmo di Shor —
         superando l'esame finale con il <b>{{ $certificate->percent }}%</b> di risposte esatte.
       </p>
@@ -80,7 +80,7 @@
   <div class="grid-2">
     <div class="panel">
       <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Che cosa attesta</h3>
-      <p class="mb0 dim">Che la persona indicata ha completato un percorso strutturato di 27 livelli
+      <p class="mb0 dim">Che la persona indicata ha completato un percorso strutturato di {{ config('certificates.levels_count') }} livelli
       su onde, qubit, porte quantistiche, entanglement, algoritmi (Deutsch–Jozsa, Bernstein–Vazirani,
       Grover), QFT, stima di fase e algoritmo di Shor, e ha superato un esame a risposta multipla
       corretto dal server con almeno l'80%.</p>
