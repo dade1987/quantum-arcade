@@ -416,6 +416,10 @@ console.log('\n[9] Ortografia italiana');
 
   let refusi = 0;
   for (const f of walk(join(ROOT, 'public_html'), n => /\.(html|js|txt)$/.test(n))) {
+    // le regole valgono solo per l'italiano: «propio» è un refuso italiano ma
+    // «propio» spagnolo è corretto, e i dizionari contengono le frasi tradotte
+    if (linguaDi(rel(f)).code !== 'it') continue;
+    if (/\/js\/i18n\//.test(rel(f))) continue;
     // i tag si tolgono SENZA metterci uno spazio, sennò nascono finti errori
     const testo = readFileSync(f, 'utf8').replace(/<[^>]*>/g, '').replace(/https?:\/\/\S+/g, ' ');
     for (const [re, spiega] of REGOLE) {
