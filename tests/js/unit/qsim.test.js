@@ -159,6 +159,15 @@ describe('misura', () => {
     assert.ok(sample(s, () => 1) < 4);
   });
 
+  test('sample non restituisce mai un esito a probabilità zero, nemmeno con rnd = 0', () => {
+    // rnd() vive in [0, 1), quindi lo zero esce davvero: con un confronto largo
+    // (`r <= acc`) questo stato risponderebbe |00⟩, che ha ampiezza nulla.
+    const s = zeroState(2);
+    s.re[0] = 0; s.re[3] = 1;
+    assert.equal(sample(s, () => 0), 3);
+    assert.equal(sample(s, () => 0.5), 3);
+  });
+
   test('sample ricade sull\'ultimo indice se gli arrotondamenti non arrivano a 1', () => {
     // stato con probabilità che sommano appena meno di 1: il ramo di sicurezza
     const s = zeroState(2);

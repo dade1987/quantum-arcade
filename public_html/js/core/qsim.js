@@ -125,7 +125,11 @@ export function label(i, n) { return i.toString(2).padStart(n, '0'); }
 export function sample(st, rnd = Math.random) {
   const p = probs(st);
   let r = rnd(), acc = 0;
-  for (let i = 0; i < p.length; i++) { acc += p[i]; if (r <= acc) return i; }
+  // Confronto stretto, non `r <= acc`: rnd() vive in [0, 1), quindi con rnd() = 0
+  // il confronto largo restituirebbe il primo esito anche se ha probabilità zero
+  // — cioè un risultato che quello stato non può dare. Con `<` gli esiti a
+  // probabilità nulla non allargano l'intervallo e restano fuori.
+  for (let i = 0; i < p.length; i++) { acc += p[i]; if (r < acc) return i; }
   return p.length - 1;
 }
 
