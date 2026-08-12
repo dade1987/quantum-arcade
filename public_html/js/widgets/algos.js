@@ -15,13 +15,14 @@ import {
 } from '../core/qsim.js';
 import { ampsView, histogram } from './amps.js';
 import { sfx } from '../core/audio.js';
+import { t } from '../core/i18n.js';
 
 /* ------------------------------------------------------------
    DEUTSCH–JOZSA
    ------------------------------------------------------------ */
 export function deutschLab(host, opts = {}) {
   const cfg = Object.assign({ n: 3, onWin: null }, opts);
-  const w = widget(host, { title: 'Deutsch–Jozsa', subtitle: 'costante o bilanciata? Una sola domanda.' });
+  const w = widget(host, { title: 'Deutsch–Jozsa', subtitle: t('costante o bilanciata? Una sola domanda.') });
   const n = cfg.n, N = 1 << n;
   const st = { f: null, kind: '', classicalQueries: 0, revealed: false, quantumRun: false };
 
@@ -47,9 +48,9 @@ export function deutschLab(host, opts = {}) {
   const out = readout('');
 
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
-    h('button', { class: 'btn sm', onclick: () => classicalAsk() }, '🐌 chiedi 1 valore (modo classico)'),
-    h('button', { class: 'btn sm primary', onclick: () => quantumRun() }, '⚛️ chiedi UNA volta (modo quantistico)'),
-    h('button', { class: 'btn sm ghost', onclick: newOracle }, '🎲 nuova funzione segreta'),
+    h('button', { class: 'btn sm', onclick: () => classicalAsk() }, '🐌 ' + t('chiedi 1 valore (modo classico)')),
+    h('button', { class: 'btn sm primary', onclick: () => quantumRun() }, '⚛️ ' + t('chiedi UNA volta (modo quantistico)')),
+    h('button', { class: 'btn sm ghost', onclick: newOracle }, '🎲 ' + t('nuova funzione segreta')),
   ));
   w.body.appendChild(out.root);
 
@@ -78,27 +79,33 @@ export function deutschLab(host, opts = {}) {
 
   function upd() {
     const classicoSicuro = N / 2 + 1;
-    let msg = `Funzione segreta su <b>${N}</b> ingressi (${n} qubit).\n`;
+    /* «costante»/«bilanciata» sono dati, non testo: restano in italiano dentro
+       lo stato e si traducono solo al momento di scriverli. */
+    const nome = k => k === 'costante' ? t('costante') : t('bilanciata');
+    let msg = t('Funzione segreta su <b>:N</b> ingressi (:n qubit).', { N, n }) + '\n';
     if (st.seen && st.seen.length) {
-      msg += `Risposte classiche ottenute: ${st.seen.map(s => `f(${s.x})=${s.y}`).join(', ')}\n`;
+      msg += t('Risposte classiche ottenute: :elenco', { elenco: st.seen.map(s => `f(${s.x})=${s.y}`).join(', ') }) + '\n';
       const vals = new Set(st.seen.map(s => s.y));
       msg += vals.size > 1
-        ? `<span class="g">Con ${st.seen.length} domande hai già la risposta: BILANCIATA (hai visto sia 0 sia 1).</span>\n`
-        : `Finora tutte uguali: potrebbe essere costante, ma per esserne <b>sicuro</b> nel caso peggiore ti servono ${classicoSicuro} domande.\n`;
+        ? '<span class="g">' + t('Con :quante domande hai già la risposta: BILANCIATA (hai visto sia 0 sia 1).', { quante: st.seen.length }) + '</span>\n'
+        : t('Finora tutte uguali: potrebbe essere costante, ma per esserne <b>sicuro</b> nel caso peggiore ti servono :quante domande.', { quante: classicoSicuro }) + '\n';
     }
     if (st.quantumRun) {
-      msg += `\n<b>Modo quantistico — una sola interrogazione:</b>\n` +
-        `probabilità di misurare |${'0'.repeat(n)}⟩ = <b>${(probs(amps.state)[0] * 100).toFixed(1)}%</b>\n` +
-        `→ risposta: <span class="${st.result === 'costante' ? 'g' : 'a'}">${st.result.toUpperCase()}</span>` +
-        ` (la funzione era davvero <b>${st.kind}</b>) ${st.result === st.kind ? '✓' : '✗'}\n` +
-        `Regola di lettura: <b>tutto |0…0⟩ → costante</b>; <b>qualsiasi altra cosa → bilanciata</b>.`;
+      msg += '\n<b>' + t('Modo quantistico — una sola interrogazione:') + '</b>\n' +
+        t('probabilità di misurare |:zeri⟩ = <b>:percento%</b>', { zeri: '0'.repeat(n), percento: (probs(amps.state)[0] * 100).toFixed(1) }) + '\n' +
+        t('→ risposta: :risposta (la funzione era davvero <b>:vera</b>) :esito', {
+          risposta: `<span class="${st.result === 'costante' ? 'g' : 'a'}">${nome(st.result).toUpperCase()}</span>`,
+          vera: nome(st.kind),
+          esito: st.result === st.kind ? '✓' : '✗',
+        }) + '\n' +
+        t('Regola di lettura: <b>tutto |0…0⟩ → costante</b>; <b>qualsiasi altra cosa → bilanciata</b>.');
     } else {
-      msg += `\nPremi il bottone quantistico: una sola interrogazione basta, sempre.`;
+      msg += '\n' + t('Premi il bottone quantistico: una sola interrogazione basta, sempre.');
     }
     out.set(msg);
   }
   newOracle();
-  w.setFoot(`<b>Il confronto:</b> classicamente, nel caso peggiore, servono <b>${N / 2 + 1}</b> domande per esserne certi. Quantisticamente ne basta <b>1</b>. Non perché il computer "provi tutti i casi in parallelo e li legga", ma perché l'oracolo scrive la risposta nelle <b>fasi</b> e le Hadamard finali fanno cancellare tutto tranne l'informazione che ci interessa.`);
+  w.setFoot(t('<b>Il confronto:</b> classicamente, nel caso peggiore, servono <b>:quante</b> domande per esserne certi. Quantisticamente ne basta <b>1</b>. Non perché il computer "provi tutti i casi in parallelo e li legga", ma perché l\'oracolo scrive la risposta nelle <b>fasi</b> e le Hadamard finali fanno cancellare tutto tranne l\'informazione che ci interessa.', { quante: N / 2 + 1 }));
   return { state: st };
 }
 
@@ -107,7 +114,7 @@ export function deutschLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function bvLab(host, opts = {}) {
   const cfg = Object.assign({ n: 4, onWin: null }, opts);
-  const w = widget(host, { title: 'Bernstein–Vazirani', subtitle: 'trova la stringa segreta con UNA domanda' });
+  const w = widget(host, { title: 'Bernstein–Vazirani', subtitle: t('trova la stringa segreta con UNA domanda') });
   const n = cfg.n, N = 1 << n;
   const st = { s: 0, asked: 0, found: null };
 
@@ -119,9 +126,9 @@ export function bvLab(host, opts = {}) {
   const fx = attachFX(amps.stage);   // scintille, lampi e suono ai traguardi
   const out = readout('');
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
-    h('button', { class: 'btn sm', onclick: () => classicalAsk() }, '🐌 chiedi un bit alla volta'),
-    h('button', { class: 'btn sm primary', onclick: () => quantumRun() }, '⚛️ chiedi UNA volta'),
-    h('button', { class: 'btn sm ghost', onclick: newSecret }, '🎲 nuovo segreto'),
+    h('button', { class: 'btn sm', onclick: () => classicalAsk() }, '🐌 ' + t('chiedi un bit alla volta')),
+    h('button', { class: 'btn sm primary', onclick: () => quantumRun() }, '⚛️ ' + t('chiedi UNA volta')),
+    h('button', { class: 'btn sm ghost', onclick: newSecret }, '🎲 ' + t('nuovo segreto')),
   ));
   w.body.appendChild(out.root);
 
@@ -138,18 +145,18 @@ export function bvLab(host, opts = {}) {
   }
   function upd() {
     const bin = v => v.toString(2).padStart(n, '0');
-    let msg = `La funzione segreta è <b>f(x) = s·x mod 2</b> (quante posizioni hanno 1 in comune, pari o dispari).\n` +
-      `Il segreto <b>s</b> ha ${n} bit.\n`;
-    if (st.asked) msg += `Classicamente devi chiedere un bit alla volta: f(001), f(010), f(100)… → servono <b>${n}</b> domande. Ne hai fatte <b>${st.asked}</b>.\n`;
+    let msg = t('La funzione segreta è <b>f(x) = s·x mod 2</b> (quante posizioni hanno 1 in comune, pari o dispari).') + '\n' +
+      t('Il segreto <b>s</b> ha :n bit.', { n }) + '\n';
+    if (st.asked) msg += t('Classicamente devi chiedere un bit alla volta: f(001), f(010), f(100)… → servono <b>:quante</b> domande. Ne hai fatte <b>:fatte</b>.', { quante: n, fatte: st.asked }) + '\n';
     if (st.found !== null) {
-      msg += `\n<b>Con una sola interrogazione quantistica</b> il risultato è: <span class="g">|${bin(st.found)}⟩</span>\n` +
-        `Il segreto era <b>${bin(st.s)}</b> → ${st.found === st.s ? '<span class="g">ESATTO ✓</span>' : '✗'}\n` +
-        `Nota le barre: <b>una sola</b> è alta al 100%. Tutte le altre possibilità si sono cancellate a vicenda.`;
-    } else msg += `\nPremi il bottone quantistico e guarda cosa succede alle ampiezze.`;
+      msg += '\n<b>' + t('Con una sola interrogazione quantistica') + `</b> ` + t('il risultato è:') + ` <span class="g">|${bin(st.found)}⟩</span>\n` +
+        t('Il segreto era <b>:segreto</b> → :esito', { segreto: bin(st.s), esito: st.found === st.s ? '<span class="g">' + t('ESATTO') + ' ✓</span>' : '✗' }) + '\n' +
+        t('Nota le barre: <b>una sola</b> è alta al 100%. Tutte le altre possibilità si sono cancellate a vicenda.');
+    } else msg += '\n' + t('Premi il bottone quantistico e guarda cosa succede alle ampiezze.');
     out.set(msg);
   }
   newSecret();
-  w.setFoot('Perché funziona: dopo le prime Hadamard ogni possibilità x ha la stessa ampiezza. L\'oracolo mette un <b>meno</b> su quelle con parità dispari: è come "scrivere s nelle fasi". Le Hadamard finali trasformano quel disegno di segni in <b>un unico stato</b>, proprio s. È già un piccolo Fourier.');
+  w.setFoot(t('Perché funziona: dopo le prime Hadamard ogni possibilità x ha la stessa ampiezza. L\'oracolo mette un <b>meno</b> su quelle con parità dispari: è come "scrivere s nelle fasi". Le Hadamard finali trasformano quel disegno di segni in <b>un unico stato</b>, proprio s. È già un piccolo Fourier.'));
   return { state: st };
 }
 
@@ -158,7 +165,7 @@ export function bvLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function groverLab(host, opts = {}) {
   const cfg = Object.assign({ n: 4, onWin: null }, opts);
-  const w = widget(host, { title: 'Grover: la ricerca amplificata', subtitle: 'guarda la barra giusta crescere' });
+  const w = widget(host, { title: t('Grover: la ricerca amplificata'), subtitle: t('guarda la barra giusta crescere') });
   const n = cfg.n, N = 1 << n;
   const st = { marked: 5, iter: 0, s: null, best: 0 };
   const optimal = Math.round(Math.PI / 4 * Math.sqrt(N));
@@ -188,7 +195,7 @@ export function groverLab(host, opts = {}) {
     draw(ctx, s) {
       bg(ctx, s);
       const rect = { x: 34, y: 18, w: s.w - 48, h: s.h - 46 };
-      text(ctx, 'probabilità di trovare l\'elemento giusto, iterazione per iterazione', rect.x, 10, { size: 10.5, color: '#7f8fb3' });
+      text(ctx, t("probabilità di trovare l'elemento giusto, iterazione per iterazione"), rect.x, 10, { size: 10.5, color: '#7f8fb3' });
       ctx.strokeStyle = COL.axis; ctx.beginPath();
       ctx.moveTo(rect.x, rect.y + rect.h); ctx.lineTo(rect.x + rect.w, rect.y + rect.h);
       ctx.moveTo(rect.x, rect.y); ctx.lineTo(rect.x, rect.y + rect.h); ctx.stroke();
@@ -205,7 +212,7 @@ export function groverLab(host, opts = {}) {
       const xo = rect.x + (optimal / maxIt) * rect.w;
       ctx.strokeStyle = COL.green; ctx.setLineDash([4, 4]);
       ctx.beginPath(); ctx.moveTo(xo, rect.y); ctx.lineTo(xo, rect.y + rect.h); ctx.stroke(); ctx.setLineDash([]);
-      text(ctx, `ottimo ≈ ${optimal}`, xo + 5, rect.y + 10, { size: 10.5, color: COL.green });
+      text(ctx, t('ottimo ≈ :quante', { quante: optimal }), xo + 5, rect.y + 10, { size: 10.5, color: COL.green });
       // posizione attuale
       const p = probs(st.s)[st.marked];
       const xc = rect.x + (st.iter / maxIt) * rect.w, yc = rect.y + rect.h - p * rect.h;
@@ -213,19 +220,19 @@ export function groverLab(host, opts = {}) {
       text(ctx, `${(p * 100).toFixed(1)}%`, xc + 8, yc - 8, { size: 11, color: COL.amber });
       text(ctx, '100%', 4, rect.y, { size: 9.5, color: '#5b6b90' });
       text(ctx, '0', 12, rect.y + rect.h, { size: 9.5, color: '#5b6b90' });
-      text(ctx, 'iterazioni →', rect.x + rect.w, rect.y + rect.h + 14, { size: 10, align: 'right', color: '#5b6b90' });
+      text(ctx, t('iterazioni') + ' →', rect.x + rect.w, rect.y + rect.h + 14, { size: 10, align: 'right', color: '#5b6b90' });
     },
   });
   curve.pause();
 
   const out = readout('');
-  const sm = slider({ label: 'Elemento da trovare', min: 0, max: N - 1, step: 1, value: st.marked, fmt: v => `|${v.toString(2).padStart(n, '0')}⟩`, oninput: v => { st.marked = v; reset(); } });
+  const sm = slider({ label: t('Elemento da trovare'), min: 0, max: N - 1, step: 1, value: st.marked, fmt: v => `|${v.toString(2).padStart(n, '0')}⟩`, oninput: v => { st.marked = v; reset(); } });
   w.body.appendChild(controls(sm.root));
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
-    h('button', { class: 'btn sm primary', onclick: step }, '▶ una iterazione di Grover'),
-    h('button', { class: 'btn sm', onclick: () => { for (let i = 0; i < optimal; i++) step(); } }, `⏩ vai all'ottimo (${optimal})`),
-    h('button', { class: 'btn sm', onclick: reset }, '↺ ricomincia'),
-    h('button', { class: 'btn sm ghost', onclick: () => { for (let i = 0; i < 3; i++) step(); } }, '+3 iterazioni (guarda cosa succede)'),
+    h('button', { class: 'btn sm primary', onclick: step }, '▶ ' + t('una iterazione di Grover')),
+    h('button', { class: 'btn sm', onclick: () => { for (let i = 0; i < optimal; i++) step(); } }, '⏩ ' + t("vai all'ottimo (:quante)", { quante: optimal })),
+    h('button', { class: 'btn sm', onclick: reset }, '↺ ' + t('ricomincia')),
+    h('button', { class: 'btn sm ghost', onclick: () => { for (let i = 0; i < 3; i++) step(); } }, t('+3 iterazioni (guarda cosa succede)')),
   ));
   w.body.appendChild(out.root);
 
@@ -233,18 +240,18 @@ export function groverLab(host, opts = {}) {
     const p = probs(st.s)[st.marked];
     st.best = Math.max(st.best, p);
     out.set(
-      `N = <b>${N}</b> possibilità, iterazioni fatte: <b>${st.iter}</b>\n` +
-      `probabilità di pescare l'elemento giusto: <b>${(p * 100).toFixed(1)}%</b> (all'inizio era ${(100 / N).toFixed(1)}%)\n` +
-      `numero ottimo di iterazioni ≈ (π/4)·√N = <b>${optimal}</b>\n` +
+      t('N = <b>:N</b> possibilità, iterazioni fatte: <b>:fatte</b>', { N, fatte: st.iter }) + '\n' +
+      t("probabilità di pescare l'elemento giusto: <b>:ora%</b> (all'inizio era :prima%)", { ora: (p * 100).toFixed(1), prima: (100 / N).toFixed(1) }) + '\n' +
+      t('numero ottimo di iterazioni ≈ (π/4)·√N = <b>:quante</b>', { quante: optimal }) + '\n' +
       (st.iter > optimal + 1 && p < 0.5
-        ? '<span class="a">Hai superato l\'ottimo: continuando, la probabilità RICALA. Grover non è "più giri = meglio": è una rotazione che, se esageri, ti porta oltre il bersaglio.</span>'
-        : (p > 0.9 ? '<span class="g">Ottimo punto per misurare!</span>' : '')));
+        ? '<span class="a">' + t('Hai superato l\'ottimo: continuando, la probabilità RICALA. Grover non è "più giri = meglio": è una rotazione che, se esageri, ti porta oltre il bersaglio.') + '</span>'
+        : (p > 0.9 ? '<span class="g">' + t('Ottimo punto per misurare!') + '</span>' : '')));
     curve.redraw();
     if (p > 0.9 && !st.celebrated) { st.celebrated = true; fx.win(); sfx.boss(); }
     if (p > 0.9) cfg.onWin && cfg.onWin();
   }
   reset();
-  w.setFoot(`<b>Il conto che conta:</b> classicamente, per trovare un elemento fra ${N} servono in media ${N / 2} tentativi. Grover ne usa circa <b>√${N} = ${Math.round(Math.sqrt(N))}</b>. Non è esponenziale come Shor: è un guadagno "quadratico", ma vale per <b>qualsiasi</b> ricerca senza struttura.`);
+  w.setFoot(t('<b>Il conto che conta:</b> classicamente, per trovare un elemento fra :N servono in media :medi tentativi. Grover ne usa circa <b>√:N = :radice</b>. Non è esponenziale come Shor: è un guadagno "quadratico", ma vale per <b>qualsiasi</b> ricerca senza struttura.', { N, medi: N / 2, radice: Math.round(Math.sqrt(N)) }));
   return { state: st };
 }
 
@@ -263,7 +270,7 @@ export function groverLab(host, opts = {}) {
 export function simonLab(host, opts = {}) {
   const cfg = Object.assign({ n: 3, onWin: null, onSolved: null }, opts);
   const n = cfg.n, N = 1 << n;
-  const w = widget(host, { title: 'Simon', subtitle: 'trova il periodo nascosto s: f(x) = f(x ⊕ s)' });
+  const w = widget(host, { title: 'Simon', subtitle: t('trova il periodo nascosto s: f(x) = f(x ⊕ s)') });
 
   const bin = v => v.toString(2).padStart(n, '0');
   const st = {
@@ -333,7 +340,7 @@ export function simonLab(host, opts = {}) {
       }
 
       text(ctx, 'x', margine, 16, { size: 10, color: COL.axis, align: 'right' });
-      text(ctx, 'clicca una casella per chiedere f(x) all\'oracolo', s.w / 2, 82,
+      text(ctx, t("clicca una casella per chiedere f(x) all'oracolo"), s.w / 2, 82,
         { size: 10, align: 'center', color: COL.axis });
     },
     onPointer(e) {
@@ -355,11 +362,11 @@ export function simonLab(host, opts = {}) {
 
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
     h('button', { class: 'btn sm', onclick: () => chiediClassica(Math.floor(Math.random() * N)) },
-      '🐌 chiedi a caso'),
+      '🐌 ' + t('chiedi a caso')),
     h('button', { class: 'btn sm primary', onclick: interrogazioneQuantistica },
-      '⚛️ interrogazione quantistica'),
-    h('button', { class: 'btn sm', onclick: risolvi }, '🧮 risolvi il sistema'),
-    h('button', { class: 'btn sm ghost', onclick: nuovoSegreto }, '🎲 nuovo segreto'),
+      '⚛️ ' + t('interrogazione quantistica')),
+    h('button', { class: 'btn sm', onclick: risolvi }, '🧮 ' + t('risolvi il sistema')),
+    h('button', { class: 'btn sm ghost', onclick: nuovoSegreto }, '🎲 ' + t('nuovo segreto')),
   ));
   w.body.appendChild(out.root);
 
@@ -451,53 +458,44 @@ export function simonLab(host, opts = {}) {
     const r = solveMod2(st.equazioni, n);
     const servono = n - 1;
 
-    let m = `L'oracolo nasconde un <b>periodo s</b> di ${n} bit: <b>f(x) = f(x ⊕ s)</b>, `
-      + `cioè ogni valore esce esattamente <b>due volte</b>.\n\n`;
+    let m = t("L'oracolo nasconde un <b>periodo s</b> di :n bit: <b>f(x) = f(x ⊕ s)</b>, cioè ogni valore esce esattamente <b>due volte</b>.", { n }) + '\n\n';
 
-    m += `<b>🐌 Strada classica</b> — domande fatte: <b>${st.domandeClassiche}</b> su ${N} possibili.\n`;
+    m += '<b>🐌 ' + t('Strada classica') + '</b> — ' + t('domande fatte: <b>:fatte</b> su :totali possibili.', { fatte: st.domandeClassiche, totali: N }) + '\n';
     m += st.trovatoClassico
-      ? `Collisione trovata: f(${bin(st.trovatoClassico[0])}) = f(${bin(st.trovatoClassico[1])}) → `
+      ? t('Collisione trovata: f(:a) = f(:b) → ', { a: bin(st.trovatoClassico[0]), b: bin(st.trovatoClassico[1]) })
         + `<span class="g">s = ${bin(st.trovatoClassico[0])} ⊕ ${bin(st.trovatoClassico[1])} = ${bin(st.trovatoClassico[0] ^ st.trovatoClassico[1])}</span>\n`
-      : `Serve una <b>collisione</b>: due x diversi con lo stesso f. Con ${n} bit ne bastano poche, `
-        + `ma con 40 bit servirebbero <b>un milione</b> di domande.\n`;
+      : t('Serve una <b>collisione</b>: due x diversi con lo stesso f. Con :n bit ne bastano poche, ma con 40 bit servirebbero <b>un milione</b> di domande.', { n }) + '\n';
 
-    m += `\n<b>⚛️ Strada quantistica</b> — interrogazioni: <b>${st.equazioni.length}</b>\n`;
+    m += '\n<b>⚛️ ' + t('Strada quantistica') + '</b> — ' + t('interrogazioni: <b>:quante</b>', { quante: st.equazioni.length }) + '\n';
 
     if (st.ultimaMisura !== null) {
-      m += `Ultima misura: <b>y = ${bin(st.ultimaMisura)}</b> → equazione <b>${bin(st.ultimaMisura)} · s = 0</b>\n`;
+      m += t('Ultima misura: <b>y = :y</b> → equazione <b>:y · s = 0</b>', { y: bin(st.ultimaMisura) }) + '\n';
     }
     if (st.equazioni.length) {
-      m += `Equazioni raccolte: ${st.equazioni.map(bin).join(', ')}\n`;
-      m += `Indipendenti: <b>${r.rango}</b> su ${servono} necessarie — `;
+      m += t('Equazioni raccolte: :elenco', { elenco: st.equazioni.map(bin).join(', ') }) + '\n';
+      m += t('Indipendenti: <b>:rango</b> su :servono necessarie — ', { rango: r.rango, servono });
       m += r.rango >= servono
-        ? `<span class="g">bastano: premi "risolvi il sistema"</span>\n`
-        : `possibili segreti ancora in gioco: <b>${r.candidati.length}</b>\n`;
+        ? '<span class="g">' + t('bastano: premi "risolvi il sistema"') + '</span>\n'
+        : t('possibili segreti ancora in gioco: <b>:quanti</b>', { quanti: r.candidati.length }) + '\n';
     } else {
-      m += `Premi il bottone quantistico: <b>una sola</b> chiamata all'oracolo dà un'equazione su s.\n`;
+      m += t("Premi il bottone quantistico: <b>una sola</b> chiamata all'oracolo dà un'equazione su s.") + '\n';
     }
 
-    m += `\n<span class="muted">Con ${n} bit il vantaggio non si vede — ed è giusto così: `
-      + `il punto non è quante domande servono <b>adesso</b>, ma <b>come crescono i due numeri</b>. `
-      + `Con 40 bit: classicamente ~1.048.576 domande, quantisticamente ~39. `
-      + `Con 80 bit il computer classico non finisce prima della fine dell'universo.</span>\n`;
+    m += '\n<span class="muted">' + t("Con :n bit il vantaggio non si vede — ed è giusto così: il punto non è quante domande servono <b>adesso</b>, ma <b>come crescono i due numeri</b>. Con 40 bit: classicamente ~1.048.576 domande, quantisticamente ~39. Con 80 bit il computer classico non finisce prima della fine dell'universo.", { n }) + '</span>\n';
 
     if (st.risolto?.fallito) {
-      m += `\n<span class="a">Con queste equazioni il sistema ha ancora ${st.risolto.candidati.length} soluzioni: `
-        + `serve un'altra interrogazione.</span>`;
+      m += '\n<span class="a">' + t("Con queste equazioni il sistema ha ancora :quante soluzioni: serve un'altra interrogazione.", { quante: st.risolto.candidati.length }) + '</span>';
     } else if (st.risolto) {
-      m += `\n<span class="g">Sistema risolto: s = ${bin(st.risolto.s)}</span> — `
-        + `${st.risolto.s === st.s ? 'ed è davvero il periodo nascosto ✓' : '✗'}\n`
-        + `Ti sono bastate <b>${st.equazioni.length}</b> interrogazioni quantistiche.`;
+      m += '\n<span class="g">' + t('Sistema risolto: s = :s', { s: bin(st.risolto.s) }) + '</span> — '
+        + (st.risolto.s === st.s ? t('ed è davvero il periodo nascosto') + ' ✓' : '✗') + '\n'
+        + t('Ti sono bastate <b>:quante</b> interrogazioni quantistiche.', { quante: st.equazioni.length });
     }
 
     out.set(m);
   }
 
   nuovoSegreto();
-  w.setFoot('<b>Perché una misura sola dà un\'equazione:</b> dopo l\'oracolo i due soli ingressi rimasti '
-    + 'sono x₀ e x₀⊕s. Le Hadamard finali li fanno interferire, e le y per cui <b>y·s = 1</b> ricevono '
-    + 'due contributi opposti che si <b>cancellano</b>. Sopravvivono solo le y con <b>y·s = 0</b>: '
-    + 'ogni misura è una riga di un sistema lineare, e con n−1 righe indipendenti il periodo è tuo.');
+  w.setFoot(t("<b>Perché una misura sola dà un'equazione:</b> dopo l'oracolo i due soli ingressi rimasti sono x₀ e x₀⊕s. Le Hadamard finali li fanno interferire, e le y per cui <b>y·s = 1</b> ricevono due contributi opposti che si <b>cancellano</b>. Sopravvivono solo le y con <b>y·s = 0</b>: ogni misura è una riga di un sistema lineare, e con n−1 righe indipendenti il periodo è tuo."));
 
   return { state: st };
 }
