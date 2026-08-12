@@ -75,7 +75,7 @@ class CertificateController extends Controller
                     'id'          => url('/#course'),
                     'type'        => ['Achievement'],
                     'name'        => 'Informatica quantistica giocando — percorso completo',
-                    'description' => 'Ha completato i 27 livelli del corso, dalle basi matematiche alla trasformata di Fourier quantistica e all\'algoritmo di Shor, superando l\'esame finale con il ' . $c->percent . '%.',
+                    'description' => 'Ha completato i ' . config('certificates.levels_count') . ' livelli del corso, dalle basi matematiche alla trasformata di Fourier quantistica e all\'algoritmo di Shor, superando l\'esame finale con il ' . $c->percent . '%.',
                     'criteria'    => ['narrative' => 'Superamento dell\'esame finale a risposta multipla con almeno l\'80% di risposte corrette, corretto lato server.'],
                 ],
             ],

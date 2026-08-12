@@ -75,6 +75,29 @@ class CertificatesTest extends TestCase
         $this->assertMatchesRegularExpression('/^QA-[A-Z0-9]{7}$/', $r->json('certificate.code'));
     }
 
+    /**
+     * Il numero di livelli era rimasto a 27 sull'attestato e sulla pagina di
+     * verifica mentre il sito ne dichiarava 28: chi controlla l'attestato di
+     * qualcun altro trovava due numeri diversi. Ora arriva dalla config, e
+     * `npm run validate` tiene la config allineata a levels.js — ma la config
+     * potrebbe smettere di arrivare fino alla pagina, e questo se ne accorge.
+     */
+    public function test_attestato_e_verifica_dicono_lo_stesso_numero_di_livelli(): void
+    {
+        $n = config('certificates.levels_count');
+        $user = User::factory()->create();
+        $codice = $this->actingAs($user)
+            ->postJson('/api/exam/submit', ['answers' => $this->tutteGiuste()])
+            ->json('certificate.code');
+
+        $html = $this->get('/verifica/' . $codice)->assertOk()->getContent();
+        $this->assertStringContainsString("— {$n} livelli interattivi", $html);
+        $this->assertStringContainsString("percorso strutturato di {$n} livelli", $html);
+
+        $badge = $this->getJson('/api/badge/' . $codice . '.json')->assertOk();
+        $this->assertStringContainsString("i {$n} livelli del corso", $badge->json('credentialSubject.achievement.description'));
+    }
+
     public function test_esame_fallito_non_emette_niente_ma_spiega_gli_errori(): void
     {
         $user = User::factory()->create();
