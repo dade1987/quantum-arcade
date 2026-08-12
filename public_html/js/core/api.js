@@ -5,7 +5,13 @@
    se il server non risponde (per esempio stai aprendo i file in locale
    senza PHP), le funzioni falliscono in modo pulito e il gioco lo segnala
    invece di rompersi.
+
+   Ogni richiesta porta con sé la lingua della pagina (Accept-Language): i
+   messaggi di errore, l'email di conferma e l'attestato tornano nella lingua
+   in cui si sta giocando, senza che il chiamante debba ricordarsene.
    ============================================================ */
+
+import { t, LOCALE, LOCALE_TAGS } from './i18n.js';
 
 const BASE = '/api';
 
@@ -34,10 +40,10 @@ export class ApiError extends Error {
 async function call(method, path, body = null) {
   if (method !== 'GET') await ensureCsrf();
 
-  const headers = { 'Accept': 'application/json' };
+  const headers = { 'Accept': 'application/json', 'Accept-Language': LOCALE_TAGS[LOCALE] || LOCALE };
   if (body) headers['Content-Type'] = 'application/json';
-  const t = xsrfToken();
-  if (t) headers['X-XSRF-TOKEN'] = t;
+  const token = xsrfToken();
+  if (token) headers['X-XSRF-TOKEN'] = token;
 
   let res;
   try {
@@ -48,7 +54,7 @@ async function call(method, path, body = null) {
       body: body ? JSON.stringify(body) : undefined,
     });
   } catch {
-    throw new ApiError('Server non raggiungibile', 0, null);
+    throw new ApiError(t('Server non raggiungibile'), 0, null);
   }
 
   let data = null;
@@ -57,7 +63,7 @@ async function call(method, path, body = null) {
   if (!res.ok) {
     const msg = data?.message
       || (data?.errors ? Object.values(data.errors).flat()[0] : null)
-      || `Errore ${res.status}`;
+      || t('Errore :codice', { codice: res.status });
     throw new ApiError(msg, res.status, data);
   }
   return data;

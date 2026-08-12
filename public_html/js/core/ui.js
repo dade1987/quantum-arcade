@@ -3,7 +3,10 @@
    h()      : mini-hyperscript
    widget() : contenitore standard di un mini-gioco
    slider(), toggle(), choice(), buttons(), readout()
+   langButton() : selettore di lingua
    ============================================================ */
+
+import { LOCALE, LOCALES, LOCALE_NAMES, alternates, t } from './i18n.js';
 
 export function h(tag, props = {}, ...children) {
   const el = document.createElement(tag);
@@ -117,6 +120,32 @@ export function fmtC(re, im, d = 2) {
   const a = fmt(re, d), b = fmt(Math.abs(im), d);
   const sign = im < 0 ? '−' : '+';
   return `${a} ${sign} ${b}i`;
+}
+
+/* ---------------- selettore di lingua ---------------- */
+
+/**
+ * Le altre lingue della PAGINA CORRENTE, non la home: chi sta leggendo la
+ * lezione sulla QFT in italiano e clicca "English" vuole la QFT in inglese,
+ * non ricominciare dalla mappa. Gli indirizzi arrivano dai <link rel=alternate>
+ * che la pagina dichiara già per i motori di ricerca.
+ */
+export function langButton() {
+  const alt = alternates();
+  const box = h('div', { class: 'lang-pick', role: 'group', 'aria-label': t('Lingua') });
+  for (const l of LOCALES) {
+    const url = l === LOCALE ? null : alt[l];
+    if (l !== LOCALE && !url) continue;      // manca la traduzione: meglio non promettere una pagina che non c'è
+    box.appendChild(h(url ? 'a' : 'span', {
+      class: 'lang-opt' + (l === LOCALE ? ' on' : ''),
+      href: url,
+      hreflang: l,
+      lang: l,
+      title: LOCALE_NAMES[l],
+      'aria-current': l === LOCALE ? 'true' : null,
+    }, l.toUpperCase()));
+  }
+  return box;
 }
 
 export const TAU = Math.PI * 2;

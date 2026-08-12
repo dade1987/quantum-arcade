@@ -7,7 +7,8 @@
   "scripts": {
     "start": "php artisan serve --port=8010",
     "validate": "node tools/validate.mjs",
-    "test": "node --test tests/js/unit/*.test.js && node tools/validate.mjs",
+    "lingue": "node tools/lingue.mjs",
+    "test": "node --test tests/js/unit/*.test.js && node tools/validate.mjs && node tools/lingue.mjs",
     "test:coverage": "node --test --experimental-test-coverage tests/js/unit/*.test.js",
     "test:php": "php artisan test",
     "test:php:coverage": "XDEBUG_MODE=coverage php artisan test --coverage",
