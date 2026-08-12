@@ -77,6 +77,17 @@ class ControllaInstallazione extends Command
 
     private function controllaChiaveEAmbiente(bool $produzione): void
     {
+        // Sugli hosting condivisi proc_open è quasi sempre disattivato: non è un
+        // guaio per il sito, ma fa fallire gli script di Composer. Meglio dirlo
+        // prima che scoprirlo da un messaggio di errore incomprensibile.
+        $this->esito(
+            function_exists('proc_open') ? 'ok' : 'avviso',
+            function_exists('proc_open') ? 'proc_open disponibile' : 'proc_open disattivato dall\'hosting',
+            'Il sito funziona lo stesso. Ma Composer va lanciato con --no-scripts, seguito da '
+            . '`php artisan package:discover`, sennò si ferma con "The Process class relies on proc_open". '
+            . 'tools/messa-online.sh lo fa già da solo.',
+        );
+
         $this->esito(
             config('app.key') ? 'ok' : 'errore',
             'APP_KEY impostata',

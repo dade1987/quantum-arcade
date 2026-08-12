@@ -32,7 +32,13 @@ if [ ! -f .env ]; then
 fi
 
 blu "1/7 Dipendenze PHP (senza quelle di sviluppo)"
-composer install --no-dev --optimize-autoloader --no-interaction
+# --no-scripts non è una precauzione: gli hosting condivisi (Hostinger compreso)
+# disattivano proc_open, e Composer ne ha bisogno per lanciare gli script finali.
+# Senza questo, l'installazione scarica tutto e poi muore sull'ultimo passo con
+# "The Process class relies on proc_open". Lo script che serviva lo lanciamo noi
+# subito dopo, direttamente: quello gira in-process e non chiede proc_open.
+composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+php artisan package:discover
 
 blu "2/7 Permessi delle cartelle scrivibili"
 chmod -R 775 storage bootstrap/cache

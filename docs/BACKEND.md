@@ -224,6 +224,25 @@ scaricabile dal web**, connessione al database e tabelle create, SMTP configurat
 Ogni riga rossa dice anche **come si risolve**. Esce con codice di errore se
 qualcosa impedisce di aprire al pubblico, quindi si può mettere in uno script.
 
+### `proc_open` disattivato (succede su quasi tutti gli hosting condivisi)
+
+Se `composer install` scarica tutto e poi si ferma con
+
+```
+The Process class relies on proc_open, which is not available on your PHP installation
+```
+
+non è un guasto e i pacchetti ci sono già: Composer non riesce a lanciare l'ultimo script,
+perché per farlo dovrebbe avviare un altro processo. Si risolve così:
+
+```bash
+composer install --no-dev --optimize-autoloader --no-scripts
+php artisan package:discover
+```
+
+`tools/messa-online.sh` lo fa già in questo modo, quindi se usi lo script non incontri
+il problema. `php artisan sito:controlla` segnala in giallo quando `proc_open` è disattivato.
+
 ### Se non hai accesso SSH (piani base)
 
 `composer install` va lanciato in locale e la cartella `vendor/` caricata insieme al resto;
