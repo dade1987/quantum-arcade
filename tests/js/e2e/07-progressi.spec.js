@@ -84,3 +84,61 @@ test('il livello superato resta superato anche cambiando pagina subito', async (
   });
   expect(server['01-qubit']?.mastered, 'il livello superato è arrivato al server').toBe(true);
 });
+
+/**
+ * E si salva TUTTO, non solo i livelli.
+ *
+ * Il livello superato è la cosa che si nota, perché chiude la strada. Ma
+ * quello che il gioco tiene da parte è di più, e ogni pezzo serve a qualcosa
+ * di preciso: le missioni fatte (per non rifarle), le domande già risposte
+ * (per non ridarle), i premi già assegnati (per non pagare due volte gli
+ * stessi XP), il mazzo di ripasso con la scatola di ogni domanda (è il metodo
+ * Leitner: la scatola decide fra quanti giorni la rivedi, e persa quella si
+ * riparte da capo con il ripasso di tutto), e la modalità libera.
+ *
+ * Se ne mancasse uno, il danno non si vedrebbe subito — si vedrebbe giorni
+ * dopo, sotto forma di ripasso che ricomincia da zero o di XP che tornano.
+ * Per questo il controllo si fa da un dispositivo pulito: stessa sessione,
+ * niente memoria locale. Quello che torna, torna dal server; quello che non
+ * c'è, non c'era.
+ */
+test('missioni, quiz, ripasso e XP tornano tutti da un dispositivo pulito', async ({ page }) => {
+  await iscriviti(page);
+
+  await page.goto(L1);
+  await page.waitForTimeout(1500);
+  await page.evaluate(async () => {
+    const s = await import('/js/core/store.js');
+    s.setMission('01-qubit', 'registro', true);
+    s.setMission('01-qubit', 'polaroid', true);
+    s.award('mission:01-qubit/registro', 35);
+    const domanda = { q: 'Quanto vale la probabilità?', options: ['a', 'a²'], correct: 1, why: 'è l\'area' };
+    s.recordQuiz('01-qubit', 0, true, domanda);    // giusta → sale di scatola
+    s.recordQuiz('01-qubit', 1, false, domanda);   // sbagliata → torna alla prima
+    s.award('quiz:01-qubit/0', 15);
+    s.completeLesson('01-qubit');
+    s.setFreeMode(true);
+  });
+  await page.waitForTimeout(2500);      // il tempo di arrivare al server
+  const prima = await page.evaluate(async () => (await import('/js/core/store.js')).getState());
+
+  // dispositivo pulito: la sessione resta, la memoria locale no
+  await page.evaluate(() => localStorage.clear());
+  await page.goto(L1);
+  await page.waitForTimeout(2500);
+  const dopo = await page.evaluate(async () => (await import('/js/core/store.js')).getState());
+
+  expect(dopo.xp, 'gli XP').toBe(prima.xp);
+  expect(dopo.lessons, 'i livelli superati').toEqual(prima.lessons);
+  expect(dopo.missions, 'le missioni fatte').toEqual(prima.missions);
+  expect(dopo.quiz, 'le domande già risposte, con quante volte e se al primo colpo').toEqual(prima.quiz);
+  expect(dopo.seen, 'i premi già assegnati (senza, gli XP si prenderebbero due volte)').toEqual(prima.seen);
+  expect(dopo.free, 'la modalità libera').toBe(true);
+
+  // il mazzo di ripasso per intero: testo della domanda, opzioni e SCATOLA
+  expect(Object.keys(dopo.bank).sort()).toEqual(Object.keys(prima.bank).sort());
+  expect(dopo.bank['01-qubit/0'].box, 'la risposta giusta è salita di scatola').toBe(2);
+  expect(dopo.bank['01-qubit/1'].box, 'quella sbagliata è tornata alla prima').toBe(1);
+  expect(dopo.bank['01-qubit/0'].q, 'e la domanda è tutta lì, non solo il suo esito').toBeTruthy();
+  expect(dopo.bank['01-qubit/0'].options).toEqual(prima.bank['01-qubit/0'].options);
+});
