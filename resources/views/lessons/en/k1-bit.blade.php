@@ -1,0 +1,125 @@
+@php($description = 'What a bit is, how numbers are written in binary, what a byte is and why n bits give 2^n possibilities: the basics of classical computing, played, before you meet the qubit.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
+import { bitLab } from '/js/widgets/classic.js';
+
+const L = renderLesson({
+  id: 'k1-bit',
+  lead: `Before looking at what is strange about a <b>qubit</b>, it pays to look properly at what is ordinary
+         about a <b>bit</b>. This is not a formality: nearly every wrong sentence you read about quantum
+         computing — "it tries every path at once", "it is infinitely faster" — comes from the fact that
+         whoever wrote it never got clear on what a normal computer does, and does not do.`,
+
+  steps: [
+    {
+      t: 'A switch, and nothing else',
+      html: `<p>A <b>bit</b> is the simplest thing you can imagine: a box holding <b>0 or 1</b>. On or off.
+             Current flowing or current not flowing.</p>
+             <p>Not "a bit of both", not "30% on". If you open a computer and go and look at the transistor
+             holding that bit, you find it in one of the two states, always, even while nobody is watching.
+             That sentence sounds obvious. Keep it: at level 1 it stops being true.</p>
+             <div class="callout key"><b>Why two values and not ten.</b> It is not philosophy, it is engineering.
+             Telling "there is voltage" from "there is no voltage" works with cheap components in the middle of
+             plenty of noise; telling ten voltage levels apart would need precision, and a small disturbance
+             would turn a 6 into a 7. Two values are the most robust way of keeping information inside a world
+             that heats up, vibrates and ages.</div>`,
+    },
+    {
+      t: 'How to write a number with switches',
+      html: `<p>With one switch we count up to 1. With two, up to 3. The trick is the same one you use with tens:
+             every position is <b>worth double</b> the one to its right.</p>
+             <div class="formula">128 &nbsp; 64 &nbsp; 32 &nbsp; 16 &nbsp; 8 &nbsp; 4 &nbsp; 2 &nbsp; 1
+             <br><span class="hl-n">1</span> &nbsp;&nbsp;&nbsp; <span class="hl-n">0</span> &nbsp;&nbsp;
+             <span class="hl-n">0</span> &nbsp;&nbsp; <span class="hl-n">1</span> &nbsp; <span class="hl-n">1</span>
+             &nbsp; <span class="hl-n">0</span> &nbsp; <span class="hl-n">1</span> &nbsp; <span class="hl-n">0</span>
+             &nbsp;&nbsp;→&nbsp; 128 + 16 + 8 + 2 = <b>154</b></div>
+             <p>These are the <b>powers of 2</b> from level 0·1, used for counting. Flip the switches and get
+             the feel of it: three levels from now the same powers of 2 will say "how many amplitudes a
+             quantum register has".</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'bit', title: 'The switch machine', text: 'build three different numbers by turning on the right bits.', xp: 30 });
+        el.appendChild(m.root);
+        bitLab(el, { bits: 8, need: 3, onWin: () => m.complete() });
+      },
+      after: `<div class="callout"><b>Bytes, kilobytes, and why 1024.</b> Eight bits make a <b>byte</b>:
+              256 values, enough for a letter of the alphabet (that is the ASCII table: 65 is "A").
+              A "computer" kilobyte is 1024 bytes and not 1000 because 1024 = 2¹⁰, and that is the only round
+              number there is when you count in powers of two.</div>`,
+    },
+    {
+      t: 'The number that will come back all course long: 2ⁿ',
+      html: `<p>With <b>n</b> bits, how many different configurations are there? Every bit doubles the count:</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: '1 bit', html: 'Two configurations: <code>0</code> and <code>1</code>. → <b>2</b>' },
+          { h: '2 bits', html: 'Each earlier configuration splits in two: <code>00 01 10 11</code>. → <b>4</b>' },
+          { h: '3 bits', html: '<code>000 001 010 011 100 101 110 111</code>. → <b>8</b>' },
+          { h: 'n bits', html: 'Every extra bit <b>doubles</b> the count: the total is <b>2ⁿ</b>.<br>10 bits → 1024. 20 bits → about a million. 30 bits → about a billion.' },
+          { h: '300 bits', html: '2³⁰⁰ is bigger than the <b>number of atoms in the observable universe</b> (about 10⁸⁰). With 300 switches you count more configurations than there are particles in existence.' },
+          { h: 'So what?', html: 'So here is the line the whole course rests on: those 2ⁿ configurations <b>exist on paper</b>, but the computer holds <b>exactly one</b> at a time. The others are possibilities nobody is computing.<br>A register of n <b>qubits</b>, instead, carries <b>2ⁿ numbers together</b> — one per configuration. That is not a metaphor: they really are 2ⁿ amplitudes, which is why simulating 50 qubits on a laptop cannot be done.' },
+        ], { doneLabel: 'Counted it!' });
+      },
+      after: confronto({
+        titolo: 'Bit and qubit: the real difference, in one line',
+        livello: '01-qubit',
+        vaiA: 'Go and see the qubit (level 1)',
+        classico: {
+          titolo: 'n bits',
+          html: `<p><b>They hold one number</b> out of the 2ⁿ possible ones. If you want to know what happens
+                 to another of those 2ⁿ values, you flip the switches and redo the calculation.</p>
+                 <p>To describe the state to a friend on the phone you only need to read out <b>n digits</b>.</p>`,
+        },
+        quantistico: {
+          titolo: 'n qubits',
+          html: `<p><b>They carry 2ⁿ numbers together</b> (the amplitudes), one per possible configuration.</p>
+                 <p>To describe the state to a friend you would have to read out <b>2ⁿ numbers</b>. With 300 qubits
+                 the universe would not be big enough to write them down.</p>
+                 <p class="mb0"><b>But</b> when you measure, out comes <b>one single</b> configuration of n digits:
+                 the rest vanishes. The whole craft of quantum computing is exactly this — making sure the
+                 configuration that comes out is the one you wanted.</p>`,
+        },
+        numeri: [
+          { cosa: 'numbers held with n = 300', classico: '1', quantistico: '2³⁰⁰ (more than the atoms in the universe)' },
+          { cosa: 'numbers you can read out', classico: 'n digits', quantistico: 'n digits' },
+        ],
+        verdetto: `<b>The advantage is not "it holds more stuff": it is that those 2ⁿ numbers add up and cancel
+                   each other before you read.</b> Without cancellation (the interference of level 7) all that
+                   memory would be worth nothing.`,
+      }),
+    },
+    {
+      t: '💡 Your turn',
+      html: `<div class="callout think">
+        <p><b>1.</b> How many bits do you need to write the number 1000? <span class="muted">(the answer is the power of 2 that passes it: 2¹⁰ = 1024, so 10)</span></p>
+        <p><b>2.</b> In the game, turn on the 64 switch and the 1 switch: which number do you get? And how many switches does 63 take?</p>
+        <p><b>3.</b> A colour on screen is written with 24 bits (8 for red, 8 for green, 8 for blue). How many different colours is that?</p>
+        <p class="mb0"><b>4.</b> Inventor's question: if a bit had <b>three</b> states instead of two (0, 1, 2), how many configurations would n "trits" have? Why do you think nobody builds computers that way?</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'How many different configurations do 8 bits have?',
+      options: ['8', '16', '64', '256'], correct: 3,
+      why: '2⁸ = 256. Every bit doubles the count: 2, 4, 8, 16, 32, 64, 128, 256.' },
+    { q: 'The binary number 1010 is, in decimal…',
+      options: ['5', '10', '12', '20'], correct: 1,
+      why: '8 + 0 + 2 + 0 = 10. The positions are worth 8, 4, 2, 1 from left to right.' },
+    { q: 'How many numbers does a 10-bit classical register hold at the same time?',
+      options: ['exactly one', '10', '1024', 'infinitely many'], correct: 0,
+      why: 'Exactly one: the 1024 configurations are the POSSIBLE ones, not the ones present. The whole difference with qubits is here.' },
+    { q: 'Why do computers use two values and not ten?',
+      options: ['to save power', 'because telling two voltage levels apart is far more robust against noise', 'because mathematicians prefer binary', 'a historical convention with no reason'], correct: 1,
+      why: 'It is a robustness choice: with only two values an electrical disturbance does not turn one number into another.' },
+  ],
+
+  outro: `<div class="callout ok"><b>What you take home:</b> a bit holds one value, n bits hold <b>one</b> out
+          of 2ⁿ, and that 2ⁿ is the number that will come back in every level of this course.
+          Next level: what you <b>do</b> with bits, that is, logic gates.</div>`,
+});
+@endsection

@@ -6,6 +6,8 @@
 import { renderLesson } from '/js/core/lesson.js';
 import { stepper } from '/js/core/formula.js';
 import { circuitLab } from '/js/widgets/circuit.js';
+import { confronto } from '/js/core/confronto.js';
+import { stradeCoppia } from '/js/widgets/coppie.js';
 import { manyArrows } from '/js/widgets/twowaves.js';
 
 const L = renderLesson({
@@ -14,6 +16,52 @@ const L = renderLesson({
          because it is the <b>only</b> mechanism that makes a quantum computer useful. Everything else is trimming.`,
 
   steps: [
+    {
+      t: 'Classical first: probabilities just add up',
+      html: `<p>Take any classical case: two routes lead to the same place, one with probability 30% and the
+             other with probability 20%. Probability of getting there: <b>50%</b>. They add, full stop.</p>
+             <p>And above all: <b>adding a route can never make things worse</b>. In no classical probability
+             calculation is there a way to open a new path and end up with <i>fewer</i> chances of arriving.
+             Probabilities are numbers between 0 and 1: a sum of positive things always grows.</p>
+             <p>Try it: below there is a source, two routes and a detector. In classical mode, try to
+             <b>switch off</b> the detector by opening the second route — you will not manage, and that is not a
+             flaw in the game. Then switch to quantum, where the second route can carry a <b>negative</b>
+             amplitude.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'strade', title: 'Switching off by opening', text: 'establish that it cannot be done classically, then switch the detector off in quantum mode with both routes open.', xp: 40 });
+        el.appendChild(m.root);
+        stradeCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>A classical computer that "tries many routes" — a randomised algorithm, a Monte Carlo — lives
+             inside this rule. That is why it cannot do what you have just done.</p>` +
+             confronto({
+               titolo: 'Classical probabilities and quantum amplitudes',
+               livello: '00-caso',
+               vaiA: 'Review probability (level 0·4)',
+               classico: {
+                 titolo: 'Probabilities',
+                 html: `<p>Numbers between <b>0 and 1</b>. Two routes leading to the same result: the
+                        probabilities <b>add</b>.</p>
+                        <p class="mb0">An extra route cannot take anything away: 0.3 + 0.2 = 0.5. There is no
+                        such thing as −0.2 of probability.</p>`,
+               },
+               quantistico: {
+                 titolo: 'Amplitudes',
+                 html: `<p>Numbers that may be <b>negative</b> (and later, arrows pointing anywhere). Two routes:
+                        the <b>amplitudes</b> add, and only at the end do you square.</p>
+                        <p class="mb0">+0.7 and −0.7 make <b>zero</b>: opening one more route can wipe out a
+                        result that was possible before.</p>`,
+               },
+               numeri: [
+                 { cosa: 'two 50% routes', classico: '0.5 + 0.5 = 100%', quantistico: '(0.7 − 0.7)² = 0%, or (0.7 + 0.7)² = 100%' },
+                 { cosa: 'adding a possibility', classico: 'can never make it worse', quantistico: 'can cancel it entirely' },
+                 { cosa: 'shuffling twice', classico: 'stays random', quantistico: 'H·H returns exactly to the start' },
+               ],
+               verdetto: `<b>This is the one real difference between the two worlds, and it is everything the
+                          course will use from now on.</b> A quantum computer does not "try every route": it makes
+                          the wrong routes cancel each other out before you look.`,
+             }),
+    },
     {
       t: 'Several routes to the same result',
       html: `<p>Here is the complete rule of quantum computation, in two lines:</p>

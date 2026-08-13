@@ -5,6 +5,7 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { formula, stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
 import { qftLab, qftPeriodLab } from '/js/widgets/qft.js';
 
 const L = renderLesson({
@@ -14,6 +15,48 @@ const L = renderLesson({
          enormous consequences.`,
 
   steps: [
+    {
+      t: 'Classical first: the DFT and the FFT, which you can already do',
+      html: `<p>The two previous levels left you with two <b>classical</b> algorithms in your pocket, and it is
+             worth looking at them properly one last time before moving to the quantum version.</p>
+             <ul>
+               <li>The <b>DFT</b> takes N numbers and returns N: for each of them it does N multiplications.
+                   Total <b>N²</b>. With N = 1024 that is over a million operations.</li>
+               <li>The <b>FFT</b> produces exactly the same result by splitting the problem in half, recursively:
+                   <b>N·log₂N</b>. With N = 1024 that is about 10,000 operations, a hundred times fewer.</li>
+             </ul>
+             <p>They are perfectly ordinary algorithms, running every time you open an MP3 or make a phone call.
+             And — this is the point — <b>at the end they hand you all N numbers, written down, ready to
+             read</b>.</p>` +
+             confronto({
+               titolo: 'Fourier: three ways of doing it',
+               livello: 'k5-costo',
+               vaiA: 'Review algorithm costs (level K·5)',
+               classico: {
+                 titolo: 'DFT and FFT',
+                 html: `<p>DFT: <b>N²</b> multiplications. FFT: <b>N·log N</b>, and it is one of the most useful
+                        ideas of the twentieth century.</p>
+                        <p class="mb0">At the end you have <b>all N coefficients</b> in memory: print them,
+                        compare them, edit them, do whatever you like with them.</p>`,
+               },
+               quantistico: {
+                 titolo: 'QFT',
+                 html: `<p>About <b>log²N</b> gates: on N = 2⁶⁰ that is a few thousand gates against a number of
+                        classical operations larger than the age of the universe in seconds.</p>
+                        <p class="mb0">But the coefficients stay <b>amplitudes</b>: you cannot read them. You
+                        measure, and <b>one</b> comes out, with probability proportional to its square.</p>`,
+               },
+               numeri: [
+                 { cosa: 'N = 1024', classico: 'FFT: ~10,000 operations', quantistico: 'QFT: ~100 gates' },
+                 { cosa: 'readable results', classico: 'all N of them', quantistico: 'one, at random, weighted' },
+                 { cosa: 'good for', classico: 'looking at a spectrum', quantistico: 'finding a period (Shor)' },
+               ],
+               verdetto: `<b>The QFT is enormously faster and enormously less useful — taken on its own.</b>
+                          It becomes a weapon only when the spectrum has <b>a single peak</b>, or very few: then
+                          that one measurement almost certainly catches the number you need. Which is exactly the
+                          case for period finding, that is, for Shor.`,
+             }),
+    },
     {
       t: 'Same formula, different numbers',
       html: `<p>Let us put the two things side by side. Note that <b>only the first column changes</b>:</p>

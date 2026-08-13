@@ -20,15 +20,26 @@
 
 ---
 
-28 livelli interattivi che partono dalle **basi di matematica delle medie** e arrivano alla
-**trasformata di Fourier quantistica**, alla **stima di fase** e all'**algoritmo di Shor**.
-Ogni concetto ha un mini-gioco: prima muovi, poi capisci. Sotto c'è un simulatore quantistico
-a vettore di stato scritto da zero, verificato dai test: il circuito della QFT riproduce
-**esattamente** la matrice di Fourier.
+34 livelli interattivi che partono dalle **basi di matematica delle medie**, passano dal
+**computer classico** (bit, porte logiche, somma binaria, ricerca, complessità, reversibilità)
+e arrivano alla **trasformata di Fourier quantistica**, alla **stima di fase** e all'**algoritmo
+di Shor**. Ogni concetto ha un mini-gioco: prima muovi, poi capisci. Sotto c'è un simulatore
+quantistico a vettore di stato scritto da zero, verificato dai test: il circuito della QFT
+riproduce **esattamente** la matrice di Fourier.
+
+Ogni livello quantistico si apre con il **confronto fianco a fianco**: come si farebbe la stessa
+cosa con un computer normale, cosa cambia con quello quantistico, e il numero che dice quanto vale
+la differenza. Perché «quantistico» non è una cosa: è una differenza, e una differenza si vede solo
+avendo il termine di paragone.
+
+Dove il confronto vale una partita e non un paragrafo, i due modi stanno **dentro lo stesso
+mini-gioco**, con un interruttore che cambia macchina: stesso schermo, stessi bottoni, stessa
+missione — cambia il meccanismo, e basta. E in modo classico alcune missioni **non si possono
+vincere**: il muro è la lezione.
 
 | | |
 |---|---|
-| **Per chi** | Da chi ha finito le medie in su. Nessun prerequisito di fisica. |
+| **Per chi** | Da chi ha finito le medie in su. Nessun prerequisito di fisica, né di informatica. |
 | **Quanto dura** | 10–20 minuti a livello. Un pomeriggio abbondante il percorso completo. |
 | **Come si avanza** | Dimostrando la padronanza: una missione pratica **e** un quiz di richiamo. |
 | **Cosa c'è alla fine** | Un'officina dove inventi algoritmi tuoi, e un esame con attestato verificabile. |
@@ -71,10 +82,17 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — solo as
     canvas.js  audio.js    motore grafico 2D + suoni arcade
     lesson.js  ui.js  formula.js
     i18n.js                lingua della pagina, t(), indirizzi delle altre versioni
+    confronto.js           il blocco «classico ⇄ quantistico» che apre le lezioni
     glossario.js           i termini del corso (fonte di verità: pannello, definizioni
                            al tocco e tabella del livello 23 leggono tutti da qui)
   js/i18n/en.js  es.js     i dizionari: la frase italiana è la chiave
   js/widgets/              i mini-giochi (uno o più per livello)
+    classic.js  classic2.js  quelli del computer classico: interruttori, porte logiche,
+                           sommatore, ricerca, curve di crescita, porte reversibili,
+                           oracolo classico, codice a ripetizione
+    coppie.js              gli esercizi appaiati: la stessa plancia con un interruttore
+                           che passa dal computer normale a quello quantistico
+                           (registro, porte, sfida di Bell, due strade)
 
 lang/en.json  lang/es.json  le stesse traduzioni per il lato Laravel (__())
 
@@ -83,7 +101,7 @@ resources/views/           LE PAGINE. Una view per pagina per lingua, un layout 
   layouts/lesson.blade.php titolo e descrizione di una lezione, presi da levels.js
   partials/                il selettore di lingua, in un posto solo
   pages/{it,en,es}/        home, metodo, privacy
-  lessons/{it,en,es}/      le 28 lezioni, con il nome dell'ID (lo slug sta nell'indirizzo)
+  lessons/{it,en,es}/      i 34 livelli, con il nome dell'ID (lo slug sta nell'indirizzo)
 
 config/site.php            GENERATO da levels.js con `npm run sync`: lingue, livelli, slug,
                            titoli. È da qui che nascono le rotte e i <head>
@@ -110,7 +128,7 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (132 test) + validatore + stato delle lingue
+npm test                 # motore del gioco (140 test) + validatore + stato delle lingue
 npm run test:coverage    # copertura del frontend
 npm run test:php         # 118 test dei moduli Laravel
 npm run test:php:coverage

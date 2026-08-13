@@ -3,6 +3,12 @@
 
    ORDINE (curriculum a spirale, difficoltà crescente):
    0) basi matematiche          → per chi parte da zero
+   K) il computer CLASSICO      → bit, porte, somma, ricerca, costo,
+                                  reversibilità. Sta prima di tutto perché
+                                  «quantistico» è una differenza, e una
+                                  differenza si vede solo se si conosce il
+                                  termine di paragone: chi non sa cos'è un bit
+                                  non può stupirsi di un qubit.
    A) il qubit SUBITO           → con ampiezze "con il segno" (+/−): niente
                                   numeri complessi, niente onde. Paga subito.
    B) frecce, fasi, algoritmi   → si scopre che il segno non basta: servono
@@ -30,6 +36,12 @@ const SLUG = {
   '00-griglia': { en: '00-grid', es: '00-cuadricula' },
   '00-seno': { en: '00-sine', es: '00-seno' },
   '00-caso': { en: '00-chance', es: '00-azar' },
+  'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
+  'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
+  'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
+  'k4-ricerca': { en: 'k4-search', es: 'k4-busqueda' },
+  'k5-costo': { en: 'k5-cost', es: 'k5-coste' },
+  'k6-reversibile': { en: 'k6-reversible', es: 'k6-reversible' },
   '01-qubit': { en: '01-qubit', es: '01-qubit' },
   '02-bloch': { en: '02-bloch', es: '02-bloch' },
   '03-porte': { en: '03-gates', es: '03-puertas' },
@@ -68,6 +80,12 @@ export const PARTS = [
     title: t('Parte 0 — Le basi (per chi parte proprio da zero)'),
     sub: t('Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità. Per chi ha finito le medie. Facoltativa se le sai già.'),
     color: 'green',
+  },
+  {
+    id: 'K',
+    title: t('Parte K — Il computer classico (il termine di paragone)'),
+    sub: t('Bit, porte logiche, somma binaria, ricerca, costo di un algoritmo, reversibilità. Ogni livello finisce con l\'anticipazione di cosa cambierà nel quantistico. Facoltativa se sai già come funziona un computer normale.'),
+    color: 'blue',
   },
   {
     id: 'A',
@@ -112,6 +130,31 @@ export const LEVELS = [
   { id: '00-caso',    part: '0', n: '0·4', open: true,
     title: t('Il caso: monete, dadi, probabilità'),
     desc: t('Lancia, conta, scopri che le percentuali si sistemano da sole.'), xp: 60 },
+
+  // ---------- PARTE K — il computer classico, sempre aperta ----------
+  { id: 'k1-bit', part: 'K', n: 'K·1', open: true,
+    title: t('Il bit: acceso, spento, e come ci si scrive tutto'),
+    desc: t('Interruttori, binario, byte, testo. E il conto che tornerà: con n bit scegli UN numero fra 2ⁿ.'), xp: 80 },
+
+  { id: 'k2-porte', part: 'K', n: 'K·2', open: true,
+    title: t('Porte logiche: AND, OR, NOT, XOR'),
+    desc: t('Tabelle di verità giocate, e la scoperta che una porta sola basta per costruire tutte le altre.'), xp: 80 },
+
+  { id: 'k3-somma', part: 'K', n: 'K·3', open: true,
+    title: t('La somma, come la fa davvero il processore'),
+    desc: t('Riporto, mezzo sommatore, sommatore completo: monti l\'addizione a 4 bit con le tue mani.'), xp: 90 },
+
+  { id: 'k4-ricerca', part: 'K', n: 'K·4', open: true,
+    title: t('Cercare: a tentoni, oppure dimezzando'),
+    desc: t('Ricerca lineare e ricerca binaria, contando i confronti uno per uno. Il metro di paragone di Grover.'), xp: 80 },
+
+  { id: 'k5-costo', part: 'K', n: 'K·5', open: true,
+    title: t('Quanto costa un algoritmo: N, log N, N², 2ⁿ'),
+    desc: t('La gara fra le curve di crescita. Qui si capisce che cosa significa davvero "vantaggio quantistico".'), xp: 80 },
+
+  { id: 'k6-reversibile', part: 'K', n: 'K·6', open: true,
+    title: t('Informazione che si perde: il ponte verso il quantistico'),
+    desc: t('AND butta via un bit, cancellare scalda (Landauer), Toffoli calcola all\'indietro. Da qui parte tutto.'), xp: 90 },
 
   // ---------- PARTE A — il qubit subito ----------
   { id: '01-qubit',   part: 'A', n: 1, open: true,
@@ -225,9 +268,26 @@ LEVELS.forEach(l => {
 
 export const TOTAL_XP = LEVELS.reduce((s, l) => s + l.xp, 0);
 
+/* Parti FACOLTATIVE: si giocano quando si vuole, non sbloccano niente e non
+   vengono sbloccate da niente.
+
+   Sono due, e per lo stesso motivo: contengono i prerequisiti, non il corso.
+   La Parte 0 è la matematica delle medie, la Parte K è il computer classico.
+   Chi le sa già le salta senza pagare pegno; chi ha dei buchi ci torna nel
+   momento in cui il buco si fa sentire — che è il momento in cui si impara
+   davvero, e non due settimane prima "perché è nel programma".
+
+   Tenerle fuori dalla catena ha anche un effetto pratico che vale da solo:
+   una parte nuova aggiunta qui in mezzo non richiude i livelli a chi era già
+   a metà corso. */
+export const OPTIONAL_PARTS = ['0', 'K'];
+
+/** Un livello del percorso principale, cioè quello che va superato in ordine. */
+export const isMain = l => !OPTIONAL_PARTS.includes(l.part);
+
 /* Prerequisiti: ogni livello del percorso principale richiede la PADRONANZA
-   del precedente. Parte 0 e livello 1 sono sempre aperti. */
-const MAIN = LEVELS.filter(l => l.part !== '0');
+   del precedente. Parti facoltative e livello 1 sono sempre aperti. */
+const MAIN = LEVELS.filter(isMain);
 LEVELS.forEach(l => { l.req = null; });
 MAIN.forEach((l, i) => { if (i > 0 && !l.open) l.req = MAIN[i - 1].id; });
 

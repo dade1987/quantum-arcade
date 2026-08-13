@@ -35,7 +35,8 @@ const PRESETS = {
 
 export function circuitLab(host, opts = {}) {
   const cfg = Object.assign({ n: 3, maxCols: 10, preset: null, onChange: null, title: t('Laboratorio dei circuiti'), subtitle: t('scegli una porta, clicca sulla griglia') }, opts);
-  const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
+  const w = widget(host, {
+    modo: 'quantistico', title: cfg.title, subtitle: cfg.subtitle });
 
   const st = {
     n: cfg.n, ops: [], sel: 'H', pending: null, step: -1,

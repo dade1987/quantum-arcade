@@ -1,8 +1,8 @@
 @extends('layouts.page', [
     'title' => 'Quantum Arcade — Quantum computing by playing | free interactive course in English',
-    'description' => 'Free game-course in English to learn quantum computing from scratch: waves, phase, complex numbers, the Fourier transform (DFT), qubits, gates, entanglement, Grover, QFT and Shor\'s algorithm. 28 interactive levels with a real quantum simulator. By Davide Cavallini.',
+    'description' => 'Free game-course in English to learn quantum computing from scratch: waves, phase, complex numbers, the Fourier transform (DFT), qubits, gates, entanglement, Grover, QFT and Shor\'s algorithm. 34 interactive levels with a real quantum simulator. By Davide Cavallini.',
     'ogTitle' => 'Quantum Arcade — learn quantum computing by playing',
-    'ogDescription' => '28 interactive levels in English: from waves to the quantum Fourier transform and Shor\'s algorithm. With a real quantum simulator and unlock-by-mastery.',
+    'ogDescription' => '34 interactive levels in English: from waves to the quantum Fourier transform and Shor\'s algorithm. With a real quantum simulator and unlock-by-mastery.',
 ])
 
 @push('head')
@@ -121,7 +121,7 @@
     <span class="tag cyan">🎮 free game-course in English</span>
     <h1 style="margin-top:14px">Learn quantum computing<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">by actually playing it.</span></h1>
     <p class="lead">
-      Twenty-eight interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
+      Thirty-four interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
       (frequency, period, phase) and arrive at the <b>quantum Fourier transform</b> and <b>Shor's algorithm</b>.
       Every formula is taken apart piece by piece, and every piece is something you can
       <b>touch, drag and break</b> until the penny drops.
@@ -139,6 +139,7 @@
     <div class="btn-row" style="margin:18px 0 6px">
       <a class="btn primary" id="continue" href="{{ \App\Support\Site::lessonPath('01-qubit', $locale) }}">▶ Start</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('00-numeri', $locale) }}">🧮 I am starting from absolute zero (Part 0)</a>
+      <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('k1-bit', $locale) }}">💻 I do not know what a bit is (Part K)</a>
       <a class="btn ghost" href="#map-section">🗺️ All the levels</a>
       <a class="btn ghost" href="{{ \App\Support\Site::page('method', $locale) }}">🔬 The method (and the research)</a>
     </div>
@@ -314,7 +315,8 @@
   <h2 id="map-section">🗺️ The level map</h2>
   <p class="dim">Each level opens by passing the previous one's check: a <b>hands-on mission</b> inside the game
   plus the <b>recall quiz</b>. Unlimited attempts, no penalty, no grade.
-  <b>Part 0</b> and <b>level 1</b> are always open.</p>
+  <b>Part 0</b> (middle-school maths), <b>Part K</b> (the classical computer) and <b>level 1</b> are always
+  open: the first two are optional and can be played whenever you need them.</p>
   <div id="map"></div>
 
   <!-- ============ FAQ ============ -->
@@ -325,6 +327,14 @@
       <p class="mb0 dim">No. <b>Part 0</b> covers negative numbers, fractions and percentages, coordinates, degrees and probability:
       it is written for someone who has just finished middle school. Sine, cosine, complex numbers and e^{iθ} get built
       inside the course, starting from a point turning on a circle.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Do I need to know how a normal computer works?</h3>
+      <p class="mb0 dim">No — and in fact it is better <b>not</b> to take it for granted. <b>Part K</b> — six
+      optional levels — explains classical computing by playing: bits and binary, logic gates, addition with
+      carries, linear and binary search, the cost of algorithms, reversibility. It is there because "quantum" is
+      a <b>difference</b>, and a difference is only visible when you have something to compare it with: every
+      quantum level opens with a side-by-side comparison of how it is done classically and what changes.</p>
     </div>
     <div class="panel">
       <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Is it a real simulator?</h3>

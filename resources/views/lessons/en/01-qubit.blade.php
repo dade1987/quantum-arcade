@@ -6,6 +6,8 @@
 import { renderLesson } from '/js/core/lesson.js';
 import { formula, stepper } from '/js/core/formula.js';
 import { qubitBuilder, coinVsQubit, hadamardMap, probabilitaQuadrato } from '/js/widgets/qubit.js';
+import { confronto } from '/js/core/confronto.js';
+import { registroCoppia } from '/js/widgets/coppie.js';
 import { polaroidLab } from '/js/widgets/quantum2.js';
 
 const L = renderLesson({
@@ -16,6 +18,53 @@ const L = renderLesson({
          manages to explain.`,
 
   steps: [
+    {
+      t: 'Classical first: a bit is a switch, and that is all',
+      html: `<p>The yardstick, in one line: a <b>bit</b> is a box holding <b>0 or 1</b>. Not "a bit of both",
+             not "30% on". If you look at the transistor holding it, you find it in one of the two states —
+             even while nobody is watching.</p>
+             <p>And with <b>n</b> bits? The possible configurations are 2ⁿ, but the computer holds <b>exactly
+             one</b> at a time. With 300 switches the configurations would outnumber the atoms in the universe,
+             and you would still be using one of them.</p>
+             <p>Before reading any further, try it: below is the same three-cell register, with a switch that
+             changes machine. Read it five times as a normal computer, then move to the quantum one, put all
+             three cells in superposition and read it twenty times. The difference is not in the explanation,
+             it is in the bars.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'registro', title: 'The same register, two machines', text: 'read the classical register 5 times, then put the quantum one in superposition and measure it 20 times.', xp: 35 });
+        el.appendChild(m.root);
+        registroCoppia(el, { n: 3, onWin: () => m.complete() });
+      },
+      after: `<p>Keep that sentence in your hand while you read the rest of this level: it is the only thing
+             about to change, and that is why it changes everything.</p>` +
+             confronto({
+               titolo: 'Bit and qubit, line by line',
+               livello: 'k1-bit',
+               vaiA: 'Play with real bits (level K·1)',
+               classico: {
+                 titolo: 'The bit',
+                 html: `<ul class="mb0">
+                          <li>holds <b>0 or 1</b></li>
+                          <li>looking at it <b>does not change it</b></li>
+                          <li>can be <b>copied</b> as much as you like</li>
+                          <li>n bits = <b>one</b> number out of 2ⁿ</li>
+                        </ul>`,
+               },
+               quantistico: {
+                 titolo: 'The qubit',
+                 html: `<ul class="mb0">
+                          <li>holds <b>two numbers</b> (the amplitudes), which may be negative</li>
+                          <li>looking at it <b>rewrites</b> it: measurement collapses the state</li>
+                          <li><b>cannot</b> be copied (level 6)</li>
+                          <li>n qubits = <b>2ⁿ amplitudes together</b>, but you read n digits</li>
+                        </ul>`,
+               },
+               verdetto: `<b>The line that matters is the first one:</b> an amplitude can be <b>negative</b>, a
+                          probability cannot. And it is only because they can be negative that two possibilities
+                          manage to <b>cancel out</b>. Without that cancellation a qubit would be an expensive
+                          loaded coin.`,
+             }),
+    },
     {
       t: 'A bit that can be a bit of both',
       html: `<p>An ordinary <b>bit</b> is a box holding <b>0 or 1</b>. Full stop. It is like a light bulb:

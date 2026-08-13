@@ -25,7 +25,8 @@ import { t } from '../core/i18n.js';
    ------------------------------------------------------------ */
 export function polaroidLab(host, opts = {}) {
   const cfg = Object.assign({ onDiscover: null }, opts);
-  const w = widget(host, { title: t('Fotoni e filtri polaroid'), subtitle: t('l\'esperimento dei tre filtri') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Fotoni e filtri polaroid'), subtitle: t('l\'esperimento dei tre filtri') });
   const st = { a1: 0, a2: 90, a3: 45, useThird: false, n: 1000 };
 
   const frac = () => {
@@ -128,7 +129,8 @@ export function polaroidLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function twoQubitLab(host, opts = {}) {
   const cfg = Object.assign({ onEntangle: null }, opts);
-  const w = widget(host, { title: t('Due qubit'), subtitle: t('quattro ampiezze, e la sorpresa dell\'entanglement') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Due qubit'), subtitle: t('quattro ampiezze, e la sorpresa dell\'entanglement') });
   let st = zeroState(2);
   const hist = { seq: [] };
 
@@ -208,7 +210,8 @@ export function twoQubitLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function teleportLab(host, opts = {}) {
   const cfg = Object.assign({ onDone: null }, opts);
-  const w = widget(host, { title: t('Teletrasporto quantistico'), subtitle: t('sposta uno stato senza spostare la particella') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Teletrasporto quantistico'), subtitle: t('sposta uno stato senza spostare la particella') });
   const st = { theta: 70, phi: 40, step: 0, bits: [null, null], state: null };
 
   const steps = [

@@ -5,7 +5,9 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
 import { bvLab } from '/js/widgets/algos.js';
+import { oracoloClassico } from '/js/widgets/classic2.js';
 
 const L = renderLesson({
   id: '10-bernstein',
@@ -13,6 +15,43 @@ const L = renderLesson({
          Classically it takes one query per bit. Quantumly: <b>one, always</b>.`,
 
   steps: [
+    {
+      t: 'Classical first: one question per bit',
+      html: `<p>The box hides a secret string and answers your questions with a single bit: the sum (modulo 2)
+             of the bits your question and the secret have in common.</p>
+             <p>Play it classically first. The best strategy is obvious once you see it: ask <code>1000</code>,
+             and the answer <b>is</b> the first bit of the secret; then <code>0100</code> for the second, and so
+             on. One bit of secret per question — and you cannot do better, because each answer is a single bit
+             and there are n bits to uncover.</p>`,
+      mount: el => { oracoloClassico(el, { modo: 'bernstein', bits: 4 }); },
+      after: confronto({
+        titolo: 'Four secret bits: four questions, or one?',
+        livello: 'k4-ricerca',
+        vaiA: 'Review what a search costs (K·4)',
+        classico: {
+          titolo: 'One bit at a time',
+          html: `<p>Every query returns <b>one bit</b> of information. The secret contains <b>n</b> of them. So it
+                 takes <b>n queries</b>, and that is a proved bound — not a flaw in the strategy.</p>
+                 <p class="mb0">With a 128-bit secret: 128 questions.</p>`,
+        },
+        quantistico: {
+          titolo: 'All the bits in one shot',
+          html: `<p>Bernstein–Vazirani queries the oracle with all inputs in superposition: the answer lands in
+                 the <b>phases</b>, and a layer of Hadamards turns it back into a readable number.</p>
+                 <p class="mb0">You measure once and read <b>the whole string</b>, with probability 100%.
+                 With a 128-bit secret: <b>1</b> question.</p>`,
+        },
+        numeri: [
+          { cosa: '4-bit secret (the game above)', classico: '4 questions', quantistico: '1' },
+          { cosa: '128-bit secret', classico: '128 questions', quantistico: '1' },
+          { cosa: 'probability of being wrong', classico: '0', quantistico: '0' },
+        ],
+        verdetto: `<b>Here the advantage is linear (n → 1), not exponential as in Simon or Shor.</b> But it is
+                   the first case where the answer comes out <b>complete and certain</b>, not just "what type the
+                   function was": it is worth watching closely how, because it is the pattern for everything
+                   that follows.`,
+      }),
+    },
     {
       t: 'The secret problem',
       html: `<p>There is a secret string <b>s</b> of n bits (say <code>1011</code>). The oracle will not tell you what it is,

@@ -5,7 +5,9 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
 import { groverLab } from '/js/widgets/algos.js';
+import { searchRace } from '/js/widgets/classic2.js';
 
 const L = renderLesson({
   id: '11-grover',
@@ -14,6 +16,47 @@ const L = renderLesson({
          Y lo bonito es que se ve suceder, barra a barra.`,
 
   steps: [
+    {
+      t: 'Primero en clásico: busca tú, y cuenta los intentos',
+      html: `<p>Antes de mirar cómo busca Grover, conviene buscar con las propias manos. Dieciséis cajas,
+             un número dentro, y ninguna pista: abre, cuenta, y siente lo pesado que es.</p>
+             <p>Luego pasa a la <b>estantería ordenada</b> y mira qué cambia: el mismo problema, pero con una
+             estructura que aprovechar, se resuelve en cuatro movimientos. Es la diferencia que decide todo el
+             nivel: la ventaja cuántica existe <b>solo</b> en el primer caso.</p>`,
+      mount: el => { searchRace(el, { n: 16 }); },
+      after: `<div class="callout key"><b>El número que hay que tener en la mano:</b> sobre N cajas desordenadas,
+              de media <b>N/2</b> aperturas. Sobre 16 cajas son 8; sobre un millón son quinientas mil. Ese es el
+              récord que hay que batir — y abajo, la cuenta de cuánto lo bate Grover.</div>` +
+              confronto({
+                titolo: 'Buscar en un pajar: clásico contra Grover',
+                livello: 'k4-ricerca',
+                vaiA: 'Repasa la búsqueda clásica (K·4)',
+                classico: {
+                  titolo: 'Búsqueda por fuerza bruta',
+                  html: `<p>Pruebas una posibilidad cada vez. El oráculo responde <b>sí/no</b> y no da ninguna
+                         pista sobre dónde mirar después.</p>
+                         <p class="mb0">De media <b>N/2</b> intentos, en el peor caso N. Y se <b>demuestra</b>
+                         que no se puede hacer mejor (nivel K·4): mientras quede una caja cerrada, no puedes
+                         estar seguro.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Grover',
+                  html: `<p>Interroga <b>todas</b> las posibilidades en superposición, y luego repite dos
+                         movimientos — oráculo y difusor — que hacen <b>crecer</b> la amplitud correcta y bajar
+                         las demás.</p>
+                         <p class="mb0">Unos <b>√N</b> intentos. Y también aquí hay un límite demostrado: mejor
+                         que √N no se puede hacer ni siquiera cuánticamente.</p>`,
+                },
+                numeri: [
+                  { cosa: 'N = 16 (el juego de aquí arriba)', classico: '8 intentos de media', quantistico: '3 iteraciones' },
+                  { cosa: 'N = 1.000.000', classico: '500.000', quantistico: '~785' },
+                  { cosa: 'clave AES-128', classico: '2¹²⁸', quantistico: '2⁶⁴' },
+                ],
+                verdetto: `<b>No es «infinitamente más rápido»: es la raíz cuadrada.</b> Una ganancia real y
+                           general, pero cuadrática — bastante para duplicar las claves criptográficas, no
+                           bastante para hacer fácil un problema imposible.`,
+              }),
+    },
     {
       t: 'El problema y el límite clásico',
       html: `<p>Tienes N posibilidades. Solo una es la correcta, y la única manera de reconocerla es probarla

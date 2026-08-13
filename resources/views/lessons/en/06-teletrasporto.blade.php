@@ -5,6 +5,7 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
 import { teleportLab } from '/js/widgets/quantum2.js';
 
 const L = renderLesson({
@@ -14,6 +15,43 @@ const L = renderLesson({
          No magic: just entanglement and measurement.`,
 
   steps: [
+    {
+      t: 'Classical first: copying is free, which is why you never think about it',
+      html: `<p>Copy a file, forward a message, hit Ctrl-C: you have duplicated information without touching the
+             original, at no cost and with no limit. It is so obvious that it does not even feel like a property
+             — and yet it is <b>the</b> property half of computing rests on: backups, caches, the repetition code
+             of level K·6, the very fact that you can read a bit without using it up.</p>
+             <p>A bit can be copied because reading it <b>does not change it</b>: you look at the voltage on the
+             wire, see that it is high, write it down somewhere else. Done.</p>
+             <p>With a qubit that sequence — "look… see… write down" — is exactly what cannot be done. And it is
+             not a technological limit waiting to be overcome: it is a <b>theorem</b>.</p>` +
+             confronto({
+               titolo: 'Copying a bit, copying a qubit',
+               livello: 'k1-bit',
+               vaiA: 'Review what a bit is (level K·1)',
+               classico: {
+                 titolo: 'A bit can be copied',
+                 html: `<p>Reading does not alter. Copying is free, unlimited and perfect.</p>
+                        <p class="mb0">Consequences: backups, redundancy, error correction by repetition, and the
+                        fact that wiretapping a line <b>leaves no trace</b>.</p>`,
+               },
+               quantistico: {
+                 titolo: 'A qubit cannot',
+                 html: `<p><b>No-cloning theorem</b> (Wootters and Zurek, 1982): no operation exists that
+                        duplicates an unknown quantum state.</p>
+                        <p class="mb0">Consequences: no qubit backups, much harder error correction — but also
+                        quantum cryptography, where <b>eavesdropping shows up</b> because it leaves a mark.</p>`,
+               },
+               numeri: [
+                 { cosa: 'copies of an unknown state', classico: 'unlimited', quantistico: 'zero' },
+                 { cosa: 'moving it elsewhere', classico: 'copy and delete', quantistico: 'teleportation: 2 classical bits + 1 entangled pair' },
+                 { cosa: 'eavesdropping', classico: 'invisible', quantistico: 'detectable' },
+               ],
+               verdetto: `<b>The same prohibition creates the problem and the gift.</b> Not being able to copy
+                          makes protecting qubits from errors hard (level 21), and at the same time makes possible
+                          a communication line where spying cannot happen without being caught.`,
+             }),
+    },
     {
       t: 'The no-cloning theorem',
       html: `<p>A reasonable question: if a qubit is fragile, why not make a backup copy of it?</p>

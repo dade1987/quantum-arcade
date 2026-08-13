@@ -6,6 +6,8 @@
 import { renderLesson } from '/js/core/lesson.js';
 import { stepper } from '/js/core/formula.js';
 import { circuitLab } from '/js/widgets/circuit.js';
+import { confronto } from '/js/core/confronto.js';
+import { stradeCoppia } from '/js/widgets/coppie.js';
 import { manyArrows } from '/js/widgets/twowaves.js';
 
 const L = renderLesson({
@@ -14,6 +16,52 @@ const L = renderLesson({
          perché è <b>l'unico</b> meccanismo che rende utile un computer quantistico. Tutto il resto è contorno.`,
 
   steps: [
+    {
+      t: 'Prima, in classico: le probabilità si sommano e basta',
+      html: `<p>Prendi un caso classico qualunque: due strade portano allo stesso posto, una con probabilità
+             30% e l'altra con probabilità 20%. Probabilità di arrivarci: <b>50%</b>. Si sommano, punto.</p>
+             <p>E soprattutto: <b>aggiungere una strada non può mai peggiorare</b>. Non esiste, in nessun
+             calcolo di probabilità classico, un modo di aprire un nuovo percorso e ottenere <i>meno</i>
+             possibilità di arrivare. Le probabilità sono numeri fra 0 e 1: la somma di roba positiva cresce
+             sempre.</p>
+             <p>Provaci: qui sotto ci sono una sorgente, due strade e un rivelatore. In modo classico prova a
+             <b>spegnere</b> il rivelatore aprendo la seconda strada — non ci riuscirai, e non è un difetto del
+             gioco. Poi passa al quantistico, dove la seconda strada può portare un'ampiezza <b>negativa</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'strade', title: 'Spegnere aprendo', text: 'constata che in classico non si può, poi spegni il rivelatore in quantistico con tutte e due le strade aperte.', xp: 40 });
+        el.appendChild(m.root);
+        stradeCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Un computer classico che «prova tante strade» — un algoritmo randomizzato, un Monte Carlo —
+             vive dentro questa regola. È il motivo per cui non può fare quello che hai appena fatto tu.</p>` +
+             confronto({
+               titolo: 'Probabilità classiche e ampiezze quantistiche',
+               livello: '00-caso',
+               vaiA: 'Ripassa la probabilità (livello 0·4)',
+               classico: {
+                 titolo: 'Probabilità',
+                 html: `<p>Numeri fra <b>0 e 1</b>. Due strade che portano allo stesso risultato: le probabilità
+                        si <b>sommano</b>.</p>
+                        <p class="mb0">Una strada in più non può togliere: 0,3 + 0,2 = 0,5. Non esiste un −0,2
+                        di probabilità.</p>`,
+               },
+               quantistico: {
+                 titolo: 'Ampiezze',
+                 html: `<p>Numeri che possono essere <b>negativi</b> (e più avanti, frecce che puntano ovunque).
+                        Due strade: si sommano le <b>ampiezze</b>, e solo alla fine si eleva al quadrato.</p>
+                        <p class="mb0">+0,7 e −0,7 fanno <b>zero</b>: aprire una strada in più può azzerare un
+                        risultato che prima era possibile.</p>`,
+               },
+               numeri: [
+                 { cosa: 'due strade da 50%', classico: '0,5 + 0,5 = 100%', quantistico: '(0,7 − 0,7)² = 0%, oppure (0,7 + 0,7)² = 100%' },
+                 { cosa: 'aggiungere una possibilità', classico: 'non può mai peggiorare', quantistico: 'può cancellare del tutto' },
+                 { cosa: 'mescolare due volte', classico: 'resta casuale', quantistico: 'H·H torna esattamente all\'inizio' },
+               ],
+               verdetto: `<b>Qui sta l'unica differenza vera fra i due mondi, ed è tutto quello che il corso
+                          userà d'ora in poi.</b> Il computer quantistico non «prova tutte le strade»: fa in modo
+                          che le strade sbagliate si annullino fra loro prima che tu guardi.`,
+             }),
+    },
     {
       t: 'Più strade per arrivare allo stesso risultato',
       html: `<p>Ecco la regola completa del calcolo quantistico, in due righe:</p>

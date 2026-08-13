@@ -5,6 +5,8 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { blochLab } from '/js/widgets/bloch.js';
+import { confronto } from '/js/core/confronto.js';
+import { porteCoppia } from '/js/widgets/coppie.js';
 import { formula, stepper } from '/js/core/formula.js';
 
 const L = renderLesson({
@@ -13,6 +15,51 @@ const L = renderLesson({
          della freccia sulla sfera. Nessuna crea o distrugge informazione — e questo, come vedremo, non è un dettaglio.`,
 
   steps: [
+    {
+      t: 'Prima, in classico: cosa fa una porta logica',
+      html: `<p>In un computer normale una <b>porta</b> prende due bit e ne restituisce uno: AND, OR, XOR.
+             Sono tabelle di quattro righe, e con quelle è costruito tutto — anzi, con il solo <b>NAND</b> è
+             costruito tutto.</p>
+             <p>C'è però un dettaglio che nel classico non dà fastidio a nessuno e che qui diventa il punto:
+             una porta AND <b>butta via un bit</b>. Da un'uscita 0 non sai più se gli ingressi erano 00, 01 o
+             10. Il calcolo va avanti perdendo pezzi per strada, e a nessuno importa.</p>
+             <p>Prima di leggere il catalogo, provalo: qui sotto c'è una lancetta che va da |0⟩ a |1⟩ e un
+             bersaglio a metà strada. Con le porte classiche prova a centrarlo — poi passa al quantistico e
+             riprova. Il muro contro cui sbatti in modo classico <b>è</b> la lezione.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'lancetta', title: 'Il bersaglio a metà strada', text: 'provaci con le porte classiche (non si può, e va bene così), poi centralo con quelle quantistiche.', xp: 35 });
+        el.appendChild(m.root);
+        porteCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Le porte quantistiche non possono permetterselo. Non per eleganza: perché la fisica non lo
+             consente.</p>` +
+             confronto({
+               titolo: 'Porta classica e porta quantistica',
+               livello: 'k2-porte',
+               vaiA: 'Gioca con AND, OR, XOR e NAND (livello K·2)',
+               classico: {
+                 titolo: 'AND, OR, XOR, NAND',
+                 html: `<p>Due bit dentro, <b>uno</b> fuori. Sono <b>tabelle</b>: si descrivono elencando cosa
+                        esce per ogni ingresso.</p>
+                        <p class="mb0">Quasi tutte <b>perdono informazione</b>, e non si possono rifare
+                        all'indietro. Insieme universale: {NAND}.</p>`,
+               },
+               quantistico: {
+                 titolo: 'X, Z, H, rotazioni',
+                 html: `<p>n qubit dentro, <b>n</b> fuori. Sono <b>rotazioni</b>: si descrivono dicendo di quanto
+                        girano lo stato, e infatti si vedono muovere sulla sfera.</p>
+                        <p class="mb0">Tutte <b>reversibili</b>, sempre. Insieme universale: {H, T, CNOT}.</p>`,
+               },
+               numeri: [
+                 { cosa: 'bit/qubit in ingresso → uscita', classico: '2 → 1', quantistico: 'n → n' },
+                 { cosa: 'si torna indietro?', classico: 'no (tranne NOT)', quantistico: 'sempre' },
+                 { cosa: 'applicandola due volte', classico: 'in genere non torna niente', quantistico: 'X, Z e H tornano al punto di partenza' },
+               ],
+               verdetto: `<b>Il fatto che H applicata due volte riporti esattamente allo stato iniziale</b> —
+                          cosa che con una moneta mescolata due volte non succede mai — è il primo esperimento
+                          in cui la differenza si tocca con mano. Tienilo d'occhio nei passi che seguono.`,
+             }),
+    },
     {
       t: 'Il catalogo, con la traduzione in italiano',
       html: `<table class="table">

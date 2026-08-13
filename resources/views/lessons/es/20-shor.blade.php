@@ -5,6 +5,7 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
 import { shorLab } from '/js/widgets/qft.js';
 
 const L = renderLesson({
@@ -26,6 +27,42 @@ const L = renderLesson({
              y descifrarlo dentro de diez o veinte años. Para los datos que deben seguir siendo secretos mucho tiempo (sanitarios, militares,
              industriales) la amenaza es <b>ya ahora</b>. Es el motivo por el que el NIST estandarizó
              algoritmos <b>poscuánticos</b> en 2024.</div>`,
+      after: `<p>Antes de mirar la jugada de Shor, conviene saber <b>exactamente</b> cuánto cuesta el método
+              normal, si no «más rápido» no quiere decir nada.</p>
+              <ul>
+                <li><b>División por tanteo:</b> pruebas 2, 3, 5, 7… hasta la raíz de N. Cuesta <b>√N</b>
+                    divisiones, que parece poco pero es exponencial <b>en el número de cifras</b>: duplicar las
+                    cifras eleva al cuadrado el trabajo.</li>
+                <li><b>La criba del cuerpo de números (GNFS)</b>, la mejor que se conoce: mucho más astuta, pero
+                    siempre <b>subexponencial</b>. Con RSA-2048 harían falta miles de millones de años de
+                    cálculo.</li>
+              </ul>` + confronto({
+                titolo: 'Factorizar un número de 2048 bits',
+                livello: 'k5-costo',
+                vaiA: 'Repasa el muro exponencial (nivel K·5)',
+                classico: {
+                  titolo: 'Lo mejor que sabemos hacer',
+                  html: `<p>GNFS, con todos los ordenadores del mundo juntos: <b>miles de millones de años</b>.</p>
+                         <p class="mb0">Y ojo: <b>no está demostrado</b> que sea imposible hacerlo mejor. Nadie ha
+                         probado nunca que factorizar sea difícil — solo sabemos que nadie lo ha conseguido.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Shor',
+                  html: `<p>Unas <b>n³</b> operaciones, es decir unas horas, en una máquina con algunos millones
+                         de cúbits físicos corregidos de errores.</p>
+                         <p class="mb0">Esa máquina <b>no existe</b>: hoy se factorizan números como 15 y 21. La
+                         distancia entre 21 y RSA-2048 es toda ingeniería (nivel 21), no teoría.</p>`,
+                },
+                numeri: [
+                  { cosa: 'número de 2048 bits', classico: 'miles de millones de años', quantistico: 'horas' },
+                  { cosa: 'tipo de crecimiento', classico: 'subexponencial', quantistico: 'polinómico (n³)' },
+                  { cosa: 'máquina necesaria', classico: 'un portátil', quantistico: 'millones de cúbits físicos' },
+                ],
+                verdetto: `<b>Este es el único sitio del curso donde la ganancia cambia el mundo</b> — y vale la
+                           pena recordar por qué: no porque lo cuántico «pruebe todas las divisiones a la vez»,
+                           sino porque el problema, reescrito, esconde una <b>periodicidad</b>. Y para encontrar
+                           periodicidades la interferencia es imbatible.`,
+              }),
     },
     {
       t: 'La jugada genial: de factores a periodo',

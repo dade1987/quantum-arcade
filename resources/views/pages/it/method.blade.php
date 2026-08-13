@@ -144,7 +144,66 @@ nella pratica sbagliato: sette livelli di matematica prima di vedere l'oggetto p
 <div class="callout key"><b>Regola che mi sono dato:</b> nessun attrezzo può essere introdotto più di un livello
 prima del punto in cui serve, e ogni concetto deve tornare almeno due volte.</div>
 
-<h2>10. Il suono: informazione, non decorazione</h2>
+<h2>10. Perché il computer classico viene prima (e resta facoltativo)</h2>
+<p>«Quantistico» non è una cosa: è una <b>differenza</b>. E una differenza si vede solo se si conosce il termine
+di paragone. Chi non ha mai messo a fuoco che cos'è un bit non ha modo di accorgersi di che cosa sia strano in un
+qubit: gli manca lo sfondo su cui si stacca la figura. Quasi tutte le frasi sbagliate che circolano —
+«prova tutte le strade insieme», «è infinitamente più veloce» — nascono esattamente da lì.</p>
+<p>Da qui due scelte, che si sostengono a vicenda:</p>
+<ul>
+  <li>una <b>Parte K</b> di sei livelli sul computer normale (bit, porte logiche, somma con il riporto, ricerca,
+      costo degli algoritmi, reversibilità e principio di Landauer), giocata con gli stessi mini-giochi del resto
+      del corso;</li>
+  <li>un <b>blocco di confronto</b> in apertura di ogni livello quantistico dove un confronto esiste davvero:
+      a sinistra come si fa con un computer normale, a destra cosa cambia, sotto il numero che dice quanto vale
+      la differenza. Dove il confronto vale una partita e non un paragrafo — la ricerca prima di Grover, l'oracolo
+      interrogato a mano prima di Deutsch–Jozsa, il codice a ripetizione prima della correzione d'errore
+      quantistica — il mini-gioco classico si gioca lì, sul posto.</li>
+</ul>
+<p>Le ragioni per cui è fatto <b>così</b> e non con un capitolo di teoria iniziale:</p>
+<ul>
+  <li><b>Confrontare due casi concreti fa emergere il principio</b> meglio che enunciare il principio e poi darne
+      un esempio (Gentner, Loewenstein &amp; Thompson, 2003; Alfieri, Nokes-Malach &amp; Schunn, 2013). Funziona
+      soprattutto quando i due casi si somigliano quasi del tutto e differiscono in <b>un punto solo</b>: che è
+      esattamente il rapporto fra bit e qubit, fra ricerca lineare e Grover, fra DFT e QFT.</li>
+  <li><b>Le due colonne stanno affiancate</b>, non una sotto l'altra: leggere la seconda tenendo a mente la prima
+      è carico cognitivo speso in memoria invece che in ragionamento (effetto dell'attenzione divisa, Sweller,
+      Ayres &amp; Kalyuga). Con le colonne accostate il confronto lo fanno gli occhi.</li>
+  <li><b>Il numero in fondo è sempre dello stesso tipo</b> (quante operazioni, quante domande, quanti stati):
+      un metro che non cambia unità di misura da un livello all'altro è ciò che permette di accorgersi che
+      Grover e Shor <b>non fanno la stessa cosa</b> — uno è un guadagno quadratico, l'altro esponenziale.</li>
+  <li><b>La Parte K è facoltativa</b>, come la Parte 0, e sta fuori dalla catena dei prerequisiti. Chi sa già
+      come funziona un computer tira dritto; chi ha un buco ci torna nel momento in cui il buco si fa sentire —
+      che è il momento in cui si impara davvero, e non due settimane prima "perché è nel programma". Ogni blocco
+      di confronto porta il link al livello classico corrispondente, quindi la porta è sempre aperta e non è mai
+      un pedaggio.</li>
+</ul>
+<div class="callout key"><b>Effetto collaterale voluto:</b> chi finisce la Parte K ha imparato bene anche
+l'informatica classica — binario, porte, complessità, reversibilità — che è roba utile di per sé, e non solo
+il preambolo di qualcos'altro.</div>
+
+<div class="callout key" style="margin-top:18px"><b>Come si presenta in pratica, livello per livello.</b>
+Dove il confronto vale una partita e non un paragrafo, i due modi stanno dentro <b>lo stesso mini-gioco</b>, con un
+interruttore che cambia macchina: stesso schermo, stessi bottoni, stessa missione. Cambia il meccanismo, e basta.
+Succede al livello 1 (lo stesso registro di tre caselle: una colonna piena contro otto), al 3 (la stessa lancetta:
+salti contro rotazioni), al 4 (la sfida delle buste, dove il classico si ferma al 75% e l'entanglement arriva
+all'85%) e al 7 (due strade, dove le probabilità si sommano e le ampiezze si cancellano).</div>
+<p>Tre dettagli di quei quattro giochi sono voluti e vale la pena dichiararli:</p>
+<ul>
+  <li><b>Prima si prova, poi si spiega</b>, e in modo classico certe missioni <b>non si possono vincere</b>.
+      Sbattere contro il muro con gli attrezzi che si hanno rende la soluzione successiva molto più solida che
+      riceverla per prima: è il <i>productive failure</i> di Kapur, già citato al punto 2. Il gioco però dice
+      quando il muro è un muro, invece di lasciar girare a vuoto: fallire è utile, farlo senza saperlo no.</li>
+  <li><b>I due casi sono allineati</b>: se una cosa cambia fra i due modi, è perché è <b>la</b> cosa. È la
+      condizione che rende efficace il confronto (Gentner, <i>structure mapping</i>): il cervello isola la
+      differenza solo se tutto il resto combacia.</li>
+  <li><b>Il modo di calcolo si vede sempre</b>, su ogni mini-gioco del corso: blu «computer normale», viola
+      «computer quantistico», con icona e parola scritta accanto al colore — mai il colore da solo, come al
+      punto 6. La Parte 0 e i laboratori delle onde non portano etichetta, perché la matematica non è né l'una
+      né l'altra cosa.</li>
+</ul>
+
+<h2>11. Il suono: informazione, non decorazione</h2>
 <p>Un arcade senza suoni non è un arcade, ma il rumore per il rumore viola il <b>principio di coerenza</b> di Mayer
 (tutto ciò che non serve al concetto sottrae attenzione). Il compromesso applicato qui:</p>
 <ul>
@@ -159,7 +218,7 @@ prima del punto in cui serve, e ogni concetto deve tornare almeno due volte.</di
       come richiedono anche le regole dei browser.</li>
 </ul>
 
-<h2>11. "Effetto wow": feedback immediato e specifico</h2>
+<h2>12. "Effetto wow": feedback immediato e specifico</h2>
 <p>Nella prima versione, i mini-giochi della Parte 0 non dicevano se stavi andando bene. La ricerca sul feedback
 (Hattie &amp; Timperley; Shute) è chiara su un punto: il feedback funziona quando è <b>immediato</b>, <b>specifico</b>
 e riferito al <b>compito</b>, non alla persona. Da qui tre aggiunte, presenti ora in <b>tutti</b> i giochi:</p>
@@ -172,11 +231,11 @@ e riferito al <b>compito</b>, non alla persona. Da qui tre aggiunte, presenti or
       dev'essere inequivocabile. È l'unica concessione "decorativa", e dura mezzo secondo.</li>
 </ul>
 
-<h2>12. Perché l'account è obbligatorio (e perché non mi piace)</h2>
+<h2>13. Perché l'account è obbligatorio (e perché non mi piace)</h2>
 <p>Chiedere una registrazione è attrito, e l'attrito fa perdere persone: sarebbe più comodo per tutti far girare
 tutto nel browser. Due ragioni lo rendono comunque la scelta giusta:</p>
 <ul>
-  <li><b>i progressi non devono morire con la cache.</b> Un corso da 28 livelli si fa in più sessioni e spesso su più
+  <li><b>i progressi non devono morire con la cache.</b> Un corso da 34 livelli si fa in più sessioni e spesso su più
       dispositivi: perdere tutto per una pulizia del browser è il modo più stupido di abbandonare;</li>
   <li><b>l'attestato deve valere qualcosa.</b> Le domande dell'esame arrivano dal server <b>senza</b> le risposte esatte
       e la correzione avviene sul server: se lo stato vivesse nel browser, chiunque potrebbe assegnarsi il 100%
@@ -186,7 +245,7 @@ tutto nel browser. Due ragioni lo rendono comunque la scelta giusta:</p>
 distinguere gli omonimi), nessuna profilazione, nessuna pubblicità, cancellazione totale in un click.
 Tutto scritto nell'<a href="{{ \App\Support\Site::page('privacy', $locale) }}">informativa</a>.</p>
 
-<h2>13. Il tutor AI che si rifiuta di darti la soluzione</h2>
+<h2>14. Il tutor AI che si rifiuta di darti la soluzione</h2>
 <p>Il tutor risponde solo con i contenuti di questo sito (RAG) e, per progetto, <b>non fornisce le soluzioni delle
 missioni</b>: dà un indizio e ti rimanda al cursore giusto. È una scelta scomoda ma sostenuta dalla ricerca sulle
 <b>desiderable difficulties</b> (Bjork): la fatica di arrivarci da soli è proprio ciò che produce l'apprendimento
@@ -194,7 +253,7 @@ duraturo. Un tutor compiacente farebbe sembrare tutto più facile e lascerebbe m
 <p>Ogni risposta cita il livello e ne mette il link: l'obiettivo del tutor è <b>riportarti dentro al gioco</b>,
 non sostituirlo. E se una domanda non trova risposta nei contenuti, lo dice invece di inventare.</p>
 
-<h2>14. Come faccio a sapere che il simulatore non mente</h2>
+<h2>15. Come faccio a sapere che il simulatore non mente</h2>
 <p>Un corso che insegna con un simulatore ha un problema di fondo: se il simulatore sbaglia, insegna l'errore —
 e lo insegna in modo convincente, perché lo fa vedere. I test del progetto controllano le proprietà che ci si
 aspetta (le porte restano unitarie, la QFT riproduce <i>esattamente</i> la matrice di Fourier, le probabilità
@@ -212,7 +271,7 @@ scaricato e compilato solo quando si lancia la verifica (<code>npm run test:cros
 da banco di prova. Ringrazio Francesco Sisini per avermene concesso l'uso — e soprattutto perché è dai
 <b>suoi libri</b> che ho cominciato a imparare questa materia.</p>
 
-<h2>15. Il testo del sito: quali tecniche di persuasione uso, dichiarate</h2>
+<h2>16. Il testo del sito: quali tecniche di persuasione uso, dichiarate</h2>
 <p>Questo sito ha anche uno scopo professionale: farmi conoscere come persona che costruisce sistemi AI e insegna.
 Trovo corretto dichiarare quali leve sto usando, così puoi valutarle:</p>
 <table class="table">
@@ -222,7 +281,7 @@ Trovo corretto dichiarare quali leve sto usando, così puoi valutarle:</p>
   <tr><td><b>Progresso donato</b></td><td>Nunes &amp; Drèze (2006)</td>
       <td>la Parte 0 è già "percorso fatto" per chi conosce le basi: si parte da una barra non vuota</td></tr>
   <tr><td><b>Prova sociale</b></td><td>Cialdini</td>
-      <td>numeri <b>veri</b>: 8 realtà in cui ho insegnato, 28 livelli, oltre 300 test automatici. Nessun "10.000 studenti felici" inventato</td></tr>
+      <td>numeri <b>veri</b>: 8 realtà in cui ho insegnato, 34 livelli, oltre 300 test automatici. Nessun "10.000 studenti felici" inventato</td></tr>
   <tr><td><b>Reciprocità</b></td><td>Cialdini</td>
       <td>il corso completo è gratuito e resta gratuito: la richiesta di contatto viene dopo, e solo se ti è servito</td></tr>
   <tr><td><b>Riduzione dell'attrito</b></td><td>modello di Fogg (B = MAP)</td>
@@ -233,7 +292,7 @@ Trovo corretto dichiarare quali leve sto usando, così puoi valutarle:</p>
 Le tecniche di persuasione applicate a un'affermazione falsa non sono marketing: sono un imbroglio,
 e su un sito che insegna a distinguere il vero dal verosimile sarebbero anche ridicole.</div>
 
-<h2>16. Come è scritto per i motori di ricerca e per le AI</h2>
+<h2>17. Come è scritto per i motori di ricerca e per le AI</h2>
 <p>Metà delle ricerche oggi finisce dentro una risposta generata da un'AI invece che in una lista di link.
 Le indicazioni emerse dalla ricerca sulla <i>Generative Engine Optimization</i> sono coerenti con lo scrivere bene:</p>
 <ul>
@@ -248,7 +307,7 @@ Le indicazioni emerse dalla ricerca sulla <i>Generative Engine Optimization</i> 
 <p class="dim small">Nota: la stessa ricerca mostra che i contenuti citati dalle AI sono quelli <b>strutturati e verificabili</b>.
 Un altro modo per dire che scrivere onestamente e scrivere per essere trovati, per una volta, coincidono.</p>
 
-<h2>17. Le tre lingue, e come si passa da una all'altra</h2>
+<h2>18. Le tre lingue, e come si passa da una all'altra</h2>
 <p>Il corso esiste per intero in italiano, inglese e spagnolo: non un riassunto tradotto, tre edizioni complete —
 esame e attestato compresi. Anche gli indirizzi sono tradotti (<code>/en/lessons/</code>, <code>/es/lecciones/</code>),
 perché una pagina in spagnolo che vive in una cartella chiamata "lezioni" è una pagina tradotta a metà, e si vede.</p>
@@ -274,7 +333,7 @@ perché una pagina in spagnolo che vive in una cartella chiamata "lezioni" è un
 <div class="callout key">La regola sotto tutte e quattro: <b>offrire, non decidere</b>. Chi legge sa in che lingua
 vuole leggere meglio di quanto lo sappia il suo browser.</div>
 
-<h2>18. Il glossario che sta aperto mentre leggi</h2>
+<h2>19. Il glossario che sta aperto mentre leggi</h2>
 <p>Per un pezzo di strada il glossario è stato l'<b>ultima</b> pagina del corso. Sbagliato: la parola che blocca la
 lettura non la incontri in fondo, la incontri al livello 4 — e una parola non capita non rimanda il problema,
 lo <b>moltiplica</b>, perché ogni frase dopo la usa come se fosse chiara.</p>
@@ -325,6 +384,9 @@ di dubbia provenienza.</p>
   <li>Kivetz, R., Urminsky, O., Zheng, Y. (2006). <i>The Goal-Gradient Hypothesis Resurrected</i>. Journal of Marketing Research. — <a href="https://business.columbia.edu/insights/chazen-global-insights/goal-gradient-hypothesis-resurrected" target="_blank" rel="noopener">sintesi Columbia Business School</a></li>
   <li>Nunes, J. C., Drèze, X. (2006). <i>The Endowed Progress Effect: How Artificial Advancement Increases Effort</i>. Journal of Consumer Research. — <a href="https://www.researchgate.net/publication/23547282_The_Endowed_Progress_Effect_How_Artificial_Advancement_Increases_Effort" target="_blank" rel="noopener">testo</a></li>
   <li>Sisini, F. — <i>QuantumSim</i>, simulatore di circuiti quantistici in C, e i libri divulgativi dello stesso autore da cui è cominciato il mio percorso in questa materia. — <a href="https://github.com/francescosisini/QuantumSim" target="_blank" rel="noopener">repository</a></li>
+  <li>Gentner, D., Loewenstein, J., Thompson, L. (2003). <i>Learning and Transfer: A General Role for Analogical Encoding</i>. Journal of Educational Psychology — confrontare due casi concreti fa emergere il principio comune meglio che studiarli uno alla volta. — <a href="https://groups.psych.northwestern.edu/gentner/papers/GentnerLoewensteinThompson03.pdf" target="_blank" rel="noopener">PDF</a></li>
+  <li>Alfieri, L., Nokes-Malach, T. J., Schunn, C. D. (2013). <i>Learning Through Case Comparisons: A Meta-Analytic Review</i>. Educational Psychologist, 48(2), 87–113. — <a href="https://www.tandfonline.com/doi/abs/10.1080/00461520.2013.775712" target="_blank" rel="noopener">articolo</a></li>
+  <li>Landauer, R. (1961), <i>Irreversibility and Heat Generation in the Computing Process</i>, e Bérut, A. et al. (2012), <i>Experimental verification of Landauer's principle</i>, Nature 483, 187–189 — il costo termodinamico di cancellare un bit, previsto e poi misurato. — <a href="https://www.nature.com/articles/nature10872" target="_blank" rel="noopener">articolo su Nature</a></li>
   <li>Bruner, J. S. (1960). <i>The Process of Education</i> — il curriculum a spirale: tornare sugli stessi concetti a livelli via via più profondi.</li>
   <li>Sweller, J. — teoria del carico cognitivo; Mayer, R. E. — principi di apprendimento multimediale (coerenza, segnalazione, contiguità, segmentazione, pre-addestramento, stile colloquiale).</li>
   <li>Hattie, J., Timperley, H. (2007). <i>The Power of Feedback</i>; Shute, V. (2008). <i>Focus on Formative Feedback</i> — il feedback funziona se immediato, specifico e riferito al compito.</li>

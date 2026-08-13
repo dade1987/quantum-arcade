@@ -1,8 +1,8 @@
 @extends('layouts.page', [
     'title' => 'Quantum Arcade — Computación cuántica jugando | curso interactivo gratuito en español',
-    'description' => 'Curso-videojuego gratuito en español para aprender computación cuántica desde cero: ondas, fase, números complejos, transformada de Fourier (DFT), cúbits, puertas, entrelazamiento, Grover, QFT y algoritmo de Shor. 28 niveles interactivos con un simulador cuántico real. De Davide Cavallini.',
+    'description' => 'Curso-videojuego gratuito en español para aprender computación cuántica desde cero: ondas, fase, números complejos, transformada de Fourier (DFT), cúbits, puertas, entrelazamiento, Grover, QFT y algoritmo de Shor. 34 niveles interactivos con un simulador cuántico real. De Davide Cavallini.',
     'ogTitle' => 'Quantum Arcade — aprende computación cuántica jugando',
-    'ogDescription' => '28 niveles interactivos en español: de las ondas a la transformada de Fourier cuántica y al algoritmo de Shor. Con un simulador cuántico de verdad y desbloqueo por dominio.',
+    'ogDescription' => '34 niveles interactivos en español: de las ondas a la transformada de Fourier cuántica y al algoritmo de Shor. Con un simulador cuántico de verdad y desbloqueo por dominio.',
 ])
 
 @push('head')
@@ -15,7 +15,7 @@
       "@type": "Course",
       "@id": "https://quantumarcade.it/es/#course",
       "name": "Quantum Arcade — Computación cuántica jugando",
-      "description": "Curso interactivo gratuito en español que enseña computación cuántica partiendo de las ondas y la transformada de Fourier hasta la QFT y el algoritmo de Shor, con 28 niveles jugables y un simulador cuántico de vector de estado.",
+      "description": "Curso interactivo gratuito en español que enseña computación cuántica partiendo de las ondas y la transformada de Fourier hasta la QFT y el algoritmo de Shor, con 34 niveles jugables y un simulador cuántico de vector de estado.",
       "inLanguage": "es",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
@@ -121,7 +121,7 @@
     <span class="tag cyan">🎮 curso-videojuego gratuito en español</span>
     <h1 style="margin-top:14px">Aprende computación cuántica<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">jugando de verdad.</span></h1>
     <p class="lead">
-      Veintiocho niveles interactivos que parten de las <b>matemáticas de secundaria</b>, pasan por las <b>ondas</b>
+      Treinta y cuatro niveles interactivos que parten de las <b>matemáticas de secundaria</b>, pasan por las <b>ondas</b>
       (frecuencia, periodo, fase) y llegan hasta la <b>transformada de Fourier cuántica</b> y el <b>algoritmo de Shor</b>.
       Cada fórmula está desmontada pieza a pieza, y cada pieza la puedes <b>tocar, arrastrar y romper</b>
       hasta que se te encienda la bombilla.
@@ -139,6 +139,7 @@
     <div class="btn-row" style="margin:18px 0 6px">
       <a class="btn primary" id="continue" href="{{ \App\Support\Site::lessonPath('01-qubit', $locale) }}">▶ Empezar</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('00-numeri', $locale) }}">🧮 Empiezo desde cero absoluto (Parte 0)</a>
+      <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('k1-bit', $locale) }}">💻 No sé qué es un bit (Parte K)</a>
       <a class="btn ghost" href="#mapa">🗺️ Todos los niveles</a>
       <a class="btn ghost" href="{{ \App\Support\Site::page('method', $locale) }}">🔬 El método (y la investigación)</a>
     </div>
@@ -314,7 +315,8 @@
   <h2 id="mapa">🗺️ El mapa de niveles</h2>
   <p class="dim">Cada nivel se abre superando la prueba del anterior: una <b>misión práctica</b> dentro del juego
   más el <b>cuestionario de recuerdo</b>. Intentos ilimitados, sin penalización, sin nota.
-  La <b>Parte 0</b> y el <b>nivel 1</b> están siempre abiertos.</p>
+  La <b>Parte 0</b> (matemáticas de secundaria), la <b>Parte K</b> (el ordenador clásico) y el <b>nivel 1</b>
+  están siempre abiertos: las dos primeras son opcionales y se juegan cuando hacen falta.</p>
   <div id="map"></div>
 
   <!-- ============ FAQ ============ -->
@@ -325,6 +327,14 @@
       <p class="mb0 dim">No. La <b>Parte 0</b> cubre números negativos, fracciones y porcentajes, coordenadas, grados y probabilidad:
       está pensada para quien acaba de terminar la secundaria. El seno, el coseno, los números complejos y e^{iθ} se construyen
       dentro del curso, partiendo de un punto que gira en un círculo.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>¿Tengo que saber ya cómo funciona un ordenador normal?</h3>
+      <p class="mb0 dim">No, y de hecho conviene <b>no</b> darlo por sabido. La <b>Parte K</b> — seis niveles
+      opcionales — explica jugando el ordenador clásico: bits y binario, puertas lógicas, la suma con acarreo, la
+      búsqueda lineal y binaria, el coste de los algoritmos, la reversibilidad. Sirve porque «cuántico» es una
+      <b>diferencia</b>, y una diferencia solo se ve teniendo el término de comparación: cada nivel cuántico
+      empieza con una comparación lado a lado entre cómo se hace en clásico y qué cambia.</p>
     </div>
     <div class="panel">
       <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>¿Es un simulador de verdad?</h3>

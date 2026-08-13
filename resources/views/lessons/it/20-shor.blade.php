@@ -5,6 +5,7 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
 import { shorLab } from '/js/widgets/qft.js';
 
 const L = renderLesson({
@@ -26,6 +27,42 @@ const L = renderLesson({
              e decifrarlo fra dieci o vent'anni. Per i dati che devono restare segreti a lungo (sanitari, militari,
              industriali) la minaccia è <b>già adesso</b>. È il motivo per cui il NIST ha standardizzato
              algoritmi <b>post-quantistici</b> nel 2024.</div>`,
+      after: `<p>Prima di guardare la mossa di Shor, conviene sapere <b>esattamente</b> quanto costa il metodo
+              normale, altrimenti «più veloce» non vuol dire niente.</p>
+              <ul>
+                <li><b>Divisione per tentativi:</b> provi 2, 3, 5, 7… fino alla radice di N. Costa <b>√N</b>
+                    divisioni, che sembra poco ma è esponenziale <b>nel numero di cifre</b>: raddoppiare le cifre
+                    eleva al quadrato il lavoro.</li>
+                <li><b>Il campo dei numeri (GNFS)</b>, il migliore che si conosca: molto più furbo, ma sempre
+                    <b>sub-esponenziale</b>. Su RSA-2048 servirebbero miliardi di anni di calcolo.</li>
+              </ul>` + confronto({
+                titolo: 'Fattorizzare un numero di 2048 bit',
+                livello: 'k5-costo',
+                vaiA: 'Ripassa il muro esponenziale (livello K·5)',
+                classico: {
+                  titolo: 'Il meglio che sappiamo fare',
+                  html: `<p>GNFS, su tutti i computer del mondo messi insieme: <b>miliardi di anni</b>.</p>
+                         <p class="mb0">E attenzione: <b>non è dimostrato</b> che sia impossibile fare meglio.
+                         Nessuno ha mai provato che fattorizzare sia difficile — sappiamo solo che nessuno ci è
+                         riuscito.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Shor',
+                  html: `<p>Circa <b>n³</b> operazioni, cioè poche ore, su una macchina con qualche milione di
+                         qubit fisici corretti dagli errori.</p>
+                         <p class="mb0">Quella macchina <b>non esiste</b>: oggi si fattorizzano numeri come 15 e
+                         21. La distanza fra 21 e RSA-2048 è tutta ingegneria (livello 21), non teoria.</p>`,
+                },
+                numeri: [
+                  { cosa: 'numero a 2048 bit', classico: 'miliardi di anni', quantistico: 'ore' },
+                  { cosa: 'tipo di crescita', classico: 'sub-esponenziale', quantistico: 'polinomiale (n³)' },
+                  { cosa: 'macchina necessaria', classico: 'un portatile', quantistico: 'milioni di qubit fisici' },
+                ],
+                verdetto: `<b>Questo è l'unico posto del corso dove il guadagno cambia il mondo</b> — e vale la
+                           pena ricordare perché: non perché il quantistico «provi tutte le divisioni insieme»,
+                           ma perché il problema, riscritto, nasconde una <b>periodicità</b>. E per trovare
+                           periodicità l'interferenza è imbattibile.`,
+              }),
     },
     {
       t: 'La mossa geniale: da fattori a periodo',

@@ -5,7 +5,9 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
 import { deutschLab } from '/js/widgets/algos.js';
+import { oracoloClassico } from '/js/widgets/classic2.js';
 
 const L = renderLesson({
   id: '09-deutsch',
@@ -14,6 +16,49 @@ const L = renderLesson({
          è lo <b>stesso</b> di tutti gli algoritmi successivi.`,
 
   steps: [
+    {
+      t: 'Prima, in classico: quante domande servono davvero',
+      html: `<p>Il problema è questo: una scatola nasconde una funzione, e tu devi dire se è <b>costante</b>
+             (risponde sempre uguale) oppure <b>bilanciata</b> (metà 0 e metà 1). Non ti interessa <i>quale</i>
+             funzione sia: solo di che tipo.</p>
+             <p>Provalo classicamente, contando le interrogazioni. Con un solo bit di ingresso ci sono due
+             domande possibili, e ti serviranno tutte e due — perché una risposta sola è compatibile con
+             entrambi i casi.</p>`,
+      mount: el => { oracoloClassico(el, { modo: 'deutsch' }); },
+      after: `<div class="callout key"><b>Il conto classico, in generale.</b> Con <b>n</b> bit di ingresso ci sono
+              2ⁿ domande possibili. Nel caso peggiore devi farne <b>2ⁿ⁻¹ + 1</b>: se le prime metà rispondono
+              tutte uguale sei ancora in dubbio, e ti serve una domanda in più per essere certo.
+              Con n = 20 sono più di mezzo milione di interrogazioni.</div>` +
+              confronto({
+                titolo: 'La stessa scatola, due modi di interrogarla',
+                livello: 'k2-porte',
+                vaiA: 'Ripassa le porte e la scatola nera (K·2)',
+                classico: {
+                  titolo: 'Una domanda per volta',
+                  html: `<p>L'oracolo prende un ingresso e restituisce un'uscita. Per sapere com'è fatta la
+                         funzione devi interrogarlo <b>tante volte quante servono</b>, e le risposte arrivano
+                         una alla volta.</p>
+                         <p class="mb0">Caso peggiore: <b>2ⁿ⁻¹ + 1</b> interrogazioni.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Una domanda sola, ma diversa',
+                  html: `<p>L'oracolo viene interrogato con <b>tutti</b> gli ingressi in sovrapposizione. Non
+                         restituisce tutte le risposte — quelle restano irraggiungibili — ma le scrive nelle
+                         <b>fasi</b> delle ampiezze.</p>
+                         <p class="mb0">Poi una Hadamard fa interferire quelle fasi, e la risposta alla domanda
+                         «costante o bilanciata?» compare da sola: <b>1 interrogazione</b>.</p>`,
+                },
+                numeri: [
+                  { cosa: 'n = 1 (il gioco qui sopra)', classico: '2 domande', quantistico: '1 domanda' },
+                  { cosa: 'n = 20', classico: '524.289', quantistico: '1' },
+                  { cosa: 'informazione ottenuta', classico: 'la funzione, pezzo per pezzo', quantistico: 'solo il TIPO, non la funzione' },
+                ],
+                verdetto: `<b>Attenzione all'ultima riga:</b> il quantistico non ti dà più informazione, te ne dà
+                           <b>meno</b> — ma esattamente quella che avevi chiesto. Il trucco di ogni algoritmo
+                           quantistico è fare una domanda <b>globale</b>, a cui l'interferenza sa rispondere,
+                           invece di ricostruire tutto pezzo per pezzo.`,
+              }),
+    },
     {
       t: 'Che cos\'è un oracolo',
       html: `<p>Un <b>oracolo</b> è una scatola nera che sa calcolare una funzione <b>f</b> ma non ti dice come.

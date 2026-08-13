@@ -11,7 +11,8 @@ import { t, num } from '../core/i18n.js';
 
 export function costLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
-  const w = widget(host, { title: t('Quanto costa?'), subtitle: t('sposta il cursore: quante operazioni servono') });
+  const w = widget(host, {
+    modo: 'classico', title: t('Quanto costa?'), subtitle: t('sposta il cursore: quante operazioni servono') });
   const st = { n: 4, won: false };
 
   const stage = new Stage(w.body, {
@@ -84,7 +85,8 @@ export function costLab(host, opts = {}) {
    ------------------------------------------------------------ */
 
 export function butterflyLab(host) {
-  const w = widget(host, { title: t('Dividi e conquista'), subtitle: t('come la FFT taglia il lavoro a metà, ogni volta') });
+  const w = widget(host, {
+    modo: 'classico', title: t('Dividi e conquista'), subtitle: t('come la FFT taglia il lavoro a metà, ogni volta') });
   const st = { level: 0 };
   const N = 8;
 

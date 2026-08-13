@@ -148,4 +148,34 @@ export const EXAM = [
   { q: 'La decoerenza è…', o: ['un errore di programmazione', 'la perdita dello stato quantistico per interazione con l\'ambiente', 'una porta logica', 'un tipo di misura'], c: 1, w: 'L\'ambiente "misura" il sistema senza chiedere permesso, distruggendo le relazioni di fase.',
     en: { q: 'Decoherence is…', o: ['a programming error', 'the loss of the quantum state through interaction with the environment', 'a logic gate', 'a kind of measurement'], w: 'The environment "measures" the system without asking permission, destroying the phase relationships.' },
     es: { q: 'La decoherencia es…', o: ['un error de programación', 'la pérdida del estado cuántico por interacción con el entorno', 'una puerta lógica', 'un tipo de medida'], w: 'El entorno "mide" el sistema sin pedir permiso, destruyendo las relaciones de fase.' } },
+
+  /* ---- Parte K: il computer classico, il termine di paragone ---- */
+
+  { q: 'Quante configurazioni diverse hanno 8 bit classici?', o: ['8', '16', '64', '256'], c: 3, w: '2\u2078 = 256: ogni bit raddoppia il conto.',
+    en: { q: 'How many different configurations do 8 classical bits have?', o: ['8', '16', '64', '256'], w: '2\u2078 = 256: every bit doubles the count.' },
+    es: { q: '\u00bfCu\u00e1ntas configuraciones distintas tienen 8 bits cl\u00e1sicos?', o: ['8', '16', '64', '256'], w: '2\u2078 = 256: cada bit duplica la cuenta.' } },
+
+  { q: 'Un registro di 10 bit classici quanti numeri tiene contemporaneamente?', o: ['uno solo', '10', '1024', 'infiniti'], c: 0, w: 'Uno solo: le 1024 configurazioni sono quelle possibili, non quelle presenti. \u00c8 la differenza con i qubit.',
+    en: { q: 'How many numbers does a 10-bit classical register hold at the same time?', o: ['exactly one', '10', '1024', 'infinitely many'], w: 'Exactly one: the 1024 configurations are the possible ones, not the ones present. That is the difference from qubits.' },
+    es: { q: '\u00bfCu\u00e1ntos n\u00fameros guarda a la vez un registro de 10 bits cl\u00e1sicos?', o: ['uno solo', '10', '1024', 'infinitos'], w: 'Uno solo: las 1024 configuraciones son las posibles, no las presentes. Esa es la diferencia con los c\u00fabits.' } },
+
+  { q: 'In una colonna di somma binaria, la cifra del risultato si ottiene con\u2026', o: ['A AND B', 'A OR B', 'A XOR B', 'NOT A'], c: 2, w: 'XOR d\u00e0 la cifra, AND d\u00e0 il riporto: insieme sono il mezzo sommatore.',
+    en: { q: 'In a binary addition column, the digit of the result comes from\u2026', o: ['A AND B', 'A OR B', 'A XOR B', 'NOT A'], w: 'XOR gives the digit, AND gives the carry: together they are the half adder.' },
+    es: { q: 'En una columna de suma binaria, la cifra del resultado se obtiene con\u2026', o: ['A AND B', 'A OR B', 'A XOR B', 'NOT A'], w: 'XOR da la cifra, AND da el acarreo: juntas son el semisumador.' } },
+
+  { q: 'Su una lista NON ordinata di N elementi, quanti confronti servono in media?', o: ['log N', 'N/2', '\u221aN', 'sempre 1'], c: 1, w: 'Met\u00e0 lista in media, tutta nel caso peggiore. \u00c8 il record che Grover porta a \u221aN.',
+    en: { q: 'On an UNSORTED list of N items, how many comparisons does it take on average?', o: ['log N', 'N/2', '\u221aN', 'always 1'], w: 'Half the list on average, all of it in the worst case. That is the record Grover takes down to \u221aN.' },
+    es: { q: 'En una lista NO ordenada de N elementos, \u00bfcu\u00e1ntas comparaciones hacen falta de media?', o: ['log N', 'N/2', '\u221aN', 'siempre 1'], w: 'Media lista de media, toda en el peor caso. Es el r\u00e9cord que Grover baja a \u221aN.' } },
+
+  { q: 'Perch\u00e9 la porta AND classica non \u00e8 reversibile?', o: ['\u00e8 troppo lenta', 'tre ingressi diversi danno la stessa uscita 0', 'usa due bit', 'consuma troppo'], c: 1, w: 'Da un\u2019uscita 0 non si risale: 00, 01 e 10 danno tutte 0. Quel bit \u00e8 perso, e cancellarlo costa kT\u00b7ln2 (Landauer).',
+    en: { q: 'Why is the classical AND gate not reversible?', o: ['it is too slow', 'three different inputs give the same output 0', 'it uses two bits', 'it draws too much power'], w: 'From a 0 output you cannot get back: 00, 01 and 10 all give 0. That bit is lost, and erasing it costs kT\u00b7ln2 (Landauer).' },
+    es: { q: '\u00bfPor qu\u00e9 la puerta AND cl\u00e1sica no es reversible?', o: ['es demasiado lenta', 'tres entradas distintas dan la misma salida 0', 'usa dos bits', 'consume demasiado'], w: 'De una salida 0 no se puede volver: 00, 01 y 10 dan todas 0. Ese bit se pierde, y borrarlo cuesta kT\u00b7ln2 (Landauer).' } },
+
+  { q: 'Un algoritmo O(2\u207f): che cosa succede aggiungendo UN bit al problema?', o: ['il lavoro cresce di 1', 'il lavoro raddoppia', 'il lavoro va al quadrato', 'non cambia niente'], c: 1, w: 'Raddoppia. Per questo un computer due volte pi\u00f9 veloce fa guadagnare un bit soltanto.',
+    en: { q: 'An O(2\u207f) algorithm: what happens when you add ONE bit to the problem?', o: ['the work grows by 1', 'the work doubles', 'the work squares', 'nothing changes'], w: 'It doubles. That is why a twice-as-fast computer buys you a single bit.' },
+    es: { q: 'Un algoritmo O(2\u207f): \u00bfqu\u00e9 pasa al a\u00f1adir UN bit al problema?', o: ['el trabajo crece en 1', 'el trabajo se duplica', 'el trabajo va al cuadrado', 'no cambia nada'], w: 'Se duplica. Por eso un ordenador el doble de r\u00e1pido te hace ganar un solo bit.' } },
+
+  { q: 'Il codice classico a ripetizione (tre copie e voto di maggioranza) funziona\u2026', o: ['sempre', 'solo se la probabilit\u00e0 di errore \u00e8 sotto il 50%', 'solo sui qubit', 'solo su liste ordinate'], c: 1, w: 'Sopra il 50% la maggioranza vota per l\u2019errore. Ogni codice correttore ha una soglia, anche quello quantistico.',
+    en: { q: 'The classical repetition code (three copies and a majority vote) works\u2026', o: ['always', 'only if the error probability is below 50%', 'only on qubits', 'only on sorted lists'], w: 'Above 50% the majority votes for the error. Every error-correcting code has a threshold, the quantum ones included.' },
+    es: { q: 'El c\u00f3digo cl\u00e1sico de repetici\u00f3n (tres copias y voto por mayor\u00eda) funciona\u2026', o: ['siempre', 'solo si la probabilidad de error est\u00e1 por debajo del 50%', 'solo con c\u00fabits', 'solo con listas ordenadas'], w: 'Por encima del 50% la mayor\u00eda vota por el error. Todo c\u00f3digo corrector tiene un umbral, tambi\u00e9n el cu\u00e1ntico.' } },
 ];

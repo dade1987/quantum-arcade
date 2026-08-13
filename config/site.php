@@ -131,6 +131,132 @@ return [
             ],
         ],
         [
+            'id' => 'k1-bit',
+            'n' => 'K·1',
+            'part' => 'K',
+            'xp' => 80,
+            'slug' => [
+                'it' => 'k1-bit',
+                'en' => 'k1-bit',
+                'es' => 'k1-bit',
+            ],
+            'title' => [
+                'it' => 'Il bit: acceso, spento, e come ci si scrive tutto',
+                'en' => 'The bit: on, off, and how everything is written with it',
+                'es' => 'El bit: encendido, apagado, y cómo se escribe todo con él',
+            ],
+            'description' => [
+                'it' => 'Interruttori, binario, byte, testo. E il conto che tornerà: con n bit scegli UN numero fra 2ⁿ.',
+                'en' => 'Switches, binary, bytes, text. And the count that keeps coming back: with n bits you pick ONE number out of 2ⁿ.',
+                'es' => 'Interruptores, binario, byte, texto. Y la cuenta que volverá: con n bits eliges UN número entre 2ⁿ.',
+            ],
+        ],
+        [
+            'id' => 'k2-porte',
+            'n' => 'K·2',
+            'part' => 'K',
+            'xp' => 80,
+            'slug' => [
+                'it' => 'k2-porte',
+                'en' => 'k2-logic-gates',
+                'es' => 'k2-puertas-logicas',
+            ],
+            'title' => [
+                'it' => 'Porte logiche: AND, OR, NOT, XOR',
+                'en' => 'Logic gates: AND, OR, NOT, XOR',
+                'es' => 'Puertas lógicas: AND, OR, NOT, XOR',
+            ],
+            'description' => [
+                'it' => 'Tabelle di verità giocate, e la scoperta che una porta sola basta per costruire tutte le altre.',
+                'en' => 'Truth tables played, and the discovery that one single gate is enough to build all the others.',
+                'es' => 'Tablas de verdad jugadas, y el descubrimiento de que una sola puerta basta para construir todas las demás.',
+            ],
+        ],
+        [
+            'id' => 'k3-somma',
+            'n' => 'K·3',
+            'part' => 'K',
+            'xp' => 90,
+            'slug' => [
+                'it' => 'k3-somma',
+                'en' => 'k3-addition',
+                'es' => 'k3-suma',
+            ],
+            'title' => [
+                'it' => 'La somma, come la fa davvero il processore',
+                'en' => 'Addition, the way the processor really does it',
+                'es' => 'La suma, tal como la hace de verdad el procesador',
+            ],
+            'description' => [
+                'it' => 'Riporto, mezzo sommatore, sommatore completo: monti l\'addizione a 4 bit con le tue mani.',
+                'en' => 'Carry, half adder, full adder: you build the 4-bit addition with your own hands.',
+                'es' => 'Acarreo, semisumador, sumador completo: montas la suma de 4 bits con tus propias manos.',
+            ],
+        ],
+        [
+            'id' => 'k4-ricerca',
+            'n' => 'K·4',
+            'part' => 'K',
+            'xp' => 80,
+            'slug' => [
+                'it' => 'k4-ricerca',
+                'en' => 'k4-search',
+                'es' => 'k4-busqueda',
+            ],
+            'title' => [
+                'it' => 'Cercare: a tentoni, oppure dimezzando',
+                'en' => 'Searching: groping around, or halving',
+                'es' => 'Buscar: a tientas, o dividiendo por la mitad',
+            ],
+            'description' => [
+                'it' => 'Ricerca lineare e ricerca binaria, contando i confronti uno per uno. Il metro di paragone di Grover.',
+                'en' => 'Linear search and binary search, counting the comparisons one by one. The yardstick for Grover.',
+                'es' => 'Búsqueda lineal y búsqueda binaria, contando las comparaciones una a una. La vara de medir de Grover.',
+            ],
+        ],
+        [
+            'id' => 'k5-costo',
+            'n' => 'K·5',
+            'part' => 'K',
+            'xp' => 80,
+            'slug' => [
+                'it' => 'k5-costo',
+                'en' => 'k5-cost',
+                'es' => 'k5-coste',
+            ],
+            'title' => [
+                'it' => 'Quanto costa un algoritmo: N, log N, N², 2ⁿ',
+                'en' => 'What an algorithm costs: N, log N, N², 2ⁿ',
+                'es' => 'Cuánto cuesta un algoritmo: N, log N, N², 2ⁿ',
+            ],
+            'description' => [
+                'it' => 'La gara fra le curve di crescita. Qui si capisce che cosa significa davvero "vantaggio quantistico".',
+                'en' => 'The race between growth curves. This is where "quantum advantage" starts to mean something.',
+                'es' => 'La carrera entre las curvas de crecimiento. Aquí se entiende qué significa de verdad "ventaja cuántica".',
+            ],
+        ],
+        [
+            'id' => 'k6-reversibile',
+            'n' => 'K·6',
+            'part' => 'K',
+            'xp' => 90,
+            'slug' => [
+                'it' => 'k6-reversibile',
+                'en' => 'k6-reversible',
+                'es' => 'k6-reversible',
+            ],
+            'title' => [
+                'it' => 'Informazione che si perde: il ponte verso il quantistico',
+                'en' => 'Information that gets lost: the bridge to quantum',
+                'es' => 'Información que se pierde: el puente hacia lo cuántico',
+            ],
+            'description' => [
+                'it' => 'AND butta via un bit, cancellare scalda (Landauer), Toffoli calcola all\'indietro. Da qui parte tutto.',
+                'en' => 'AND throws a bit away, erasing releases heat (Landauer), Toffoli computes backwards. Everything starts here.',
+                'es' => 'AND tira un bit, borrar calienta (Landauer), Toffoli calcula hacia atrás. De aquí sale todo.',
+            ],
+        ],
+        [
             'id' => '01-qubit',
             'n' => '1',
             'part' => 'A',

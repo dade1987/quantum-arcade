@@ -5,7 +5,9 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
 import { bvLab } from '/js/widgets/algos.js';
+import { oracoloClassico } from '/js/widgets/classic2.js';
 
 const L = renderLesson({
   id: '10-bernstein',
@@ -13,6 +15,42 @@ const L = renderLesson({
          Clásicamente hace falta una pregunta por bit. Cuánticamente: <b>una sola, siempre</b>.`,
 
   steps: [
+    {
+      t: 'Primero en clásico: una pregunta por cada bit',
+      html: `<p>La caja esconde una cadena secreta y responde a tus preguntas con un solo bit: la suma (módulo 2)
+             de los bits que tu pregunta y el secreto tienen en común.</p>
+             <p>Juega primero en clásico. La mejor estrategia es obvia una vez vista: pregunta <code>1000</code>,
+             y la respuesta <b>es</b> el primer bit del secreto; luego <code>0100</code> para el segundo, y así.
+             Un bit de secreto por pregunta — y no se puede hacer mejor, porque cada respuesta es un solo bit y
+             los bits que descubrir son n.</p>`,
+      mount: el => { oracoloClassico(el, { modo: 'bernstein', bits: 4 }); },
+      after: confronto({
+        titolo: 'Cuatro bits secretos: ¿cuatro preguntas, o una?',
+        livello: 'k4-ricerca',
+        vaiA: 'Repasa cuánto cuesta una búsqueda (K·4)',
+        classico: {
+          titolo: 'Un bit cada vez',
+          html: `<p>Cada consulta devuelve <b>un bit</b> de información. El secreto contiene <b>n</b>. Así que
+                 hacen falta <b>n consultas</b>, y es un límite demostrado — no un defecto de la estrategia.</p>
+                 <p class="mb0">Con un secreto de 128 bits: 128 preguntas.</p>`,
+        },
+        quantistico: {
+          titolo: 'Todos los bits de un golpe',
+          html: `<p>Bernstein–Vazirani interroga al oráculo con todas las entradas en superposición: la respuesta
+                 acaba en las <b>fases</b>, y una capa de Hadamard la devuelve a ser un número legible.</p>
+                 <p class="mb0">Mides una sola vez y lees <b>la cadena entera</b>, con probabilidad 100%.
+                 Con un secreto de 128 bits: <b>1</b> pregunta.</p>`,
+        },
+        numeri: [
+          { cosa: 'secreto de 4 bits (el juego de arriba)', classico: '4 preguntas', quantistico: '1' },
+          { cosa: 'secreto de 128 bits', classico: '128 preguntas', quantistico: '1' },
+          { cosa: 'probabilidad de equivocarse', classico: '0', quantistico: '0' },
+        ],
+        verdetto: `<b>Aquí la ventaja es lineal (n → 1), no exponencial como en Simon o Shor.</b> Pero es el
+                   primer caso en el que la respuesta sale <b>completa y segura</b>, y no solo «de qué tipo era
+                   la función»: vale la pena mirar bien cómo, porque es el esquema de todo lo demás.`,
+      }),
+    },
     {
       t: 'El problema del secreto',
       html: `<p>Hay una cadena secreta <b>s</b> de n bits (por ejemplo <code>1011</code>). El oráculo no te la dice,
