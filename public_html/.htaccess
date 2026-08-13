@@ -1,5 +1,30 @@
 DirectoryIndex index.html index.php
 
+# ---------------- Cache: il sito è statico, ma cambia ----------------
+# Hostinger serve i file davanti a una CDN (hcdn) e senza istruzioni nostre ci
+# mette «max-age=604800»: sette giorni. Va benissimo per un sito fermo, è una
+# trappola per uno che si aggiorna — e la trappola è scattata con il glossario:
+# le pagine pubblicate erano quelle nuove, il foglio di stile che la CDN
+# continuava a servire era quello vecchio, e il pannello del glossario finiva
+# nella pagina senza il CSS che lo rende visibile. Risultato: una funzione
+# nuova che dal browser semplicemente non c'era.
+#
+# Il punto è che HTML, CSS e JS di questo sito cambiano INSIEME: se uno dei tre
+# è vecchio, non si vede metà funzione — si vede una pagina rotta. Quindi
+# quei tre si riconvalidano a ogni visita: con l'ETag, se non è cambiato niente
+# la risposta è un 304 di poche decine di byte, cioè costa quanto niente.
+#
+# Le immagini e i font no: quelli restano in cache un mese, perché quando
+# cambiano davvero cambiano nome.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js|css|json|txt|xml)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(svg|jpe?g|png|webp|gif|ico|woff2?)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes

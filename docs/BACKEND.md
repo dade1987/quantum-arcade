@@ -199,12 +199,24 @@ database, codice dei moduli e archivio del tutor restano protetti.
    Dipendenze, permessi, migrazioni, cache, indice del tutor e **controllo
    pre-volo**. Va rilanciato a ogni aggiornamento del sito: non tocca il `.env`
    e non cancella dati.
-4. **HTTPS**: attiva il certificato gratuito dal pannello e forza il redirect a https.
-5. **Cron** (pannello Hostinger, ogni minuto):
+4. **Svuota la cache della CDN** (hPanel → *Prestazioni/CDN* → svuota cache), oppure
+   aspetta. Hostinger serve i file statici dietro la sua CDN (`hcdn`): dopo un
+   aggiornamento alcuni nodi possono continuare a servire il CSS e il JS vecchi, e
+   siccome HTML, CSS e JS di questo sito cambiano insieme, il risultato non è
+   «una funzione a metà» ma una pagina rotta — è già capitato con il glossario.
+   Da `public_html/.htaccess` html/css/js ora si riconvalidano a ogni visita
+   (ETag → 304, costo quasi zero), ma le copie già in cache restano lì fino alla
+   scadenza: la prima volta la cache va svuotata a mano. Come verificare da fuori:
+   ```bash
+   curl -sI https://tuodominio/css/style.css | grep -iE 'last-modified|x-hcdn-cache-status'
+   curl -s  https://tuodominio/css/style.css | grep -c gloss-panel   # 0 = stai vedendo il vecchio
+   ```
+5. **HTTPS**: attiva il certificato gratuito dal pannello e forza il redirect a https.
+6. **Cron** (pannello Hostinger, ogni minuto):
    ```
    php ~/artisan schedule:run >> /dev/null 2>&1
    ```
-6. **Prova a mano** quello che nessuno script può verificare: registrati con un
+7. **Prova a mano** quello che nessuno script può verificare: registrati con un
    indirizzo vero, controlla che l'email di conferma arrivi (e non in spam), fai
    l'esame, scarica il PDF, apri `/verifica/{codice}` da un browser in incognito.
 
@@ -268,6 +280,8 @@ Node è usato soltanto per i test e per il validatore. Il sito gira con PHP e ba
 | Hai modificato l'esame | `npm run exam:sync` poi `php artisan config:cache` |
 | Vuoi sapere dove il corso non è chiaro | `php artisan chat:report` |
 | Prima di ogni pubblicazione | `npm run test:all` (unitari + PHP + end-to-end + validazione) |
+| Hai pubblicato e dal browser non vedi le modifiche | svuota la cache della CDN da hPanel, poi ricarica con Ctrl+Shift+R (o in incognito) |
+| `Class "Laravel\Pail\PailServiceProvider" not found` | `rm -f bootstrap/cache/*.php` e rilancia: è il manifest dei pacchetti rimasto da un'installazione di sviluppo (lo script lo fa già da sé) |
 
 ---
 
