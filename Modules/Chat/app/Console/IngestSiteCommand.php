@@ -149,9 +149,4 @@ class IngestSiteCommand extends Command
 
         return basename($path, '.blade.php');
     }
-
-    private function extract(string $pattern, string $subject): ?string
-    {
-        return preg_match($pattern, $subject, $m) ? trim(strip_tags($m[1])) : null;
-    }
 }
