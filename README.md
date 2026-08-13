@@ -118,7 +118,7 @@ Modules/                   moduli nwidart
 tests/
   Feature/Modules/         test PHP dei quattro moduli (100% di copertura)
   js/unit/                 test del motore del gioco (100% righe)
-  js/e2e/                  Playwright: percorso utente + audit grafico
+  js/e2e/                  Playwright: percorso utente, audit grafico, link e indirizzi
 tools/                     validatore, test matematici, sincronizzazione esame
 docs/BACKEND.md            architettura e messa online su Hostinger
 ```
@@ -128,11 +128,11 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (151 test) + validatore + stato delle lingue
+npm test                 # motore del gioco (163 test) + validatore + stato delle lingue
 npm run test:coverage    # copertura del frontend
-npm run test:php         # 118 test dei moduli Laravel
+npm run test:php         # 124 test dei moduli Laravel
 npm run test:php:coverage
-npm run test:e2e         # Playwright: percorso utente, audit grafico di ogni pagina, le tre lingue
+npm run test:e2e         # Playwright: percorso utente, audit grafico di ogni pagina, le tre lingue, i link
 npm run test:cross  # confronta il simulatore con QuantumSim (implementazione indipendente)
 npm run test:all         # tutto
 ```

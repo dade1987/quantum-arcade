@@ -27,7 +27,7 @@
    l'indirizzo del file (SLUG) e i testi (t()).
    ============================================================ */
 
-import { t, LOCALE, LESSON_DIR } from './i18n.js';
+import { t, LOCALE, LESSON_DIR, ROOT, PREFIX } from './i18n.js';
 
 /* Indirizzi tradotti. In italiano lo slug è l'id stesso: la voce qui sotto
    serve solo alle altre lingue. */
@@ -265,6 +265,23 @@ LEVELS.forEach(l => {
   l.slug = slugOf(l.id);
   l.file = `${LESSON_DIR}/${l.slug}.html`;
 });
+
+/**
+ * L'indirizzo di un livello, dalla radice del sito.
+ *
+ * Perché non si usa `l.file` così com'è: quello è un indirizzo RELATIVO, e
+ * dove porta dipende da come è scritto l'indirizzo della pagina in cui sta.
+ * La home inglese si raggiunge sia come /en/ sia come /en — l'.htaccess
+ * toglie la barra finale con un 301, quindi è la SECONDA forma quella in cui
+ * ci si ritrova davvero — e da /en il link «lessons/01-qubit.html» punta a
+ * /lessons/01-qubit.html, che non esiste. Erano tutte le carte della mappa e
+ * il bottone «Continua», rotti in inglese e in spagnolo.
+ *
+ * Con ROOT davanti l'indirizzo è lo stesso da qualunque pagina si parta.
+ */
+export function lessonHref(level) {
+  return ROOT + PREFIX + level.file;
+}
 
 export const TOTAL_XP = LEVELS.reduce((s, l) => s + l.xp, 0);
 

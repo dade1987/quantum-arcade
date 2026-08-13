@@ -44,6 +44,30 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], viewport: { width: 1366, height: 900 } },
     },
 
+    // 2c. i link: senza sessione, perché un bottone rotto lo trova per primo
+    // chi arriva da fuori — e perché il guasto sta nell'indirizzo, non in chi
+    // lo clicca. Serve un browser vero: metà di questi link li scrive il
+    // JavaScript mentre disegna la pagina.
+    {
+      name: 'link',
+      testMatch: /05-link\.spec\.js/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1366, height: 900 } },
+    },
+
+    // 2d. i link dentro le lezioni: senza account la lezione non si monta, e
+    // la barra di navigazione in fondo — dov'era il bottone rotto — non
+    // esiste proprio. Serve la sessione salvata.
+    {
+      name: 'link-dentro',
+      testMatch: /06-link-dentro\.spec\.js/,
+      dependencies: ['setup'],
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1366, height: 900 },
+        storageState: 'tests/.auth/utente.json',
+      },
+    },
+
     // 3. audit grafico: usa la sessione salvata, così entra in tutti i livelli
     {
       name: 'grafica',

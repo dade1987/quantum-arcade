@@ -55,6 +55,28 @@ Cancellazione completa dell'account in un click (GDPR art. 17), con eliminazione
 | `POST /api/auth/profile` · `/password` · `/resend` · `/logout` | gestione account |
 | `DELETE /api/auth/me` | cancella tutto |
 
+#### Sessione e token CSRF
+
+Gioco e API stanno sullo stesso dominio, quindi l'autenticazione è a **cookie di
+sessione**: nessun token da conservare nel browser, dove sarebbe più esposto. Il
+prezzo è che ogni scrittura deve portare con sé il token CSRF, e che quel token
+**scade insieme alla sessione** (`SESSION_LIFETIME`, due ore di default).
+
+Chi gioca sta sulla stessa pagina anche più a lungo. Da quel momento ogni
+salvataggio dei progressi tornerebbe **419** — e siccome un token scaduto non
+viene rinnovato dalla risposta che lo rifiuta, senza rimedio non se ne uscirebbe
+più: la partita continua, ma niente si salva. L'esame finale, che è un POST
+solo, si perderebbe per intero.
+
+| Rotta | Cosa fa |
+|---|---|
+| `GET /api/csrf` | risponde 204 e rimette in tasca un cookie `XSRF-TOKEN` valido |
+
+Il client (`public_html/js/core/api.js`) la chiama prima della prima scrittura e
+di nuovo, una volta sola, davanti a un 419 — poi rimanda la richiesta. Chi torna
+il giorno dopo rientra invece con il cookie **«ricordami»**, emesso sia dalla
+registrazione sia dall'accesso: la sessione dura due ore, il corso settimane.
+
 ### Progress
 Una riga per utente con XP e uno stato JSON. La fusione fra dispositivi **non perde mai nulla**:
 XP = massimo, livelli/missioni = unione, ripasso = si tiene la scatola più bassa.

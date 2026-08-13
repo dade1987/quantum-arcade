@@ -26,7 +26,7 @@
    sulla QPE. Da un id il numero si ricava sempre; da un numero l'id no.
    ============================================================ */
 
-import { t, ROOT, PREFIX } from './i18n.js';
+import { t } from './i18n.js';
 import { levelById } from './levels.js';
 
 export const VOCI = [
@@ -173,10 +173,9 @@ export function livelliDellaVoce(v) {
   return v.liv.map(id => levelById(id)).filter(Boolean);
 }
 
-/** Indirizzo di un livello valido dalla pagina corrente, qualunque sia la lingua. */
-export function hrefLivello(l) {
-  return ROOT + PREFIX + l.file;
-}
+/* Indirizzo di un livello: uno solo per tutto il sito, in levels.js, perché
+   quando ce n'erano due la copia rimasta indietro puntava fuori strada. */
+export { lessonHref as hrefLivello } from './levels.js';
 
 /**
  * Le forme da riconoscere nel testo, dalla più lunga alla più corta —
