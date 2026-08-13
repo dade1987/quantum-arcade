@@ -49,6 +49,19 @@ DirectoryIndex index.php
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
     # Redirect Trailing Slashes If Not A Folder...
+    #
+    # Con un'eccezione: le home delle altre lingue. Il loro indirizzo buono
+    # FINISCE con la barra — è quello scritto nel canonical, negli hreflang e
+    # nella sitemap — quindi toglierla qui significava rispondere 301 proprio
+    # all'indirizzo che diciamo a tutti di usare. E siccome da /en un link
+    # relativo come «lessons/01-qubit.html» diventa /lessons/01-qubit.html,
+    # è anche il motivo per cui in inglese e in spagnolo le carte della mappa
+    # e il bottone «Continua» finivano su un 404.
+    #
+    # L'elenco delle lingue è controllato da tools/validate.mjs, che lo
+    # confronta con config/site.php: aggiungerne una e scordarsi questa riga
+    # fa fallire la validazione, non il sito.
+    RewriteCond %{REQUEST_URI} !^/(en|es)/$
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]

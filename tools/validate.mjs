@@ -214,6 +214,190 @@ for (const { f, src } of allSources) {
   } else ok();
 }
 
+/* ---------- 3c. il grassetto deve essere grassetto, non «<b>» scritto ----------
+
+   h() ha due modi di mettere del testo dentro un elemento, e si assomigliano:
+
+     h('p', { html: 'saperlo <b>fare</b>' })   → il grassetto si vede
+     h('p', {}, 'saperlo <b>fare</b>')          → si legge «saperlo <b>fare</b>»
+
+   Il secondo crea un nodo di TESTO, quindi i tag restano scritti in pagina.
+   È esattamente quello che è successo al riquadro «Livello superato», dove
+   per mesi si è letto «Hai dimostrato di saperlo <b>fare</b>»: nessun errore
+   in console, nessun test rosso, solo una frase brutta che nessuno collega
+   a una riga di codice.
+
+   Qui si guardano gli argomenti dopo i primi due — i FIGLI — e si segnala
+   ogni stringa che contiene un tag. Le h() annidate si tolgono prima: sono
+   elementi veri, e vengono controllate per conto loro. */
+console.log('\n[3c] Il markup nei figli di h() (tag che si vedrebbero scritti)');
+
+const TAG_HTML = /<\/?(?:b|i|u|em|strong|code|br|span|p|ul|ol|li|div|a|h[1-6]|small|sup|sub|kbd|img|table|tr|td|th)\b[^>]*>/i;
+
+/**
+ * Gli argomenti di primo livello di una chiamata che apre la parentesi in
+ * `apertura`. Salta stringhe, template, commenti e parentesi annidate.
+ *
+ * @returns {{fine: number, argomenti: string[]}}
+ */
+function argomentiDi(src, apertura) {
+  let i = apertura + 1, profondita = 0, inizio = i;
+  const argomenti = [];
+  while (i < src.length) {
+    const c = src[i];
+    if (c === '"' || c === "'" || c === '`') {
+      const q = c;
+      i++;
+      while (i < src.length) {
+        if (src[i] === '\\') { i += 2; continue; }
+        if (q === '`' && src[i] === '$' && src[i + 1] === '{') {
+          let d = 1; i += 2;
+          while (i < src.length && d > 0) { if (src[i] === '{') d++; else if (src[i] === '}') d--; i++; }
+          continue;
+        }
+        if (src[i] === q) break;
+        i++;
+      }
+      i++;
+      continue;
+    }
+    if (c === '/' && src[i + 1] === '/') { while (i < src.length && src[i] !== '\n') i++; continue; }
+    if (c === '/' && src[i + 1] === '*') { const fine = src.indexOf('*/', i); i = fine < 0 ? src.length : fine + 2; continue; }
+    if ('([{'.includes(c)) { profondita++; i++; continue; }
+    if (')]}'.includes(c)) {
+      if (c === ')' && profondita === 0) { argomenti.push(src.slice(inizio, i)); return { fine: i, argomenti }; }
+      profondita--; i++; continue;
+    }
+    if (c === ',' && profondita === 0) { argomenti.push(src.slice(inizio, i)); inizio = i + 1; i++; continue; }
+    i++;
+  }
+  return { fine: -1, argomenti };
+}
+
+/** Le chiamate a h() annidate si tolgono: sono elementi, non testo. */
+function senzaHAnnidate(pezzo) {
+  let out = '', i = 0;
+  while (i < pezzo.length) {
+    const m = /(?:^|[^\w.$])h\s*\(/.exec(pezzo.slice(i));
+    if (!m) { out += pezzo.slice(i); break; }
+    const apertura = i + m.index + m[0].length - 1;
+    out += pezzo.slice(i, apertura);
+    const { fine } = argomentiDi(pezzo, apertura);
+    if (fine < 0) break;
+    i = fine + 1;
+  }
+  return out;
+}
+
+/** Le stringhe letterali dentro un pezzo di codice. */
+function stringheIn(pezzo) {
+  return [...pezzo.matchAll(/'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"|`((?:[^`\\]|\\.)*)`/g)]
+    .map(m => m[1] ?? m[2] ?? m[3] ?? '');
+}
+
+for (const { f, src } of allSources) {
+  if (rel(f).includes('js/i18n/')) continue;   // i dizionari sono dati, non chiamate
+  const re = /(?:^|[^\w.$])h\s*\(/g;
+  let m, trovati = 0;
+  while ((m = re.exec(src))) {
+    const apertura = m.index + m[0].length - 1;
+    const { argomenti } = argomentiDi(src, apertura);
+    for (const figlio of argomenti.slice(2)) {
+      for (const testo of stringheIn(senzaHAnnidate(figlio))) {
+        if (!TAG_HTML.test(testo)) continue;
+        trovati++;
+        const riga = src.slice(0, apertura).split('\n').length;
+        err(rel(f), `riga ~${riga}: markup passato come figlio di h(), finirebbe scritto in pagina:\n     `
+          + `«${testo.trim().slice(0, 80)}»\n     usa { html: … } invece di passarlo come figlio.`);
+      }
+    }
+  }
+  if (!trovati) ok();
+}
+
+/* ---------- 3d. href() con il nome di una pagina che esiste ----------
+
+   href('metodo') non dava errore: ricadeva sulla home, e il bottone «Come è
+   fatto questo corso» in fondo a ogni lezione portava alla mappa in tutte e
+   tre le lingue. Adesso href() protesta, ma protesta nel browser di chi
+   legge: qui si controlla prima, leggendo i nomi validi da i18n.js — così
+   una pagina nuova non va aggiunta anche qui. */
+console.log('\n[3d] I nomi delle pagine passati a href()');
+
+const sorgenteI18n = readFileSync(join(ROOT, 'public_html/js/core/i18n.js'), 'utf8');
+const bloccoPagine = sorgenteI18n.match(/const PAGES = \{([\s\S]*?)\n\};/);
+const PAGINE_VALIDE = bloccoPagine
+  ? [...bloccoPagine[1].matchAll(/^\s{2}(\w+):/gm)].map(m => m[1])
+  : [];
+
+if (PAGINE_VALIDE.length < 2) err('public_html/js/core/i18n.js', 'non riesco a leggere l\'elenco PAGES');
+else ok();
+
+for (const { f, src } of allSources) {
+  if (rel(f).endsWith('core/i18n.js')) continue;
+  let trovati = 0;
+  for (const m of src.matchAll(/(?:^|[^\w.$])href\(\s*['"]([^'"]+)['"]/g)) {
+    if (PAGINE_VALIDE.includes(m[1])) continue;
+    trovati++;
+    const riga = src.slice(0, m.index).split('\n').length;
+    err(rel(f), `riga ~${riga}: href('${m[1]}') — pagina inesistente. `
+      + `I nomi validi sono: ${PAGINE_VALIDE.join(', ')}.`);
+  }
+  if (!trovati) ok();
+}
+
+/* ---------- 3e. gli indirizzi dei livelli partono dalla radice ----------
+
+   `l.file` è relativo («lessons/01-qubit.html»): usato nudo come href
+   dipende da come è scritto l'indirizzo della pagina che lo contiene. La
+   home inglese si raggiunge sia come /en/ sia come /en — l'.htaccess toglie
+   la barra finale con un 301, quindi è la seconda la forma in cui ci si
+   ritrova davvero — e da /en quel link diventa /lessons/01-qubit.html: 404.
+   Erano tutte le carte della mappa e il bottone «Continua», in inglese e in
+   spagnolo. L'indirizzo giusto lo compone lessonHref(). */
+console.log('\n[3e] Gli indirizzi dei livelli sono assoluti');
+
+for (const { f, src } of allSources) {
+  if (rel(f).endsWith('core/levels.js')) continue;   // è lì che `file` viene costruito
+  let trovati = 0;
+  for (const m of senzaStringhe(src).matchAll(/href\s*[:=]\s*([^,;\n)]*\.file\b)/g)) {
+    trovati++;
+    const riga = src.slice(0, m.index).split('\n').length;
+    err(rel(f), `riga ~${riga}: «${m[1].trim()}» è un indirizzo relativo. Usa lessonHref(livello).`);
+  }
+  for (const m of senzaStringhe(src).matchAll(/href\s*[:=]\s*(\w+)\.slug\s*\+/g)) {
+    trovati++;
+    const riga = src.slice(0, m.index).split('\n').length;
+    err(rel(f), `riga ~${riga}: «${m[1]}.slug + '.html'» è un indirizzo relativo. Usa lessonHref(${m[1]}).`);
+  }
+  if (!trovati) ok();
+}
+
+/* ---------- 3f. l'.htaccess non tocca le home delle altre lingue ----------
+
+   L'indirizzo buono della home inglese finisce con la barra: è quello scritto
+   nel canonical, negli hreflang e nella sitemap. La regola che toglie la
+   barra finale rispondeva 301 proprio a quell'indirizzo — e da /en un link
+   relativo punta una cartella troppo su. L'eccezione nell'.htaccess elenca le
+   lingue a mano, perché Apache non sa leggere config/site.php: qui si
+   controlla che l'elenco sia ancora quello vero. */
+console.log('\n[3f] Le home tradotte non vengono rimandate altrove');
+
+const htaccess = readFileSync(join(ROOT, 'public_html/.htaccess'), 'utf8');
+const eccezione = htaccess.match(/RewriteCond %\{REQUEST_URI\} !\^\/\(([^)]+)\)\/\$/);
+const prefissiAttesi = LINGUE.filter(l => l.dir).map(l => l.dir.replace(/\/$/, '')).sort();
+
+if (!eccezione) {
+  err('public_html/.htaccess', 'manca l\'eccezione alla regola che toglie la barra finale: '
+    + `le home ${prefissiAttesi.map(p => `/${p}/`).join(' e ')} risponderebbero 301`);
+} else {
+  const elencati = eccezione[1].split('|').map(s => s.trim()).sort();
+  if (elencati.join(',') !== prefissiAttesi.join(',')) {
+    err('public_html/.htaccess', `l'eccezione elenca (${elencati.join(', ')}) `
+      + `ma le lingue pubblicate sono (${prefissiAttesi.join(', ')})`);
+  } else ok();
+}
+
 /* ---------- 4. struttura delle pagine ----------
    Una view Blade non è un documento intero: il doctype, <html> e il <title>
    li mette il layout, una volta per tutte. Qui si controlla quello che resta
