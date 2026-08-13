@@ -68,6 +68,15 @@ export default defineConfig({
       },
     },
 
+    // 2e. i progressi: account nuovo e sessione propria, perché quella salvata
+    // ha la modalità libera — che aprendo comunque i livelli nasconderebbe
+    // esattamente il guasto che questo test cerca.
+    {
+      name: 'progressi',
+      testMatch: /07-progressi\.spec\.js/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1366, height: 900 } },
+    },
+
     // 3. audit grafico: usa la sessione salvata, così entra in tutti i livelli
     {
       name: 'grafica',
