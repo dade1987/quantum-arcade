@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>22 · Glossary and complete map — Quantum Arcade</title>
+<title>23. Glossary and full map — Quantum Arcade</title>
 <meta name="description" content="A complete glossary of quantum computing in English: amplitude, phase, qubit, entanglement, oracle, QFT, decoherence and every term of the course, with the map that links them.">
 <link rel="canonical" href="https://quantumarcade.it/en/lessons/23-glossary.html">
 <link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/23-glossario.html">
@@ -17,6 +17,7 @@
 <div id="app"></div>
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
+import { nOf } from '../../js/core/levels.js';   // i numeri di livello si calcolano, non si scrivono
 
 const L = renderLesson({
   id: '23-glossario',
@@ -47,14 +48,14 @@ INTERFERENCE: the amplitudes add up, then you take the square (7)
    ├─ secret string in the phases → Bernstein–Vazirani (10)
    └─ amplification → Grover (11)
                     │
-WAVES: amplitude, period, frequency (12) → phase (13) → sum of waves (14)
-   └─ DFT: "rotate and add" finds the periodicities (15) → FFT (16)
+WAVES: amplitude, period, frequency (${nOf('13-onde')}) → phase (${nOf('14-fase')}) → sum of waves (${nOf('15-somma-onde')})
+   └─ DFT: "rotate and add" finds the periodicities (${nOf('16-dft')}) → FFT (${nOf('17-fft')})
                     │
-QFT = DFT on the amplitudes, with n²/2 gates (17)
-   ├─ QPE: reading a phase as a number (18)
-   └─ SHOR: period → peaks → continued fractions → factors (19)
+QFT = DFT on the amplitudes, with n²/2 gates (${nOf('18-qft')})
+   ├─ QPE: reading a phase as a number (${nOf('19-qpe')})
+   └─ SHOR: period → peaks → continued fractions → factors (${nOf('20-shor')})
                     │
-noise and error correction (20) · creative workshop (21) · exam (23)</code></pre>
+noise and error correction (${nOf('21-rumore')}) · creative workshop (${nOf('22-officina')}) · exam (${nOf('24-esame')})</code></pre>
              <div class="callout key"><b>If I had to sum up the whole course in one sentence:</b>
              "A quantum computer explores all the possibilities together and organises the <b>phases</b> so that
              the wrong answers <b>cancel out</b> and the right one becomes <b>very probable</b>."
@@ -65,42 +66,42 @@ noise and error correction (20) · creative workshop (21) · exam (23)</code></p
       html: `
         <table class="table">
           <tr><th style="width:26%">Term</th><th>What it means (in plain English)</th><th style="width:12%">Level</th></tr>
-          <tr><td><b>Amplitude</b></td><td>The number (in general a complex arrow) associated with a possible result. Its <b>square</b> is the probability. It can be negative: hence interference.</td><td>1</td></tr>
-          <tr><td><b>Amplitude (of a wave)</b></td><td>How tall a wave is; in sound it is the volume.</td><td>12</td></tr>
-          <tr><td><b>Eigenstate / eigenvalue</b></td><td>A state that an operation leaves identical apart from a phase; that phase is the eigenvalue.</td><td>18</td></tr>
-          <tr><td><b>Measurement basis</b></td><td>The "direction" along which you measure. Measuring in the Z basis gives 0/1; in the X basis it gives +/−. There is no state that is certain in every basis.</td><td>2</td></tr>
-          <tr><td><b>Bloch (sphere)</b></td><td>A map of all the states of a qubit: north |0⟩, south |1⟩, equator the 50% superpositions.</td><td>2</td></tr>
-          <tr><td><b>Born (rule)</b></td><td>Probability = |amplitude|². The bridge between mathematics and the laboratory.</td><td>1</td></tr>
-          <tr><td><b>Bra-ket</b></td><td>The notation |ψ⟩ for states (ket) and ⟨ψ| for the "duals" (bra). It is only a box for saying "this is a state".</td><td>1</td></tr>
-          <tr><td><b>CNOT</b></td><td>A two-qubit gate: it flips the target only if the control is 1. On a superposition it creates entanglement.</td><td>4</td></tr>
-          <tr><td><b>Decoherence</b></td><td>The environment involuntarily "measures" the system and destroys the phases. Enemy number one of the hardware.</td><td>20</td></tr>
-          <tr><td><b>Dense coding</b></td><td>Sending 2 classical bits by transmitting 1 qubit, exploiting already-shared entanglement.</td><td>6</td></tr>
-          <tr><td><b>DFT</b></td><td>Discrete Fourier transform: "rotate every datum and add up" to discover the periodicities.</td><td>15</td></tr>
-          <tr><td><b>Diffuser</b></td><td>In Grover: reflects the amplitudes about the average, amplifying the marked one.</td><td>11</td></tr>
-          <tr><td><b>Entanglement</b></td><td>A state of several qubits that cannot be described qubit by qubit: the information is in the relationship.</td><td>4</td></tr>
-          <tr><td><b>Phase</b></td><td>"Where in the turn you are". It does not change the probabilities, but it decides what will cancel out. The secret ingredient of everything.</td><td>1, 2, 8, 13</td></tr>
-          <tr><td><b>FFT</b></td><td>The classical algorithm that computes the DFT in N·log N instead of N² (divide and conquer).</td><td>16</td></tr>
-          <tr><td><b>Frequency</b></td><td>How many cycles per second (Hz). The inverse of the period: f = 1/T.</td><td>12</td></tr>
-          <tr><td><b>Grover</b></td><td>Search in √N attempts instead of N/2. A quadratic gain, valid for any search without structure.</td><td>11</td></tr>
-          <tr><td><b>Hadamard (H)</b></td><td>The most important gate: it creates and undoes superpositions. It is what turns phases into observable probabilities.</td><td>1, 3</td></tr>
-          <tr><td><b>Interference</b></td><td>The amplitudes add up before squaring: those in agreement reinforce each other, opposite ones cancel out.</td><td>7</td></tr>
-          <tr><td><b>Measurement</b></td><td>An irreversible operation: it picks a result at random according to |amplitude|² and rewrites the state.</td><td>1, 2</td></tr>
-          <tr><td><b>No-cloning</b></td><td>There is no machine that copies an unknown quantum state.</td><td>6</td></tr>
-          <tr><td><b>Complex number</b></td><td>An arrow: length + angle. e^{iθ} is the arrow of length 1 at angle θ.</td><td>8</td></tr>
-          <tr><td><b>Oracle</b></td><td>A black box that marks with a minus sign the states satisfying a condition: it writes the information into the phases.</td><td>9</td></tr>
-          <tr><td><b>Period</b></td><td>How often a thing repeats. T = 1/f.</td><td>12</td></tr>
-          <tr><td><b>Phase kickback</b></td><td>The trick by which the phase generated by an oracle "kicks back" onto the control register.</td><td>9, 18</td></tr>
-          <tr><td><b>Gate</b></td><td>A reversible (unitary) operation on one or more qubits: on the sphere it is always a rotation.</td><td>3</td></tr>
-          <tr><td><b>Post-quantum (cryptography)</b></td><td>Classical algorithms resistant to Shor and Grover; standardised by NIST in 2024.</td><td>19</td></tr>
-          <tr><td><b>QFT</b></td><td>Fourier transform on the amplitudes: n²/2 gates, turns periodicity into peaks.</td><td>17</td></tr>
-          <tr><td><b>QPE</b></td><td>Phase estimation: copies a phase into the reading qubits and makes it measurable with the inverse QFT.</td><td>18</td></tr>
-          <tr><td><b>Qubit</b></td><td>The elementary unit: two amplitudes, one for |0⟩ and one for |1⟩.</td><td>1</td></tr>
-          <tr><td><b>Shor</b></td><td>Factorisation in polynomial time, by reducing the problem to the search for a period.</td><td>19</td></tr>
-          <tr><td><b>Syndrome (measurement)</b></td><td>A measurement that reveals <b>where</b> an error happened without revealing the encoded information.</td><td>20</td></tr>
-          <tr><td><b>Superposition</b></td><td>A state in which several results have non-zero amplitude at the same time.</td><td>1</td></tr>
-          <tr><td><b>SWAP</b></td><td>A gate that swaps two qubits; it closes the QFT circuit.</td><td>5, 17</td></tr>
-          <tr><td><b>Teleportation</b></td><td>Transferring a state using entanglement + 2 classical bits. The original is destroyed.</td><td>6</td></tr>
-          <tr><td><b>Unitary (operation)</b></td><td>It preserves the total probability and is reversible: all gates are, measurement is not.</td><td>3</td></tr>
+          <tr><td><b>Amplitude</b></td><td>The number (in general a complex arrow) associated with a possible result. Its <b>square</b> is the probability. It can be negative: hence interference.</td><td>${nOf('01-qubit')}</td></tr>
+          <tr><td><b>Amplitude (of a wave)</b></td><td>How tall a wave is; in sound it is the volume.</td><td>${nOf('13-onde')}</td></tr>
+          <tr><td><b>Eigenstate / eigenvalue</b></td><td>A state that an operation leaves identical apart from a phase; that phase is the eigenvalue.</td><td>${nOf('19-qpe')}</td></tr>
+          <tr><td><b>Measurement basis</b></td><td>The "direction" along which you measure. Measuring in the Z basis gives 0/1; in the X basis it gives +/−. There is no state that is certain in every basis.</td><td>${nOf('02-bloch')}</td></tr>
+          <tr><td><b>Bloch (sphere)</b></td><td>A map of all the states of a qubit: north |0⟩, south |1⟩, equator the 50% superpositions.</td><td>${nOf('02-bloch')}</td></tr>
+          <tr><td><b>Born (rule)</b></td><td>Probability = |amplitude|². The bridge between mathematics and the laboratory.</td><td>${nOf('01-qubit')}</td></tr>
+          <tr><td><b>Bra-ket</b></td><td>The notation |ψ⟩ for states (ket) and ⟨ψ| for the "duals" (bra). It is only a box for saying "this is a state".</td><td>${nOf('01-qubit')}</td></tr>
+          <tr><td><b>CNOT</b></td><td>A two-qubit gate: it flips the target only if the control is 1. On a superposition it creates entanglement.</td><td>${nOf('04-due-qubit')}</td></tr>
+          <tr><td><b>Decoherence</b></td><td>The environment involuntarily "measures" the system and destroys the phases. Enemy number one of the hardware.</td><td>${nOf('21-rumore')}</td></tr>
+          <tr><td><b>Dense coding</b></td><td>Sending 2 classical bits by transmitting 1 qubit, exploiting already-shared entanglement.</td><td>${nOf('06-teletrasporto')}</td></tr>
+          <tr><td><b>DFT</b></td><td>Discrete Fourier transform: "rotate every datum and add up" to discover the periodicities.</td><td>${nOf('16-dft')}</td></tr>
+          <tr><td><b>Diffuser</b></td><td>In Grover: reflects the amplitudes about the average, amplifying the marked one.</td><td>${nOf('11-grover')}</td></tr>
+          <tr><td><b>Entanglement</b></td><td>A state of several qubits that cannot be described qubit by qubit: the information is in the relationship.</td><td>${nOf('04-due-qubit')}</td></tr>
+          <tr><td><b>Phase</b></td><td>"Where in the turn you are". It does not change the probabilities, but it decides what will cancel out. The secret ingredient of everything.</td><td>${nOf('01-qubit') + ', ' + nOf('02-bloch') + ', ' + nOf('08-frecce') + ', ' + nOf('14-fase')}</td></tr>
+          <tr><td><b>FFT</b></td><td>The classical algorithm that computes the DFT in N·log N instead of N² (divide and conquer).</td><td>${nOf('17-fft')}</td></tr>
+          <tr><td><b>Frequency</b></td><td>How many cycles per second (Hz). The inverse of the period: f = 1/T.</td><td>${nOf('13-onde')}</td></tr>
+          <tr><td><b>Grover</b></td><td>Search in √N attempts instead of N/2. A quadratic gain, valid for any search without structure.</td><td>${nOf('11-grover')}</td></tr>
+          <tr><td><b>Hadamard (H)</b></td><td>The most important gate: it creates and undoes superpositions. It is what turns phases into observable probabilities.</td><td>${nOf('01-qubit') + ', ' + nOf('03-porte')}</td></tr>
+          <tr><td><b>Interference</b></td><td>The amplitudes add up before squaring: those in agreement reinforce each other, opposite ones cancel out.</td><td>${nOf('07-interferenza')}</td></tr>
+          <tr><td><b>Measurement</b></td><td>An irreversible operation: it picks a result at random according to |amplitude|² and rewrites the state.</td><td>${nOf('01-qubit') + ', ' + nOf('02-bloch')}</td></tr>
+          <tr><td><b>No-cloning</b></td><td>There is no machine that copies an unknown quantum state.</td><td>${nOf('06-teletrasporto')}</td></tr>
+          <tr><td><b>Complex number</b></td><td>An arrow: length + angle. e^{iθ} is the arrow of length 1 at angle θ.</td><td>${nOf('08-frecce')}</td></tr>
+          <tr><td><b>Oracle</b></td><td>A black box that marks with a minus sign the states satisfying a condition: it writes the information into the phases.</td><td>${nOf('09-deutsch')}</td></tr>
+          <tr><td><b>Period</b></td><td>How often a thing repeats. T = 1/f.</td><td>${nOf('13-onde')}</td></tr>
+          <tr><td><b>Phase kickback</b></td><td>The trick by which the phase generated by an oracle "kicks back" onto the control register.</td><td>${nOf('09-deutsch') + ', ' + nOf('19-qpe')}</td></tr>
+          <tr><td><b>Gate</b></td><td>A reversible (unitary) operation on one or more qubits: on the sphere it is always a rotation.</td><td>${nOf('03-porte')}</td></tr>
+          <tr><td><b>Post-quantum (cryptography)</b></td><td>Classical algorithms resistant to Shor and Grover; standardised by NIST in 2024.</td><td>${nOf('20-shor')}</td></tr>
+          <tr><td><b>QFT</b></td><td>Fourier transform on the amplitudes: n²/2 gates, turns periodicity into peaks.</td><td>${nOf('18-qft')}</td></tr>
+          <tr><td><b>QPE</b></td><td>Phase estimation: copies a phase into the reading qubits and makes it measurable with the inverse QFT.</td><td>${nOf('19-qpe')}</td></tr>
+          <tr><td><b>Qubit</b></td><td>The elementary unit: two amplitudes, one for |0⟩ and one for |1⟩.</td><td>${nOf('01-qubit')}</td></tr>
+          <tr><td><b>Shor</b></td><td>Factorisation in polynomial time, by reducing the problem to the search for a period.</td><td>${nOf('20-shor')}</td></tr>
+          <tr><td><b>Syndrome (measurement)</b></td><td>A measurement that reveals <b>where</b> an error happened without revealing the encoded information.</td><td>${nOf('21-rumore')}</td></tr>
+          <tr><td><b>Superposition</b></td><td>A state in which several results have non-zero amplitude at the same time.</td><td>${nOf('01-qubit')}</td></tr>
+          <tr><td><b>SWAP</b></td><td>A gate that swaps two qubits; it closes the QFT circuit.</td><td>${nOf('05-circuiti') + ', ' + nOf('18-qft')}</td></tr>
+          <tr><td><b>Teleportation</b></td><td>Transferring a state using entanglement + 2 classical bits. The original is destroyed.</td><td>${nOf('06-teletrasporto')}</td></tr>
+          <tr><td><b>Unitary (operation)</b></td><td>It preserves the total probability and is reversible: all gates are, measurement is not.</td><td>${nOf('03-porte')}</td></tr>
         </table>`,
     },
     {
@@ -153,7 +154,7 @@ noise and error correction (20) · creative workshop (21) · exam (23)</code></p
       why: 'The correlations only show up by comparing the results, and the comparison travels at normal speed.' },
   ],
 
-  outro: `<div class="callout ok">You have everything. Only one thing is left: <b>the final exam</b>. Thirty questions on the whole journey,
+  outro: `<div class="callout ok">You have everything. Only one thing is left: <b>the final exam</b>. Questions on the whole journey,
           no time limit, unlimited attempts — and, from 80% upwards, your certificate.</div>`,
 });
 </script>

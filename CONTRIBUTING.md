@@ -43,7 +43,8 @@ Se è tutto verde, puoi cominciare.
 | 30 minuti | Aggiungere una domanda al quiz di un livello | stesso file, sezione `quiz:` |
 | 1 ora | Migliorare un mini-gioco esistente (etichette, colori, suoni) | `public_html/js/widgets/*.js` |
 | mezza giornata | Scrivere un **livello nuovo** | vedi sotto |
-| a piacere | Tradurre il corso in un'altra lingua | apri prima una issue: serve una discussione |
+| 20 minuti | Migliorare una traduzione inglese o spagnola | `public_html/en/`, `public_html/es/`, `js/i18n/*.js` |
+| a piacere | Aggiungere una **quarta** lingua | apri prima una issue: sono 90 pagine, meglio parlarne |
 
 Le issue etichettate **`buon primo contributo`** sono scelte apposta: piccole, isolate,
 con il file già indicato. Se non ne trovi di libere, apri una issue e dillo: te ne preparo una.
@@ -55,11 +56,14 @@ con il file già indicato. Se non ne trovi di libere, apri una issue e dillo: te
 ```
 public_html/          il gioco (HTML+JS puro, nessun bundler) e il front controller Laravel
   js/core/            motore: simulatore quantistico, DFT, stato del giocatore, interfaccia
+  js/i18n/            i dizionari: en.js, es.js (la chiave è la frase italiana)
   js/widgets/         i mini-giochi, uno o più per livello
   lezioni/*.html      un file per livello: contiene SOLO i contenuti
+  en/  es/            le stesse pagine in inglese e spagnolo, con indirizzi tradotti
+lang/                 en.json, es.json: le stesse traduzioni per il lato Laravel
 Modules/              backend Laravel a moduli: Accounts, Progress, Certificates, Chat
 tests/                test PHP, test unitari JS, test end-to-end Playwright
-tools/                validatore, verifiche matematiche, sincronizzazione esame
+tools/                validatore, verifiche matematiche, sincronizzazione esame, sitemap
 ```
 
 Due regole che tengono in piedi tutto:
@@ -73,17 +77,29 @@ Due regole che tengono in piedi tutto:
 
 ## Aggiungere un livello
 
-1. Aggiungi una riga in `public_html/js/core/levels.js`:
+1. Aggiungi una riga in `public_html/js/core/levels.js`. Il percorso del file **non si
+   scrive**: si ricava dall'`id`, così una lingua non può dimenticarsene una a metà elenco.
 
    ```js
-   { id: '24-mio-livello', part: 'D', n: 24, file: 'lezioni/24-mio-livello.html',
-     title: 'Titolo breve', desc: 'Una riga che invogli a entrarci.', xp: 120 },
+   { id: '25-mio-livello', part: 'D', n: 25,
+     title: t('Titolo breve'), desc: t('Una riga che invogli a entrarci.'), xp: 120 },
    ```
 
-2. Copia un livello esistente simile (`public_html/lezioni/11-grover.html` è un buon modello)
-   e cambia `id`, contenuti e quiz.
-3. `npm run validate` controlla che l'id combaci, che i file esistano e che l'HTML sia valido.
-4. `npm run test:e2e` verifica che la pagina non abbia errori JS, non sbordi e disegni davvero.
+2. Aggiungi l'id alla mappa `SLUG` nello stesso file, con il nome che il file avrà nelle
+   altre due lingue (anche gli indirizzi sono tradotti: `/en/lessons/`, `/es/lecciones/`).
+3. Copia un livello esistente simile (`public_html/lezioni/11-grover.html` è un buon modello)
+   e cambia `id`, contenuti e quiz. Poi fai lo stesso in `public_html/en/lessons/` e
+   `public_html/es/lecciones/`: una lingua pubblicata deve avere **tutte** le lezioni, e il
+   validatore si ferma se ne manca una.
+4. Il `<title>` della pagina deve essere esattamente quello che il gioco mostra aprendola:
+   `<numero>. <titolo> — Quantum Arcade`. Anche questo lo controlla il validatore — erano
+   finiti fuori sincrono in 21 lezioni su 28, con la scheda del browser che annunciava un
+   livello e la pagina che ne mostrava un altro.
+5. `npm run lingue` dice quali frasi nuove mancano nei dizionari (`--fix` prepara le chiavi).
+6. `npm run sitemap` rigenera l'elenco degli indirizzi per i motori di ricerca.
+7. `npm run validate` controlla che l'id combaci, che i file esistano in tutte le lingue,
+   che i titoli siano allineati e che l'HTML sia valido.
+8. `npm run test:e2e` verifica che la pagina non abbia errori JS, non sbordi e disegni davvero.
 
 **Cosa rende buono un livello, in questo progetto:**
 
@@ -133,7 +149,7 @@ Quattro cose non negoziabili, perché sono la differenza fra un widget e un gioc
 ## Modificare il backend
 
 ```bash
-php artisan test                       # 84 test, devono restare verdi
+php artisan test                       # 118 test, devono restare verdi
 XDEBUG_MODE=coverage php artisan test --coverage
 ```
 

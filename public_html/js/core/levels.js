@@ -233,6 +233,19 @@ MAIN.forEach((l, i) => { if (i > 0 && !l.open) l.req = MAIN[i - 1].id; });
 
 export function levelById(id) { return LEVELS.find(l => l.id === id) || null; }
 
+/**
+ * Il numero mostrato di un livello, a partire dal suo id.
+ *
+ * Serve ai testi che rimandano ad altri livelli — il glossario ne ha
+ * trentasei. Scritti a mano si scollegano al primo riordino: quindici voci
+ * puntavano ancora alla numerazione di prima che nascesse Simon, e mandavano
+ * chi cercava «QFT» al livello 17, che è la FFT. Scritti così non possono.
+ */
+export function nOf(id) {
+  const lv = levelById(id);
+  return lv ? String(lv.n) : '?';
+}
+
 export function neighbours(id) {
   const i = LEVELS.findIndex(l => l.id === id);
   return { prev: i > 0 ? LEVELS[i - 1] : null, next: i >= 0 && i < LEVELS.length - 1 ? LEVELS[i + 1] : null };
