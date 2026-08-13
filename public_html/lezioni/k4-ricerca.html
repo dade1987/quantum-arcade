@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="it" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K·4 · Cercare — Quantum Arcade</title>
+<meta name="description" content="Ricerca lineare e ricerca binaria giocate contando i confronti: perché su una lista in disordine non si può fare meglio di N/2 tentativi, e perché è proprio quello il record che Grover batte.">
+<link rel="canonical" href="https://quantumarcade.it/lezioni/k4-ricerca.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/k4-ricerca.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/k4-search.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/k4-busqueda.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/k4-ricerca.html">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+import { confronto } from '../js/core/confronto.js';
+import { searchRace } from '../js/widgets/classic2.js';
+
+const L = renderLesson({
+  id: 'k4-ricerca',
+  lead: `«Cercare» sembra una cosa sola e invece sono due, e la differenza fra le due è tutto.
+         Cercare in uno scaffale <b>ordinato</b> è facile e velocissimo. Cercare in uno scaffale
+         <b>in disordine</b> è noioso e non c'è furbizia che tenga. Gioca a tutte e due contando i
+         tentativi con le dita: quel numero è il metro con cui, al livello 11, misureremo Grover.`,
+
+  steps: [
+    {
+      t: 'Due scaffali, due mondi',
+      html: `<p>Nel gioco le scatole nascondono dei numeri e tu ne cerchi uno.</p>
+             <ul>
+               <li><b>Scaffale in disordine:</b> una scatola aperta ti dice solo cosa c'è <b>in quella</b>.
+                   Nessun indizio su dove guardare dopo. Prova, conta, e vedrai che finisci per aprirne
+                   circa <b>metà</b> prima di trovarlo — a volte prima per fortuna, a volte quasi tutte.</li>
+               <li><b>Scaffale ordinato:</b> ogni scatola aperta ti dice anche <b>da che parte</b> continuare.
+                   Apri quella in mezzo e butti via metà scaffale. Poi ancora metà. Poi ancora.</li>
+             </ul>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'ricerca', title: 'Le due cacce', text: 'trova il numero nello scaffale in disordine, e poi in quello ordinato usando al massimo 5 aperture.', xp: 40 });
+        el.appendChild(m.root);
+        searchRace(el, { n: 16, onWin: () => m.complete() });
+      },
+      after: `<div class="callout key"><b>Il conto delle due strategie</b>, su N scatole:
+              <br>· <b>lineare</b> (disordine): in media <b>N/2</b> aperture, nel caso peggiore N.
+              <br>· <b>binaria</b> (ordinato): <b>log₂N</b> aperture, sempre, anche nel caso peggiore.
+              <br>Su un milione di scatole: 500.000 contro <b>20</b>. Non è una differenza di velocità del
+              computer: è una differenza di <b>metodo</b>, e vale su qualunque macchina.</div>`,
+    },
+    {
+      t: 'Perché nel disordine non si può fare di meglio',
+      html: `<p>Questa è una delle poche cose che in informatica si <b>dimostrano</b>, e la dimostrazione
+             sta in tre righe che puoi seguire senza matematica:</p>
+             <div class="callout">
+               <p>Immagina di essere l'avversario e di poter decidere il contenuto delle scatole <b>mentre</b>
+               l'altro cerca. Ogni volta che apre una scatola, tu ci metti dentro un numero sbagliato — puoi
+               farlo, finché resta almeno una scatola chiusa.</p>
+               <p class="mb0">Finché c'è una scatola chiusa, il cercatore <b>non può essere sicuro</b>.
+               Quindi nel caso peggiore deve aprirle tutte. Non esiste algoritmo furbo: l'informazione
+               che gli serve non è nello scaffale, è sparsa in N posti e va raccolta un posto per volta.</p>
+             </div>
+             <p>È il tipo di ragionamento che si chiama <b>limite inferiore</b>: non dice «non ci siamo ancora
+             riusciti», dice «non ci riuscirà mai nessuno». Ed è per questo che il risultato di Grover fece
+             rumore: sembrava violarlo.</p>
+             <div class="callout warn"><b>Non lo viola.</b> Il limite vale per un computer che apre <b>una
+             scatola per volta</b>. Grover apre le scatole in un modo che classicamente non esiste: le
+             interroga tutte insieme e poi fa in modo che le risposte sbagliate <b>si cancellino fra loro</b>.
+             E infatti esiste un secondo teorema che dice che nemmeno un computer quantistico può fare meglio
+             di √N: il limite c'è anche lì, solo più in basso.</div>`,
+      after: confronto({
+        titolo: 'Cercare l\'ago nel pagliaio: i tre modi',
+        livello: '11-grover',
+        vaiA: 'Vai a Grover (livello 11)',
+        classico: {
+          titolo: 'Con un computer normale',
+          html: `<p>Scaffale <b>ordinato</b>: dimezza ogni volta → <b>log₂N</b> tentativi. Imbattibile,
+                 e nessun computer quantistico fa meglio.</p>
+                 <p class="mb0">Scaffale <b>in disordine</b>: nessuna scorciatoia → <b>N/2</b> tentativi in
+                 media. Dimostrato che non si può fare meglio.</p>`,
+        },
+        quantistico: {
+          titolo: 'Con Grover',
+          html: `<p>Sullo scaffale <b>in disordine</b>: circa <b>√N</b> tentativi. Su un milione di scatole,
+                 mille invece di mezzo milione.</p>
+                 <p class="mb0">Sullo scaffale <b>ordinato</b> non serve a niente: log₂N è già meglio di √N.
+                 Il vantaggio quantistico esiste solo dove il classico <b>non ha struttura da sfruttare</b>.</p>`,
+        },
+        numeri: [
+          { cosa: 'N = 100', classico: '50 tentativi', quantistico: '10 tentativi' },
+          { cosa: 'N = 1.000.000', classico: '500.000', quantistico: '~785' },
+          { cosa: 'lista ordinata, N = 1.000.000', classico: '20', quantistico: '20 (nessun guadagno)' },
+        ],
+        verdetto: `<b>Il guadagno di Grover è quadratico, non magico:</b> dimezza l'esponente, non lo abbatte.
+                   Ed è per questo che contro la crittografia simmetrica basta raddoppiare la lunghezza della
+                   chiave, mentre contro RSA (che cade per un motivo diverso, al livello 20) non basta niente.`,
+      }),
+    },
+    {
+      t: 'Cercare, in pratica: perché nessuno cerca davvero',
+      html: `<p>Se apri la rubrica del telefono e scrivi tre lettere, il risultato compare <b>subito</b>
+             anche con diecimila contatti. Non è ricerca lineare, e nemmeno binaria: è che qualcuno,
+             prima, ha costruito un <b>indice</b>.</p>
+             <ul>
+               <li><b>Ordinare costa</b> N·log N, ma si paga una volta sola e poi ogni ricerca costa log N.
+                   Conviene appena si cerca più di una volta.</li>
+               <li><b>Le tabelle hash</b> vanno oltre: trasformano il dato in un indirizzo e ci arrivano in
+                   <b>un colpo solo</b>, in media. È il motivo per cui i database non fanno quasi mai
+                   ricerche vere.</li>
+               <li><b>Il caso in cui Grover conta davvero</b> è quello in cui l'indice <b>non si può
+                   costruire</b>: quando le possibilità non sono in un archivio ma sono <i>generate</i> —
+                   tutte le chiavi possibili, tutte le mosse possibili, tutte le combinazioni possibili.
+                   Lì non c'è niente da ordinare, perché non c'è niente di scritto da nessuna parte.</li>
+             </ul>
+             <div class="callout warn"><b>L'obiezione onesta:</b> per far cercare a Grover un archivio vero
+             bisognerebbe prima <b>caricare l'archivio</b> nel computer quantistico, e caricare N dati costa
+             almeno N. Il guadagno svanisce. Per questo Grover si usa su problemi <b>generati da una regola</b>
+             (una funzione da invertire), non su elenchi di clienti.</div>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Nello scaffale ordinato da 16 scatole, quante aperture servono <b>al massimo</b>? Verifica che 2⁴ = 16 e che la risposta è 4 (più una per confermare).</p>
+        <p><b>2.</b> Sul disordinato, gioca cinque partite e scrivi i tentativi: fai la media. Ti avvicini a 8?</p>
+        <p><b>3.</b> Se lo scaffale ha un milione di scatole e ne apri una al secondo: quanto tempo per la ricerca lineare nel caso peggiore? E per la binaria?</p>
+        <p class="mb0"><b>4.</b> Da inventore: e se ci fossero <b>due</b> scatole giuste invece di una? La ricerca lineare migliora? Di quanto? <span class="muted">(e tieni la risposta da parte: cambia anche il numero di iterazioni di Grover)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Su una lista NON ordinata di N elementi, quanti confronti servono in media?',
+      options: ['log N', 'N/2', '√N', 'sempre 1'], correct: 1,
+      why: 'In media metà lista, nel caso peggiore tutta. Senza struttura non esiste strategia migliore, ed è dimostrato.' },
+    { q: 'La ricerca binaria richiede…',
+      options: ['una lista ordinata', 'una lista corta', 'un computer veloce', 'due processori'], correct: 0,
+      why: 'Serve l\'ordine: è quello che permette di buttare via metà lista a ogni confronto.' },
+    { q: 'Perché Grover non aiuta su una lista già ordinata?',
+      options: ['perché è troppo lento', 'perché log N è già molto meglio di √N', 'perché non funziona sui numeri', 'perché serve troppa memoria'], correct: 1,
+      why: 'Su un milione di elementi: 20 confronti con la binaria contro circa 785 con Grover. Il vantaggio quantistico vive solo dove manca la struttura.' },
+    { q: 'Che cos\'è un "limite inferiore" in informatica?',
+      options: ['il tempo minimo di un computer specifico', 'una dimostrazione che nessun algoritmo può fare meglio di così', 'il numero minimo di righe di codice', 'la memoria minima richiesta'], correct: 1,
+      why: 'Non dice "finora nessuno ci è riuscito": dice "nessuno ci riuscirà mai". Anche Grover ha il suo, ed è √N.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> con la struttura (l'ordine) si cerca in log N;
+          senza struttura si paga N/2 e non c'è scampo. Tieni a mente questi due numeri: il livello 11 ne
+          aggiungerà un terzo, √N, e adesso saprai fra cosa e cosa sta in mezzo.
+          Prossimo livello: mettiamo tutti i costi su un unico grafico.</div>`,
+});
+</script>
+</body>
+</html>

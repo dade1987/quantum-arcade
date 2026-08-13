@@ -38,9 +38,9 @@ const SKIP = new Set(['node_modules', 'vendor', 'storage', 'bootstrap', 'test-re
    tradotto è peggio di nessuna traduzione — chi arriva dal terzo livello
    inglese e trova l'italiano pensa che il sito sia rotto. */
 const LINGUE = [
-  { code: 'it', dir: '', lezioni: 'lezioni', parola: 'ventotto', unita: 'livelli' },
-  { code: 'en', dir: 'en/', lezioni: 'lessons', parola: 'twenty-eight', unita: 'levels' },
-  { code: 'es', dir: 'es/', lezioni: 'lecciones', parola: 'veintiocho', unita: 'niveles' },
+  { code: 'it', dir: '', lezioni: 'lezioni', parola: 'trentaquattro', unita: 'livelli' },
+  { code: 'en', dir: 'en/', lezioni: 'lessons', parola: 'thirty-four', unita: 'levels' },
+  { code: 'es', dir: 'es/', lezioni: 'lecciones', parola: 'treinta y cuatro', unita: 'niveles' },
 ];
 
 /** La lingua di un file, dedotta dalla cartella in cui sta. */
@@ -320,16 +320,22 @@ const A_PAROLE = {
     20: 'venti', 21: 'ventuno', 22: 'ventidue', 23: 'ventitré', 24: 'ventiquattro',
     25: 'venticinque', 26: 'ventisei', 27: 'ventisette', 28: 'ventotto',
     29: 'ventinove', 30: 'trenta', 31: 'trentuno', 32: 'trentadue',
+    33: 'trentatré', 34: 'trentaquattro', 35: 'trentacinque', 36: 'trentasei',
+    37: 'trentasette', 38: 'trentotto', 39: 'trentanove', 40: 'quaranta',
   },
   en: {
     20: 'twenty', 21: 'twenty-one', 22: 'twenty-two', 23: 'twenty-three', 24: 'twenty-four',
     25: 'twenty-five', 26: 'twenty-six', 27: 'twenty-seven', 28: 'twenty-eight',
     29: 'twenty-nine', 30: 'thirty', 31: 'thirty-one', 32: 'thirty-two',
+    33: 'thirty-three', 34: 'thirty-four', 35: 'thirty-five', 36: 'thirty-six',
+    37: 'thirty-seven', 38: 'thirty-eight', 39: 'thirty-nine', 40: 'forty',
   },
   es: {
     20: 'veinte', 21: 'veintiuno', 22: 'veintidós', 23: 'veintitrés', 24: 'veinticuatro',
     25: 'veinticinco', 26: 'veintiséis', 27: 'veintisiete', 28: 'veintiocho',
     29: 'veintinueve', 30: 'treinta', 31: 'treinta y uno', 32: 'treinta y dos',
+    33: 'treinta y tres', 34: 'treinta y cuatro', 35: 'treinta y cinco', 36: 'treinta y seis',
+    37: 'treinta y siete', 38: 'treinta y ocho', 39: 'treinta y nueve', 40: 'cuarenta',
   },
 };
 /* "levels"/"niveles" compaiono anche in inglese e spagnolo: il conteggio va

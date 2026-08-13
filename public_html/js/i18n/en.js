@@ -1603,4 +1603,249 @@ export default {
     "… and :quanti more (they do not fit on screen)",
   "→ risposta: :risposta (la funzione era davvero <b>:vera</b>) :esito":
     "→ answer: :risposta (the function really was <b>:vera</b>) :esito",
+
+  /* ---------------- Part K: classical computing, and the comparison blocks ---------------- */
+  'quanto costa': 'what it costs',
+  'computer normale': 'normal computer',
+  'computer quantistico': 'quantum computer',
+  'Ripassa il livello :n — :titolo': 'Review level :n — :titolo',
+  'Prima in classico, poi in quantistico': 'Classical first, quantum second',
+  'Come si fa con un computer normale': 'How it is done on a normal computer',
+  'Cosa cambia con quello quantistico': 'What changes on a quantum one',
+
+  'Parte K — Il computer classico (il termine di paragone)': 'Part K — The classical computer (the yardstick)',
+  "Bit, porte logiche, somma binaria, ricerca, costo di un algoritmo, reversibilità. Ogni livello finisce con l'anticipazione di cosa cambierà nel quantistico. Facoltativa se sai già come funziona un computer normale.":
+    'Bits, logic gates, binary addition, searching, the cost of an algorithm, reversibility. Every level ends with a preview of what quantum will change. Optional if you already know how a normal computer works.',
+  'Il bit: acceso, spento, e come ci si scrive tutto': 'The bit: on, off, and how everything is written with it',
+  'Interruttori, binario, byte, testo. E il conto che tornerà: con n bit scegli UN numero fra 2ⁿ.':
+    'Switches, binary, bytes, text. And the count that keeps coming back: with n bits you pick ONE number out of 2ⁿ.',
+  'Porte logiche: AND, OR, NOT, XOR': 'Logic gates: AND, OR, NOT, XOR',
+  'Tabelle di verità giocate, e la scoperta che una porta sola basta per costruire tutte le altre.':
+    'Truth tables played, and the discovery that one single gate is enough to build all the others.',
+  'La somma, come la fa davvero il processore': 'Addition, the way the processor really does it',
+  "Riporto, mezzo sommatore, sommatore completo: monti l'addizione a 4 bit con le tue mani.":
+    'Carry, half adder, full adder: you build the 4-bit addition with your own hands.',
+  'Cercare: a tentoni, oppure dimezzando': 'Searching: groping around, or halving',
+  'Ricerca lineare e ricerca binaria, contando i confronti uno per uno. Il metro di paragone di Grover.':
+    'Linear search and binary search, counting the comparisons one by one. The yardstick for Grover.',
+  'Quanto costa un algoritmo: N, log N, N², 2ⁿ': 'What an algorithm costs: N, log N, N², 2ⁿ',
+  'La gara fra le curve di crescita. Qui si capisce che cosa significa davvero "vantaggio quantistico".':
+    'The race between growth curves. This is where "quantum advantage" starts to mean something.',
+  'Informazione che si perde: il ponte verso il quantistico': 'Information that gets lost: the bridge to quantum',
+  "AND butta via un bit, cancellare scalda (Landauer), Toffoli calcola all'indietro. Da qui parte tutto.":
+    'AND throws a bit away, erasing releases heat (Landauer), Toffoli computes backwards. Everything starts here.',
+
+  'FATTO!': 'DONE!',
+
+  /* bit lab */
+  'La macchina a interruttori': 'The switch machine',
+  'accendi i bit finché il numero non è quello giusto': 'flip the bits until the number is the right one',
+  'accendi gli interruttori per fare :numero': 'flip the switches to make :numero',
+  'ogni interruttore vale il doppio di quello alla sua destra — tocca per accenderlo':
+    'every switch is worth double the one to its right — tap to turn it on',
+  'tutto spento = 0': 'all off = 0',
+  'nuovo numero': 'new number',
+  'spegni tutto': 'all off',
+  'Binario: <b>:bin</b>  ·  decimale: <b>:dec</b>  ·  esadecimale: <b>:hex</b>':
+    'Binary: <b>:bin</b>  ·  decimal: <b>:dec</b>  ·  hexadecimal: <b>:hex</b>',
+  'Se questi 8 bit fossero testo, sarebbero il carattere «<b>:carattere</b>».':
+    'If these 8 bits were text, they would be the character "<b>:carattere</b>".',
+  'Con :n interruttori i numeri diversi possibili sono 2^:n = <b>:totale</b>. Ma tu, in questo momento, ne stai tenendo <b>uno solo</b>.':
+    'With :n switches the possible different numbers are 2^:n = <b>:totale</b>. But right now you are holding <b>exactly one</b> of them.',
+  '<b>Tienilo da parte:</b> con 8 bit ci sono 256 configurazioni possibili, e il computer ne tiene <b>una</b>. Fra qualche livello vedrai 8 <i>qubit</i> che tengono tutte e 256 le ampiezze <b>insieme</b> — ed è lì che comincia la storia, non prima.':
+    '<b>Keep this in your pocket:</b> with 8 bits there are 256 possible configurations, and the computer holds <b>one</b>. A few levels from now you will see 8 <i>qubits</i> holding all 256 amplitudes <b>together</b> — and that is where the story starts, not before.',
+
+  /* logic lab */
+  'Il banco delle porte logiche': 'The logic gate bench',
+  'accendi gli ingressi e guarda cosa esce': 'flip the inputs and watch what comes out',
+  'scopri quale porta è nascosta nella scatola': 'work out which gate is hidden in the box',
+  'domande fatte alla scatola: :n — poi dichiara la porta qui sotto':
+    'questions asked so far: :n — then name the gate below',
+  'esplora tutte e 4 le righe della tabella di :porta': 'explore all 4 rows of the :porta table',
+  'tocca gli ingressi A e B per cambiarli': 'tap inputs A and B to change them',
+  'uscita': 'output',
+  'tabella di verità': 'truth table',
+  'porta al banco': 'gate on the bench',
+  'è :porta': 'it is :porta',
+  'banco libero': 'free bench',
+  'porta misteriosa': 'mystery gate',
+  '✓ era :porta, trovata con :n domande': '✓ it was :porta, found with :n questions',
+  '✗ no: la tabella non torna. Guarda meglio le righe che hai già chiesto.':
+    '✗ no: the table does not match. Look again at the rows you have already asked for.',
+  'Righe già chieste alla scatola: <b>:viste su 4</b>. Per essere <b>certo</b> di quale porta è, quante te ne servono?':
+    'Rows asked for so far: <b>:viste out of 4</b>. To be <b>certain</b> which gate it is, how many do you need?',
+  'Indovinate: <b>:fatte/:totali</b>': 'Identified: <b>:fatte/:totali</b>',
+  '<b>:porta</b>(:a, :b) = <b>:uscita</b>  ·  la sua tabella di verità per intero è <b>:firma</b>':
+    '<b>:porta</b>(:a, :b) = <b>:uscita</b>  ·  its full truth table is <b>:firma</b>',
+  'Righe esplorate: <b>:viste/4</b>': 'Rows explored: <b>:viste/4</b>',
+  "<b>Da notare:</b> per essere sicuro di quale porta c'è nella scatola devi provare <b>tutte e quattro</b> le combinazioni. La scatola risponde a una domanda per volta, e non c'è furbizia che tenga. Al livello 9 la stessa scatola, interrogata da un computer quantistico, risponderà a <b>tutte le combinazioni in una volta sola</b>.":
+    '<b>Worth noticing:</b> to be sure which gate is in the box you have to try <b>all four</b> combinations. The box answers one question at a time, and no cleverness gets around it. At level 9 the same box, questioned by a quantum computer, will answer <b>all the combinations in one go</b>.',
+
+  /* NAND workshop */
+  "L'officina del NAND": 'The NAND workshop',
+  'una porta sola, e ci costruisci tutte le altre': 'one gate only, and you build all the others out of it',
+  'un NAND con lo stesso filo in tutti e due gli ingressi': 'one NAND with the same wire in both inputs',
+  'NAND, e poi un NAND che fa da NOT': 'a NAND, then a NAND acting as a NOT',
+  'nega A, nega B, e poi mettili in NAND (è De Morgan)': 'negate A, negate B, then NAND them (this is De Morgan)',
+  'quattro NAND: è il pezzo che il livello K·3 userà per sommare':
+    'four NANDs: this is the piece level K·3 will use for adding',
+  'costruisci :porta usando solo NAND': 'build :porta using NAND gates only',
+  'la tua': 'yours',
+  'ingresso 1': 'input 1',
+  'ingresso 2': 'input 2',
+  'uscita della rete': 'network output',
+  'La tua rete fa <b>:mia</b>, il bersaglio è <b>:bersaglio</b>.': 'Your network gives <b>:mia</b>, the target is <b>:bersaglio</b>.',
+  'Costruite finora: <b>:elenco</b>': 'Built so far: <b>:elenco</b>',
+  'è esattamente :porta, fatta di soli NAND.': 'that is exactly :porta, made of NANDs only.',
+  '<b>Perché conta:</b> un tipo solo di porta basta per costruire qualunque calcolo — si dice che il NAND è <b>universale</b>. Anche il computer quantistico ha i suoi insiemi universali di porte, e ci si arriva con lo stesso ragionamento: pochi mattoni, combinati, fanno tutto il resto.':
+    '<b>Why it matters:</b> a single kind of gate is enough to build any computation — NAND is said to be <b>universal</b>. Quantum computers have universal gate sets too, reached by the same reasoning: a few bricks, combined, make all the rest.',
+
+  /* adder */
+  'Il sommatore a :n bit': 'The :n-bit adder',
+  'metti tu i riporti, come si fa in colonna': 'you put in the carries, the way you do it on paper',
+  'somma :a + :b in binario': 'add :a + :b in binary',
+  'tocca le caselle blu per metterci 0 o 1 — parti da destra, come in prima elementare':
+    'tap the blue cells to put 0 or 1 in them — start from the right, as in primary school',
+  'riporto': 'carry',
+  'somma': 'sum',
+  'sommate giuste: :fatte/:totali': 'correct additions: :fatte/:totali',
+  'nuova somma': 'new addition',
+  'mostrami la soluzione': 'show me the solution',
+  '(soluzione mostrata: questa non conta)': '(solution shown: this one does not count)',
+  'In decimale: <b>:a + :b = :tot</b>. In binario le colonne si fanno una per volta, da destra: se la colonna fa 2, scrivi 0 e <b>porti 1</b>.':
+    'In decimal: <b>:a + :b = :tot</b>. In binary the columns are done one at a time, from the right: if the column makes 2, write 0 and <b>carry 1</b>.',
+  'Ogni colonna è due porte: <b>somma = A XOR B</b>, <b>riporto = A AND B</b>. Sono le stesse porte del livello K·2.':
+    'Every column is two gates: <b>sum = A XOR B</b>, <b>carry = A AND B</b>. The very same gates as level K·2.',
+  'colonne tutte giuste.': 'every column correct.',
+  '<b>Il punto da tenere:</b> il riporto passa da una colonna alla successiva, quindi le colonne vanno fatte <b>in ordine</b>. È una catena, e una catena non si accorcia mettendo più processori. Il sommatore quantistico ha lo stesso problema — e in più deve essere <b>reversibile</b>, cosa che il livello K·6 spiega.':
+    '<b>The point to keep:</b> the carry passes from one column to the next, so the columns must be done <b>in order</b>. It is a chain, and a chain does not get shorter by adding processors. The quantum adder has the same problem — and on top of that it must be <b>reversible</b>, which level K·6 explains.',
+
+  /* search */
+  'La caccia nello scaffale': 'The hunt on the shelf',
+  'apri le scatole finché non trovi il numero — e conta quante ne apri':
+    'open boxes until you find the number — and count how many you open',
+  'trova il numero :numero': 'find the number :numero',
+  'lo scaffale è ORDINATO: ogni scatola aperta ti dice anche da che parte continuare':
+    'the shelf is SORTED: every opened box also tells you which way to go on',
+  'lo scaffale è in disordine: una scatola aperta dice solo sé stessa':
+    'the shelf is unsorted: an opened box only tells you about itself',
+  'scatole aperte: :n': 'boxes opened: :n',
+  'con il dimezzamento bastano :n aperture, sempre': 'by halving, :n openings are always enough',
+  'in media servono :n aperture, e nel caso peggiore :max': 'on average it takes :n openings, and :max in the worst case',
+  'scaffale in disordine': 'unsorted shelf',
+  'scaffale ordinato': 'sorted shelf',
+  'nuova partita': 'new game',
+  'Ogni apertura ti dice «più grande» o «più piccolo», quindi puoi buttare via <b>metà</b> scaffale ogni volta: :n scatole → log₂(:n) ≈ <b>:passi aperture</b>.':
+    'Every opening tells you "bigger" or "smaller", so you can throw away <b>half</b> the shelf each time: :n boxes → log₂(:n) ≈ <b>:passi openings</b>.',
+  "Nessun indizio: l'unica strategia è provare. Su :n scatole, in media <b>:media</b> aperture, nel caso peggiore <b>:n</b>.":
+    'No hints: the only strategy is trying. On :n boxes, <b>:media</b> openings on average, <b>:n</b> in the worst case.',
+  'Scatole ancora possibili: <b>:rimaste</b> · aperture usate: <b>:mosse</b>':
+    'Boxes still possible: <b>:rimaste</b> · openings used: <b>:mosse</b>',
+  'Record — disordine: <b>:a</b> · ordinato: <b>:b</b>': 'Best — unsorted: <b>:a</b> · sorted: <b>:b</b>',
+  'trovato in :n aperture!': 'found in :n openings!',
+  '<b>Da ricordare per il livello 11:</b> se la lista è ordinata, dimezzare porta a log N ed è imbattibile. Se è in <b>disordine</b> — e senza struttura da sfruttare — il classico non può fare meglio di N/2 tentativi. Grover, su quello stesso scaffale disordinato, ne farà circa <b>√N</b>: su 10.000 scatole, 100 aperture invece di 5.000.':
+    '<b>Remember this for level 11:</b> if the list is sorted, halving gives log N and is unbeatable. If it is <b>unsorted</b> — with no structure to exploit — a classical computer cannot do better than N/2 tries. Grover, on that same unsorted shelf, will take about <b>√N</b>: on 10,000 boxes, 100 openings instead of 5,000.',
+
+  /* cost */
+  'La gara delle crescite': 'The growth race',
+  'quante operazioni servono, al crescere del problema': 'how many operations it takes as the problem grows',
+  'meno di un microsecondo': 'less than a microsecond',
+  'millisecondi': 'milliseconds',
+  'secondi': 'seconds',
+  'minuti': 'minutes',
+  'ore': 'hours',
+  'giorni': 'days',
+  'anni': 'years',
+  ":volte volte l'età dell'universo": ':volte times the age of the universe',
+  'trova il primo N per cui 2^N supera un anno di calcolo': 'find the first N for which 2^N passes one year of computing',
+  'un miliardo di operazioni al secondo, che è un computer normale':
+    'a billion operations per second, which is a normal computer',
+  'un anno di calcolo': 'one year of computing',
+  'operazioni con 2^N': 'operations with 2^N',
+  'dimensione del problema <b>N</b>': 'problem size <b>N</b>',
+  "eccolo: da N = :n in poi la forza bruta non è più un'opzione.":
+    'there it is: from N = :n on, brute force is no longer an option.',
+  '<b>La riga che spiega tutto il corso:</b> passare da N² a N·log N è una buona ottimizzazione. Passare da N a √N (Grover) è un bel guadagno. Passare da <b>2^N a N³</b> — da esponenziale a polinomiale, che è quello che fa Shor sulla fattorizzazione — non è una ottimizzazione: è la differenza fra «impossibile per sempre» e «fatto stasera».':
+    '<b>The line that explains the whole course:</b> going from N² to N·log N is a good optimisation. Going from N to √N (Grover) is a nice gain. Going from <b>2^N to N³</b> — from exponential to polynomial, which is what Shor does to factoring — is not an optimisation: it is the difference between "impossible forever" and "done tonight".',
+
+  /* reversibility */
+  'Avanti e indietro': 'Forwards and backwards',
+  'la porta AND perde la strada di casa, Toffoli no': 'the AND gate loses its way home, Toffoli does not',
+  "riporta i tre bit a com'erano all'inizio": 'put the three bits back the way they started',
+  'nessuna porta qui butta via niente: si torna indietro ripercorrendo la strada':
+    'no gate here throws anything away: you go back by walking the same road',
+  'partenza': 'start',
+  'adesso': 'now',
+  'porte applicate da te: :n': 'gates you applied: :n',
+  'rimesse a posto: :n': 'put back: :n',
+  'nuova sfida': 'new challenge',
+  'come si torna indietro?': 'how do I go back?',
+  "Queste cinque porte sono <b>reversibili</b>: da come esce si risale a com'era entrato, sempre. Basta rifare le stesse porte <b>in ordine inverso</b> — e ognuna di queste è l'inversa di sé stessa.":
+    'These five gates are <b>reversible</b>: from the output you can always get back to the input. Just reapply the same gates <b>in reverse order</b> — and each one of these is its own inverse.',
+  "Suggerimento: il computer ha applicato <b>:elenco</b>. Rifalle dall'ultima alla prima.":
+    'Hint: the computer applied <b>:elenco</b>. Redo them from the last to the first.',
+  "Confronta con <b>AND</b>: da un'uscita 0 non si risale agli ingressi (potevano essere 00, 01 o 10). Quel bit è <b>perso</b>, e per la fisica «perso» significa <b>scaldato</b>: cancellare un bit costa almeno kT·ln2 ≈ 3·10⁻²¹ joule (Landauer, 1961; misurato in laboratorio da Bérut et al., 2012).":
+    'Compare with <b>AND</b>: from a 0 output you cannot get back to the inputs (they could have been 00, 01 or 10). That bit is <b>lost</b>, and for physics "lost" means <b>heated</b>: erasing one bit costs at least kT·ln2 ≈ 3·10⁻²¹ joules (Landauer, 1961; measured in the lab by Bérut et al., 2012).',
+  'tornato al punto di partenza in :n mosse.': 'back to the starting point in :n moves.',
+  "<b>Il ponte:</b> le porte quantistiche sono <b>tutte</b> reversibili, senza eccezioni — è una conseguenza delle regole della fisica, non una scelta di ingegneria. Per questo un computer quantistico non può usare AND così com'è: deve usare Toffoli, che l'AND se lo tiene in un bit in più invece di buttarlo via.":
+    '<b>The bridge:</b> quantum gates are <b>all</b> reversible, no exceptions — a consequence of the rules of physics, not an engineering choice. That is why a quantum computer cannot use AND as it is: it has to use Toffoli, which keeps the AND on an extra bit instead of throwing it away.',
+
+  /* classical oracle */
+  'La scatola: costante o bilanciata?': 'The box: constant or balanced?',
+  'La scatola con la stringa segreta': 'The box with the secret string',
+  'ogni interrogazione conta — e si vede': 'every query counts — and it shows',
+  'scopri se la funzione nella scatola è costante o bilanciata':
+    'work out whether the function in the box is constant or balanced',
+  'scopri la stringa segreta di :n bit': 'work out the secret string of :n bits',
+  'domande fatte: :n — classicamente ne servono :max': 'questions asked: :n — classically you need :max',
+  'la tua domanda x': 'your query x',
+  '✓ giusto, con :n domande.': '✓ right, with :n questions.',
+  "✓ giusto! Un'altra scatola ti aspetta.": '✓ right! Another box is waiting for you.',
+  '✗ no. Non hai ancora abbastanza informazione: chiedi ancora.':
+    '✗ no. You do not have enough information yet: ask again.',
+  'interroga la scatola': 'query the box',
+  'è costante': 'it is constant',
+  'è bilanciata': 'it is balanced',
+  'il segreto è la stringa che ho impostato': 'the secret is the string I have set',
+  'nuova scatola': 'new box',
+  "La scatola nasconde una funzione da 1 bit a 1 bit. <b>Costante</b> vuol dire che risponde sempre uguale; <b>bilanciata</b> che risponde 0 a un ingresso e 1 all'altro.":
+    'The box hides a function from 1 bit to 1 bit. <b>Constant</b> means it always answers the same; <b>balanced</b> means it answers 0 to one input and 1 to the other.',
+  'Con una domanda sola non puoi mai deciderlo: qualunque risposta è compatibile con tutte e due i casi. Servono <b>2 domande su 2 ingressi possibili</b>.':
+    'With a single question you can never decide: any answer is compatible with both cases. You need <b>2 questions on 2 possible inputs</b>.',
+  'La scatola nasconde :n bit segreti e risponde con il «prodotto» della tua domanda con il segreto (somma dei bit in comune, modulo 2).':
+    'The box hides :n secret bits and answers with the "product" of your query and the secret (sum of the shared bits, modulo 2).',
+  'La strategia migliore è chiedere 1000…, 0100…, 0010… — un bit per volta. <b>:n domande per :n bit</b>: una a testa, non si scappa.':
+    'The best strategy is to ask 1000…, 0100…, 0010… — one bit at a time. <b>:n questions for :n bits</b>: one each, no way around it.',
+  '<b>Segnati il numero: 2.</b> Con n bit invece di 1, il classico ha bisogno nel caso peggiore di <b>2ⁿ⁻¹+1</b> domande. Al livello 9 il computer quantistico ne farà <b>una</b>, e non perché è più veloce: perché fa una domanda diversa.':
+    '<b>Note the number down: 2.</b> With n bits instead of 1, a classical computer needs <b>2ⁿ⁻¹+1</b> questions in the worst case. At level 9 the quantum computer will ask <b>one</b>, and not because it is faster: because it asks a different question.',
+  '<b>Segnati il numero: :n.</b> Una domanda per ogni bit del segreto, ed è dimostrato che meglio non si può fare classicamente. Al livello 10 Bernstein–Vazirani tirerà fuori tutta la stringa con <b>una sola</b> interrogazione.':
+    '<b>Note the number down: :n.</b> One question per bit of the secret, and it is proved that classically you cannot do better. At level 10 Bernstein–Vazirani will pull out the whole string with <b>a single</b> query.',
+
+  /* repetition code */
+  'Il codice a ripetizione': 'The repetition code',
+  'dire la stessa cosa tre volte, e votare a maggioranza': 'say the same thing three times, and vote by majority',
+  'manda almeno 200 bit e guarda le due percentuali separarsi':
+    'send at least 200 bits and watch the two percentages pull apart',
+  'con rumore basso, ripetere conviene; con rumore alto, peggiora':
+    'with low noise, repeating pays off; with high noise, it makes things worse',
+  'bit da mandare': 'bit to send',
+  'senza codice': 'without the code',
+  'in tre copie': 'in three copies',
+  'voto': 'vote',
+  'errori senza codice': 'errors without the code',
+  'errori con le tre copie': 'errors with three copies',
+  'probabilità che un bit si rovesci <b>p</b>': 'probability that a bit flips <b>p</b>',
+  'manda 1 bit': 'send 1 bit',
+  'manda 100 bit': 'send 100 bits',
+  'azzera il conteggio': 'reset the count',
+  'Senza codice sbagli con probabilità <b>p = :p%</b>. Con tre copie sbagli solo se si rovesciano <b>due o tre</b> copie: 3p² − 2p³ = <b>:teorico%</b>.':
+    'Without the code you get it wrong with probability <b>p = :p%</b>. With three copies you only get it wrong if <b>two or three</b> copies flip: 3p² − 2p³ = <b>:teorico%</b>.',
+  'Bit mandati: <b>:n</b> · errori senza codice: <b>:a</b> · errori con le copie: <b>:b</b>':
+    'Bits sent: <b>:n</b> · errors without the code: <b>:a</b> · errors with the copies: <b>:b</b>',
+  "Sotto p = 50% ripetere <b>conviene</b>, e più copie metti meglio va: è la soglia sotto cui la correzione d'errore funziona.":
+    'Below p = 50% repeating <b>pays off</b>, and the more copies the better: that is the threshold below which error correction works.',
+  "Sopra p = 50% ripetere <b>peggiora</b> le cose: la maggioranza vota per l'errore. Anche il quantistico ha la sua soglia, ed è il motivo per cui il livello 21 esiste.":
+    'Above p = 50% repeating <b>makes things worse</b>: the majority votes for the error. Quantum has its own threshold too, and that is why level 21 exists.',
+  "<b>Perché il quantistico non può copiare questo trucco così com'è:</b> ripetere vuol dire <b>copiare</b>, e un qubit non si può copiare (teorema di no-cloning, livello 6). E poi qui l'errore è uno solo — il bit si rovescia — mentre un qubit può sbagliare anche di <b>fase</b>. Il codice di Shor a 9 qubit risolve tutti e due i problemi in una volta.":
+    '<b>Why quantum cannot copy this trick as it is:</b> repeating means <b>copying</b>, and a qubit cannot be copied (the no-cloning theorem, level 6). And here there is only one kind of error — the bit flips — while a qubit can also go wrong in <b>phase</b>. Shor’s 9-qubit code solves both problems at once.',
 };

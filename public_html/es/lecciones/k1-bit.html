@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K·1 · El bit — Quantum Arcade</title>
+<meta name="description" content="Qué es un bit, cómo se escriben los números en binario, qué es un byte y por qué con n bits hay 2^n posibilidades: las bases de la computación clásica, jugando, antes de conocer el cúbit.">
+<link rel="canonical" href="https://quantumarcade.it/es/lecciones/k1-bit.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/k1-bit.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/k1-bit.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/k1-bit.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/k1-bit.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
+import { bitLab } from '../../js/widgets/classic.js';
+
+const L = renderLesson({
+  id: 'k1-bit',
+  lead: `Antes de mirar qué tiene de raro un <b>cúbit</b>, conviene mirar bien qué tiene de normal un
+         <b>bit</b>. No es un trámite: casi todas las frases equivocadas que se leen sobre computación
+         cuántica — «prueba todos los caminos a la vez», «es infinitamente más rápido» — nacen de que
+         quien las escribe nunca ha enfocado qué hace, y qué no hace, un ordenador normal.`,
+
+  steps: [
+    {
+      t: 'Un interruptor, y nada más',
+      html: `<p>Un <b>bit</b> es lo más simple que se puede imaginar: una casilla que contiene <b>0 o 1</b>.
+             Encendido o apagado. Corriente que pasa o corriente que no pasa.</p>
+             <p>No «un poco de los dos», no «el 30% encendido». Si abres un ordenador y vas a mirar el transistor
+             que guarda ese bit, lo encuentras en uno de los dos estados, siempre, incluso mientras nadie mira.
+             Esta frase parece obvia. Guárdala: en el nivel 1 dejará de serlo.</p>
+             <div class="callout key"><b>Por qué dos valores y no diez.</b> No es filosofía: es ingeniería.
+             Distinguir «hay tensión» de «no hay tensión» se hace con componentes malos y en medio de mucho
+             ruido; distinguir diez niveles de tensión exigiría precisión, y una interferencia pequeña
+             convertiría un 6 en un 7. Dos valores son la forma más robusta de guardar información dentro de
+             un mundo que se calienta, vibra y envejece.</div>`,
+    },
+    {
+      t: 'Cómo se escribe un número con interruptores',
+      html: `<p>Con un solo interruptor contamos hasta 1. Con dos, hasta 3. El truco es el mismo que usas con las
+             decenas: cada posición <b>vale el doble</b> que la de su derecha.</p>
+             <div class="formula">128 &nbsp; 64 &nbsp; 32 &nbsp; 16 &nbsp; 8 &nbsp; 4 &nbsp; 2 &nbsp; 1
+             <br><span class="hl-n">1</span> &nbsp;&nbsp;&nbsp; <span class="hl-n">0</span> &nbsp;&nbsp;
+             <span class="hl-n">0</span> &nbsp;&nbsp; <span class="hl-n">1</span> &nbsp; <span class="hl-n">1</span>
+             &nbsp; <span class="hl-n">0</span> &nbsp; <span class="hl-n">1</span> &nbsp; <span class="hl-n">0</span>
+             &nbsp;&nbsp;→&nbsp; 128 + 16 + 8 + 2 = <b>154</b></div>
+             <p>Son las <b>potencias de 2</b> del nivel 0·1, usadas para contar. Enciende los interruptores y
+             cógele el tranquillo: dentro de tres niveles las mismas potencias de 2 dirán «cuántas amplitudes
+             tiene un registro cuántico».</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'bit', title: 'La máquina de interruptores', text: 'compón tres números distintos encendiendo los bits correctos.', xp: 30 });
+        el.appendChild(m.root);
+        bitLab(el, { bits: 8, need: 3, onWin: () => m.complete() });
+      },
+      after: `<div class="callout"><b>Byte, kilobyte y por qué 1024.</b> Ocho bits hacen un <b>byte</b>:
+              256 valores, suficientes para una letra del alfabeto (es la tabla ASCII: 65 es «A»).
+              Un kilobyte «informático» son 1024 bytes y no 1000 porque 1024 = 2¹⁰, y es el único número
+              redondo que existe cuando se cuenta en potencias de dos.</div>`,
+    },
+    {
+      t: 'La cuenta que volverá durante todo el curso: 2ⁿ',
+      html: `<p>Con <b>n</b> bits, ¿cuántas configuraciones distintas hay? Cada bit duplica la cuenta:</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: '1 bit', html: 'Dos configuraciones: <code>0</code> y <code>1</code>. → <b>2</b>' },
+          { h: '2 bits', html: 'Cada configuración anterior se desdobla: <code>00 01 10 11</code>. → <b>4</b>' },
+          { h: '3 bits', html: '<code>000 001 010 011 100 101 110 111</code>. → <b>8</b>' },
+          { h: 'n bits', html: 'Cada bit de más <b>duplica</b>: el total es <b>2ⁿ</b>.<br>10 bits → 1024. 20 bits → alrededor de un millón. 30 bits → alrededor de mil millones.' },
+          { h: '300 bits', html: '2³⁰⁰ es un número mayor que el <b>número de átomos del universo observable</b> (unos 10⁸⁰). Con 300 interruptores se cuentan más configuraciones que partículas existen.' },
+          { h: '¿Y entonces?', html: 'Entonces llega la línea que sostiene todo el curso: esas 2ⁿ configuraciones <b>existen sobre el papel</b>, pero el ordenador guarda <b>una sola</b> cada vez. Las demás son posibilidades que nadie está calculando.<br>Un registro de n <b>cúbits</b>, en cambio, lleva consigo <b>2ⁿ números a la vez</b> — uno por cada configuración. No es una metáfora: son exactamente 2ⁿ amplitudes, y por eso simular 50 cúbits en un portátil no se puede.' },
+        ], { doneLabel: '¡Hecha la cuenta!' });
+      },
+      after: confronto({
+        titolo: 'Bit y cúbit: la diferencia de verdad, en una línea',
+        livello: '01-qubit',
+        vaiA: 'Ve a ver el cúbit (nivel 1)',
+        classico: {
+          titolo: 'n bits',
+          html: `<p><b>Guardan un solo número</b> entre los 2ⁿ posibles. Si quieres saber qué pasa con otro de
+                 esos 2ⁿ valores, cambias los interruptores y rehaces la cuenta.</p>
+                 <p>Para describirle el estado a un amigo por teléfono te bastan <b>n cifras</b>.</p>`,
+        },
+        quantistico: {
+          titolo: 'n cúbits',
+          html: `<p><b>Llevan 2ⁿ números a la vez</b> (las amplitudes), uno por cada configuración posible.</p>
+                 <p>Para describirle el estado a un amigo tendrías que dictarle <b>2ⁿ números</b>. Con 300 cúbits
+                 no te bastaría el universo para escribirlos.</p>
+                 <p class="mb0"><b>Pero</b> al medir sale igualmente <b>una sola</b> configuración de n cifras:
+                 el resto desaparece. Todo el oficio de la computación cuántica está aquí — conseguir que la
+                 configuración que sale sea la que hace falta.</p>`,
+        },
+        numeri: [
+          { cosa: 'números guardados con n = 300', classico: '1', quantistico: '2³⁰⁰ (más que los átomos del universo)' },
+          { cosa: 'números que puedes leer', classico: 'n cifras', quantistico: 'n cifras' },
+        ],
+        verdetto: `<b>La ventaja no es «guarda más cosas»: es que esos 2ⁿ números se suman y se cancelan entre
+                   ellos antes de que leas.</b> Sin cancelación (la interferencia del nivel 7) toda esa memoria
+                   no serviría de nada.`,
+      }),
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> ¿Cuántos bits hacen falta para escribir el número 1000? <span class="muted">(la respuesta es la potencia de 2 que lo supera: 2¹⁰ = 1024, o sea 10)</span></p>
+        <p><b>2.</b> En el juego, enciende el interruptor de 64 y el de 1: ¿qué número sale? ¿Y cuántos interruptores hacen falta para hacer 63?</p>
+        <p><b>3.</b> Un color en la pantalla se escribe con 24 bits (8 para el rojo, 8 para el verde, 8 para el azul). ¿Cuántos colores distintos son?</p>
+        <p class="mb0"><b>4.</b> De inventor: si un bit tuviera <b>tres</b> estados en vez de dos (0, 1, 2), ¿cuántas configuraciones tendrían n «trits»? ¿Por qué crees que nadie construye ordenadores así?</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: '¿Cuántas configuraciones distintas tienen 8 bits?',
+      options: ['8', '16', '64', '256'], correct: 3,
+      why: '2⁸ = 256. Cada bit duplica la cuenta: 2, 4, 8, 16, 32, 64, 128, 256.' },
+    { q: 'El número binario 1010 vale, en decimal…',
+      options: ['5', '10', '12', '20'], correct: 1,
+      why: '8 + 0 + 2 + 0 = 10. Las posiciones valen 8, 4, 2, 1 de izquierda a derecha.' },
+    { q: '¿Cuántos números guarda a la vez un registro de 10 bits clásicos?',
+      options: ['uno solo', '10', '1024', 'infinitos'], correct: 0,
+      why: 'Uno solo: las 1024 configuraciones son las POSIBLES, no las presentes. Toda la diferencia con los cúbits está aquí.' },
+    { q: '¿Por qué los ordenadores usan dos valores y no diez?',
+      options: ['para ahorrar corriente', 'porque distinguir dos niveles de tensión es mucho más robusto frente al ruido', 'porque los matemáticos prefieren el binario', 'por una convención histórica sin motivo'], correct: 1,
+      why: 'Es una cuestión de robustez: con solo dos valores una interferencia eléctrica no convierte un número en otro.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas:</b> un bit guarda un valor, n bits guardan <b>uno</b>
+          entre 2ⁿ, y ese 2ⁿ es el número que volverá en cada nivel de este curso.
+          Siguiente nivel: qué se <b>hace</b> con los bits, es decir, las puertas lógicas.</div>`,
+});
+</script>
+</body>
+</html>

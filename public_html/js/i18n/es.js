@@ -1604,4 +1604,249 @@ export default {
     "… y otros :quanti (no caben en la pantalla)",
   "→ risposta: :risposta (la funzione era davvero <b>:vera</b>) :esito":
     "→ respuesta: :risposta (la función era de verdad <b>:vera</b>) :esito",
+
+  /* ---------------- Parte K: informática clásica y bloques de comparación ---------------- */
+  'quanto costa': 'cuánto cuesta',
+  'computer normale': 'ordenador normal',
+  'computer quantistico': 'ordenador cuántico',
+  'Ripassa il livello :n — :titolo': 'Repasa el nivel :n — :titolo',
+  'Prima in classico, poi in quantistico': 'Primero en clásico, luego en cuántico',
+  'Come si fa con un computer normale': 'Cómo se hace con un ordenador normal',
+  'Cosa cambia con quello quantistico': 'Qué cambia con el cuántico',
+
+  'Parte K — Il computer classico (il termine di paragone)': 'Parte K — El ordenador clásico (el término de comparación)',
+  "Bit, porte logiche, somma binaria, ricerca, costo di un algoritmo, reversibilità. Ogni livello finisce con l'anticipazione di cosa cambierà nel quantistico. Facoltativa se sai già come funziona un computer normale.":
+    'Bits, puertas lógicas, suma binaria, búsqueda, coste de un algoritmo, reversibilidad. Cada nivel termina anticipando qué cambiará en lo cuántico. Opcional si ya sabes cómo funciona un ordenador normal.',
+  'Il bit: acceso, spento, e come ci si scrive tutto': 'El bit: encendido, apagado, y cómo se escribe todo con él',
+  'Interruttori, binario, byte, testo. E il conto che tornerà: con n bit scegli UN numero fra 2ⁿ.':
+    'Interruptores, binario, byte, texto. Y la cuenta que volverá: con n bits eliges UN número entre 2ⁿ.',
+  'Porte logiche: AND, OR, NOT, XOR': 'Puertas lógicas: AND, OR, NOT, XOR',
+  'Tabelle di verità giocate, e la scoperta che una porta sola basta per costruire tutte le altre.':
+    'Tablas de verdad jugadas, y el descubrimiento de que una sola puerta basta para construir todas las demás.',
+  'La somma, come la fa davvero il processore': 'La suma, tal como la hace de verdad el procesador',
+  "Riporto, mezzo sommatore, sommatore completo: monti l'addizione a 4 bit con le tue mani.":
+    'Acarreo, semisumador, sumador completo: montas la suma de 4 bits con tus propias manos.',
+  'Cercare: a tentoni, oppure dimezzando': 'Buscar: a tientas, o dividiendo por la mitad',
+  'Ricerca lineare e ricerca binaria, contando i confronti uno per uno. Il metro di paragone di Grover.':
+    'Búsqueda lineal y búsqueda binaria, contando las comparaciones una a una. La vara de medir de Grover.',
+  'Quanto costa un algoritmo: N, log N, N², 2ⁿ': 'Cuánto cuesta un algoritmo: N, log N, N², 2ⁿ',
+  'La gara fra le curve di crescita. Qui si capisce che cosa significa davvero "vantaggio quantistico".':
+    'La carrera entre las curvas de crecimiento. Aquí se entiende qué significa de verdad "ventaja cuántica".',
+  'Informazione che si perde: il ponte verso il quantistico': 'Información que se pierde: el puente hacia lo cuántico',
+  "AND butta via un bit, cancellare scalda (Landauer), Toffoli calcola all'indietro. Da qui parte tutto.":
+    'AND tira un bit, borrar calienta (Landauer), Toffoli calcula hacia atrás. De aquí sale todo.',
+
+  'FATTO!': '¡HECHO!',
+
+  /* laboratorio del bit */
+  'La macchina a interruttori': 'La máquina de interruptores',
+  'accendi i bit finché il numero non è quello giusto': 'enciende los bits hasta que el número sea el correcto',
+  'accendi gli interruttori per fare :numero': 'enciende los interruptores para hacer :numero',
+  'ogni interruttore vale il doppio di quello alla sua destra — tocca per accenderlo':
+    'cada interruptor vale el doble que el de su derecha — toca para encenderlo',
+  'tutto spento = 0': 'todo apagado = 0',
+  'nuovo numero': 'número nuevo',
+  'spegni tutto': 'apagar todo',
+  'Binario: <b>:bin</b>  ·  decimale: <b>:dec</b>  ·  esadecimale: <b>:hex</b>':
+    'Binario: <b>:bin</b>  ·  decimal: <b>:dec</b>  ·  hexadecimal: <b>:hex</b>',
+  'Se questi 8 bit fossero testo, sarebbero il carattere «<b>:carattere</b>».':
+    'Si estos 8 bits fueran texto, serían el carácter «<b>:carattere</b>».',
+  'Con :n interruttori i numeri diversi possibili sono 2^:n = <b>:totale</b>. Ma tu, in questo momento, ne stai tenendo <b>uno solo</b>.':
+    'Con :n interruptores los números distintos posibles son 2^:n = <b>:totale</b>. Pero tú, en este momento, estás guardando <b>uno solo</b>.',
+  '<b>Tienilo da parte:</b> con 8 bit ci sono 256 configurazioni possibili, e il computer ne tiene <b>una</b>. Fra qualche livello vedrai 8 <i>qubit</i> che tengono tutte e 256 le ampiezze <b>insieme</b> — ed è lì che comincia la storia, non prima.':
+    '<b>Guárdatelo:</b> con 8 bits hay 256 configuraciones posibles, y el ordenador guarda <b>una</b>. Dentro de unos niveles verás 8 <i>cúbits</i> que guardan las 256 amplitudes <b>a la vez</b> — y ahí es donde empieza la historia, no antes.',
+
+  /* puertas lógicas */
+  'Il banco delle porte logiche': 'El banco de las puertas lógicas',
+  'accendi gli ingressi e guarda cosa esce': 'enciende las entradas y mira qué sale',
+  'scopri quale porta è nascosta nella scatola': 'averigua qué puerta está escondida en la caja',
+  'domande fatte alla scatola: :n — poi dichiara la porta qui sotto':
+    'preguntas hechas a la caja: :n — luego declara la puerta aquí abajo',
+  'esplora tutte e 4 le righe della tabella di :porta': 'explora las 4 filas de la tabla de :porta',
+  'tocca gli ingressi A e B per cambiarli': 'toca las entradas A y B para cambiarlas',
+  'uscita': 'salida',
+  'tabella di verità': 'tabla de verdad',
+  'porta al banco': 'puerta en el banco',
+  'è :porta': 'es :porta',
+  'banco libero': 'banco libre',
+  'porta misteriosa': 'puerta misteriosa',
+  '✓ era :porta, trovata con :n domande': '✓ era :porta, encontrada con :n preguntas',
+  '✗ no: la tabella non torna. Guarda meglio le righe che hai già chiesto.':
+    '✗ no: la tabla no cuadra. Mira mejor las filas que ya has pedido.',
+  'Righe già chieste alla scatola: <b>:viste su 4</b>. Per essere <b>certo</b> di quale porta è, quante te ne servono?':
+    'Filas ya pedidas a la caja: <b>:viste de 4</b>. Para estar <b>seguro</b> de qué puerta es, ¿cuántas necesitas?',
+  'Indovinate: <b>:fatte/:totali</b>': 'Acertadas: <b>:fatte/:totali</b>',
+  '<b>:porta</b>(:a, :b) = <b>:uscita</b>  ·  la sua tabella di verità per intero è <b>:firma</b>':
+    '<b>:porta</b>(:a, :b) = <b>:uscita</b>  ·  su tabla de verdad entera es <b>:firma</b>',
+  'Righe esplorate: <b>:viste/4</b>': 'Filas exploradas: <b>:viste/4</b>',
+  "<b>Da notare:</b> per essere sicuro di quale porta c'è nella scatola devi provare <b>tutte e quattro</b> le combinazioni. La scatola risponde a una domanda per volta, e non c'è furbizia che tenga. Al livello 9 la stessa scatola, interrogata da un computer quantistico, risponderà a <b>tutte le combinazioni in una volta sola</b>.":
+    '<b>Fíjate:</b> para estar seguro de qué puerta hay en la caja tienes que probar <b>las cuatro</b> combinaciones. La caja responde a una pregunta cada vez, y no hay astucia que valga. En el nivel 9 la misma caja, interrogada por un ordenador cuántico, responderá a <b>todas las combinaciones de una sola vez</b>.',
+
+  /* taller de la NAND */
+  "L'officina del NAND": 'El taller de la NAND',
+  'una porta sola, e ci costruisci tutte le altre': 'una sola puerta, y con ella construyes todas las demás',
+  'un NAND con lo stesso filo in tutti e due gli ingressi': 'una NAND con el mismo cable en las dos entradas',
+  'NAND, e poi un NAND che fa da NOT': 'una NAND, y luego una NAND que hace de NOT',
+  'nega A, nega B, e poi mettili in NAND (è De Morgan)': 'niega A, niega B, y luego mételos en una NAND (es De Morgan)',
+  'quattro NAND: è il pezzo che il livello K·3 userà per sommare':
+    'cuatro NAND: es la pieza que el nivel K·3 usará para sumar',
+  'costruisci :porta usando solo NAND': 'construye :porta usando solo NAND',
+  'la tua': 'la tuya',
+  'ingresso 1': 'entrada 1',
+  'ingresso 2': 'entrada 2',
+  'uscita della rete': 'salida de la red',
+  'La tua rete fa <b>:mia</b>, il bersaglio è <b>:bersaglio</b>.': 'Tu red da <b>:mia</b>, el objetivo es <b>:bersaglio</b>.',
+  'Costruite finora: <b>:elenco</b>': 'Construidas hasta ahora: <b>:elenco</b>',
+  'è esattamente :porta, fatta di soli NAND.': 'es exactamente :porta, hecha solo con NAND.',
+  '<b>Perché conta:</b> un tipo solo di porta basta per costruire qualunque calcolo — si dice che il NAND è <b>universale</b>. Anche il computer quantistico ha i suoi insiemi universali di porte, e ci si arriva con lo stesso ragionamento: pochi mattoni, combinati, fanno tutto il resto.':
+    '<b>Por qué importa:</b> un solo tipo de puerta basta para construir cualquier cálculo — se dice que la NAND es <b>universal</b>. El ordenador cuántico también tiene sus conjuntos universales de puertas, y se llega a ellos con el mismo razonamiento: pocos ladrillos, combinados, hacen todo lo demás.',
+
+  /* sumador */
+  'Il sommatore a :n bit': 'El sumador de :n bits',
+  'metti tu i riporti, come si fa in colonna': 'pon tú los acarreos, como se hace en columna',
+  'somma :a + :b in binario': 'suma :a + :b en binario',
+  'tocca le caselle blu per metterci 0 o 1 — parti da destra, come in prima elementare':
+    'toca las casillas azules para poner 0 o 1 — empieza por la derecha, como en primaria',
+  'riporto': 'acarreo',
+  'somma': 'suma',
+  'sommate giuste: :fatte/:totali': 'sumas correctas: :fatte/:totali',
+  'nuova somma': 'suma nueva',
+  'mostrami la soluzione': 'muéstrame la solución',
+  '(soluzione mostrata: questa non conta)': '(solución mostrada: esta no cuenta)',
+  'In decimale: <b>:a + :b = :tot</b>. In binario le colonne si fanno una per volta, da destra: se la colonna fa 2, scrivi 0 e <b>porti 1</b>.':
+    'En decimal: <b>:a + :b = :tot</b>. En binario las columnas se hacen una cada vez, desde la derecha: si la columna da 2, escribes 0 y <b>llevas 1</b>.',
+  'Ogni colonna è due porte: <b>somma = A XOR B</b>, <b>riporto = A AND B</b>. Sono le stesse porte del livello K·2.':
+    'Cada columna son dos puertas: <b>suma = A XOR B</b>, <b>acarreo = A AND B</b>. Son las mismas puertas del nivel K·2.',
+  'colonne tutte giuste.': 'todas las columnas correctas.',
+  '<b>Il punto da tenere:</b> il riporto passa da una colonna alla successiva, quindi le colonne vanno fatte <b>in ordine</b>. È una catena, e una catena non si accorcia mettendo più processori. Il sommatore quantistico ha lo stesso problema — e in più deve essere <b>reversibile</b>, cosa che il livello K·6 spiega.':
+    '<b>Lo que hay que retener:</b> el acarreo pasa de una columna a la siguiente, así que las columnas hay que hacerlas <b>en orden</b>. Es una cadena, y una cadena no se acorta poniendo más procesadores. El sumador cuántico tiene el mismo problema — y además debe ser <b>reversible</b>, cosa que explica el nivel K·6.',
+
+  /* búsqueda */
+  'La caccia nello scaffale': 'La caza en la estantería',
+  'apri le scatole finché non trovi il numero — e conta quante ne apri':
+    'abre cajas hasta encontrar el número — y cuenta cuántas abres',
+  'trova il numero :numero': 'encuentra el número :numero',
+  'lo scaffale è ORDINATO: ogni scatola aperta ti dice anche da che parte continuare':
+    'la estantería está ORDENADA: cada caja abierta te dice además hacia qué lado seguir',
+  'lo scaffale è in disordine: una scatola aperta dice solo sé stessa':
+    'la estantería está desordenada: una caja abierta solo habla de sí misma',
+  'scatole aperte: :n': 'cajas abiertas: :n',
+  'con il dimezzamento bastano :n aperture, sempre': 'dividiendo por la mitad bastan :n aperturas, siempre',
+  'in media servono :n aperture, e nel caso peggiore :max': 'de media hacen falta :n aperturas, y en el peor caso :max',
+  'scaffale in disordine': 'estantería desordenada',
+  'scaffale ordinato': 'estantería ordenada',
+  'nuova partita': 'partida nueva',
+  'Ogni apertura ti dice «più grande» o «più piccolo», quindi puoi buttare via <b>metà</b> scaffale ogni volta: :n scatole → log₂(:n) ≈ <b>:passi aperture</b>.':
+    'Cada apertura te dice «más grande» o «más pequeño», así que puedes tirar <b>media</b> estantería cada vez: :n cajas → log₂(:n) ≈ <b>:passi aperturas</b>.',
+  "Nessun indizio: l'unica strategia è provare. Su :n scatole, in media <b>:media</b> aperture, nel caso peggiore <b>:n</b>.":
+    'Ninguna pista: la única estrategia es probar. Sobre :n cajas, de media <b>:media</b> aperturas, en el peor caso <b>:n</b>.',
+  'Scatole ancora possibili: <b>:rimaste</b> · aperture usate: <b>:mosse</b>':
+    'Cajas todavía posibles: <b>:rimaste</b> · aperturas usadas: <b>:mosse</b>',
+  'Record — disordine: <b>:a</b> · ordinato: <b>:b</b>': 'Récord — desorden: <b>:a</b> · ordenada: <b>:b</b>',
+  'trovato in :n aperture!': '¡encontrado en :n aperturas!',
+  '<b>Da ricordare per il livello 11:</b> se la lista è ordinata, dimezzare porta a log N ed è imbattibile. Se è in <b>disordine</b> — e senza struttura da sfruttare — il classico non può fare meglio di N/2 tentativi. Grover, su quello stesso scaffale disordinato, ne farà circa <b>√N</b>: su 10.000 scatole, 100 aperture invece di 5.000.':
+    '<b>Para recordar de cara al nivel 11:</b> si la lista está ordenada, dividir por la mitad lleva a log N y es imbatible. Si está <b>desordenada</b> — y sin estructura que aprovechar — lo clásico no puede hacer mejor que N/2 intentos. Grover, en esa misma estantería desordenada, hará unos <b>√N</b>: sobre 10.000 cajas, 100 aperturas en vez de 5.000.',
+
+  /* coste */
+  'La gara delle crescite': 'La carrera de los crecimientos',
+  'quante operazioni servono, al crescere del problema': 'cuántas operaciones hacen falta al crecer el problema',
+  'meno di un microsecondo': 'menos de un microsegundo',
+  'millisecondi': 'milisegundos',
+  'secondi': 'segundos',
+  'minuti': 'minutos',
+  'ore': 'horas',
+  'giorni': 'días',
+  'anni': 'años',
+  ":volte volte l'età dell'universo": ':volte veces la edad del universo',
+  'trova il primo N per cui 2^N supera un anno di calcolo': 'encuentra el primer N para el que 2^N supera un año de cálculo',
+  'un miliardo di operazioni al secondo, che è un computer normale':
+    'mil millones de operaciones por segundo, que es un ordenador normal',
+  'un anno di calcolo': 'un año de cálculo',
+  'operazioni con 2^N': 'operaciones con 2^N',
+  'dimensione del problema <b>N</b>': 'tamaño del problema <b>N</b>',
+  "eccolo: da N = :n in poi la forza bruta non è più un'opzione.":
+    'ahí está: a partir de N = :n la fuerza bruta deja de ser una opción.',
+  '<b>La riga che spiega tutto il corso:</b> passare da N² a N·log N è una buona ottimizzazione. Passare da N a √N (Grover) è un bel guadagno. Passare da <b>2^N a N³</b> — da esponenziale a polinomiale, che è quello che fa Shor sulla fattorizzazione — non è una ottimizzazione: è la differenza fra «impossibile per sempre» e «fatto stasera».':
+    '<b>La línea que explica todo el curso:</b> pasar de N² a N·log N es una buena optimización. Pasar de N a √N (Grover) es una buena ganancia. Pasar de <b>2^N a N³</b> — de exponencial a polinómico, que es lo que hace Shor con la factorización — no es una optimización: es la diferencia entre «imposible para siempre» y «hecho esta noche».',
+
+  /* reversibilidad */
+  'Avanti e indietro': 'Adelante y atrás',
+  'la porta AND perde la strada di casa, Toffoli no': 'la puerta AND pierde el camino de vuelta, Toffoli no',
+  "riporta i tre bit a com'erano all'inizio": 'devuelve los tres bits a como estaban al principio',
+  'nessuna porta qui butta via niente: si torna indietro ripercorrendo la strada':
+    'aquí ninguna puerta tira nada: se vuelve atrás rehaciendo el camino',
+  'partenza': 'partida',
+  'adesso': 'ahora',
+  'porte applicate da te: :n': 'puertas aplicadas por ti: :n',
+  'rimesse a posto: :n': 'devueltas a su sitio: :n',
+  'nuova sfida': 'reto nuevo',
+  'come si torna indietro?': '¿cómo se vuelve atrás?',
+  "Queste cinque porte sono <b>reversibili</b>: da come esce si risale a com'era entrato, sempre. Basta rifare le stesse porte <b>in ordine inverso</b> — e ognuna di queste è l'inversa di sé stessa.":
+    'Estas cinco puertas son <b>reversibles</b>: de cómo sale se llega siempre a cómo entró. Basta con rehacer las mismas puertas <b>en orden inverso</b> — y cada una de ellas es su propia inversa.',
+  "Suggerimento: il computer ha applicato <b>:elenco</b>. Rifalle dall'ultima alla prima.":
+    'Pista: el ordenador ha aplicado <b>:elenco</b>. Rehazlas de la última a la primera.',
+  "Confronta con <b>AND</b>: da un'uscita 0 non si risale agli ingressi (potevano essere 00, 01 o 10). Quel bit è <b>perso</b>, e per la fisica «perso» significa <b>scaldato</b>: cancellare un bit costa almeno kT·ln2 ≈ 3·10⁻²¹ joule (Landauer, 1961; misurato in laboratorio da Bérut et al., 2012).":
+    'Compara con <b>AND</b>: de una salida 0 no se llega a las entradas (podían ser 00, 01 o 10). Ese bit está <b>perdido</b>, y para la física «perdido» significa <b>calentado</b>: borrar un bit cuesta al menos kT·ln2 ≈ 3·10⁻²¹ julios (Landauer, 1961; medido en laboratorio por Bérut et al., 2012).',
+  'tornato al punto di partenza in :n mosse.': 'vuelto al punto de partida en :n movimientos.',
+  "<b>Il ponte:</b> le porte quantistiche sono <b>tutte</b> reversibili, senza eccezioni — è una conseguenza delle regole della fisica, non una scelta di ingegneria. Per questo un computer quantistico non può usare AND così com'è: deve usare Toffoli, che l'AND se lo tiene in un bit in più invece di buttarlo via.":
+    '<b>El puente:</b> las puertas cuánticas son <b>todas</b> reversibles, sin excepciones — es una consecuencia de las reglas de la física, no una elección de ingeniería. Por eso un ordenador cuántico no puede usar AND tal cual: tiene que usar Toffoli, que se guarda el AND en un bit de más en vez de tirarlo.',
+
+  /* oráculo clásico */
+  'La scatola: costante o bilanciata?': 'La caja: ¿constante o equilibrada?',
+  'La scatola con la stringa segreta': 'La caja con la cadena secreta',
+  'ogni interrogazione conta — e si vede': 'cada consulta cuenta — y se ve',
+  'scopri se la funzione nella scatola è costante o bilanciata':
+    'averigua si la función de la caja es constante o equilibrada',
+  'scopri la stringa segreta di :n bit': 'averigua la cadena secreta de :n bits',
+  'domande fatte: :n — classicamente ne servono :max': 'preguntas hechas: :n — clásicamente hacen falta :max',
+  'la tua domanda x': 'tu pregunta x',
+  '✓ giusto, con :n domande.': '✓ correcto, con :n preguntas.',
+  "✓ giusto! Un'altra scatola ti aspetta.": '✓ ¡correcto! Te espera otra caja.',
+  '✗ no. Non hai ancora abbastanza informazione: chiedi ancora.':
+    '✗ no. Todavía no tienes suficiente información: pregunta otra vez.',
+  'interroga la scatola': 'interroga a la caja',
+  'è costante': 'es constante',
+  'è bilanciata': 'es equilibrada',
+  'il segreto è la stringa che ho impostato': 'el secreto es la cadena que he puesto',
+  'nuova scatola': 'caja nueva',
+  "La scatola nasconde una funzione da 1 bit a 1 bit. <b>Costante</b> vuol dire che risponde sempre uguale; <b>bilanciata</b> che risponde 0 a un ingresso e 1 all'altro.":
+    'La caja esconde una función de 1 bit a 1 bit. <b>Constante</b> quiere decir que responde siempre igual; <b>equilibrada</b>, que responde 0 a una entrada y 1 a la otra.',
+  'Con una domanda sola non puoi mai deciderlo: qualunque risposta è compatibile con tutte e due i casi. Servono <b>2 domande su 2 ingressi possibili</b>.':
+    'Con una sola pregunta nunca puedes decidirlo: cualquier respuesta es compatible con los dos casos. Hacen falta <b>2 preguntas sobre 2 entradas posibles</b>.',
+  'La scatola nasconde :n bit segreti e risponde con il «prodotto» della tua domanda con il segreto (somma dei bit in comune, modulo 2).':
+    'La caja esconde :n bits secretos y responde con el «producto» de tu pregunta con el secreto (suma de los bits en común, módulo 2).',
+  'La strategia migliore è chiedere 1000…, 0100…, 0010… — un bit per volta. <b>:n domande per :n bit</b>: una a testa, non si scappa.':
+    'La mejor estrategia es preguntar 1000…, 0100…, 0010… — un bit cada vez. <b>:n preguntas para :n bits</b>: una por cabeza, no hay escapatoria.',
+  '<b>Segnati il numero: 2.</b> Con n bit invece di 1, il classico ha bisogno nel caso peggiore di <b>2ⁿ⁻¹+1</b> domande. Al livello 9 il computer quantistico ne farà <b>una</b>, e non perché è più veloce: perché fa una domanda diversa.':
+    '<b>Apúntate el número: 2.</b> Con n bits en vez de 1, lo clásico necesita en el peor caso <b>2ⁿ⁻¹+1</b> preguntas. En el nivel 9 el ordenador cuántico hará <b>una</b>, y no porque sea más rápido: porque hace una pregunta distinta.',
+  '<b>Segnati il numero: :n.</b> Una domanda per ogni bit del segreto, ed è dimostrato che meglio non si può fare classicamente. Al livello 10 Bernstein–Vazirani tirerà fuori tutta la stringa con <b>una sola</b> interrogazione.':
+    '<b>Apúntate el número: :n.</b> Una pregunta por cada bit del secreto, y está demostrado que clásicamente no se puede hacer mejor. En el nivel 10 Bernstein–Vazirani sacará toda la cadena con <b>una sola</b> consulta.',
+
+  /* código de repetición */
+  'Il codice a ripetizione': 'El código de repetición',
+  'dire la stessa cosa tre volte, e votare a maggioranza': 'decir lo mismo tres veces, y votar por mayoría',
+  'manda almeno 200 bit e guarda le due percentuali separarsi':
+    'manda al menos 200 bits y mira cómo se separan los dos porcentajes',
+  'con rumore basso, ripetere conviene; con rumore alto, peggiora':
+    'con ruido bajo, repetir compensa; con ruido alto, empeora',
+  'bit da mandare': 'bit que mandar',
+  'senza codice': 'sin código',
+  'in tre copie': 'en tres copias',
+  'voto': 'voto',
+  'errori senza codice': 'errores sin código',
+  'errori con le tre copie': 'errores con las tres copias',
+  'probabilità che un bit si rovesci <b>p</b>': 'probabilidad de que un bit se dé la vuelta <b>p</b>',
+  'manda 1 bit': 'manda 1 bit',
+  'manda 100 bit': 'manda 100 bits',
+  'azzera il conteggio': 'pon el contador a cero',
+  'Senza codice sbagli con probabilità <b>p = :p%</b>. Con tre copie sbagli solo se si rovesciano <b>due o tre</b> copie: 3p² − 2p³ = <b>:teorico%</b>.':
+    'Sin código te equivocas con probabilidad <b>p = :p%</b>. Con tres copias te equivocas solo si se dan la vuelta <b>dos o tres</b> copias: 3p² − 2p³ = <b>:teorico%</b>.',
+  'Bit mandati: <b>:n</b> · errori senza codice: <b>:a</b> · errori con le copie: <b>:b</b>':
+    'Bits mandados: <b>:n</b> · errores sin código: <b>:a</b> · errores con las copias: <b>:b</b>',
+  "Sotto p = 50% ripetere <b>conviene</b>, e più copie metti meglio va: è la soglia sotto cui la correzione d'errore funziona.":
+    'Por debajo de p = 50% repetir <b>compensa</b>, y cuantas más copias pongas mejor: es el umbral por debajo del cual la corrección de errores funciona.',
+  "Sopra p = 50% ripetere <b>peggiora</b> le cose: la maggioranza vota per l'errore. Anche il quantistico ha la sua soglia, ed è il motivo per cui il livello 21 esiste.":
+    'Por encima de p = 50% repetir <b>empeora</b> las cosas: la mayoría vota por el error. Lo cuántico también tiene su umbral, y es el motivo por el que existe el nivel 21.',
+  "<b>Perché il quantistico non può copiare questo trucco così com'è:</b> ripetere vuol dire <b>copiare</b>, e un qubit non si può copiare (teorema di no-cloning, livello 6). E poi qui l'errore è uno solo — il bit si rovescia — mentre un qubit può sbagliare anche di <b>fase</b>. Il codice di Shor a 9 qubit risolve tutti e due i problemi in una volta.":
+    '<b>Por qué lo cuántico no puede copiar este truco tal cual:</b> repetir quiere decir <b>copiar</b>, y un cúbit no se puede copiar (teorema de no clonación, nivel 6). Y además aquí el error es uno solo — el bit se da la vuelta — mientras que un cúbit puede equivocarse también de <b>fase</b>. El código de Shor de 9 cúbits resuelve los dos problemas a la vez.',
 };

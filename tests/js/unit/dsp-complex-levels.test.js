@@ -147,9 +147,9 @@ describe('DFT e FFT', () => {
 });
 
 describe('mappa dei livelli', () => {
-  test('28 livelli in 5 parti, tutti con file e XP', () => {
-    assert.equal(LEVELS.length, 28);
-    assert.equal(PARTS.length, 5);
+  test('34 livelli in 6 parti, tutti con file e XP', () => {
+    assert.equal(LEVELS.length, 34);
+    assert.equal(PARTS.length, 6);
     for (const l of LEVELS) {
       assert.ok(l.id && l.file && l.title && l.desc, 'livello incompleto: ' + l.id);
       assert.ok(l.xp > 0);
@@ -158,8 +158,8 @@ describe('mappa dei livelli', () => {
   });
 
   test('gli id sono unici e i file pure', () => {
-    assert.equal(new Set(LEVELS.map(l => l.id)).size, 28);
-    assert.equal(new Set(LEVELS.map(l => l.file)).size, 28);
+    assert.equal(new Set(LEVELS.map(l => l.id)).size, 34);
+    assert.equal(new Set(LEVELS.map(l => l.file)).size, 34);
   });
 
   test('la catena dei prerequisiti non ha buchi né anelli', () => {
@@ -168,8 +168,17 @@ describe('mappa dei livelli', () => {
       assert.ok(levelById(l.req), l.id + ' richiede un livello inesistente');
       assert.notEqual(l.req, l.id, l.id + ' richiede sé stesso');
     }
-    // la Parte 0 e il primo livello sono sempre aperti
+    // le parti facoltative (0 e K) e il primo livello sono sempre aperti
     assert.ok(LEVELS.filter(l => l.part === '0').every(l => !l.req));
+    assert.ok(LEVELS.filter(l => l.part === 'K').every(l => !l.req && l.open));
+  });
+
+  test('la Parte K non entra nella catena del percorso principale', () => {
+    // il livello 1 deve restare aperto a tutti: inserire la parte classica in
+    // mezzo non deve richiudere i livelli a chi era già a metà corso
+    assert.ok(!levelById('01-qubit').req);
+    assert.equal(levelById('02-bloch').req, '01-qubit');
+    assert.equal(LEVELS.filter(l => l.part === 'K').length, 6);
   });
 
   test('neighbours restituisce precedente e successivo, e null agli estremi', () => {

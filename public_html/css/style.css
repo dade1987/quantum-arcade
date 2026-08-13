@@ -230,6 +230,8 @@ li { margin-bottom: 5px; }
 .tag.violet { color: var(--violet); border-color: rgba(167, 139, 250, .45); background: rgba(167, 139, 250, .10); }
 .tag.amber  { color: var(--amber);  border-color: rgba(251, 191, 36, .45);  background: rgba(251, 191, 36, .10); }
 .tag.green  { color: var(--green);  border-color: rgba(52, 211, 153, .45);  background: rgba(52, 211, 153, .10); }
+.tag.pink   { color: var(--pink);   border-color: rgba(244, 114, 182, .45); background: rgba(244, 114, 182, .10); }
+.tag.blue   { color: var(--blue);   border-color: rgba(96, 165, 250, .45);  background: rgba(96, 165, 250, .10); }
 
 /* ---------------- Widget: contenitore standard ---------------- */
 
@@ -418,6 +420,51 @@ input[type=checkbox] { accent-color: var(--cyan); width: 15px; height: 15px; }
 .table th, .table td { border: 1px solid var(--line); padding: 8px 11px; text-align: left; }
 .table th { background: #101a30; font-size: 12.5px; text-transform: uppercase; letter-spacing: .6px; color: var(--txt-dim); }
 .table td.mono { font-family: var(--mono); }
+
+/* ---------------- Menù a tendina dei mini-giochi (officina del NAND) ----------------
+   I collegamenti fra porte si scelgono da un menù e non trascinando i fili:
+   su telefono il trascinamento è una lotteria, e qui quello che si deve
+   imparare è «chi è collegato a chi», non la mira. */
+
+.sel-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.sel-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.sel-row > b { font-family: var(--mono); color: var(--cyan); min-width: 26px; }
+.sel-wrap { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--txt-mute); }
+.sel {
+  background: var(--panel-2); color: var(--txt); border: 1px solid var(--line);
+  border-radius: 8px; padding: 5px 8px; font-family: var(--mono); font-size: 13px;
+}
+.sel:focus { outline: none; border-color: var(--cyan); }
+
+/* ---------------- Confronto classico ⇄ quantistico ----------------
+   Le due colonne stanno affiancate perché il confronto si fa con gli occhi:
+   messe una sotto l'altra bisogna ricordarsi la prima mentre si legge la
+   seconda, e l'unica cosa che il lettore ricorda è di aver letto due volte. */
+
+.vs { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 18px 0; background: rgba(10,17,32,.55); }
+.vs-head {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px 15px; background: #101a30; border-bottom: 1px solid var(--line);
+  font-size: 12.5px; text-transform: uppercase; letter-spacing: .7px; color: var(--txt-dim); font-weight: 700;
+}
+.vs-cols { display: grid; grid-template-columns: 1fr 1fr; }
+.vs-col { padding: 14px 16px; }
+.vs-col + .vs-col { border-left: 1px solid var(--line); }
+.vs-col h4 { margin: 0 0 8px; font-size: 14.5px; display: flex; align-items: center; gap: 7px; }
+.vs-col p, .vs-col ul { margin: 0 0 8px; font-size: 14.5px; color: var(--txt-dim); }
+.vs-col ul { padding-left: 20px; }
+.vs-col p:last-child, .vs-col ul:last-child { margin-bottom: 0; }
+.vs-c h4 { color: var(--blue); }
+.vs-q h4 { color: var(--violet); }
+.vs-c { background: rgba(96,165,250,.05); }
+.vs-q { background: rgba(167,139,250,.05); }
+.vs-foot { padding: 11px 15px; border-top: 1px solid var(--line); font-size: 14px; background: rgba(251,191,36,.06); }
+.vs-foot b { color: var(--amber); }
+.vs-num { font-family: var(--mono); font-size: 20px; font-weight: 800; display: block; margin-bottom: 2px; }
+@media (max-width: 700px) {
+  .vs-cols { grid-template-columns: 1fr; }
+  .vs-col + .vs-col { border-left: none; border-top: 1px solid var(--line); }
+}
 
 .hidden { display: none !important; }
 .nowrap { white-space: nowrap; }

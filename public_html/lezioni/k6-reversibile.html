@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="it" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K·6 · Reversibilità — Quantum Arcade</title>
+<meta name="description" content="Perché la porta AND butta via informazione, perché cancellare un bit scalda (principio di Landauer), cos'è la porta di Toffoli e perché tutte le porte quantistiche sono reversibili.">
+<link rel="canonical" href="https://quantumarcade.it/lezioni/k6-reversibile.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/k6-reversibile.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/k6-reversible.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/k6-reversible.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/k6-reversibile.html">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../js/core/lesson.js';
+import { stepper } from '../js/core/formula.js';
+import { confronto } from '../js/core/confronto.js';
+import { reversibleLab } from '../js/widgets/classic2.js';
+
+const L = renderLesson({
+  id: 'k6-reversibile',
+  lead: `Questo è il livello che fa da cerniera. Fin qui abbiamo visto un computer che <b>butta via</b>
+         informazione a ogni passo — ed è così normale che non ci si fa caso. Ora guardiamo cosa costa
+         buttarla via, e cosa succede a un computer a cui è <b>vietato</b>. Perché quello, senza saperlo,
+         è già mezzo computer quantistico.`,
+
+  steps: [
+    {
+      t: 'La porta AND non sa da dove viene',
+      html: `<p>Guarda la tabella dell'AND al contrario. Ti dico che l'uscita è <b>0</b>: quali erano gli
+             ingressi?</p>
+             <div class="formula">AND(0,0) = 0 &nbsp;&nbsp; AND(0,1) = 0 &nbsp;&nbsp; AND(1,0) = 0 &nbsp;&nbsp;
+             AND(1,1) = <span class="hl-k">1</span></div>
+             <p>Non si può sapere: tre ingressi diversi danno la stessa uscita. Quell'informazione non è
+             «nascosta», è <b>persa</b>: due bit sono entrati, uno solo è uscito, e l'altro non esiste più
+             da nessuna parte.</p>
+             <div class="callout key"><b>Una porta si dice reversibile</b> quando da come esce si risale
+             sempre a com'era entrato. Ne conosci già una: <b>NOT</b>. E anche <b>XOR</b>, se ti tieni uno
+             dei due ingressi: da (A, A XOR B) si ricava B. Tutte le altre — AND, OR, NAND — buttano via.</div>`,
+    },
+    {
+      t: 'Cancellare un bit scalda. Davvero, si misura',
+      html: `<p>Nel 1961 Rolf Landauer, all'IBM, dimostrò una cosa che sembra filosofia e invece è
+             termodinamica: <b>cancellare un bit di informazione libera calore</b>. Almeno</p>
+             <div class="formula">E = k<sub>B</sub> · T · ln 2 &nbsp;&nbsp;≈&nbsp;&nbsp; 3 · 10⁻²¹ joule
+             &nbsp;<span class="muted">(a temperatura ambiente)</span></div>
+             <p>Il ragionamento in una riga: prima della cancellazione il bit poteva essere in 2 stati,
+             dopo in 1 solo. Gli stati possibili si sono dimezzati, quindi l'entropia dell'informazione è
+             calata — e siccome l'entropia totale non può calare, quella differenza deve uscire da qualche
+             parte. Esce come calore, nell'ambiente.</p>
+             <p>Non è un modo di dire: nel 2012 il gruppo di Bérut e Lutz l'ha <b>misurato</b> in laboratorio,
+             con una singola particella in una trappola ottica, ritrovando esattamente quel valore.</p>
+             <div class="callout"><b>In pratica quanto pesa?</b> Pochissimo: un processore di oggi spreca
+             circa un milione di volte più energia di quel minimo, per motivi ingegneristici del tutto
+             diversi. Il limite di Landauer non è quello che ti fa scaldare il portatile. Ma è un
+             <b>limite di principio</b>, e la sua conseguenza teorica è enorme: un calcolo che non cancella
+             niente potrebbe, in linea di principio, <b>non consumare energia affatto</b>.</div>`,
+    },
+    {
+      t: 'Toffoli: l\'AND che non butta via niente',
+      html: `<p>Charles Bennett (1973) fece la domanda successiva: si può calcolare <b>tutto</b> senza mai
+             cancellare? La risposta è sì, al prezzo di tenersi qualche bit in più. La porta che lo fa è la
+             <b>porta di Toffoli</b>, o CCNOT: tre bit dentro, tre bit fuori.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'La regola', html: 'Toffoli guarda i primi due bit (<b>a</b> e <b>b</b>): li lascia stare. Il terzo (<b>c</b>) lo rovescia <b>solo se a e b sono tutti e due 1</b>.<br><code>(a, b, c) → (a, b, c XOR (a AND b))</code>' },
+          { h: 'Dov\'è l\'AND', html: 'Metti <b>c = 0</b> in partenza. In uscita il terzo bit diventa <code>0 XOR (a AND b)</code>, cioè <b>proprio a AND b</b>.<br>Hai calcolato l\'AND — e ti sei tenuto anche a e b.' },
+          { h: 'Perché è reversibile', html: 'Applica Toffoli <b>due volte</b>: la seconda rovescia di nuovo lo stesso bit, e torni al punto di partenza. Toffoli è l\'inversa di sé stessa.<br>Da (a, b, c\') si risale sempre a (a, b, c).' },
+          { h: 'Il prezzo', html: 'Bit in più — si chiamano <b>ancilla</b>, "servitori". Il calcolo non butta via niente, ma la spazzatura si accumula da qualche parte invece di sparire.' },
+          { h: 'Il trucco di Bennett', html: 'La spazzatura si ripulisce senza cancellarla: copia il risultato su un bit fresco, poi <b>rifai tutto il calcolo all\'indietro</b>. Le ancilla tornano a zero da sole, e ti resta solo il risultato. Si chiama <i>uncomputation</i>, ed è una tecnica che negli algoritmi quantistici veri si usa continuamente.' },
+          { h: 'Universale anche lei', html: 'Con sole porte di Toffoli (e qualche bit costante) si costruisce qualunque circuito: è <b>universale</b> per il calcolo classico reversibile, come NAND lo era per quello normale.' },
+        ], { doneLabel: 'Ho capito Toffoli!' });
+      },
+      after: `<p>Nel passo qui sotto ci sono cinque porte reversibili — le stesse che ai livelli 3 e 4
+              ritroverai in versione quantistica. Il computer ne applica tre a caso, e tu devi riportare i bit
+              a com'erano. Non c'è niente da indovinare: basta rifare la strada al contrario.</p>`,
+    },
+    {
+      t: 'Provaci: torna indietro',
+      html: `<p>Ogni porta qui è l'inversa di sé stessa, quindi «disfare» vuol dire <b>riapplicare</b>
+             le stesse porte in ordine inverso. Se ti perdi, il pulsante ti dice quali sono state usate.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'reverse', title: 'Marcia indietro', text: 'riporta i bit al punto di partenza due volte.', xp: 45 });
+        el.appendChild(m.root);
+        reversibleLab(el, { onWin: () => m.complete() });
+      },
+      after: confronto({
+        titolo: 'Il computer classico, quello reversibile e quello quantistico',
+        livello: '03-porte',
+        vaiA: 'Vai alle porte quantistiche (livello 3)',
+        classico: {
+          titolo: 'Computer classico',
+          html: `<p>Le porte <b>possono</b> buttare via informazione, e quasi tutte lo fanno.
+                 Ogni bit cancellato costa almeno kT·ln2 di calore.</p>
+                 <p class="mb0">Reversibile <b>si può</b> essere (Toffoli, Fredkin), ma nessuno si prende il
+                 disturbo: il consumo vero sta altrove.</p>`,
+        },
+        quantistico: {
+          titolo: 'Computer quantistico',
+          html: `<p>Le porte <b>devono</b> essere reversibili: nessuna eccezione. Non è una scelta di progetto,
+                 è come funziona l'evoluzione di un sistema quantistico isolato (si dice che è <b>unitaria</b>).</p>
+                 <p class="mb0">L'unica operazione irreversibile permessa è la <b>misura</b> — ed è proprio
+                 per quello che la misura distrugge la sovrapposizione.</p>`,
+        },
+        numeri: [
+          { cosa: 'AND fra due bit', classico: '1 porta, 1 bit perso', quantistico: '1 Toffoli, 1 bit in più' },
+          { cosa: 'si torna indietro?', classico: 'no', quantistico: 'sempre, tranne la misura' },
+          { cosa: 'calore minimo per bit cancellato', classico: 'kT·ln2', quantistico: 'zero, finché non misuri' },
+        ],
+        verdetto: `<b>Ecco perché sei già a metà strada.</b> Un circuito quantistico è, prima di tutto, un
+                   circuito <b>reversibile</b>: le porte che hai appena usato — NOT, CNOT, Toffoli — sono
+                   letteralmente le stesse che troverai ai livelli 3 e 4. L'unica cosa che il quantistico
+                   aggiunge è che i bit, oltre a essere 0 o 1, possono essere <b>due cose insieme con un segno</b>.
+                   Quella cosa lì si chiama ampiezza, e da lì in poi comincia il corso vero.`,
+      }),
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Quali di queste sono reversibili: NOT, AND, XOR (tenendosi un ingresso), OR, CNOT?</p>
+        <p><b>2.</b> Toffoli con c = 1 in partenza: cosa calcola sul terzo bit? <span class="muted">(NAND: 1 XOR (a AND b))</span></p>
+        <p><b>3.</b> Se cancellare un bit costa 3·10⁻²¹ J, quanto costa come minimo cancellare un gigabyte? <span class="muted">(circa 2,4·10⁻¹¹ J: pochissimo, ma non zero)</span></p>
+        <p class="mb0"><b>4.</b> Da inventore: perché la <b>misura</b> quantistica è l'unica operazione irreversibile ammessa? Cosa succederebbe se anche quella fosse reversibile? <span class="muted">(è una delle domande aperte serie della fisica: cercare «problema della misura»)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Perché la porta AND non è reversibile?',
+      options: ['perché è lenta', 'perché tre ingressi diversi danno la stessa uscita 0', 'perché usa due bit', 'perché scalda troppo'], correct: 1,
+      why: 'Da un\'uscita 0 non si risale: potevano essere 00, 01 o 10. Quell\'informazione è persa.' },
+    { q: 'Il principio di Landauer dice che…',
+      options: ['i computer non possono superare i 5 GHz', 'cancellare un bit libera almeno kT·ln2 di calore', 'l\'informazione non si può copiare', 'ogni porta consuma un joule'], correct: 1,
+      why: 'È stato misurato in laboratorio nel 2012. Calcolare senza cancellare, in linea di principio, potrebbe costare zero.' },
+    { q: 'La porta di Toffoli, applicata due volte di fila, …',
+      options: ['azzera tutti i bit', 'riporta i bit al punto di partenza', 'raddoppia il risultato', 'non è definita'], correct: 1,
+      why: 'È l\'inversa di sé stessa: il secondo XOR disfa il primo. Per questo può disfare un calcolo.' },
+    { q: 'Perché tutte le porte quantistiche sono reversibili?',
+      options: ['per risparmiare energia', 'perché l\'evoluzione di un sistema quantistico isolato è unitaria, e la fisica non permette altro', 'per una convenzione dei fisici', 'per rendere i circuiti più corti'], correct: 1,
+      why: 'È un vincolo fisico, non una scelta. L\'unica eccezione permessa è la misura — e infatti è quella che distrugge la sovrapposizione.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Fine della Parte K.</b> Adesso hai il termine di paragone completo:
+          sai cos'è un bit, cosa fanno le porte, come si somma, quanto costa cercare, come si misura il costo
+          di un algoritmo e perché un circuito può essere costretto a non dimenticare niente.
+          Da qui in poi cambia una cosa sola — ma cambia tutto: le caselle smettono di contenere 0 <i>oppure</i> 1
+          e cominciano a contenere <b>due numeri con il segno</b>. Buon divertimento al livello 1.</div>`,
+});
+</script>
+</body>
+</html>
