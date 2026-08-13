@@ -147,6 +147,16 @@
       <a class="btn ghost" href="#mappa">🗺️ Tutti i livelli</a>
       <a class="btn ghost" href="{{ \App\Support\Site::page('method', $locale) }}">🔬 Il metodo (e le ricerche)</a>
     </div>
+
+    <!-- Il glossario è un riferimento, non un premio di fine corso: sta in cima
+         e resta a un tasto di distanza in ogni pagina. Il collegamento punta
+         comunque alla pagina completa, così funziona anche senza JavaScript. -->
+    <p class="small dim" style="margin:10px 0 0">
+      📖 <b>Dubbio su una parola?</b> Il <a href="{{ \App\Support\Site::lessonPath('23-glossario', $locale) }}" id="apri-glossario">glossario</a>
+      si apre di fianco al testo in qualsiasi pagina — anche col tasto <b>G</b> — con il livello in cui ogni
+      termine è spiegato. E dentro le lezioni le parole sottolineate danno la definizione al tocco,
+      senza perdere il segno.
+    </p>
   </div>
 
   <div class="panel hidden" id="account-banner" style="border-color:rgba(34,211,238,.45);margin-top:6px">

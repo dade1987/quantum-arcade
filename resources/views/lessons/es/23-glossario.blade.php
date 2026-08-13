@@ -5,6 +5,7 @@
 @section('lesson')
 import { renderLesson } from '/js/core/lesson.js';
 import { nOf } from '/js/core/levels.js';   // i numeri di livello si calcolano, non si scrivono
+import { tabellaGlossario } from '/js/widgets/glossario.js';
 
 const L = renderLesson({
   id: '23-glossario',
@@ -50,46 +51,10 @@ ruido y corrección de errores (${nOf('21-rumore')}) · taller creativo (${nOf('
     },
     {
       t: 'Glosario A–Z',
-      html: `
-        <table class="table">
-          <tr><th style="width:26%">Término</th><th>Qué significa (en castellano de verdad)</th><th style="width:12%">Nivel</th></tr>
-          <tr><td><b>Amplitud</b></td><td>El número (en general una flecha compleja) asociado a un resultado posible. Su <b>cuadrado</b> es la probabilidad. Puede ser negativa: de ahí la interferencia.</td><td>${nOf('01-qubit')}</td></tr>
-          <tr><td><b>Amplitud (de una onda)</b></td><td>Cómo de alta es una onda; en el sonido es el volumen.</td><td>${nOf('13-onde')}</td></tr>
-          <tr><td><b>Autoestado / autovalor</b></td><td>Estado que una operación deja idéntico salvo por una fase; esa fase es el autovalor.</td><td>${nOf('19-qpe')}</td></tr>
-          <tr><td><b>Base de medida</b></td><td>La "dirección" a lo largo de la cual se mide. Medir en base Z da 0/1; en base X da +/−. No existe un estado que sea seguro en todas las bases.</td><td>${nOf('02-bloch')}</td></tr>
-          <tr><td><b>Bloch (esfera de)</b></td><td>Mapa de todos los estados de un cúbit: norte |0⟩, sur |1⟩, ecuador las superposiciones al 50%.</td><td>${nOf('02-bloch')}</td></tr>
-          <tr><td><b>Born (regla de)</b></td><td>Probabilidad = |amplitud|². El puente entre las matemáticas y el laboratorio.</td><td>${nOf('01-qubit')}</td></tr>
-          <tr><td><b>Bra-ket</b></td><td>Notación |ψ⟩ para los estados (ket) y ⟨ψ| para los "duales" (bra). Es solo una caja para decir "esto es un estado".</td><td>${nOf('01-qubit')}</td></tr>
-          <tr><td><b>CNOT</b></td><td>Puerta de dos cúbits: da la vuelta al objetivo solo si el control vale 1. Sobre una superposición crea entrelazamiento.</td><td>${nOf('04-due-qubit')}</td></tr>
-          <tr><td><b>Decoherencia</b></td><td>El entorno "mide" involuntariamente el sistema y destruye las fases. El enemigo número uno del hardware.</td><td>${nOf('21-rumore')}</td></tr>
-          <tr><td><b>Codificación densa</b></td><td>Mandar 2 bits clásicos transmitiendo 1 cúbit, aprovechando entrelazamiento ya compartido.</td><td>${nOf('06-teletrasporto')}</td></tr>
-          <tr><td><b>DFT</b></td><td>Transformada discreta de Fourier: "rota cada dato y suma" para descubrir las periodicidades.</td><td>${nOf('16-dft')}</td></tr>
-          <tr><td><b>Difusor</b></td><td>En Grover: refleja las amplitudes alrededor de la media, amplificando la marcada.</td><td>${nOf('11-grover')}</td></tr>
-          <tr><td><b>Entrelazamiento</b></td><td>Estado de varios cúbits que no se puede describir cúbit a cúbit: la información está en la relación.</td><td>${nOf('04-due-qubit')}</td></tr>
-          <tr><td><b>Fase</b></td><td>"En qué punto de la vuelta estás". No cambia las probabilidades, pero decide qué se cancelará. El ingrediente secreto de todo.</td><td>${nOf('01-qubit') + ', ' + nOf('02-bloch') + ', ' + nOf('08-frecce') + ', ' + nOf('14-fase')}</td></tr>
-          <tr><td><b>FFT</b></td><td>Algoritmo clásico que calcula la DFT en N·log N en vez de N² (divide y vencerás).</td><td>${nOf('17-fft')}</td></tr>
-          <tr><td><b>Frecuencia</b></td><td>Cuántos ciclos por segundo (Hz). Inversa del periodo: f = 1/T.</td><td>${nOf('13-onde')}</td></tr>
-          <tr><td><b>Grover</b></td><td>Búsqueda en √N intentos en vez de N/2. Ganancia cuadrática, válida para cualquier búsqueda sin estructura.</td><td>${nOf('11-grover')}</td></tr>
-          <tr><td><b>Hadamard (H)</b></td><td>La puerta más importante: crea y deshace las superposiciones. Es ella la que convierte las fases en probabilidades observables.</td><td>${nOf('01-qubit') + ', ' + nOf('03-porte')}</td></tr>
-          <tr><td><b>Interferencia</b></td><td>Las amplitudes se suman antes del cuadrado: las concordes se refuerzan, las opuestas se anulan.</td><td>${nOf('07-interferenza')}</td></tr>
-          <tr><td><b>Medida</b></td><td>Operación irreversible: elige un resultado al azar según |amplitud|² y reescribe el estado.</td><td>${nOf('01-qubit') + ', ' + nOf('02-bloch')}</td></tr>
-          <tr><td><b>No-clonación</b></td><td>No existe una máquina que copie un estado cuántico desconocido.</td><td>${nOf('06-teletrasporto')}</td></tr>
-          <tr><td><b>Número complejo</b></td><td>Una flecha: longitud + ángulo. e^{iθ} es la flecha de longitud 1 en el ángulo θ.</td><td>${nOf('08-frecce')}</td></tr>
-          <tr><td><b>Oráculo</b></td><td>Caja negra que marca con un signo menos los estados que cumplen una condición: escribe la información en las fases.</td><td>${nOf('09-deutsch')}</td></tr>
-          <tr><td><b>Periodo</b></td><td>Cada cuánto se repite una cosa. T = 1/f.</td><td>${nOf('13-onde')}</td></tr>
-          <tr><td><b>Phase kickback</b></td><td>El truco por el que la fase generada por un oráculo "rebota" sobre el registro de control.</td><td>${nOf('09-deutsch') + ', ' + nOf('19-qpe')}</td></tr>
-          <tr><td><b>Puerta (gate)</b></td><td>Operación reversible (unitaria) sobre uno o más cúbits: en la esfera es siempre una rotación.</td><td>${nOf('03-porte')}</td></tr>
-          <tr><td><b>Poscuántica (criptografía)</b></td><td>Algoritmos clásicos resistentes a Shor y Grover; estandarizados por el NIST en 2024.</td><td>${nOf('20-shor')}</td></tr>
-          <tr><td><b>QFT</b></td><td>Transformada de Fourier sobre las amplitudes: n²/2 puertas, convierte periodicidad en picos.</td><td>${nOf('18-qft')}</td></tr>
-          <tr><td><b>QPE</b></td><td>Estimación de fase: copia una fase en los cúbits de lectura y la hace medible con la QFT inversa.</td><td>${nOf('19-qpe')}</td></tr>
-          <tr><td><b>Cúbit</b></td><td>Unidad elemental: dos amplitudes, una para |0⟩ y otra para |1⟩.</td><td>${nOf('01-qubit')}</td></tr>
-          <tr><td><b>Shor</b></td><td>Factorización en tiempo polinómico, reduciendo el problema a la búsqueda de un periodo.</td><td>${nOf('20-shor')}</td></tr>
-          <tr><td><b>Síndrome (medida de)</b></td><td>Medida que revela <b>dónde</b> ha ocurrido un error sin revelar la información codificada.</td><td>${nOf('21-rumore')}</td></tr>
-          <tr><td><b>Superposición</b></td><td>Estado en el que varios resultados tienen amplitud distinta de cero a la vez.</td><td>${nOf('01-qubit')}</td></tr>
-          <tr><td><b>SWAP</b></td><td>Puerta que intercambia dos cúbits; cierra el circuito de la QFT.</td><td>${nOf('05-circuiti') + ', ' + nOf('18-qft')}</td></tr>
-          <tr><td><b>Teletransporte</b></td><td>Transferir un estado usando entrelazamiento + 2 bits clásicos. El original se destruye.</td><td>${nOf('06-teletrasporto')}</td></tr>
-          <tr><td><b>Unitaria (operación)</b></td><td>Conserva la probabilidad total y es reversible: todas las puertas lo son, la medida no.</td><td>${nOf('03-porte')}</td></tr>
-        </table>`,
+      html: `<p class="dim">La tabla que sigue la has tenido a mano desde el primer nivel: el panel
+             <b>📖 Glosario</b> de arriba — o la tecla <b>G</b> — la abre al lado del texto en cualquier página,
+             con búsqueda por palabra y por nivel. Aquí está completa, para leerla de corrido.</p>`,
+      mount: host => host.appendChild(tabellaGlossario()),
     },
     {
       t: 'Los errores más comunes (que ahora sabes reconocer)',

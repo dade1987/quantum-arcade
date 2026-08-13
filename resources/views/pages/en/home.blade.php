@@ -142,6 +142,16 @@
       <a class="btn ghost" href="#map-section">🗺️ All the levels</a>
       <a class="btn ghost" href="{{ \App\Support\Site::page('method', $locale) }}">🔬 The method (and the research)</a>
     </div>
+
+    <!-- The glossary is a reference, not an end-of-course reward: it sits at the
+         top and stays one key away on every page. The link still points at the
+         full page, so it works with JavaScript switched off too. -->
+    <p class="small dim" style="margin:10px 0 0">
+      📖 <b>Not sure about a word?</b> The <a href="{{ \App\Support\Site::lessonPath('23-glossario', $locale) }}" id="apri-glossario">glossary</a>
+      opens next to the text on any page — the <b>G</b> key works too — with the level where each term
+      is explained. And inside the lessons the underlined words give you the definition at a tap,
+      without losing your place.
+    </p>
   </div>
 
   <div class="panel hidden" id="account-banner" style="border-color:rgba(34,211,238,.45);margin-top:6px">
