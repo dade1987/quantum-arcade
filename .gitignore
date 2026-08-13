@@ -74,3 +74,7 @@ Thumbs.db
 
 # copia locale di QuantumSim usata dalla verifica incrociata (non è nostro codice)
 /.quantumsim
+
+# Configurazioni di comodo per la propria macchina (per esempio un percorso
+# diverso del browser di Playwright): utili in locale, mai da versionare.
+/playwright.config.local.js

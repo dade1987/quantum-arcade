@@ -30,11 +30,18 @@
   <div class="wrap-wide topbar-in">
     <a class="brand" href="index.html"><img class="logo" src="assets/logo.svg" alt="" width="30" height="30"><span>Quantum Arcade<small>informatica quantistica giocando</small></span></a>
     <span class="topbar-spacer"></span>
-    <span class="lang-pick" role="group" aria-label="Lingua">
-      <span class="lang-opt on" lang="it" aria-current="true">IT</span>
-      <a class="lang-opt" href="en/method.html" hreflang="en" lang="en">EN</a>
-      <a class="lang-opt" href="es/metodo.html" hreflang="es" lang="es">ES</a>
-    </span>
+    <details class="lang-pick">
+      <summary class="lang-now" title="Cambia lingua">
+        <span class="lang-globe" aria-hidden="true">🌐</span>
+        <span class="lang-name">Italiano</span>
+        <span class="sr-only"> — cambia lingua</span>
+      </summary>
+      <div class="lang-menu" role="menu">
+        <span class="lang-item on" role="menuitem" lang="it" aria-current="true"><span class="lang-tick" aria-hidden="true">✓</span>Italiano</span>
+        <a class="lang-item" role="menuitem" href="en/method.html" hreflang="en" lang="en"><span class="lang-tick" aria-hidden="true"></span>English</a>
+        <a class="lang-item" role="menuitem" href="es/metodo.html" hreflang="es" lang="es"><span class="lang-tick" aria-hidden="true"></span>Español</a>
+      </div>
+    </details>
     <a class="btn sm ghost" href="index.html">🗺️ Mappa</a>
   </div>
 </header>
@@ -257,6 +264,32 @@ Le indicazioni emerse dalla ricerca sulla <i>Generative Engine Optimization</i> 
 </ul>
 <p class="dim small">Nota: la stessa ricerca mostra che i contenuti citati dalle AI sono quelli <b>strutturati e verificabili</b>.
 Un altro modo per dire che scrivere onestamente e scrivere per essere trovati, per una volta, coincidono.</p>
+
+<h2>17. Le tre lingue, e come si passa da una all'altra</h2>
+<p>Il corso esiste per intero in italiano, inglese e spagnolo: non un riassunto tradotto, tre edizioni complete —
+esame e attestato compresi. Anche gli indirizzi sono tradotti (<code>/en/lessons/</code>, <code>/es/lecciones/</code>),
+perché una pagina in spagnolo che vive in una cartella chiamata "lezioni" è una pagina tradotta a metà, e si vede.</p>
+<p>Il selettore in alto segue quattro regole, e nessuna è estetica:</p>
+<ul>
+  <li><b>Ogni lingua è scritta nella propria lingua</b> — «Español», non «Spagnolo». Chi cerca la propria lingua
+      la cerca com'è scritta a casa sua, non tradotta in una lingua che magari non legge. È la raccomandazione
+      del W3C e del Nielsen Norman Group, ed è anche il motivo per cui la prima versione non funzionava:
+      diceva «IT EN ES», e le sigle ISO sono etichette mute per chi non le ha mai viste.</li>
+  <li><b>Niente bandiere.</b> Una bandiera indica uno stato, non una lingua: quale metteresti allo spagnolo,
+      fra i venti paesi che lo parlano? Al loro posto un mappamondo, che è l'unico simbolo che il pubblico
+      associa a "lingua" senza associarlo a un paese.</li>
+  <li><b>Si cambia lingua restando dove sei.</b> Chi sta leggendo la QFT in italiano e sceglie English vuole
+      la QFT in inglese, non ricominciare dalla mappa. Gli indirizzi delle altre versioni sono gli stessi
+      <code>hreflang</code> che la pagina dichiara già per i motori di ricerca: calcolarli una seconda volta
+      sarebbe il modo classico di farli divergere.</li>
+  <li><b>Se il tuo browser parla un'altra lingua te lo dico, ma non ti sposto.</b> Compare una riga
+      — scritta <i>nella</i> lingua che propone, se no non si legge — con due bottoni: passa, oppure resta.
+      Poi non chiede più. Il reindirizzamento automatico è sconsigliato esplicitamente da Google per i siti
+      multilingua: impedisce di raggiungere di proposito una certa versione, confonde chi parla più lingue
+      di quelle che ha configurato nel browser, e nasconde le altre copie ai motori di ricerca.</li>
+</ul>
+<div class="callout key">La regola sotto tutte e quattro: <b>offrire, non decidere</b>. Chi legge sa in che lingua
+vuole leggere meglio di quanto lo sappia il suo browser.</div>
 
 <h2>Fonti</h2>
 <p class="dim small">Elencate nell'ordine in cui compaiono nel testo. Dove non c'è un link è perché il riferimento

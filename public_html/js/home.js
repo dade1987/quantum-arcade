@@ -2,7 +2,7 @@
 
 import { LEVELS, PARTS, TOTAL_XP, rankFor, levelById } from './core/levels.js';
 import * as store from './core/store.js';
-import { h, langButton } from './core/ui.js';
+import { h, langButton, suggerimentoLingua } from './core/ui.js';
 import { sfx, wireSounds, soundButton } from './core/audio.js';
 import { initAccount, accountButton, isLogged, isOffline, openRegister } from './core/account.js';
 import { mountTutor } from './widgets/chat.js';
@@ -13,6 +13,10 @@ wireSounds();
 document.getElementById('xp-host').after(soundButton());
 document.getElementById('xp-host').after(accountButton());
 document.getElementById('xp-host').after(langButton());
+
+// «esiste anche nella tua lingua»: in cima al contenuto, dove si guarda
+const avviso = suggerimentoLingua();
+if (avviso) document.querySelector('main.wrap')?.prepend(avviso);
 
 // Account: i progressi vivono sul server, quindi la prima cosa è capire chi sei.
 initAccount().then(() => {

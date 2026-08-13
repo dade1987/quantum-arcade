@@ -44,6 +44,7 @@ Se è tutto verde, puoi cominciare.
 | 1 ora | Migliorare un mini-gioco esistente (etichette, colori, suoni) | `public_html/js/widgets/*.js` |
 | mezza giornata | Scrivere un **livello nuovo** | vedi sotto |
 | 20 minuti | Migliorare una traduzione inglese o spagnola | `public_html/en/`, `public_html/es/`, `js/i18n/*.js` |
+| 20 minuti | Correggere il nome di una lingua nel selettore | `LOCALE_NAMES` in `js/core/i18n.js` — scritto **nella lingua stessa**, mai una bandiera |
 | a piacere | Aggiungere una **quarta** lingua | apri prima una issue: sono 90 pagine, meglio parlarne |
 
 Le issue etichettate **`buon primo contributo`** sono scelte apposta: piccole, isolate,

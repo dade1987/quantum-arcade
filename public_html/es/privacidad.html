@@ -22,11 +22,18 @@
       <span>Quantum Arcade<small>computación cuántica jugando</small></span>
     </a>
     <span class="topbar-spacer"></span>
-    <span class="lang-pick" role="group" aria-label="Idioma">
-      <a class="lang-opt" href="../privacy.html" hreflang="it" lang="it">IT</a>
-      <a class="lang-opt" href="../en/privacy.html" hreflang="en" lang="en">EN</a>
-      <span class="lang-opt on" lang="es" aria-current="true">ES</span>
-    </span>
+    <details class="lang-pick">
+      <summary class="lang-now" title="Cambiar idioma">
+        <span class="lang-globe" aria-hidden="true">🌐</span>
+        <span class="lang-name">Español</span>
+        <span class="sr-only"> — cambiar idioma</span>
+      </summary>
+      <div class="lang-menu" role="menu">
+        <a class="lang-item" role="menuitem" href="../privacy.html" hreflang="it" lang="it"><span class="lang-tick" aria-hidden="true"></span>Italiano</a>
+        <a class="lang-item" role="menuitem" href="../en/privacy.html" hreflang="en" lang="en"><span class="lang-tick" aria-hidden="true"></span>English</a>
+        <span class="lang-item on" role="menuitem" lang="es" aria-current="true"><span class="lang-tick" aria-hidden="true">✓</span>Español</span>
+      </div>
+    </details>
     <a class="btn sm ghost" href="index.html">🗺️ Mapa</a>
   </div>
 </header>

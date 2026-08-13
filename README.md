@@ -33,6 +33,7 @@ a vettore di stato scritto da zero, verificato dai test: il circuito della QFT r
 | **Come si avanza** | Dimostrando la padronanza: una missione pratica **e** un quiz di richiamo. |
 | **Cosa c'è alla fine** | Un'officina dove inventi algoritmi tuoi, e un esame con attestato verificabile. |
 | **In che lingue** | Italiano (originale), inglese e spagnolo: tre edizioni complete, esame e attestato compresi. |
+| **Come si cambia lingua** | Dal 🌐 in alto, in ogni pagina. Si resta dove sei, e ogni lingua è scritta nella propria lingua. |
 
 È **un solo progetto Laravel**: il gioco vive dentro `public_html/`, le API e le pagine
 dinamiche sono gestite dai moduli. Un dominio, un deploy, nessun passaggio di build.
