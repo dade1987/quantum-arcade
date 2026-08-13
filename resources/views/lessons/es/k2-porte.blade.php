@@ -55,8 +55,26 @@ const L = renderLesson({
                <li><b>OR</b> = NAND(NOT A, NOT B) — es la ley de De Morgan</li>
                <li><b>XOR</b> = cuatro NAND, y es la pieza que hace falta para sumar</li>
              </ul>
-             <p>Móntalas en el taller de abajo: elige de dónde llega cada cable y mira cómo cambia la tabla de
-             verdad hasta que coincide con el objetivo.</p>`,
+             <div class="callout warn"><b>Antes de montar, lo que confunde a todo el mundo.</b> En el taller
+             de abajo cada puerta se resume con <b>cuatro cifras</b> — por ejemplo <span class="mono">0001</span>.
+             No son cuatro salidas: las entradas siguen siendo <b>dos</b>, A y B, y de cada puerta sale <b>un
+             solo bit</b>. Las cuatro cifras son esa misma puerta <b>probada cuatro veces</b>, una por cada
+             combinación posible de A y B — <span class="mono">00</span>, <span class="mono">01</span>,
+             <span class="mono">10</span>, <span class="mono">11</span>: es la tabla de verdad de arriba,
+             escrita en una sola línea. En el taller A y B son dos interruptores de verdad: enciéndelos y mira
+             qué columna de las cuatro estás probando en este momento.</div>
+             <p><b>Cómo se lee el taller.</b> Tienes cuatro puertas NAND, llamadas
+             <span class="mono">G1 G2 G3 G4</span> — la <b>G</b> viene de <i>gate</i>, puerta. Para cada una
+             eliges de dónde llegan sus dos entradas: de A, de B, o de la salida de una puerta <b>anterior</b>
+             (hacia atrás no se puede: en un circuito de verdad ese cable aún no tendría nada que llevar). La
+             <b>salida de la red</b> es la última elección, y dice cuál de las cuatro puertas miras al final:
+             el bit que sale de ella es el resultado de toda la red, y las puertas que no llegan hasta ahí no
+             cuentan nada.</p>
+             <p>Luego monta: elige de dónde llega cada cable. Cada caja dice de dónde toma sus dos entradas,
+             qué bit sale de ella <i>ahora</i> y su tabla completa, así la cadena se comprueba pieza a pieza en
+             vez de ir a tientas. Si prefieres seguir la receta, el botón <b>«enséñame los pasos»</b> te la
+             revela paso a paso, y cada paso dice qué número tiene que salir: si no sale ese, el error está
+             ahí.</p>`,
       mount: (el, api) => {
         const m = api.mission({ key: 'nand', title: 'Taller de la NAND', text: 'construye NOT, AND y OR usando solo puertas NAND.', xp: 45 });
         el.appendChild(m.root);

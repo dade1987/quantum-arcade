@@ -1699,6 +1699,49 @@ export default {
   'La tua rete fa <b>:mia</b>, il bersaglio è <b>:bersaglio</b>.': 'Tu red da <b>:mia</b>, el objetivo es <b>:bersaglio</b>.',
   'Costruite finora: <b>:elenco</b>': 'Construidas hasta ahora: <b>:elenco</b>',
   'è esattamente :porta, fatta di soli NAND.': 'es exactamente :porta, hecha solo con NAND.',
+  '<b>G1, G2, G3, G4</b> sono le quattro porte NAND che hai a disposizione — <b>G</b> sta per <i>gate</i>, porta. Per ognuna scegli da dove arrivano i suoi due ingressi: da A, da B, oppure dall\'uscita di una porta precedente.':
+    '<b>G1, G2, G3, G4</b> son las cuatro puertas NAND que tienes — la <b>G</b> viene de <i>gate</i>, puerta. Para cada una eliges de dónde llegan sus dos entradas: de A, de B, o de la salida de una puerta anterior.',
+  '<b>Uscita della rete</b> dice quale di quelle quattro porte leggi alla fine: il bit che esce da lei è il risultato di tutta la rete. Le altre porte, se non arrivano fin lì, non contano niente.':
+    '<b>Salida de la red</b> dice cuál de esas cuatro puertas miras al final: el bit que sale de ella es el resultado de toda la red. Las demás puertas, si no llegan hasta ahí, no cuentan nada.',
+  'gli ingressi sono due — tocca per cambiarli': 'las entradas son dos — tócalas para cambiarlas',
+  'adesso stai provando il caso :caso, la colonna :caso qui sotto':
+    'ahora estás probando el caso :caso, la columna :caso de aquí abajo',
+  scollegata: 'sin conectar',
+  'azzera la rete': 'reiniciar la red',
+  'con A=:a e B=:b (colonna :caso):': 'con A=:a y B=:b (columna :caso):',
+  '(:elenco non arrivano all\'uscita: non contano)': '(:elenco no llegan a la salida: no cuentan)',
+  'La colonna azzurra è la stessa porta provata in tutti e quattro i casi: <b>un</b> bit alla volta, quattro volte.':
+    'La columna azul es esa misma puerta probada en los cuatro casos: <b>un</b> bit cada vez, cuatro veces.',
+  'Adesso dalla rete esce <b>un</b> bit solo: :bit. Le quattro cifre qui sotto sono le quattro risposte, una per ogni caso di A e B.':
+    'Ahora de la red sale <b>un</b> solo bit: :bit. Las cuatro cifras de abajo son las cuatro respuestas, una por cada caso de A y B.',
+  'nessuno, un filo va all\'indietro': 'ninguno, un cable va hacia atrás',
+  'Hai usato :usate porte: lo stesso risultato si ottiene con :minimo. Guarda la catena: qualche porta rifà un lavoro già fatto (due NOT di fila si annullano).':
+    'Has usado :usate puertas: el mismo resultado se consigue con :minimo. Mira la cadena: alguna puerta repite un trabajo ya hecho (dos NOT seguidos se anulan).',
+  'E con :minimo porte, che è il minimo per questa ricetta.': 'Y con :minimo puertas, que es el mínimo de esta receta.',
+
+  /* taller de la NAND — la receta, revelada paso a paso */
+  '👣 fammi vedere i passi': '👣 enséñame los pasos',
+  'nascondi i passi': 'ocultar los pasos',
+  'passo successivo (:passo di :quanti)': 'paso siguiente (:passo de :quanti)',
+  '<b>:passo.</b> G:gate: ingresso 1 = <b>:uno</b>, ingresso 2 = <b>:due</b> — :motivo Controlla G:gate: deve fare <b>:firma</b>.':
+    '<b>:passo.</b> G:gate: entrada 1 = <b>:uno</b>, entrada 2 = <b>:due</b> — :motivo Comprueba G:gate: tiene que dar <b>:firma</b>.',
+  '<b>:passo.</b> Uscita della rete = <b>G:gate</b>. Ecco :porta con :quante porte, e ogni passo si vede da solo nella catena qui sotto.':
+    '<b>:passo.</b> Salida de la red = <b>G:gate</b>. Ahí tienes :porta con :quante puertas, y cada paso se ve solo en la cadena de aquí abajo.',
+  'lo stesso filo nei due ingressi: «non (A e A)» è «non A».':
+    'el mismo cable en las dos entradas: «no (A y A)» es «no A».',
+  'un NAND è l\'AND rovesciato: 1110 è 0001 con gli 0 e gli 1 scambiati.':
+    'una NAND es la AND del revés: 1110 es 0001 con los 0 y los 1 intercambiados.',
+  'un NAND con lo stesso filo due volte fa da NOT: rovescia G1 e resta l\'AND.':
+    'una NAND con el mismo cable dos veces hace de NOT: le da la vuelta a G1 y queda la AND.',
+  'questo è NOT A.': 'esta es NOT A.',
+  'e questo è NOT B.': 'y esta es NOT B.',
+  'De Morgan: «non (non A e non B)» è «A oppure B».': 'De Morgan: «no (no A y no B)» es «A o B».',
+  'il NAND di partenza: vale 0 solo quando A e B sono tutti e due 1.':
+    'la NAND de partida: vale 0 solo cuando A y B son los dos 1.',
+  'vale 0 solo nel caso A=1, B=0.': 'vale 0 solo en el caso A=1, B=0.',
+  'vale 0 solo nel caso opposto, A=0, B=1.': 'vale 0 solo en el caso opuesto, A=0, B=1.',
+  'il NAND dei due: dà 1 esattamente quando A e B sono diversi.':
+    'la NAND de las dos: da 1 exactamente cuando A y B son distintos.',
   '<b>Perché conta:</b> un tipo solo di porta basta per costruire qualunque calcolo — si dice che il NAND è <b>universale</b>. Anche il computer quantistico ha i suoi insiemi universali di porte, e ci si arriva con lo stesso ragionamento: pochi mattoni, combinati, fanno tutto il resto.':
     '<b>Por qué importa:</b> un solo tipo de puerta basta para construir cualquier cálculo — se dice que la NAND es <b>universal</b>. El ordenador cuántico también tiene sus conjuntos universales de puertas, y se llega a ellos con el mismo razonamiento: pocos ladrillos, combinados, hacen todo lo demás.',
 
