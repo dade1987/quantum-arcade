@@ -15,14 +15,14 @@
       "@type": "Course",
       "@id": "https://quantumarcade.it/en/#course",
       "name": "Quantum Arcade — Quantum computing by playing",
-      "description": "Free interactive course in English that teaches quantum computing starting from waves and the Fourier transform all the way to the QFT and Shor's algorithm, through 28 playable levels with a state-vector quantum simulator.",
+      "description": "Free interactive course in English that teaches quantum computing starting from waves and the Fourier transform all the way to the QFT and Shor's algorithm, through 34 playable levels with a state-vector quantum simulator.",
       "inLanguage": "en",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
       "isBasedOn": "https://github.com/dade1987/quantum-arcade",
       "educationalLevel": "Middle school and up",
       "teaches": [
-        "Waves: amplitude, frequency, period, phase",
+        "Sine waves: amplitude, frequency and phase (with the period T = 1/f)",
         "Complex numbers and the complex exponential e^{iθ}",
         "Constructive and destructive interference",
         "Discrete Fourier transform (DFT) and FFT",
@@ -80,7 +80,7 @@
         {
           "@type": "Question",
           "name": "Why does Shor's algorithm use the Fourier transform?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Shor reduces factoring a number to the problem of finding the period of the function f(x) = a^x mod N. The period is hidden in the amplitudes of a quantum state: the QFT turns it into measurable probability peaks. From the measured value, using continued fractions, you recover the period r and from there the factors via GCD(a^(r/2) ± 1, N)." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Shor reduces factoring a number to the problem of finding the period of the function f(x) = a^x mod N. The period is hidden in the amplitudes of a quantum state: the QFT turns it into measurable probability peaks. From the measured value, using continued fractions, you recover the period r and from there the factors via GCD(a^(r/2) ± 1, N), provided r is even and a^(r/2) is not congruent to −1 modulo N; otherwise you pick another a and try again (that happens less than half of the time)." }
         },
         {
           "@type": "Question",
@@ -122,7 +122,8 @@
     <h1 style="margin-top:14px">Learn quantum computing<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">by actually playing it.</span></h1>
     <p class="lead">
       Thirty-four interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
-      (frequency, period, phase) and arrive at the <b>quantum Fourier transform</b> and <b>Shor's algorithm</b>.
+      (amplitude, frequency and phase: the three knobs that fully describe a sine wave — the period is just
+      frequency the other way round, T = 1/f) and arrive at the <b>quantum Fourier transform</b> and <b>Shor's algorithm</b>.
       Every formula is taken apart piece by piece, and every piece is something you can
       <b>touch, drag and break</b> until the penny drops.
     </p>

@@ -1,4 +1,4 @@
-@php($description = 'Amplitude, period and frequency of a wave explained with sliders and sound: the basis for understanding the Fourier transform and then the QFT.')
+@php($description = 'Amplitude, frequency and phase of a wave — plus the period, T = 1/f — explained with sliders and sound: the basis for understanding the Fourier transform and then the QFT.')
 
 @extends('layouts.lesson')
 

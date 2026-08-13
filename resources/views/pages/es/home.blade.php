@@ -22,7 +22,7 @@
       "isBasedOn": "https://github.com/dade1987/quantum-arcade",
       "educationalLevel": "Desde secundaria en adelante",
       "teaches": [
-        "Ondas: amplitud, frecuencia, periodo, fase",
+        "Ondas sinusoidales: amplitud, frecuencia y fase (con el periodo T = 1/f)",
         "Números complejos y exponencial compleja e^{iθ}",
         "Interferencia constructiva y destructiva",
         "Transformada de Fourier discreta (DFT) y FFT",
@@ -80,7 +80,7 @@
         {
           "@type": "Question",
           "name": "¿Por qué el algoritmo de Shor usa la transformada de Fourier?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Shor reduce la factorización de un número al problema de encontrar el periodo de la función f(x) = a^x mod N. El periodo está escondido en las amplitudes de un estado cuántico: la QFT lo convierte en picos de probabilidad medibles. Del valor medido, con fracciones continuas, se obtiene el periodo r y de ahí los factores mediante MCD(a^(r/2) ± 1, N)." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Shor reduce la factorización de un número al problema de encontrar el periodo de la función f(x) = a^x mod N. El periodo está escondido en las amplitudes de un estado cuántico: la QFT lo convierte en picos de probabilidad medibles. Del valor medido, con fracciones continuas, se obtiene el periodo r y de ahí los factores mediante MCD(a^(r/2) ± 1, N), siempre que r sea par y a^(r/2) no sea congruente con −1 módulo N; si no, se elige otra a y se repite (ocurre en menos de la mitad de los casos)." }
         },
         {
           "@type": "Question",
@@ -122,7 +122,8 @@
     <h1 style="margin-top:14px">Aprende computación cuántica<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">jugando de verdad.</span></h1>
     <p class="lead">
       Treinta y cuatro niveles interactivos que parten de las <b>matemáticas de secundaria</b>, pasan por las <b>ondas</b>
-      (frecuencia, periodo, fase) y llegan hasta la <b>transformada de Fourier cuántica</b> y el <b>algoritmo de Shor</b>.
+      (amplitud, frecuencia y fase: los tres mandos que bastan para describir una sinusoide — el periodo es la frecuencia
+      del revés, T = 1/f) y llegan hasta la <b>transformada de Fourier cuántica</b> y el <b>algoritmo de Shor</b>.
       Cada fórmula está desmontada pieza a pieza, y cada pieza la puedes <b>tocar, arrastrar y romper</b>
       hasta que se te encienda la bombilla.
     </p>
