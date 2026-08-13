@@ -18,7 +18,9 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
 import { circuitLab } from '../../js/widgets/circuit.js';
+import { ripetizioneLab } from '../../js/widgets/classic2.js';
 
 const L = renderLesson({
   id: '21-rumore',
@@ -27,6 +29,49 @@ const L = renderLesson({
          y cuáles son las contramedidas — sin sensacionalismos en ninguna de las dos direcciones.`,
 
   steps: [
+    {
+      t: 'Primero en clásico: los bits también se equivocan (y cómo se arregla)',
+      html: `<p>El error no es una novedad cuántica. Un bit que viaja por un cable, que está en un disco o que sale
+             por radio se da la vuelta de vez en cuando, y la informática clásica convive con eso desde siempre.
+             El remedio más simple es también el más tonto: <b>decir lo mismo tres veces</b> y creer a la
+             mayoría.</p>
+             <p>Mueve el ruido y manda unos cientos de bits: los dos porcentajes se separan solos.</p>`,
+      mount: el => { ripetizioneLab(el); },
+      after: `<div class="callout key"><b>La cuenta:</b> sin código te equivocas con probabilidad <b>p</b>; con
+              tres copias te equivocas solo si se dan la vuelta dos o tres, es decir <b>3p² − 2p³</b>. Con
+              p = 10% se pasa del 10% al 2,8%. Y con más copias baja todavía más — siempre que <b>p esté por
+              debajo del 50%</b>: por encima de ese umbral la mayoría vota por el error y repetir empeora las
+              cosas. Todo código corrector tiene un umbral, y lo cuántico no es una excepción.</div>` +
+              confronto({
+                titolo: 'Corregir errores: bits contra cúbits',
+                livello: 'k6-reversibile',
+                vaiA: 'Repasa reversibilidad e información perdida (K·6)',
+                classico: {
+                  titolo: 'Código de repetición',
+                  html: `<p>Un solo tipo de error: el bit se da la vuelta. Se <b>copia</b> el bit tres veces y se
+                         vota por mayoría. Mirar las copias para contarlas no estropea nada.</p>
+                         <p class="mb0">En la práctica se usan códigos mejores (Hamming, Reed–Solomon), pero la
+                         idea es esta: redundancia más un voto.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Código cuántico',
+                  html: `<p>Dos obstáculos más. Un cúbit <b>no se puede copiar</b> (no clonación, nivel 6), y
+                         <b>no se puede mirar</b> sin hacer colapsar el estado.</p>
+                         <p class="mb0">Se esquiva todo midiendo <b>síndromes</b>: preguntas del tipo «¿estos dos
+                         cúbits son iguales?», que revelan el error <b>sin</b> revelar el estado. Y los errores
+                         son de dos tipos: de bit <b>y</b> de fase. El código de Shor corrige los dos con
+                         <b>9 cúbits</b> por uno solo útil.</p>`,
+                },
+                numeri: [
+                  { cosa: 'tipos de error', classico: '1 (bit dado la vuelta)', quantistico: '2 (bit y fase)' },
+                  { cosa: 'redundancia mínima', classico: '3 bits por 1', quantistico: '9 cúbits por 1 (Shor)' },
+                  { cosa: 'en máquinas reales hoy', classico: '—', quantistico: 'de 1.000 a 10.000 cúbits físicos por 1 lógico' },
+                ],
+                verdetto: `<b>La corrección de errores cuántica existe y está demostrada, pero el precio es esa
+                           proporción.</b> Es la razón numérica por la que un ordenador cuántico útil necesita
+                           millones de cúbits físicos — y el motivo por el que no lo tienes en el bolsillo.`,
+              }),
+    },
     {
       t: 'El enemigo se llama decoherencia',
       html: `<p>Un cúbit sigue siendo útil mientras mantiene sus <b>relaciones de fase</b>: son las que permiten

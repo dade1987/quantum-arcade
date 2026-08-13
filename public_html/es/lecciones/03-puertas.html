@@ -18,6 +18,7 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { blochLab } from '../../js/widgets/bloch.js';
+import { confronto } from '../../js/core/confronto.js';
 import { formula, stepper } from '../../js/core/formula.js';
 
 const L = renderLesson({
@@ -26,6 +27,43 @@ const L = renderLesson({
          de la flecha en la esfera. Ninguna crea ni destruye información — y eso, como veremos, no es un detalle.`,
 
   steps: [
+    {
+      t: 'Primero en clásico: qué hace una puerta lógica',
+      html: `<p>En un ordenador normal una <b>puerta</b> coge dos bits y devuelve uno: AND, OR, XOR. Son tablas
+             de cuatro filas, y con ellas está construido todo — es más, con la sola <b>NAND</b> está construido
+             todo.</p>
+             <p>Pero hay un detalle que en lo clásico no molesta a nadie y que aquí se convierte en el punto
+             central: una puerta AND <b>tira un bit</b>. De una salida 0 ya no sabes si las entradas eran 00, 01
+             o 10. El cálculo sigue perdiendo trozos por el camino, y a nadie le importa.</p>
+             <p>Las puertas cuánticas no se lo pueden permitir. No por elegancia: porque la física no lo
+             permite.</p>` +
+             confronto({
+               titolo: 'Puerta clásica y puerta cuántica',
+               livello: 'k2-porte',
+               vaiA: 'Juega con AND, OR, XOR y NAND (nivel K·2)',
+               classico: {
+                 titolo: 'AND, OR, XOR, NAND',
+                 html: `<p>Dos bits dentro, <b>uno</b> fuera. Son <b>tablas</b>: se describen enumerando qué sale
+                        para cada entrada.</p>
+                        <p class="mb0">Casi todas <b>pierden información</b> y no se pueden rehacer hacia atrás.
+                        Conjunto universal: {NAND}.</p>`,
+               },
+               quantistico: {
+                 titolo: 'X, Z, H, rotaciones',
+                 html: `<p>n cúbits dentro, <b>n</b> fuera. Son <b>rotaciones</b>: se describen diciendo cuánto
+                        giran el estado, y de hecho se ven moverse sobre la esfera.</p>
+                        <p class="mb0">Todas <b>reversibles</b>, siempre. Conjunto universal: {H, T, CNOT}.</p>`,
+               },
+               numeri: [
+                 { cosa: 'bits/cúbits de entrada → salida', classico: '2 → 1', quantistico: 'n → n' },
+                 { cosa: '¿se vuelve atrás?', classico: 'no (salvo NOT)', quantistico: 'siempre' },
+                 { cosa: 'aplicándola dos veces', classico: 'en general no vuelve nada', quantistico: 'X, Z y H vuelven al punto de partida' },
+               ],
+               verdetto: `<b>Que H aplicada dos veces devuelva exactamente al estado inicial</b> — cosa que con
+                          una moneda mezclada dos veces no pasa nunca — es el primer experimento en el que la
+                          diferencia se toca con la mano. Tenlo a la vista en los pasos que siguen.`,
+             }),
+    },
     {
       t: 'El catálogo, en palabras llanas',
       html: `<table class="table">

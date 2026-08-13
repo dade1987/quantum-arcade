@@ -18,6 +18,7 @@
 <script type="module">
 import { renderLesson } from '../js/core/lesson.js';
 import { stepper } from '../js/core/formula.js';
+import { confronto } from '../js/core/confronto.js';
 import { teleportLab } from '../js/widgets/quantum2.js';
 
 const L = renderLesson({
@@ -27,6 +28,46 @@ const L = renderLesson({
          Nessuna magia: solo entanglement e misura.`,
 
   steps: [
+    {
+      t: 'Prima, in classico: copiare è gratis, ed è per questo che non ci pensi mai',
+      html: `<p>Copia un file, inoltra un messaggio, fai Ctrl-C: hai duplicato dell'informazione senza toccare
+             l'originale, senza costo e senza limiti. È talmente ovvio che non sembra nemmeno una proprietà —
+             ed è invece <b>la</b> proprietà su cui si regge mezza informatica: le copie di sicurezza, la cache,
+             il codice a ripetizione del livello K·6, il fatto stesso che tu possa leggere un bit senza
+             consumarlo.</p>
+             <p>Un bit si copia perché leggerlo <b>non lo cambia</b>: guardi la tensione sul filo, vedi che è
+             alta, la riscrivi altrove. Fine.</p>
+             <p>Con un qubit questo passaggio — «guardi… vedi… riscrivi» — è esattamente ciò che non si può
+             fare. E non è un limite tecnologico da superare: è un <b>teorema</b>.</p>` +
+             confronto({
+               titolo: 'Copiare un bit, copiare un qubit',
+               livello: 'k1-bit',
+               vaiA: 'Ripassa cos\'è un bit (livello K·1)',
+               classico: {
+                 titolo: 'Il bit si copia',
+                 html: `<p>Leggere non altera. Copiare è gratis, illimitato e perfetto.</p>
+                        <p class="mb0">Conseguenze: backup, ridondanza, correzione d'errore per ripetizione,
+                        e il fatto che un'intercettazione su una linea <b>non lasci traccia</b>.</p>`,
+               },
+               quantistico: {
+                 titolo: 'Il qubit no',
+                 html: `<p><b>Teorema di no-cloning</b> (Wootters e Zurek, 1982): non esiste nessuna operazione
+                        che duplichi uno stato quantistico sconosciuto.</p>
+                        <p class="mb0">Conseguenze: niente backup di qubit, correzione d'errore molto più
+                        difficile — ma anche crittografia quantistica, dove <b>un'intercettazione si vede</b>
+                        perché lascia il segno.</p>`,
+               },
+               numeri: [
+                 { cosa: 'copie possibili di uno stato ignoto', classico: 'infinite', quantistico: 'zero' },
+                 { cosa: 'spostarlo altrove', classico: 'copia e cancella', quantistico: 'teletrasporto: 2 bit classici + 1 coppia entangled' },
+                 { cosa: 'intercettazione', classico: 'invisibile', quantistico: 'rilevabile' },
+               ],
+               verdetto: `<b>Lo stesso divieto genera il problema e il regalo.</b> Non poter copiare rende
+                          difficile proteggere i qubit dagli errori (livello 21), e allo stesso tempo rende
+                          possibile una linea di comunicazione su cui spiare è impossibile senza farsi
+                          scoprire.`,
+             }),
+    },
     {
       t: 'Il teorema di no-cloning',
       html: `<p>Domanda ragionevole: se un qubit è delicato, perché non farne una copia di sicurezza?</p>

@@ -18,7 +18,9 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
 import { deutschLab } from '../../js/widgets/algos.js';
+import { oracoloClassico } from '../../js/widgets/classic2.js';
 
 const L = renderLesson({
   id: '09-deutsch',
@@ -27,6 +29,48 @@ const L = renderLesson({
          is the <b>same</b> as in every later algorithm.`,
 
   steps: [
+    {
+      t: 'Classical first: how many questions it really takes',
+      html: `<p>The problem is this: a box hides a function, and you have to say whether it is <b>constant</b>
+             (always the same answer) or <b>balanced</b> (half 0 and half 1). You do not care <i>which</i>
+             function it is: only which type.</p>
+             <p>Try it classically, counting the queries. With a single input bit there are two possible
+             questions, and you will need both — because one answer alone is compatible with both cases.</p>`,
+      mount: el => { oracoloClassico(el, { modo: 'deutsch' }); },
+      after: `<div class="callout key"><b>The classical count, in general.</b> With <b>n</b> input bits there are
+              2ⁿ possible questions. In the worst case you must ask <b>2ⁿ⁻¹ + 1</b> of them: if the first half all
+              answer the same you are still in doubt, and you need one more question to be sure.
+              With n = 20 that is over half a million queries.</div>` +
+              confronto({
+                titolo: 'The same box, two ways of questioning it',
+                livello: 'k2-porte',
+                vaiA: 'Review gates and the black box (K·2)',
+                classico: {
+                  titolo: 'One question at a time',
+                  html: `<p>The oracle takes an input and returns an output. To learn what the function looks
+                         like you have to query it <b>as many times as it takes</b>, and the answers arrive one
+                         by one.</p>
+                         <p class="mb0">Worst case: <b>2ⁿ⁻¹ + 1</b> queries.</p>`,
+                },
+                quantistico: {
+                  titolo: 'One question only, but a different one',
+                  html: `<p>The oracle is queried with <b>all</b> inputs in superposition. It does not hand back
+                         all the answers — those stay out of reach — but it writes them into the <b>phases</b>
+                         of the amplitudes.</p>
+                         <p class="mb0">Then a Hadamard makes those phases interfere, and the answer to
+                         "constant or balanced?" appears by itself: <b>1 query</b>.</p>`,
+                },
+                numeri: [
+                  { cosa: 'n = 1 (the game above)', classico: '2 questions', quantistico: '1 question' },
+                  { cosa: 'n = 20', classico: '524,289', quantistico: '1' },
+                  { cosa: 'information obtained', classico: 'the function, piece by piece', quantistico: 'only the TYPE, not the function' },
+                ],
+                verdetto: `<b>Watch that last row:</b> the quantum machine does not give you more information, it
+                           gives you <b>less</b> — but exactly the piece you asked for. The trick of every quantum
+                           algorithm is to ask a <b>global</b> question that interference can answer, instead of
+                           reconstructing everything piece by piece.`,
+              }),
+    },
     {
       t: 'What an oracle is',
       html: `<p>An <b>oracle</b> is a black box that knows how to compute a function <b>f</b> but will not tell you how.

@@ -18,6 +18,7 @@
 <script type="module">
 import { renderLesson } from '../js/core/lesson.js';
 import { stepper } from '../js/core/formula.js';
+import { confronto } from '../js/core/confronto.js';
 import { simonLab } from '../js/widgets/algos.js';
 
 const L = renderLesson({
@@ -64,6 +65,32 @@ const L = renderLesson({
              <b>dimostrato</b> che classicamente non si può fare meglio. È la prima separazione esponenziale
              dimostrata della storia del calcolo quantistico (Daniel Simon, 1994) — ed è l'articolo che
              convinse Peter Shor a cercare qualcosa di simile per la fattorizzazione.</p>`,
+      after: confronto({
+        titolo: 'Trovare un periodo nascosto: le due strade',
+        livello: 'k5-costo',
+        vaiA: 'Ripassa esponenziale contro polinomiale (livello K·5)',
+        classico: {
+          titolo: 'Cercare una collisione',
+          html: `<p>Chiedi valori a caso e aspetti che due coincidano. Il paradosso dei compleanni ti aiuta —
+                 non servono 2^n domande ma la loro radice — e non basta comunque.</p>
+                 <p class="mb0"><b>√(2^n)</b> domande: resta <b>esponenziale</b> nel numero di bit.</p>`,
+        },
+        quantistico: {
+          titolo: 'Simon',
+          html: `<p>Ogni interrogazione quantistica non restituisce un valore, ma <b>un'equazione</b> che il
+                 segreto deve soddisfare. Bastano n−1 equazioni indipendenti per inchiodarlo.</p>
+                 <p class="mb0"><b>n</b> domande circa, più un sistema lineare da risolvere: <b>polinomiale</b>.</p>`,
+        },
+        numeri: [
+          { cosa: 'segreto di 40 bit', classico: '~1.000.000 domande', quantistico: '39' },
+          { cosa: 'segreto di 80 bit', classico: '~10²⁴ domande', quantistico: '79' },
+          { cosa: 'tipo di guadagno', classico: '—', quantistico: 'esponenziale (dimostrato)' },
+        ],
+        verdetto: `<b>Questo è il salto che Grover non fa.</b> Grover dimezza l'esponente; qui l'esponente
+                   sparisce. La differenza sta tutta nel fatto che qui una <b>struttura</b> c'è — una
+                   periodicità nascosta — e l'interferenza sa vederla. Shor farà la stessa identica cosa su un
+                   periodo diverso.`,
+      }),
     },
     {
       t: 'Giocaci: la strada lenta e quella veloce',

@@ -539,7 +539,12 @@ export function adderLab(host, opts = {}) {
   });
 
   const N = cfg.bits;
-  const st = { a: [], b: [], riporti: [], somma: [], fatti: 0, esito: '', rects: [] };
+  /* `toccate` esiste per un motivo didattico preciso: le caselle partono da 0,
+     e diverse caselle giuste valgono 0. Colorare di verde tutto ciò che
+     combacia significherebbe regalare metà soluzione appena si apre il gioco —
+     resterebbe da "riempire i buchi" invece che da fare il conto. Una casella
+     dice se è giusta solo dopo che il giocatore l'ha toccata. */
+  const st = { a: [], b: [], riporti: [], somma: [], toccate: new Set(), fatti: 0, esito: '', rects: [] };
 
   function nuova() {
     const va = 1 + Math.floor(Math.random() * (2 ** N - 2));
@@ -547,6 +552,7 @@ export function adderLab(host, opts = {}) {
     st.a = inBinario(va, N); st.b = inBinario(vb, N);
     st.riporti = new Array(N + 1).fill(0);   // riporti[i] entra nella colonna i
     st.somma = new Array(N + 1).fill(0);     // una cifra in più: il traboccamento
+    st.toccate = new Set();
     st.esito = '';
     upd();
   }
@@ -577,14 +583,19 @@ export function adderLab(host, opts = {}) {
       });
 
       const cella = Math.min(46, (s.w - 120) / (N + 1));
-      const x0 = s.w - 20 - cella * (N + 1);
+      /* Il blocco è "etichette + colonne": si centra tutto insieme, altrimenti
+         su schermo largo la somma finisce appiccicata al bordo destro con mezzo
+         widget vuoto accanto. */
+      const etichette = 104;
+      const x0 = Math.max(etichette, (s.w - (etichette + cella * (N + 1))) / 2 + etichette);
       const y = top + 16;
       const riga = (etichetta, valori, colore, chi, offset = 0) => {
         text(ctx, etichetta, x0 - 12, y + offset + cella / 2, { size: 11, align: 'right', color: '#7f8fb3', max: 100 });
         return valori.map((v, i) => {
           const x = x0 + i * cella;
           const cliccabile = chi !== null;
-          const bene = chi === 'somma' ? v === sol.som[i] : chi === 'riporti' ? v === sol.rip[i] : true;
+          const giusta = chi === 'somma' ? v === sol.som[i] : chi === 'riporti' ? v === sol.rip[i] : true;
+          const bene = giusta && (!cliccabile || st.toccate.has(chi + i));
           roundRect(ctx, x + 2, y + offset + 2, cella - 4, cella - 4, 6, {
             fill: cliccabile ? (bene ? 'rgba(52,211,153,.14)' : 'rgba(34,211,238,.08)') : 'transparent',
             stroke: cliccabile ? (bene ? COL.green : COL.cyan) : '#22304d',
@@ -614,6 +625,7 @@ export function adderLab(host, opts = {}) {
       const r = st.rects.find(x => dentro(x, e.x, e.y));
       if (!r) return;
       st[r.chi][r.i] ^= 1;
+      st.toccate.add(r.chi + r.i);
       sfx.click();
       upd();
     },
@@ -624,7 +636,7 @@ export function adderLab(host, opts = {}) {
   const out = readout('');
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
     { label: '🎲 ' + t('nuova somma'), class: 'sm primary', onclick: nuova },
-    { label: '👀 ' + t('mostrami la soluzione'), onclick: () => { const s = corretta(); st.riporti = s.rip.slice(); st.somma = s.som.slice(); st.esito = t('(soluzione mostrata: questa non conta)'); st.mostrata = true; upd(); } },
+    { label: '👀 ' + t('mostrami la soluzione'), onclick: () => { const s = corretta(); st.riporti = s.rip.slice(); st.somma = s.som.slice(); st.toccate = new Set([...s.rip.map((_, i) => 'riporti' + i), ...s.som.map((_, i) => 'somma' + i)]); st.esito = t('(soluzione mostrata: questa non conta)'); st.mostrata = true; upd(); } },
   ])));
   w.body.appendChild(out.root);
 

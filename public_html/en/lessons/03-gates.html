@@ -18,6 +18,7 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { blochLab } from '../../js/widgets/bloch.js';
+import { confronto } from '../../js/core/confronto.js';
 import { formula, stepper } from '../../js/core/formula.js';
 
 const L = renderLesson({
@@ -26,6 +27,42 @@ const L = renderLesson({
          of the arrow on the sphere. None of them creates or destroys information — and that, as we will see, is not a detail.`,
 
   steps: [
+    {
+      t: 'Classical first: what a logic gate does',
+      html: `<p>In a normal computer a <b>gate</b> takes two bits and returns one: AND, OR, XOR. They are
+             four-row tables, and everything is built out of them — in fact, everything is built out of
+             <b>NAND</b> alone.</p>
+             <p>But there is a detail that bothers nobody classically and becomes the whole point here: an AND
+             gate <b>throws a bit away</b>. From a 0 output you no longer know whether the inputs were 00, 01
+             or 10. The computation goes on shedding pieces along the way, and nobody minds.</p>
+             <p>Quantum gates cannot afford that. Not out of elegance: because physics does not allow it.</p>` +
+             confronto({
+               titolo: 'Classical gate and quantum gate',
+               livello: 'k2-porte',
+               vaiA: 'Play with AND, OR, XOR and NAND (level K·2)',
+               classico: {
+                 titolo: 'AND, OR, XOR, NAND',
+                 html: `<p>Two bits in, <b>one</b> out. They are <b>tables</b>: you describe them by listing what
+                        comes out for each input.</p>
+                        <p class="mb0">Nearly all of them <b>lose information</b> and cannot be run backwards.
+                        Universal set: {NAND}.</p>`,
+               },
+               quantistico: {
+                 titolo: 'X, Z, H, rotations',
+                 html: `<p>n qubits in, <b>n</b> out. They are <b>rotations</b>: you describe them by how far they
+                        turn the state, and you can literally watch them move on the sphere.</p>
+                        <p class="mb0">All <b>reversible</b>, always. Universal set: {H, T, CNOT}.</p>`,
+               },
+               numeri: [
+                 { cosa: 'bits/qubits in → out', classico: '2 → 1', quantistico: 'n → n' },
+                 { cosa: 'can you go back?', classico: 'no (except NOT)', quantistico: 'always' },
+                 { cosa: 'applying it twice', classico: 'generally gets you nothing back', quantistico: 'X, Z and H return to the starting point' },
+               ],
+               verdetto: `<b>The fact that H applied twice takes you back exactly to the initial state</b> —
+                          something that never happens with a coin shuffled twice — is the first experiment where
+                          the difference can be touched. Keep an eye on it in the steps that follow.`,
+             }),
+    },
     {
       t: 'The catalogue, in plain words',
       html: `<table class="table">

@@ -70,7 +70,11 @@ export function searchRace(host, opts = {}) {
       const bw = Math.min(58, (s.w - 24 - (perRiga - 1) * 6) / perRiga);
       const bh = Math.min(46, (s.h - top - 44) / righe - 6);
       const x0 = (s.w - (perRiga * bw + (perRiga - 1) * 6)) / 2;
-      const y0 = top + 10;
+      /* Su schermo largo le sedici scatole stanno su una riga sola e lasciano
+         mezzo widget vuoto: centrarle verticalmente evita che il gioco sembri
+         finito a metà. */
+      const altezzaGriglia = righe * bh + (righe - 1) * 6;
+      const y0 = top + Math.max(10, (s.h - top - 34 - altezzaGriglia) / 2);
 
       st.rects = st.valori.map((v, i) => {
         const rq = Math.floor(i / perRiga), cq = i % perRiga;
@@ -231,7 +235,10 @@ export function costLab(host, opts = {}) {
       const py = v => rect.y + rect.h - (Math.log10(Math.max(1, v)) / yMax) * rect.h;
       const px = n => rect.x + (n / 64) * rect.w;
 
-      for (let e = 0; e <= 60; e += 10) {
+      /* Le tacche si fermano dove finisce la scala: disegnarne anche una sola
+         oltre yMax vuol dire scriverne l'etichetta sopra il bordo, cioè in
+         mezzo al titolo del gioco. */
+      for (let e = 0; e <= Math.floor(yMax); e += 5) {
         const y = py(10 ** e);
         ctx.strokeStyle = '#141f36'; ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(rect.x, y); ctx.lineTo(rect.x + rect.w, y); ctx.stroke();
@@ -246,9 +253,19 @@ export function costLab(host, opts = {}) {
           n === 1 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
         }
         ctx.stroke(); ctx.globalAlpha = 1;
-        const yEt = Math.max(rect.y + 8, py(c.fn(64)));
-        text(ctx, c.nome, rect.x + rect.w - 6, yEt, { size: 10.5, align: 'right', color: c.colore });
       });
+
+      /* Le etichette si scostano l'una dall'altra: a destra del grafico quattro
+         curve su sei arrivano quasi alla stessa altezza, e sovrapposte non se ne
+         legge nessuna. Si parte dal basso e si spinge in su quel che serve. */
+      const etichette = CURVE.map(c => ({ c, y: py(c.fn(64)) })).sort((a, b) => b.y - a.y);
+      let limite = Infinity;
+      for (const e of etichette) {
+        e.y = Math.min(e.y, limite - 12);
+        limite = e.y;
+        text(ctx, e.c.nome, rect.x + rect.w - 6, Math.max(rect.y + 8, e.y),
+          { size: 10.5, align: 'right', color: e.c.colore });
+      }
 
       // la riga verticale del N scelto, e i pallini sulle curve
       const x = px(st.n);

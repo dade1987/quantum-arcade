@@ -19,6 +19,7 @@
 import { renderLesson } from '../../js/core/lesson.js';
 import { formula, stepper } from '../../js/core/formula.js';
 import { qubitBuilder, coinVsQubit, hadamardMap, probabilitaQuadrato } from '../../js/widgets/qubit.js';
+import { confronto } from '../../js/core/confronto.js';
 import { polaroidLab } from '../../js/widgets/quantum2.js';
 
 const L = renderLesson({
@@ -28,6 +29,43 @@ const L = renderLesson({
          la diferencia real entre un cúbit y una moneda trucada — que es justo lo que casi nadie sabe explicar.`,
 
   steps: [
+    {
+      t: 'Primero en clásico: un bit es un interruptor, y ya está',
+      html: `<p>El término de comparación, en una línea: un <b>bit</b> es una casilla que contiene <b>0 o 1</b>.
+             No «un poco las dos cosas», no «el 30% encendido». Si miras el transistor que lo guarda, lo
+             encuentras en uno de los dos estados — incluso mientras nadie mira.</p>
+             <p>¿Y con <b>n</b> bits? Las configuraciones posibles son 2ⁿ, pero el ordenador guarda <b>una
+             sola</b> cada vez. Con 300 interruptores las configuraciones serían más que los átomos del
+             universo, y aun así estarías usando una.</p>
+             <p>Ten esa frase en la mano mientras lees el resto del nivel: es lo único que está a punto de
+             cambiar, y por eso lo cambia todo.</p>` +
+             confronto({
+               titolo: 'Bit y cúbit, línea a línea',
+               livello: 'k1-bit',
+               vaiA: 'Juega con bits de verdad (nivel K·1)',
+               classico: {
+                 titolo: 'El bit',
+                 html: `<ul class="mb0">
+                          <li>contiene <b>0 o 1</b></li>
+                          <li>mirarlo <b>no lo cambia</b></li>
+                          <li>se puede <b>copiar</b> cuanto quieras</li>
+                          <li>n bits = <b>un</b> número entre 2ⁿ</li>
+                        </ul>`,
+               },
+               quantistico: {
+                 titolo: 'El cúbit',
+                 html: `<ul class="mb0">
+                          <li>contiene <b>dos números</b> (las amplitudes), que pueden ser negativos</li>
+                          <li>mirarlo lo <b>reescribe</b>: la medida hace colapsar el estado</li>
+                          <li><b>no</b> se puede copiar (nivel 6)</li>
+                          <li>n cúbits = <b>2ⁿ amplitudes a la vez</b>, pero lees n cifras</li>
+                        </ul>`,
+               },
+               verdetto: `<b>La línea que cuenta es la primera:</b> una amplitud puede ser <b>negativa</b>, una
+                          probabilidad no. Y es solo porque pueden ser negativas que dos posibilidades consiguen
+                          <b>cancelarse</b>. Sin esa cancelación un cúbit sería una moneda trucada cara.`,
+             }),
+    },
     {
       t: 'Un bit que puede ser un poco las dos cosas',
       html: `<p>Un <b>bit</b> normal es una casilla que contiene <b>0 o 1</b>. Punto. Es como una bombilla:

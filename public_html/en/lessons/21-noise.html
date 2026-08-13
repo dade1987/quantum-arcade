@@ -18,7 +18,9 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
 import { circuitLab } from '../../js/widgets/circuit.js';
+import { ripetizioneLab } from '../../js/widgets/classic2.js';
 
 const L = renderLesson({
   id: '21-rumore',
@@ -27,6 +29,49 @@ const L = renderLesson({
          and the countermeasures — without sensationalism in either direction.`,
 
   steps: [
+    {
+      t: 'Classical first: bits get it wrong too (and how it is fixed)',
+      html: `<p>Errors are not a quantum novelty. A bit travelling down a cable, sitting on a disk or going out
+             over radio flips now and then, and classical computing has lived with that forever. The simplest
+             cure is also the silliest: <b>say the same thing three times</b> and believe the majority.</p>
+             <p>Move the noise slider and send a few hundred bits: the two percentages pull apart by
+             themselves.</p>`,
+      mount: el => { ripetizioneLab(el); },
+      after: `<div class="callout key"><b>The count:</b> without the code you are wrong with probability <b>p</b>;
+              with three copies you are only wrong if two or three of them flip, that is <b>3p² − 2p³</b>. With
+              p = 10% you go from 10% to 2.8%. And with more copies it drops further — as long as <b>p is below
+              50%</b>: above that threshold the majority votes for the error and repeating makes things worse.
+              Every error-correcting code has a threshold, and quantum is no exception.</div>` +
+              confronto({
+                titolo: 'Correcting errors: bits against qubits',
+                livello: 'k6-reversibile',
+                vaiA: 'Review reversibility and lost information (K·6)',
+                classico: {
+                  titolo: 'Repetition code',
+                  html: `<p>Only one kind of error: the bit flips. You <b>copy</b> the bit three times and take a
+                         majority vote. Looking at the copies to count them ruins nothing.</p>
+                         <p class="mb0">In practice better codes are used (Hamming, Reed–Solomon), but the idea is
+                         this: redundancy plus a vote.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Quantum code',
+                  html: `<p>Two extra obstacles. A qubit <b>cannot be copied</b> (no-cloning, level 6), and it
+                         <b>cannot be looked at</b> without collapsing the state.</p>
+                         <p class="mb0">Both are dodged by measuring <b>syndromes</b>: questions like "are these
+                         two qubits the same?", which reveal the error <b>without</b> revealing the state. And
+                         there are two kinds of error: bit <b>and</b> phase. Shor's code corrects both with
+                         <b>9 qubits</b> for one useful one.</p>`,
+                },
+                numeri: [
+                  { cosa: 'kinds of error', classico: '1 (bit flip)', quantistico: '2 (bit and phase)' },
+                  { cosa: 'minimum redundancy', classico: '3 bits for 1', quantistico: '9 qubits for 1 (Shor)' },
+                  { cosa: 'on real machines today', classico: '—', quantistico: '1,000 to 10,000 physical qubits per logical one' },
+                ],
+                verdetto: `<b>Quantum error correction exists and is proved, but the price is that ratio.</b>
+                           It is the numerical reason a useful quantum computer needs millions of physical
+                           qubits — and the reason you do not have one in your pocket.`,
+              }),
+    },
     {
       t: 'The enemy is called decoherence',
       html: `<p>A qubit stays useful as long as it keeps its <b>phase relationships</b>: those are what allow

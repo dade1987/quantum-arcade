@@ -18,7 +18,9 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
 import { groverLab } from '../../js/widgets/algos.js';
+import { searchRace } from '../../js/widgets/classic2.js';
 
 const L = renderLesson({
   id: '11-grover',
@@ -27,6 +29,46 @@ const L = renderLesson({
          And the nice part is that you can watch it happen, bar by bar.`,
 
   steps: [
+    {
+      t: 'Classical first: search yourself, and count the tries',
+      html: `<p>Before looking at how Grover searches, it pays to search with your own hands. Sixteen boxes,
+             one number inside, and no hints: open them, count, and feel how tedious it is.</p>
+             <p>Then switch to the <b>sorted shelf</b> and watch what changes: the same problem, but with a
+             structure to exploit, is solved in four moves. That is the difference that decides this whole
+             level: the quantum advantage exists <b>only</b> in the first case.</p>`,
+      mount: el => { searchRace(el, { n: 16 }); },
+      after: `<div class="callout key"><b>The number to keep in hand:</b> on N unsorted boxes, <b>N/2</b> openings
+              on average. On 16 boxes that is 8; on a million it is five hundred thousand. That is the record to
+              beat — and below, the count of how far Grover beats it.</div>` +
+              confronto({
+                titolo: 'Searching a haystack: classical against Grover',
+                livello: 'k4-ricerca',
+                vaiA: 'Review classical search (K·4)',
+                classico: {
+                  titolo: 'Brute-force search',
+                  html: `<p>You try one possibility at a time. The oracle answers <b>yes/no</b> and gives no hint
+                         about where to look next.</p>
+                         <p class="mb0"><b>N/2</b> tries on average, N in the worst case. And it is <b>proved</b>
+                         that you cannot do better (level K·4): as long as one box is closed, you cannot be
+                         sure.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Grover',
+                  html: `<p>It queries <b>all</b> the possibilities in superposition, then repeats two moves —
+                         oracle and diffuser — that make the right amplitude <b>grow</b> and the others shrink.</p>
+                         <p class="mb0">About <b>√N</b> tries. And there is a proved bound here too: not even a
+                         quantum computer can do better than √N.</p>`,
+                },
+                numeri: [
+                  { cosa: 'N = 16 (the game above)', classico: '8 tries on average', quantistico: '3 iterations' },
+                  { cosa: 'N = 1,000,000', classico: '500,000', quantistico: '~785' },
+                  { cosa: 'AES-128 key', classico: '2¹²⁸', quantistico: '2⁶⁴' },
+                ],
+                verdetto: `<b>It is not "infinitely faster": it is the square root.</b> A real and general gain,
+                           but a quadratic one — enough to make cryptographic keys double in length, not enough
+                           to make an impossible problem easy.`,
+              }),
+    },
     {
       t: 'The problem and the classical limit',
       html: `<p>You have N possibilities. Only one is the right one, and the only way to recognise it is to try it
