@@ -105,7 +105,31 @@ Due regole che tengono in piedi tutto:
 7. `npm run sitemap` rigenera l'elenco degli indirizzi per i motori di ricerca.
 8. `npm run validate` controlla che l'id combaci, che le view esistano in tutte le lingue,
    che nessuna si riscriva la testa da sola e che l'HTML sia valido.
-9. `npm run test:e2e` verifica che la pagina non abbia errori JS, non sbordi e disegni davvero.
+9. `npm run test:e2e` verifica che la pagina non abbia errori JS, non sbordi e disegni davvero —
+   e, dentro i mini-giochi, che nessuna scritta finisca fuori dalla tela, sopra a un'altra o
+   troncata coi puntini (`tests/js/e2e/07-canvas.spec.js`, su computer e su telefono).
+
+### Quando un mini-gioco «si vede male»
+
+Le scritte dei mini-giochi sono disegnate dentro il canvas: per il DOM non esistono, quindi
+nessuna misura sugli elementi HTML può accorgersi che una finisce sotto il bordo. Il collaudo
+end-to-end le controlla da solo, ma per guardarci dentro a mano ci sono due strumenti che
+aprono ogni livello su più formati di schermo e scrivono un rapporto:
+
+```bash
+npm start &                                        # il sito su :8010
+node tools/audit-canvas-text.mjs  http://127.0.0.1:8010   # → tests/testi-canvas.json
+node tools/audit-playability.mjs  http://127.0.0.1:8010   # → tests/giocabilita.json
+```
+
+Si registrano un account di collaudo da soli (senza, la lezione non monta i giochi) e saltano
+i motori che non hai installato. Il rapporto elenca, livello per livello e schermo per schermo,
+che cosa esce dalla tela, che cosa si accavalla e che cosa è troppo piccolo per leggerlo.
+
+Quasi tutti questi difetti nascono dallo stesso punto: `Stage` **accorcia la tela** quando la
+finestra è bassa (un telefono girato in orizzontale), e una scena disegnata a distanze fisse
+dall'alto va a sbattere sul fondo. Quando scrivi un widget, ricava le misure da `s.h` invece
+di fissarle: `height` è una richiesta, non una promessa.
 
 **Cosa rende buono un livello, in questo progetto:**
 

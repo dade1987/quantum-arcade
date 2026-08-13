@@ -194,7 +194,7 @@ export function clockWave(host, opts = {}) {
       ctx.moveTo(hx, hy); ctx.lineTo(x0, cy - Math.sin(theta) * R); ctx.stroke(); ctx.setLineDash([]);
       dot(ctx, x0, cy - Math.sin(theta) * R, 4.5, COL.cyan);
       text(ctx, `f = ${st.f.toFixed(2)} Hz → T = ${(1 / st.f).toFixed(2)} s`, x0 + wD, cy - R - 6, { size: 11, align: 'right', color: COL.green });
-      text(ctx, t('altezza del pallino, disegnata nel tempo'), x0, cy + R + 14, { size: 10.5, color: '#5b6b90' });
+      text(ctx, t('altezza del pallino, disegnata nel tempo'), x0, cy + R + 14, { size: 10.5, color: '#5b6b90', saltaSeTronca: true });
     },
   });
   const fx = attachFX(stage);   // scintille, lampi e suono ai traguardi

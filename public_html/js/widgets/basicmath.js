@@ -259,7 +259,10 @@ export function squareRootLab(host, opts = {}) {
         hit: need ? Math.abs(st.x - need) < 0.02 : false,
         sub: t('il lato è la "radice quadrata" dell\'area'),
       });
-      const size = 130, x0 = 26, y0 = s.h - 26;
+      /* Sotto il quadrato ci vanno ancora la freccia del lato e la sua
+         etichetta: la base sta 40px dal fondo, non 26, altrimenti «lato = 0,70»
+         viene scritta oltre il bordo della tela e si vede tagliata. */
+      const size = 130, x0 = 26, y0 = s.h - 40;
       roundRect(ctx, x0, y0 - size, size, size, 4, { stroke: '#2b3b5e' });
       const side = st.x * size;
       roundRect(ctx, x0, y0 - side, side, side, 4, { fill: COL.cyan, alpha: .35, stroke: COL.cyan });
@@ -273,9 +276,9 @@ export function squareRootLab(host, opts = {}) {
       text(ctx, `${st.x.toFixed(2)} × ${st.x.toFixed(2)} = ${(st.x * st.x).toFixed(3)}`, tx, 96, { max: spazioD, size: 14, color: COL.cyan });
       text(ctx, t('e al contrario:'), tx, 128, { max: spazioD, size: 13, color: COL.txt });
       text(ctx, `√${(st.x * st.x).toFixed(3)} = ${st.x.toFixed(2)}`, tx, 150, { max: spazioD, size: 14, color: COL.green });
-      text(ctx, t('la radice quadrata è la domanda:'), tx, 172, { size: 11, color: '#7f8fb3', max: spazioD });
-      text(ctx, t('"che lato serve per questa area?"'), tx, 188, { size: 11, color: '#7f8fb3', max: spazioD });
-      if (st.x < 1) text(ctx, '⚠ ' + t('lato minore di 1 → area ancora più piccola'), tx, 212, { size: 11, color: COL.amber, max: spazioD });
+      text(ctx, t('la radice quadrata è la domanda:'), tx, 172, { size: 11, color: '#7f8fb3', max: spazioD, saltaSeTronca: true });
+      text(ctx, t('"che lato serve per questa area?"'), tx, 188, { size: 11, color: '#7f8fb3', max: spazioD, saltaSeTronca: true });
+      if (st.x < 1) text(ctx, '⚠ ' + t('lato minore di 1 → area ancora più piccola'), tx, 212, { size: 11, color: COL.amber, max: spazioD, saltaSeTronca: true });
       fx.draw(ctx);
     },
   });
@@ -480,11 +483,23 @@ export function angleLab(host, opts = {}) {
   const targets = [90, 180, 270, 45, 135, 360];
 
   const near = nearSound();
+
+  /* Il quadrante non sta al centro della tela: sopra c'è l'HUD, sotto il
+     riquadro che scrive i gradi, e attorno al cerchio le etichette 0°/45°/90°.
+     Se il raggio si sceglie senza contarli, il riquadro dei gradi finisce
+     oltre il bordo di sotto e si vede mozzato. Qui la geometria si calcola in
+     un posto solo, e la usano sia il disegno sia il trascinamento. */
+  const CIMA = 62, SOPRA = 19, SOTTO = 37;   // HUD · etichette dei gradi · riquadro
+  function quadrante(s) {
+    const R = Math.max(36, Math.min(s.w / 2 - 34, (s.h - CIMA - 6 - SOPRA - SOTTO) / 2));
+    return { cx: s.w / 2, cy: CIMA + SOPRA + R, R };
+  }
+
   const stage = new Stage(w.body, {
     height: 300,
     onPointer(e) {
       if (!e.down) return;
-      const cx = stage.w / 2, cy = stage.h / 2 + 24;
+      const { cx, cy } = quadrante(stage);
       const ang = Math.atan2(cy - e.y, e.x - cx) * 180 / Math.PI;
       st.a = Math.round(((ang % 360) + 360) % 360 / 5) * 5;
       s1.value = st.a; upd();
@@ -494,8 +509,7 @@ export function angleLab(host, opts = {}) {
       const dd = Math.abs(((st.a - st.target % 360) % 360 + 540) % 360 - 180);
       hud(ctx, s, { goal: t('porta la lancetta a :gradi°', { gradi: st.target }), closeness: 1 - Math.min(1, (180 - dd) / 180 === 0 ? 1 : dd / 180), hit: st.a === (st.target % 360),
                     sub: t('trascina la lancetta o usa il cursore · un giro intero = 360°') });
-      const R = Math.min(s.w, s.h - 40) / 2 - 34;
-      const cx = s.w / 2, cy = s.h / 2 + 24;
+      const { cx, cy, R } = quadrante(s);
       circle(ctx, cx, cy, R, { stroke: '#2b3b5e', fill: '#0d1524' });
       for (let a = 0; a < 360; a += 15) {
         const big = a % 45 === 0;
@@ -533,7 +547,8 @@ export function angleLab(host, opts = {}) {
     const ok = st.a === (st.target % 360);
     if (ok && !st.won) {
       st.won = true; st.hits++; sfx.ok();
-      fx.burst(stage.w / 2, stage.h / 2 + 24); fx.flash();
+      const c = quadrante(stage);
+      fx.burst(c.cx, c.cy); fx.flash();
       if (st.hits >= cfg.need) cfg.onWin && cfg.onWin();
     } else if (!ok) {
       st.won = false;
@@ -650,8 +665,14 @@ export function sinCosLab(host, opts = {}) {
   const geo = s => {
     const top = 50, bot = s.h - 58;
     const boxH = bot - top;
-    const R = Math.min(s.w * 0.24, boxH / 2 - 14);
-    return { top, bot, R, cx: 26 + R, cy: top + boxH / 2 };
+    /* Attorno al cerchio non c'è solo il cerchio: sopra sporge la punta
+       dell'asse verticale (10px), sotto c'è il riquadro con i gradi (12px di
+       stacco + 19 di riquadro). Contarli è quello che tiene il riquadro dentro
+       la sua banda: senza, su una tela accorciata finiva a cavallo della banda
+       dei valori, con la riga del riquadro che ci passava in mezzo. */
+    const SOPRA = 10, SOTTO = 31;
+    const R = Math.max(30, Math.min(s.w * 0.24, (boxH - SOPRA - SOTTO) / 2));
+    return { top, bot, R, cx: 26 + R, cy: top + (boxH - (2 * R + SOPRA + SOTTO)) / 2 + SOPRA + R };
   };
 
   const stage = new Stage(w.body, {

@@ -8,6 +8,34 @@ import { Stage, COL, bg, arrow, circle, text, roundRect, phaseColor, dot } from 
 import { probs, label } from '../core/qsim.js';
 import { t } from '../core/i18n.js';
 
+/**
+ * L'etichetta sotto una colonna, scelta in modo che si possa LEGGERE.
+ *
+ * Con 16 stati su un telefono la colonna è larga una ventina di pixel: il ket
+ * per intero (|0110⟩ sono sei caratteri) ci sta solo a 5 px, cioè non ci sta —
+ * era una fila di francobolli grigi che nessuno poteva decifrare, e in
+ * quantistica la fila di ket è metà del punto. Quindi:
+ *
+ *   · se il ket sta a 9px o più, si scrive il ket;
+ *   · se no si scrive il numero della colonna, che è corto e resta leggibile;
+ *   · se non ci sta nemmeno quello, si etichetta una colonna ogni quattro,
+ *     lasciando le altre senza: pochi riferimenti leggibili valgono più di
+ *     sedici illeggibili.
+ *
+ * @returns {{testo: string, corpo: number, max: number}|null}
+ */
+function etichettaColonna(i, n, cellW, labelMode) {
+  const MINIMO = 9;
+  // il carattere a spaziatura fissa è largo circa 0,62 volte il suo corpo
+  const corpoPer = testo => Math.min(11, cellW / (0.62 * testo.length));
+  const ket = labelMode === 'dec' ? String(i) : '|' + label(i, n) + '⟩';
+  if (corpoPer(ket) >= MINIMO) return { testo: ket, corpo: corpoPer(ket), max: cellW };
+  const numero = String(i);
+  if (corpoPer(numero) >= MINIMO) return { testo: numero, corpo: corpoPer(numero), max: cellW };
+  // una ogni quattro: può usare anche lo spazio delle vicine, che restano vuote
+  return i % 4 === 0 ? { testo: numero, corpo: MINIMO, max: cellW * 3.5 } : null;
+}
+
 /** Disegna le ampiezze dentro un rettangolo di un canvas già esistente. */
 export function drawAmps(ctx, rect, st, opts = {}) {
   const {
@@ -24,7 +52,10 @@ export function drawAmps(ctx, rect, st, opts = {}) {
   const labelH = 16;
   const baseY = rect.y + rect.h - labelH;
   const topY = rect.y + arrowsH + (title ? 14 : 0);
-  const barMaxH = baseY - topY;
+  /* Sopra la barra più alta ci va la sua percentuale: se le barre arrivano
+     fino in cima, quella scritta finisce fuori dalla tela e si vede tagliata a
+     metà. Lo spazio glielo si toglie prima, non dopo. */
+  const barMaxH = baseY - topY - (showProb ? 14 : 0);
 
   if (title) text(ctx, title, rect.x, rect.y + 6, { size: 11, color: COL.txt });
 
@@ -56,8 +87,11 @@ export function drawAmps(ctx, rect, st, opts = {}) {
     }
 
     if (cellW > 15) {
-      const lab = labelMode === 'dec' ? String(i) : '|' + label(i, n) + '⟩';
-      text(ctx, lab, cx, baseY + 9, { size: Math.min(11, cellW / 3.4), align: 'center', color: highlight === i ? COL.amber : '#6f7fa3' });
+      const lab = etichettaColonna(i, n, cellW, labelMode);
+      if (lab) {
+        text(ctx, lab.testo, cx, baseY + 9,
+          { size: lab.corpo, align: 'center', color: highlight === i ? COL.amber : '#6f7fa3', max: lab.max });
+      }
     }
   }
 }
@@ -124,7 +158,11 @@ export function histogram(host, opts = {}) {
         const x = rect.x + cw * i + 3;
         roundRect(ctx, x, rect.y + rect.h - hgt, cw - 6, Math.max(1, hgt), 3, { fill: counts[i] ? COL.cyan : '#243149', alpha: .9 });
         if (cw > 26) text(ctx, `${((counts[i] / total) * 100).toFixed(0)}%`, x + (cw - 6) / 2, rect.y + rect.h - hgt - 7, { size: 9.5, align: 'center', color: COL.txt });
-        if (cw > 15) text(ctx, '|' + i.toString(2).padStart(cfg.n, '0') + '⟩', x + (cw - 6) / 2, rect.y + rect.h + 12, { size: Math.min(11, cw / 3.4), align: 'center', color: '#6f7fa3' });
+        if (cw > 15) {
+          const lab = etichettaColonna(i, cfg.n, cw, 'bin');
+          if (lab) text(ctx, lab.testo, x + (cw - 6) / 2, rect.y + rect.h + 12,
+            { size: lab.corpo, align: 'center', color: '#6f7fa3', max: lab.max });
+        }
       }
     },
   });
