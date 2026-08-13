@@ -87,7 +87,8 @@ test.describe('le tre lingue', () => {
     await page.goto(viaDi(LINGUE[0], '07-interferenza'));
 
     for (const [da, verso] of [[0, 1], [1, 2], [2, 0]]) {
-      await page.locator(`a.lang-opt:text-is("${LINGUE[verso].code.toUpperCase()}")`).first().click();
+      await page.locator('.lang-pick > summary').click();
+      await page.locator(`a.lang-item[hreflang="${LINGUE[verso].code}"]`).first().click();
       await expect(page.locator('html')).toHaveAttribute('lang', LINGUE[verso].code);
       expect(new URL(page.url()).pathname).toBe(viaDi(LINGUE[verso], '07-interferenza'));
     }
@@ -103,10 +104,12 @@ test.describe('le tre lingue', () => {
       '/es/metodo.html', '/es/privacidad.html']) {
       await page.goto(via);
 
-      const attesa = via.startsWith('/en/') ? 'EN' : via.startsWith('/es/') ? 'ES' : 'IT';
-      await expect(page.locator('.lang-opt.on')).toHaveText(attesa);
+      const attesa = via.startsWith('/en/') ? 'English' : via.startsWith('/es/') ? 'Español' : 'Italiano';
+      await expect(page.locator('.lang-item.on')).toHaveText('✓' + attesa);
+      // il bottone dice già in che lingua sei, senza aprirlo
+      await expect(page.locator('.lang-now .lang-name')).toHaveText(attesa);
 
-      for (const href of await page.locator('a.lang-opt').evaluateAll(a => a.map(x => x.getAttribute('href')))) {
+      for (const href of await page.locator('a.lang-item').evaluateAll(a => a.map(x => x.getAttribute('href')))) {
         const r = await page.request.get(new URL(href, page.url()).href);
         expect(r.status(), `${via} → ${href}`).toBe(200);
       }
@@ -176,5 +179,110 @@ test.describe('le tre lingue', () => {
         expect(scrollX, `${via} a ${misura.width}px scorre in orizzontale`).toBe(false);
       }
     }
+  });
+
+  /* ---------------- il selettore ---------------- */
+
+  test('il selettore si apre e si chiude anche solo con la tastiera', async ({ page }) => {
+    // è un <details>: la tastiera deve bastare, senza che noi scriviamo un menu a mano
+    await page.goto('/');
+    const bottone = page.locator('.lang-pick > summary');
+
+    await bottone.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('.lang-menu')).toBeVisible();
+
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.lang-menu')).toBeHidden();
+    await expect(bottone).toBeFocused();
+  });
+
+  test('si chiude cliccando fuori', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('.lang-pick > summary').click();
+    await expect(page.locator('.lang-menu')).toBeVisible();
+
+    await page.locator('h1').first().click();
+    await expect(page.locator('.lang-menu')).toBeHidden();
+  });
+
+  test('ogni lingua è scritta nella propria lingua, e nessuna bandiera', async ({ page }) => {
+    // il punto di tutto il selettore: chi cerca la propria lingua la cerca
+    // com'è scritta a casa sua. Le sigle ISO non le riconosce chi non le ha mai viste,
+    // e una bandiera indicherebbe uno stato — lo spagnolo ne avrebbe venti.
+    await page.goto('/');
+    await page.locator('.lang-pick > summary').click();
+
+    const voci = await page.locator('.lang-item').allInnerTexts();
+    expect(voci.map(v => v.replace(/[✓\s]/g, ''))).toEqual(['Italiano', 'English', 'Español']);
+
+    const testo = (await page.locator('.lang-pick').innerText()) + (await page.locator('.lang-pick').innerHTML());
+    expect(testo, 'niente bandiere nel selettore').not.toMatch(/\uD83C[\uDDE6-\uDDFF]/);
+
+    // e ogni voce dichiara la propria lingua, per chi legge con lo screen reader
+    for (const l of LINGUE) {
+      await expect(page.locator(`.lang-item[lang="${l.code}"]`)).toHaveCount(1);
+    }
+  });
+});
+
+/* ---------------- «c'è anche nella tua lingua» ----------------
+   Un contesto a parte perché serve un browser configurato in un'altra lingua:
+   è esattamente la situazione di chi arriva da una ricerca in spagnolo e
+   atterra sulla pagina italiana. */
+test.describe('suggerimento della lingua', () => {
+  test.use({ locale: 'es-ES' });
+
+  test('lo propone senza spostare nessuno', async ({ page }) => {
+    await page.goto('/');
+
+    // primo: NON si viene reindirizzati. Google lo sconsiglia e chi cerca
+    // di proposito la versione italiana deve poterla leggere.
+    expect(new URL(page.url()).pathname).toBe('/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'it');
+
+    // secondo: l'offerta è scritta nella lingua che propone, se no non si legge
+    const barra = page.locator('.lang-hint');
+    await expect(barra).toBeVisible();
+    await expect(barra).toHaveAttribute('lang', 'es');
+    await expect(barra).toContainText('también está disponible en español');
+    await expect(barra.locator('a')).toHaveAttribute('href', '/es/');
+  });
+
+  test('«resta» vale come scelta e non si ripresenta più', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('.lang-hint button').click();
+    await expect(page.locator('.lang-hint')).toHaveCount(0);
+
+    await page.reload();
+    await expect(page.locator('.lang-hint')).toHaveCount(0);
+  });
+
+  test('anche scegliere dal selettore vale come scelta', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('.lang-pick > summary').click();
+    await page.locator('a.lang-item[hreflang="es"]').click();
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+
+    // tornando sulla pagina italiana non deve più chiedere niente
+    await page.goto('/');
+    await expect(page.locator('.lang-hint')).toHaveCount(0);
+  });
+
+  test('non compare a chi è già nella lingua che preferisce', async ({ page }) => {
+    await page.goto('/es/');
+    await expect(page.locator('.lang-hint')).toHaveCount(0);
+  });
+
+  test('compare anche dentro una lezione, non solo sulla mappa', async ({ page }) => {
+    // la home e le lezioni lo montano da due punti diversi del codice, e senza
+    // account la lezione prende una terza strada ancora (la schermata che
+    // chiede di registrarsi): è lì che chi arriva da una ricerca atterra
+    await page.goto('/lezioni/11-grover.html');
+
+    const barra = page.locator('.lang-hint');
+    await expect(barra).toBeVisible();
+    await expect(barra.locator('a')).toHaveAttribute('href', '/es/lecciones/11-grover.html');
   });
 });

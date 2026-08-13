@@ -81,26 +81,72 @@ a:hover { text-decoration: underline; }
 .topbar-spacer { flex: 1; }
 
 /* ---------------- Cambio lingua ----------------
-   Tre sigle attaccate, non tre bottoni: il selettore vive accanto ai comandi
-   del gioco e non deve rubargli spazio né attenzione. Quella attiva non è un
-   link — non si va dove già si è — ma resta della stessa larghezza, altrimenti
-   la barra si sposta a ogni cambio di lingua. */
-.lang-pick {
-  display: inline-flex; align-items: stretch;
-  border: 1px solid var(--line); border-radius: 9px; overflow: hidden;
-  background: #0d1425;
+   Un <details>: si apre con il mouse, con la tastiera e con lo screen reader
+   senza che dobbiamo scrivere un menu a mano, e continua a funzionare nelle
+   pagine statiche che non caricano nessun modulo JavaScript.
+
+   Il nome di ogni lingua è scritto NELLA lingua stessa e accanto c'è un
+   mappamondo, non una bandiera: le bandiere sono stati, non lingue, e prima
+   di così il selettore diceva «IT EN ES», che per chi non conosce i codici
+   ISO sono tre etichette senza significato. */
+.lang-pick { position: relative; }
+.lang-pick > summary { list-style: none; }
+.lang-pick > summary::-webkit-details-marker { display: none; }
+
+.lang-now {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; min-height: 32px;
+  border: 1px solid var(--line); border-radius: 9px; background: #0d1425;
+  font-size: 12.5px; font-weight: 700; color: var(--txt-dim);
+  cursor: pointer; user-select: none; white-space: nowrap;
 }
-.lang-opt {
-  display: flex; align-items: center;
-  padding: 6px 9px;
-  font-size: 12px; font-weight: 700; letter-spacing: .6px;
-  color: var(--txt-mute); text-decoration: none;
-  border-left: 1px solid var(--line);
-  min-height: 32px;
+.lang-now:hover { color: var(--txt); background: #16203a; }
+.lang-pick[open] > .lang-now { color: var(--txt); border-color: var(--cyan); }
+.lang-globe { font-size: 14px; line-height: 1; }
+/* la freccina dice che si apre qualcosa: senza, sembra un'etichetta e non un comando */
+.lang-now::after {
+  content: '▾'; font-size: 10px; opacity: .7;
 }
-.lang-opt:first-child { border-left: none; }
-a.lang-opt:hover { color: var(--txt); background: #16203a; text-decoration: none; }
-.lang-opt.on { color: #04121a; background: var(--cyan); cursor: default; }
+
+.lang-pick:not([open]) > .lang-menu { display: none; }
+.lang-menu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 60;
+  min-width: 168px; max-width: calc(100vw - 24px); padding: 5px;
+  border: 1px solid var(--line); border-radius: 11px;
+  background: #0d1425; box-shadow: 0 14px 34px rgba(0, 0, 0, .55);
+}
+.lang-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 10px; border-radius: 8px;
+  /* --txt-mute qui sarebbe a 4,28:1 sul fondo del pannello, sotto il minimo
+     AA di 4,5:1. Sono i nomi delle lingue: se c'è una scritta che deve
+     leggersi bene anche a chi ci vede poco, è questa. */
+  font-size: 13.5px; font-weight: 600; color: var(--txt); text-decoration: none;
+  min-height: 40px;
+}
+a.lang-item:hover { background: #16203a; color: var(--txt); text-decoration: none; }
+.lang-item.on { color: var(--cyan); cursor: default; }
+/* il segno di spunta occupa spazio anche quando è vuoto, se no le voci ballano */
+.lang-tick { width: 12px; flex: none; font-size: 12px; }
+
+/* ---------------- «c'è anche nella tua lingua» ----------------
+   Non è un avviso di errore e non deve sembrarlo: sta sotto la barra, occupa
+   una riga, e sparisce per sempre appena chi legge decide qualcosa. */
+.lang-hint {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+  margin: 0 0 16px; padding: 10px 14px;
+  border: 1px solid var(--line); border-left: 3px solid var(--cyan);
+  border-radius: 10px; background: #0e1729;
+  font-size: 13.5px; color: var(--txt);
+}
+.lang-hint-txt { flex: 1; min-width: 210px; }
+
+/* solo per chi legge con lo screen reader: il bottone dice «Italiano», e da
+   solo non spiega che serve a cambiare lingua */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
 
 .xp-wrap { display: flex; align-items: center; gap: 10px; min-width: 220px; }
 .xp-bar {
@@ -799,7 +845,7 @@ body { transition: padding-right .22s cubic-bezier(.2, .8, .2, 1); }
 
   .xp-wrap { order: 3; width: 100%; min-width: 0; }
   .xp-label { font-size: 11px; }
-  .lang-opt { padding: 5px 8px; font-size: 11.5px; }
+  .lang-now { padding: 5px 9px; font-size: 12px; }
 
   .wrap, .wrap-wide { padding: 0 14px; }
   h1 { font-size: clamp(25px, 7vw, 34px); }
@@ -847,7 +893,8 @@ body { transition: padding-right .22s cubic-bezier(.2, .8, .2, 1); }
   .topbar-in { height: auto; min-height: 60px; padding: 7px 0; }
   .btn.tiny { min-height: 44px; padding: 8px 13px; font-size: 12.5px; }
   .f-tok { min-height: 44px; }
-  .lang-opt { min-height: 44px; padding: 8px 12px; }
+  .lang-now { min-height: 44px; }
+  .lang-item { min-height: 44px; }
   .brand { min-height: 44px; }
 
   /* cursori: la pista resta sottile, ma la zona da afferrare diventa un dito */

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>22 · Glossario e mappa completa — Quantum Arcade</title>
+<title>23. Glossario e mappa completa — Quantum Arcade</title>
 <meta name="description" content="Glossario completo dell'informatica quantistica in italiano: ampiezza, fase, qubit, entanglement, oracolo, QFT, decoerenza e tutti i termini del corso, con la mappa che li collega.">
 <link rel="canonical" href="https://quantumarcade.it/lezioni/23-glossario.html">
 <link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/23-glossario.html">
@@ -17,6 +17,7 @@
 <div id="app"></div>
 <script type="module">
 import { renderLesson } from '../js/core/lesson.js';
+import { nOf } from '../js/core/levels.js';   // i numeri di livello si calcolano, non si scrivono
 import { tabellaGlossario } from '../js/widgets/glossario.js';
 
 const L = renderLesson({
@@ -48,14 +49,14 @@ INTERFERENZA: le ampiezze si sommano, poi si eleva al quadrato (7)
    ├─ stringa segreta nelle fasi → Bernstein–Vazirani (10)
    └─ amplificazione → Grover (11)
                     │
-ONDE: ampiezza, periodo, frequenza (12) → fase (13) → somma di onde (14)
-   └─ DFT: "ruota e somma" trova le periodicità (15) → FFT (16)
+ONDE: ampiezza, periodo, frequenza (${nOf('13-onde')}) → fase (${nOf('14-fase')}) → somma di onde (${nOf('15-somma-onde')})
+   └─ DFT: "ruota e somma" trova le periodicità (${nOf('16-dft')}) → FFT (${nOf('17-fft')})
                     │
-QFT = DFT sulle ampiezze, con n²/2 porte (17)
-   ├─ QPE: leggere una fase come numero (18)
-   └─ SHOR: periodo → picchi → frazioni continue → fattori (19)
+QFT = DFT sulle ampiezze, con n²/2 porte (${nOf('18-qft')})
+   ├─ QPE: leggere una fase come numero (${nOf('19-qpe')})
+   └─ SHOR: periodo → picchi → frazioni continue → fattori (${nOf('20-shor')})
                     │
-rumore e correzione d'errore (20) · officina creativa (21) · esame (23)</code></pre>
+rumore e correzione d'errore (${nOf('21-rumore')}) · officina creativa (${nOf('22-officina')}) · esame (${nOf('24-esame')})</code></pre>
              <div class="callout key"><b>Se dovessi riassumere l'intero corso in una frase:</b>
              «Un computer quantistico esplora tutte le possibilità insieme e organizza le <b>fasi</b> in modo che
              le risposte sbagliate si <b>cancellino</b> e quella giusta diventi <b>molto probabile</b>.»
@@ -118,7 +119,7 @@ rumore e correzione d'errore (20) · officina creativa (21) · esame (23)</code>
       why: 'Le correlazioni si vedono solo confrontando i risultati, e il confronto viaggia a velocità normale.' },
   ],
 
-  outro: `<div class="callout ok">Hai tutto. Resta solo una cosa: <b>l'esame finale</b>. Trenta domande su tutto il percorso,
+  outro: `<div class="callout ok">Hai tutto. Resta solo una cosa: <b>l'esame finale</b>. Domande su tutto il percorso,
           tempo libero, tentativi illimitati — e, dall'80% in su, il tuo attestato.</div>`,
 });
 </script>

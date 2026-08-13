@@ -18,121 +18,124 @@
    la vocale finale — e chi traduce deve poter mettere le forme della sua
    lingua senza toccare il codice.
 
-   `lv` è il livello in cui il termine si incontra per la prima volta: è il
-   ponte che riporta alla spiegazione completa, ed è il motivo per cui il
-   glossario non è un vocabolario ma una mappa.
+   `liv` elenca i livelli in cui il termine si incontra: è il ponte che riporta
+   alla spiegazione completa, ed è il motivo per cui questo glossario non è un
+   vocabolario ma una mappa. Sono ID di livello, MAI numeri: i numeri scritti a
+   mano nella vecchia tabella erano rimasti indietro di uno dopo l'inserimento
+   del livello 12 (Simon), e chi cercava «Autostato» finiva sulla QFT invece che
+   sulla QPE. Da un id il numero si ricava sempre; da un numero l'id no.
    ============================================================ */
 
 import { t, ROOT, PREFIX } from './i18n.js';
-import { LEVELS } from './levels.js';
+import { levelById } from './levels.js';
 
 export const VOCI = [
-  { id: 'ampiezza', lv: '1', voce: t('Ampiezza'), alt: t('ampiezze'),
+  { id: 'ampiezza', liv: ['01-qubit'], voce: t('Ampiezza'), alt: t('ampiezze'),
     def: t("Il numero (in generale una freccia complessa) associato a un possibile risultato. Il suo <b>quadrato</b> è la probabilità. Può essere negativa: da qui l'interferenza.") },
 
-  { id: 'ampiezza-onda', lv: '12', voce: t("Ampiezza (di un'onda)"),
+  { id: 'ampiezza-onda', liv: ['13-onde'], voce: t("Ampiezza (di un'onda)"),
     def: t("Quanto è alta un'onda; nel suono è il volume.") },
 
-  { id: 'autostato', lv: '18', voce: t('Autostato / autovalore'), alt: t('autostati, autovalore, autovalori'),
+  { id: 'autostato', liv: ['19-qpe'], voce: t('Autostato / autovalore'), alt: t('autostati, autovalore, autovalori'),
     def: t("Stato che un'operazione lascia identico a parte una fase; quella fase è l'autovalore.") },
 
-  { id: 'base-misura', lv: '2', voce: t('Base di misura'), alt: t('basi di misura, base Z, base X'),
+  { id: 'base-misura', liv: ['02-bloch'], voce: t('Base di misura'), alt: t('basi di misura, base Z, base X'),
     def: t('La "direzione" lungo cui si misura. Misurare in base Z dà 0/1; in base X dà +/−. Non esiste uno stato certo in tutte le basi.') },
 
-  { id: 'bloch', lv: '2', voce: t('Bloch (sfera di)'), alt: t('sfera di Bloch'),
+  { id: 'bloch', liv: ['02-bloch'], voce: t('Bloch (sfera di)'), alt: t('sfera di Bloch'),
     def: t('Mappa di tutti gli stati di un qubit: nord |0⟩, sud |1⟩, equatore le sovrapposizioni al 50%.') },
 
-  { id: 'born', lv: '1', voce: t('Born (regola di)'), alt: t('regola di Born'),
+  { id: 'born', liv: ['01-qubit'], voce: t('Born (regola di)'), alt: t('regola di Born'),
     def: t('Probabilità = |ampiezza|². Il ponte fra matematica e laboratorio.') },
 
-  { id: 'bra-ket', lv: '1', voce: t('Bra-ket'), alt: t('bra, ket'),
+  { id: 'bra-ket', liv: ['01-qubit'], voce: t('Bra-ket'), alt: t('bra, ket'),
     def: t('Notazione |ψ⟩ per gli stati (ket) e ⟨ψ| per i "duali" (bra). È solo una scatola per dire "questo è uno stato".') },
 
-  { id: 'cnot', lv: '4', voce: t('CNOT'),
+  { id: 'cnot', liv: ['04-due-qubit'], voce: t('CNOT'),
     def: t('Porta a due qubit: ribalta il bersaglio solo se il controllo vale 1. Su una sovrapposizione crea entanglement.') },
 
-  { id: 'decoerenza', lv: '20', voce: t('Decoerenza'), alt: t('decoerente'),
+  { id: 'decoerenza', liv: ['21-rumore'], voce: t('Decoerenza'), alt: t('decoerente'),
     def: t("L'ambiente \"misura\" involontariamente il sistema e distrugge le fasi. Il nemico numero uno dell'hardware.") },
 
-  { id: 'dense-coding', lv: '6', voce: t('Dense coding'), alt: t('codifica densa'),
+  { id: 'dense-coding', liv: ['06-teletrasporto'], voce: t('Dense coding'), alt: t('codifica densa'),
     def: t('Mandare 2 bit classici trasmettendo 1 qubit, sfruttando entanglement già condiviso.') },
 
-  { id: 'dft', lv: '15', voce: t('DFT'), alt: t('trasformata di Fourier discreta'),
+  { id: 'dft', liv: ['16-dft'], voce: t('DFT'), alt: t('trasformata di Fourier discreta'),
     def: t('Trasformata di Fourier discreta: "ruota ogni dato e somma" per scoprire le periodicità.') },
 
-  { id: 'diffusore', lv: '11', voce: t('Diffusore'),
+  { id: 'diffusore', liv: ['11-grover'], voce: t('Diffusore'),
     def: t('In Grover: riflette le ampiezze attorno alla media, amplificando quella marcata.') },
 
-  { id: 'entanglement', lv: '4', voce: t('Entanglement'), alt: t('entangled, entangolati'),
+  { id: 'entanglement', liv: ['04-due-qubit'], voce: t('Entanglement'), alt: t('entangled, entangolati'),
     def: t("Stato di più qubit che non si può descrivere qubit per qubit: l'informazione sta nella relazione.") },
 
-  { id: 'fase', lv: '1, 2, 8, 13', voce: t('Fase'), alt: t('fasi'),
+  { id: 'fase', liv: ['01-qubit', '02-bloch', '08-frecce', '14-fase'], voce: t('Fase'), alt: t('fasi'),
     def: t("\"A che punto del giro sei\". Non cambia le probabilità, ma decide cosa si cancellerà. L'ingrediente segreto di tutto.") },
 
-  { id: 'fft', lv: '16', voce: t('FFT'),
+  { id: 'fft', liv: ['17-fft'], voce: t('FFT'),
     def: t('Algoritmo classico che calcola la DFT in N·log N invece di N² (dividi et impera).') },
 
-  { id: 'frequenza', lv: '12', voce: t('Frequenza'), alt: t('frequenze'),
+  { id: 'frequenza', liv: ['13-onde'], voce: t('Frequenza'), alt: t('frequenze'),
     def: t('Quanti cicli al secondo (Hz). Inversa del periodo: f = 1/T.') },
 
-  { id: 'grover', lv: '11', voce: t('Grover'),
+  { id: 'grover', liv: ['11-grover'], voce: t('Grover'),
     def: t('Ricerca in √N tentativi invece di N/2. Guadagno quadratico, valido per qualunque ricerca senza struttura.') },
 
-  { id: 'hadamard', lv: '1, 3', voce: t('Hadamard (H)'), alt: t('Hadamard, porta H'),
+  { id: 'hadamard', liv: ['01-qubit', '03-porte'], voce: t('Hadamard (H)'), alt: t('Hadamard, porta H'),
     def: t('La porta più importante: crea e disfa le sovrapposizioni. È lei che trasforma le fasi in probabilità osservabili.') },
 
-  { id: 'interferenza', lv: '7', voce: t('Interferenza'), alt: t('interferenze, interferire, interferiscono'),
+  { id: 'interferenza', liv: ['07-interferenza'], voce: t('Interferenza'), alt: t('interferenze, interferire, interferiscono'),
     def: t('Le ampiezze si sommano prima del quadrato: quelle concordi si rinforzano, quelle opposte si annullano.') },
 
-  { id: 'misura', lv: '1, 2', voce: t('Misura'), alt: t('misure, misurare, misurazione'),
+  { id: 'misura', liv: ['01-qubit', '02-bloch'], voce: t('Misura'), alt: t('misure, misurare, misurazione'),
     def: t('Operazione irreversibile: sceglie un risultato a caso secondo |ampiezza|² e riscrive lo stato.') },
 
-  { id: 'no-cloning', lv: '6', voce: t('No-cloning'), alt: t('teorema di no-cloning'),
+  { id: 'no-cloning', liv: ['06-teletrasporto'], voce: t('No-cloning'), alt: t('teorema di no-cloning'),
     def: t('Non esiste una macchina che copia uno stato quantistico sconosciuto.') },
 
-  { id: 'numero-complesso', lv: '8', voce: t('Numero complesso'), alt: t('numeri complessi'),
+  { id: 'numero-complesso', liv: ['08-frecce'], voce: t('Numero complesso'), alt: t('numeri complessi'),
     def: t("Una freccia: lunghezza + angolo. e^{iθ} è la freccia lunga 1 all'angolo θ.") },
 
-  { id: 'oracolo', lv: '9', voce: t('Oracolo'), alt: t('oracoli'),
+  { id: 'oracolo', liv: ['09-deutsch'], voce: t('Oracolo'), alt: t('oracoli'),
     def: t("Scatola nera che marca con un segno meno gli stati che soddisfano una condizione: scrive l'informazione nelle fasi.") },
 
-  { id: 'periodo', lv: '12', voce: t('Periodo'), alt: t('periodi, periodicità'),
+  { id: 'periodo', liv: ['13-onde'], voce: t('Periodo'), alt: t('periodi, periodicità'),
     def: t('Ogni quanto una cosa si ripete. T = 1/f.') },
 
-  { id: 'phase-kickback', lv: '9, 18', voce: t('Phase kickback'), alt: t('kickback'),
+  { id: 'phase-kickback', liv: ['09-deutsch', '19-qpe'], voce: t('Phase kickback'), alt: t('kickback'),
     def: t('Il trucco per cui la fase generata da un oracolo "rimbalza" sul registro di controllo.') },
 
-  { id: 'porta', lv: '3', voce: t('Porta (gate)'), alt: t('porte, porta quantistica, gate'),
+  { id: 'porta', liv: ['03-porte'], voce: t('Porta (gate)'), alt: t('porte, porta quantistica, gate'),
     def: t('Operazione reversibile (unitaria) su uno o più qubit: sulla sfera è sempre una rotazione.') },
 
-  { id: 'post-quantistica', lv: '19', voce: t('Post-quantistica (crittografia)'), alt: t('crittografia post-quantistica'),
+  { id: 'post-quantistica', liv: ['20-shor'], voce: t('Post-quantistica (crittografia)'), alt: t('crittografia post-quantistica'),
     def: t('Algoritmi classici resistenti a Shor e Grover; standardizzati dal NIST nel 2024.') },
 
-  { id: 'qft', lv: '17', voce: t('QFT'), alt: t('trasformata di Fourier quantistica'),
+  { id: 'qft', liv: ['18-qft'], voce: t('QFT'), alt: t('trasformata di Fourier quantistica'),
     def: t('Trasformata di Fourier sulle ampiezze: n²/2 porte, trasforma periodicità in picchi.') },
 
-  { id: 'qpe', lv: '18', voce: t('QPE'), alt: t('stima di fase'),
+  { id: 'qpe', liv: ['19-qpe'], voce: t('QPE'), alt: t('stima di fase'),
     def: t('Stima di fase: copia una fase nei qubit di lettura e la rende misurabile con la QFT inversa.') },
 
-  { id: 'qubit', lv: '1', voce: t('Qubit'),
+  { id: 'qubit', liv: ['01-qubit'], voce: t('Qubit'),
     def: t('Unità elementare: due ampiezze, una per |0⟩ e una per |1⟩.') },
 
-  { id: 'shor', lv: '19', voce: t('Shor'), alt: t('algoritmo di Shor'),
+  { id: 'shor', liv: ['20-shor'], voce: t('Shor'), alt: t('algoritmo di Shor'),
     def: t('Fattorizzazione in tempo polinomiale, riducendo il problema alla ricerca di un periodo.') },
 
-  { id: 'sindrome', lv: '20', voce: t('Sindrome (misura di)'), alt: t('misura di sindrome'),
+  { id: 'sindrome', liv: ['21-rumore'], voce: t('Sindrome (misura di)'), alt: t('misura di sindrome'),
     def: t("Misura che rivela <b>dove</b> è avvenuto un errore senza rivelare l'informazione codificata.") },
 
-  { id: 'sovrapposizione', lv: '1', voce: t('Sovrapposizione'), alt: t('sovrapposizioni'),
+  { id: 'sovrapposizione', liv: ['01-qubit'], voce: t('Sovrapposizione'), alt: t('sovrapposizioni'),
     def: t('Stato in cui più risultati hanno ampiezza diversa da zero contemporaneamente.') },
 
-  { id: 'swap', lv: '5, 17', voce: t('SWAP'),
+  { id: 'swap', liv: ['05-circuiti', '18-qft'], voce: t('SWAP'),
     def: t('Porta che scambia due qubit; chiude il circuito della QFT.') },
 
-  { id: 'teletrasporto', lv: '6', voce: t('Teletrasporto'), alt: t('teletrasportare'),
+  { id: 'teletrasporto', liv: ['06-teletrasporto'], voce: t('Teletrasporto'), alt: t('teletrasportare'),
     def: t("Trasferire uno stato usando entanglement + 2 bit classici. L'originale viene distrutto.") },
 
-  { id: 'unitaria', lv: '3', voce: t('Unitaria (operazione)'), alt: t('unitaria, unitarie, operazione unitaria'),
+  { id: 'unitaria', liv: ['03-porte'], voce: t('Unitaria (operazione)'), alt: t('unitaria, unitarie, operazione unitaria'),
     def: t('Conserva la probabilità totale ed è reversibile: tutte le porte lo sono, la misura no.') },
 ];
 
@@ -154,7 +157,7 @@ export function cercaVoci(query) {
     piatto(v.voce).includes(q) ||
     piatto(v.def).includes(q) ||
     piatto(v.alt || '').includes(q) ||
-    v.lv.split(',').some(n => n.trim() === q));
+    livelliDellaVoce(v).some(l => String(l.n) === q));
 }
 
 /** Minuscole, senza accenti e senza tag: la forma con cui si confronta il testo. */
@@ -167,9 +170,7 @@ export function piatto(s) {
 
 /** I livelli citati da una voce, come oggetti di LEVELS (quelli che esistono). */
 export function livelliDellaVoce(v) {
-  return v.lv.split(',')
-    .map(n => LEVELS.find(l => String(l.n) === n.trim()))
-    .filter(Boolean);
+  return v.liv.map(id => levelById(id)).filter(Boolean);
 }
 
 /** Indirizzo di un livello valido dalla pagina corrente, qualunque sia la lingua. */

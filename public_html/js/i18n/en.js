@@ -128,8 +128,9 @@ export default {
 
   /* ---------------- topbar, map, home ---------------- */
   'informatica quantistica giocando': 'quantum computing by playing',
+  'Cambia lingua': 'Change language',
+  'cambia lingua': 'change language',
   'Mappa': 'Map',
-  'Lingua': 'Language',
   'percorso': 'breadcrumb',
   'Livello :n': 'Level :n',
   'LIVELLO :n': 'LEVEL :n',

@@ -63,7 +63,9 @@
       {!! __('Ha superato l\'esame finale a risposta multipla, <b>corretto dal server</b>, con <b>:percento%</b> di risposte esatte (:giuste su :totale domande).', [
         'percento' => $c->percent,
         'giuste'   => $attempt?->score ?? '—',
-        'totale'   => $attempt?->total ?? 30,
+        // se il tentativo non ci fosse più, il numero va preso dalla banca vera:
+        // su un attestato una cifra inventata è peggio di nessuna cifra
+        'totale'   => $attempt?->total ?? count(config('certificates.questions')),
       ]) !!}
     </div>
   </div>

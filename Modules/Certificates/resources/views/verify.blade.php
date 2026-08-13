@@ -18,17 +18,25 @@
       <span>Quantum Arcade<small>{{ __('informatica quantistica giocando') }}</small></span>
     </a>
     <span class="topbar-spacer"></span>
-    {{-- questa pagina gira fuori dal sito: chi la riceve deve poter scegliere la lingua --}}
-    <span class="lang-pick" role="group" aria-label="{{ __('Lingua') }}">
-      @foreach($lingue as $l)
-        @if($l === app()->getLocale())
-          <span class="lang-opt on" lang="{{ $l }}" aria-current="true">{{ strtoupper($l) }}</span>
-        @else
-          <a class="lang-opt" href="?lang={{ $l }}" hreflang="{{ $l }}" lang="{{ $l }}"
-             rel="nofollow">{{ strtoupper($l) }}</a>
-        @endif
-      @endforeach
-    </span>
+    {{-- questa pagina gira fuori dal sito: chi la riceve deve poter scegliere la lingua.
+         Ogni lingua è scritta nella propria lingua, non con la sigla né con una bandiera:
+         le bandiere sono stati, e lo spagnolo non ne ha uno solo. --}}
+    <details class="lang-pick">
+      <summary class="lang-now" title="{{ __('Cambia lingua') }}">
+        <span class="lang-globe" aria-hidden="true">🌐</span>
+        <span class="lang-name">{{ $lingue[app()->getLocale()] }}</span>
+        <span class="sr-only"> — {{ __('cambia lingua') }}</span>
+      </summary>
+      <div class="lang-menu" role="menu">
+        @foreach($lingue as $codice => $nome)
+          @if($codice === app()->getLocale())
+            <span class="lang-item on" role="menuitem" lang="{{ $codice }}" aria-current="true"><span class="lang-tick" aria-hidden="true">✓</span>{{ $nome }}</span>
+          @else
+            <a class="lang-item" role="menuitem" href="?lang={{ $codice }}" hreflang="{{ $codice }}" lang="{{ $codice }}" rel="nofollow"><span class="lang-tick" aria-hidden="true"></span>{{ $nome }}</a>
+          @endif
+        @endforeach
+      </div>
+    </details>
     <a class="btn sm ghost" href="{{ $home }}">🗺️ {{ __('Vai al corso') }}</a>
   </div>
 </header>

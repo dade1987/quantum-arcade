@@ -33,6 +33,7 @@ a vettore di stato scritto da zero, verificato dai test: il circuito della QFT r
 | **Come si avanza** | Dimostrando la padronanza: una missione pratica **e** un quiz di richiamo. |
 | **Cosa c'è alla fine** | Un'officina dove inventi algoritmi tuoi, e un esame con attestato verificabile. |
 | **In che lingue** | Italiano (originale), inglese e spagnolo: tre edizioni complete, esame e attestato compresi. |
+| **Come si cambia lingua** | Dal 🌐 in alto, in ogni pagina. Si resta dove sei, e ogni lingua è scritta nella propria lingua. |
 
 È **un solo progetto Laravel**: il gioco vive dentro `public_html/`, le API e le pagine
 dinamiche sono gestite dai moduli. Un dominio, un deploy, nessun passaggio di build.
@@ -106,16 +107,19 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (102 test) + validazione di tutti i file
+npm test                 # motore del gioco (132 test) + validatore + stato delle lingue
 npm run test:coverage    # copertura del frontend
-npm run test:php         # 84 test dei moduli Laravel
+npm run test:php         # 118 test dei moduli Laravel
 npm run test:php:coverage
-npm run test:e2e         # 67 test Playwright (desktop + telefono)
+npm run test:e2e         # Playwright: percorso utente, audit grafico di ogni pagina, le tre lingue
 npm run test:incrociato  # confronta il simulatore con QuantumSim (implementazione indipendente)
 npm run test:all         # tutto
 ```
 
-Stato attuale: **frontend 100% righe · backend 100% · 67 test end-to-end verdi**.
+Stato attuale: **frontend 100% righe · backend 100%**. I due conteggi qui sopra non sono
+decorativi: `npm run validate` li confronta con i test che esistono davvero e si ferma se
+qualcuno aggiunge un test senza aggiornarli — come è già successo con il numero di livelli
+stampato sull'attestato.
 
 Il validatore (`npm run validate`) controlla sintassi JS, script inline nelle pagine,
 import risolvibili, tag HTML bilanciati, risorse mancanti, coerenza con `levels.js`,

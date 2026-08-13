@@ -40,16 +40,29 @@ describe('voci del glossario', () => {
       id.add(v.id);
       assert.ok(v.voce && v.voce.trim(), 'voce vuota: ' + v.id);
       assert.ok(v.def && v.def.length > 15, 'definizione troppo corta: ' + v.id);
-      assert.match(v.lv, /^[\d·,\s]+$/, 'livelli scritti male: ' + v.id);
+      assert.ok(Array.isArray(v.liv) && v.liv.length, 'livelli mancanti: ' + v.id);
     }
   });
 
+  /* I livelli si citano per ID e non per numero, e questo test è il motivo:
+     i numeri scritti a mano erano rimasti indietro di uno dopo l'inserimento
+     del livello 12, e nessuno se ne era accorto perché «18» è un numero
+     plausibile. Un id sbagliato, invece, non risolve — e qui si vede. */
   test('ogni voce rimanda a livelli che esistono davvero', () => {
     for (const v of G.VOCI) {
       const liv = G.livelliDellaVoce(v);
-      assert.equal(liv.length, v.lv.split(',').length, 'livello inesistente in ' + v.id);
+      assert.equal(liv.length, v.liv.length, 'id di livello inesistente in ' + v.id + ': ' + v.liv.join(', '));
       for (const l of liv) assert.ok(G.hrefLivello(l).endsWith('.html'));
     }
+  });
+
+  test('i termini della QFT e della QPE puntano ai livelli giusti', () => {
+    const nDi = id => G.livelliDellaVoce(G.voceById(id)).map(l => String(l.n));
+    assert.deepEqual(nDi('qft'), ['18']);
+    assert.deepEqual(nDi('qpe'), ['19']);
+    assert.deepEqual(nDi('autostato'), ['19']);
+    assert.deepEqual(nDi('shor'), ['20']);
+    assert.deepEqual(nDi('decoerenza'), ['21']);
   });
 
   test('voceById trova e non inventa', () => {

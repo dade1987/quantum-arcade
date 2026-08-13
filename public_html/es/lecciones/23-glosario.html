@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>22 · Glosario y mapa completo — Quantum Arcade</title>
+<title>23. Glosario y mapa completo — Quantum Arcade</title>
 <meta name="description" content="Glosario completo de la informática cuántica en español: amplitud, fase, cúbit, entrelazamiento, oráculo, QFT, decoherencia y todos los términos del curso, con el mapa que los conecta.">
 <link rel="canonical" href="https://quantumarcade.it/es/lecciones/23-glosario.html">
 <link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/23-glossario.html">
@@ -17,6 +17,7 @@
 <div id="app"></div>
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
+import { nOf } from '../../js/core/levels.js';   // i numeri di livello si calcolano, non si scrivono
 import { tabellaGlossario } from '../../js/widgets/glossario.js';
 
 const L = renderLesson({
@@ -48,14 +49,14 @@ INTERFERENCIA: las amplitudes se suman, luego se eleva al cuadrado (7)
    ├─ cadena secreta en las fases → Bernstein–Vazirani (10)
    └─ amplificación → Grover (11)
                     │
-ONDAS: amplitud, periodo, frecuencia (12) → fase (13) → suma de ondas (14)
-   └─ DFT: "rota y suma" encuentra las periodicidades (15) → FFT (16)
+ONDAS: amplitud, periodo, frecuencia (${nOf('13-onde')}) → fase (${nOf('14-fase')}) → suma de ondas (${nOf('15-somma-onde')})
+   └─ DFT: "rota y suma" encuentra las periodicidades (${nOf('16-dft')}) → FFT (${nOf('17-fft')})
                     │
-QFT = DFT sobre las amplitudes, con n²/2 puertas (17)
-   ├─ QPE: leer una fase como número (18)
-   └─ SHOR: periodo → picos → fracciones continuas → factores (19)
+QFT = DFT sobre las amplitudes, con n²/2 puertas (${nOf('18-qft')})
+   ├─ QPE: leer una fase como número (${nOf('19-qpe')})
+   └─ SHOR: periodo → picos → fracciones continuas → factores (${nOf('20-shor')})
                     │
-ruido y corrección de errores (20) · taller creativo (21) · examen (23)</code></pre>
+ruido y corrección de errores (${nOf('21-rumore')}) · taller creativo (${nOf('22-officina')}) · examen (${nOf('24-esame')})</code></pre>
              <div class="callout key"><b>Si tuviera que resumir el curso entero en una frase:</b>
              «Un ordenador cuántico explora todas las posibilidades a la vez y organiza las <b>fases</b> de forma que
              las respuestas equivocadas se <b>cancelen</b> y la correcta se vuelva <b>muy probable</b>.»
@@ -118,7 +119,7 @@ ruido y corrección de errores (20) · taller creativo (21) · examen (23)</code
       why: 'Las correlaciones solo se ven comparando los resultados, y la comparación viaja a velocidad normal.' },
   ],
 
-  outro: `<div class="callout ok">Lo tienes todo. Solo queda una cosa: <b>el examen final</b>. Treinta preguntas sobre todo el recorrido,
+  outro: `<div class="callout ok">Lo tienes todo. Solo queda una cosa: <b>el examen final</b>. Preguntas sobre todo el recorrido,
           sin límite de tiempo, intentos ilimitados — y, del 80% para arriba, tu certificado.</div>`,
 });
 </script>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>22 · Glossary and complete map — Quantum Arcade</title>
+<title>23. Glossary and full map — Quantum Arcade</title>
 <meta name="description" content="A complete glossary of quantum computing in English: amplitude, phase, qubit, entanglement, oracle, QFT, decoherence and every term of the course, with the map that links them.">
 <link rel="canonical" href="https://quantumarcade.it/en/lessons/23-glossary.html">
 <link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/23-glossario.html">
@@ -17,6 +17,7 @@
 <div id="app"></div>
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
+import { nOf } from '../../js/core/levels.js';   // i numeri di livello si calcolano, non si scrivono
 import { tabellaGlossario } from '../../js/widgets/glossario.js';
 
 const L = renderLesson({
@@ -48,14 +49,14 @@ INTERFERENCE: the amplitudes add up, then you take the square (7)
    ├─ secret string in the phases → Bernstein–Vazirani (10)
    └─ amplification → Grover (11)
                     │
-WAVES: amplitude, period, frequency (12) → phase (13) → sum of waves (14)
-   └─ DFT: "rotate and add" finds the periodicities (15) → FFT (16)
+WAVES: amplitude, period, frequency (${nOf('13-onde')}) → phase (${nOf('14-fase')}) → sum of waves (${nOf('15-somma-onde')})
+   └─ DFT: "rotate and add" finds the periodicities (${nOf('16-dft')}) → FFT (${nOf('17-fft')})
                     │
-QFT = DFT on the amplitudes, with n²/2 gates (17)
-   ├─ QPE: reading a phase as a number (18)
-   └─ SHOR: period → peaks → continued fractions → factors (19)
+QFT = DFT on the amplitudes, with n²/2 gates (${nOf('18-qft')})
+   ├─ QPE: reading a phase as a number (${nOf('19-qpe')})
+   └─ SHOR: period → peaks → continued fractions → factors (${nOf('20-shor')})
                     │
-noise and error correction (20) · creative workshop (21) · exam (23)</code></pre>
+noise and error correction (${nOf('21-rumore')}) · creative workshop (${nOf('22-officina')}) · exam (${nOf('24-esame')})</code></pre>
              <div class="callout key"><b>If I had to sum up the whole course in one sentence:</b>
              "A quantum computer explores all the possibilities together and organises the <b>phases</b> so that
              the wrong answers <b>cancel out</b> and the right one becomes <b>very probable</b>."
@@ -118,7 +119,7 @@ noise and error correction (20) · creative workshop (21) · exam (23)</code></p
       why: 'The correlations only show up by comparing the results, and the comparison travels at normal speed.' },
   ],
 
-  outro: `<div class="callout ok">You have everything. Only one thing is left: <b>the final exam</b>. Thirty questions on the whole journey,
+  outro: `<div class="callout ok">You have everything. Only one thing is left: <b>the final exam</b>. Questions on the whole journey,
           no time limit, unlimited attempts — and, from 80% upwards, your certificate.</div>`,
 });
 </script>

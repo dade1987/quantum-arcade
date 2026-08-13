@@ -10,7 +10,7 @@ on:
 
 jobs:
   backend:
-    name: Backend PHP (84 test, copertura 100%)
+    name: Backend PHP (copertura 100%)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -37,7 +37,7 @@ jobs:
           XDEBUG_MODE: coverage
 
   frontend:
-    name: Motore del gioco (102 test) e validatore
+    name: Motore del gioco, validatore e lingue
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
