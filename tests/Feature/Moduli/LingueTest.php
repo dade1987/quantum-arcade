@@ -223,9 +223,13 @@ class LingueTest extends TestCase
             ->assertSee('Valid certificate', escape: false)
             // il link al corso porta alla copia inglese, non alla radice italiana
             ->assertSee('href="/en/"', escape: false)
-            // e da qui si può passare alle altre due lingue
+            // il selettore dice in che lingua sei, con il nome nella lingua stessa
+            ->assertSee('<span class="lang-name">English</span>', escape: false)
+            // e da qui si può passare alle altre due
             ->assertSee('?lang=es', escape: false)
-            ->assertSee('?lang=it', escape: false);
+            ->assertSee('?lang=it', escape: false)
+            ->assertSee('Español', escape: false)
+            ->assertSee('Italiano', escape: false);
     }
 
     public function test_l_open_badge_e_tradotto(): void

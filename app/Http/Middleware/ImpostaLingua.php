@@ -31,6 +31,16 @@ class ImpostaLingua
     /** Le lingue in cui il sito esiste davvero. Aggiungerne una qui non basta: serve anche lang/<lingua>.json. */
     public const LINGUE = ['it', 'en', 'es'];
 
+    /**
+     * Il nome di ogni lingua NELLA lingua stessa.
+     *
+     * Non «Spagnolo» e non una bandiera: chi cerca la propria lingua la cerca
+     * com'è scritta a casa sua, e le bandiere indicano stati — lo spagnolo ne
+     * avrebbe venti fra cui scegliere. Sono gli stessi nomi che usa il gioco
+     * (js/core/i18n.js), e devono restare identici: è lo stesso comando.
+     */
+    public const NOMI = ['it' => 'Italiano', 'en' => 'English', 'es' => 'Español'];
+
     public const PREDEFINITA = 'it';
 
     public function handle(Request $request, Closure $next): Response

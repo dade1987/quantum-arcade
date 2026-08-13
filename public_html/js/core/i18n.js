@@ -72,6 +72,49 @@ export function num(n) {
   catch { return String(n); }
 }
 
+/* ---------------- la lingua scelta da chi legge ---------------- */
+
+/* Perché ricordarla: il sito ha tre copie e chi arriva da una ricerca può
+   atterrare su quella sbagliata. Ricordare la scelta serve a NON richiedergliela
+   ogni volta — e soprattutto a non riproporgliela dopo che l'ha già fatta.
+
+   Quello che NON si fa, di proposito: mandare qualcuno su un'altra copia del
+   sito da soli. Google lo sconsiglia esplicitamente e la ricerca sull'usabilità
+   pure — chi cerca una pagina in una lingua e ne riceve un'altra non capisce
+   cosa è successo, e spesso non trova più la strada indietro. Si offre, non si
+   decide: vedi suggerimentoLingua() in ui.js. */
+const CHIAVE_LINGUA = 'qa:lingua';
+
+/** Registra che questa lingua è una scelta esplicita, non un caso. */
+export function ricordaLingua(codice) {
+  try { localStorage.setItem(CHIAVE_LINGUA, codice); } catch { /* navigazione privata: pazienza */ }
+}
+
+/** La lingua scelta in passato, se c'è stata una scelta. */
+export function linguaRicordata() {
+  try {
+    const l = localStorage.getItem(CHIAVE_LINGUA);
+    return LOCALES.includes(l) ? l : null;
+  } catch { return null; }
+}
+
+/**
+ * Le lingue che il browser dichiara di preferire, in ordine, tenendo solo
+ * quelle che il sito parla davvero.
+ *
+ * `navigator.languages` è già ordinato per preferenza: è la stessa
+ * informazione dell'header Accept-Language, che è quella che l'utente ha
+ * configurato una volta e si aspetta venga rispettata.
+ */
+export function lingueDelBrowser() {
+  if (typeof navigator === 'undefined') return [];
+  const dichiarate = navigator.languages?.length ? navigator.languages : [navigator.language];
+  const viste = new Set();
+  return (dichiarate || [])
+    .map(x => String(x || '').slice(0, 2).toLowerCase())
+    .filter(x => LOCALES.includes(x) && !viste.has(x) && viste.add(x));
+}
+
 /* ---------------- indirizzi ---------------- */
 
 /* Le pagine fisse cambiano nome insieme alla lingua: un indirizzo in

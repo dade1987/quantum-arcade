@@ -129,8 +129,9 @@ export default {
 
   /* ---------------- barra superior, mapa, inicio ---------------- */
   'informatica quantistica giocando': 'computación cuántica jugando',
+  'Cambia lingua': 'Cambiar idioma',
+  'cambia lingua': 'cambiar idioma',
   'Mappa': 'Mapa',
-  'Lingua': 'Idioma',
   'percorso': 'ruta',
   'Livello :n': 'Nivel :n',
   'LIVELLO :n': 'NIVEL :n',

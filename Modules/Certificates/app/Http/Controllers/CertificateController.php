@@ -27,7 +27,7 @@ class CertificateController extends Controller
             'certificate' => $certificate,
             'code'        => strtoupper($code),
             'home'        => $this->home(app()->getLocale()),
-            'lingue'      => ImpostaLingua::LINGUE,
+            'lingue'      => ImpostaLingua::NOMI,
         ], $certificate ? 200 : 404);
     }
 

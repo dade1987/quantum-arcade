@@ -256,6 +256,38 @@ for (const f of htmlFiles) {
   }
 }
 
+/* levels.js e i dizionari letti come TESTO, non importati.
+   Importarli richiederebbe un `document` (i18n.js legge <html lang>) e in Node
+   non c'è: leggerli a mano costa dieci righe e non obbliga il validatore a
+   fingersi un browser. */
+
+/** I livelli come li dichiara levels.js: id, numero mostrato e titolo italiano. */
+function livelliDichiarati(src) {
+  const fuori = [];
+  for (const m of src.matchAll(/\{\s*id:\s*'([\w-]+)',\s*part:\s*'[^']*',\s*n:\s*('([^']*)'|[\d]+)[\s\S]*?title:\s*t\('((?:[^'\\]|\\.)*)'\)/g)) {
+    fuori.push({ id: m[1], n: m[3] ?? m[2], title: m[4].replace(/\\(['\\])/g, '$1') });
+  }
+  return fuori;
+}
+
+/** Il dizionario di una lingua, come mappa frase-italiana → traduzione. */
+const dizionariInMemoria = {};
+function dizionarioDi(codice) {
+  if (codice === 'it') return {};
+  if (dizionariInMemoria[codice]) return dizionariInMemoria[codice];
+
+  const p = join(ROOT, 'public_html/js/i18n', codice + '.js');
+  const mappa = {};
+  if (existsSync(p)) {
+    // chiavi e valori usano indifferentemente apici singoli o doppi, e il
+    // valore può stare sulla riga dopo: la coppia si riconosce dai delimitatori
+    const coppia = /(['"])((?:\\.|(?!\1)[^\\])*)\1\s*:\s*\n?\s*(['"])((?:\\.|(?!\3)[^\\])*)\3/g;
+    const sciogli = x => x.replace(/\\(['"\\])/g, '$1').replace(/\\n/g, '\n');
+    for (const m of readFileSync(p, 'utf8').matchAll(coppia)) mappa[sciogli(m[2])] = sciogli(m[4]);
+  }
+  return (dizionariInMemoria[codice] = mappa);
+}
+
 /* ---------- 5. coerenza con levels.js ---------- */
 console.log('\n[5] Coerenza dei livelli');
 const levelsSrc = readFileSync(join(ROOT, 'public_html/js/core/levels.js'), 'utf8');
@@ -302,6 +334,44 @@ for (const l of linguePubblicate) {
   }
 }
 console.log(`  → ${declared.length} livelli dichiarati in ${linguePubblicate.length} lingue (${linguePubblicate.map(l => l.code).join(', ')})`);
+
+/* ---------- 5a. il <title> scritto nella pagina è quello che il gioco mostra ----------
+   La pagina ha DUE titoli: quello scritto nel <head>, che leggono Google, il
+   tutor e la scheda del browser prima che parta il JavaScript, e quello che
+   `renderLesson` scrive in document.title appena la pagina si apre.
+
+   Erano diversi in 21 lezioni su 28: la scheda diceva «17 · QFT» e il sito
+   «18. QFT», e 01-qubit.html annunciava «8 · Dal numero complesso al qubit»,
+   un titolo rimasto dall'ordinamento di due riorganizzazioni fa — mentre la
+   lezione, dentro, dice «niente numeri complessi». Chi arriva da una ricerca
+   legge un numero, entra e ne trova un altro: è il tipo di incoerenza che
+   costa fiducia senza che nessuno segnali mai un bug.
+
+   Da qui in poi la fonte è una sola: levels.js. */
+{
+  const formato = readFileSync(join(ROOT, 'public_html/js/core/lesson.js'), 'utf8')
+    .match(/document\.title\s*=\s*`([^`]*)`/);
+
+  if (!formato) {
+    err('js/core/lesson.js', 'non si capisce più come viene composto document.title: il controllo sui <title> non è più affidabile');
+  } else if (!/\$\{lv\.n\}\.\s\$\{lv\.title\}/.test(formato[1])) {
+    err('js/core/lesson.js', `document.title usa il formato «${formato[1]}», che questo controllo non sa riprodurre: aggiornalo`);
+  } else {
+    const coda = formato[1].replace(/^\$\{lv\.n\}\.\s\$\{lv\.title\}/, '');   // « — Quantum Arcade»
+
+    for (const l of linguePubblicate) {
+      const dizionario = dizionarioDi(l.code);
+      for (const lv of livelliDichiarati(levelsSrc)) {
+        const p = fileLezione(lv.id, l);
+        if (!existsSync(p)) continue;   // già segnalato sopra
+        const scritto = (readFileSync(p, 'utf8').match(/<title>([\s\S]*?)<\/title>/) || [])[1];
+        const atteso = `${lv.n}. ${dizionario[lv.title] ?? lv.title}${coda}`;
+        if (scritto === atteso) ok();
+        else err(rel(p), `il <title> dice «${scritto}» ma aprendo la pagina si legge «${atteso}»`);
+      }
+    }
+  }
+}
 
 /* ---------- 5b. il numero di livelli scritto a parole nei testi ----------
    Il controllo sopra guarda solo levels.js e i file delle lezioni. Ma il
@@ -413,6 +483,39 @@ if (existsSync(certCfg)) {
       if (existsSync(f)) ok();
       else err('public_html/sitemap.xml', `elenca /${via}, che non esiste`);
     }
+  }
+}
+
+/* ---------- 5d. i conteggi dei test scritti nella documentazione ----------
+   README e CONTRIBUTING annunciano quanti test ci sono. Erano fermi a «102» e
+   «84» mentre ne giravano 114 e 118: un numero sbagliato in un file che invita
+   a contribuire dice a chi arriva che la documentazione non si aggiorna, ed è
+   la prima cosa che gli fa chiudere la pagina.
+
+   Stesso principio del conteggio dei livelli: se è scritto, deve combaciare. */
+{
+  const conta = (cartella, filtro, regola) =>
+    walk(join(ROOT, cartella), filtro).reduce((n, f) => n + (readFileSync(f, 'utf8').match(regola) || []).length, 0);
+
+  const veri = {
+    // node:test — un `test('…')` per prova, sempre a inizio riga dentro un describe
+    'test del motore del gioco': conta('tests/js/unit', n => n.endsWith('.test.js'), /^\s*test\(/gm),
+    'test PHP':                  conta('tests',        n => n.endsWith('Test.php'), /^\s*public function test_/gm),
+  };
+
+  const DICHIARAZIONI = [
+    { file: 'README.md',       regola: /\((\d+) test\) \+ validatore/,        quale: 'test del motore del gioco' },
+    { file: 'README.md',       regola: /# (\d+) test dei moduli Laravel/,      quale: 'test PHP' },
+    { file: 'CONTRIBUTING.md', regola: /# (\d+) test, devono restare verdi/,   quale: 'test PHP' },
+  ];
+
+  for (const d of DICHIARAZIONI) {
+    const p = join(ROOT, d.file);
+    if (!existsSync(p)) { warn(d.file, 'assente'); continue; }
+    const m = readFileSync(p, 'utf8').match(d.regola);
+    if (!m) err(d.file, `non dichiara più quanti ${d.quale} ci sono, o l'ha scritto in un modo che questo controllo non riconosce`);
+    else if (Number(m[1]) !== veri[d.quale]) err(d.file, `dice ${m[1]} ${d.quale}, ma ce ne sono ${veri[d.quale]}`);
+    else ok();
   }
 }
 

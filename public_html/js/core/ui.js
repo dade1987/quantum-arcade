@@ -6,7 +6,8 @@
    langButton() : selettore di lingua
    ============================================================ */
 
-import { LOCALE, LOCALES, LOCALE_NAMES, alternates, t } from './i18n.js';
+import { LOCALE, LOCALES, LOCALE_NAMES, alternates, lingueDelBrowser,
+  linguaRicordata, ricordaLingua, t } from './i18n.js';
 
 export function h(tag, props = {}, ...children) {
   const el = document.createElement(tag);
@@ -125,28 +126,121 @@ export function fmtC(re, im, d = 2) {
 /* ---------------- selettore di lingua ---------------- */
 
 /**
- * Le altre lingue della PAGINA CORRENTE, non la home: chi sta leggendo la
- * lezione sulla QFT in italiano e clicca "English" vuole la QFT in inglese,
- * non ricominciare dalla mappa. Gli indirizzi arrivano dai <link rel=alternate>
- * che la pagina dichiara già per i motori di ricerca.
+ * Il selettore, costruito su tre scelte che hanno una ragione precisa.
+ *
+ * 1. OGNI LINGUA È SCRITTA NELLA PROPRIA LINGUA — «Español», non «Spagnolo» e
+ *    non una bandiera. Chi cerca la propria lingua la cerca com'è scritta a
+ *    casa sua, e le bandiere indicano stati, non lingue: quale bandiera
+ *    metteresti allo spagnolo, fra i venti paesi che lo parlano? È la
+ *    raccomandazione del W3C e del Nielsen Norman Group, ed è anche la
+ *    ragione per cui prima non funzionava: «IT EN ES» sono codici ISO, e
+ *    chi non li riconosce vede tre etichette senza significato.
+ *
+ * 2. IL MAPPAMONDO, NON UNA BANDIERA. È l'unico simbolo che il pubblico
+ *    associa a «lingua» senza associarlo a un paese, e senza di lui il
+ *    bottone non si distingue dagli altri della barra.
+ *
+ * 3. È UN <details>, NON UN MENU FATTO A MANO. Così funziona con la
+ *    tastiera, lo screen reader lo annuncia come un pannello che si apre, e
+ *    soprattutto funziona identico nelle pagine statiche (metodo, privacy)
+ *    che non caricano nessun modulo: una riga di HTML, zero JavaScript.
+ *
+ * Gli indirizzi arrivano dai <link rel=alternate> già presenti per i motori
+ * di ricerca: calcolarli una seconda volta sarebbe il modo classico di farli
+ * divergere. Puntano alla PAGINA CORRENTE — chi legge la QFT in italiano e
+ * sceglie English vuole la QFT in inglese, non ricominciare dalla mappa.
  */
 export function langButton() {
   const alt = alternates();
-  const box = h('div', { class: 'lang-pick', role: 'group', 'aria-label': t('Lingua') });
-  for (const l of LOCALES) {
-    const url = l === LOCALE ? null : alt[l];
-    if (l !== LOCALE && !url) continue;      // manca la traduzione: meglio non promettere una pagina che non c'è
-    box.appendChild(h(url ? 'a' : 'span', {
-      class: 'lang-opt' + (l === LOCALE ? ' on' : ''),
-      href: url,
-      hreflang: l,
+  const disponibili = LOCALES.filter(l => l === LOCALE || alt[l]);
+
+  // una lingua sola da offrire non è una scelta: meglio niente che un menu vuoto
+  if (disponibili.length < 2) return h('span', { class: 'lang-none' });
+
+  const menu = h('div', { class: 'lang-menu', role: 'menu' });
+  for (const l of disponibili) {
+    const suo = l === LOCALE;
+    menu.appendChild(h(suo ? 'span' : 'a', {
+      class: 'lang-item' + (suo ? ' on' : ''),
+      role: 'menuitem',
+      href: suo ? null : alt[l],
+      hreflang: suo ? null : l,
       lang: l,
-      title: LOCALE_NAMES[l],
-      'aria-current': l === LOCALE ? 'true' : null,
-    }, l.toUpperCase()));
+      'aria-current': suo ? 'true' : null,
+      onclick: suo ? null : () => ricordaLingua(l),
+    }, h('span', { class: 'lang-tick', 'aria-hidden': 'true' }, suo ? '✓' : ''), LOCALE_NAMES[l]));
   }
+
+  const box = h('details', { class: 'lang-pick' },
+    h('summary', { class: 'lang-now', title: t('Cambia lingua') },
+      h('span', { class: 'lang-globe', 'aria-hidden': 'true' }, '🌐'),
+      h('span', { class: 'lang-name' }, LOCALE_NAMES[LOCALE]),
+      h('span', { class: 'sr-only' }, ' — ' + t('cambia lingua')),
+    ),
+    menu,
+  );
+
+  // rifiniture: senza, il pannello resta aperto finché non si ritocca il bottone,
+  // che è il comportamento nudo di <details> e sorprende chi clicca altrove
+  box.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !box.open) return;
+    box.open = false;
+    box.querySelector('summary').focus();
+  });
+  document.addEventListener('click', e => { if (box.open && !box.contains(e.target)) box.open = false; });
+
   return box;
 }
+
+/**
+ * La riga che dice «questo corso c'è anche nella tua lingua».
+ *
+ * Il problema vero non è cambiare lingua: è SAPERE che si può. Chi arriva da
+ * una ricerca in spagnolo e atterra sulla pagina italiana, il più delle volte
+ * chiude — non gli viene in mente di cercare un selettore.
+ *
+ * La tentazione sarebbe spedirlo da solo sulla copia giusta. Non si fa, ed è
+ * una raccomandazione esplicita di Google per i siti multilingua: un
+ * reindirizzamento automatico impedisce di raggiungere di proposito una certa
+ * versione, confonde chi parla più lingue di quelle che ha configurato, e
+ * impedisce ai motori di ricerca di vedere le altre copie. Si offre e basta,
+ * una volta sola:
+ *
+ *  · non si mostra se una lingua l'ha già scelta (anche rifiutando questa riga);
+ *  · è scritta NELLA lingua che propone — è l'unica che chi legge capisce di sicuro;
+ *  · «no grazie» vale come scelta e non si ripresenta più.
+ */
+export function suggerimentoLingua() {
+  if (linguaRicordata()) return null;                       // ha già deciso: non si insiste
+
+  const alt = alternates();
+  const meglio = lingueDelBrowser().find(l => l !== LOCALE && alt[l]);
+  if (!meglio) return null;                                 // il browser è già d'accordo con la pagina
+
+  const via = () => { ricordaLingua(meglio); };
+  const barra = h('div', { class: 'lang-hint', lang: meglio, role: 'region', 'aria-label': LOCALE_NAMES[meglio] },
+    h('span', { class: 'lang-hint-txt' },
+      h('span', { 'aria-hidden': 'true' }, '🌐 '),
+      TESTI[meglio].invito,
+    ),
+    h('a', { class: 'btn tiny primary', href: alt[meglio], hreflang: meglio, onclick: via },
+      TESTI[meglio].passa),
+    h('button', {
+      class: 'btn tiny ghost',
+      onclick: () => { ricordaLingua(LOCALE); barra.remove(); },
+    }, TESTI[meglio].resta.replace(':lingua', LOCALE_NAMES[LOCALE])),
+  );
+  return barra;
+}
+
+/* Scritte nella lingua PROPOSTA, quindi non passano dal dizionario: t()
+   tradurrebbe verso la lingua della pagina, che è esattamente quella che chi
+   legge questa riga non capisce. */
+const TESTI = {
+  it: { invito: 'Questo corso è disponibile anche in italiano.', passa: 'Passa all\'italiano', resta: 'Resta in :lingua' },
+  en: { invito: 'This course is also available in English.', passa: 'Switch to English', resta: 'Stay in :lingua' },
+  es: { invito: 'Este curso también está disponible en español.', passa: 'Cambiar a español', resta: 'Seguir en :lingua' },
+};
 
 export const TAU = Math.PI * 2;
 export const degOf = rad => ((rad * 180 / Math.PI) % 360 + 360) % 360;
