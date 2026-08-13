@@ -22,6 +22,13 @@ const L = renderLesson({
         messe in fila, formano una lista di numeri — e la domanda che ci interessa per Shor è:
         <i>«questa lista si ripete ogni quanto?»</i>. È esattamente la domanda a cui risponde Fourier,
         e Fourier ragiona in termini di onde.</p>
+        <div class="callout"><b>Mettiamo in chiaro una cosa prima di cominciare:</b> un qubit <b>non è</b> un'onda,
+        e dentro un computer quantistico non c'è niente che ondeggia. L'onda, qui, è un <b>attrezzo matematico</b>:
+        serve a trovare le ripetizioni dentro una lista di numeri — e quella lista sarà la lista delle ampiezze.
+        Non ti serve neanche il vecchio slogan «a volte onda, a volte particella»: è un modo di dire degli anni
+        Venti, di quando la teoria non aveva ancora la forma che usiamo oggi. Quello che è vero — e che userai
+        per tutto il resto del corso — è più semplice: le ampiezze sono numeri <b>con una direzione</b>, e numeri
+        con direzione opposta si cancellano.</div>
         <p>Pensa a un'altalena: su, giù, su, giù. Pensa al battito del cuore. Pensa a un altoparlante che
         spinge avanti e indietro l'aria. Tutte queste cose fanno <b>sempre lo stesso movimento</b>, e lo ripetono.</p>
         <p>Il modo più semplice di disegnare una cosa che si ripete è questo: prendi un pallino, fallo <b>girare in tondo</b>

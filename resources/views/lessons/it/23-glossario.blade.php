@@ -65,6 +65,11 @@ rumore e correzione d'errore (${nOf('21-rumore')}) · officina creativa (${nOf('
                <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Un qubit è 0 e 1 insieme"</h3>
                  <p class="mb0 dim">È una lista di <b>ampiezze</b>, cioè di frecce. Il "0 e 1 insieme" non spiega perché
                  due Hadamard riportino il qubit a zero: le frecce sì.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Un qubit è un'onda"</h3>
+                 <p class="mb0 dim">Dentro un qubit non ondeggia niente: è una <b>lista di ampiezze</b>. Le onde dei livelli
+                 13–15 sono l'attrezzo matematico (Fourier) per trovare le ripetizioni dentro quella lista. E «a volte onda,
+                 a volte particella» è un modo di dire degli anni Venti: quello che serve davvero è che le ampiezze
+                 <b>si sommano con la direzione</b>.</p></div>
                <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "L'ampiezza è la probabilità"</h3>
                  <p class="mb0 dim">La probabilità è il suo <b>quadrato</b>. Ampiezza 0,6 → probabilità 36%, non 60%.</p></div>
                <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "L'entanglement trasmette informazione istantanea"</h3>

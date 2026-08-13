@@ -22,6 +22,13 @@ const L = renderLesson({
         puestas en fila, forman una lista de números — y la pregunta que nos interesa para Shor es:
         <i>«¿cada cuánto se repite esta lista?»</i>. Es exactamente la pregunta que responde Fourier,
         y Fourier razona en términos de ondas.</p>
+        <div class="callout"><b>Dejemos clara una cosa antes de empezar:</b> un cúbit <b>no es</b> una onda,
+        y dentro de un ordenador cuántico no hay nada que ondee. La onda, aquí, es una <b>herramienta matemática</b>:
+        sirve para encontrar las repeticiones dentro de una lista de números — y esa lista será la lista de amplitudes.
+        Tampoco te hace falta el viejo eslogan «a veces onda, a veces partícula»: es una forma de hablar de los años
+        veinte, de cuando la teoría todavía no tenía la forma que usamos hoy. Lo que sí es cierto — y lo que usarás
+        durante todo el resto del curso — es más sencillo: las amplitudes son números <b>con una dirección</b>, y los
+        números con dirección opuesta se cancelan.</div>
         <p>Piensa en un columpio: arriba, abajo, arriba, abajo. Piensa en el latido del corazón. Piensa en un altavoz que
         empuja el aire adelante y atrás. Todas estas cosas hacen <b>siempre el mismo movimiento</b>, y lo repiten.</p>
         <p>La forma más sencilla de dibujar algo que se repite es esta: coge un punto, hazlo <b>girar en redondo</b>

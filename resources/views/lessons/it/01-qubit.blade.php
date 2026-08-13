@@ -233,7 +233,7 @@ qubit:      [ ampiezza di 0 , ampiezza di 1 ]
       why: 'Interferenza distruttiva: +|1⟩ e −|1⟩ si annullano, mentre i due contributi a |0⟩ si sommano. Con una moneta non potrebbe mai succedere.' },
     { q: 'Nell\'esperimento dei tre filtri polaroid, aggiungere un filtro a 45° fra due incrociati…',
       options: ['blocca ancora più luce', 'fa ripassare la luce, perché la misura riscrive lo stato', 'non cambia nulla', 'funziona solo con il laser'], correct: 1,
-      why: 'Il filtro non seleziona: misura. Dopo il filtro a 45° il fotone <b>è</b> a 45°, quindi ha di nuovo il 50% di probabilità di attraversare il filtro a 90%.' },
+      why: 'Il filtro non seleziona: misura. Dopo il filtro a 45° il fotone <b>è</b> a 45°, quindi ha di nuovo il 50% di probabilità di attraversare il filtro a 90°.' },
   ],
 
   outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> un qubit = due frecce (ampiezze complesse);

@@ -22,6 +22,13 @@ const L = renderLesson({
         lined up in a row, form a list of numbers — and the question we care about for Shor is:
         <i>"how often does this list repeat?"</i>. That is exactly the question Fourier answers,
         and Fourier thinks in terms of waves.</p>
+        <div class="callout"><b>Let's get one thing straight before we start:</b> a qubit <b>is not</b> a wave,
+        and there is nothing waving inside a quantum computer. The wave, here, is a <b>mathematical tool</b>:
+        it is how you find the repetitions inside a list of numbers — and that list will be the list of amplitudes.
+        You don't even need the old "sometimes a wave, sometimes a particle" slogan: that is a figure of speech
+        from the 1920s, from before the theory had the shape we use today. What is true — and what you will use
+        for the rest of the course — is simpler: amplitudes are numbers <b>with a direction</b>, and numbers
+        pointing opposite ways cancel out.</div>
         <p>Think of a swing: up, down, up, down. Think of a heartbeat. Think of a loudspeaker
         pushing the air back and forth. All these things make <b>always the same movement</b>, and they repeat it.</p>
         <p>The simplest way to draw a thing that repeats is this: take a dot, make it <b>go round in a circle</b>

@@ -65,6 +65,11 @@ noise and error correction (${nOf('21-rumore')}) · creative workshop (${nOf('22
                <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "A qubit is 0 and 1 at the same time"</h3>
                  <p class="mb0 dim">It is a list of <b>amplitudes</b>, that is, of arrows. "0 and 1 at the same time" does not explain why
                  two Hadamards bring the qubit back to zero: the arrows do.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "A qubit is a wave"</h3>
+                 <p class="mb0 dim">Nothing waves inside a qubit: it is a <b>list of amplitudes</b>. The waves in levels
+                 13–15 are the mathematical tool (Fourier) for finding the repetitions inside that list. And "sometimes a
+                 wave, sometimes a particle" is a 1920s figure of speech: what actually matters is that amplitudes
+                 <b>add up with their direction</b>.</p></div>
                <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "The amplitude is the probability"</h3>
                  <p class="mb0 dim">The probability is its <b>square</b>. Amplitude 0.6 → probability 36%, not 60%.</p></div>
                <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Entanglement transmits information instantly"</h3>
