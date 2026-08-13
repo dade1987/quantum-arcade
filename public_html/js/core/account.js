@@ -60,17 +60,54 @@ export async function initAccount() {
 async function pullProgress() {
   try {
     const r = await api.getProgress();
-    if (r.state && Object.keys(r.state).length) store.importState(r.state, r.xp);
+    // Unisce, non sostituisce (vedi store.importState). Se qui c'era qualcosa
+    // che il server non aveva — un livello superato un attimo prima di cambiare
+    // pagina — glielo si rimanda subito, senza aspettare il prossimo punto.
+    if (r.state && Object.keys(r.state).length && store.importState(r.state, r.xp)) pushNow();
   } catch { /* riproveremo al prossimo salvataggio */ }
 }
 
+/* Il salvataggio è a scatto ritardato: chi gioca guadagna punti a raffica
+   (una missione ne fa scattare due o tre di fila) e mandarne uno per punto
+   sarebbe una richiesta ogni mezzo secondo. Il ritardo però ha un prezzo, ed
+   è quello che ha rotto il gioco: il momento in cui si guadagna di più — si
+   supera il livello — è anche quello in cui si cambia pagina più in fretta,
+   perché il pulsante «vai al livello successivo» è lì sotto. Un secondo di
+   ritardo bastava a perdere tutto.
+
+   Per questo il ritardo ha adesso due valvole di sfogo: `flushPush()`, che
+   manda subito quello che c'è in attesa, e i due eventi qui sotto, che la
+   chiamano quando la pagina sta per sparire. */
 let pushTimer = null;
-export function schedulePush() {
+let inAttesa = false;
+
+async function pushNow(keepalive = false) {
   if (!current) return;
   clearTimeout(pushTimer);
-  pushTimer = setTimeout(async () => {
-    try { await api.syncProgress(store.xp(), store.getState()); } catch { /* riproverà */ }
-  }, 1200);
+  pushTimer = null;
+  inAttesa = false;
+  try { await api.syncProgress(store.xp(), store.getState(), keepalive); } catch { /* riproverà */ }
+}
+
+export function schedulePush() {
+  if (!current) return;
+  inAttesa = true;
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(() => pushNow(), 1200);
+}
+
+/** Manda subito il salvataggio in attesa, se c'è. */
+export function flushPush() {
+  if (inAttesa) pushNow(true);
+}
+
+/* «pagehide» copre il cambio pagina e la chiusura della scheda; il passaggio a
+   nascosta copre il telefono che va in stand-by o cambia app, che è l'altro
+   modo in cui una partita finisce senza preavviso. Su iOS «unload» non arriva
+   affatto, quindi non lo si usa. */
+if (typeof window !== 'undefined') {
+  window.addEventListener('pagehide', flushPush);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushPush(); });
 }
 
 /* ---------------- pezzi di interfaccia ---------------- */

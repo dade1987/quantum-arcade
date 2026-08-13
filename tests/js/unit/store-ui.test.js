@@ -131,11 +131,40 @@ describe('store: sincronizzazione e notifiche', () => {
     assert.equal(chiamate, 2, 'dopo stop() non arrivano più notifiche');
   });
 
-  test('importState sostituisce lo stato e tiene l\'XP più alto', () => {
+  test('importState prende quello che c\'è sul server e tiene l\'XP più alto', () => {
     store.award('a', 50);
     store.importState({ lessons: { '01-qubit': { mastered: true } } }, 500);
     assert.equal(store.xp(), 500);
     assert.ok(store.isLessonDone('01-qubit'));
+  });
+
+  /* Il livello superato un attimo prima di cambiare pagina non ha ancora fatto
+     in tempo ad arrivare al server. Se rileggerlo lo cancellasse, il livello
+     tornerebbe da fare e il successivo resterebbe chiuso: è il bug che teneva
+     chiuso il livello 2 a chi aveva appena superato il livello 1. */
+  test('importState NON cancella i progressi che il server non ha ancora', () => {
+    store.completeLesson('01-qubit');
+    const xpPrima = store.xp();
+    const daRimandare = store.importState({ lessons: { '00-numeri': { mastered: true } }, xp: 10 }, 10);
+    assert.ok(store.isLessonDone('01-qubit'), 'il livello appena superato resta superato');
+    assert.ok(store.isLessonDone('00-numeri'), 'e arriva anche quello che c\'era solo sul server');
+    assert.equal(store.xp(), xpPrima, 'gli XP non tornano indietro');
+    assert.equal(daRimandare, true, 'e il chiamante sa che deve rimandarlo al server');
+  });
+
+  test('importState non chiede di rimandare niente se il server è già a posto', () => {
+    store.completeLesson('01-qubit');
+    const stato = JSON.parse(JSON.stringify(store.getState()));
+    assert.equal(store.importState(stato, stato.xp), false);
+  });
+
+  test('importState unisce due volte come una volta sola', () => {
+    store.completeLesson('01-qubit');
+    const server = { lessons: { '00-numeri': { mastered: true } }, xp: 40 };
+    store.importState(server, 40);
+    const dopoUna = JSON.stringify(store.getState());
+    store.importState(server, 40);
+    assert.equal(JSON.stringify(store.getState()), dopoUna);
   });
 
   test('onSave viene richiamato a ogni salvataggio', () => {

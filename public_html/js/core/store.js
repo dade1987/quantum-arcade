@@ -56,12 +56,52 @@ function save() {
   pushHook && pushHook();
 }
 
-/** Sostituisce lo stato locale con quello arrivato dal server. */
+/**
+ * Unisce lo stato arrivato dal server con quello che c'è già qui.
+ *
+ * UNISCE, non sostituisce, e la differenza è tutto. Prima questa funzione
+ * rimpiazzava lo stato locale con quello del server, e siccome il salvataggio
+ * parte con un secondo di ritardo, chi superava un livello e cliccava subito
+ * «vai al livello successivo» partiva più veloce del salvataggio: la pagina
+ * nuova rileggeva dal server uno stato ancora vecchio e ci scriveva sopra
+ * quello giusto. Il livello appena superato tornava da fare e il livello dopo
+ * restava chiuso — con gli XP che facevano un passo indietro.
+ *
+ * Le regole sono le stesse che applica il server in PlayerState::mergeState,
+ * e valgono in entrambi i versi: gli XP sono il massimo, le voci si sommano,
+ * del mazzo di ripasso si tiene la scatola più bassa (cioè la domanda meno
+ * consolidata: nel dubbio la si rivede prima). Così unire due volte dà lo
+ * stesso risultato di unire una volta sola, e nessuno dei due lati può
+ * cancellare il lavoro dell'altro — nemmeno giocando su due dispositivi.
+ *
+ * Restituisce true se qui c'era qualcosa che il server non aveva: chi chiama
+ * lo usa per rimandarglielo subito, invece di aspettare il prossimo punto.
+ */
 export function importState(serverState, serverXp = 0) {
-  state = Object.assign(structuredClone(DEFAULT), serverState || {});
-  state.xp = Math.max(state.xp || 0, serverXp || 0);
+  const locale = state;
+  const remoto = Object.assign(structuredClone(DEFAULT), serverState || {});
+  const unito = structuredClone(DEFAULT);
+  let daRimandare = false;
+
+  for (const chiave of ['lessons', 'missions', 'quiz', 'seen']) {
+    unito[chiave] = Object.assign({}, remoto[chiave], locale[chiave]);
+    for (const k of Object.keys(locale[chiave] || {})) if (!(k in (remoto[chiave] || {}))) daRimandare = true;
+  }
+
+  unito.bank = Object.assign({}, remoto.bank);
+  for (const [k, carta] of Object.entries(locale.bank || {})) {
+    const gia = unito.bank[k];
+    if (!gia || (carta.box || 1) < (gia.box || 1)) { unito.bank[k] = carta; daRimandare = true; }
+  }
+
+  unito.xp = Math.max(locale.xp || 0, remoto.xp || 0, serverXp || 0);
+  unito.free = !!(locale.free || remoto.free);
+  if (unito.xp > Math.max(remoto.xp || 0, serverXp || 0)) daRimandare = true;
+
+  state = unito;
   try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { }
   subs.forEach(fn => fn(state));
+  return daRimandare;
 }
 
 export function getState() { return state; }

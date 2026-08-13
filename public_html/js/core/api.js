@@ -53,7 +53,14 @@ export class ApiError extends Error {
   }
 }
 
-async function call(method, path, body = null, riprovaConcessa = true) {
+/**
+ * `keepalive` serve a una cosa sola, ma decisiva: una richiesta partita mentre
+ * si sta lasciando la pagina di solito viene annullata dal browser insieme
+ * alla pagina. Con keepalive il browser la porta a termine lo stesso. È così
+ * che il salvataggio dei progressi sopravvive al clic su «vai al livello
+ * successivo», che è esattamente il momento in cui c'è più da salvare.
+ */
+async function call(method, path, body = null, riprovaConcessa = true, keepalive = false) {
   if (method !== 'GET') await ensureCsrf();
 
   const headers = { 'Accept': 'application/json', 'Accept-Language': LOCALE_TAGS[LOCALE] || LOCALE };
@@ -68,6 +75,7 @@ async function call(method, path, body = null, riprovaConcessa = true) {
       headers,
       credentials: 'same-origin',
       body: body ? JSON.stringify(body) : undefined,
+      keepalive,
     });
   } catch {
     throw new ApiError(t('Server non raggiungibile'), 0, null);
@@ -85,7 +93,7 @@ async function call(method, path, body = null, riprovaConcessa = true) {
    */
   if (res.status === 419 && riprovaConcessa) {
     await ensureCsrf(true);
-    return call(method, path, body, false);
+    return call(method, path, body, false, keepalive);
   }
 
   let data = null;
@@ -114,7 +122,7 @@ export const api = {
 
   /* --- progressi --- */
   getProgress:   ()               => call('GET', '/progress'),
-  syncProgress:  (xp, state)      => call('PUT', '/progress', { xp, state }),
+  syncProgress:  (xp, state, keepalive = false) => call('PUT', '/progress', { xp, state }, true, keepalive),
   levelEvent:    (levelId, event) => call('POST', '/progress/event', { level_id: levelId, event }),
 
   /* --- esame --- */
