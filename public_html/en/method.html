@@ -30,11 +30,18 @@
   <div class="wrap-wide topbar-in">
     <a class="brand" href="index.html"><img class="logo" src="../assets/logo.svg" alt="" width="30" height="30"><span>Quantum Arcade<small>quantum computing by playing</small></span></a>
     <span class="topbar-spacer"></span>
-    <span class="lang-pick" role="group" aria-label="Language">
-      <a class="lang-opt" href="../metodo.html" hreflang="it" lang="it">IT</a>
-      <span class="lang-opt on" lang="en" aria-current="true">EN</span>
-      <a class="lang-opt" href="../es/metodo.html" hreflang="es" lang="es">ES</a>
-    </span>
+    <details class="lang-pick">
+      <summary class="lang-now" title="Change language">
+        <span class="lang-globe" aria-hidden="true">🌐</span>
+        <span class="lang-name">English</span>
+        <span class="sr-only"> — change language</span>
+      </summary>
+      <div class="lang-menu" role="menu">
+        <a class="lang-item" role="menuitem" href="../metodo.html" hreflang="it" lang="it"><span class="lang-tick" aria-hidden="true"></span>Italiano</a>
+        <span class="lang-item on" role="menuitem" lang="en" aria-current="true"><span class="lang-tick" aria-hidden="true">✓</span>English</span>
+        <a class="lang-item" role="menuitem" href="../es/metodo.html" hreflang="es" lang="es"><span class="lang-tick" aria-hidden="true"></span>Español</a>
+      </div>
+    </details>
     <a class="btn sm ghost" href="index.html">🗺️ Map</a>
   </div>
 </header>
@@ -316,6 +323,67 @@ The guidance emerging from research on <i>Generative Engine Optimization</i> is 
 <p class="dim small">Note: the same research shows that the content cited by AIs is the <b>structured and verifiable</b> kind.
 Another way of saying that writing honestly and writing to be found, for once, coincide.</p>
 
+<h2>17. The three languages, and how you move between them</h2>
+<p>The course exists in full in Italian, English and Spanish: not a translated summary, three complete editions —
+exam and certificate included. The addresses are translated too (<code>/en/lessons/</code>, <code>/es/lecciones/</code>),
+because a page in Spanish living in a folder called "lezioni" is a half-translated page, and it shows.</p>
+<p>The selector at the top follows four rules, and none of them is about looks:</p>
+<ul>
+  <li><b>Every language is written in its own language</b> — «Español», not «Spanish». People look for their own
+      language the way it is written at home, not translated into a language they may not read. It is the
+      recommendation of the W3C and of the Nielsen Norman Group, and it is also why the first version did not
+      work: it said «IT EN ES», and ISO codes are mute labels to anyone who has never seen them.</li>
+  <li><b>No flags.</b> A flag stands for a state, not a language: which one would you put on Spanish, out of the
+      twenty countries that speak it? In their place a globe, the one symbol the public associates with
+      "language" without associating it with a country.</li>
+  <li><b>You change language without losing your place.</b> Someone reading the QFT in Italian who picks English
+      wants the QFT in English, not to start over from the map. The addresses of the other versions are the same
+      <code>hreflang</code> links the page already declares for search engines: computing them a second time
+      would be the classic way of letting them drift apart.</li>
+  <li><b>If your browser speaks another language I say so, but I do not move you.</b> A single line appears —
+      written <i>in</i> the language it offers, otherwise it cannot be read — with two buttons: switch, or stay.
+      Then it never asks again. Automatic redirection is explicitly discouraged by Google for multilingual sites:
+      it stops you reaching a particular version on purpose, it confuses people who speak more languages than
+      their browser is configured for, and it hides the other copies from search engines.</li>
+</ul>
+<div class="callout key">The rule underneath all four: <b>offer, do not decide</b>. The reader knows which language
+they want to read in better than their browser does.</div>
+
+<h2>18. The glossary that stays open while you read</h2>
+<p>For a while the glossary was the <b>last</b> page of the course. Wrong: the word that blocks your reading is not
+waiting at the end, you meet it at level 4 — and a word you do not understand does not postpone the problem, it
+<b>multiplies</b> it, because every sentence after that uses it as if it were clear.</p>
+<p>The glossary now sits at the top of every page and stays open <i>while</i> you read. The specific choices come
+from five research findings, not from a visual fashion:</p>
+<table class="table">
+  <tr><th>Finding</th><th>How it is applied</th></tr>
+  <tr><td><b>Split-attention effect</b> (Ayres &amp; Sweller): holding a sentence in mind while hunting for a
+      definition elsewhere spends the very working memory the concept needed</td>
+      <td>the panel opens <i>beside</i> the text and, when the screen allows it, <b>pushes</b> the page instead of
+      covering it: you never change page and never lose your place</td></tr>
+  <tr><td><b>Spatial contiguity</b> (Mayer): the explanation belongs next to the thing explained</td>
+      <td>terms are marked inside the text and the definition appears <b>next to the word</b>, in two lines, with the
+      number of the level that explains it properly</td></tr>
+  <tr><td><b>Recognition rather than recall</b> (Nielsen, 6th heuristic): you should not have to remember that a
+      feature exists</td>
+      <td>the 📖 button is in the top bar of <b>every</b> page of the course — map, lessons and this one — and the shortcut (<b>G</b>) is the
+      same across the whole site</td></tr>
+  <tr><td><b>Glosses</b> (Nation; Yun's meta-analysis of hypertext glosses): short definitions one gesture away help
+      comprehension and vocabulary retention; long ones interrupt reading</td>
+      <td>two lines, never a wall of text, and the search box also accepts a level number
+      ("what was that thing in 12?")</td></tr>
+  <tr><td><b>Expertise reversal effect</b> (Kalyuga et al.): the help a beginner needs <b>gets in the way</b> of
+      someone who already knows</td>
+      <td>each term is marked <b>once per page</b>, the first time; and the highlighting has an off switch that stays
+      off on the pages after it</td></tr>
+</table>
+<p>The panel is deliberately <b>not modal</b>: it does not block the lesson and does not demand to be closed before
+you can carry on. Blocking the page to show a definition would be like shutting the book to open the dictionary.
+Below 1100 px of width there is no room for two columns: there it does cover the text, and a tap outside closes it.</p>
+<p class="dim small">A useful side effect: the terms now live in a <b>single file</b> (<code>js/core/glossario.js</code>),
+so the level 23 table, the panel and the tap-for-definition bubbles can no longer say three different things —
+which had already started happening between the Italian version and the translations.</p>
+
 <h2>Sources</h2>
 <p class="dim small">Listed in the order they appear in the text. Where there is no link it is because the reference
 is a book or a classic paper that is easy to find: I prefer citing it that way rather than linking a copy
@@ -343,6 +411,11 @@ of dubious provenance.</p>
   <li>Cialdini, R. B. — <i>Influence</i>: reciprocity, social proof, authority. Used here only on verifiable claims.</li>
   <li>On <i>Generative Engine Optimization</i>: <a href="https://backlinko.com/generative-engine-optimization-geo" target="_blank" rel="noopener">overview of practices</a> and <a href="https://arxiv.org/pdf/2606.12439" target="_blank" rel="noopener">position paper on the risks (arXiv)</a></li>
   <li>WCAG 2.2 (W3C) for contrast, touch targets, visible focus and information never carried by colour alone. — <a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener">quick reference</a></li>
+  <li>Ayres, P., Sweller, J. — <i>The Split-Attention Principle in Multimedia Learning</i>, in <i>The Cambridge Handbook of Multimedia Learning</i>: why holding a sentence and a definition apart costs working memory.</li>
+  <li>Kalyuga, S., Ayres, P., Chandler, P., Sweller, J. (2003). <i>The Expertise Reversal Effect</i>. Educational Psychologist, 38(1), 23–31 — help that serves the beginner hinders the expert.</li>
+  <li>Nielsen, J. — <i>10 Usability Heuristics for User Interface Design</i>, in particular the sixth ("recognition rather than recall"). — <a href="https://www.nngroup.com/articles/ten-usability-heuristics/" target="_blank" rel="noopener">text</a></li>
+  <li>Nation, I. S. P. (2001). <i>Learning Vocabulary in Another Language</i>. Cambridge University Press — on the role of glosses.</li>
+  <li>Yun, J. (2011). <i>The effects of hypertext glosses on L2 vocabulary acquisition: a meta-analysis</i>. Computer Assisted Language Learning, 24(1), 39–58.</li>
 </ul>
 
 <div class="callout"><b>Intellectual honesty:</b> none of these studies is about <i>this</i> course in particular, and effect sizes
@@ -363,5 +436,15 @@ that is useful data: write and tell me.</div>
 </p>
 
 </main>
+
+<!-- Il glossario vale anche qui: chi legge come è fatto il corso incontra gli
+     stessi termini, e non deve andarseli a cercare in un'altra pagina. -->
+<script type="module">
+import { bottoneGlossario, montaGlossario } from '../js/widgets/glossario.js';
+const barra = document.querySelector('.topbar-in');
+const mappa = barra.querySelector('.btn');
+barra.insertBefore(bottoneGlossario(), mappa);
+montaGlossario();
+</script>
 </body>
 </html>

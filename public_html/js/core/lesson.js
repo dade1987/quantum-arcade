@@ -13,10 +13,11 @@
 
 import { LEVELS, PARTS, levelById, neighbours } from './levels.js';
 import * as store from './store.js';
-import { h, langButton } from './ui.js';
+import { h, langButton, suggerimentoLingua } from './ui.js';
 import { sfx, wireSounds, soundButton } from './audio.js';
 import { initAccount, accountButton, requireAccount } from './account.js';
 import { mountTutor } from '../widgets/chat.js';
+import { bottoneGlossario, montaGlossario, collegaTermini } from '../widgets/glossario.js';
 import { t, ROOT, href } from './i18n.js';
 
 function topbar() {
@@ -30,6 +31,10 @@ function topbar() {
       h('div', { id: 'xp-host' }),
       langButton(),
       soundButton(),
+      /* Il glossario sta nella barra in alto di OGNI livello, non solo in
+         fondo al corso: la parola che blocca la lettura la incontri al
+         livello 4, non al 23. */
+      bottoneGlossario(),
       accountButton(),
       h('a', { class: 'btn sm ghost', href: href('home') }, '🗺️ ' + t('Mappa')),
     ));
@@ -188,6 +193,11 @@ export function renderLesson(cfg) {
   const app = document.getElementById('app') || document.body.appendChild(h('main', { id: 'app' }));
   app.className = 'wrap';
 
+  // «esiste anche nella tua lingua»: in cima, prima del contenuto, perché più
+  // in basso non la leggerebbe chi sta già decidendo se chiudere la pagina
+  const avviso = suggerimentoLingua();
+  if (avviso) app.appendChild(avviso);
+
   // Registro delle missioni: vive qui fuori perché serve sia al montaggio
   // della lezione sia all'oggetto restituito da renderLesson.
   const missions = [];
@@ -211,6 +221,11 @@ export function renderLesson(cfg) {
 
   function mountLesson() {
 
+  /* Il glossario si monta per primo, prima di qualsiasi altra cosa: vale
+     anche sulle pagine dei livelli ancora chiusi, dove uno arriva proprio
+     perché sta cercando di capire una parola. */
+  montaGlossario();
+
   // livello bloccato → avviso, ma contenuto comunque leggibile in modalità libera
   if (!store.isUnlocked(cfg.id)) {
     const reqLv = levelById(lv.req);
@@ -225,6 +240,16 @@ export function renderLesson(cfg) {
     return;   // livello chiuso: non montiamo il resto
   }
 
+  /* Il glossario si apre in cima, prima di leggere, e non solo in fondo al
+     corso: chi ha un dubbio su una parola lo ha adesso. Il pannello resta
+     accanto al testo, quindi non si perde il segno. */
+  const occhiello = h('p', { class: 'small muted no-gloss', style: { margin: '4px 0 0' } },
+    h('button', { class: 'btn tiny', onclick: () => montaGlossario().apri() }, '📖 ' + t('Glossario dei termini')),
+    ' ',
+    h('span', { html: t('tienilo aperto mentre leggi — si apre anche col tasto <b>G</b>, da qualsiasi livello. Le parole <span class="gloss-t">sottolineate così</span> nel testo danno la definizione al tocco.') }),
+  );
+
+  const guida = h('p', { class: 'lead', html: cfg.lead || lv.desc });
   app.appendChild(h('div', { class: 'lesson-hero' },
     h('nav', { class: 'crumbs', 'aria-label': t('percorso') },
       h('a', { href: href('home') }, t('Mappa')), ' › ', part.title, ' › ', t('Livello :n', { n: lv.n })),
@@ -234,14 +259,24 @@ export function renderLesson(cfg) {
       lv.boss ? h('span', { class: 'tag' }, '☠ BOSS') : null,
     ),
     h('h1', {}, lv.title),
-    h('p', { class: 'lead', html: cfg.lead || lv.desc }),
+    guida,
+    occhiello,
   ));
+
+  /* I pezzi di prosa della lezione, in ordine: sono gli unici in cui si
+     marcano i termini del glossario. Fuori restano mini-giochi, formule,
+     codice e quiz — dove una parola è un simbolo, non una parola. */
+  const prosa = [guida];
 
   cfg.steps.forEach((s, i) => {
     const sec = h('section', { class: 'step', id: 'p' + (i + 1) },
       h('div', { class: 'step-h' }, h('span', { class: 'step-n' }, String(i + 1).padStart(2, '0')), h('h2', {}, s.t)),
     );
-    if (s.html) sec.appendChild(h('div', { html: s.html }));
+    if (s.html) {
+      const testo = h('div', { html: s.html });
+      sec.appendChild(testo);
+      prosa.push(testo);
+    }
     app.appendChild(sec);
     if (s.mount) {
       const holder = h('div');
@@ -252,7 +287,11 @@ export function renderLesson(cfg) {
         console.error(err);
       }
     }
-    if (s.after) sec.appendChild(h('div', { html: s.after }));
+    if (s.after) {
+      const dopo = h('div', { html: s.after });
+      sec.appendChild(dopo);
+      prosa.push(dopo);
+    }
     sec.appendChild(nonHoCapito(s.t, titolo => {
       if (!tutor) return;
       tutor.open();
@@ -260,7 +299,11 @@ export function renderLesson(cfg) {
     }));
   });
 
-  if (cfg.outro) app.appendChild(h('div', { class: 'step', html: cfg.outro }));
+  if (cfg.outro) {
+    const fine = h('div', { class: 'step', html: cfg.outro });
+    app.appendChild(fine);
+    prosa.push(fine);
+  }
 
   const quiz = cfg.quiz || [];
   if (quiz.length) app.appendChild(quizBlock(cfg.id, quiz, () => gate && gate.render()));
@@ -275,6 +318,10 @@ export function renderLesson(cfg) {
     next ? h('a', { class: 'btn primary', href: next.slug + '.html' }, next.title + ' →')
       : h('a', { class: 'btn primary', href: href('home') }, t('Torna alla mappa') + ' →'),
   ));
+
+  /* I termini si marcano per ultimi, dopo che i mini-giochi hanno montato il
+     loro DOM: così non si tocca il testo che ridisegnano da soli. */
+  collegaTermini(prosa);
 
   } // fine mountLesson
 

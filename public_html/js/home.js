@@ -2,22 +2,36 @@
 
 import { LEVELS, PARTS, TOTAL_XP, rankFor, levelById, isMain } from './core/levels.js';
 import * as store from './core/store.js';
-import { h, langButton } from './core/ui.js';
+import { h, langButton, suggerimentoLingua } from './core/ui.js';
 import { sfx, wireSounds, soundButton } from './core/audio.js';
 import { initAccount, accountButton, isLogged, isOffline, openRegister } from './core/account.js';
 import { mountTutor } from './widgets/chat.js';
+import { bottoneGlossario, montaGlossario, collegaTermini } from './widgets/glossario.js';
 import { t } from './core/i18n.js';
 
 store.mountXpBar(document.getElementById('xp-host'));
 wireSounds();
 document.getElementById('xp-host').after(soundButton());
 document.getElementById('xp-host').after(accountButton());
+/* Il glossario è raggiungibile già dalla home: è un riferimento, non un
+   premio di fine corso. */
+document.getElementById('xp-host').after(bottoneGlossario());
 document.getElementById('xp-host').after(langButton());
+
+// «esiste anche nella tua lingua»: in cima al contenuto, dove si guarda
+const avviso = suggerimentoLingua();
+if (avviso) document.querySelector('main.wrap')?.prepend(avviso);
 
 // Account: i progressi vivono sul server, quindi la prima cosa è capire chi sei.
 initAccount().then(() => {
   renderMap(); renderStatus(); renderReview();
   mountTutor({});
+  /* Anche qui le parole difficili sono spiegabili al tocco: chi legge la home
+     incontra "entanglement" e "QFT" prima di aver giocato un solo livello. */
+  montaGlossario();
+  collegaTermini(document.querySelector('main.wrap'));
+  const apri = document.getElementById('apri-glossario');
+  if (apri) apri.addEventListener('click', e => { e.preventDefault(); montaGlossario().apri(); });
 
   // Chi non è ancora entrato vede il banner dell'account, ma il bottone
   // principale continua a portare al gioco: la Parte 0 e il livello 1 sono

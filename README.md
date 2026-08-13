@@ -44,6 +44,7 @@ vincere**: il muro è la lezione.
 | **Come si avanza** | Dimostrando la padronanza: una missione pratica **e** un quiz di richiamo. |
 | **Cosa c'è alla fine** | Un'officina dove inventi algoritmi tuoi, e un esame con attestato verificabile. |
 | **In che lingue** | Italiano (originale), inglese e spagnolo: tre edizioni complete, esame e attestato compresi. |
+| **Come si cambia lingua** | Dal 🌐 in alto, in ogni pagina. Si resta dove sei, e ogni lingua è scritta nella propria lingua. |
 
 È **un solo progetto Laravel**: il gioco vive dentro `public_html/`, le API e le pagine
 dinamiche sono gestite dai moduli. Un dominio, un deploy, nessun passaggio di build.
@@ -90,6 +91,8 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
     lesson.js  ui.js  formula.js
     i18n.js                lingua della pagina, t(), indirizzi delle altre versioni
     confronto.js           il blocco «classico ⇄ quantistico» che apre le lezioni
+    glossario.js           i termini del corso (fonte di verità: pannello, definizioni
+                           al tocco e tabella del livello 23 leggono tutti da qui)
   js/i18n/en.js  es.js     i dizionari: la frase italiana è la chiave
   js/widgets/              i mini-giochi (uno o più per livello)
     classic.js  classic2.js  quelli del computer classico: interruttori, porte logiche,
@@ -123,16 +126,19 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (122 test) + validazione di tutti i file
+npm test                 # motore del gioco (140 test) + validatore + stato delle lingue
 npm run test:coverage    # copertura del frontend
 npm run test:php         # 118 test dei moduli Laravel
 npm run test:php:coverage
-npm run test:e2e         # 90 test Playwright (desktop + telefono)
+npm run test:e2e         # Playwright: percorso utente, audit grafico di ogni pagina, le tre lingue
 npm run test:incrociato  # confronta il simulatore con QuantumSim (implementazione indipendente)
 npm run test:all         # tutto
 ```
 
-Stato attuale: **frontend 100% righe · backend 100% · 90 test end-to-end verdi**.
+Stato attuale: **frontend 100% righe · backend 100%**. I due conteggi qui sopra non sono
+decorativi: `npm run validate` li confronta con i test che esistono davvero e si ferma se
+qualcuno aggiunge un test senza aggiornarli — come è già successo con il numero di livelli
+stampato sull'attestato.
 
 Il validatore (`npm run validate`) controlla sintassi JS, script inline nelle pagine,
 import risolvibili, tag HTML bilanciati, risorse mancanti, coerenza con `levels.js`,

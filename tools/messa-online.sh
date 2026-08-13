@@ -32,6 +32,18 @@ if [ ! -f .env ]; then
 fi
 
 blu "1/7 Dipendenze PHP (senza quelle di sviluppo)"
+# I manifest in bootstrap/cache elencano i pacchetti trovati all'ULTIMA
+# installazione, quelli di sviluppo compresi. Con --no-dev i pacchetti di
+# sviluppo spariscono da vendor/ ma restano scritti nel manifest, e la prima
+# chiamata ad artisan muore con
+#
+#     Class "Laravel\Pail\PailServiceProvider" not found
+#
+# cioè PRIMA di arrivare al package:discover che avrebbe riscritto il manifest.
+# Si cancellano qui, prima di toccare artisan: vengono rigenerati dai passi
+# 4 e 5, e non contengono niente che non sia ricalcolabile.
+rm -f bootstrap/cache/*.php
+
 # --no-scripts non è una precauzione: gli hosting condivisi (Hostinger compreso)
 # disattivano proc_open, e Composer ne ha bisogno per lanciare gli script finali.
 # Senza questo, l'installazione scarica tutto e poi muore sull'ultimo passo con
