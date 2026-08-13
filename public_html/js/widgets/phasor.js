@@ -16,11 +16,18 @@ export function phasorLab(host, opts = {}) {
   const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
   const st = { theta: cfg.theta, spin: cfg.spin, trail: [] };
 
+  /* Sotto il cerchio ci vanno due righe — «cos θ = …» e «sin θ = …» — e stanno
+     a 18 e 32 pixel dal bordo del cerchio. Il raggio deve lasciarle dentro la
+     tela: su un telefono girato in orizzontale la tela si accorcia (Stage la
+     tiene dentro la finestra) e con un raggio scelto a occhio la riga del seno
+     finiva scritta fuori. */
+  const raggio = altezza => Math.min(105, altezza / 2 - 44);
+
   const stage = new Stage(w.body, {
     height: 330,
     onPointer(e) {
       if (!e.down) return;
-      const R = Math.min(105, stage.h / 2 - 26);
+      const R = raggio(stage.h);
       const cx = 20 + R, cy = stage.h / 2;
       const dx = e.x - cx, dy = cy - e.y;
       if (Math.hypot(dx, dy) < R * 1.6) { st.theta = Math.atan2(dy, dx); st.spin = 0; sSpin.value = 0; upd(); }
@@ -28,7 +35,7 @@ export function phasorLab(host, opts = {}) {
     draw(ctx, s) {
       bg(ctx, s);
       if (st.spin) st.theta += st.spin * 0.016 * 2 * Math.PI;
-      const R = Math.min(105, s.h / 2 - 26);
+      const R = raggio(s.h);
       const P = makePlane(20 + R, s.h / 2, R);
       complexAxes(ctx, P, { r: 1 });
 
@@ -78,7 +85,7 @@ export function phasorLab(host, opts = {}) {
       }
       dot(ctx, x0, cy - Math.cos(th) * R, 4.5, COL.amber);
       dot(ctx, x0, cy - Math.sin(th) * R, 4.5, COL.green);
-      text(ctx, t('la freccia gira → escono le due onde'), x0, cy - R - 8, { size: 10.5, color: '#5b6b90' });
+      text(ctx, t('la freccia gira → escono le due onde'), x0, cy - R - 8, { size: 10.5, color: '#5b6b90', saltaSeTronca: true });
       text(ctx, 'cos', x0 + wD - 2, cy - R + 10, { size: 10.5, align: 'right', color: COL.amber });
       text(ctx, 'sin', x0 + wD - 2, cy - R + 24, { size: 10.5, align: 'right', color: COL.green });
     },

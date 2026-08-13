@@ -89,10 +89,22 @@ export function twoWaves(host, opts = {}) {
       if (mag < 0.06) { verdict = t('INTERFERENZA DISTRUTTIVA — si annullano!'); col = COL.red; }
       else if (frac > 0.95) { verdict = t('INTERFERENZA COSTRUTTIVA — si sommano!'); col = COL.green; }
       else { verdict = t('interferenza parziale'); col = COL.amber; }
-      text(ctx, verdict, bx, 76, { max: s.w - bx - 12, size: 12, color: col });
-      text(ctx, t('differenza di fase') + ` = ${diff.toFixed(0)}°`, bx, 96, { max: s.w - bx - 12, size: 11.5, color: COL.violet });
-      text(ctx, t('(0° = in fase · 180° = in opposizione)'), bx, 114, { max: s.w - bx - 12, size: 10.5, color: '#5b6b90' });
-      if (st.f !== st.f2) text(ctx, t('frequenze diverse: le frecce girano a velocità diverse'), bx, 134, { max: s.w - bx - 12, size: 10.5, color: '#5b6b90' });
+      const colonna = s.w - bx - 12;
+      text(ctx, verdict, bx, 76, { max: colonna, size: 12, color: col });
+      /* Su una colonna stretta «differenza di fase = 180°» veniva troncata
+         proprio dove c'è il numero: allora etichetta e valore vanno su due
+         righe, e quello che segue scala di conseguenza. */
+      let y = 96;
+      if (colonna < 170) {
+        text(ctx, t('differenza di fase'), bx, y, { max: colonna, size: 10.5, color: '#7f8fb3' });
+        y += 16;
+        text(ctx, `${diff.toFixed(0)}°`, bx, y, { max: colonna, size: 13, color: COL.violet });
+      } else {
+        text(ctx, t('differenza di fase') + ` = ${diff.toFixed(0)}°`, bx, y, { max: colonna, size: 11.5, color: COL.violet });
+      }
+      y += 18;
+      text(ctx, t('(0° = in fase · 180° = in opposizione)'), bx, y, { max: colonna, size: 10.5, color: '#5b6b90', saltaSeTronca: true });
+      if (st.f !== st.f2) text(ctx, t('frequenze diverse: le frecce girano a velocità diverse'), bx, y + 20, { max: colonna, size: 10.5, color: '#5b6b90' });
     },
   });
   const fx = attachFX(phas);   // scintille, lampi e suono ai traguardi

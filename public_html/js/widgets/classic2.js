@@ -66,16 +66,23 @@ export function searchRace(host, opts = {}) {
           : t('lo scaffale è in disordine: una scatola aperta dice solo sé stessa'),
       });
 
+      /* In fondo ci sono due scritte: il conteggio delle scatole aperte e la
+         riga che dice quante ne servirebbero. Affiancate hanno bisogno di uno
+         schermo largo; su un telefono la seconda veniva troncata a metà, e
+         allora va a capo — e la griglia le lascia la riga in più. */
+      const piedeDoppio = s.w < 560;
+      const piede = piedeDoppio ? 52 : 34;
+
       const perRiga = Math.min(N, Math.max(4, Math.floor((s.w - 24) / 62)));
       const righe = Math.ceil(N / perRiga);
       const bw = Math.min(58, (s.w - 24 - (perRiga - 1) * 6) / perRiga);
-      const bh = Math.min(46, (s.h - top - 44) / righe - 6);
+      const bh = Math.min(46, (s.h - top - piede - 10) / righe - 6);
       const x0 = (s.w - (perRiga * bw + (perRiga - 1) * 6)) / 2;
       /* Su schermo largo le sedici scatole stanno su una riga sola e lasciano
          mezzo widget vuoto: centrarle verticalmente evita che il gioco sembri
          finito a metà. */
       const altezzaGriglia = righe * bh + (righe - 1) * 6;
-      const y0 = top + Math.max(10, (s.h - top - 34 - altezzaGriglia) / 2);
+      const y0 = top + Math.max(10, (s.h - top - piede - altezzaGriglia) / 2);
 
       st.rects = st.valori.map((v, i) => {
         const rq = Math.floor(i / perRiga), cq = i % perRiga;
@@ -102,7 +109,8 @@ export function searchRace(host, opts = {}) {
       text(ctx, ordinata
         ? t('con il dimezzamento bastano :n aperture, sempre', { n: ottimoBinario })
         : t('in media servono :n aperture, e nel caso peggiore :max', { n: Math.round(N / 2), max: N }),
-        s.w - 14, s.h - 12, { size: 11, align: 'right', color: '#7f8fb3', max: s.w - 160 });
+        piedeDoppio ? 14 : s.w - 14, piedeDoppio ? s.h - 32 : s.h - 12,
+        { size: 11, align: piedeDoppio ? 'left' : 'right', color: '#7f8fb3', max: piedeDoppio ? s.w - 28 : s.w - 160 });
       fx.draw(ctx);
     },
     onPointer(e) {
@@ -360,7 +368,10 @@ export function reversibleLab(host, opts = {}) {
   }
 
   const stage = new Stage(w.body, {
-    height: 250,
+    /* Tre righe da 52 con lo spazio per l'HUD sopra e i due conteggi sotto:
+       chiedere 250 significava disegnare la terza riga sul fondo della tela,
+       sopra i conteggi e mezza tagliata via. */
+    height: 288,
     draw(ctx, s) {
       bg(ctx, s);
       const uguali = st.bits.filter((b, i) => b === st.partenza[i]).length;
@@ -371,7 +382,12 @@ export function reversibleLab(host, opts = {}) {
         sub: t('nessuna porta qui butta via niente: si torna indietro ripercorrendo la strada'),
       });
 
-      const y = top + 26, bw = 52, bh = 52, gap = 14;
+      /* Le caselle si misurano su quello che resta, non a numero fisso: su uno
+         schermo basso la tela si accorcia da sola (Stage.resize) e con misure
+         fisse la terza riga finirebbe di nuovo fuori. */
+      const y = top + 26, gap = 14, piede = 26;
+      const bh = Math.max(28, Math.min(52, (s.h - piede - y - 2 * gap) / 3));
+      const bw = bh;
       const x0 = 24;
       const etichette = ['a', 'b', 'c'];
       st.partenza.forEach((b, i) => {
@@ -385,8 +401,10 @@ export function reversibleLab(host, opts = {}) {
           { color: b === st.partenza[i] ? COL.green : COL.amber, width: 1.8, head: 7 });
         bitBox(ctx, x1, yy, bw, bh, b, { label: i === 0 ? t('adesso') : '' , colore: b === st.partenza[i] ? COL.green : COL.amber });
       });
-      text(ctx, t('porte applicate da te: :n', { n: st.mosseGiocatore || 0 }), 14, s.h - 12, { size: 11, color: '#7f8fb3' });
-      text(ctx, t('rimesse a posto: :n', { n: st.vinte }), s.w - 14, s.h - 12, { size: 11, align: 'right', color: '#7f8fb3' });
+      text(ctx, t('porte applicate da te: :n', { n: st.mosseGiocatore || 0 }), 14, s.h - 12,
+        { size: 11, color: '#7f8fb3', max: s.w / 2 - 20 });
+      text(ctx, t('rimesse a posto: :n', { n: st.vinte }), s.w - 14, s.h - 12,
+        { size: 11, align: 'right', color: '#7f8fb3', max: s.w / 2 - 20 });
       fx.draw(ctx);
     },
   });
@@ -487,8 +505,13 @@ export function oracoloClassico(host, opts = {}) {
 
       const bw = Math.min(52, (s.w - 200) / N - 6), bh = 52;
       const x0 = 22, y = top + 34;
+      /* «la tua domanda x» sta sopra TUTTA la fila, non sopra la prima
+         casella: dentro la larghezza di una casella sola veniva tagliata a
+         «la tua dom…» perfino sul computer. */
+      text(ctx, t('la tua domanda x'), x0, y - 11,
+        { size: 10.5, color: '#7f8fb3', max: N * (bw + 6) + 40 });
       st.rects = st.x.map((b, i) => Object.assign(
-        bitBox(ctx, x0 + i * (bw + 6), y, bw, bh, b, { label: i === 0 ? t('la tua domanda x') : '' }),
+        bitBox(ctx, x0 + i * (bw + 6), y, bw, bh, b),
         { i },
       ));
 
@@ -630,12 +653,20 @@ export function ripetizioneLab(host, opts = {}) {
       }
 
       const yb = s.h - 58;
+      /* Etichetta, barra e percentuale si dividono la larghezza che c'è, non
+         quella di uno schermo grande: con le colonne fisse, su un telefono la
+         percentuale finiva schiacciata contro il bordo e si leggeva «15.…» —
+         cioè proprio il numero che il gioco serve a guardare. */
       const barra = (etichetta, valore, colore, off) => {
-        const bw2 = Math.min(260, s.w - 200);
-        text(ctx, etichetta, 22, yb + off, { size: 11, color: '#9dabc9', max: 150 });
-        roundRect(ctx, 168, yb + off - 7, bw2, 14, 4, { stroke: '#22304d' });
-        roundRect(ctx, 168, yb + off - 7, Math.max(2, bw2 * Math.min(1, valore * 3)), 14, 4, { fill: colore, alpha: .8 });
-        text(ctx, (valore * 100).toFixed(1) + '%', 174 + bw2, yb + off, { size: 11, color: colore });
+        const xEt = 22;
+        const wEt = Math.min(150, s.w * 0.42);
+        const x0 = xEt + wEt + 8;
+        const wVal = 52;
+        const bw2 = Math.max(40, Math.min(260, s.w - x0 - wVal - 14));
+        text(ctx, etichetta, xEt, yb + off, { size: 11, color: '#9dabc9', max: wEt });
+        roundRect(ctx, x0, yb + off - 7, bw2, 14, 4, { stroke: '#22304d' });
+        roundRect(ctx, x0, yb + off - 7, Math.max(2, bw2 * Math.min(1, valore * 3)), 14, 4, { fill: colore, alpha: .8 });
+        text(ctx, (valore * 100).toFixed(1) + '%', x0 + bw2 + 6, yb + off, { size: 11, color: colore, max: wVal });
       };
       barra(t('errori senza codice'), st.inviati ? st.erroriNudi / st.inviati : st.p, COL.red, 0);
       barra(t('errori con le tre copie'), st.inviati ? st.erroriProtetti / st.inviati : teorico, COL.green, 24);

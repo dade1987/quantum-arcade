@@ -200,8 +200,16 @@ export function dot(ctx, x, y, r = 4, color = COL.cyan, glow = true) {
  * i 9 px, o diventerebbe illeggibile per un altro motivo — e solo se non basta
  * ancora si tronca con i puntini. Con `max` si può restringere lo spazio a
  * mano, per esempio quando accanto c'è una barra da non coprire.
+ *
+ * `saltaSeTronca` serve alle didascalie di contorno: «la freccia gira → escono
+ * le due onde» ridotta a «la f…» non spiega niente a nessuno e in più sporca
+ * il disegno. Meglio non scriverla: chi guarda vede una figura pulita invece
+ * di un moncone. Va usato solo dove la scritta è un di più — mai per un valore
+ * o per il nome di una cosa, che se manca lascia il gioco monco.
+ *
+ * @returns {boolean} se la scritta è stata davvero disegnata
  */
-export function text(ctx, str, x, y, { color = COL.txt, size = 12, align = 'left', baseline = 'middle', weight = '600', mono = true, max = null } = {}) {
+export function text(ctx, str, x, y, { color = COL.txt, size = 12, align = 'left', baseline = 'middle', weight = '600', mono = true, max = null, saltaSeTronca = false } = {}) {
   ctx.save();
   const famiglia = mono ? 'ui-monospace, Menlo, Consolas, monospace' : 'system-ui, sans-serif';
   const font = corpo => `${weight} ${corpo}px ${famiglia}`;
@@ -223,16 +231,20 @@ export function text(ctx, str, x, y, { color = COL.txt, size = 12, align = 'left
     if (larghezza > spazio) {
       ctx.font = font(Math.max(9, size * spazio / larghezza));
       if (ctx.measureText(scritta).width > spazio) {
+        if (saltaSeTronca) { ctx.restore(); return false; }
         while (scritta.length > 1 && ctx.measureText(scritta + '…').width > spazio) scritta = scritta.slice(0, -1);
         scritta += '…';
       }
     }
+  } else if (saltaSeTronca) {
+    ctx.restore(); return false;
   }
 
   ctx.fillStyle = color;
   ctx.textAlign = align; ctx.textBaseline = baseline;
   ctx.fillText(scritta, x, y);
   ctx.restore();
+  return true;
 }
 
 export function circle(ctx, cx, cy, r, { stroke = COL.axis, fill = null, width = 1, dash = null, alpha = 1 } = {}) {

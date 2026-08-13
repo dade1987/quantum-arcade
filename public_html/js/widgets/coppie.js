@@ -509,7 +509,9 @@ export function bellCoppia(host, opts = {}) {
   }
 
   const stage = new Stage(w.body, {
-    height: 250,
+    /* I due laboratori, la percentuale e la barra delle soglie con le sue due
+       etichette non stanno in 250: il gruppo centrale finiva sulla barra. */
+    height: 300,
     draw(ctx, s) {
       bg(ctx, s);
       const classico = st.modo === 'classico';
@@ -544,11 +546,27 @@ export function bellCoppia(host, opts = {}) {
       ctx.lineWidth = classico ? 1.4 : 2.2;
       ctx.setLineDash(classico ? [5, 5] : []);
       ctx.beginPath(); ctx.moveTo(cx1 + 6, my); ctx.lineTo(cx2 - 6, my); ctx.stroke(); ctx.setLineDash([]);
-      text(ctx, classico ? t('un accordo preso prima') : t('una coppia entangled'),
-        (cx1 + cx2) / 2, my - 12, { size: 10.5, align: 'center', color: classico ? '#5b6b90' : COL.violet, max: cx2 - cx1 - 20 });
+      /* La didascalia del legame sta fra i due laboratori finché fra i due
+         laboratori c'è posto: su un telefono restano settanta pixel e «un
+         accordo preso prima» diventava «un accor…». Quando è stretto, la
+         didascalia scende sotto i riquadri, dove ha tutta la larghezza. */
+      const didascalia = classico ? t('un accordo preso prima') : t('una coppia entangled');
+      const coloreLegame = classico ? '#5b6b90' : COL.violet;
+      if (cx2 - cx1 > 150) {
+        text(ctx, didascalia, (cx1 + cx2) / 2, my - 12,
+          { size: 10.5, align: 'center', color: coloreLegame, max: cx2 - cx1 - 20 });
+      } else {
+        text(ctx, didascalia, s.w / 2, y + bh + 14,
+          { size: 10.5, align: 'center', color: coloreLegame, max: s.w - 40 });
+      }
 
-      // la percentuale, grande
-      const yb = y + bh + 34;
+      /* La percentuale, grande, con la sua didascalia. Stava a distanza fissa
+         dai due laboratori e finiva scritta sopra la barra delle soglie, che
+         viene disegnata dopo e gliela cancellava sotto: si leggeva «turni
+         vinti su 0 giocati» con una riga blu in mezzo. Ora il gruppo si tiene
+         sempre almeno 60px sopra la barra. */
+      const yBarra = s.h - 34;
+      const yb = Math.min(y + bh + 34, yBarra - 60);
       const perc100 = (perc * 100).toFixed(1);
       text(ctx, st.turni ? perc100 + '%' : '—', s.w / 2, yb + 8,
         { size: 30, align: 'center', weight: '800', color: perc > 0.78 ? COL.green : (classico ? COL.blue : COL.violet) });
@@ -556,7 +574,7 @@ export function bellCoppia(host, opts = {}) {
         { size: 11, align: 'center', color: '#7f8fb3' });
 
       // le due soglie
-      const bx = 40, bw2 = s.w - 80, by = s.h - 34;
+      const bx = 40, bw2 = s.w - 80, by = yBarra;
       roundRect(ctx, bx, by, bw2, 8, 4, { stroke: '#22304d' });
       roundRect(ctx, bx, by, Math.max(2, bw2 * perc), 8, 4, { fill: perc > 0.78 ? COL.green : (classico ? COL.blue : COL.violet), alpha: .85 });
       for (const [v, et, col, sopra] of [

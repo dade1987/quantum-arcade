@@ -18,12 +18,17 @@
    (fuori da tests/report, che Playwright svuota a ogni corsa)
    ============================================================================ */
 import { chromium, webkit } from '@playwright/test';
-import { readdirSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { LEVELS, slugOf } from '../public_html/js/core/levels.js';
+import { accountDiCollaudo } from './sessione-collaudo.mjs';
 
 const RADICE = join(dirname(new URL(import.meta.url).pathname), '..');
 const BASE = process.argv[2] || 'http://127.0.0.1:8099';
-const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+/* Se il percorso indicato non esiste, sceglie Playwright: l'audit gira anche
+   su una macchina che non ha esattamente questa versione di Chromium. */
+const CHROME = [process.env.CHROME_PATH, '/opt/pw-browsers/chromium-1194/chrome-linux/chrome']
+  .find(p => p && existsSync(p));
 
 const PAGINE = ['/', '/metodo.html',
   ...LEVELS.map(l => '/lezioni/' + slugOf(l.id, 'it') + '.html')];
@@ -145,13 +150,21 @@ const IMPRONTA = () => {
 
 /* ---------- esecuzione ---------- */
 
-const motori = {
-  chromium: await chromium.launch({ executablePath: CHROME }),
-  webkit: await webkit.launch(),
-};
+/* Un motore non installato non deve far fallire tutto l'audit: si segnala e
+   si va avanti con gli altri. */
+const motori = {};
+for (const [nome, tipo] of [['chromium', chromium], ['webkit', webkit]]) {
+  try {
+    motori[nome] = await tipo.launch(nome === 'chromium' && CHROME ? { executablePath: CHROME } : {});
+  } catch (e) {
+    console.error(`⚠ motore ${nome} non disponibile: ${e.message.split('\n')[0]}`);
+  }
+}
+if (!Object.keys(motori).length) { console.error('nessun browser disponibile'); process.exit(1); }
 const rapporto = [];
 
 for (const dev of DISPOSITIVI) {
+  if (!motori[dev.motore]) { rapporto.push({ dispositivo: dev.nome, saltato: `motore ${dev.motore} non installato` }); continue; }
   const ctx = await motori[dev.motore].newContext({
     viewport: dev.viewport,
     deviceScaleFactor: dev.dpr,
@@ -165,6 +178,11 @@ for (const dev of DISPOSITIVI) {
     localStorage.setItem('quantum-arcade:v2', JSON.stringify({ free: true }));
     localStorage.setItem('quantum-arcade:sound', 'off');
   });
+
+  /* Senza account la lezione mostra «serve il tuo account» al posto dei
+     mini-giochi: l'audit misurerebbe una pagina che nessuno gioca. */
+  const conto = await accountDiCollaudo(ctx, BASE);
+  if (!conto.ok) console.error(`⚠ ${dev.nome}: account di collaudo non creato (${conto.stato}) ${conto.dettaglio}`);
 
   for (const url of PAGINE) {
     const pg = await ctx.newPage();

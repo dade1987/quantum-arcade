@@ -19,10 +19,10 @@ const BEST_KEY = 'quantum-arcade:officina-best';
 
 const BLOCKS = {
   H:     { lab: t('H su tutti'),      col: COL.cyan,   desc: t('Mette tutte le possibilità in gioco con la stessa ampiezza.') },
-  ORACLE:{ lab: '❓ ' + t('ORACOLO'),  col: COL.amber,  desc: t('Interroga la funzione segreta: mette l\'informazione nelle fasi. Ogni uso costa 1 query!') },
+  ORACLE:{ icona: '❓', lab: t('ORACOLO'), col: COL.amber,  desc: t('Interroga la funzione segreta: mette l\'informazione nelle fasi. Ogni uso costa 1 query!') },
   QFT:   { lab: 'QFT',                col: COL.violet, desc: t('Trasformata di Fourier quantistica: trasforma periodicità in picchi.') },
   IQFT:  { lab: 'QFT†',               col: COL.violet, desc: t('QFT inversa.') },
-  DIFF:  { lab: '📢 ' + t('Diffusore'), col: COL.green, desc: t('Riflessione attorno alla media: amplifica ciò che l\'oracolo ha marcato.') },
+  DIFF:  { icona: '📢', lab: t('Diffusore'), col: COL.green, desc: t('Riflessione attorno alla media: amplifica ciò che l\'oracolo ha marcato.') },
   PH0:   { lab: '− su |0…0⟩',         col: COL.pink,   desc: t('Cambia segno solo allo stato tutto-zero.') },
   X:     { lab: t('X su tutti'),      col: COL.pink,   desc: t('Ribalta tutti i qubit.') },
 };
@@ -133,7 +133,11 @@ export function officina(host, opts = {}) {
       st.pipe.forEach((b, i) => {
         const B = BLOCKS[b];
         roundRect(ctx, x0 + i * bw, 22, bw - 10, 46, 8, { fill: 'rgba(255,255,255,.03)', stroke: B.col, width: 1.6 });
-        text(ctx, B.lab, x0 + i * bw + (bw - 10) / 2, 45, { size: 12, align: 'center', color: B.col, mono: false, weight: '700', max: bw - 14 });
+        /* Nel blocco stretto l'emoji si prende lo spazio del nome e lo fa
+           troncare («❓ ORAC…»): quando c'è poco posto resta il nome, che è
+           quello che serve leggere. */
+        const etichetta = bw < 100 || !B.icona ? B.lab : B.icona + ' ' + B.lab;
+        text(ctx, etichetta, x0 + i * bw + (bw - 10) / 2, 45, { size: 12, align: 'center', color: B.col, mono: false, weight: '700', max: bw - 14 });
         if (i < st.pipe.length - 1) text(ctx, '→', x0 + (i + 1) * bw - 7, 45, { size: 13, align: 'center', color: '#4a5877' });
       });
       if (!st.pipe.length) text(ctx, t('(vuota — aggiungi blocchi qui sotto)'), 14, 45, { size: 12, color: '#5b6b90' });
@@ -146,7 +150,8 @@ export function officina(host, opts = {}) {
 
   const addRow = h('div', { class: 'btn-row', style: { marginTop: '10px' } });
   Object.entries(BLOCKS).forEach(([k, b]) => addRow.appendChild(
-    h('button', { class: 'btn sm', title: b.desc, onclick: () => { if (st.pipe.length < 8) { st.pipe.push(k); draw(); } } }, '+ ' + b.lab)));
+    h('button', { class: 'btn sm', title: b.desc, onclick: () => { if (st.pipe.length < 8) { st.pipe.push(k); draw(); } } },
+      '+ ' + (b.icona ? b.icona + ' ' : '') + b.lab)));
   w.body.appendChild(addRow);
 
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '8px' } },

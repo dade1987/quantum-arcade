@@ -23,6 +23,12 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
+
+    /* Su una macchina che ha già un Chromium installato altrove — un container
+       di sviluppo, un runner preparato a mano — si indica con CHROME_PATH
+       invece di riscaricarne un'altra copia. Se la variabile non c'è, decide
+       Playwright come sempre. */
+    launchOptions: process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {},
   },
 
   projects: [
@@ -84,6 +90,31 @@ export default defineConfig({
     {
       name: 'telefono',
       testMatch: /02-grafica\.spec\.js/,
+      dependencies: ['setup'],
+      use: { ...devices['Pixel 7'], storageState: 'tests/.auth/utente.json' },
+    },
+
+    // 5. le scritte DENTRO i mini-giochi: il DOM non le vede, quindi nessuno
+    // dei collaudi qui sopra può accorgersi che una finisce fuori dalla tela
+    // o sopra a un'altra. Serve la sessione: senza account la lezione non
+    // monta i giochi e non ci sarebbe niente da misurare.
+    {
+      name: 'canvas',
+      testMatch: /07-canvas\.spec\.js/,
+      dependencies: ['setup'],
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1366, height: 900 },
+        storageState: 'tests/.auth/utente.json',
+      },
+    },
+
+    // 5b. e sul telefono, che è dove i difetti nascono: la tela si accorcia
+    // per stare nella finestra, e le scene disegnate a distanze fisse
+    // dall'alto vanno a sbattere sul fondo
+    {
+      name: 'canvas-telefono',
+      testMatch: /07-canvas\.spec\.js/,
       dependencies: ['setup'],
       use: { ...devices['Pixel 7'], storageState: 'tests/.auth/utente.json' },
     },
