@@ -2147,4 +2147,50 @@ export default {
   'sovrapposizioni': 'superposiciones',
   'teletrasportare': 'teletransportar',
   'unitaria, unitarie, operazione unitaria': 'unitaria, unitarias, operación unitaria',
+
+  /* ---------------- glosario: los términos de la informática clásica ---------------- */
+  'Bit': 'Bit',
+  'bit, bits': 'bit, bits',
+  "La casella dell'informatica classica: contiene <b>0 oppure 1</b>, e leggerla non la cambia. Con n bit si scrive <b>un</b> numero fra 2ⁿ — non tutti insieme, uno.":
+    'La casilla de la informática clásica: contiene <b>0 o 1</b>, y leerla no la cambia. Con n bits se escribe <b>un</b> número entre 2ⁿ — no todos a la vez, uno.',
+  'Binario': 'Binario',
+  'base due, notazione binaria': 'base dos, notación binaria',
+  'Scrivere i numeri con due sole cifre, dove ogni posizione vale il doppio di quella alla sua destra: 1011 è 8 + 0 + 2 + 1 = 11.':
+    'Escribir los números con solo dos cifras, donde cada posición vale el doble que la de su derecha: 1011 es 8 + 0 + 2 + 1 = 11.',
+  'Porta logica': 'Puerta lógica',
+  'porte logiche, AND, OR, XOR, NAND': 'puertas lógicas, AND, OR, XOR, NAND',
+  'Il mattone del computer classico: prende due bit e ne restituisce uno (AND, OR, XOR…). Quasi tutte <b>buttano via</b> informazione, e per questo non si possono usare tali e quali in un circuito quantistico.':
+    'El ladrillo del ordenador clásico: coge dos bits y devuelve uno (AND, OR, XOR…). Casi todas <b>tiran</b> información, y por eso no se pueden usar tal cual en un circuito cuántico.',
+  'Insieme universale': 'Conjunto universal',
+  'porta universale, universalità': 'puerta universal, universalidad',
+  'Un gruppo di porte con cui si costruisce qualunque altra operazione. In classico basta il solo <b>NAND</b>; in quantistico bastano H, T e CNOT.':
+    'Un grupo de puertas con el que se construye cualquier otra operación. En clásico basta la sola <b>NAND</b>; en cuántico bastan H, T y CNOT.',
+  'Riporto': 'Acarreo',
+  'riporti, sommatore, mezzo sommatore': 'acarreos, sumador, semisumador',
+  "Il bit che passa da una colonna alla successiva quando la somma sfora. In silicio è un AND, e la catena dei riporti è ciò che rende la somma un'operazione <b>in ordine</b>.":
+    'El bit que pasa de una columna a la siguiente cuando la suma se pasa. En silicio es un AND, y la cadena de acarreos es lo que hace de la suma una operación <b>en orden</b>.',
+  'Ricerca binaria': 'Búsqueda binaria',
+  'ricerca lineare, dimezzamento': 'búsqueda lineal, división por la mitad',
+  'Cercare in una lista <b>ordinata</b> buttandone via metà a ogni confronto: log₂N tentativi. Senza ordine si torna a N/2, ed è il record che Grover porta a √N.':
+    'Buscar en una lista <b>ordenada</b> tirando la mitad en cada comparación: log₂N intentos. Sin orden se vuelve a N/2, y es el récord que Grover baja a √N.',
+  'Complessità': 'Complejidad',
+  'costo, O grande, notazione O': 'coste, O grande, notación O',
+  'Come cresce il lavoro al crescere del problema — N, N·log N, N², 2ⁿ — trascurando le costanti. È il metro con cui si misura ogni «vantaggio quantistico».':
+    'Cómo crece el trabajo al crecer el problema — N, N·log N, N², 2ⁿ — despreciando las constantes. Es la vara con la que se mide toda «ventaja cuántica».',
+  'Reversibile': 'Reversible',
+  'reversibilità, irreversibile': 'reversibilidad, irreversible',
+  "Un'operazione da cui si può tornare indietro: dall'uscita si risale all'ingresso. Le porte quantistiche lo sono <b>tutte</b>; l'unica eccezione ammessa è la misura.":
+    'Una operación de la que se puede volver atrás: de la salida se llega a la entrada. Las puertas cuánticas lo son <b>todas</b>; la única excepción admitida es la medida.',
+  'Landauer (principio di)': 'Landauer (principio de)',
+  'limite di Landauer': 'límite de Landauer',
+  'Cancellare un bit libera almeno kT·ln2 di calore (≈ 3·10⁻²¹ J a temperatura ambiente). Previsto nel 1961, misurato in laboratorio nel 2012.':
+    'Borrar un bit libera al menos kT·ln2 de calor (≈ 3·10⁻²¹ J a temperatura ambiente). Predicho en 1961, medido en laboratorio en 2012.',
+  'Toffoli (porta di)': 'Toffoli (puerta de)',
+  'CCNOT, porta Toffoli': 'CCNOT, puerta Toffoli',
+  "L'AND fatto in modo reversibile: tre bit dentro e tre fuori, il terzo si rovescia solo se i primi due valgono 1. È l'inversa di sé stessa, e con essa sola si costruisce qualunque calcolo.":
+    'El AND hecho de forma reversible: tres bits dentro y tres fuera, el tercero se da la vuelta solo si los dos primeros valen 1. Es su propia inversa, y solo con ella se construye cualquier cálculo.',
+  'Disuguaglianza di Bell': 'Desigualdad de Bell',
+  'test di Bell, CHSH': 'test de Bell, CHSH',
+  "Il limite che qualunque correlazione decisa in anticipo deve rispettare: nel gioco delle due buste è il <b>75%</b> di turni vinti. L'entanglement arriva all'85%, e l'esperimento lo conferma — Nobel 2022.":
+    'El límite que cualquier correlación decidida de antemano debe respetar: en el juego de los dos sobres es el <b>75%</b> de rondas ganadas. El entrelazamiento llega al 85%, y el experimento lo confirma — Nobel 2022.',
 };

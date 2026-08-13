@@ -135,6 +135,42 @@ export const VOCI = [
   { id: 'teletrasporto', liv: ['06-teletrasporto'], voce: t('Teletrasporto'), alt: t('teletrasportare'),
     def: t("Trasferire uno stato usando entanglement + 2 bit classici. L'originale viene distrutto.") },
 
+  /* ---- il computer classico (Parte K): parole che il corso usa dando per
+     scontato che si sappiano, e che invece bloccano la frase in cui compaiono ---- */
+
+  { id: 'bit', liv: ['k1-bit', '01-qubit'], voce: t('Bit'), alt: t('bit, bits'),
+    def: t('La casella dell\'informatica classica: contiene <b>0 oppure 1</b>, e leggerla non la cambia. Con n bit si scrive <b>un</b> numero fra 2ⁿ — non tutti insieme, uno.') },
+
+  { id: 'binario', liv: ['k1-bit'], voce: t('Binario'), alt: t('base due, notazione binaria'),
+    def: t('Scrivere i numeri con due sole cifre, dove ogni posizione vale il doppio di quella alla sua destra: 1011 è 8 + 0 + 2 + 1 = 11.') },
+
+  { id: 'porta-logica', liv: ['k2-porte'], voce: t('Porta logica'), alt: t('porte logiche, AND, OR, XOR, NAND'),
+    def: t('Il mattone del computer classico: prende due bit e ne restituisce uno (AND, OR, XOR…). Quasi tutte <b>buttano via</b> informazione, e per questo non si possono usare tali e quali in un circuito quantistico.') },
+
+  { id: 'universale', liv: ['k2-porte', '03-porte'], voce: t('Insieme universale'), alt: t('porta universale, universalità'),
+    def: t('Un gruppo di porte con cui si costruisce qualunque altra operazione. In classico basta il solo <b>NAND</b>; in quantistico bastano H, T e CNOT.') },
+
+  { id: 'riporto', liv: ['k3-somma'], voce: t('Riporto'), alt: t('riporti, sommatore, mezzo sommatore'),
+    def: t('Il bit che passa da una colonna alla successiva quando la somma sfora. In silicio è un AND, e la catena dei riporti è ciò che rende la somma un\'operazione <b>in ordine</b>.') },
+
+  { id: 'ricerca-binaria', liv: ['k4-ricerca', '11-grover'], voce: t('Ricerca binaria'), alt: t('ricerca lineare, dimezzamento'),
+    def: t('Cercare in una lista <b>ordinata</b> buttandone via metà a ogni confronto: log₂N tentativi. Senza ordine si torna a N/2, ed è il record che Grover porta a √N.') },
+
+  { id: 'complessita', liv: ['k5-costo', '17-fft'], voce: t('Complessità'), alt: t('costo, O grande, notazione O'),
+    def: t('Come cresce il lavoro al crescere del problema — N, N·log N, N², 2ⁿ — trascurando le costanti. È il metro con cui si misura ogni «vantaggio quantistico».') },
+
+  { id: 'reversibile', liv: ['k6-reversibile', '03-porte'], voce: t('Reversibile'), alt: t('reversibilità, irreversibile'),
+    def: t('Un\'operazione da cui si può tornare indietro: dall\'uscita si risale all\'ingresso. Le porte quantistiche lo sono <b>tutte</b>; l\'unica eccezione ammessa è la misura.') },
+
+  { id: 'landauer', liv: ['k6-reversibile'], voce: t('Landauer (principio di)'), alt: t('limite di Landauer'),
+    def: t('Cancellare un bit libera almeno kT·ln2 di calore (≈ 3·10⁻²¹ J a temperatura ambiente). Previsto nel 1961, misurato in laboratorio nel 2012.') },
+
+  { id: 'toffoli', liv: ['k6-reversibile', '05-circuiti'], voce: t('Toffoli (porta di)'), alt: t('CCNOT, porta Toffoli'),
+    def: t('L\'AND fatto in modo reversibile: tre bit dentro e tre fuori, il terzo si rovescia solo se i primi due valgono 1. È l\'inversa di sé stessa, e con essa sola si costruisce qualunque calcolo.') },
+
+  { id: 'bell-disuguaglianza', liv: ['04-due-qubit'], voce: t('Disuguaglianza di Bell'), alt: t('test di Bell, CHSH'),
+    def: t('Il limite che qualunque correlazione decisa in anticipo deve rispettare: nel gioco delle due buste è il <b>75%</b> di turni vinti. L\'entanglement arriva all\'85%, e l\'esperimento lo conferma — Nobel 2022.') },
+
   { id: 'unitaria', liv: ['03-porte'], voce: t('Unitaria (operazione)'), alt: t('unitaria, unitarie, operazione unitaria'),
     def: t('Conserva la probabilità totale ed è reversibile: tutte le porte lo sono, la misura no.') },
 ];
