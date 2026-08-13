@@ -1,0 +1,116 @@
+@php($description = 'L\'algoritmo di Grover spiegato giocando: oracolo, diffusore, amplificazione dell\'ampiezza, numero ottimo di iterazioni e perché troppe iterazioni peggiorano il risultato.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { stepper } from '/js/core/formula.js';
+import { groverLab } from '/js/widgets/algos.js';
+
+const L = renderLesson({
+  id: '11-grover',
+  lead: `Il problema più generale che esista: <b>trovare un ago in un pagliaio</b> senza nessun indizio.
+         Classicamente devi guardare mezzo pagliaio. Grover (1996) ci riesce guardandone la <b>radice quadrata</b>.
+         E il bello è che si vede succedere, barra per barra.`,
+
+  steps: [
+    {
+      t: 'Il problema e il limite classico',
+      html: `<p>Hai N possibilità. Una sola è quella giusta, e l'unico modo per riconoscerla è provarla
+             (l'oracolo dice solo <b>sì/no</b>, non dà indizi).</p>
+             <ul>
+               <li><b>Classico:</b> in media provi N/2 volte, nel caso peggiore N. Non esiste di meglio: senza struttura,
+                   non c'è niente da sfruttare.</li>
+               <li><b>Grover:</b> circa <b>√N</b> tentativi. Con N = 1.000.000 → mille tentativi invece di mezzo milione.</li>
+             </ul>
+             <div class="callout"><b>Non è un miracolo, è un guadagno "quadratico".</b> Non trasforma un problema impossibile
+             in uno facile (quello lo fa Shor, in casi particolarissimi). Ma vale per <b>qualunque</b> ricerca senza struttura,
+             ed è dimostrato che <b>meglio di così non si può fare</b> nemmeno quantisticamente (limite di Bennett–Bernstein–Brassard–Vazirani).</div>`,
+    },
+    {
+      t: 'Le due mosse che si ripetono',
+      html: `<p>Grover parte da tutte le possibilità uguali (una H per qubit) e poi ripete due mosse:</p>
+             <table class="table">
+               <tr><th>Mossa</th><th>Cosa fa</th><th>Come si vede</th></tr>
+               <tr><td><b>1. Oracolo</b></td><td>mette il segno meno <b>solo</b> sull'ampiezza giusta</td><td>una barra cambia colore (fase), l'altezza no</td></tr>
+               <tr><td><b>2. Diffusore</b></td><td>riflette tutte le ampiezze <b>attorno alla loro media</b></td><td>la barra "sotto la media" schizza in alto, le altre calano un po'</td></tr>
+             </table>
+             <p>Il diffusore è la parte furba. Ecco perché funziona, in una riga:</p>
+             <div class="callout key">Dopo l'oracolo, l'ampiezza giusta è <b>negativa</b> e tutte le altre positive.
+             La <b>media</b> resta quindi leggermente positiva. "Riflettere attorno alla media" significa:
+             <code>nuovo = 2·media − vecchio</code>. Per l'ampiezza negativa questo è un <b>salto in alto enorme</b>;
+             per le altre, un piccolo passo indietro.</div>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'grover', title: 'Trova l\'ago', text: 'porta la probabilità dell\'elemento marcato sopra il 90%.', xp: 60 });
+        el.appendChild(m.root);
+        groverLab(el, { n: 4, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Il conto passo per passo (N = 4, così si fa a mano)',
+      html: `<p>Con 2 qubit ci sono 4 possibilità. Diciamo che quella giusta è |11⟩.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Partenza', html: 'Dopo le Hadamard tutte le ampiezze valgono <b>0,5</b> (perché 0,5² = 0,25 = 1/4).<br><code>[0,5 · 0,5 · 0,5 · 0,5]</code> — probabilità 25% ciascuna.' },
+          { h: 'Oracolo', html: 'Segno meno su quella giusta:<br><code>[0,5 · 0,5 · 0,5 · −0,5]</code><br>Le probabilità sono ancora tutte 25%: finora <b>non abbiamo imparato niente di misurabile</b>.' },
+          { h: 'Media', html: 'media = (0,5 + 0,5 + 0,5 − 0,5)/4 = <b>0,25</b>' },
+          { h: 'Riflessione: nuovo = 2·media − vecchio', html: 'Per le tre sbagliate: 2(0,25) − 0,5 = <b>0</b><br>Per quella giusta: 2(0,25) − (−0,5) = <b>1</b><br>Risultato: <code>[0 · 0 · 0 · 1]</code>' },
+          { h: 'Risultato con N = 4', html: 'Probabilità del risultato giusto: 1² = <b>100%</b>. Una sola iterazione, risposta certa!<br>(È un caso fortunato: per N = 4 il numero ottimo di iterazioni è esattamente 1.)' },
+          { h: 'E in generale?', html: 'Ogni iterazione ruota lo stato di un angolo fisso verso la risposta. Il numero ottimo è<br><b>(π/4)·√N</b> iterazioni.<br>Con N = 16 → 3 iterazioni; con N = 1.000.000 → circa 785.' },
+          { h: 'La trappola', html: 'Se continui <b>oltre</b> l\'ottimo, la rotazione prosegue e <b>supera</b> il bersaglio: la probabilità <b>ricala</b>. Nel gioco premi «+3 iterazioni» dopo aver raggiunto il massimo e guarda la curva scendere. È il motivo per cui in Grover bisogna sapere <b>quando fermarsi</b>.' },
+        ], { doneLabel: 'Fatto il conto!' });
+      },
+    },
+    {
+      t: 'A cosa serve davvero',
+      html: `<p>Grover è generico, quindi si applica ovunque ci sia una ricerca "a forza bruta":</p>
+             <ul>
+               <li><b>Sicurezza informatica:</b> una chiave simmetrica da 128 bit richiederebbe 2¹²⁸ tentativi classici
+                   e "solo" 2⁶⁴ con Grover. Per questo la raccomandazione post-quantistica è semplice:
+                   <b>raddoppiare la lunghezza delle chiavi</b> (AES-256 invece di AES-128) e il problema è risolto.
+                   Molto diverso dal caso RSA, che Shor demolisce (livello 20).</li>
+               <li><b>Ottimizzazione e ricerca in database non indicizzati</b>, con l'avvertenza pratica che caricare i dati
+                   nel computer quantistico può costare più del guadagno.</li>
+               <li>Come <b>subroutine</b> dentro algoritmi più grandi (conteggio quantistico, ricerca del minimo…).</li>
+             </ul>
+             <div class="callout warn"><b>La domanda scomoda:</b> se l'oracolo deve "riconoscere" la risposta giusta,
+             non è che in fondo la conosciamo già? No: riconoscere una soluzione è facile, <b>trovarla</b> è difficile.
+             È la stessa differenza fra risolvere un sudoku e controllare che un sudoku risolto sia corretto —
+             e su questa differenza si regge metà dell'informatica teorica.</div>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Con N = 16, quante iterazioni servono? Verifica che la curva abbia il massimo dove dice la formula.</p>
+        <p><b>2.</b> Che succede se applichi l'oracolo <b>senza</b> il diffusore, dieci volte di fila? Perché?</p>
+        <p><b>3.</b> E se ci fossero <b>due</b> elementi giusti invece di uno? Il numero ottimo di iterazioni cambia?
+           <span class="muted">(sì: diventa (π/4)·√(N/2))</span></p>
+        <p class="mb0"><b>4.</b> Da inventore: il diffusore riflette attorno alla media. Riesci a immaginare
+           un'operazione diversa che amplifichi <b>due</b> risposte diverse in modo diseguale?
+           <i>(È il ramo di ricerca dell'"amplitude amplification" generalizzata.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Quante iterazioni richiede Grover su N elementi?',
+      options: ['circa N', 'circa √N', 'circa log N', 'sempre 1'], correct: 1,
+      why: 'Circa (π/4)·√N. Con un milione di elementi: circa 785 iterazioni invece di 500.000 tentativi.' },
+    { q: 'Cosa fa il diffusore?',
+      options: ['misura lo stato', 'riflette le ampiezze attorno alla loro media', 'copia il qubit giusto', 'aggiunge un qubit'], correct: 1,
+      why: 'nuovo = 2·media − vecchio. L\'ampiezza resa negativa dall\'oracolo diventa molto grande; le altre calano leggermente.' },
+    { q: 'Cosa succede se si fanno troppe iterazioni?',
+      options: ['la probabilità continua a salire', 'la probabilità ricala', 'il circuito si blocca', 'si perde entanglement'], correct: 1,
+      why: 'È una rotazione: superato il bersaglio si torna indietro. Bisogna fermarsi al numero ottimo.' },
+    { q: 'Quale contromisura basta contro Grover in crittografia simmetrica?',
+      options: ['cambiare algoritmo', 'raddoppiare la lunghezza della chiave', 'niente, è irreparabile', 'usare RSA'], correct: 1,
+      why: 'Grover dimezza l\'esponente: AES-256 offre contro un attaccante quantistico la stessa sicurezza che AES-128 offre contro uno classico.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> quando non c'è nessuna struttura da sfruttare,
+          il meglio che si può fare è amplificare: √N tentativi invece di N. È un guadagno vero ma
+          <b>quadratico</b> — e per il colpo grosso non basta.
+          Prossimo livello: e se una struttura ci fosse, ma fosse <b>nascosta in una ripetizione</b>?
+          Lì il guadagno diventa esponenziale.</div>`,
+});
+@endsection

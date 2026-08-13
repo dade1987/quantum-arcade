@@ -72,9 +72,15 @@ function pagine() {
   return elenco;
 }
 
-/** Solo le lingue davvero pubblicate: una pagina promessa e assente è peggio di una pagina assente. */
+/**
+ * Solo le lingue davvero pubblicate: una pagina promessa e assente è peggio
+ * di una pagina assente.
+ *
+ * Da quando le pagine sono view Blade, "pubblicata" vuol dire che esiste la
+ * cartella delle sue view — non più che esiste un index.html.
+ */
 function pubblicate() {
-  return LINGUE.filter(l => existsSync(join(ROOT, 'public_html', l.dir, 'index.html')));
+  return LINGUE.filter(l => existsSync(join(ROOT, 'resources/views/pages', l.code)));
 }
 
 function costruisci(data) {

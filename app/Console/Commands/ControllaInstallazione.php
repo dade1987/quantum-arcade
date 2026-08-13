@@ -161,10 +161,10 @@ class ControllaInstallazione extends Command
         }
 
         $this->esito(
-            file_exists(public_path('index.php')) && file_exists(public_path('index.html')) ? 'ok' : 'errore',
+            file_exists(public_path('index.php')) && is_dir(resource_path('views/pages')) ? 'ok' : 'errore',
             'public_html contiene il sito e il front controller',
             'Su Hostinger la radice del web è public_html e non si può cambiare: ci devono stare sia index.php '
-            . '(Laravel) sia index.html (il gioco).',
+            . '(Laravel) e che resources/views/pages contenga le pagine del gioco.',
         );
 
         // Il .env fuori dalla radice pubblica è ciò che separa "configurazione

@@ -1,0 +1,155 @@
+@php($description = 'Ampiezza, periodo e frequenza di un\'onda spiegati con cursori e suono: la base per capire la trasformata di Fourier e poi la QFT.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { formula, stepper } from '/js/core/formula.js';
+import { waveLab, clockWave } from '/js/widgets/wave.js';
+
+const L = renderLesson({
+  id: '13-onde',
+  lead: `Cambio di scenario, ma per un motivo preciso. Per arrivare alla <b>QFT</b> e a <b>Shor</b> ci manca un attrezzo:
+         saper riconoscere le <b>periodicità</b> nascoste dentro una lista di numeri. Quell'attrezzo si chiama
+         trasformata di Fourier, e per costruirlo servono tre parole: <b>ampiezza</b>, <b>periodo</b>, <b>frequenza</b>.
+         Buona notizia: le hai già viste tutte, nel punto che gira sul cerchio del livello 0·3.`,
+
+  steps: [
+    {
+      t: 'Un\'onda è una cosa che si ripete',
+      html: `
+        <p><b>Perché ci servono le onde in un corso di quantistica?</b> Perché le ampiezze di uno stato quantistico,
+        messe in fila, formano una lista di numeri — e la domanda che ci interessa per Shor è:
+        <i>«questa lista si ripete ogni quanto?»</i>. È esattamente la domanda a cui risponde Fourier,
+        e Fourier ragiona in termini di onde.</p>
+        <p>Pensa a un'altalena: su, giù, su, giù. Pensa al battito del cuore. Pensa a un altoparlante che
+        spinge avanti e indietro l'aria. Tutte queste cose fanno <b>sempre lo stesso movimento</b>, e lo ripetono.</p>
+        <p>Il modo più semplice di disegnare una cosa che si ripete è questo: prendi un pallino, fallo <b>girare in tondo</b>
+        a velocità costante, e poi disegna <b>solo la sua altezza</b> mentre il tempo scorre. Esce una curva morbida
+        che sale e scende per sempre: la chiamiamo <b>sinusoide</b> (o onda).</p>
+        <div class="callout key"><b>La regola d'oro:</b> un <b>giro completo</b> del pallino = <b>un ciclo</b> dell'onda.
+        Tutto quello che diremo dopo è solo un modo più preciso di dire questa frase.</div>`,
+      mount: el => clockWave(el, { f: 1 }),
+    },
+
+    {
+      t: 'Le tre manopole di ogni onda',
+      html: `
+        <p>Un'onda semplice si comanda con <b>tre sole manopole</b>. Cambiando quelle tre, ottieni qualunque
+        sinusoide esista al mondo:</p>
+        <ul>
+          <li><b>Ampiezza (A)</b> — quanto è alta. Nel suono è il <b>volume</b>.</li>
+          <li><b>Frequenza (f)</b> — quanti cicli completi fa in un secondo. Nel suono è quanto è <b>acuto o grave</b>.
+              Si misura in <b>Hertz (Hz)</b>: 3 Hz vuol dire "3 cicli al secondo".</li>
+          <li><b>Fase (φ)</b> — di quanto è <b>spostata avanti o indietro</b>. È l'unica delle tre che a prima vista
+              sembra inutile… e invece nel resto del corso sarà la più importante di tutte.</li>
+        </ul>
+        <p>Muovi i cursori qui sotto. Guarda cosa succede alle etichette colorate <b>dentro</b> il grafico:
+        la freccia gialla è A, la parentesi verde è il periodo, la freccia viola è lo spostamento di fase.</p>`,
+      mount: el => {
+        waveLab(el, { A: 1, f: 1, phi: 0 });
+        formula(el, {
+          title: 'La formula dell\'onda — tocca ogni pezzo',
+          parts: [
+            { t: 'y(t)', id: 'y', color: 'cyan', name: 'l\'altezza dell\'onda', say: 'Quanto vale l\'onda nell\'istante t. È il numero che leggeresti su uno strumento in quel momento preciso.', ex: 'Se y(0.25) = 0.7, vuol dire che dopo un quarto di secondo l\'onda si trova a 0,7 di altezza.' },
+            { t: '=' },
+            { t: 'A', id: 'A', color: 'amber', name: 'ampiezza', say: 'Il massimo che l\'onda riesce a raggiungere. Moltiplica tutto: se raddoppi A, l\'onda diventa alta il doppio (nel suono: volume doppio).', ex: 'A = 0.5 → l\'onda oscilla fra −0,5 e +0,5.' },
+            { t: '·' },
+            { t: 'cos', id: 'cos', color: 'green', name: 'la forma "che si ripete"', say: 'Il coseno è la macchina che trasforma un angolo in un\'altezza fra −1 e +1, ripetendosi ogni giro. È l\'ombra del pallino che gira.', ex: 'cos(0°) = 1 (in cima), cos(90°) = 0 (a metà), cos(180°) = −1 (in fondo).' },
+            { t: '(' },
+            { t: '2π f t', id: 'ft', color: 'violet', name: 'l\'angolo raggiunto al tempo t', say: 'Qui c\'è il cuore: 2π è un giro completo (360°). Moltiplicato per f (giri al secondo) e per t (secondi passati) dà l\'angolo totale percorso dal pallino.', ex: 'f = 2 Hz e t = 0.5 s → 2π·2·0.5 = 2π = un giro esatto: siamo tornati al punto di partenza.' },
+            { t: '+' },
+            { t: 'φ', id: 'phi', color: 'pink', name: 'fase iniziale', say: 'Da quale punto del cerchio parte il pallino a t = 0. Sposta tutta l\'onda avanti o indietro senza cambiarne forma.', ex: 'φ = 90° → l\'onda parte da metà salita invece che dalla cima.' },
+            { t: ')' },
+          ],
+        });
+      },
+    },
+
+    {
+      t: 'Periodo e frequenza: due modi di dire la stessa cosa',
+      html: `
+        <p>Il <b>periodo T</b> è quanto tempo passa prima che l'onda ricominci uguale. La <b>frequenza f</b> è quanti
+        cicli entrano in un secondo. Sono la stessa informazione, girata:</p>
+        <div class="formula">T = <span class="hl-n">1</span> / f &nbsp;&nbsp;&nbsp;&nbsp; e &nbsp;&nbsp;&nbsp;&nbsp; f = <span class="hl-n">1</span> / T</div>
+        <table class="table">
+          <tr><th>Frequenza f</th><th>Periodo T</th><th>Come suona / si vede</th></tr>
+          <tr><td class="mono">1 Hz</td><td class="mono">1 s</td><td>un ciclo al secondo, lentissimo (si vede a occhio)</td></tr>
+          <tr><td class="mono">4 Hz</td><td class="mono">0,25 s</td><td>quattro cicli al secondo (un battito veloce)</td></tr>
+          <tr><td class="mono">110 Hz</td><td class="mono">0,0091 s</td><td>una nota grave (LA di un basso)</td></tr>
+          <tr><td class="mono">1000 Hz</td><td class="mono">0,001 s</td><td>un fischio acuto</td></tr>
+        </table>
+        <div class="callout"><b>Trucco per ricordarlo:</b> più il periodo è <b>corto</b>, più cicli ci stanno in un secondo,
+        quindi più la frequenza è <b>alta</b>. Corto ↔ alto. Sempre al contrario.</div>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Domanda 1', html: 'Un\'onda ha frequenza <b>f = 5 Hz</b>. Quanto dura un ciclo?<br><span class="muted">Pensa: 5 cicli in un secondo, quindi ognuno dura…</span>' },
+          { h: 'Risposta 1', html: 'T = 1/5 = <b>0,2 secondi</b>. Cinque pezzi da 0,2 s fanno esattamente 1 secondo. ✔' },
+          { h: 'Domanda 2', html: 'Un\'onda ripete il suo disegno ogni <b>T = 0,01 s</b>. Qual è la frequenza?' },
+          { h: 'Risposta 2', html: 'f = 1/0,01 = <b>100 Hz</b>. Cento ripetizioni in un secondo.' },
+          { h: 'Domanda 3', html: 'Se <b>raddoppio la frequenza</b>, cosa succede al periodo?' },
+          { h: 'Risposta 3', html: 'Si <b>dimezza</b>. Sono inversamente proporzionali: se uno sale, l\'altro scende della stessa quantità. Sono la stessa moneta vista dalle due facce.' },
+        ], { doneLabel: 'Chiaro!' });
+      },
+    },
+
+    {
+      t: 'Missione: ricalca l\'onda misteriosa',
+      html: `<p>Adesso tocca a te. Qui sotto c'è un'onda <span style="color:var(--pink)"><b>rosa tratteggiata</b></span>:
+             è il bersaglio. Muovi le tue tre manopole finché la tua onda ciano non ci finisce sopra.</p>
+             <p class="dim small">Suggerimento operativo: prima sistema l'<b>ampiezza</b> (quanto è alta),
+             poi la <b>frequenza</b> (conta quanti cicli ci sono in 2 secondi), e solo alla fine la <b>fase</b>
+             (spostala finché i due picchi non coincidono).</p>`,
+      mount: (el) => {
+        const m = L.mission({ key: 'match', title: 'Sovrapponi le onde', text: 'porta la tua onda esattamente sopra quella rosa.', xp: 40 });
+        el.appendChild(m.root);
+        waveLab(el, {
+          A: 0.4, f: 3, phi: 0,
+          target: { A: 1.1, f: 1.5, phi: 60 },
+          title: 'Sfida: ricalca il bersaglio', subtitle: 'ampiezza, frequenza, fase',
+          onMatch: () => m.complete(),
+        });
+      },
+    },
+
+    {
+      t: '💡 Prova tu (nessuna risposta scritta)',
+      html: `
+        <div class="callout think">
+          <p><b>1.</b> Metti l'ampiezza a zero. Che frequenza ha adesso l'onda? La domanda ha senso?</p>
+          <p><b>2.</b> Porta la frequenza al minimo e poi al massimo tenendo premuto il pulsante 🔊.
+             A che punto smetti di "sentire i singoli colpi" e cominci a sentire una <b>nota</b>?</p>
+          <p><b>3.</b> Sposta la fase di 360°. Cosa cambia nel grafico? E perché, secondo te, 360° e 0° sono
+             la stessa cosa mentre 180° no?</p>
+          <p class="mb0"><b>4.</b> Un suono reale (una voce) non è una sinusoide sola. Secondo te, come si potrebbe
+             costruire una forma complicata avendo a disposizione solo queste onde tonde? <i>(È la domanda del livello 15.)</i></p>
+        </div>`,
+    },
+  ],
+
+  quiz: [
+    {
+      q: 'Un\'onda ha periodo T = 0,25 secondi. Qual è la sua frequenza?',
+      options: ['0,25 Hz', '4 Hz', '25 Hz', 'Dipende dall\'ampiezza'],
+      correct: 1,
+      why: 'f = 1/T = 1/0,25 = <b>4 Hz</b>. In un secondo ci stanno quattro pezzi da 0,25 s. L\'ampiezza non c\'entra nulla: è una manopola indipendente.',
+    },
+    {
+      q: 'Se aumento solo l\'ampiezza di un suono, cosa cambia?',
+      options: ['Diventa più acuto', 'Diventa più forte', 'Diventa più veloce', 'Cambia la sua fase'],
+      correct: 1,
+      why: 'L\'ampiezza è il <b>volume</b>. Acuto/grave è la frequenza. La fase è lo spostamento nel tempo, e da sola non si sente affatto.',
+    },
+    {
+      q: 'Due onde hanno la stessa ampiezza e la stessa frequenza, ma una è spostata rispetto all\'altra. Cosa le distingue?',
+      options: ['Il periodo', 'La fase', 'Il volume', 'Niente, sono identiche'],
+      correct: 1,
+      why: 'È esattamente la <b>fase</b>: stessa forma, stesso ritmo, ma partono in momenti diversi del ciclo. Il livello 14 è tutto dedicato a lei.',
+    },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> un'onda = qualcosa che si ripete; si comanda con
+          <b>ampiezza</b> (quanto è alta), <b>frequenza</b> (quanti cicli al secondo, in Hz) e <b>fase</b> (di quanto è spostata);
+          periodo e frequenza sono legati da <b>T = 1/f</b>. Nel prossimo livello: la fase delle onde — che è la stessa cosa della fase dei qubit, vista da un'altra angolazione.</div>`,
+});
+@endsection

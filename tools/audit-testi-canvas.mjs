@@ -27,8 +27,7 @@ const RADICE = join(dirname(new URL(import.meta.url).pathname), '..');
 const BASE = process.argv[2] || 'http://127.0.0.1:8099';
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
-const PAGINE = readdirSync(join(RADICE, 'public_html/lezioni'))
-  .filter(f => f.endsWith('.html')).sort().map(f => '/lezioni/' + f);
+const PAGINE = LEVELS.map(l => '/lezioni/' + slugOf(l.id, 'it') + '.html');
 
 const IOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
 

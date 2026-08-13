@@ -16,7 +16,7 @@ Modules/                       moduli nwidart (uno per dominio funzionale)
 
 public_html/                   ← WEB ROOT (nome obbligato da Hostinger)
 ├── index.php                  front controller Laravel
-└── index.html css/ js/ lezioni/ assets/    il gioco (nessun passaggio di build)
+└── css/ js/ assets/                       gli asset del gioco (nessun passaggio di build)
 
 storage/app/rag/               archivio vettoriale del tutor (file, niente DB extra)
 ```
@@ -29,7 +29,8 @@ altrimenti passa a PHP. Quindi:
 
 | URL | Chi risponde |
 |---|---|
-| `/` , `/lezioni/…` , `/css/…` | il gioco statico |
+| `/css/…` , `/js/…` , `/assets/…` | gli asset, serviti dal web server |
+| `/` , `/lezioni/…` , `/en/lessons/…` | le pagine, composte da Blade |
 | `/api/*` | Laravel (moduli) |
 | `/verifica/{codice}` | Laravel (pagina pubblica di verifica) |
 | `/attestato/{codice}.pdf` | Laravel (PDF generato al volo) |
@@ -175,7 +176,7 @@ la cartella pubblica di Laravel qui **si chiama già `public_html`** (glielo dic
 ├── artisan  composer.json  .env
 └── public_html/            ← l'unica cartella raggiungibile dal web
     ├── index.php               front controller Laravel
-    └── index.html css/ js/ lezioni/ assets/   il gioco
+    └── css/ js/ assets/                      gli asset del gioco
 ```
 
 Tutto ciò che sta **fuori** da `public_html` non è raggiungibile dal browser: `.env`,
@@ -216,7 +217,7 @@ php artisan sito:controlla --produzione
 
 Verifica una per una le cose che altrimenti si scoprono dagli utenti: versione ed
 estensioni di PHP, `APP_KEY`, `APP_URL` in https, `APP_DEBUG` spento, permessi di
-`storage`, presenza di `index.php` e `index.html` in `public_html`, **`.env` non
+`storage`, presenza di `index.php` in `public_html` e delle view in `resources/views`, **`.env` non
 scaricabile dal web**, connessione al database e tabelle create, SMTP configurato
 (con `MAIL_MAILER=log` nessuno riceve la conferma), banca domande dell'esame,
 `dompdf` puntato alla cartella giusta, chiave del tutor e indice dei contenuti.

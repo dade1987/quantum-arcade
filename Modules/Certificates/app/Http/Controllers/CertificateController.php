@@ -5,7 +5,7 @@ namespace Modules\Certificates\Http\Controllers;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Middleware\ImpostaLingua;
+use App\Support\Site;
 use Illuminate\Routing\Controller;
 use Modules\Certificates\Models\Certificate;
 
@@ -27,7 +27,7 @@ class CertificateController extends Controller
             'certificate' => $certificate,
             'code'        => strtoupper($code),
             'home'        => $this->home(app()->getLocale()),
-            'lingue'      => ImpostaLingua::NOMI,
+            'lingue'      => Site::localeNames(),
         ], $certificate ? 200 : 404);
     }
 

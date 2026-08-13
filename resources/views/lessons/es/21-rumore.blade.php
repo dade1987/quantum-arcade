@@ -1,0 +1,146 @@
+@php($description = 'Decoherencia, ruido cuántico y corrección de errores explicados de forma sencilla: por qué los ordenadores cuánticos se equivocan, cómo se defienden y en qué punto estamos de verdad.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { stepper } from '/js/core/formula.js';
+import { circuitLab } from '/js/widgets/circuit.js';
+
+const L = renderLesson({
+  id: '21-rumore',
+  lead: `Pregunta legítima después de Shor: <b>¿por qué todavía no lo tengo en el bolsillo?</b> Respuesta: porque un cúbit real es
+         un objeto fragilísimo, y el universo entero conspira para estropearlo. Este nivel cuenta quién es el enemigo
+         y cuáles son las contramedidas — sin sensacionalismos en ninguna de las dos direcciones.`,
+
+  steps: [
+    {
+      t: 'El enemigo se llama decoherencia',
+      html: `<p>Un cúbit sigue siendo útil mientras mantiene sus <b>relaciones de fase</b>: son las que permiten
+             la interferencia (nivel 7). El problema es que <b>cualquier</b> interacción con el exterior —
+             una vibración, un fotón de más, un campo magnético vagabundo — funciona como una <b>medida</b>
+             y destruye esas relaciones.</p>
+             <div class="callout key"><b>Decoherencia:</b> el proceso por el que el entorno "mide" involuntariamente el sistema,
+             transformando una superposición coherente en una simple mezcla aleatoria. A partir de ahí el cúbit es
+             una moneda trucada, y toda la ventaja cuántica se esfuma.</div>
+             <p>Es también el motivo por el que <b>no vemos</b> gatos en superposición: un objeto macroscópico interactúa
+             con miles de millones de millones de partículas por segundo, así que decohere en tiempos inimaginablemente breves.
+             La cuántica no "deja de valer" para las cosas grandes — simplemente se vuelve invisible muy deprisa.</p>
+             <table class="table">
+               <tr><th>Tipo de error</th><th>Qué hace</th><th>Analogía clásica</th></tr>
+               <tr><td><b>Bit flip</b> (X)</td><td>intercambia |0⟩ y |1⟩</td><td>un bit que se da la vuelta</td></tr>
+               <tr><td><b>Phase flip</b> (Z)</td><td>cambia el signo de |1⟩</td><td>¡<b>no existe</b> en lo clásico!</td></tr>
+               <tr><td><b>Relajación (T1)</b></td><td>el cúbit "cae" de |1⟩ a |0⟩</td><td>una batería que se descarga</td></tr>
+               <tr><td><b>Desfase (T2)</b></td><td>la fase se pierde poco a poco</td><td>dos relojes que se desfasan</td></tr>
+             </table>
+             <p class="dim small">T1 y T2 son los dos números que encontrarás en toda ficha técnica de un procesador cuántico:
+             los tiempos típicos son hoy del orden de los <b>microsegundos o cientos de microsegundos</b>. Cada puerta dura
+             decenas de nanosegundos: por eso el número de operaciones ejecutables antes de que todo se deshaga es limitado.</p>`,
+    },
+    {
+      t: 'Por qué corregir los errores es dificilísimo',
+      html: `<p>En lo clásico la corrección es trivial: copias cada bit tres veces y votas por mayoría.
+             En lo cuántico este camino está cerrado <b>por ley</b>:</p>
+             <ul>
+               <li><b>No puedes copiar</b> el estado (no-cloning, nivel 6).</li>
+               <li><b>No puedes mirar</b> si hay un error: mirar = medir = destruir la superposición.</li>
+               <li>Los errores no son discretos: una rotación puede ser de <b>0,3 grados</b>, no solo "sí/no".</li>
+             </ul>
+             <div class="callout key"><b>El golpe de genio (Shor 1995, Steane 1996):</b> se puede medir el error
+             <b>sin medir la información</b>. Se añaden cúbits auxiliares y se miden <i>relaciones</i> entre los cúbits
+             ("¿estos dos son iguales?") en vez de sus valores. La respuesta revela <b>dónde</b> ha pasado algo,
+             sin revelar <b>qué</b> contiene el estado. Se llama medida de <b>síndrome</b>.</div>
+             <p>¿Y el problema de los errores "continuos"? Se resuelve solo: medir el síndrome obliga al error a
+             <b>colapsar</b> en uno discreto — o bit flip, o phase flip, o ambos. Corregir esos tres casos basta
+             para corregir <b>cualquier</b> error.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Código de 3 cúbits (bit flip)', html: 'Se codifica <code>|0⟩ → |000⟩</code> y <code>|1⟩ → |111⟩</code> con dos CNOT. No es una copia (las superposiciones se convierten en <code>a|000⟩ + b|111⟩</code>, no en tres cúbits independientes): es un <b>código</b>.' },
+          { h: 'Llega el error', html: 'Una X golpea el segundo cúbit: el estado pasa a ser <code>a|010⟩ + b|101⟩</code>.' },
+          { h: 'Medida de síndrome', html: 'Se pregunta: "¿el primero y el segundo son iguales?" (no) y "¿el segundo y el tercero son iguales?" (no). De estas dos respuestas se deduce que el culpable es el <b>segundo</b> cúbit — ¡sin haber aprendido nada sobre a y b!' },
+          { h: 'Corrección', html: 'Se aplica X al segundo cúbit y el estado vuelve a ser exacto. La información cuántica ha sobrevivido a un error.' },
+          { h: '¿Y los phase flip?', html: 'El mismo código, pero aplicado "rotado" con unas Hadamard: un phase flip en base Z es un bit flip en base X. El código de Shor de <b>9 cúbits</b> combina los dos y corrige cualquier error individual.' },
+          { h: 'El precio', html: 'Un estado lógico fiable cuesta <b>muchísimos</b> cúbits físicos. Con los códigos de superficie de hoy se habla de <b>1.000–10.000 cúbits físicos por cada cúbit lógico</b>. Por eso para Shor sobre RSA-2048 hacen falta millones de cúbits físicos.' },
+        ], { doneLabel: '¡He entendido el síndrome!' });
+      },
+    },
+    {
+      t: 'Pruébalo: construye el código y rómpelo',
+      html: `<p>En el simulador: construye la codificación <b>H sobre q0 → CNOT q0→q1 → CNOT q0→q2</b>
+             (obtienes <code>(|000⟩ + |111⟩)/√2</code>). Luego <b>introduce un error</b> poniendo una X sobre un cúbit cualquiera
+             y mira cómo cambia el estado: aparecen componentes que antes no estaban
+             (por ejemplo |010⟩ y |101⟩), y es justo esa "huella" la que el síndrome sabe reconocer.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'code3', title: 'Codificación y avería', text: 'construye el estado (|000⟩+|111⟩)/√2 y luego introduce un error X sobre un cúbit.', xp: 55 });
+        el.appendChild(m.root);
+        circuitLab(el, {
+          n: 3, maxCols: 8, preset: 'ghz',
+          title: 'Laboratorio del código de 3 cúbits', subtitle: 'codificación, avería, huella',
+          onChange: ({ ops, state }) => {
+            const hasX = ops.some(o => o.g === 'X' && (!o.c || !o.c.length));
+            const p = i => state.re[i] ** 2 + state.im[i] ** 2;
+            const enc = ops.filter(o => o.g === 'X' && o.c && o.c.length).length >= 2;
+            if (enc && hasX && p(0) < 0.4 && p(7) < 0.4) m.complete();
+          },
+        });
+      },
+    },
+    {
+      t: 'En qué punto estamos de verdad (agosto de 2026)',
+      html: `<p>Circulan por los periódicos dos lecturas opuestas, y las dos son equivocadas:</p>
+             <div class="grid-2">
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Ya está todo listo"</h3>
+                 <p class="mb0 dim">Falso. Los procesadores actuales tienen cientos de cúbits físicos ruidosos
+                 (era <b>NISQ</b>: Noisy Intermediate-Scale Quantum). Ningún algoritmo de utilidad comercial
+                 corre mejor que en un buen ordenador clásico. Muchos anuncios de "ventaja cuántica"
+                 han sido después rebajados por simulaciones clásicas más astutas.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Es todo humo"</h3>
+                 <p class="mb0 dim">Esto también es falso. La corrección de errores ha superado el umbral de la demostración
+                 experimental: se ha mostrado que aumentando el número de cúbits físicos el error lógico <b>baja</b>,
+                 que era el punto teórico crítico. El camino es durísimo desde el punto de vista de la ingeniería, pero no está bloqueado por
+                 ningún obstáculo de principio.</p></div>
+             </div>
+             <p><b>Qué mirar para entender los progresos</b>, en vez de los titulares sensacionalistas:</p>
+             <ul>
+               <li>el número de <b>cúbits lógicos</b> (no físicos) y su tasa de error;</li>
+               <li>la <b>profundidad de circuito</b> ejecutable antes de que el resultado se vuelva ruido;</li>
+               <li>la <b>fidelidad de las puertas de dos cúbits</b> (el cuello de botella: hoy 99–99,9%, haría falta más).</li>
+             </ul>
+             <div class="callout"><b>Las tecnologías en liza:</b> superconductores (IBM, Google), iones atrapados (IonQ, Quantinuum),
+             átomos neutros (QuEra, Pasqal), fotones (PsiQuantum, Xanadu), espines en el silicio (Intel). Cada una tiene compromisos distintos
+             entre velocidad, fidelidad, escalabilidad y temperatura de funcionamiento. <b>Todavía no está claro quién ganará</b>,
+             y es una de las cosas más interesantes del sector.</div>`,
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> ¿Por qué un error de fase (Z) es más insidioso que un bit flip? <span class="muted">(porque no cambia ninguna probabilidad: es invisible hasta que entra en juego la interferencia)</span></p>
+        <p><b>2.</b> Si un cúbit lógico cuesta 1.000 cúbits físicos, ¿cuántos hacen falta para los ~4.000 cúbits lógicos estimados para RSA-2048?</p>
+        <p><b>3.</b> En el simulador, prueba a introducir una <b>Z</b> en vez de una X en el estado GHZ: ¿cambian las probabilidades?
+           ¿Y el estado? <span class="muted">(no y sí: por eso hace falta un código también para las fases)</span></p>
+        <p class="mb0"><b>4.</b> Como inventor: existen algoritmos diseñados para <b>convivir</b> con el ruido en vez de combatirlo
+           (variacionales, híbridos cuántico-clásicos). ¿Sabrías imaginar qué estructura deben tener para ser robustos?</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: '¿Qué es la decoherencia?',
+      options: ['un error de programación', 'la pérdida de las relaciones de fase por interacción con el entorno', 'una puerta lógica', 'el colapso buscado por el experimentador'], correct: 1,
+      why: 'El entorno "mide" involuntariamente el sistema: la superposición coherente se convierte en una mezcla aleatoria y la interferencia desaparece.' },
+    { q: '¿Por qué no se puede corregir el error copiando los cúbits?',
+      options: ['porque cuesta demasiado', 'por el teorema de no-clonación', 'porque los cúbits son lentos', 'porque la copia sería imprecisa'], correct: 1,
+      why: 'Un estado cuántico desconocido no se puede copiar. En su lugar se usan códigos que reparten la información entre varios cúbits y medidas de síndrome.' },
+    { q: 'La medida de síndrome…',
+      options: ['lee el valor de los cúbits', 'revela dónde ha ocurrido el error sin revelar la información', 'borra el estado', 'duplica los cúbits'], correct: 1,
+      why: 'Mide relaciones entre cúbits ("¿son iguales?") en vez de sus valores: localiza el error dejando intacta la superposición.' },
+    { q: 'Un tipo de error que en el mundo clásico no existe es…',
+      options: ['el bit flip', 'el phase flip', 'la pérdida de alimentación', 'el ruido térmico'], correct: 1,
+      why: 'El phase flip cambia el signo de la amplitud de |1⟩ sin tocar las probabilidades: es invisible a una medida pero estropea todas las interferencias posteriores.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas a casa:</b> el enemigo es la decoherencia; no se puede copiar, así que se
+          codifica y se miden <b>síndromes</b>; un cúbit lógico cuesta miles de cúbits físicos; estamos a mitad del vado,
+          ni hemos llegado ni estamos bloqueados. Ahora el nivel que esperabas: <b>inventa tu algoritmo</b>.</div>`,
+});
+@endsection

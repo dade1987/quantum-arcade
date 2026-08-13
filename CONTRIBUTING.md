@@ -39,11 +39,11 @@ Se è tutto verde, puoi cominciare.
 
 | Tempo | Cosa puoi fare | Dove si tocca |
 |---|---|---|
-| 10 minuti | Correggere un refuso, chiarire una frase confusa | `public_html/lezioni/*.html` |
+| 10 minuti | Correggere un refuso, chiarire una frase confusa | `resources/views/lessons/it/*.blade.php` |
 | 30 minuti | Aggiungere una domanda al quiz di un livello | stesso file, sezione `quiz:` |
 | 1 ora | Migliorare un mini-gioco esistente (etichette, colori, suoni) | `public_html/js/widgets/*.js` |
 | mezza giornata | Scrivere un **livello nuovo** | vedi sotto |
-| 20 minuti | Migliorare una traduzione inglese o spagnola | `public_html/en/`, `public_html/es/`, `js/i18n/*.js` |
+| 20 minuti | Migliorare una traduzione inglese o spagnola | `resources/views/{lessons,pages}/{en,es}/`, `js/i18n/*.js` |
 | 20 minuti | Correggere il nome di una lingua nel selettore | `LOCALE_NAMES` in `js/core/i18n.js` — scritto **nella lingua stessa**, mai una bandiera |
 | a piacere | Aggiungere una **quarta** lingua | apri prima una issue: sono 90 pagine, meglio parlarne |
 
@@ -55,12 +55,15 @@ con il file già indicato. Se non ne trovi di libere, apri una issue e dillo: te
 ## Come è fatto il progetto
 
 ```
-public_html/          il gioco (HTML+JS puro, nessun bundler) e il front controller Laravel
+public_html/          SOLO asset: il motore del gioco in JS, il tema, le immagini
   js/core/            motore: simulatore quantistico, DFT, stato del giocatore, interfaccia
   js/i18n/            i dizionari: en.js, es.js (la chiave è la frase italiana)
   js/widgets/         i mini-giochi, uno o più per livello
-  lezioni/*.html      un file per livello: contiene SOLO i contenuti
-  en/  es/            le stesse pagine in inglese e spagnolo, con indirizzi tradotti
+resources/views/      LE PAGINE, come view Blade
+  layouts/            il <head> di tutte: title, canonical, hreflang. Nessuna pagina lo riscrive
+  pages/{it,en,es}/   home, metodo, privacy
+  lessons/{it,en,es}/ una view per lezione per lingua: contiene SOLO i contenuti
+config/site.php       GENERATO da levels.js (`npm run sync`): da qui nascono rotte e <head>
 lang/                 en.json, es.json: le stesse traduzioni per il lato Laravel
 Modules/              backend Laravel a moduli: Accounts, Progress, Certificates, Chat
 tests/                test PHP, test unitari JS, test end-to-end Playwright
@@ -88,19 +91,21 @@ Due regole che tengono in piedi tutto:
 
 2. Aggiungi l'id alla mappa `SLUG` nello stesso file, con il nome che il file avrà nelle
    altre due lingue (anche gli indirizzi sono tradotti: `/en/lessons/`, `/es/lecciones/`).
-3. Copia un livello esistente simile (`public_html/lezioni/11-grover.html` è un buon modello)
-   e cambia `id`, contenuti e quiz. Poi fai lo stesso in `public_html/en/lessons/` e
-   `public_html/es/lecciones/`: una lingua pubblicata deve avere **tutte** le lezioni, e il
-   validatore si ferma se ne manca una.
-4. Il `<title>` della pagina deve essere esattamente quello che il gioco mostra aprendola:
-   `<numero>. <titolo> — Quantum Arcade`. Anche questo lo controlla il validatore — erano
-   finiti fuori sincrono in 21 lezioni su 28, con la scheda del browser che annunciava un
-   livello e la pagina che ne mostrava un altro.
-5. `npm run lingue` dice quali frasi nuove mancano nei dizionari (`--fix` prepara le chiavi).
-6. `npm run sitemap` rigenera l'elenco degli indirizzi per i motori di ricerca.
-7. `npm run validate` controlla che l'id combaci, che i file esistano in tutte le lingue,
-   che i titoli siano allineati e che l'HTML sia valido.
-8. `npm run test:e2e` verifica che la pagina non abbia errori JS, non sbordi e disegni davvero.
+3. Copia una lezione esistente simile (`resources/views/lessons/it/11-grover.blade.php` è un
+   buon modello) e cambia `id`, contenuti e quiz. Poi fai lo stesso in `lessons/en/` e
+   `lessons/es/`: una lingua pubblicata deve avere **tutte** le lezioni, e il validatore si
+   ferma se ne manca una. Il nome del file è l'**id**, non lo slug: lo slug sta nell'indirizzo,
+   che si traduce, mentre l'id è quello che le tre lingue hanno in comune.
+4. Il titolo **non si scrive**. Lo compone `layouts/lesson.blade.php` da numero e titolo del
+   livello, che stanno in `levels.js`. Era proprio questo il punto: scritti a mano, i titoli
+   di 21 lezioni su 28 avevano smesso di corrispondere alla pagina.
+5. `npm run sync` rigenera `config/site.php`, da cui nascono le rotte: senza, il livello nuovo
+   non ha un indirizzo.
+6. `npm run lingue` dice quali frasi nuove mancano nei dizionari (`--fix` prepara le chiavi).
+7. `npm run sitemap` rigenera l'elenco degli indirizzi per i motori di ricerca.
+8. `npm run validate` controlla che l'id combaci, che le view esistano in tutte le lingue,
+   che nessuna si riscriva la testa da sola e che l'HTML sia valido.
+9. `npm run test:e2e` verifica che la pagina non abbia errori JS, non sbordi e disegni davvero.
 
 **Cosa rende buono un livello, in questo progetto:**
 
@@ -174,8 +179,9 @@ npm run test:all
 Deve essere tutto verde. In più:
 
 - **un contributo, una pull request**: più facile da leggere, più veloce da accettare;
-- **scrivi in italiano** nel codice e nei commenti: è un progetto didattico italiano,
-  e la coerenza linguistica aiuta chi impara;
+- **scrivi in inglese** nel codice, nei nomi e nei commenti: i contenuti esistono in tre lingue,
+  ma il codice è uno solo e lo legge chiunque. I *contenuti* delle lezioni restano ovviamente
+  nella loro lingua;
 - **spiega il perché** nel messaggio della PR, non il cosa (il cosa si vede dal diff);
 - se cambi un contenuto didattico, dì **su quale base**: un'esperienza in aula, una fonte,
   una segnalazione di uno studente. Le opinioni valgono, ma dichiarate.

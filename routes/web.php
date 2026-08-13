@@ -1,22 +1,40 @@
 <?php
 
-use App\Http\Middleware\ImpostaLingua;
+use App\Http\Controllers\PageController;
+use App\Support\Site;
 use Illuminate\Support\Facades\Route;
 
 /*
- * Il gioco è un sito statico che vive dentro public/.
- * Serviamo esplicitamente index.html sulla radice così il comportamento è
- * identico ovunque: server di sviluppo, Apache di Hostinger, nginx.
- * Tutto il resto (/api, /verifica, /attestato) lo gestiscono i moduli.
+ * The site in three languages, from one set of route definitions.
+ *
+ * Every locale gets its own paths, with its own words in them — a Spanish
+ * reader gets /es/lecciones/20-shor.html, not /es/lezioni/. The addresses
+ * come from config/site.php, which `npm run sync` generates from the game's
+ * own level list, so a level renamed there cannot keep its old URL here.
+ *
+ * The .html suffix stays. It is not pretty, but those addresses are already
+ * indexed, already printed inside certificates, and already cited by the AI
+ * tutor: dropping the suffix would buy tidiness and pay for it in redirects
+ * and broken links. It can go later, with a redirect, as its own change.
  */
-Route::get('/', fn () => response()->file(public_path('index.html')));
 
-/*
- * Le altre lingue vivono in sottocartelle (public_html/en/, public_html/es/).
- * Apache e nginx ci servono index.html da soli grazie al DirectoryIndex, ma
- * `php artisan serve` no: senza questa rotta il sito inglese e quello spagnolo
- * funzionerebbero online e darebbero 404 sul computer di chi ci lavora, che è
- * il modo migliore per accorgersi di un guasto il giorno del deploy.
- */
-Route::get('/{lingua}', fn (string $lingua) => response()->file(public_path($lingua . '/index.html')))
-    ->whereIn('lingua', array_diff(ImpostaLingua::LINGUE, ['it']));
+foreach (Site::locales() as $locale) {
+    $prefix = rtrim(config("site.locales.$locale.prefix"), '/');
+
+    Route::prefix($prefix)->group(function () use ($locale) {
+        Route::get('/', [PageController::class, 'home'])
+            ->defaults('locale', $locale)
+            ->name("home.$locale");
+
+        foreach (['method', 'privacy'] as $page) {
+            Route::get(config("site.locales.$locale.pages.$page"), [PageController::class, 'page'])
+                ->defaults('locale', $locale)
+                ->defaults('page', $page)
+                ->name("$page.$locale");
+        }
+
+        Route::get(Site::lessonsFolder($locale) . '/{slug}.html', [PageController::class, 'lesson'])
+            ->defaults('locale', $locale)
+            ->name("lesson.$locale");
+    });
+}

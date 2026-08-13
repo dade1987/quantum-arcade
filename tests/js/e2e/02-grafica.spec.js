@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { LEVELS, slugOf } from '../../../public_html/js/core/levels.js';
 
 /**
  * Controlli grafici automatici su OGNI pagina e su OGNI finestra modale.
@@ -15,8 +15,10 @@ import { join, dirname } from 'node:path';
  */
 
 const ROOT = join(dirname(new URL(import.meta.url).pathname), '../../..');   // tests/js/e2e → radice
+/* Le pagine non sono più file: gli indirizzi si ricavano dalla lista dei
+   livelli, che è la stessa da cui li ricavano le rotte. */
 const PAGINE = ['/', '/metodo.html', '/privacy.html',
-  ...readdirSync(join(ROOT, 'public_html/lezioni')).filter(f => f.endsWith('.html')).map(f => '/lezioni/' + f)];
+  ...LEVELS.map(l => '/lezioni/' + slugOf(l.id, 'it') + '.html')];
 
 /** Nessun elemento deve sporgere oltre il bordo destro della pagina. */
 async function nessunoSbordamento(page) {

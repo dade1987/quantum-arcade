@@ -1,36 +1,53 @@
 /* ============================================================
-   LINGUE — italiano, inglese, spagnolo.
+   LANGUAGES — Italian, English, Spanish.
 
-   Funziona come le traduzioni JSON di Laravel: la CHIAVE è la frase
-   italiana, quella che si legge già nel codice. Vantaggi concreti:
+   This works like Laravel's JSON translations: the KEY is the Italian
+   sentence, the one already written in the source. Concrete benefits:
 
-   · l'italiano non ha bisogno di dizionario (è l'identità), quindi il
-     sito originale non paga niente — né un file in più da scaricare,
-     né una chiave da inventare;
-   · una traduzione che manca degrada in italiano, non in `home.cta.play`:
-     l'utente legge una frase vera, non un pezzo di codice;
-   · il testo resta leggibile dove sta, che è il motivo per cui il resto
-     del progetto evita l'indirezione.
+   · Italian needs no dictionary at all (it is the identity), so the
+     original site pays nothing — no extra file to download, no key to
+     invent;
+   · a missing translation degrades to Italian, not to `home.cta.play`:
+     the reader gets a real sentence, not a fragment of code;
+   · the text stays readable where it sits, which is why the rest of the
+     project avoids indirection.
 
-   La lingua si legge da <html lang>, e il percorso della radice del sito
-   da <html data-root> — esplicito, così una pagina spostata di cartella
-   non rompe i link in modo silenzioso.
+   The locale comes from <html lang>, and the path back to the site root
+   from <html data-root> — both explicit, so a page that moves folder
+   cannot break its links silently.
+
+   THE SERVER READS THIS FILE TOO. Since the pages became Blade views,
+   Laravel needs the same facts (which locales exist, what each calls its
+   lessons folder, what the fixed pages are named). It does not repeat
+   them: `npm run sync` generates config/site.php from here, and the
+   validator refuses to pass if the copy has fallen behind.
    ============================================================ */
 
-/* Import statici scritti a mano: il validatore li risolve su disco, e il
-   browser scarica solo il dizionario che serve davvero. */
-const DIZIONARI = {
+/* Hand-written static imports: the validator resolves them on disk, and
+   the browser downloads only the dictionary it actually needs. */
+const DICTIONARIES = {
   en: () => import('../i18n/en.js'),
   es: () => import('../i18n/es.js'),
 };
 
 export const LOCALES = ['it', 'en', 'es'];
 
-/** Nome della lingua nella lingua stessa (per il selettore). */
+/** The name of each language in that language, for the picker. */
 export const LOCALE_NAMES = { it: 'Italiano', en: 'English', es: 'Español' };
 
-/** Codice completo, per gli attributi hreflang e per l'API. */
+/** Full tag, for hreflang attributes and for the API. */
 export const LOCALE_TAGS = { it: 'it-IT', en: 'en', es: 'es' };
+
+/** The folder each locale calls its lessons. Read by tools/sync-site.mjs. */
+export const LESSON_DIRS = { it: 'lezioni', en: 'lessons', es: 'lecciones' };
+
+/* The fixed pages change name along with the language: a Spanish address
+   that reads "privacidad.html" is fine, one that reads "privacy" is not. */
+const PAGES = {
+  home: { it: '', en: '', es: '' },
+  method: { it: 'metodo.html', en: 'method.html', es: 'metodo.html' },
+  privacy: { it: 'privacy.html', en: 'privacy.html', es: 'privacidad.html' },
+};
 
 const html = typeof document !== 'undefined' ? document.documentElement : null;
 
@@ -41,109 +58,103 @@ function detect() {
 
 export const LOCALE = detect();
 
-/** Prefisso di cartella della lingua: '' per l'italiano, 'en/' e 'es/' per le altre. */
+/** Folder prefix of the current locale: '' for Italian, 'en/' and 'es/' for the rest. */
 export const PREFIX = LOCALE === 'it' ? '' : LOCALE + '/';
 
-/** Percorso relativo dalla pagina corrente alla radice di public_html. */
+/** Path from the current page back to the root of the site. */
 export const ROOT = (html && html.getAttribute('data-root')) || '';
 
+/** The lessons folder of the current locale. */
+export const LESSON_DIR = LESSON_DIRS[LOCALE];
+
 let DICT = {};
-if (LOCALE !== 'it' && DIZIONARI[LOCALE]) {
-  try { DICT = (await DIZIONARI[LOCALE]()).default || {}; }
-  catch { /* dizionario assente: si resta in italiano, che è meglio di niente */ }
+if (LOCALE !== 'it' && DICTIONARIES[LOCALE]) {
+  try { DICT = (await DICTIONARIES[LOCALE]()).default || {}; }
+  catch { /* dictionary missing: we stay in Italian, which beats nothing */ }
 }
 
 /**
- * Traduce, sostituendo i segnaposto in stile Laravel (`:nome`).
+ * Translates, filling in Laravel-style placeholders (`:name`).
  *
  *   t('Livello :n superato', { n: 3 })
  */
-export function t(frase, params = null) {
-  let out = Object.prototype.hasOwnProperty.call(DICT, frase) ? DICT[frase] : frase;
+export function t(phrase, params = null) {
+  let out = Object.prototype.hasOwnProperty.call(DICT, phrase) ? DICT[phrase] : phrase;
   if (params) {
     for (const [k, v] of Object.entries(params)) out = out.split(':' + k).join(String(v));
   }
   return out;
 }
 
-/** Numero scritto come lo scrive la lingua corrente (separatori delle migliaia). */
+/** A number written the way the current language writes it (thousands separators). */
 export function num(n) {
   try { return Number(n).toLocaleString(LOCALE_TAGS[LOCALE] || 'it-IT'); }
   catch { return String(n); }
 }
 
-/* ---------------- la lingua scelta da chi legge ---------------- */
+/* ---------------- the language the reader chose ---------------- */
 
-/* Perché ricordarla: il sito ha tre copie e chi arriva da una ricerca può
-   atterrare su quella sbagliata. Ricordare la scelta serve a NON richiedergliela
-   ogni volta — e soprattutto a non riproporgliela dopo che l'ha già fatta.
+/* Why remember it: the site exists in three languages and someone arriving
+   from a search may land on the wrong one. Remembering the choice is there
+   to avoid asking again — and above all to avoid asking after they have
+   already answered.
 
-   Quello che NON si fa, di proposito: mandare qualcuno su un'altra copia del
-   sito da soli. Google lo sconsiglia esplicitamente e la ricerca sull'usabilità
-   pure — chi cerca una pagina in una lingua e ne riceve un'altra non capisce
-   cosa è successo, e spesso non trova più la strada indietro. Si offre, non si
-   decide: vedi suggerimentoLingua() in ui.js. */
-const CHIAVE_LINGUA = 'qa:lingua';
+   What we deliberately do NOT do: move anybody to another language on our
+   own. Google advises against it explicitly, and so does the usability
+   research — someone who asks for a page in one language and receives
+   another does not understand what happened, and often cannot find the way
+   back. We offer, we do not decide: see languageHint() in ui.js. */
+const LOCALE_KEY = 'qa:lingua';
 
-/** Registra che questa lingua è una scelta esplicita, non un caso. */
-export function ricordaLingua(codice) {
-  try { localStorage.setItem(CHIAVE_LINGUA, codice); } catch { /* navigazione privata: pazienza */ }
+/** Records that this language is a deliberate choice, not an accident. */
+export function rememberLocale(code) {
+  try { localStorage.setItem(LOCALE_KEY, code); } catch { /* private browsing: never mind */ }
 }
 
-/** La lingua scelta in passato, se c'è stata una scelta. */
-export function linguaRicordata() {
+/** The language chosen in the past, if a choice was ever made. */
+export function rememberedLocale() {
   try {
-    const l = localStorage.getItem(CHIAVE_LINGUA);
+    const l = localStorage.getItem(LOCALE_KEY);
     return LOCALES.includes(l) ? l : null;
   } catch { return null; }
 }
 
 /**
- * Le lingue che il browser dichiara di preferire, in ordine, tenendo solo
- * quelle che il sito parla davvero.
+ * The languages the browser says it prefers, in order, keeping only the
+ * ones this site actually speaks.
  *
- * `navigator.languages` è già ordinato per preferenza: è la stessa
- * informazione dell'header Accept-Language, che è quella che l'utente ha
- * configurato una volta e si aspetta venga rispettata.
+ * `navigator.languages` is already sorted by preference: it is the same
+ * information as the Accept-Language header, which is what the reader
+ * configured once and expects to be honoured.
  */
-export function lingueDelBrowser() {
+export function browserLocales() {
   if (typeof navigator === 'undefined') return [];
-  const dichiarate = navigator.languages?.length ? navigator.languages : [navigator.language];
-  const viste = new Set();
-  return (dichiarate || [])
+  const declared = navigator.languages?.length ? navigator.languages : [navigator.language];
+  const seen = new Set();
+  return (declared || [])
     .map(x => String(x || '').slice(0, 2).toLowerCase())
-    .filter(x => LOCALES.includes(x) && !viste.has(x) && viste.add(x));
+    .filter(x => LOCALES.includes(x) && !seen.has(x) && seen.add(x));
 }
 
-/* ---------------- indirizzi ---------------- */
+/* ---------------- addresses ---------------- */
 
-/* Le pagine fisse cambiano nome insieme alla lingua: un indirizzo in
-   spagnolo che dice "metodo.html" va bene, uno che dice "lezioni" no. */
-const PAGINE = {
-  home: { it: 'index.html', en: 'index.html', es: 'index.html' },
-  metodo: { it: 'metodo.html', en: 'method.html', es: 'metodo.html' },
-  privacy: { it: 'privacy.html', en: 'privacy.html', es: 'privacidad.html' },
-};
-
-/** Cartella delle lezioni, per lingua. */
-export const LESSON_DIR = { it: 'lezioni', en: 'lessons', es: 'lecciones' }[LOCALE];
-
-/** Indirizzo di una pagina fissa, valido dalla pagina corrente. */
-export function href(pagina, locale = LOCALE) {
-  const nome = (PAGINE[pagina] || PAGINE.home)[locale] || PAGINE.home[locale];
-  const prefisso = locale === 'it' ? '' : locale + '/';
-  return ROOT + prefisso + nome;
+/** Address of a fixed page, valid from the page you are on. */
+export function href(page, locale = LOCALE) {
+  const name = (PAGES[page] || PAGES.home)[locale] ?? PAGES.home[locale];
+  const prefix = locale === 'it' ? '' : locale + '/';
+  return ROOT + prefix + name;
 }
 
-/** La home della lingua corrente. */
+/** The home page of the current locale. */
 export const homeHref = () => href('home');
 
 /**
- * Selettore di lingua: la stessa pagina nelle altre due lingue.
+ * Language picker: the same page in the other two languages.
  *
- * `alternates` arriva dalla pagina (i link hreflang sono già lì per il
- * motore di ricerca: riusarli evita di calcolarli due volte in modi
- * diversi, che è il modo classico di farli divergere).
+ * The addresses come from the page itself — the hreflang links are already
+ * there for the search engines, and reusing them avoids computing the same
+ * thing twice in two different ways, which is the classic way of letting
+ * them drift apart.
  */
 export function alternates() {
   const out = {};
@@ -151,10 +162,10 @@ export function alternates() {
   document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(l => {
     const lang = l.getAttribute('hreflang').slice(0, 2);
     if (!LOCALES.includes(lang)) return;
-    /* I <link> portano l'indirizzo assoluto, perché è quello che i motori di
-       ricerca pretendono. Il selettore però deve funzionare anche in locale e
-       in anteprima: si tiene solo il percorso, così resta sul dominio da cui
-       stai leggendo. */
+    /* The <link> tags carry the absolute address, because that is what search
+       engines require. The picker, though, has to work locally and in preview
+       too: we keep only the path, so it stays on whichever host you are
+       reading from. */
     try { out[lang] = new URL(l.getAttribute('href'), location.href).pathname; }
     catch { out[lang] = l.getAttribute('href'); }
   });

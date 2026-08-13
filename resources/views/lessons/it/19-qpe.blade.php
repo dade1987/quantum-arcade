@@ -1,0 +1,104 @@
+@php($description = 'La stima quantistica di fase (QPE) spiegata giocando: come leggere una fase nascosta come numero binario usando la QFT inversa. Il motore di Shor e della chimica quantistica.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { stepper } from '/js/core/formula.js';
+import { qpeLab } from '/js/widgets/qft.js';
+
+const L = renderLesson({
+  id: '19-qpe',
+  lead: `Un'operazione quantistica, applicata a certi stati speciali, li lascia identici a parte una <b>fase</b>.
+         Quella fase è un numero che vorremmo <b>leggere</b>… ma le fasi sono invisibili alle misure.
+         La QPE è la macchina che le rende visibili — ed è il motore vero di Shor.`,
+
+  steps: [
+    {
+      t: 'Il problema: leggere l\'invisibile',
+      html: `<p>Esistono stati speciali (si chiamano <b>autostati</b>) che, sotto una certa operazione U, non cambiano
+             se non per un fattore di fase:</p>
+             <div class="formula">U|u⟩ = e^{2πi<span class="hl-k">φ</span>}·|u⟩ &nbsp;&nbsp;&nbsp;<span class="muted">con φ fra 0 e 1</span></div>
+             <p>Se applichi U e poi misuri, non noti <b>nulla</b>: le probabilità sono identiche (livello 1: la fase non si vede).
+             Eppure quel numero φ vale oro: nella chimica quantistica è l'<b>energia</b> di una molecola, in Shor è
+             ciò che nasconde il <b>periodo</b>.</p>
+             <div class="callout key"><b>L'idea della QPE, in una riga:</b> non misurare la fase.
+             <b>Copiala nei qubit</b>, sotto forma di numero binario, e poi misura quelli.</div>`,
+    },
+    {
+      t: 'Come si copia una fase dentro dei qubit',
+      html: `<p>Serve un trucco che conosci già dal livello 9: il <b>phase kickback</b>.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Preparazione', html: 'Prendi <b>t</b> qubit "di lettura" e mettili tutti in sovrapposizione con delle Hadamard. Accanto, tieni lo stato speciale |u⟩.' },
+          { h: 'Applicazioni controllate', html: 'Applica <b>U controllata</b> dal primo qubit di lettura: 1 volta. Poi U controllata dal secondo: <b>2 volte</b>. Dal terzo: <b>4 volte</b>. E così via, raddoppiando.' },
+          { h: 'Cosa succede', html: 'Ogni applicazione di U aggiunge la fase e^{2πiφ}. Applicandola 2^j volte, il qubit numero j si carica di una fase <b>e^{2πi·2^j·φ}</b>. Lo stato |u⟩ non cambia mai: la fase "rimbalza" tutta sui qubit di lettura.' },
+          { h: 'Il risultato intermedio', html: 'I t qubit di lettura si trovano ora in uno stato le cui fasi disegnano esattamente il numero φ scritto in binario, con un giro completo per ogni cifra. È lo stesso stato che si otterrebbe applicando la QFT al numero φ·2^t.' },
+          { h: 'La mossa finale', html: 'Applichi la <b>QFT inversa</b> (QFT†): siccome la QFT trasforma numeri in fasi, la sua inversa trasforma quelle fasi <b>di nuovo in un numero</b>. Ora basta misurare i t qubit e leggere le cifre binarie di φ.' },
+          { h: 'La precisione', html: 'Con t qubit leggi φ con t cifre binarie, cioè con precisione 1/2^t. <b>Ogni qubit di lettura in più raddoppia la precisione.</b>' },
+        ], { doneLabel: 'Meccanismo capito!' });
+      },
+    },
+    {
+      t: 'Provalo: fasi comode e fasi scomode',
+      html: `<p>Muovi la fase nascosta e il numero di qubit di lettura. Guarda l'istogramma:</p>
+             <ul>
+               <li>se φ è <b>rappresentabile esattamente</b> con t cifre binarie (per esempio ½, ¼, ⅜),
+                   esce una barra sola al <b>100%</b>;</li>
+               <li>se non lo è (per esempio ⅓), la probabilità si <b>sparpaglia</b> attorno al valore giusto —
+                   ma resta concentrata: almeno il <b>40%</b> circa sul valore più vicino, e oltre l'80% su uno dei due vicini.</li>
+             </ul>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'qpe', title: 'Aumenta la precisione', text: 'porta i qubit di lettura ad almeno 5 e osserva come si stringe il picco.', xp: 60 });
+        el.appendChild(m.root);
+        qpeLab(el, { t: 4, onWin: () => m.complete() });
+      },
+      after: `<div class="callout"><b>Quel "40%" non è un difetto:</b> è sufficiente. Basta ripetere l'algoritmo qualche volta
+              e prendere il risultato più frequente. Nel calcolo quantistico si convive con la probabilità:
+              l'importante è che la risposta giusta sia <b>molto più probabile</b> delle altre, non che sia certa.</div>`,
+    },
+    {
+      t: 'A cosa serve, concretamente',
+      html: `<table class="table">
+               <tr><th>Ambito</th><th>Cosa è la "fase" φ</th><th>Perché serve</th></tr>
+               <tr><td><b>Algoritmo di Shor</b></td><td>legata al <b>periodo</b> di a^x mod N</td><td>trovare il periodo → fattorizzare (livello 20)</td></tr>
+               <tr><td><b>Chimica quantistica</b></td><td>l'<b>energia</b> di uno stato molecolare</td><td>calcolare energie di legame: è la principale applicazione "utile" attesa</td></tr>
+               <tr><td><b>Algebra lineare quantistica</b></td><td>gli <b>autovalori</b> di una matrice</td><td>sottoprogramma di algoritmi tipo HHL</td></tr>
+             </table>
+             <div class="callout warn"><b>Il costo nascosto:</b> la QPE richiede di applicare U <b>2^t volte</b> in totale
+             (1 + 2 + 4 + … ). Se U è costosa da realizzare, il conto sale in fretta.
+             È uno dei motivi per cui gli algoritmi basati su QPE — Shor compreso — richiedono computer quantistici
+             ben più grandi e stabili di quelli attuali. Ne parliamo al livello 21.</div>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Con t = 3 qubit, quali fasi si leggono <b>esattamente</b>? <span class="muted">(i multipli di 1/8)</span></p>
+        <p><b>2.</b> Metti φ = 0,3 e aumenta t da 2 a 7: guarda il picco stringersi. A che t la lettura è "abbastanza buona"?</p>
+        <p><b>3.</b> Perché applicare U 2^j volte invece che j volte? Cosa succederebbe usando pesi 1, 2, 3, 4 invece di 1, 2, 4, 8?</p>
+        <p class="mb0"><b>4.</b> Da inventore: la QPE è "QFT al contrario". Sapresti immaginare un algoritmo che usa
+           <b>due</b> QFT, una all'andata e una al ritorno? <i>(Esistono: si chiamano algoritmi di "quantum walk".)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'A cosa serve la Quantum Phase Estimation?',
+      options: ['a misurare la posizione di un qubit', 'a leggere una fase nascosta come numero binario', 'a creare entanglement', 'a correggere errori'], correct: 1,
+      why: 'Copia la fase nei qubit di lettura tramite applicazioni controllate di U e poi la rende leggibile con la QFT inversa.' },
+    { q: 'Quante volte va applicata U dal qubit di lettura numero j?',
+      options: ['1 volta', 'j volte', '2^j volte', 'nessuna'], correct: 2,
+      why: 'I pesi raddoppiano (1, 2, 4, 8…) perché così le fasi accumulate corrispondono alle cifre binarie del numero cercato.' },
+    { q: 'Che effetto ha aggiungere un qubit di lettura?',
+      options: ['raddoppia la precisione', 'dimezza il tempo', 'non cambia nulla', 'raddoppia il rumore soltanto'], correct: 0,
+      why: 'Con t qubit la precisione è 1/2^t: ogni qubit in più aggiunge una cifra binaria (e raddoppia però anche il numero di applicazioni di U).' },
+    { q: 'Se la fase non è rappresentabile esattamente con t bit…',
+      options: ['l\'algoritmo fallisce', 'la probabilità si concentra sui valori più vicini', 'esce sempre zero', 'serve un altro algoritmo'], correct: 1,
+      why: 'Si ottiene comunque il valore corretto con probabilità alta (oltre il 40% sul più vicino): basta ripetere qualche volta e prendere il risultato più frequente.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> le fasi non si misurano, ma si possono <b>copiare nei qubit</b>
+          e poi leggere con la QFT inversa; la precisione raddoppia per ogni qubit aggiunto; è il motore di Shor
+          e della chimica quantistica. Adesso hai tutti i pezzi: <b>andiamo a fattorizzare.</b></div>`,
+});
+@endsection

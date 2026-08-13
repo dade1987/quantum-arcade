@@ -1,0 +1,98 @@
+@php($description = 'Coordinate (x,y), frecce e angoli in gradi: le basi geometriche per capire i numeri complessi e la fase quantistica, spiegate con due mini-giochi.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { gridLab, angleLab } from '/js/widgets/basicmath.js';
+
+const L = renderLesson({
+  id: '00-griglia',
+  lead: `Due attrezzi e basta: dire <b>dove</b> sta un punto (coordinate) e dire <b>quanto è girata</b> una freccia (gradi).
+         Con questi due, fra pochi livelli, capirai i numeri complessi senza accorgertene.`,
+
+  steps: [
+    {
+      t: 'Coordinate: due numeri per un punto',
+      html: `<p>Se ti dico "il tesoro è a 3", non basta: tre cosa? Serve dire <b>quanto a destra</b> e <b>quanto in alto</b>.
+             Per questo si usano due numeri, sempre in quest'ordine: <b>(x, y)</b>.</p>
+             <ul>
+               <li><b>x</b> = spostamento orizzontale. Positivo a destra, negativo a sinistra.</li>
+               <li><b>y</b> = spostamento verticale. Positivo in su, negativo in giù.</li>
+             </ul>
+             <p>Il punto (3, 2) vuol dire: parti dal centro, fai 3 passi a destra e 2 in su.
+             Il punto (−4, 1): 4 passi a sinistra e 1 in su.</p>
+             <p><b>Gioca:</b> il bersaglio è nascosto; muovi i cursori (o clicca direttamente sulla griglia) e spara.
+             Dopo ogni tiro ricevi un indizio.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'battaglia', title: 'Battaglia navale', text: 'colpisci 3 bersagli.', xp: 30 });
+        el.appendChild(m.root);
+        gridLab(el, { need: 3, onWin: () => m.complete() });
+      },
+      after: `<div class="callout key"><b>Il collegamento che userai per tutto il corso:</b> la coppia (x, y) descrive
+              sia un <b>punto</b> sia la <b>freccia</b> che ci arriva partendo dal centro. Punto e freccia sono la stessa
+              informazione. Al livello 8 quella freccia si chiamerà <b>numero complesso</b>: x sarà la "parte reale"
+              e y la "parte immaginaria". Niente di nuovo: solo un nome diverso per questo gioco.</div>`,
+    },
+    {
+      t: 'Gradi: quanto è girata una freccia',
+      html: `<p>Un giro completo è <b>360°</b>. È una convenzione antica (i babilonesi contavano in sessantine),
+             ma è comoda perché 360 si divide bene: metà = 180°, un quarto = 90°, un ottavo = 45°.</p>
+             <table class="table">
+               <tr><th>Angolo</th><th>Parte di giro</th><th>Dove punta la freccia</th></tr>
+               <tr><td class="mono">0°</td><td>niente</td><td>a destra →</td></tr>
+               <tr><td class="mono">90°</td><td>un quarto</td><td>in alto ↑</td></tr>
+               <tr><td class="mono">180°</td><td>metà</td><td>a sinistra ←</td></tr>
+               <tr><td class="mono">270°</td><td>tre quarti</td><td>in basso ↓</td></tr>
+               <tr><td class="mono">360°</td><td>giro intero</td><td>a destra → (di nuovo!)</td></tr>
+             </table>
+             <div class="callout"><b>La regola più importante:</b> <b>360° = 0°</b>. Dopo un giro completo sei tornato
+             esattamente al punto di partenza. Gli angoli sono <b>circolari</b>: 370° è come 10°, e −90° è come 270°.</div>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'gradi', title: 'Il goniometro umano', text: 'centra 3 angoli richiesti.', xp: 30 });
+        el.appendChild(m.root);
+        angleLab(el, { need: 3, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Perché queste due cose insieme sono potentissime',
+      html: `<p>Una freccia si può descrivere in <b>due modi diversi ma equivalenti</b>:</p>
+             <div class="grid-2">
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Modo A — coordinate</h3>
+                 <p class="mb0 dim">"vai 3 a destra e 4 in su" → <b>(3, 4)</b><br>
+                 Comodo per <b>sommare</b> due frecce: sommi le x fra loro e le y fra loro.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Modo B — lunghezza e angolo</h3>
+                 <p class="mb0 dim">"lunga 5, girata di 53°" → <b>(5 ; 53°)</b><br>
+                 Comodo per <b>ruotare</b>: basta sommare gradi ai gradi.</p></div>
+             </div>
+             <p>La lunghezza si calcola con Pitagora: √(3² + 4²) = √25 = <b>5</b>.
+             Nel corso useremo <b>tutti e due</b> i modi, scegliendo di volta in volta il più comodo — esattamente come
+             useresti "via Roma 5" oppure "200 metri a nord del bar" per indicare lo stesso posto.</p>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Che coordinate ha il punto opposto a (3, 2) rispetto al centro? E che angolo formano fra loro le due frecce?</p>
+        <p><b>2.</b> Una freccia lunga 1 girata di 90°: quali sono le sue coordinate? E a 180°?</p>
+        <p><b>3.</b> Se sommi le frecce (2, 1) e (−2, −1), cosa ottieni? Prova a immaginarlo prima di calcolarlo.</p>
+        <p class="mb0"><b>4.</b> Se una freccia gira di 45° otto volte di fila, dove finisce? <span class="muted">(45 × 8 = 360 → al punto di partenza)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Il punto (−2, 3) si trova…', options: ['2 a destra e 3 in giù', '2 a sinistra e 3 in su', '3 a sinistra e 2 in su', 'fuori dalla griglia'], correct: 1,
+      why: 'La prima coordinata è sempre la x (orizzontale) e il segno meno vuol dire "a sinistra"; la seconda è la y, positiva quindi verso l\'alto.' },
+    { q: 'Una freccia girata di 180° punta…', options: ['in alto', 'a destra', 'a sinistra', 'in basso'], correct: 2,
+      why: 'Mezzo giro: dalla parte opposta rispetto a 0°, cioè a sinistra. È la stessa cosa che moltiplicare per −1.' },
+    { q: 'Quanto fa 360° + 90°, come direzione?', options: ['450°, una direzione nuova', 'come 90°', 'come 180°', 'come 0°'], correct: 1,
+      why: 'Gli angoli sono circolari: un giro completo ti riporta al punto di partenza, quindi 450° punta esattamente come 90°.' },
+    { q: 'Quanto è lunga la freccia con coordinate (3, 4)?', options: ['7', '5', '12', '3,4'], correct: 1,
+      why: 'Pitagora: √(9 + 16) = √25 = 5. La lunghezza non è la somma delle coordinate.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Fatto!</b> Sai dire dove sta un punto e quanto è girata una freccia.
+          Adesso mettiamo insieme le due cose e vediamo cosa succede a un punto che <b>gira sul cerchio</b>:
+          da lì escono il seno, il coseno e tutte le onde del corso.</div>`,
+});
+@endsection

@@ -1,4 +1,7 @@
-DirectoryIndex index.html index.php
+# Le pagine non sono più file: le costruisce Laravel a partire da un layout
+# solo, così titolo, canonical e hreflang non possono più divergere da una
+# copia all'altra. Qui dentro restano solo gli asset (js, css, immagini).
+DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>

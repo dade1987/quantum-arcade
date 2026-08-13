@@ -59,15 +59,8 @@ comodo per provare la registrazione senza configurare la posta.
 ## Struttura
 
 ```
-public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioco E il front controller
-  index.html               hub: mappa livelli, ripasso spaziato, bio, servizi
+public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — solo asset e front controller
   index.php                front controller di Laravel
-  metodo.html              scelte didattiche e ricerche che le sostengono
-  privacy.html             informativa GDPR
-  lezioni/*.html           28 livelli
-  en/  es/                 le stesse pagine in inglese e spagnolo, con indirizzi tradotti
-                           (en/lessons/, es/lecciones/): stesso id di livello, così i
-                           progressi salvati sul server valgono in tutte e tre le lingue
   css/style.css            tema unico
   js/core/                 motore del gioco
     levels.js              ordine dei livelli e prerequisiti (fonte di verità)
@@ -82,6 +75,16 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
   js/widgets/              i mini-giochi (uno o più per livello)
 
 lang/en.json  lang/es.json  le stesse traduzioni per il lato Laravel (__())
+
+resources/views/           LE PAGINE. Una view per pagina per lingua, un layout per tutte
+  layouts/page.blade.php   <head> di ogni pagina: title, canonical, hreflang, dati strutturati
+  layouts/lesson.blade.php titolo e descrizione di una lezione, presi da levels.js
+  partials/                il selettore di lingua, in un posto solo
+  pages/{it,en,es}/        home, metodo, privacy
+  lessons/{it,en,es}/      le 28 lezioni, con il nome dell'ID (lo slug sta nell'indirizzo)
+
+config/site.php            GENERATO da levels.js con `npm run sync`: lingue, livelli, slug,
+                           titoli. È da qui che nascono le rotte e i <head>
 
 dati/banca-esame-esempio.js   banca domande pubblica (per chi contribuisce)
                            l'esame vero sta in banca-esame-riservata.js, che NON è in git

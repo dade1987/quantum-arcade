@@ -273,9 +273,9 @@ class ChatTest extends TestCase
 
     public function test_l_indicizzazione_avvisa_se_non_trova_pagine(): void
     {
-        $vuota = sys_get_temp_dir() . '/qa-public-vuota-' . uniqid();
+        $vuota = sys_get_temp_dir() . '/qa-views-vuote-' . uniqid();
         mkdir($vuota, 0o777, true);
-        $this->app->usePublicPath($vuota);
+        config(['view.paths' => [$vuota]]);
 
         $this->artisan('chat:ingest --dry')
             ->expectsOutputToContain('Nessuna pagina trovata')
@@ -286,18 +286,20 @@ class ChatTest extends TestCase
 
     public function test_l_indicizzazione_salta_le_pagine_quasi_vuote(): void
     {
-        $dir = sys_get_temp_dir() . '/qa-public-mini-' . uniqid();
-        mkdir($dir, 0o777, true);
-        file_put_contents($dir . '/vuota.html', '<html><body>ciao</body></html>');
-        file_put_contents($dir . '/piena.html', '<html><title>T</title><body>' . str_repeat('contenuto vero e lungo. ', 60) . '</body></html>');
-        $this->app->usePublicPath($dir);
+        $dir = sys_get_temp_dir() . '/qa-views-mini-' . uniqid();
+        mkdir($dir . '/pages/it', 0o777, true);
+        mkdir($dir . '/lessons/it', 0o777, true);
+        file_put_contents($dir . '/pages/it/vuota.blade.php', '<p>ciao</p>');
+        file_put_contents($dir . '/lessons/it/piena.blade.php', '<p>' . str_repeat('contenuto vero e lungo. ', 60) . '</p>');
+        config(['view.paths' => [$dir]]);
 
         $this->artisan('chat:ingest --dry')
             ->expectsOutputToContain('pezzi da 2 pagine')
             ->assertSuccessful();
 
-        unlink($dir . '/vuota.html');
-        unlink($dir . '/piena.html');
+        unlink($dir . '/pages/it/vuota.blade.php');
+        unlink($dir . '/lessons/it/piena.blade.php');
+        foreach (['/pages/it', '/pages', '/lessons/it', '/lessons'] as $sub) rmdir($dir . $sub);
         rmdir($dir);
     }
 

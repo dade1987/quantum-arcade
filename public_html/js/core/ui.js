@@ -6,8 +6,8 @@
    langButton() : selettore di lingua
    ============================================================ */
 
-import { LOCALE, LOCALES, LOCALE_NAMES, alternates, lingueDelBrowser,
-  linguaRicordata, ricordaLingua, t } from './i18n.js';
+import { LOCALE, LOCALES, LOCALE_NAMES, alternates, browserLocales,
+  rememberedLocale, rememberLocale, t } from './i18n.js';
 
 export function h(tag, props = {}, ...children) {
   const el = document.createElement(tag);
@@ -167,7 +167,7 @@ export function langButton() {
       hreflang: suo ? null : l,
       lang: l,
       'aria-current': suo ? 'true' : null,
-      onclick: suo ? null : () => ricordaLingua(l),
+      onclick: suo ? null : () => rememberLocale(l),
     }, h('span', { class: 'lang-tick', 'aria-hidden': 'true' }, suo ? '✓' : ''), LOCALE_NAMES[l]));
   }
 
@@ -210,14 +210,14 @@ export function langButton() {
  *  · è scritta NELLA lingua che propone — è l'unica che chi legge capisce di sicuro;
  *  · «no grazie» vale come scelta e non si ripresenta più.
  */
-export function suggerimentoLingua() {
-  if (linguaRicordata()) return null;                       // ha già deciso: non si insiste
+export function languageHint() {
+  if (rememberedLocale()) return null;                       // ha già deciso: non si insiste
 
   const alt = alternates();
-  const meglio = lingueDelBrowser().find(l => l !== LOCALE && alt[l]);
+  const meglio = browserLocales().find(l => l !== LOCALE && alt[l]);
   if (!meglio) return null;                                 // il browser è già d'accordo con la pagina
 
-  const via = () => { ricordaLingua(meglio); };
+  const via = () => { rememberLocale(meglio); };
   const barra = h('div', { class: 'lang-hint', lang: meglio, role: 'region', 'aria-label': LOCALE_NAMES[meglio] },
     h('span', { class: 'lang-hint-txt' },
       h('span', { 'aria-hidden': 'true' }, '🌐 '),
@@ -227,7 +227,7 @@ export function suggerimentoLingua() {
       TESTI[meglio].passa),
     h('button', {
       class: 'btn tiny ghost',
-      onclick: () => { ricordaLingua(LOCALE); barra.remove(); },
+      onclick: () => { rememberLocale(LOCALE); barra.remove(); },
     }, TESTI[meglio].resta.replace(':lingua', LOCALE_NAMES[LOCALE])),
   );
   return barra;

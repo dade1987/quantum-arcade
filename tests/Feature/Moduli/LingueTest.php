@@ -47,7 +47,7 @@ class LingueTest extends TestCase
         $richiesta = \Illuminate\Http\Request::create('/api/auth/me');
         $richiesta->headers->remove('accept-language');
 
-        (new \App\Http\Middleware\ImpostaLingua())->handle(
+        (new \App\Http\Middleware\SetLocale())->handle(
             $richiesta,
             fn () => new \Illuminate\Http\Response(),
         );

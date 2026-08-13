@@ -36,8 +36,8 @@ return Application::configure(basePath: dirname(__DIR__))
          * API (messaggi di errore, esame) sia per le pagine servite da Laravel
          * (verifica dell'attestato, PDF, email di accesso).
          */
-        $middleware->web(prepend: [\App\Http\Middleware\ImpostaLingua::class]);
-        $middleware->api(prepend: [\App\Http\Middleware\ImpostaLingua::class]);
+        $middleware->web(prepend: [\App\Http\Middleware\SetLocale::class]);
+        $middleware->api(prepend: [\App\Http\Middleware\SetLocale::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

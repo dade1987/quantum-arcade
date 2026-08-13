@@ -1,0 +1,122 @@
+@php($description = 'Fourier synthesis by playing: rebuild a mystery signal by adding simple waves and discover how a square wave is built.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { formula } from '/js/core/formula.js';
+import { synthLab, squareLab } from '/js/widgets/synth.js';
+
+const L = renderLesson({
+  id: '15-somma-onde',
+  lead: `The most powerful idea in all of applied mathematics, in one line: <b>any reasonable signal
+         can be obtained by adding up simple waves</b>. Here we use it backwards and it becomes a game: guessing the recipe.`,
+
+  steps: [
+    {
+      t: 'The fruit salad',
+      html: `
+        <p>You have a smoothie. You taste it and wonder: <b>how much apple is in there? how much pear? how much banana?</b></p>
+        <p>With signals it is identical. A recorded sound is a smoothie of frequencies: inside there are
+        100 Hz, 300 Hz, 1000 Hz all at once… all mixed into a single graph that rises and falls
+        in an apparently incomprehensible way.</p>
+        <div class="callout key"><b>Fourier says:</b> that complicated drawing is <b>only</b> a sum of round waves,
+        each with its own amplitude and its own phase. If I find the list of quantities, I have understood everything about the signal.</div>
+        <p>The list of quantities is called the <b>spectrum</b>. It is the "recipe" of the signal:</p>
+        <div class="formula">
+          signal = <span class="hl-x">3</span>·wave(10 Hz) + <span class="hl-x">0.5</span>·wave(20 Hz) + <span class="hl-x">7</span>·wave(50 Hz) + …
+        </div>
+        <p>Those numbers (3 · 0.5 · 7) are the amplitudes of the various frequencies. They say <b>how much</b> each ingredient
+        contributes to the final result.</p>`,
+    },
+
+    {
+      t: 'Mission: guess the recipe',
+      html: `
+        <p>In the game below there is a <b>mystery signal</b> (pink dashed) built by mixing waves at
+        1, 2, 3, 4 and 5 Hz. You have five sliders: one for each ingredient.</p>
+        <p><b>How to play well:</b> do not go at random. Look at the mystery signal and ask yourself "how many big humps are there
+        in one second?" — that is the dominant frequency. Raise that slider first, then adjust the others.
+        You can also <b>listen</b> to the two signals and compare them by ear.</p>`,
+      mount: el => {
+        const m = L.mission({ key: 'ricetta', title: 'Fourier chef', text: 'bring the error below 0.10 by reconstructing the mystery signal.', xp: 50 });
+        el.appendChild(m.root);
+        synthLab(el, { nComp: 5, onSolve: () => m.complete() });
+      },
+      after: `<div class="callout"><b>What you have just done by hand</b> is exactly the work the Fourier transform
+              does on its own, in one shot and without trial and error. In level 16 we will see <b>how</b> it does it.</div>`,
+    },
+
+    {
+      t: 'Even corners are made with curves',
+      html: `
+        <p>A reasonable objection: "fine for smooth signals, but a <b>square</b> wave has corners.
+        How do you make a corner by adding round curves?"</p>
+        <p>The answer: you need a lot of them, and to make it <b>perfect</b> you would need infinitely many. But with ten we are almost there.
+        The recipe for the square wave is beautiful because it is so regular: only the <b>odd</b> frequencies, each with amplitude
+        <b>1/k</b> (so the high ones count less and less):</p>
+        <div class="formula">square(t) = (4/π) · [ sin(2πt) + <span class="hl-n">⅓</span>·sin(3·2πt) + <span class="hl-n">⅕</span>·sin(5·2πt) + <span class="hl-n">⅐</span>·sin(7·2πt) + … ]</div>
+        <p>Move the slider and watch the cyan curve get closer to the pink corner.</p>`,
+      mount: el => squareLab(el),
+      after: `<p class="dim small">Those little "ears" that remain near the corner, and that never disappear completely,
+              have a name: the <b>Gibbs phenomenon</b>. It is not a bug in the game: it really happens, even in real audio systems.</p>`,
+    },
+
+    {
+      t: 'Let us write it in mathematics (no fear)',
+      html: `<p>What you did with the sliders, written the way a mathematician writes it, is this:</p>`,
+      mount: el => {
+        formula(el, {
+          title: 'Synthesis: from the recipe book to the signal',
+          hint: 'Touch every piece: the formula says exactly what you did with the sliders.',
+          parts: [
+            { t: 'x(t)', id: 'x', color: 'cyan', name: 'the final signal', say: 'The smoothie: what you see on the graph or hear from the loudspeaker.' },
+            { t: '=' },
+            { t: 'Σ', id: 'sum', color: 'green', name: 'sum of all the ingredients', say: 'The Greek sigma only means "add up everything that follows, for every value of k". It is the short way of writing "first + second + third + …".', ex: 'With k going from 1 to 3: Σ = (piece with k=1) + (piece with k=2) + (piece with k=3).' },
+            { t: 'A', id: 'A', color: 'amber', name: 'how much of it there is', say: 'The position of the slider: how much of that frequency we put in the recipe. If it is 0, that ingredient is not there.', ex: 'A₃ = 0.7 → the 3 Hz wave enters with weight 0.7.' },
+            { t: '_k', id: 'k', color: 'violet', name: 'which ingredient', say: 'The index k says WHICH frequency we are talking about: k=1 the slowest, k=2 twice as fast, and so on.' },
+            { t: '·cos(2π' },
+            { t: 'k', id: 'k2', color: 'violet', name: 'the k-th frequency', say: 'By multiplying k inside the cosine, the wave turns k times faster: it is harmonic number k.' },
+            { t: 'f₀t +' },
+            { t: 'φ', id: 'phi', color: 'pink', name: 'the phase of that ingredient', say: 'Every ingredient can also be shifted in time. In the game we kept it at zero for simplicity, but in general every frequency has its own phase.' },
+            { t: '_k)' },
+          ],
+        });
+      },
+      after: `<div class="callout ok"><b>Translated into English:</b> "take all the frequencies, multiply each by how much you want,
+              shift them by the right phase, add everything up". That is it. There is nothing else.</div>`,
+    },
+
+    {
+      t: '💡 Try it yourself',
+      html: `<div class="callout think">
+        <p><b>1.</b> In the recipe game: if you put <b>all</b> the sliders at maximum, what shape comes out? Does it look like anything you know?</p>
+        <p><b>2.</b> Generate a new mystery signal and try to guess it <b>by listening only</b>, without looking at the graph.
+           Can you hear which frequency is missing?</p>
+        <p><b>3.</b> In the square wave the even harmonics are absent. Try to imagine what shape you would get by adding only the <b>even</b> ones.</p>
+        <p class="mb0"><b>4.</b> A serious question: given a signal, is there <b>only one</b> possible recipe, or could there be many different ones
+           giving the same result? <i>(The answer — only one — is why Fourier works, and it is the basis of level 16.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'What does "spectrum of a signal" mean?',
+      options: ['Its graph over time', 'The list of how much there is of every frequency', 'Its maximum amplitude', 'Its period'],
+      correct: 1,
+      why: 'The spectrum is the <b>recipe</b>: for every frequency it says how much of it the signal contains (and, in general, with which phase).' },
+    { q: 'To build a perfect square wave you need…',
+      options: ['two waves', 'only the even frequencies', 'infinitely many odd harmonics', 'a square wave: it cannot be done with sinusoids'],
+      correct: 2,
+      why: 'You need <b>infinitely many</b> odd harmonics with amplitude 1/k. With a few harmonics you get an excellent approximation, with the typical Gibbs "ears" near the corner.' },
+    { q: 'The symbol Σ in a formula means…',
+      options: ['multiply', 'add up all the pieces', 'integrate', 'the standard deviation'],
+      correct: 1,
+      why: 'It is just a compact way of writing "first + second + third + …". Every time you see Σ, read <b>"add up all"</b> and the formula stops being scary.' },
+  ],
+
+  outro: `<div class="callout ok"><b>What you take home:</b> every signal = a sum of simple waves; the list of quantities is called the
+          <b>spectrum</b>; building the signal from the recipe is called <b>synthesis</b>. Now we need the tool for doing the opposite
+          (from the signal to the recipe): and that tool is made of <b>spinning arrows</b>. Level 16.</div>`,
+});
+@endsection

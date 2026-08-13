@@ -1,0 +1,124 @@
+@php($description = 'El único mecanismo que hay detrás de todo algoritmo cuántico: las amplitudes se suman antes de elevarlas al cuadrado, así que los caminos opuestos pueden cancelarse.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { stepper } from '/js/core/formula.js';
+import { circuitLab } from '/js/widgets/circuit.js';
+import { manyArrows } from '/js/widgets/twowaves.js';
+
+const L = renderLesson({
+  id: '07-interferenza',
+  lead: `Ya has visto la interferencia en acción (dos H que devuelven el cúbit a cero). Ahora la miramos de frente,
+         porque es el <b>único</b> mecanismo que hace útil a un ordenador cuántico. Todo lo demás es adorno.`,
+
+  steps: [
+    {
+      t: 'Varios caminos para llegar al mismo resultado',
+      html: `<p>Esta es la regla completa del cálculo cuántico, en dos líneas:</p>
+             <div class="callout key">
+               <b>1.</b> Si un resultado se puede obtener de <b>varias maneras distintas</b>, se <b>suman las amplitudes</b> de todas esas maneras.<br>
+               <b>2.</b> Solo <b>al final</b>, al medir, se eleva al cuadrado para obtener la probabilidad.
+             </div>
+             <p>Parece un detalle sin importancia. No lo es. En el mundo clásico se suman <b>las probabilidades</b>
+             (números siempre positivos) y por tanto más caminos = más probabilidad. En el mundo cuántico se suman
+             <b>las amplitudes</b>, que pueden tener signo opuesto y por tanto <b>anularse</b>.</p>
+             <table class="table">
+               <tr><th>Situación</th><th>Mundo clásico</th><th>Mundo cuántico</th></tr>
+               <tr><td>dos caminos, cada uno al 50%</td><td>0,5 + 0,5 = <b>100%</b></td><td>amplitudes +0,7 y +0,7 → suma 1,4 → prob. 100%… <span class="muted">(¡demasiado!)</span></td></tr>
+               <tr><td>dos caminos con signo opuesto</td><td>no existe</td><td>amplitudes +0,7 y −0,7 → suma <b>0</b> → prob. <b>0%</b></td></tr>
+             </table>
+             <p class="dim small">(El "demasiado" de la primera fila se arregla solo: las puertas cuánticas están hechas de forma
+             que el total siga siendo siempre 100%. Es la regla de unitariedad del nivel 3.)</p>
+             <div class="callout"><b>Nombres que conviene saber:</b> cuando las amplitudes se suman y el resultado se vuelve más probable
+             se habla de <b>interferencia constructiva</b>; cuando se cancelan, de <b>interferencia destructiva</b>.</div>`,
+    },
+    {
+      t: 'La cuenta completa de H · H (hecha de una vez por todas)',
+      html: `<p>Rehagamos el cálculo del nivel 1, pero esta vez contando los <b>caminos</b>. Partimos de |0⟩ y aplicamos H dos veces.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Los caminos posibles', html: 'Tras la primera H el cúbit es "0 y 1 a la vez". Tras la segunda, para llegar al resultado final <b>1</b> hay <b>dos caminos</b>:<br>• camino A: 0 → 0 → 1<br>• camino B: 0 → 1 → 1' },
+          { h: 'Amplitud del camino A', html: 'H|0⟩ da amplitud <b>+1/√2</b> al 0. Luego desde 0 la segunda H da <b>+1/√2</b> al 1.<br>Amplitud del camino = (+1/√2) × (+1/√2) = <b>+1/2</b>.' },
+          { h: 'Amplitud del camino B', html: 'H|0⟩ da amplitud <b>+1/√2</b> al 1. Luego desde 1 la segunda H da <b>−1/√2</b> al 1 (¡es la línea del menos!).<br>Amplitud del camino = (+1/√2) × (−1/√2) = <b>−1/2</b>.' },
+          { h: 'Se suman', html: '(+1/2) + (−1/2) = <b>0</b>.<br>Probabilidad de leer 1 = 0² = <b>0%</b>. Ese resultado no saldrá <b>nunca</b>.' },
+          { h: '¿Y el resultado 0?', html: 'Los dos caminos dan (+1/√2)(+1/√2) = +1/2 y (+1/√2)(+1/√2) = +1/2 → suma <b>1</b> → probabilidad <b>100%</b>.<br>Por eso H·H|0⟩ = |0⟩ siempre.' },
+          { h: 'La moraleja', html: 'Un ordenador cuántico no "prueba todos los caminos y elige el mejor". <b>Recorre todos los caminos a la vez y se las arregla para que los equivocados se cancelen entre sí.</b> Si te quedas con una sola frase de este curso, que sea esta.' },
+        ], { doneLabel: '¡La cuenta cuadra!' });
+      },
+      after: `<p>Compruébalo con tus propias manos: en el laboratorio de abajo carga el preajuste <b>H·H = identidad</b>,
+              y luego usa el deslizador «ejecuta paso a paso» para ver las amplitudes antes y después.
+              Después prueba <b>H·Z·H</b>: cambiando <i>un solo signo</i> en medio, el resultado final se invierte por completo.</p>`,
+    },
+    {
+      t: 'Pruébalo en el simulador',
+      html: `<p>Pon a prueba las dos situaciones. Sugerencia: mira el <b>color</b> de las barras — barras de color opuesto
+             son amplitudes de signo opuesto, es decir, candidatas a cancelarse en la puerta siguiente.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'hzh', title: 'Invierte el resultado', text: 'construye H → Z → H en q0 y obtén |1⟩ al 100%.', xp: 45 });
+        el.appendChild(m.root);
+        circuitLab(el, {
+          n: 1, maxCols: 6, preset: 'hh',
+          title: 'Banco de pruebas de la interferencia', subtitle: '1 cúbit, pocas puertas, mucha sustancia',
+          onChange: ({ ops, state }) => {
+            const seq = ops.map(o => o.g).join(',');
+            const p1 = state.re[1] ** 2 + state.im[1] ** 2;
+            if (seq === 'H,Z,H' && p1 > 0.99) m.complete();
+          },
+        });
+      },
+    },
+    {
+      t: 'Cuando dos signos ya no bastan',
+      html: `<p>Hasta ahora las amplitudes solo han sido <b>positivas o negativas</b>: dos direcciones nada más, adelante y atrás.
+             Con solo dos direcciones se pueden hacer dos cosas: sumar (+ y +) o cancelar (+ y −).</p>
+             <p>Pero imagina tener <b>ocho</b> posibilidades y querer cancelar siete dejando en pie una sola.
+             Con solo dos signos no lo consigues: necesitas amplitudes que apunten en <b>muchas direcciones distintas</b>,
+             para poder <b>cerrar el círculo</b> y sumar cero.</p>
+             <p>Juega con el desorden de aquí abajo: con flechas todas iguales la suma es enorme, con flechas dispersas es cero.
+             Las "direcciones" son los grados del nivel 0·2.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'cancella', title: 'Haz que desaparezca todo', text: 'lleva el desorden a 360° con al menos 20 flechas y obtén una suma cercana a cero.', xp: 40 });
+        el.appendChild(m.root);
+        manyArrows(el, { onChange: ({ n, mag }) => { if (n >= 20 && mag < n * 0.25) m.complete(); } });
+      },
+      after: `<div class="callout key"><b>Por eso en el nivel siguiente llegan los números complejos.</b>
+              No por presumir: porque hacen falta <b>flechas que apunten en cualquier dirección</b>,
+              y los números complejos son exactamente la forma cómoda de escribirlas. Todo lo que aprenderás
+              en el nivel 8 sirve para este propósito concreto.</div>`,
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> En el simulador prueba <b>H → X → H</b> sobre un cúbit. ¿Qué resultado esperas? Compruébalo.
+           <span class="muted">(sale |0⟩: la X en el ecuador hace otro tipo de giro)</span></p>
+        <p><b>2.</b> Con 3 flechas, ¿qué direcciones las hacen cancelarse exactamente? <span class="muted">(0°, 120°, 240°)</span></p>
+        <p><b>3.</b> Si un algoritmo tiene que sacar <b>una</b> respuesta entre 8, ¿cuántas amplitudes tiene que cancelar?
+           ¿Y qué aspecto tendrá el histograma final?</p>
+        <p class="mb0"><b>4.</b> Pregunta para guardarte hasta el nivel 11 (Grover): ¿existe alguna manera de hacer las cancelaciones
+           <b>poco a poco</b> en vez de todas de golpe?</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'En el cálculo cuántico, cuando un resultado se puede obtener de dos maneras distintas…',
+      options: ['se suman las probabilidades', 'se suman las amplitudes, y solo al final se eleva al cuadrado', 'se toma la mayor', 'se multiplican las probabilidades'], correct: 1,
+      why: 'Es la regla fundamental. Sumar las amplitudes antes del cuadrado es lo que permite la cancelación: sumando probabilidades (siempre positivas) nunca se podría obtener cero.' },
+    { q: 'Dos amplitudes +0,5 y −0,5 que se encuentran dan una probabilidad de…',
+      options: ['50%', '25%', '0%', '100%'], correct: 2,
+      why: 'Suma = 0, cuadrado = 0. Ese resultado no se observa nunca: interferencia destructiva.' },
+    { q: '¿Por qué H·H devuelve el cúbit exactamente a |0⟩?',
+      options: ['porque H es aleatoria', 'porque los dos caminos hacia |1⟩ tienen amplitudes opuestas y se cancelan', 'porque H mide el cúbit', 'por convención'], correct: 1,
+      why: 'Los caminos hacia |1⟩ valen +1/2 y −1/2: suma cero. Los que van a |0⟩ valen +1/2 y +1/2: suma 1.' },
+    { q: '¿Por qué harán falta amplitudes "en flecha" en vez de solo positivas/negativas?',
+      options: ['para hacer las cuentas más deprisa', 'para poder cancelar muchas posibilidades de forma controlada, no solo por parejas', 'porque los cúbits son complicados', 'para representar más de 2 cúbits'], correct: 1,
+      why: 'Con solo dos signos únicamente se pueden sumar o cancelar parejas. Con flechas en muchas direcciones se puede hacer que muchas amplitudes cierren el círculo a la vez: es el mecanismo de la QFT.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas a casa:</b> las amplitudes se <b>suman</b> y luego se elevan al cuadrado;
+          las amplitudes opuestas se cancelan; un algoritmo cuántico es una <b>dirección de las cancelaciones</b>.
+          Nivel siguiente: damos a las amplitudes la libertad de apuntar a cualquier sitio.</div>`,
+});
+@endsection

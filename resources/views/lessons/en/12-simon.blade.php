@@ -1,0 +1,170 @@
+@php($description = 'Simon\'s algorithm explained by playing: finding a hidden period with a handful of questions instead of millions. The first exponential quantum advantage, and the direct bridge to Shor\'s algorithm.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { stepper } from '/js/core/formula.js';
+import { simonLab } from '/js/widgets/algos.js';
+
+const L = renderLesson({
+  id: '12-simon',
+  lead: `At level 10 you stole a secret <b>string</b>. Now the secret is more elusive: it is a <b>period</b>.
+         And this is where the quantum advantage stops being "a bit better" and becomes <b>exponential</b>.`,
+
+  steps: [
+    {
+      t: 'The problem: a function that repeats itself',
+      html: `<p>There is a function f that takes ${'n'} bits and returns just as many. You do not know how it is built, but you do know
+             it hides a rule: there is a secret string <b>s</b> such that</p>
+             <div class="formula">f(x) = f(x ⊕ s) &nbsp;&nbsp;<span class="muted">for every x</span></div>
+             <p>The symbol <b>⊕</b> is XOR: you compare the bits one by one and write 1 wherever they <b>differ</b>.
+             It is the simplest way of saying "shift by s".</p>
+             <pre><code>1 0 1 1        s = 0110
+⊕ 0 1 1 0
+─────────
+= 1 1 0 1      → f(1011) = f(1101)</code></pre>
+             <p>The consequence: <b>every value comes out exactly twice</b>, and the two x that produce it
+             are always s apart. The function is like a shape that repeats: if you discover how far it is shifted,
+             you have discovered the secret.</p>
+             <div class="callout key">This is the first time in the course that we look for a <b>period</b> and not a value.
+             Keep it in mind: a few levels from now we will do exactly the same thing with
+             <b>f(x) = a^x mod N</b>, and that period is worth the factorisation of whole numbers.</div>`,
+    },
+    {
+      t: 'What it costs classically: the birthday paradox',
+      html: `<p>With an ordinary computer the only route is to ask for values of f until you find <b>two identical ones</b>.
+             Once you have the pair, the secret is free: <code>s = x₁ ⊕ x₂</code>.</p>
+             <p>How many questions does that take? It is the same count as people in a room sharing a birthday:
+             with 2^n possible values, a collision turns up after roughly <b>√(2^n)</b> attempts.</p>
+             <table class="table">
+               <tr><th>Bits of the secret</th><th>Classical questions (about)</th><th>Quantum questions</th></tr>
+               <tr><td>3</td><td>3</td><td>2</td></tr>
+               <tr><td>10</td><td>32</td><td>9</td></tr>
+               <tr><td>40</td><td>1,048,576</td><td>39</td></tr>
+               <tr><td>80</td><td>1,208,925,819,614,629,174,706,176</td><td>79</td></tr>
+             </table>
+             <p>The left-hand column <b>doubles every two bits</b>; the right-hand one grows by one. With 80 bits,
+             a computer asking a billion questions per second would take <b>longer than the age of the universe</b>;
+             the quantum method would ask 79.</p>
+             <p class="dim small">And it is not that "we have not found the right algorithm yet": for this problem it is
+             <b>proven</b> that classically you cannot do better. It is the first proven exponential separation
+             in the history of quantum computing (Daniel Simon, 1994) — and it is the paper that
+             convinced Peter Shor to look for something similar for factorisation.</p>`,
+    },
+    {
+      t: 'Play with it: the slow road and the fast one',
+      html: `<p>Below is the oracle with a 3-bit secret. You can question it in two ways.</p>
+             <p><b>🐌 The classical way:</b> click the cells one by one and hunt for two equal values.
+             With 3 bits it is easy — but look at how many cells you have to uncover, and imagine the same thing with 8 cells
+             billions of times more numerous.</p>
+             <p><b>⚛️ The quantum way:</b> a single call to the oracle questions <b>all the x together</b>.
+             The result is not the secret: it is an <b>equation</b> about the secret. Collect two independent ones
+             and the system solves itself.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({
+          key: 'simon',
+          title: 'Find the period with mathematics, not with brute force',
+          text: 'collect enough quantum equations and solve the system.',
+          xp: 60,
+        });
+        el.appendChild(m.root);
+        simonLab(el, { n: 3, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Why every measurement is an equation',
+      html: `<p>This is the finest passage of the level, and it is worth following line by line:
+             it is the <b>exact same mechanism</b> that will make Shor work at level 20.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: '1. Two registers, not one',
+            html: 'You need two registers of n qubits: one for the <b>question</b> x, one for the <b>answer</b> f(x). You cannot overwrite the input with the output, because every quantum operation must be reversible: the answer is <b>added in XOR</b> to the second register.' },
+          { h: '2. Hadamard on the first register',
+            html: 'All 2^n questions together, with the same amplitude. Just as in levels 9 and 10.' },
+          { h: '3. A single call to the oracle',
+            html: 'Now the state contains <b>all</b> the pairs (x, f(x)) at once. Careful: this is not "we have computed everything" — if we measured now we would get <b>one</b> pair at random, exactly like rolling a die. The information is there but it is not readable yet.' },
+          { h: '4. We measure the second register',
+            html: 'Out comes a value v, which by itself says nothing useful. But the collapse works the magic: <b>only</b> the x with f(x) = v stay in the game, and there are exactly <b>two</b> of them: x₀ and x₀⊕s.<br>The state of the first register is now <code>(|x₀⟩ + |x₀⊕s⟩)/√2</code>. The secret is in there — but if we measured, we would get one of the two at random, and <b>one</b> point does not tell you how far the shape is shifted.' },
+          { h: '5. Hadamard again: the transform',
+            html: 'Hadamards on n qubits send every |x⟩ into a sum of all the |y⟩ with sign <code>(−1)^(x·y)</code>. Applying them to our two states, the amplitude of every |y⟩ becomes proportional to<br><code>(−1)^(x₀·y) + (−1)^((x₀⊕s)·y)</code>' },
+          { h: '6. The cancellation (the heart)',
+            html: 'That second exponent is worth <code>x₀·y + s·y</code>. So:<br>• if <b>s·y = 0</b> the two signs are <b>the same</b> → they add up → double amplitude;<br>• if <b>s·y = 1</b> the two signs are <b>opposite</b> → they <b>cancel</b> → zero amplitude.<br>Look at the bars in the game: exactly half of them are gone, and it is no accident — they are all and only the ones "not orthogonal" to the secret.' },
+          { h: '7. What you are holding',
+            html: 'You measure and get a random y <b>from among the survivors</b>. It is not the secret, but you know that <b>y·s = 0</b>: a linear equation mod 2. Repeat: every round costs <b>one</b> call to the oracle and yields one equation.' },
+          { h: '8. The last step is classical',
+            html: 'With n−1 independent equations only one non-zero s is left, and you find it with <b>Gaussian elimination</b> — the same one as the systems you did at school, with XOR instead of subtraction. The quantum computer has done the impossible part; a laptop does the rest in a thousandth of a second.' },
+          { h: '9. Why sometimes you need one extra round',
+            html: 'The y come out at random: you may get one that is the sum of two you have already seen, and then it adds nothing (in the game you see "independent: 1 of 2"). On average a little more than n−1 rounds is enough.' },
+        ], { doneLabel: 'Got it!' });
+      },
+    },
+    {
+      t: 'The bridge to Shor',
+      html: `<p>Line up what you have learned over the last three levels:</p>
+             <table class="table">
+               <tr><th>Level</th><th>What is hidden</th><th>How you read it</th></tr>
+               <tr><td>10 · Bernstein–Vazirani</td><td>a string s</td><td>Hadamard (Fourier on + and −)</td></tr>
+               <tr><td>12 · Simon</td><td>a period s, in XOR</td><td>Hadamard + linear system</td></tr>
+               <tr><td>20 · Shor</td><td>a period r, in real arithmetic</td><td><b>QFT</b> + continued fractions</td></tr>
+             </table>
+             <p>Simon and Shor are <b>the same algorithm</b> with a different tool. The structure is identical:
+             two registers, superposition, one call to the oracle, measurement of the second register to make
+             the first collapse onto a periodic set, transform on the first, measurement, final classical mathematics.</p>
+             <div class="callout key">Why are Hadamards not enough for Shor? Because his period is not an XOR
+             shift but a <b>real addition</b>: 0, r, 2r, 3r… To read that kind of periodicity you need arrows that
+             point in <b>every</b> direction, not just forwards and backwards. Those arrows are waves —
+             and that is why the next chapter of the course is about waves and Fourier.</div>
+             <p>In other words: you have just earned the right to know what a Fourier transform is,
+             because now you know <b>what you need it for</b>.</p>`,
+    },
+    {
+      t: '💡 Try it yourself',
+      html: `<div class="callout think">
+        <p><b>1.</b> In the game, try solving the system with <b>a single</b> equation. How many s remain possible?
+           And with two? The count is 2^(n−1), 2^(n−2)… can you work out why on your own?</p>
+        <p><b>2.</b> What would happen if the secret were <code>s = 000</code>? Would the function still be two-to-one?
+           And what equations would the algorithm give? <i>(Hint: y·0 = 0 always.)</i></p>
+        <p><b>3.</b> Why does measuring the second register <b>not</b> waste the information, even though the value read
+           is useless? Try explaining it to someone using the word "collapse".</p>
+        <p class="mb0"><b>4.</b> An inventor's question: the oracle is a black box. In real life nobody hands you
+           such a box — you are the one who builds it starting from a function you care about.
+           Which function would you build, if you wanted to break a cipher?
+           <i>(The person who asked himself this question in 1994 was called Peter Shor.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'What does Simon\'s oracle hide?',
+      options: ['a single value x', 'a period s such that f(x) = f(x ⊕ s)', 'the key of a cipher', 'a prime number'],
+      correct: 1,
+      why: 'Every value of the function comes out twice, and the two x that produce it are always s apart: the function repeats with period s (in XOR).' },
+    { q: 'Roughly how many questions do you need classically, for a secret of n bits?',
+      options: ['n', 'n²', '√(2^n)', '2^n'],
+      correct: 2,
+      why: 'You have to find a collision, and by the birthday paradox it turns up after about the square root of the number of possible values: √(2^n). With 80 bits that is more than a thousand billion billion questions.' },
+    { q: 'What do you get out of ONE quantum query?',
+      options: ['the secret s', 'an equation y·s = 0', 'two bits of s', 'nothing useful'],
+      correct: 1,
+      why: 'The final measurement gives a y taken from among those that satisfy y·s = 0: it is not the secret, it is a constraint on it. With n−1 independent constraints the secret is determined.' },
+    { q: 'Why do the y with y·s = 1 never come out?',
+      options: ['because the oracle forbids them', 'because they receive two contributions of opposite sign that cancel out', 'because they have low but possible probability', 'because they are measured afterwards'],
+      correct: 1,
+      why: 'Destructive interference: the two remaining states, x₀ and x₀⊕s, contribute to those y with opposite signs. It is the same mechanism as Grover and the QFT, applied to a period.' },
+    { q: 'The last step of Simon (solving the system mod 2) is carried out…',
+      options: ['by the quantum computer', 'by a classical computer', 'by the oracle', 'it is not needed'],
+      correct: 1,
+      why: 'It is an ordinary Gaussian elimination with XOR: extremely fast classically. Real quantum algorithms are almost always like this — a quantum piece that does the impossible thing, wedged into a classical program.' },
+    { q: 'What is the relationship between Simon and Shor?',
+      options: ['none', 'same structure, but Shor looks for a period in real arithmetic and reading it needs the QFT', 'Shor is the classical version of Simon', 'Simon factorises numbers'],
+      correct: 1,
+      why: 'Two registers, oracle, measurement that collapses onto a periodic set, transform, measurement, final classical mathematics. Only the kind of period changes: XOR for Simon, real addition for Shor — and for that you need waves.' },
+  ],
+
+  outro: `<div class="callout ok"><b>What you take home:</b> the first proven <b>exponential</b> advantage,
+          and the idea that holds up the whole rest of the course: <b>a measurement can be an equation</b>.
+          You have also discovered the limit of Hadamards — they only read periods in XOR.
+          For real periods you need waves: and indeed the next part of the course is about exactly those.</div>`,
+});
+@endsection

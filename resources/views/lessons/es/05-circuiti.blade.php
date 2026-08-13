@@ -1,0 +1,101 @@
+@php($description = 'Cómo se lee un circuito cuántico, una zona libre de 3 cúbits para construir estados de Bell y GHZ, y cómo contar los recursos que importan: cúbits, profundidad y puertas de dos cúbits.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { circuitLab } from '/js/widgets/circuit.js';
+
+const L = renderLesson({
+  id: '05-circuiti',
+  lead: `Nivel-taller: aquí no se aprende nada nuevo, se <b>pone en práctica</b> todo lo anterior.
+         Un circuito cuántico es solo una <b>partitura</b>: los cúbits son los pentagramas, las puertas son las notas, se lee de izquierda a derecha.`,
+
+  steps: [
+    {
+      t: 'Cómo se lee un circuito',
+      html: `<p>Las reglas de lectura, todas aquí:</p>
+             <ul>
+               <li>cada <b>línea horizontal</b> es un cúbit; siempre parte de |0⟩ (a la izquierda).</li>
+               <li>el tiempo corre de <b>izquierda a derecha</b>: las puertas se aplican en el orden en que las encuentras.</li>
+               <li>un <b>cuadradito</b> con una letra es una puerta sobre ese cúbit.</li>
+               <li>un <b>punto</b> conectado a un símbolo ⊕ es un <b>control</b>: "haz esto <i>solo si</i> el cúbit del punto vale 1".</li>
+               <li>al final está (sobreentendido) el <b>medidor</b>.</li>
+             </ul>
+             <div class="callout"><b>Cuidado con una cosa que confunde:</b> el circuito se lee como un programa,
+             pero <b>no</b> es un programa clásico. No hay "si… entonces" decididos durante la ejecución:
+             todos los caminos se recorren a la vez, y el resultado lo decide la interferencia.</div>`,
+    },
+    {
+      t: 'La zona libre',
+      html: `<p>Elige una puerta de la paleta y haz clic en la cuadrícula para colocarla. Para las puertas de dos cúbits
+             (CNOT, CZ, SWAP) haz clic <b>primero en el control y luego en el objetivo</b>. Haz clic en una puerta ya colocada para quitarla.</p>
+             <p><b>Las tres cosas que mirar siempre:</b></p>
+             <ol>
+               <li>las <b>barras de las amplitudes</b> (altura = cuánto vale, color = fase/signo);</li>
+               <li>el <b>histograma de las medidas</b>: lo que verías de verdad ejecutando el circuito 200 veces;</li>
+               <li>el <b>estado escrito</b> debajo: la fórmula con todos sus términos.</li>
+             </ol>`,
+      mount: (el, api) => {
+        const m1 = api.mission({ key: 'ghz', title: 'Construye un GHZ', text: 'crea el estado |000⟩ + |111⟩ (H en q0, luego dos CNOT encadenadas) y mídelo 200 veces.', xp: 50 });
+        el.appendChild(m1.root);
+        circuitLab(el, {
+          n: 3, maxCols: 8,
+          onChange: ({ state, n }) => {
+            const p = (i) => state.re[i] ** 2 + state.im[i] ** 2;
+            if (n === 3 && Math.abs(p(0) - 0.5) < 0.02 && Math.abs(p(7) - 0.5) < 0.02) m1.complete();
+          },
+        });
+      },
+      after: `<div class="callout key"><b>Experimentos recomendados</b> (en orden de sorpresa creciente):
+              <ol style="margin:8px 0 0">
+                <li><b>H en q0</b> y nada más: dos barras iguales. Sencillo.</li>
+                <li><b>H en q0, H en q1, H en q2</b>: ocho barras iguales. Has puesto en juego <b>todas</b> las 8 posibilidades con 3 puertas.</li>
+                <li><b>H q0 → CNOT q0→q1</b>: el estado de Bell. Solo 00 y 11.</li>
+                <li><b>H q0 → CNOT q0→q1 → CNOT q1→q2</b>: GHZ. Tres cúbits todos de acuerdo entre sí.</li>
+                <li>Preajuste <b>QFT sobre 3 cúbits</b>: mira cuántas puertas hacen falta y qué dibujo hacen las fases. Volveremos a ello en el nivel 18.</li>
+              </ol></div>`,
+    },
+    {
+      t: 'La cuenta de los recursos (lo que cuenta en la realidad)',
+      html: `<p>Cuando se diseña un algoritmo de verdad, se cuentan tres cosas:</p>
+             <table class="table">
+               <tr><th>Recurso</th><th>Qué es</th><th>Por qué importa</th></tr>
+               <tr><td><b>Número de cúbits</b></td><td>cuántas filas tiene el circuito</td><td>los ordenadores reales tienen pocos y además imperfectos</td></tr>
+               <tr><td><b>Profundidad</b></td><td>cuántas columnas (pasos en secuencia)</td><td>cuanto más profundo, más tiempo pasa y más lo estropea el ruido (nivel 21)</td></tr>
+               <tr><td><b>Número de puertas de 2 cúbits</b></td><td>cuántas CNOT/CZ</td><td>son las más difíciles de realizar y las más ruidosas</td></tr>
+             </table>
+             <p>En el simulador puedes contarlas a ojo: es un ejercicio excelente antes de pasar a los algoritmos de verdad.</p>
+             <div class="callout warn"><b>Por qué tu navegador aguanta:</b> aquí simulamos 3 cúbits, es decir 8 amplitudes.
+             Con 30 cúbits harían falta más de mil millones de números complejos. Por eso los simuladores clásicos
+             se paran alrededor de los 40 cúbits incluso en superordenadores — y por eso hacen falta ordenadores cuánticos de verdad.</div>`,
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> Construye un circuito que produzca <b>las 8</b> salidas con la misma probabilidad. ¿Cuántas puertas hacen falta?</p>
+        <p><b>2.</b> Ahora prueba a producir <b>solo</b> |101⟩ con certeza. ¿Cuántas puertas? ¿Qué diferencia hay con el punto 1?</p>
+        <p><b>3.</b> Crea un estado de Bell y luego aplica <b>H a los dos</b> cúbits. ¿Qué pasa? ¿Sabes explicarlo?</p>
+        <p class="mb0"><b>4.</b> Reto de verdad: construye un circuito que dé |00⟩ y |11⟩ con probabilidades <b>distintas</b> (por ejemplo 80/20)
+           en vez de 50/50. <span class="muted">(pista: en lugar de la H usa una rotación RY con el ángulo adecuado)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'En un circuito cuántico, el punto relleno conectado a otra puerta indica…',
+      options: ['una medida', 'un cúbit de control', 'un error', 'el final del circuito'], correct: 1,
+      why: 'Es el control: la puerta conectada actúa solo sobre la parte del estado en la que ese cúbit vale 1.' },
+    { q: '¿Cuántas puertas hacen falta para poner 3 cúbits en superposición uniforme (8 resultados equiprobables)?',
+      options: ['8', '3 (una H por cúbit)', '1', '24'], correct: 1,
+      why: 'Una Hadamard por cúbit: 3 puertas para 8 posibilidades. Con n puertas se obtienen 2^n — es el primer aperitivo de la ventaja cuántica.' },
+    { q: 'La "profundidad" de un circuito es…',
+      options: ['el número de cúbits', 'el número de pasos en secuencia', 'el número de medidas', 'la memoria usada'], correct: 1,
+      why: 'Las columnas, es decir cuánto tiempo está el circuito en ejecución. Es el recurso que más castiga el ruido.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas a casa:</b> saber leer y construir circuitos. De aquí en adelante
+          todo algoritmo que te encuentres será "solo" un circuito con una dirección precisa de las interferencias.
+          Nivel siguiente: qué <b>no</b> se puede hacer con los cúbits (y cómo sortearlo).</div>`,
+});
+@endsection
