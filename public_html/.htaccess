@@ -13,14 +13,19 @@ DirectoryIndex index.php
 # nuova che dal browser semplicemente non c'era.
 #
 # Il punto è che HTML, CSS e JS di questo sito cambiano INSIEME: se uno dei tre
-# è vecchio, non si vede metà funzione — si vede una pagina rotta. Quindi
-# quei tre si riconvalidano a ogni visita: con l'ETag, se non è cambiato niente
-# la risposta è un 304 di poche decine di byte, cioè costa quanto niente.
+# è vecchio, non si vede metà funzione — si vede una pagina rotta. Quindi si
+# riconvalidano a ogni visita: con l'ETag, se non è cambiato niente la risposta
+# è un 304 di poche decine di byte, cioè costa quanto niente.
+#
+# Qui sotto ci sono solo CSS e JS, perché sono gli unici due che restano FILE.
+# Le pagine le costruisce Laravel, e <FilesMatch> guarda il file servito — che
+# per loro è sempre index.php: la regola non le vedrebbe comunque. Non serve:
+# Laravel risponde già «no-cache, private», che è più stretto di così.
 #
 # Le immagini e i font no: quelli restano in cache un mese, perché quando
 # cambiano davvero cambiano nome.
 <IfModule mod_headers.c>
-  <FilesMatch "\.(html|js|css|json|txt|xml)$">
+  <FilesMatch "\.(js|css|json|txt|xml)$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
   <FilesMatch "\.(svg|jpe?g|png|webp|gif|ico|woff2?)$">

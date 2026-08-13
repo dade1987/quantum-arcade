@@ -205,9 +205,11 @@ database, codice dei moduli e archivio del tutor restano protetti.
    aggiornamento alcuni nodi possono continuare a servire il CSS e il JS vecchi, e
    siccome HTML, CSS e JS di questo sito cambiano insieme, il risultato non è
    «una funzione a metà» ma una pagina rotta — è già capitato con il glossario.
-   Da `public_html/.htaccess` html/css/js ora si riconvalidano a ogni visita
-   (ETag → 304, costo quasi zero), ma le copie già in cache restano lì fino alla
-   scadenza: la prima volta la cache va svuotata a mano. Come verificare da fuori:
+   Da `public_html/.htaccess` css e js ora si riconvalidano a ogni visita
+   (ETag → 304, costo quasi zero); le pagine non passano di lì perché non sono
+   più file, ma Laravel risponde già `no-cache, private`, che è più stretto.
+   Le copie già in cache però restano fino alla scadenza: la prima volta la
+   cache va svuotata a mano. Come verificare da fuori:
    ```bash
    curl -sI https://tuodominio/css/style.css | grep -iE 'last-modified|x-hcdn-cache-status'
    curl -s  https://tuodominio/css/style.css | grep -c gloss-panel   # 0 = stai vedendo il vecchio
