@@ -20,15 +20,21 @@
 
 ---
 
-34 livelli interattivi che partono dalle **basi di matematica delle medie** e arrivano alla
-**trasformata di Fourier quantistica**, alla **stima di fase** e all'**algoritmo di Shor**.
-Ogni concetto ha un mini-gioco: prima muovi, poi capisci. Sotto c'è un simulatore quantistico
-a vettore di stato scritto da zero, verificato dai test: il circuito della QFT riproduce
-**esattamente** la matrice di Fourier.
+34 livelli interattivi che partono dalle **basi di matematica delle medie**, passano dal
+**computer classico** (bit, porte logiche, somma binaria, ricerca, complessità, reversibilità)
+e arrivano alla **trasformata di Fourier quantistica**, alla **stima di fase** e all'**algoritmo
+di Shor**. Ogni concetto ha un mini-gioco: prima muovi, poi capisci. Sotto c'è un simulatore
+quantistico a vettore di stato scritto da zero, verificato dai test: il circuito della QFT
+riproduce **esattamente** la matrice di Fourier.
+
+Ogni livello quantistico si apre con il **confronto fianco a fianco**: come si farebbe la stessa
+cosa con un computer normale, cosa cambia con quello quantistico, e il numero che dice quanto vale
+la differenza. Perché «quantistico» non è una cosa: è una differenza, e una differenza si vede solo
+avendo il termine di paragone.
 
 | | |
 |---|---|
-| **Per chi** | Da chi ha finito le medie in su. Nessun prerequisito di fisica. |
+| **Per chi** | Da chi ha finito le medie in su. Nessun prerequisito di fisica, né di informatica. |
 | **Quanto dura** | 10–20 minuti a livello. Un pomeriggio abbondante il percorso completo. |
 | **Come si avanza** | Dimostrando la padronanza: una missione pratica **e** un quiz di richiamo. |
 | **Cosa c'è alla fine** | Un'officina dove inventi algoritmi tuoi, e un esame con attestato verificabile. |
@@ -63,7 +69,8 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
   index.php                front controller di Laravel
   metodo.html              scelte didattiche e ricerche che le sostengono
   privacy.html             informativa GDPR
-  lezioni/*.html           34 livelli
+  lezioni/*.html           34 livelli (00-* basi di matematica, k*-* computer classico,
+                           poi il percorso quantistico da 01 a 24)
   en/  es/                 le stesse pagine in inglese e spagnolo, con indirizzi tradotti
                            (en/lessons/, es/lecciones/): stesso id di livello, così i
                            progressi salvati sul server valgono in tutte e tre le lingue
@@ -77,8 +84,12 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
     canvas.js  audio.js    motore grafico 2D + suoni arcade
     lesson.js  ui.js  formula.js
     i18n.js                lingua della pagina, t(), indirizzi delle altre versioni
+    confronto.js           il blocco «classico ⇄ quantistico» che apre le lezioni
   js/i18n/en.js  es.js     i dizionari: la frase italiana è la chiave
   js/widgets/              i mini-giochi (uno o più per livello)
+    classic.js  classic2.js  quelli del computer classico: interruttori, porte logiche,
+                           sommatore, ricerca, curve di crescita, porte reversibili,
+                           oracolo classico, codice a ripetizione
 
 lang/en.json  lang/es.json  le stesse traduzioni per il lato Laravel (__())
 
@@ -104,16 +115,16 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (102 test) + validazione di tutti i file
+npm test                 # motore del gioco (115 test) + validazione di tutti i file
 npm run test:coverage    # copertura del frontend
-npm run test:php         # 84 test dei moduli Laravel
+npm run test:php         # 118 test dei moduli Laravel
 npm run test:php:coverage
-npm run test:e2e         # 67 test Playwright (desktop + telefono)
+npm run test:e2e         # 90 test Playwright (desktop + telefono)
 npm run test:incrociato  # confronta il simulatore con QuantumSim (implementazione indipendente)
 npm run test:all         # tutto
 ```
 
-Stato attuale: **frontend 100% righe · backend 100% · 67 test end-to-end verdi**.
+Stato attuale: **frontend 100% righe · backend 100% · 90 test end-to-end verdi**.
 
 Il validatore (`npm run validate`) controlla sintassi JS, script inline nelle pagine,
 import risolvibili, tag HTML bilanciati, risorse mancanti, coerenza con `levels.js`,

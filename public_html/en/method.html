@@ -154,7 +154,45 @@ wrong in practice: seven levels of maths before seeing the object you came here 
 <div class="callout key"><b>A rule I set myself:</b> no tool may be introduced more than one level
 before the point where it is needed, and every concept must come back at least twice.</div>
 
-<h2>10. Sound: information, not decoration</h2>
+<h2>10. Why the classical computer comes first (and stays optional)</h2>
+<p>"Quantum" is not a thing: it is a <b>difference</b>. And a difference is only visible if you know what it is
+being compared with. Someone who has never got clear on what a bit is has no way of noticing what is strange about
+a qubit: they are missing the background the figure stands out against. Nearly every wrong sentence in
+circulation — "it tries every path at once", "it is infinitely faster" — comes from exactly there.</p>
+<p>Hence two choices that hold each other up:</p>
+<ul>
+  <li>a <b>Part K</b> of six levels on the normal computer (bits, logic gates, addition with carries, searching,
+      the cost of algorithms, reversibility and Landauer's principle), played with the same mini-games as the
+      rest of the course;</li>
+  <li>a <b>comparison block</b> opening every quantum level where a comparison genuinely exists: on the left how
+      it is done on a normal computer, on the right what changes, underneath the number that says how much the
+      difference is worth. Where the comparison is worth a game rather than a paragraph — searching before
+      Grover, the oracle queried by hand before Deutsch–Jozsa, the repetition code before quantum error
+      correction — the classical mini-game is played right there.</li>
+</ul>
+<p>Why it is built <b>this way</b> and not as an opening theory chapter:</p>
+<ul>
+  <li><b>Comparing two concrete cases surfaces the principle</b> better than stating the principle and then
+      giving an example (Gentner, Loewenstein &amp; Thompson, 2003; Alfieri, Nokes-Malach &amp; Schunn, 2013).
+      It works especially when the two cases are nearly identical and differ in <b>one point only</b>: which is
+      exactly the relationship between bit and qubit, between linear search and Grover, between DFT and QFT.</li>
+  <li><b>The two columns sit side by side</b>, not one below the other: reading the second while holding the
+      first in mind is cognitive load spent on memory instead of reasoning (the split-attention effect, Sweller,
+      Ayres &amp; Kalyuga). With the columns adjacent, the eyes do the comparing.</li>
+  <li><b>The number at the bottom is always the same kind of number</b> (how many operations, how many queries,
+      how many states): a yardstick that does not change units from one level to the next is what lets you notice
+      that Grover and Shor <b>are not doing the same thing</b> — one is a quadratic gain, the other exponential.</li>
+  <li><b>Part K is optional</b>, like Part 0, and sits outside the prerequisite chain. Anyone who already knows
+      how a computer works walks straight past; anyone with a gap comes back to it the moment the gap starts to
+      hurt — which is the moment you actually learn, not two weeks earlier "because it is on the syllabus".
+      Every comparison block carries a link to the matching classical level, so the door is always open and never
+      a toll gate.</li>
+</ul>
+<div class="callout key"><b>Intended side effect:</b> anyone who finishes Part K has also properly learned
+classical computing — binary, gates, complexity, reversibility — which is useful in itself, and not merely the
+preamble to something else.</div>
+
+<h2>11. Sound: information, not decoration</h2>
 <p>An arcade without sound is not an arcade, but noise for the sake of noise violates Mayer's <b>coherence
 principle</b> (anything that does not serve the concept steals attention). The compromise applied here:</p>
 <ul>
@@ -169,7 +207,7 @@ principle</b> (anything that does not serve the concept steals attention). The c
       as browser rules also require.</li>
 </ul>
 
-<h2>11. "Wow effect": immediate, specific feedback</h2>
+<h2>12. "Wow effect": immediate, specific feedback</h2>
 <p>In the first version, the Part 0 mini-games did not tell you whether you were doing well. Research on feedback
 (Hattie &amp; Timperley; Shute) is clear on one point: feedback works when it is <b>immediate</b>, <b>specific</b>
 and about the <b>task</b>, not the person. Hence three additions, now present in <b>all</b> the games:</p>
@@ -182,7 +220,7 @@ and about the <b>task</b>, not the person. Hence three additions, now present in
       has to be unmistakable. It is the one "decorative" concession, and it lasts half a second.</li>
 </ul>
 
-<h2>12. Why an account is mandatory (and why I do not like it)</h2>
+<h2>13. Why an account is mandatory (and why I do not like it)</h2>
 <p>Asking for registration is friction, and friction loses people: it would be more convenient for everyone to run
 everything in the browser. Two reasons make it the right choice anyway:</p>
 <ul>
@@ -196,7 +234,7 @@ everything in the browser. Two reasons make it the right choice anyway:</p>
 tell apart people with the same name), no profiling, no advertising, total deletion in one click.
 It is all written in the <a href="privacy.html">privacy notice</a>.</p>
 
-<h2>13. The AI tutor that refuses to give you the solution</h2>
+<h2>14. The AI tutor that refuses to give you the solution</h2>
 <p>The tutor answers only from the content of this site (RAG) and, by design, <b>does not provide mission
 solutions</b>: it gives a hint and points you at the right slider. It is an uncomfortable choice but one supported by the research on
 <b>desirable difficulties</b> (Bjork): the effort of getting there yourself is precisely what produces durable
@@ -204,7 +242,7 @@ learning. An obliging tutor would make everything look easier and leave less beh
 <p>Every answer cites the level and links to it: the tutor's goal is to <b>put you back inside the game</b>,
 not to replace it. And if a question finds no answer in the content, it says so instead of making things up.</p>
 
-<h2>14. How do I know the simulator is not lying</h2>
+<h2>15. How do I know the simulator is not lying</h2>
 <p>A course that teaches with a simulator has a basic problem: if the simulator is wrong, it teaches the error —
 and teaches it convincingly, because it shows it. The project's tests check the properties you would
 expect (gates stay unitary, the QFT reproduces the Fourier matrix <i>exactly</i>, probabilities
@@ -222,7 +260,7 @@ downloaded and compiled only when the check is run (<code>npm run test:incrociat
 Thanks to Francesco Sisini for letting me use it — and above all because it is from
 <b>his books</b> that I started learning this subject.</p>
 
-<h2>15. The site's copy: which persuasion techniques I use, declared</h2>
+<h2>16. The site's copy: which persuasion techniques I use, declared</h2>
 <p>This site also has a professional purpose: making me known as someone who builds AI systems and teaches.
 I think it is only fair to declare which levers I am pulling, so you can weigh them:</p>
 <table class="table">
@@ -243,7 +281,7 @@ I think it is only fair to declare which levers I am pulling, so you can weigh t
 Persuasion techniques applied to a false claim are not marketing: they are a con,
 and on a site that teaches how to tell true from merely plausible they would also be ridiculous.</div>
 
-<h2>16. How it is written for search engines and for AIs</h2>
+<h2>17. How it is written for search engines and for AIs</h2>
 <p>Half of today's searches end up inside an AI-generated answer instead of a list of links.
 The guidance emerging from research on <i>Generative Engine Optimization</i> is consistent with writing well:</p>
 <ul>
@@ -275,6 +313,9 @@ of dubious provenance.</p>
   <li>Kivetz, R., Urminsky, O., Zheng, Y. (2006). <i>The Goal-Gradient Hypothesis Resurrected</i>. Journal of Marketing Research. — <a href="https://business.columbia.edu/insights/chazen-global-insights/goal-gradient-hypothesis-resurrected" target="_blank" rel="noopener">Columbia Business School summary</a></li>
   <li>Nunes, J. C., Drèze, X. (2006). <i>The Endowed Progress Effect: How Artificial Advancement Increases Effort</i>. Journal of Consumer Research. — <a href="https://www.researchgate.net/publication/23547282_The_Endowed_Progress_Effect_How_Artificial_Advancement_Increases_Effort" target="_blank" rel="noopener">text</a></li>
   <li>Sisini, F. — <i>QuantumSim</i>, a quantum circuit simulator in C, and the popular books by the same author from which my path into this subject began. — <a href="https://github.com/francescosisini/QuantumSim" target="_blank" rel="noopener">repository</a></li>
+  <li>Gentner, D., Loewenstein, J., Thompson, L. (2003). <i>Learning and Transfer: A General Role for Analogical Encoding</i>. Journal of Educational Psychology — comparing two concrete cases surfaces the shared principle better than studying them one at a time. — <a href="https://groups.psych.northwestern.edu/gentner/papers/GentnerLoewensteinThompson03.pdf" target="_blank" rel="noopener">PDF</a></li>
+  <li>Alfieri, L., Nokes-Malach, T. J., Schunn, C. D. (2013). <i>Learning Through Case Comparisons: A Meta-Analytic Review</i>. Educational Psychologist, 48(2), 87–113. — <a href="https://www.tandfonline.com/doi/abs/10.1080/00461520.2013.775712" target="_blank" rel="noopener">article</a></li>
+  <li>Landauer, R. (1961), <i>Irreversibility and Heat Generation in the Computing Process</i>, and Bérut, A. et al. (2012), <i>Experimental verification of Landauer's principle</i>, Nature 483, 187–189 — the thermodynamic cost of erasing a bit, predicted and then measured. — <a href="https://www.nature.com/articles/nature10872" target="_blank" rel="noopener">article in Nature</a></li>
   <li>Bruner, J. S. (1960). <i>The Process of Education</i> — the spiral curriculum: returning to the same concepts at ever deeper levels.</li>
   <li>Sweller, J. — cognitive load theory; Mayer, R. E. — principles of multimedia learning (coherence, signalling, contiguity, segmenting, pre-training, conversational style).</li>
   <li>Hattie, J., Timperley, H. (2007). <i>The Power of Feedback</i>; Shute, V. (2008). <i>Focus on Formative Feedback</i> — feedback works if it is immediate, specific and task-related.</li>
