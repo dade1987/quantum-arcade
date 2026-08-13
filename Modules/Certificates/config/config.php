@@ -42,7 +42,7 @@ return [
     'levels_count' => 28,
 
     // Vero quando sul server c'è l'esame vero e non quello d'esempio:
-    // lo usa `php artisan sito:controlla` per avvisare prima di aprire al pubblico.
+    // lo usa `php artisan site:check` per avvisare prima di aprire al pubblico.
     'questions_are_real' => file_exists($riservate),
 
     'questions' => $banca,

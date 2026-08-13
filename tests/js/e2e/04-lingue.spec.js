@@ -6,7 +6,7 @@ import { LEVELS, slugOf } from '../../../public_html/js/core/levels.js';
  * spagnolo in /es/.
  *
  * Il guasto da cui difendersi non è "manca una traduzione" — quello lo trova
- * già `npm run lingue` senza aprire un browser. È il guasto che si vede solo
+ * già `npm run languages` senza aprire un browser. È il guasto che si vede solo
  * girando le pagine davvero: una lezione che esiste in tre lingue ma il cui
  * cambio-lingua porta a un 404, un dizionario che non si carica e lascia
  * l'interfaccia mezza italiana in mezzo a una pagina inglese, un link

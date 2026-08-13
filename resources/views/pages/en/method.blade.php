@@ -208,7 +208,7 @@ by one. Different languages, different authors, code written without knowing eac
 of 10⁻¹⁵</b>, that is, the limit of the computer's number precision. An error common to both, at that point,
 is very unlikely.</p>
 <p class="dim small">QuantumSim is released under the GNU GPL v3 and is <b>not included in this site</b>: it is
-downloaded and compiled only when the check is run (<code>npm run test:incrociato</code>), like a bench tool.
+downloaded and compiled only when the check is run (<code>npm run test:cross</code>), like a bench tool.
 Thanks to Francesco Sisini for letting me use it — and above all because it is from
 <b>his books</b> that I started learning this subject.</p>
 

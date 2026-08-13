@@ -13,7 +13,7 @@
 # risponde — ma l'anteprima lo dice anche a chi la sta guardando, così nessuno
 # pensa che sia rotta.
 #
-#   bash tools/anteprima.sh [cartella-di-uscita]
+#   bash tools/preview.sh [cartella-di-uscita]
 # ============================================================================
 set -euo pipefail
 

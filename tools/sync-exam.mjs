@@ -10,9 +10,9 @@
 
    Quindi:
 
-     dati/banca-esame-esempio.js    versionata, pubblica, serve a chi contribuisce
+     data/exam-bank-sample.js    versionata, pubblica, serve a chi contribuisce
                                     per far girare il sito e i test in locale.
-     dati/banca-esame-riservata.js  NON versionata (vedi .gitignore): è l'esame
+     data/exam-bank-private.js  NON versionata (vedi .gitignore): è l'esame
                                     vero, sta solo sul computer dell'autore e sul
                                     server. Se manca, si usa quella d'esempio.
 
@@ -77,8 +77,8 @@ function scriviPhp(domande, destinazione, provenienza) {
 }
 
 const banche = [
-  { js: 'dati/banca-esame-esempio.js',   php: 'Modules/Certificates/config/domande-esempio.php',   etichetta: "d'esempio (pubblica)" },
-  { js: 'dati/banca-esame-riservata.js', php: 'Modules/Certificates/config/domande-riservate.php', etichetta: 'riservata (fuori da git)' },
+  { js: 'data/exam-bank-sample.js',   php: 'Modules/Certificates/config/domande-esempio.php',   etichetta: "d'esempio (pubblica)" },
+  { js: 'data/exam-bank-private.js', php: 'Modules/Certificates/config/domande-riservate.php', etichetta: 'riservata (fuori da git)' },
 ];
 
 let almenoUna = false;
@@ -96,10 +96,10 @@ for (const b of banche) {
 }
 
 if (!almenoUna) {
-  console.error('❌ Nessuna banca domande trovata: serve almeno dati/banca-esame-esempio.js');
+  console.error('❌ Nessuna banca domande trovata: serve almeno data/exam-bank-sample.js');
   process.exit(1);
 }
 
-if (!existsSync('dati/banca-esame-riservata.js')) {
+if (!existsSync('data/exam-bank-private.js')) {
   console.log('\n   Nota: sul server va caricata anche domande-riservate.php, che non sta in git.');
 }

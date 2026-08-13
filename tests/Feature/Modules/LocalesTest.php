@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Moduli;
+namespace Tests\Feature\Modules;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,7 +17,7 @@ use Tests\TestCase;
  * controlla che la lingua venga scelta bene e che arrivi fino in fondo —
  * messaggi delle API, esame, attestato, email.
  */
-class LingueTest extends TestCase
+class LocalesTest extends TestCase
 {
     use RefreshDatabase;
 

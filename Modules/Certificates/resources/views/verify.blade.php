@@ -24,15 +24,15 @@
     <details class="lang-pick">
       <summary class="lang-now" title="{{ __('Cambia lingua') }}">
         <span class="lang-globe" aria-hidden="true">🌐</span>
-        <span class="lang-name">{{ $lingue[app()->getLocale()] }}</span>
+        <span class="lang-name">{{ $localeNames[app()->getLocale()] }}</span>
         <span class="sr-only"> — {{ __('cambia lingua') }}</span>
       </summary>
       <div class="lang-menu" role="menu">
-        @foreach($lingue as $codice => $nome)
-          @if($codice === app()->getLocale())
-            <span class="lang-item on" role="menuitem" lang="{{ $codice }}" aria-current="true"><span class="lang-tick" aria-hidden="true">✓</span>{{ $nome }}</span>
+        @foreach($localeNames as $code => $name)
+          @if($code === app()->getLocale())
+            <span class="lang-item on" role="menuitem" lang="{{ $code }}" aria-current="true"><span class="lang-tick" aria-hidden="true">✓</span>{{ $name }}</span>
           @else
-            <a class="lang-item" role="menuitem" href="?lang={{ $codice }}" hreflang="{{ $codice }}" lang="{{ $codice }}" rel="nofollow"><span class="lang-tick" aria-hidden="true"></span>{{ $nome }}</a>
+            <a class="lang-item" role="menuitem" href="?lang={{ $code }}" hreflang="{{ $code }}" lang="{{ $code }}" rel="nofollow"><span class="lang-tick" aria-hidden="true"></span>{{ $name }}</a>
           @endif
         @endforeach
       </div>

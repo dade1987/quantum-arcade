@@ -76,13 +76,13 @@ Quindi le banche sono due:
 
 | File | In git? | A cosa serve |
 |---|---|---|
-| `dati/banca-esame-esempio.js` | sì | far girare sito e test a chi contribuisce |
-| `dati/banca-esame-riservata.js` | **no** | l'esame vero, solo sul tuo computer e sul server |
+| `data/exam-bank-sample.js` | sì | far girare sito e test a chi contribuisce |
+| `data/exam-bank-private.js` | **no** | l'esame vero, solo sul tuo computer e sul server |
 
 `npm run exam:sync` genera da ciascuna il rispettivo file PHP; `config.php` carica quello
 riservato se lo trova, altrimenti quello d'esempio. **Il file `domande-riservate.php` non
 arriva con il deploy** (non è in git): va caricato a mano una volta, e rifatto quando cambi
-le domande. `php artisan sito:controlla` avvisa in giallo se online sta girando quella
+le domande. `php artisan site:check` avvisa in giallo se online sta girando quella
 d'esempio.
 
 ### Chat — il tutor
@@ -195,7 +195,7 @@ database, codice dei moduli e archivio del tutor restano protetti.
 3. Lancia lo script di messa online — fa tutto il resto nell'ordine giusto e si
    ferma al primo passo che fallisce:
    ```bash
-   bash tools/messa-online.sh
+   bash tools/deploy.sh
    ```
    Dipendenze, permessi, migrazioni, cache, indice del tutor e **controllo
    pre-volo**. Va rilanciato a ogni aggiornamento del sito: non tocca il `.env`
@@ -212,7 +212,7 @@ database, codice dei moduli e archivio del tutor restano protetti.
 ### Il controllo pre-volo
 
 ```bash
-php artisan sito:controlla --produzione
+php artisan site:check --production
 ```
 
 Verifica una per una le cose che altrimenti si scoprono dagli utenti: versione ed
@@ -241,8 +241,8 @@ composer install --no-dev --optimize-autoloader --no-scripts
 php artisan package:discover
 ```
 
-`tools/messa-online.sh` lo fa già in questo modo, quindi se usi lo script non incontri
-il problema. `php artisan sito:controlla` segnala in giallo quando `proc_open` è disattivato.
+`tools/deploy.sh` lo fa già in questo modo, quindi se usi lo script non incontri
+il problema. `php artisan site:check` segnala in giallo quando `proc_open` è disattivato.
 
 Lo stesso `proc_open` mancante colpiva anche il **tutor**: Neuron AI manda le sue tracce
 a Inspector in un processo separato, e ogni domanda finiva in errore 500 con

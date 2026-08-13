@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Moduli;
+namespace Tests\Feature\Modules;
 
 use Modules\Chat\Embeddings\EmbeddingLocale;
 use NeuronAI\RAG\Document;

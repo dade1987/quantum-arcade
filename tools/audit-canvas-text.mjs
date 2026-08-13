@@ -17,7 +17,7 @@
    dell'animazione, prima di leggere si svuota il registro e si forza un
    ridisegno di tutte le scene (un evento resize le marca "sporche").
 
-   Uso:  node tools/audit-testi-canvas.mjs [base-url]
+   Uso:  node tools/audit-canvas-text.mjs [base-url]
    ============================================================================ */
 import { chromium, webkit } from '@playwright/test';
 import { readdirSync, writeFileSync } from 'node:fs';

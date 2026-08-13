@@ -21,7 +21,7 @@
    (.quantumsim/), lo compila, lo interroga e basta: resta un attrezzo da
    banco di prova. Il sito continua a non contenere codice GPL.
 
-   Uso:  node tools/verifica-incrociata.mjs [numero di circuiti]
+   Uso:  node tools/cross-check.mjs [numero di circuiti]
    ============================================================================ */
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync } from 'node:fs';
@@ -50,7 +50,7 @@ if (!existsSync(SORGENTI)) {
 console.log('→ compilo il ponte');
 try {
   execFileSync('gcc', ['-O2', '-o', ESEGUIBILE,
-    join(RADICE, 'tools/riferimento/ponte-quantumsim.c'),
+    join(RADICE, 'tools/reference/ponte-quantumsim.c'),
     join(SORGENTI, 'quantum_sim.c'),
     '-I', SORGENTI, '-lm'], { stdio: 'pipe' });
 } catch (e) {

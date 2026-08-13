@@ -208,7 +208,7 @@ per una. Linguaggi diversi, autori diversi, codice scritto senza conoscersi: <b>
 di 10⁻¹⁵</b>, cioè il limite della precisione dei numeri del computer. Un errore comune a entrambi, a quel punto,
 è molto improbabile.</p>
 <p class="dim small">QuantumSim è rilasciato con licenza GNU GPL v3 e <b>non è incluso in questo sito</b>: viene
-scaricato e compilato solo quando si lancia la verifica (<code>npm run test:incrociato</code>), come un attrezzo
+scaricato e compilato solo quando si lancia la verifica (<code>npm run test:cross</code>), come un attrezzo
 da banco di prova. Ringrazio Francesco Sisini per avermene concesso l'uso — e soprattutto perché è dai
 <b>suoi libri</b> che ho cominciato a imparare questa materia.</p>
 

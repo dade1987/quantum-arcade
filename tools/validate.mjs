@@ -607,16 +607,16 @@ console.log('\n[8] Segreti fuori dalla radice web');
   // Tutto ciò che sta dentro public_html è scaricabile da chiunque conosca
   // l'URL: nessun controllo di accesso, nessuna eccezione. Le risposte esatte
   // dell'esame lì dentro renderebbero l'attestato una formalità.
-  const banca = join(ROOT, 'dati/banca-esame-esempio.js');
+  const banca = join(ROOT, 'data/exam-bank-sample.js');
   if (existsSync(banca)) ok();
-  else err('dati/banca-esame-esempio.js', 'la banca domande non è al suo posto (fuori dalla radice web)');
+  else err('data/exam-bank-sample.js', 'la banca domande non è al suo posto (fuori dalla radice web)');
 
   let colpevoli = 0;
   for (const f of walk(join(ROOT, 'public_html'), n => n.endsWith('.js') || n.endsWith('.json'))) {
     const src = readFileSync(f, 'utf8');
     if (/export\s+const\s+EXAM\b/.test(src) || /\bc:\s*\d\s*,\s*w:\s*'/.test(src)) {
       err(rel(f), 'contiene le soluzioni dell\'esame: dentro public_html sono scaricabili da chiunque. '
-        + 'La banca domande va in dati/, e sul server ci arriva solo tramite npm run exam:sync.');
+        + 'La banca domande va in data/, e sul server ci arriva solo tramite npm run exam:sync.');
       colpevoli++;
     }
   }

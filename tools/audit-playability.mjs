@@ -13,7 +13,7 @@
      · testo sotto i 12px;
      · comandi che finiscono fuori dallo schermo.
 
-   Uso:  node tools/audit-giocabilita.mjs [base-url]
+   Uso:  node tools/audit-playability.mjs [base-url]
    Scrive il rapporto in tests/giocabilita.json
    (fuori da tests/report, che Playwright svuota a ogni corsa)
    ============================================================================ */

@@ -190,8 +190,8 @@ export function renderLesson(cfg) {
 
   // «esiste anche nella tua lingua»: in cima, prima del contenuto, perché più
   // in basso non la leggerebbe chi sta già decidendo se chiudere la pagina
-  const avviso = languageHint();
-  if (avviso) app.appendChild(avviso);
+  const hint = languageHint();
+  if (hint) app.appendChild(hint);
 
   // Registro delle missioni: vive qui fuori perché serve sia al montaggio
   // della lezione sia all'oggetto restituito da renderLesson.

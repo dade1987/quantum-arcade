@@ -15,8 +15,8 @@ document.getElementById('xp-host').after(accountButton());
 document.getElementById('xp-host').after(langButton());
 
 // «esiste anche nella tua lingua»: in cima al contenuto, dove si guarda
-const avviso = languageHint();
-if (avviso) document.querySelector('main.wrap')?.prepend(avviso);
+const hint = languageHint();
+if (hint) document.querySelector('main.wrap')?.prepend(hint);
 
 // Account: i progressi vivono sul server, quindi la prima cosa è capire chi sei.
 initAccount().then(() => {

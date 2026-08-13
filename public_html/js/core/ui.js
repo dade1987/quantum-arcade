@@ -152,23 +152,23 @@ export function fmtC(re, im, d = 2) {
  */
 export function langButton() {
   const alt = alternates();
-  const disponibili = LOCALES.filter(l => l === LOCALE || alt[l]);
+  const available = LOCALES.filter(l => l === LOCALE || alt[l]);
 
-  // una lingua sola da offrire non è una scelta: meglio niente che un menu vuoto
-  if (disponibili.length < 2) return h('span', { class: 'lang-none' });
+  // una lingua sola da offrire non è una scelta: better niente che un menu vuoto
+  if (available.length < 2) return h('span', { class: 'lang-none' });
 
   const menu = h('div', { class: 'lang-menu', role: 'menu' });
-  for (const l of disponibili) {
-    const suo = l === LOCALE;
-    menu.appendChild(h(suo ? 'span' : 'a', {
-      class: 'lang-item' + (suo ? ' on' : ''),
+  for (const l of available) {
+    const current = l === LOCALE;
+    menu.appendChild(h(current ? 'span' : 'a', {
+      class: 'lang-item' + (current ? ' on' : ''),
       role: 'menuitem',
-      href: suo ? null : alt[l],
-      hreflang: suo ? null : l,
+      href: current ? null : alt[l],
+      hreflang: current ? null : l,
       lang: l,
-      'aria-current': suo ? 'true' : null,
-      onclick: suo ? null : () => rememberLocale(l),
-    }, h('span', { class: 'lang-tick', 'aria-hidden': 'true' }, suo ? '✓' : ''), LOCALE_NAMES[l]));
+      'aria-current': current ? 'true' : null,
+      onclick: current ? null : () => rememberLocale(l),
+    }, h('span', { class: 'lang-tick', 'aria-hidden': 'true' }, current ? '✓' : ''), LOCALE_NAMES[l]));
   }
 
   const box = h('details', { class: 'lang-pick' },
@@ -180,7 +180,7 @@ export function langButton() {
     menu,
   );
 
-  // rifiniture: senza, il pannello resta aperto finché non si ritocca il bottone,
+  // rifiniture: senza, il pannello stay aperto finché non si ritocca il bottone,
   // che è il comportamento nudo di <details> e sorprende chi clicca altrove
   box.addEventListener('keydown', e => {
     if (e.key !== 'Escape' || !box.open) return;
@@ -214,32 +214,32 @@ export function languageHint() {
   if (rememberedLocale()) return null;                       // ha già deciso: non si insiste
 
   const alt = alternates();
-  const meglio = browserLocales().find(l => l !== LOCALE && alt[l]);
-  if (!meglio) return null;                                 // il browser è già d'accordo con la pagina
+  const better = browserLocales().find(l => l !== LOCALE && alt[l]);
+  if (!better) return null;                                 // il browser è già d'accordo con la pagina
 
-  const via = () => { rememberLocale(meglio); };
-  const barra = h('div', { class: 'lang-hint', lang: meglio, role: 'region', 'aria-label': LOCALE_NAMES[meglio] },
+  const go = () => { rememberLocale(better); };
+  const bar = h('div', { class: 'lang-hint', lang: better, role: 'region', 'aria-label': LOCALE_NAMES[better] },
     h('span', { class: 'lang-hint-txt' },
       h('span', { 'aria-hidden': 'true' }, '🌐 '),
-      TESTI[meglio].invito,
+      OFFERS[better].invite,
     ),
-    h('a', { class: 'btn tiny primary', href: alt[meglio], hreflang: meglio, onclick: via },
-      TESTI[meglio].passa),
+    h('a', { class: 'btn tiny primary', href: alt[better], hreflang: better, onclick: go },
+      OFFERS[better].switch),
     h('button', {
       class: 'btn tiny ghost',
-      onclick: () => { rememberLocale(LOCALE); barra.remove(); },
-    }, TESTI[meglio].resta.replace(':lingua', LOCALE_NAMES[LOCALE])),
+      onclick: () => { rememberLocale(LOCALE); bar.remove(); },
+    }, OFFERS[better].stay.replace(':lingua', LOCALE_NAMES[LOCALE])),
   );
-  return barra;
+  return bar;
 }
 
 /* Scritte nella lingua PROPOSTA, quindi non passano dal dizionario: t()
    tradurrebbe verso la lingua della pagina, che è esattamente quella che chi
    legge questa riga non capisce. */
-const TESTI = {
-  it: { invito: 'Questo corso è disponibile anche in italiano.', passa: 'Passa all\'italiano', resta: 'Resta in :lingua' },
-  en: { invito: 'This course is also available in English.', passa: 'Switch to English', resta: 'Stay in :lingua' },
-  es: { invito: 'Este curso también está disponible en español.', passa: 'Cambiar a español', resta: 'Seguir en :lingua' },
+const OFFERS = {
+  it: { invite: 'Questo corso è disponibile anche in italiano.', switch: 'Passa all\'italiano', stay: 'Resta in :lingua' },
+  en: { invite: 'This course is also available in English.', switch: 'Switch to English', stay: 'Stay in :lingua' },
+  es: { invite: 'Este curso también está disponible en español.', switch: 'Cambiar a español', stay: 'Seguir en :lingua' },
 };
 
 export const TAU = Math.PI * 2;

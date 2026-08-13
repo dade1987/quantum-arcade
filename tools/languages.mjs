@@ -1,8 +1,8 @@
 /* ============================================================
    STATO DELLE TRADUZIONI
 
-     node tools/lingue.mjs          elenca cosa manca
-     node tools/lingue.mjs --fix    aggiunge le chiavi mancanti in fondo
+     node tools/languages.mjs          elenca cosa manca
+     node tools/languages.mjs --fix    aggiunge le chiavi mancanti in fondo
                                     ai dizionari, con il testo italiano e un
                                     marcatore TODO, da tradurre a mano
 

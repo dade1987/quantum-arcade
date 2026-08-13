@@ -101,7 +101,7 @@ Due regole che tengono in piedi tutto:
    di 21 lezioni su 28 avevano smesso di corrispondere alla pagina.
 5. `npm run sync` rigenera `config/site.php`, da cui nascono le rotte: senza, il livello nuovo
    non ha un indirizzo.
-6. `npm run lingue` dice quali frasi nuove mancano nei dizionari (`--fix` prepara le chiavi).
+6. `npm run languages` dice quali frasi nuove mancano nei dizionari (`--fix` prepara le chiavi).
 7. `npm run sitemap` rigenera l'elenco degli indirizzi per i motori di ricerca.
 8. `npm run validate` controlla che l'id combaci, che le view esistano in tutte le lingue,
    che nessuna si riscriva la testa da sola e che l'HTML sia valido.
@@ -220,7 +220,7 @@ finiranno in una sezione dedicata con il nome di chi le ha scoperte.
 
 ## Una nota sulle domande d'esame
 
-Nel repository trovi `dati/banca-esame-esempio.js`: sono domande vere ma **pubbliche**, e
+Nel repository trovi `data/exam-bank-sample.js`: sono domande vere ma **pubbliche**, e
 servono a far girare sito e test in locale. L'esame che rilascia l'attestato usa una banca
 diversa, che non sta in git e non è scaricabile da nessuna parte — perché un esame le cui
 risposte si possono leggere non misura niente.

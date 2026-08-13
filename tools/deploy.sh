@@ -5,7 +5,7 @@
 # SI LANCIA SUL SERVER, via SSH, dalla cartella del progetto (quella che
 # contiene artisan e public_html):
 #
-#     bash tools/messa-online.sh
+#     bash tools/deploy.sh
 #
 # Fa i passi nell'ordine giusto e si ferma al primo che fallisce, invece di
 # proseguire lasciando il sito a metà. Alla fine esegue il controllo pre-volo:
@@ -60,7 +60,7 @@ blu "6/7 Indice dei contenuti per il tutor"
 php artisan chat:ingest
 
 blu "7/7 Controllo pre-volo"
-php artisan sito:controlla --produzione
+php artisan site:check --production
 
 printf '\n\033[1;32m✅ Fatto.\033[0m Ultimo passo a mano: apri il sito in incognito,\n'
 printf '   iscriviti con un indirizzo vero e controlla che l'"'"'email di conferma arrivi.\n\n'

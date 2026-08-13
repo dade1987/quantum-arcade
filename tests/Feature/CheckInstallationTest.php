@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 /**
- * Il controllo pre-volo (`php artisan sito:controlla`).
+ * Il controllo pre-volo (`php artisan site:check`).
  *
  * È il comando che si lancia sul server appena caricato il sito. Se dicesse
  * "tutto a posto" quando non lo è, sarebbe peggio che non esistere: questi
  * test verificano che ogni problema venga davvero segnalato, e che il comando
  * esca con codice di errore quando qualcosa impedisce di aprire al pubblico.
  */
-class ControllaInstallazioneTest extends TestCase
+class CheckInstallationTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -46,7 +46,7 @@ class ControllaInstallazioneTest extends TestCase
     {
         $this->serverPerfetto();
 
-        $this->artisan('sito:controlla')
+        $this->artisan('site:check')
             ->expectsOutputToContain('Tutto a posto')
             ->assertSuccessful();
     }
@@ -57,7 +57,7 @@ class ControllaInstallazioneTest extends TestCase
         config(['app.url' => 'http://localhost', 'mail.default' => 'log', 'mail.from.address' => 'hello@example.com']);
 
         // in locale sono avvisi: non bloccano chi sta solo sviluppando
-        $this->artisan('sito:controlla')
+        $this->artisan('site:check')
             ->expectsOutputToContain('cose da guardare')
             ->assertSuccessful();
     }
@@ -67,7 +67,7 @@ class ControllaInstallazioneTest extends TestCase
         $this->serverPerfetto();
         config(['app.url' => 'http://localhost', 'mail.default' => 'log']);
 
-        $this->artisan('sito:controlla --produzione')
+        $this->artisan('site:check --production')
             ->expectsOutputToContain('da risolvere prima di aprire il sito al pubblico')
             ->assertFailed();
     }
@@ -77,7 +77,7 @@ class ControllaInstallazioneTest extends TestCase
         $this->serverPerfetto();
         config(['app.debug' => true]);
 
-        $this->artisan('sito:controlla --produzione')
+        $this->artisan('site:check --production')
             ->expectsOutputToContain('APP_DEBUG')
             ->assertFailed();
     }
@@ -87,7 +87,7 @@ class ControllaInstallazioneTest extends TestCase
         $this->serverPerfetto();
         config(['mail.from.address' => 'hello@example.com']);   // un solo avviso
 
-        $this->artisan('sito:controlla')
+        $this->artisan('site:check')
             ->expectsOutputToContain('una cosa da guardare')
             ->assertSuccessful();
     }
@@ -99,7 +99,7 @@ class ControllaInstallazioneTest extends TestCase
         // il file lo genera Composer: se c'è, il comando deve leggerlo e spiegare
         // che la versione del SITO può essere diversa da quella della riga di comando
         if (is_readable(base_path('vendor/composer/platform_check.php'))) {
-            $this->artisan('sito:controlla')
+            $this->artisan('site:check')
                 ->expectsOutputToContain('Le dipendenze installate richiedono PHP')
                 ->assertSuccessful();
         } else {
@@ -120,7 +120,7 @@ class ControllaInstallazioneTest extends TestCase
         }
 
         try {
-            $this->artisan('sito:controlla')
+            $this->artisan('site:check')
                 ->doesntExpectOutputToContain('Le dipendenze installate richiedono PHP')
                 ->assertSuccessful();
         } finally {
@@ -144,7 +144,7 @@ class ControllaInstallazioneTest extends TestCase
 
         try {
             // meglio tacere che stampare una versione inventata
-            $this->artisan('sito:controlla')
+            $this->artisan('site:check')
                 ->doesntExpectOutputToContain('Le dipendenze installate richiedono PHP')
                 ->assertSuccessful();
         } finally {
@@ -158,7 +158,7 @@ class ControllaInstallazioneTest extends TestCase
         Schema::drop('conversations');
         $this->assertFalse(Schema::hasTable('conversations'), 'la tabella dev\'essere davvero sparita');
 
-        $this->artisan('sito:controlla')
+        $this->artisan('site:check')
             ->expectsOutputToContain('Mancano: conversations')
             ->assertFailed();
     }
@@ -171,7 +171,7 @@ class ControllaInstallazioneTest extends TestCase
         try {
             config(['database.default' => 'connessione-che-non-esiste']);
 
-            $this->artisan('sito:controlla')
+            $this->artisan('site:check')
                 ->expectsOutputToContain('Non risponde')
                 ->assertFailed();
         } finally {
@@ -187,7 +187,7 @@ class ControllaInstallazioneTest extends TestCase
         config(['certificates.questions_are_real' => false]);
 
         // è un avviso, non un errore: il sito funziona, ma l'attestato non vale
-        $this->artisan('sito:controlla')
+        $this->artisan('site:check')
             ->expectsOutputToContain('D\'ESEMPIO')
             ->assertSuccessful();
     }
@@ -197,7 +197,7 @@ class ControllaInstallazioneTest extends TestCase
         $this->serverPerfetto();
         config(['certificates.questions' => []]);
 
-        $this->artisan('sito:controlla')
+        $this->artisan('site:check')
             ->expectsOutputToContain('npm run exam:sync')
             ->assertFailed();
     }
@@ -207,7 +207,7 @@ class ControllaInstallazioneTest extends TestCase
         $this->serverPerfetto();
         config(['dompdf.public_path' => '/var/www/public']);
 
-        $this->artisan('sito:controlla')
+        $this->artisan('site:check')
             ->expectsOutputToContain('dompdf')
             ->assertFailed();
     }
@@ -218,7 +218,7 @@ class ControllaInstallazioneTest extends TestCase
         config(['chat.key' => null]);
 
         // il tutor spento non impedisce di aprire il sito: tutto il resto funziona
-        $this->artisan('sito:controlla')
+        $this->artisan('site:check')
             ->expectsOutputToContain('Tutor AI non configurato')
             ->assertSuccessful();
     }
@@ -231,7 +231,7 @@ class ControllaInstallazioneTest extends TestCase
         $salvato  = file_get_contents($archivio);
         file_put_contents($archivio, '');
 
-        $this->artisan('sito:controlla')
+        $this->artisan('site:check')
             ->expectsOutputToContain('php artisan chat:ingest')
             ->assertFailed();
 

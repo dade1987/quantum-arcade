@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Schema;
  * rosso. Un elenco di ✗ senza istruzioni sarebbe solo un modo elegante di
  * lasciare la persona da sola.
  */
-class ControllaInstallazione extends Command
+class CheckInstallation extends Command
 {
-    protected $signature = 'sito:controlla {--produzione : applica anche i controlli che valgono solo online}';
+    protected $signature = 'site:check {--production : also run the checks that only make sense online}';
 
     protected $description = 'Controlla che il server sia pronto: PHP, permessi, database, posta, attestati, tutor';
 
@@ -30,7 +30,7 @@ class ControllaInstallazione extends Command
 
     public function handle(): int
     {
-        $produzione = (bool) $this->option('produzione') || app()->environment('production');
+        $produzione = (bool) $this->option('production') || app()->environment('production');
 
         $this->newLine();
         $this->line('  <options=bold>Controllo dell\'installazione di Quantum Arcade</>');
@@ -105,7 +105,7 @@ class ControllaInstallazione extends Command
             function_exists('proc_open') ? 'proc_open disponibile' : 'proc_open disattivato dall\'hosting',
             'Il sito funziona lo stesso. Ma Composer va lanciato con --no-scripts, seguito da '
             . '`php artisan package:discover`, sennò si ferma con "The Process class relies on proc_open". '
-            . 'tools/messa-online.sh lo fa già da solo.',
+            . 'tools/deploy.sh lo fa già da solo.',
         );
 
         $this->esito(
