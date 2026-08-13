@@ -65,6 +65,11 @@ ruido y corrección de errores (${nOf('21-rumore')}) · taller creativo (${nOf('
                <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Un cúbit es 0 y 1 a la vez"</h3>
                  <p class="mb0 dim">Es una lista de <b>amplitudes</b>, es decir, de flechas. El "0 y 1 a la vez" no explica por qué
                  dos Hadamard devuelven el cúbit a cero: las flechas sí.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Un cúbit es una onda"</h3>
+                 <p class="mb0 dim">Dentro de un cúbit no ondea nada: es una <b>lista de amplitudes</b>. Las ondas de los
+                 niveles 13–15 son la herramienta matemática (Fourier) para encontrar las repeticiones dentro de esa lista.
+                 Y «a veces onda, a veces partícula» es una forma de hablar de los años veinte: lo que de verdad importa es
+                 que las amplitudes <b>se suman con su dirección</b>.</p></div>
                <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "La amplitud es la probabilidad"</h3>
                  <p class="mb0 dim">La probabilidad es su <b>cuadrado</b>. Amplitud 0,6 → probabilidad 36%, no 60%.</p></div>
                <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "El entrelazamiento transmite información instantánea"</h3>
