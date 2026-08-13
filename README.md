@@ -4,255 +4,257 @@
 
 # Quantum Arcade
 
-**Impara l'informatica quantistica giocando. Da zero, fino all'algoritmo di Shor.**
+**Learn quantum computing by playing. From zero, all the way to Shor's algorithm.**
 
-**In italiano, in inglese e in spagnolo.** &nbsp;·&nbsp; [🇮🇹 italiano](https://quantumarcade.it/) &nbsp;·&nbsp; [🇬🇧 English](https://quantumarcade.it/en/) &nbsp;·&nbsp; [🇪🇸 español](https://quantumarcade.it/es/)
+**In Italian, English and Spanish.** &nbsp;·&nbsp; [🇮🇹 italiano](https://quantumarcade.it/) &nbsp;·&nbsp; [🇬🇧 English](https://quantumarcade.it/en/) &nbsp;·&nbsp; [🇪🇸 español](https://quantumarcade.it/es/)
 
-[![Collaudo](https://github.com/dade1987/quantum-arcade/actions/workflows/collaudo.yml/badge.svg)](https://github.com/dade1987/quantum-arcade/actions/workflows/collaudo.yml)
-[![Copertura backend](https://img.shields.io/badge/copertura%20backend-100%25-success)](docs/BACKEND.md)
-[![Copertura frontend](https://img.shields.io/badge/copertura%20frontend-100%25%20righe-success)](tests/js/unit)
-[![Codice](https://img.shields.io/badge/codice-PolyForm%20Noncommercial%201.0.0-blue)](LICENSE)
-[![Contenuti](https://img.shields.io/badge/contenuti-CC%20BY--NC--SA%204.0-blue)](LICENSE)
+[![CI](https://github.com/dade1987/quantum-arcade/actions/workflows/ci.yml/badge.svg)](https://github.com/dade1987/quantum-arcade/actions/workflows/ci.yml)
+[![Backend coverage](https://img.shields.io/badge/backend%20coverage-100%25-success)](docs/BACKEND.md)
+[![Frontend coverage](https://img.shields.io/badge/frontend%20coverage-100%25%20lines-success)](tests/js/unit)
+[![Code](https://img.shields.io/badge/code-PolyForm%20Noncommercial%201.0.0-blue)](LICENSE)
+[![Content](https://img.shields.io/badge/content-CC%20BY--NC--SA%204.0-blue)](LICENSE)
 
-[Come contribuire](CONTRIBUTING.md) · [Il metodo e le fonti](public_html/metodo.html) · [Architettura](docs/BACKEND.md)
+[How to contribute](CONTRIBUTING.md) · [The method and its sources](resources/views/pages/en/method.blade.php) · [Architecture](docs/BACKEND.md)
 
 </div>
 
 ---
 
-34 livelli interattivi che partono dalle **basi di matematica delle medie**, passano dal
-**computer classico** (bit, porte logiche, somma binaria, ricerca, complessità, reversibilità)
-e arrivano alla **trasformata di Fourier quantistica**, alla **stima di fase** e all'**algoritmo
-di Shor**. Ogni concetto ha un mini-gioco: prima muovi, poi capisci. Sotto c'è un simulatore
-quantistico a vettore di stato scritto da zero, verificato dai test: il circuito della QFT
-riproduce **esattamente** la matrice di Fourier.
+34 interactive levels starting from **middle-school maths**, passing through the
+**classical computer** (bits, logic gates, binary addition, search, complexity, reversibility)
+and arriving at the **quantum Fourier transform**, **phase estimation** and **Shor's
+algorithm**. Every concept has a mini-game: you move first, you understand second. Underneath
+sits a state-vector quantum simulator written from scratch and checked by the tests: the QFT
+circuit reproduces the Fourier matrix **exactly**.
 
-Ogni livello quantistico si apre con il **confronto fianco a fianco**: come si farebbe la stessa
-cosa con un computer normale, cosa cambia con quello quantistico, e il numero che dice quanto vale
-la differenza. Perché «quantistico» non è una cosa: è una differenza, e una differenza si vede solo
-avendo il termine di paragone.
+Every quantum level opens with a **side-by-side comparison**: how you would do the same thing
+with an ordinary computer, what changes with a quantum one, and the number that says how much
+the difference is worth. Because "quantum" is not a thing: it is a difference, and a difference
+is only visible when you have something to compare it against.
 
-Dove il confronto vale una partita e non un paragrafo, i due modi stanno **dentro lo stesso
-mini-gioco**, con un interruttore che cambia macchina: stesso schermo, stessi bottoni, stessa
-missione — cambia il meccanismo, e basta. E in modo classico alcune missioni **non si possono
-vincere**: il muro è la lezione.
+Where the comparison is worth a round rather than a paragraph, both modes live **inside the
+same mini-game**, with a switch that changes machine: same screen, same buttons, same mission —
+only the mechanism changes. And in classical mode some missions **cannot be won**: the wall is
+the lesson.
 
 | | |
 |---|---|
-| **Per chi** | Da chi ha finito le medie in su. Nessun prerequisito di fisica, né di informatica. |
-| **Quanto dura** | 10–20 minuti a livello. Un pomeriggio abbondante il percorso completo. |
-| **Come si avanza** | Dimostrando la padronanza: una missione pratica **e** un quiz di richiamo. |
-| **Cosa c'è alla fine** | Un'officina dove inventi algoritmi tuoi, e un esame con attestato verificabile. |
-| **In che lingue** | Italiano (originale), inglese e spagnolo: tre edizioni complete, esame e attestato compresi. |
-| **Come si cambia lingua** | Dal 🌐 in alto, in ogni pagina. Si resta dove sei, e ogni lingua è scritta nella propria lingua. |
+| **Who it is for** | Anyone from the end of middle school up. No physics or computing background needed. |
+| **How long** | 10–20 minutes per level. A long afternoon for the whole path. |
+| **How you progress** | By demonstrating mastery: a hands-on mission **and** a recall quiz. |
+| **What is at the end** | A workshop where you invent your own algorithms, and an exam with a verifiable certificate. |
+| **In which languages** | Italian (original), English and Spanish: three complete editions, exam and certificate included. |
+| **How you switch language** | From the 🌐 at the top, on every page. You stay where you are, and each language is written in its own language. |
 
-È **un solo progetto Laravel**: il gioco vive dentro `public_html/`, le API e le pagine
-dinamiche sono gestite dai moduli. Un dominio, un deploy, nessun passaggio di build.
+It is **a single Laravel project**: the game lives in `public_html/`, the APIs and the dynamic
+pages are handled by the modules. One domain, one deploy, no build step.
 
 ---
 
-## Avvio in locale
+## Running it locally
 
 ```bash
 composer install
 cp .env.example .env && php artisan key:generate
 touch database/database.sqlite && php artisan migrate
 
-npm install          # solo per i test (Playwright)
+npm install          # only for the tests (Playwright)
 npm start            # → http://127.0.0.1:8010
 ```
 
-Con `MAIL_MAILER=log` le email di conferma finiscono in `storage/logs/laravel.log`:
-comodo per provare la registrazione senza configurare la posta.
+With `MAIL_MAILER=log` the confirmation emails land in `storage/logs/laravel.log`:
+handy for trying registration without configuring a mail server.
 
 ---
 
-## Struttura
+## Layout
 
 ```
-public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — solo asset e front controller
-  index.php                front controller di Laravel
-  css/style.css            tema unico
-  js/core/                 motore del gioco
-    levels.js              ordine dei livelli e prerequisiti (fonte di verità)
-    qsim.js                simulatore quantistico (ampiezze, porte, misura, QFT)
-    dsp.js                 DFT / FFT / avvolgimento
-    store.js               XP, padronanza, ripasso (Leitner)
-    account.js  api.js     registrazione, sessione, sincronizzazione
-    canvas.js  audio.js    motore grafico 2D + suoni arcade
+public_html/               DOCUMENT ROOT (name imposed by Hostinger) — assets and front controller only
+  index.php                Laravel's front controller
+  css/style.css            the single theme
+  js/core/                 the game engine
+    levels.js              level order and prerequisites (source of truth)
+    qsim.js                quantum simulator (amplitudes, gates, measurement, QFT)
+    dsp.js                 DFT / FFT / winding
+    store.js               XP, mastery, review (Leitner)
+    account.js  api.js     registration, session, synchronisation
+    canvas.js  audio.js    2D graphics engine + arcade sounds
     lesson.js  ui.js  formula.js
-    i18n.js                lingua della pagina, t(), indirizzi delle altre versioni
-    confronto.js           il blocco «classico ⇄ quantistico» che apre le lezioni
-    glossario.js           i termini del corso (fonte di verità: pannello, definizioni
-                           al tocco e tabella del livello 23 leggono tutti da qui)
-  js/i18n/en.js  es.js     i dizionari: la frase italiana è la chiave
-  js/widgets/              i mini-giochi (uno o più per livello)
-    classic.js  classic2.js  quelli del computer classico: interruttori, porte logiche,
-                           sommatore, ricerca, curve di crescita, porte reversibili,
-                           oracolo classico, codice a ripetizione
-    coppie.js              gli esercizi appaiati: la stessa plancia con un interruttore
-                           che passa dal computer normale a quello quantistico
-                           (registro, porte, sfida di Bell, due strade)
+    i18n.js                page language, t(), addresses of the other editions
+    confronto.js           the "classical ⇄ quantum" block that opens the lessons
+    glossario.js           the course's terms (source of truth: the panel, the tap-to-define
+                           definitions and the level 23 table all read from here)
+  js/i18n/en.js  es.js     the dictionaries: the Italian sentence is the key
+  js/widgets/              the mini-games (one or more per level)
+    classic.js  classic2.js  the classical-computer ones: switches, logic gates, adder,
+                           search, growth curves, reversible gates, classical oracle,
+                           repetition code
+    coppie.js              the paired exercises: the same board with a switch that moves
+                           from the ordinary computer to the quantum one
+                           (register, gates, Bell challenge, two roads)
 
-lang/en.json  lang/es.json  le stesse traduzioni per il lato Laravel (__())
+lang/en.json  lang/es.json  the same translations for the Laravel side (__())
 
-resources/views/           LE PAGINE. Una view per pagina per lingua, un layout per tutte
-  layouts/page.blade.php   <head> di ogni pagina: title, canonical, hreflang, dati strutturati
-  layouts/lesson.blade.php titolo e descrizione di una lezione, presi da levels.js
-  partials/                il selettore di lingua, in un posto solo
-  pages/{it,en,es}/        home, metodo, privacy
-  lessons/{it,en,es}/      i 34 livelli, con il nome dell'ID (lo slug sta nell'indirizzo)
+resources/views/           THE PAGES. One view per page per language, one layout for all
+  layouts/page.blade.php   the <head> of every page: title, canonical, hreflang, structured data
+  layouts/lesson.blade.php a lesson's title and description, taken from levels.js
+  partials/                the language picker, in one place
+  pages/{it,en,es}/        home, method, privacy
+  lessons/{it,en,es}/      the 34 levels, named after the ID (the slug lives in the address)
 
-config/site.php            GENERATO da levels.js con `npm run sync`: lingue, livelli, slug,
-                           titoli. È da qui che nascono le rotte e i <head>
+config/site.php            GENERATED from levels.js with `npm run sync`: languages, levels,
+                           slugs, titles. This is where the routes and the <head> come from
 
-data/exam-bank-sample.js   banca domande pubblica (per chi contribuisce)
-                           l'esame vero sta in exam-bank-private.js, che NON è in git
+data/exam-bank-sample.js   public question bank (for contributors)
+                           the real exam lives in exam-bank-private.js, which is NOT in git
 
-Modules/                   moduli nwidart
-  Accounts/                registrazione, conferma email, accesso, profilo
-  Progress/                progressi salvati sul server
-  Certificates/            esame corretto lato server, attestato PDF, verifica pubblica
-  Chat/                    tutor AI (Neuron AI, RAG sui contenuti del sito, embedding locali)
+Modules/                   nwidart modules
+  Accounts/                registration, email confirmation, sign-in, profile
+  Progress/                progress saved on the server
+  Certificates/            server-side exam marking, PDF certificate, public verification
+  Chat/                    AI tutor (Neuron AI, RAG over the site's content, local embeddings)
 
 tests/
-  Feature/Modules/         test PHP dei quattro moduli (100% di copertura)
-  js/unit/                 test del motore del gioco (100% righe)
-  js/e2e/                  Playwright: percorso utente + audit grafico
-tools/                     validatore, test matematici, sincronizzazione esame
-docs/BACKEND.md            architettura e messa online su Hostinger
+  Feature/Modules/         PHP tests for the four modules (100% coverage)
+  js/unit/                 game-engine tests (100% of lines)
+  js/e2e/                  Playwright: user journey + visual audit
+tools/                     validator, mathematical checks, exam sync
+docs/BACKEND.md            architecture and going live on Hostinger
 ```
 
 ---
 
-## Collaudo
+## Testing
 
 ```bash
-npm test                 # motore del gioco (140 test) + validatore + stato delle lingue
-npm run test:coverage    # copertura del frontend
-npm run test:php         # 118 test dei moduli Laravel
+npm test                 # game engine (140 tests) + validator + language status
+npm run test:coverage    # frontend coverage
+npm run test:php         # 118 tests for the Laravel modules
 npm run test:php:coverage
-npm run test:e2e         # Playwright: percorso utente, audit grafico di ogni pagina, le tre lingue
-npm run test:cross  # confronta il simulatore con QuantumSim (implementazione indipendente)
-npm run test:all         # tutto
+npm run test:e2e         # Playwright: user journey, visual audit of every page, the three languages
+npm run test:cross  # compares the simulator against QuantumSim (an independent implementation)
+npm run test:all         # everything
 ```
 
-Stato attuale: **frontend 100% righe · backend 100%**. I due conteggi qui sopra non sono
-decorativi: `npm run validate` li confronta con i test che esistono davvero e si ferma se
-qualcuno aggiunge un test senza aggiornarli — come è già successo con il numero di livelli
-stampato sull'attestato.
+Where it stands: **frontend 100% of lines · backend 100%**. The two counts above are not
+decorative: `npm run validate` compares them with the tests that actually exist and stops if
+somebody adds a test without updating them — exactly what already happened with the number of
+levels printed on the certificate.
 
-Il validatore (`npm run validate`) controlla sintassi JS, script inline nelle pagine,
-import risolvibili, tag HTML bilanciati, risorse mancanti, coerenza con `levels.js`,
-sintassi PHP, JSON e SVG. Lanciarlo prima di ogni pubblicazione.
+The validator (`npm run validate`) checks JS syntax, the inline scripts inside the pages,
+resolvable imports, balanced HTML tags, missing assets, consistency with `levels.js`, and PHP,
+JSON and SVG syntax. Run it before every release.
 
-Sulle tre lingue controlla anche che nessuna resti indietro: una lingua pubblicata
-deve avere **tutte** le lezioni, il numero di livelli scritto a parole deve combaciare
-in tutte e tre, e la sitemap deve elencare ogni pagina di ogni edizione. `npm run languages`
-confronta le frasi usate nel codice con i dizionari e fallisce se ne manca una — così
-una frase nuova aggiunta in italiano non resta invisibile finché qualcuno non apre per
-caso la pagina in spagnolo.
+Across the three languages it also checks that none of them falls behind: a published language
+must have **every** lesson, the number of levels spelled out in words must match in all three,
+and the sitemap must list every page of every edition. `npm run languages` compares the
+sentences used in the code against the dictionaries and fails if one is missing — so a new
+sentence added in Italian does not stay invisible until somebody happens to open the Spanish
+page.
 
 ---
 
-## Manutenzione
+## Maintenance
 
-| Quando | Comando |
+| When | Command |
 |---|---|
-| Hai modificato i livelli | `php artisan chat:ingest` (riallinea il tutor) |
-| Hai aggiunto o rinominato pagine | `npm run sitemap` |
-| Hai aggiunto frasi da tradurre | `npm run languages` (con `--fix` prepara le chiavi mancanti) |
-| Hai modificato l'esame (`data/exam-bank-*.js`) | `npm run exam:sync` |
-| Vuoi sapere dove il corso non è chiaro | `php artisan chat:report` |
-| Prima di pubblicare | `npm run test:all` |
-| Sul server, dopo ogni caricamento | `bash tools/deploy.sh` |
-| Per sapere se il server è a posto | `php artisan site:check --production` |
+| You changed the levels | `php artisan chat:ingest` (realigns the tutor) |
+| You added or renamed pages | `npm run sitemap` |
+| You added sentences to translate | `npm run languages` (`--fix` prepares the missing keys) |
+| You changed the exam (`data/exam-bank-*.js`) | `npm run exam:sync` |
+| You want to know where the course is unclear | `php artisan chat:report` |
+| Before releasing | `npm run test:all` |
+| On the server, after every upload | `bash tools/deploy.sh` |
+| To know whether the server is healthy | `php artisan site:check --production` |
 
 ---
 
-## Messa online (Hostinger, un solo dominio)
+## Going live (Hostinger, a single domain)
 
-Su Hostinger la web root è già `public_html`: si carica il progetto nella home e funziona.
+On Hostinger the web root is already `public_html`: you upload the project into the home
+directory and it works.
 
 ```bash
-cp .env.example .env && nano .env     # una volta sola
+cp .env.example .env && nano .env     # once only
 php artisan key:generate
-bash tools/deploy.sh            # dipendenze, migrazioni, cache, indice, controllo
+bash tools/deploy.sh            # dependencies, migrations, caches, tutor index, checks
 ```
 
-L'ultimo passo dello script è `php artisan site:check --production`, che verifica
-una per una le cose che altrimenti si scoprono dagli utenti — `.env` scaricabile dal web,
-`APP_DEBUG` acceso, SMTP non configurato, PDF puntato alla cartella sbagliata — e per
-ognuna dice **come si risolve**.
+The script's last step is `php artisan site:check --production`, which verifies one by one the
+things you would otherwise hear about from your users — a `.env` downloadable from the web,
+`APP_DEBUG` left on, SMTP not configured, the PDF pointed at the wrong folder — and for each
+one says **how to fix it**.
 
-Istruzioni complete, variabili d'ambiente e cron: [docs/BACKEND.md](docs/BACKEND.md).
+Full instructions, environment variables and cron: [docs/BACKEND.md](docs/BACKEND.md).
 
 ---
 
-## Contribuire
+## Contributing
 
-Il progetto è aperto: correzioni, livelli nuovi, traduzioni, mini-giochi migliori.
-**[CONTRIBUTING.md](CONTRIBUTING.md)** spiega da dove cominciare in base a quanto tempo hai —
-dieci minuti per un refuso, mezza giornata per un livello intero — ed è costruito attorno
-alle barriere che la ricerca ha misurato per chi arriva in un progetto open source.
+The project is open: corrections, new levels, translations, better mini-games.
+**[CONTRIBUTING.md](CONTRIBUTING.md)** explains where to start based on how much time you have —
+ten minutes for a typo, half a day for a whole level — and is built around the barriers that
+research has measured for newcomers to open source projects.
 
-Il contributo più prezioso non è codice: è **dirmi dove non si capisce**.
-C'è un modello di issue apposta.
+The most valuable contribution is not code: it is **telling me where it does not make sense**.
+There is an issue template for exactly that.
 
-Prima di aprire una pull request: `npm run test:all`.
+Before opening a pull request: `npm run test:all`.
 
-- [Codice di comportamento](CODE_OF_CONDUCT.md) — in breve: qui arriva gente che non sa,
-  e far sentire stupido qualcuno lavora contro lo scopo del progetto.
-- [Sicurezza](SECURITY.md) — le vulnerabilità si segnalano in privato.
+- [Code of conduct](CODE_OF_CONDUCT.md) — in short: people arrive here not knowing things, and
+  making someone feel stupid works against the point of the project.
+- [Security](SECURITY.md) — vulnerabilities are reported privately.
 
-## Licenza — libera, ma non commerciale
+## Licence — free, but not commercial
 
-Il progetto è aperto: si può leggere, studiare, modificare, tradurre, installare sul proprio
-server e usare nella scuola pubblica. Quello che non si può fare, senza accordo, è
-**guadagnarci**: rivenderlo o insegnarlo in un corso a pagamento.
+The project is open: you can read it, study it, modify it, translate it, install it on your own
+server and use it in state schools. What you cannot do, without an agreement, is **make money
+from it**: resell it or teach it on a paid course.
 
-| | Licenza | In pratica |
+| | Licence | In practice |
 |---|---|---|
-| **Codice** (PHP, JS, CSS, test) | [PolyForm Noncommercial 1.0.0](LICENSE) | usalo e modificalo per qualunque scopo non commerciale |
-| **Contenuti didattici** (testi, quiz, glossario) | [CC BY-NC-SA 4.0](LICENSE) | riusali citando la fonte, senza scopo di lucro, con la stessa licenza |
-| **Fotografia dell'autore** | tutti i diritti riservati | non riutilizzabile fuori da questo progetto |
+| **Code** (PHP, JS, CSS, tests) | [PolyForm Noncommercial 1.0.0](LICENSE) | use it and modify it for any non-commercial purpose |
+| **Teaching content** (text, quizzes, glossary) | [CC BY-NC-SA 4.0](LICENSE) | reuse it with attribution, not for profit, under the same licence |
+| **The author's photograph** | all rights reserved | not reusable outside this project |
 
-**Scuola pubblica, ricerca e no profit: sempre libero.** Scuole statali e paritarie,
-università, biblioteche, enti pubblici, associazioni senza scopo di lucro, doposcuola
-gratuiti e chiunque studi per conto proprio possono usarlo senza chiedere niente.
+**State schools, research and non-profits: always free.** State and state-recognised schools,
+universities, libraries, public bodies, non-profit associations, free after-school clubs and
+anyone studying on their own may use it without asking for anything.
 
-**Formazione a pagamento: serve un accordo.** Accademie private, enti di formazione
-professionale, corsi aziendali, bootcamp e ripetizioni retribuite sono usi commerciali —
-non vietati, da concordare. Vale anche quando ciò che si vende è la docenza e non il
-materiale: se lo studente paga, si passa da un accordo. Di norma è una formalità:
-[scrivimi](https://calendly.com/davidecavallini1987/meeting).
+**Paid training: an agreement is needed.** Private academies, vocational training bodies,
+corporate courses, bootcamps and paid tutoring are commercial uses — not forbidden, but to be
+agreed. This holds even when what is sold is the teaching rather than the material: if the
+student pays, it goes through an agreement. It is usually a formality:
+[get in touch](https://calendly.com/davidecavallini1987/meeting).
 
-**Contribuendo** accetti che il tuo contributo esca con queste stesse licenze e che l'autore
-possa includerlo in eventuali licenze commerciali: senza, un singolo contributo bloccherebbe
-per sempre il progetto. Il dettaglio, e il perché, sono al punto 5 di [LICENSE](LICENSE).
+**By contributing** you accept that your contribution goes out under these same licences and
+that the author may include it in any commercial licences: without that, a single contribution
+would block the project forever. The detail, and the reasoning, are in point 5 of
+[LICENSE](LICENSE).
 
-> Nota per chi conosce le definizioni: una licenza non commerciale **non** è "open source"
-> secondo l'Open Source Initiative, perché limita i campi di utilizzo. È una scelta
-> deliberata: il codice resta leggibile, modificabile e migliorabile da chiunque, ma il
-> lavoro non finisce rivenduto da altri.
+> A note for those who know the definitions: a non-commercial licence is **not** "open source"
+> under the Open Source Initiative, because it restricts fields of use. It is a deliberate
+> choice: the code stays readable, modifiable and improvable by anyone, but the work does not
+> end up resold by someone else.
 
-## Ringraziamenti
+## Acknowledgements
 
-**Francesco Sisini** — per [QuantumSim](https://github.com/francescosisini/QuantumSim), il suo simulatore di
-circuiti quantistici in C, che qui serve come **implementazione indipendente** contro cui verificare il
-simulatore di questo progetto: trecento circuiti generati a caso, due programmi scritti da persone diverse in
-linguaggi diversi, scarto massimo dell'ordine di 10⁻¹⁵. Lo ringrazio per avermene concesso liberamente l'uso, e
-soprattutto perché **è dai suoi libri che ho cominciato a imparare questa materia**.
+**Francesco Sisini** — for [QuantumSim](https://github.com/francescosisini/QuantumSim), his quantum circuit
+simulator in C, which here serves as an **independent implementation** to check this project's simulator
+against: three hundred randomly generated circuits, two programs written by different people in different
+languages, maximum discrepancy on the order of 10⁻¹⁵. I thank him for freely allowing its use, and above all
+because **it is from his books that I started learning this subject**.
 
-> QuantumSim è rilasciato con licenza GNU GPL v3 e **non è incluso in questo progetto**: `npm run test:cross`
-> lo scarica in `.quantumsim/` (fuori da git), lo compila e lo interroga. Resta un attrezzo del banco di prova,
-> non una dipendenza del sito.
+> QuantumSim is released under the GNU GPL v3 and is **not included in this project**: `npm run test:cross`
+> downloads it into `.quantumsim/` (outside git), compiles it and queries it. It remains a test-bench tool,
+> not a dependency of the site.
 
-## Crediti
+## Credits
 
-Contenuti e codice di **Davide Cavallini** — [YouTube](https://www.youtube.com/@informaticacavallini)
+Content and code by **Davide Cavallini** — [YouTube](https://www.youtube.com/@informaticacavallini)
 · [LinkedIn](https://www.linkedin.com/in/davidecavallini/)
 · [Red Hot Cyber](https://www.redhotcyber.com/post/author/davide-cavallini/)
 
-Le fonti scientifiche su cui è costruito il metodo didattico sono elencate,
-una per una, in [`public_html/metodo.html`](public_html/metodo.html).
+The scientific sources the teaching method is built on are listed, one by one, in the *method*
+page: [`resources/views/pages/en/method.blade.php`](resources/views/pages/en/method.blade.php).

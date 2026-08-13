@@ -553,9 +553,9 @@ if (existsSync(certCfg)) {
   };
 
   const DICHIARAZIONI = [
-    { file: 'README.md',       regola: /\((\d+) test\) \+ validatore/,        quale: 'test del motore del gioco' },
-    { file: 'README.md',       regola: /# (\d+) test dei moduli Laravel/,      quale: 'test PHP' },
-    { file: 'CONTRIBUTING.md', regola: /# (\d+) test, devono restare verdi/,   quale: 'test PHP' },
+    { file: 'README.md',       regola: /\((\d+) tests\) \+ validator/,        quale: 'test del motore del gioco' },
+    { file: 'README.md',       regola: /# (\d+) tests for the Laravel modules/,      quale: 'test PHP' },
+    { file: 'CONTRIBUTING.md', regola: /# (\d+) tests, they must stay green/,   quale: 'test PHP' },
   ];
 
   for (const d of DICHIARAZIONI) {

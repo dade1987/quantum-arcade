@@ -1,284 +1,290 @@
-# Contribuire a Quantum Arcade
+# Contributing to Quantum Arcade
 
-Grazie: che tu voglia correggere un refuso o scrivere un livello nuovo, qui trovi tutto
-quello che serve. Questo documento è organizzato attorno a un fatto misurato dalla ricerca
-sull'open source: **le persone non abbandonano un progetto perché è difficile, ma perché non
-capiscono da dove cominciare e non ricevono risposta.** Le [fonti sono in fondo](#perché-questo-documento-è-fatto-così).
+Thank you: whether you want to fix a typo or write a whole new level, everything you need is
+here. This document is organised around one finding from research on open source:
+**people do not walk away from a project because it is hard, but because they cannot work out
+where to start and get no answer when they ask.** The [sources are at the
+bottom](#why-this-document-is-shaped-like-this).
+
+> **Language.** Everything a contributor reads is in **English**: code, names, comments,
+> documentation, commit messages. The *course content* is a different matter — it exists in
+> Italian (the original), English and Spanish, and each edition stays in its own language.
 
 ---
 
-## In 5 minuti: il primo contributo
+## Your first contribution, in 5 minutes
 
 ```bash
-git clone https://github.com/<utente>/quantum-arcade.git
+git clone https://github.com/<user>/quantum-arcade.git
 cd quantum-arcade
 
 composer install
 cp .env.example .env && php artisan key:generate
 touch database/database.sqlite && php artisan migrate
 
-npm install          # serve solo per i test
+npm install          # only needed for the tests
 npm start            # → http://127.0.0.1:8010
 ```
 
-Se il sito si apre e riesci a registrarti, l'ambiente è a posto. **Le email di conferma
-finiscono in `storage/logs/laravel.log`** finché non configuri un vero SMTP: cerca `verify?token=`
-e incolla il link nel browser.
+If the site opens and you can register, your environment is fine. **Confirmation emails land in
+`storage/logs/laravel.log`** until you configure a real SMTP server: search for `verify?token=`
+and paste the link into your browser.
 
-Poi:
+Then:
 
 ```bash
-npm run test:all     # unitari + PHP + end-to-end + validatore
+npm run test:all     # unit + PHP + end-to-end + validator
 ```
 
-Se è tutto verde, puoi cominciare.
+If it is all green, you can start.
 
 ---
 
-## Da dove cominciare (scegli il tuo livello di impegno)
+## Where to start (pick how much time you have)
 
-| Tempo | Cosa puoi fare | Dove si tocca |
+| Time | What you can do | Where you touch it |
 |---|---|---|
-| 10 minuti | Correggere un refuso, chiarire una frase confusa | `resources/views/lessons/it/*.blade.php` |
-| 30 minuti | Aggiungere una domanda al quiz di un livello | stesso file, sezione `quiz:` |
-| 1 ora | Migliorare un mini-gioco esistente (etichette, colori, suoni) | `public_html/js/widgets/*.js` |
-| mezza giornata | Scrivere un **livello nuovo** | vedi sotto |
-| 20 minuti | Migliorare una traduzione inglese o spagnola | `resources/views/{lessons,pages}/{en,es}/`, `js/i18n/*.js` |
-| 20 minuti | Correggere il nome di una lingua nel selettore | `LOCALE_NAMES` in `js/core/i18n.js` — scritto **nella lingua stessa**, mai una bandiera |
-| a piacere | Aggiungere una **quarta** lingua | apri prima una issue: sono 90 pagine, meglio parlarne |
+| 10 minutes | Fix a typo, clarify a confusing sentence | `resources/views/lessons/it/*.blade.php` |
+| 30 minutes | Add a question to a level's quiz | same file, `quiz:` section |
+| 1 hour | Improve an existing mini-game (labels, colours, sounds) | `public_html/js/widgets/*.js` |
+| half a day | Write a **new level** | see below |
+| 20 minutes | Improve an English or Spanish translation | `resources/views/{lessons,pages}/{en,es}/`, `js/i18n/*.js` |
+| 20 minutes | Fix a language name in the picker | `LOCALE_NAMES` in `js/core/i18n.js` — written **in that language itself**, never a flag |
+| as long as it takes | Add a **fourth** language | open an issue first: it is 100+ pages, better to talk it through |
 
-Le issue etichettate **`buon primo contributo`** sono scelte apposta: piccole, isolate,
-con il file già indicato. Se non ne trovi di libere, apri una issue e dillo: te ne preparo una.
-
----
-
-## Come è fatto il progetto
-
-```
-public_html/          SOLO asset: il motore del gioco in JS, il tema, le immagini
-  js/core/            motore: simulatore quantistico, DFT, stato del giocatore, interfaccia
-  js/i18n/            i dizionari: en.js, es.js (la chiave è la frase italiana)
-  js/widgets/         i mini-giochi, uno o più per livello
-resources/views/      LE PAGINE, come view Blade
-  layouts/            il <head> di tutte: title, canonical, hreflang. Nessuna pagina lo riscrive
-  pages/{it,en,es}/   home, metodo, privacy
-  lessons/{it,en,es}/ una view per lezione per lingua: contiene SOLO i contenuti
-config/site.php       GENERATO da levels.js (`npm run sync`): da qui nascono rotte e <head>
-lang/                 en.json, es.json: le stesse traduzioni per il lato Laravel
-Modules/              backend Laravel a moduli: Accounts, Progress, Certificates, Chat
-tests/                test PHP, test unitari JS, test end-to-end Playwright
-tools/                validatore, verifiche matematiche, sincronizzazione esame, sitemap
-```
-
-Due regole che tengono in piedi tutto:
-
-1. **`public_html/js/core/levels.js` è l'unica fonte di verità** per l'elenco dei livelli,
-   il loro ordine e i prerequisiti. Se aggiungi un livello, parti da lì.
-2. **Nessun passaggio di build.** I file che modifichi sono quelli che vanno online.
-   Niente webpack, niente Vite, niente `npm run build`.
+Issues labelled **`good first issue`** are picked on purpose: small, self-contained, with the
+file already named. If none are free, open an issue and say so: I will prepare one for you.
 
 ---
 
-## Aggiungere un livello
+## How the project is put together
 
-1. Aggiungi una riga in `public_html/js/core/levels.js`. Il percorso del file **non si
-   scrive**: si ricava dall'`id`, così una lingua non può dimenticarsene una a metà elenco.
+```
+public_html/          ONLY assets: the game engine in JS, the theme, the images
+  js/core/            engine: quantum simulator, DFT, player state, interface
+  js/i18n/            the dictionaries: en.js, es.js (the key is the Italian sentence)
+  js/widgets/         the mini-games, one or more per level
+resources/views/      THE PAGES, as Blade views
+  layouts/            the <head> of every page: title, canonical, hreflang. No page rewrites it
+  pages/{it,en,es}/   home, method, privacy
+  lessons/{it,en,es}/ one view per lesson per language: content ONLY
+config/site.php       GENERATED from levels.js (`npm run sync`): routes and <head> come from here
+lang/                 en.json, es.json: the same translations for the Laravel side
+Modules/              modular Laravel backend: Accounts, Progress, Certificates, Chat
+tests/                PHP tests, JS unit tests, Playwright end-to-end tests
+tools/                validator, mathematical checks, exam sync, sitemap
+```
+
+Two rules hold the whole thing up:
+
+1. **`public_html/js/core/levels.js` is the single source of truth** for the list of levels,
+   their order and their prerequisites. If you add a level, start there.
+2. **No build step.** The files you edit are the files that go live. No webpack, no Vite,
+   no `npm run build`.
+
+---
+
+## Adding a level
+
+1. Add a row to `public_html/js/core/levels.js`. The file path **is not written down**: it is
+   derived from the `id`, so one language cannot end up missing a lesson halfway down the list.
 
    ```js
-   { id: '25-mio-livello', part: 'D', n: 25,
-     title: t('Titolo breve'), desc: t('Una riga che invogli a entrarci.'), xp: 120 },
+   { id: '25-my-level', part: 'D', n: 25,
+     title: t('Short title'), desc: t('One line that makes you want to open it.'), xp: 120 },
    ```
 
-2. Aggiungi l'id alla mappa `SLUG` nello stesso file, con il nome che il file avrà nelle
-   altre due lingue (anche gli indirizzi sono tradotti: `/en/lessons/`, `/es/lecciones/`).
-3. Copia una lezione esistente simile (`resources/views/lessons/it/11-grover.blade.php` è un
-   buon modello) e cambia `id`, contenuti e quiz. Poi fai lo stesso in `lessons/en/` e
-   `lessons/es/`: una lingua pubblicata deve avere **tutte** le lezioni, e il validatore si
-   ferma se ne manca una. Il nome del file è l'**id**, non lo slug: lo slug sta nell'indirizzo,
-   che si traduce, mentre l'id è quello che le tre lingue hanno in comune.
-4. Il titolo **non si scrive**. Lo compone `layouts/lesson.blade.php` da numero e titolo del
-   livello, che stanno in `levels.js`. Era proprio questo il punto: scritti a mano, i titoli
-   di 21 lezioni su 28 avevano smesso di corrispondere alla pagina.
-5. `npm run sync` rigenera `config/site.php`, da cui nascono le rotte: senza, il livello nuovo
-   non ha un indirizzo.
-6. `npm run languages` dice quali frasi nuove mancano nei dizionari (`--fix` prepara le chiavi).
-7. `npm run sitemap` rigenera l'elenco degli indirizzi per i motori di ricerca.
-8. `npm run validate` controlla che l'id combaci, che le view esistano in tutte le lingue,
-   che nessuna si riscriva la testa da sola e che l'HTML sia valido.
-9. `npm run test:e2e` verifica che la pagina non abbia errori JS, non sbordi e disegni davvero.
+2. Add the id to the `SLUG` map in the same file, with the name the file will have in the other
+   two languages (addresses are translated too: `/en/lessons/`, `/es/lecciones/`).
+3. Copy a similar existing lesson (`resources/views/lessons/it/11-grover.blade.php` is a good
+   model) and change the `id`, the content and the quiz. Then do the same under `lessons/en/`
+   and `lessons/es/`: a published language must have **every** lesson, and the validator stops
+   if one is missing. The file is named after the **id**, not the slug: the slug lives in the
+   address, which is translated, while the id is what the three languages have in common.
+4. The title **is not written**. `layouts/lesson.blade.php` composes it from the level's number
+   and title, which live in `levels.js`. That was the whole point: written by hand, the titles
+   of 21 lessons out of 28 had stopped matching their page.
+5. `npm run sync` regenerates `config/site.php`, which is where the routes come from: without
+   it, the new level has no address.
+6. `npm run languages` reports which new sentences are missing from the dictionaries
+   (`--fix` prepares the keys).
+7. `npm run sitemap` regenerates the list of addresses for search engines.
+8. `npm run validate` checks that the id matches, that the views exist in every language, that
+   none of them writes its own `<head>`, and that the HTML is valid.
+9. `npm run test:e2e` checks that the page has no JS errors, does not overflow, and really draws.
 
-**Cosa rende buono un livello, in questo progetto:**
+**What makes a level good, in this project:**
 
-- si **tocca prima di leggere**: il cursore viene prima della formula;
-- ogni formula ha i suoi simboli **cliccabili** (usa `formula()` da `js/core/formula.js`);
-- c'è **una missione** con un traguardo verificabile, non solo testo;
-- c'è un **quiz di richiamo** con spiegazione del *perché*, anche per le risposte sbagliate;
-- niente concetti usati prima di essere introdotti: se ti serve un attrezzo,
-  o è già stato costruito in un livello precedente, o lo costruisci tu lì.
+- you **touch before you read**: the slider comes before the formula;
+- every formula has **clickable** symbols (use `formula()` from `js/core/formula.js`);
+- there is **one mission** with a verifiable goal, not just text;
+- there is a **recall quiz** that explains the *why*, wrong answers included;
+- no concept is used before it is introduced: if you need a tool, either an earlier level
+  already built it, or you build it there.
 
-Il ragionamento dietro queste regole è documentato in
-[`public_html/metodo.html`](public_html/metodo.html), con le ricerche che le sostengono.
+The reasoning behind these rules is documented in the *method* page, together with the research
+that backs it: [`resources/views/pages/en/method.blade.php`](resources/views/pages/en/method.blade.php).
 
 ---
 
-## Aggiungere o modificare un mini-gioco
+## Adding or changing a mini-game
 
-I widget vivono in `public_html/js/widgets/` e seguono tutti la stessa forma:
+Widgets live in `public_html/js/widgets/` and all share the same shape:
 
 ```js
-export function mioGioco(host, opts = {}) {
+export function myGame(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
   const w = widget(host, { title: '…', subtitle: '…' });
 
-  const stage = new Stage(w.body, { height: 300, draw(ctx, s) { /* disegno */ } });
-  const fx = attachFX(stage);          // scintille e lampi ai traguardi
+  const stage = new Stage(w.body, { height: 300, draw(ctx, s) { /* drawing */ } });
+  const fx = attachFX(stage);          // sparks and flashes on milestones
 
-  // …controlli, logica…
+  // …controls, logic…
 
-  function traguardo() { fx.win(); sfx.ok(); cfg.onWin && cfg.onWin(); }
+  function milestone() { fx.win(); sfx.ok(); cfg.onWin && cfg.onWin(); }
 
   return { stage };
 }
 ```
 
-Quattro cose non negoziabili, perché sono la differenza fra un widget e un giocattolo inutile:
+Four things are not negotiable, because they are the difference between a widget and a useless toy:
 
-1. **L'obiettivo è scritto sullo schermo**, non solo nel testo della lezione.
-2. **Feedback continuo**: si deve capire se ci si sta avvicinando *prima* di arrivarci
-   (colore + suono + numero).
-3. **Suono coerente**: usa gli effetti già esistenti in `js/core/audio.js`, non aggiungerne
-   di nuovi senza motivo. Ogni suono deve significare sempre la stessa cosa.
-4. **Deve funzionare col dito**: bersagli da almeno 44 px, niente hover come unica affordance.
+1. **The goal is written on the screen**, not only in the lesson text.
+2. **Continuous feedback**: you must be able to tell you are getting closer *before* you get
+   there (colour + sound + number).
+3. **Coherent sound**: use the effects already in `js/core/audio.js`, do not add new ones
+   without a reason. Every sound must always mean the same thing.
+4. **It must work with a finger**: targets of at least 44 px, no hover as the only affordance.
 
 ---
 
-## Modificare il backend
+## Changing the backend
 
 ```bash
-php artisan test                       # 118 test, devono restare verdi
+php artisan test                       # 118 tests, they must stay green
 XDEBUG_MODE=coverage php artisan test --coverage
 ```
 
-La copertura del backend è al **100%** e vorremmo restarci: se aggiungi un ramo di codice,
-aggiungi il test che lo percorre. Non è pedanteria — tre bug veri (il PDF che cercava la
-cartella sbagliata, i progressi non salvabili a stato vuoto, i codici attestato con lettere
-ambigue) sono stati trovati esattamente così.
+Backend coverage is at **100%** and we would like to keep it there: if you add a branch, add
+the test that walks it. This is not pedantry — three real bugs (the PDF looking in the wrong
+folder, progress that could not be saved from an empty state, certificate codes with ambiguous
+letters) were found exactly that way.
 
-Le rotte stanno in `Modules/<Modulo>/routes/`, la logica in `app/Http/Controllers/`.
-Se aggiungi un modulo: `php artisan module:make NomeModulo` e poi registra il namespace
-in `composer.json` (`autoload.psr-4`).
+Routes live in `Modules/<Module>/routes/`, the logic in `app/Http/Controllers/`.
+If you add a module: `php artisan module:make ModuleName`, then register the namespace in
+`composer.json` (`autoload.psr-4`).
 
 ---
 
-## Prima di aprire una pull request
+## Before opening a pull request
 
 ```bash
 npm run test:all
 ```
 
-Deve essere tutto verde. In più:
+It must all be green. On top of that:
 
-- **un contributo, una pull request**: più facile da leggere, più veloce da accettare;
-- **scrivi in inglese** nel codice, nei nomi e nei commenti: i contenuti esistono in tre lingue,
-  ma il codice è uno solo e lo legge chiunque. I *contenuti* delle lezioni restano ovviamente
-  nella loro lingua;
-- **spiega il perché** nel messaggio della PR, non il cosa (il cosa si vede dal diff);
-- se cambi un contenuto didattico, dì **su quale base**: un'esperienza in aula, una fonte,
-  una segnalazione di uno studente. Le opinioni valgono, ma dichiarate.
+- **one contribution, one pull request**: easier to read, faster to accept;
+- **write in English** in code, names, comments and documentation: the content exists in three
+  languages, but there is only one codebase and anyone may read it. The *content* of the
+  lessons obviously stays in its own language;
+- **explain the why** in the pull request, not the what (the what is visible in the diff);
+- if you change teaching material, say **on what basis**: classroom experience, a source, a
+  student's report. Opinions count, as long as they are declared.
 
-### Messaggi di commit
+### Commit messages
 
-Formato semplice, in italiano:
+Simple format, in English:
 
 ```
-livello 11: chiarita la spiegazione del diffusore
-widget: la sfera di Bloch ora si gira anche col dito
-backend: l'attestato riporta la data di nascita
+level 11: clearer explanation of the diffuser
+widget: the Bloch sphere now rotates with a finger too
+backend: the certificate carries the date of birth
 ```
 
 ---
 
-## Cosa succede dopo
+## What happens next
 
-Rispondo alle issue e alle PR **entro pochi giorni**. Se non rispondo, insisti pure:
-non è disinteresse, è che mi è sfuggita. La ricerca sull'open source è chiarissima su questo
-punto — la mancata risposta della comunità è uno dei motivi principali per cui chi arriva
-se ne va — e sarebbe sciocco cascarci proprio in un progetto che parla di metodo.
+I answer issues and pull requests **within a few days**. If I do not answer, do push: it is not
+disinterest, it means it slipped past me. The research on open source is unambiguous here — a
+community that does not reply is one of the main reasons newcomers leave — and it would be
+silly to fall for that in a project that is about method.
 
-Se una PR non viene accettata, spiego sempre perché. Un "no" motivato è utile;
-un silenzio non lo è mai.
-
----
-
-## Chi partecipa
-
-Chi contribuisce in modo sostanziale viene citato nel `README` e, se vuole, nella pagina
-dei crediti del sito. Le pipeline interessanti trovate nell'**officina** (livello 22)
-finiranno in una sezione dedicata con il nome di chi le ha scoperte.
+If a pull request is not accepted, I always explain why. A reasoned "no" is useful;
+silence never is.
 
 ---
 
-## Una nota sulle domande d'esame
+## Who takes part
 
-Nel repository trovi `data/exam-bank-sample.js`: sono domande vere ma **pubbliche**, e
-servono a far girare sito e test in locale. L'esame che rilascia l'attestato usa una banca
-diversa, che non sta in git e non è scaricabile da nessuna parte — perché un esame le cui
-risposte si possono leggere non misura niente.
-
-Se vuoi proporre domande nuove, aprine una issue o mandale nella pull request modificando la
-banca d'esempio: le valuto e, se sono buone, entrano in quella vera.
+Anyone who contributes substantially is credited in the `README` and, if they want, on the
+site's credits page. Interesting pipelines discovered in the **workshop** (level 22) will end
+up in a dedicated section under the name of whoever found them.
 
 ---
 
-## Con che licenza esce il tuo contributo
+## A note on the exam questions
 
-Il progetto è **libero ma non commerciale**: chiunque può leggerlo, modificarlo, tradurlo,
-installarlo sul proprio server e usarlo nella scuola pubblica, all'università o in un doposcuola
-gratuito. Quello che non si può fare, senza accordo scritto, è **guadagnarci**: rivenderlo,
-infilarlo in un prodotto a pagamento o usarlo per insegnare in un corso a pagamento. Il testo completo è in [LICENSE](LICENSE):
+In the repository you will find `data/exam-bank-sample.js`: those are real but **public**
+questions, and they exist so that the site and the tests run locally. The exam that issues the
+certificate uses a different bank, which is not in git and cannot be downloaded anywhere —
+because an exam whose answers can be read measures nothing.
 
-- **codice** → [PolyForm Noncommercial 1.0.0](LICENSE)
-- **contenuti didattici** → [CC BY-NC-SA 4.0](LICENSE)
-
-Aprendo una pull request accetti due cose:
-
-1. il tuo contributo esce **con queste stesse licenze** (regola standard: quello che entra
-   ha la licenza di quello che esce);
-2. autorizzi l'autore a includerlo nelle eventuali **licenze commerciali** che concede a chi
-   le chiede.
-
-Il punto 2 sembra sbilanciato ed è giusto spiegarlo: senza, basterebbe una sola pull request
-accettata per rendere impossibile qualunque accordo futuro, anche a chi ha scritto tutto il
-resto. Tu **mantieni il tuo copyright**, resti nella cronologia del progetto e nei crediti.
-Se la condizione non ti convince, scrivilo nella pull request: si discute (per esempio
-tenendo il tuo contributo in un file separato e marcato).
-
-Una precisazione onesta: una licenza non commerciale **non** è "open source" secondo la
-definizione dell'Open Source Initiative, perché limita i campi di utilizzo. Se per te è un
-criterio dirimente è meglio saperlo prima di scrivere codice, non dopo.
+If you want to propose new questions, open an issue or send them in the pull request by editing
+the sample bank: I review them and, if they are good, they go into the real one.
 
 ---
 
-## Perché questo documento è fatto così
+## The licence your contribution goes out under
 
-La revisione sistematica di **Steinmacher e colleghi** su 21 studi individua cinque famiglie
-di barriere per chi arriva in un progetto open source: trovare da dove iniziare, interazioni
-sociali, problemi di codice, **documentazione inadeguata** e lacune di conoscenza. Le più
-frequenti sono la difficoltà di **trovare un compito adatto** e la **mancata risposta**
-della comunità.
+The project is **free but non-commercial**: anyone may read it, modify it, translate it,
+install it on their own server and use it in state schools, at university or in a free
+after-school club. What you may not do, without a written agreement, is **make money from it**:
+resell it, embed it in a paid product, or use it to teach a paid course. The full text is in
+[LICENSE](LICENSE):
 
-Da qui le scelte concrete di questo file:
+- **code** → [PolyForm Noncommercial 1.0.0](LICENSE)
+- **teaching content** → [CC BY-NC-SA 4.0](LICENSE)
 
-| Barriera individuata dalla ricerca | Cosa ho fatto |
+By opening a pull request you accept two things:
+
+1. your contribution goes out **under those same licences** (the standard rule: what comes in
+   carries the licence of what goes out);
+2. you authorise the author to include it in any **commercial licences** granted on request.
+
+Point 2 looks lopsided and deserves an explanation: without it, a single accepted pull request
+would be enough to make any future agreement impossible, including for the person who wrote
+everything else. You **keep your copyright**, you stay in the project's history and in the
+credits. If the condition does not convince you, say so in the pull request: it is open to
+discussion (for example by keeping your contribution in a separate, marked file).
+
+One honest clarification: a non-commercial licence is **not** "open source" under the Open
+Source Initiative's definition, because it restricts fields of use. If that is a dealbreaker
+for you, better to know before you write code than after.
+
+---
+
+## Why this document is shaped like this
+
+The systematic review by **Steinmacher and colleagues** across 21 studies identifies five
+families of barrier for someone arriving at an open source project: finding where to start,
+social interaction, code problems, **inadequate documentation** and knowledge gaps. The most
+frequent are the difficulty of **finding a suitable task** and **getting no answer** from the
+community.
+
+Hence the concrete choices in this file:
+
+| Barrier identified by the research | What I did about it |
 |---|---|
-| "Non so da dove iniziare" | tabella dei contributi per tempo disponibile, issue `buon primo contributo` con il file già indicato |
-| "Non riesco a far partire il progetto" | avvio in cinque comandi, con la verifica esplicita che dice se ha funzionato |
-| "La documentazione è vecchia o incompleta" | il validatore controlla che i riferimenti nei documenti esistano davvero; la CI lo esegue a ogni PR |
-| "Non ricevo risposta" | impegno esplicito sui tempi, e un "no" sempre motivato |
-| "Non so se il mio contributo è giusto" | un solo comando (`npm run test:all`) dice se va bene, prima di aprire la PR |
+| "I do not know where to start" | a table of contributions by available time, `good first issue` issues with the file already named |
+| "I cannot get the project running" | five commands to start, with an explicit check that tells you whether it worked |
+| "The documentation is old or incomplete" | the validator checks that references in the documents really exist; CI runs it on every PR |
+| "Nobody answers me" | an explicit commitment on response times, and a "no" that is always explained |
+| "I do not know whether my contribution is right" | one command (`npm run test:all`) tells you before you open the PR |
 
-**Fonti**
+**Sources**
 
-- Steinmacher, I., Gerosa, M. A., Redmiles, D. — *Barriers Faced by Newcomers to Open Source Projects: A Systematic Review* — [testo (PDF)](https://www.ime.usp.br/~gerosa/papers/Steinmacher2014_Chapter_BarriersFacedByNewcomersToOpen.pdf)
-- Steinmacher, I. et al. — *A systematic literature review on the barriers faced by newcomers to open source software projects*, Information and Software Technology — [articolo](https://www.sciencedirect.com/science/article/abs/pii/S0950584914002390)
-- Steinmacher, I., Gerosa, M. A., Redmiles, D. — *How to Support Newcomers Onboarding to Open Source Software Projects* — [capitolo](https://link.springer.com/chapter/10.1007/978-3-642-55128-4_29)
+- Steinmacher, I., Gerosa, M. A., Redmiles, D. — *Barriers Faced by Newcomers to Open Source Projects: A Systematic Review* — [text (PDF)](https://www.ime.usp.br/~gerosa/papers/Steinmacher2014_Chapter_BarriersFacedByNewcomersToOpen.pdf)
+- Steinmacher, I. et al. — *A systematic literature review on the barriers faced by newcomers to open source software projects*, Information and Software Technology — [article](https://www.sciencedirect.com/science/article/abs/pii/S0950584914002390)
+- Steinmacher, I., Gerosa, M. A., Redmiles, D. — *How to Support Newcomers Onboarding to Open Source Software Projects* — [chapter](https://link.springer.com/chapter/10.1007/978-3-642-55128-4_29)

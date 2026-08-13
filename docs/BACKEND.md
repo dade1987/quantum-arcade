@@ -1,301 +1,298 @@
-# Backend — Laravel + moduli nwidart, tutto su un solo dominio
+# Backend — Laravel + nwidart modules, all on a single domain
 
-Il backend **è già costruito e funzionante**. Questo documento spiega com'è fatto,
-come si avvia in locale e come si mette online su Hostinger — un dominio solo, un deploy solo.
+The backend **is already built and working**. This document explains how it is put together,
+how to run it locally and how to put it live on Hostinger — one domain, one deploy.
 
 ---
 
-## 1. Come è organizzato
+## 1. How it is organised
 
 ```
-Modules/                       moduli nwidart (uno per dominio funzionale)
-├── Accounts/                  registrazione, conferma email, accesso, profilo
-├── Progress/                  salvataggio progressi lato server
-├── Certificates/              esame corretto dal server, attestato, PDF, verifica
-└── Chat/                      tutor AI (Neuron AI) e archivio conversazioni
+Modules/                       nwidart modules (one per functional domain)
+├── Accounts/                  registration, email confirmation, sign-in, profile
+├── Progress/                  server-side progress saving
+├── Certificates/              server-marked exam, certificate, PDF, verification
+└── Chat/                      AI tutor (Neuron AI) and conversation history
 
-public_html/                   ← WEB ROOT (nome obbligato da Hostinger)
-├── index.php                  front controller Laravel
-└── css/ js/ assets/                       gli asset del gioco (nessun passaggio di build)
+public_html/                   ← WEB ROOT (name forced by Hostinger)
+├── index.php                  Laravel front controller
+└── css/ js/ assets/                       the game's assets (no build step)
 
-storage/app/rag/               archivio vettoriale del tutor (file, niente DB extra)
+storage/app/rag/               the tutor's vector store (files, no extra database)
 ```
 
-**Non esiste una cartella `backend/`**: il progetto Laravel *è* la radice del repository.
-Il gioco non viene copiato né compilato: i file in `public_html/` sono quelli che si modificano.
+**There is no `backend/` folder**: the Laravel project *is* the root of the repository.
+The game is neither copied nor compiled: the files in `public_html/` are the ones you edit.
 
-**Un solo dominio.** Apache serve i file statici se esistono (regola standard di Laravel),
-altrimenti passa a PHP. Quindi:
+**A single domain.** Apache serves static files when they exist (Laravel's standard rule),
+otherwise it hands over to PHP. So:
 
-| URL | Chi risponde |
+| URL | Who answers |
 |---|---|
-| `/css/…` , `/js/…` , `/assets/…` | gli asset, serviti dal web server |
-| `/` , `/lezioni/…` , `/en/lessons/…` | le pagine, composte da Blade |
-| `/api/*` | Laravel (moduli) |
-| `/verifica/{codice}` | Laravel (pagina pubblica di verifica) |
-| `/attestato/{codice}.pdf` | Laravel (PDF generato al volo) |
+| `/css/…` , `/js/…` , `/assets/…` | the assets, served by the web server |
+| `/` , `/lezioni/…` , `/en/lessons/…` | the pages, composed by Blade |
+| `/api/*` | Laravel (modules) |
+| `/verifica/{code}` | Laravel (public verification page) |
+| `/attestato/{code}.pdf` | Laravel (PDF generated on the fly) |
 
 ---
 
-## 2. Cosa fa ogni modulo
+## 2. What each module does
 
 ### Accounts
-Registrazione con **nome, cognome, data di nascita, email, password**
-(i dati anagrafici servono all'attestato: senza, non è verificabile da terzi).
-Conferma email tramite link monouso; nel database si salva **solo l'hash** del token.
-Accesso con email+password, oppure con link via email se la password è persa.
-Cancellazione completa dell'account in un click (GDPR art. 17), con eliminazione a cascata.
+Registration with **first name, last name, date of birth, email, password**
+(the personal details are needed for the certificate: without them a third party cannot verify
+it). Email confirmation through a single-use link; only the token's **hash** is stored in the
+database. Sign-in with email and password, or with an emailed link if the password is lost.
+Complete account deletion in one click (GDPR art. 17), cascading through everything.
 
-| Rotta | Cosa fa |
+| Route | What it does |
 |---|---|
-| `POST /api/auth/register` | crea l'account e invia la mail di conferma |
-| `POST /api/auth/login` | accesso con password (rate limit 8 tentativi/15 min) |
-| `POST /api/auth/magic` | manda un link di accesso (risposta identica anche se l'email non esiste) |
-| `GET /api/auth/verify?token=` | conferma email e apre la sessione |
-| `POST /api/auth/profile` · `/password` · `/resend` · `/logout` | gestione account |
-| `DELETE /api/auth/me` | cancella tutto |
+| `POST /api/auth/register` | creates the account and sends the confirmation email |
+| `POST /api/auth/login` | sign-in with a password (rate limit 8 attempts / 15 min) |
+| `POST /api/auth/magic` | sends a sign-in link (identical response even if the email does not exist) |
+| `GET /api/auth/verify?token=` | confirms the email and opens the session |
+| `POST /api/auth/profile` · `/password` · `/resend` · `/logout` | account management |
+| `DELETE /api/auth/me` | deletes everything |
 
 ### Progress
-Una riga per utente con XP e uno stato JSON. La fusione fra dispositivi **non perde mai nulla**:
-XP = massimo, livelli/missioni = unione, ripasso = si tiene la scatola più bassa.
-`level_events` registra in forma aggregata dove i giocatori si bloccano.
+One row per user with XP and a JSON state. Merging across devices **never loses anything**:
+XP = maximum, levels/missions = union, review = keep the lowest box.
+`level_events` records, in aggregate form, where players get stuck.
 
 ### Certificates
-- `GET /api/exam/questions` → tutte le domande della banca, mescolate, **senza le risposte esatte**;
-- `POST /api/exam/submit` → correzione **lato server**, salvataggio del tentativo,
-  emissione dell'attestato se ≥ 80%;
-- `GET /verifica/{code}` → pagina pubblica di verifica;
-- `GET /attestato/{code}.pdf` → PDF A4 orizzontale (dompdf);
+- `GET /api/exam/questions` → every question in the bank, shuffled, **without the correct answers**;
+- `POST /api/exam/submit` → **server-side** marking, attempt saved, certificate issued at ≥ 80%;
+- `GET /verifica/{code}` → public verification page;
+- `GET /attestato/{code}.pdf` → landscape A4 PDF (dompdf);
 - `GET /api/badge/{code}.json` → Open Badge / Verifiable Credential.
 
-La banca domande sta in `Modules/Certificates/config/config.php`, generata da
-`npm run exam:sync`. Le domande hanno un problema che nessun altro contenuto ha:
-**se si possono leggere, l'esame non misura niente**. E si possono leggere in due modi —
-dall'URL, se il file sta in `public_html`, e da GitHub, visto che il repository è pubblico.
-Quindi le banche sono due:
+The question bank lives in `Modules/Certificates/config/config.php`, generated by
+`npm run exam:sync`. The questions have a problem no other content has: **if they can be read,
+the exam measures nothing**. And they can be read two ways — from the URL, if the file sits in
+`public_html`, and from GitHub, since the repository is public. Hence two banks:
 
-| File | In git? | A cosa serve |
+| File | In git? | What it is for |
 |---|---|---|
-| `data/exam-bank-sample.js` | sì | far girare sito e test a chi contribuisce |
-| `data/exam-bank-private.js` | **no** | l'esame vero, solo sul tuo computer e sul server |
+| `data/exam-bank-sample.js` | yes | letting contributors run the site and the tests |
+| `data/exam-bank-private.js` | **no** | the real exam, only on your machine and on the server |
 
-`npm run exam:sync` genera da ciascuna il rispettivo file PHP; `config.php` carica quello
-riservato se lo trova, altrimenti quello d'esempio. **Il file `domande-riservate.php` non
-arriva con il deploy** (non è in git): va caricato a mano una volta, e rifatto quando cambi
-le domande. `php artisan site:check` avvisa in giallo se online sta girando quella
-d'esempio.
+`npm run exam:sync` generates the corresponding PHP file from each; `config.php` loads the
+private one if it finds it, otherwise the sample. **The `domande-riservate.php` file does not
+travel with the deploy** (it is not in git): upload it by hand once, and again whenever you
+change the questions. `php artisan site:check` warns in yellow if the sample one is what is
+running in production.
 
-### Chat — il tutor
-Agente **RAG con Neuron AI** (PHP puro, nessun processo Node da tenere acceso):
+### Chat — the tutor
+A **RAG agent built with Neuron AI** (pure PHP, no Node process to keep alive):
 
-- `Modules/Chat/app/Agents/QuantumTutor.php` — istruzioni e fabbriche dei fornitori.
-  **Chi risponde** si sceglie dal `.env` (`CHAT_PROVIDER`): `deepseek` (predefinito),
-  `anthropic`, `openai`. **Come si cerca** si sceglie con `CHAT_EMBEDDINGS`;
-- `Modules/Chat/app/Embeddings/EmbeddingLocale.php` — embedding calcolati in casa,
-  senza API. Esiste perché **DeepSeek non offre un'API di embedding**: senza questo
-  servirebbe una seconda chiave, di un secondo fornitore, solo per la ricerca.
-  È feature hashing su parole, radici e coppie di parole; costo zero, nessuna rete,
-  189 pezzi indicizzati in mezzo secondo. Il limite (dichiarato) è che non capisce i
-  sinonimi: se serve più precisione si passa a `CHAT_EMBEDDINGS=openai` e una chiave;
-- archivio vettoriale **su file** (`FileVectorStore`), creato da solo alla prima
-  installazione. Neuron AI supporta anche Qdrant, Chroma, Pinecone, Weaviate,
-  Elasticsearch e MariaDB, ma il primo gruppo sono servizi da tenere accesi e
-  `MariaDBVectorStore` richiede MariaDB 11.7+ con tipo `VECTOR` nativo: su hosting
-  condiviso l'archivio su file è l'unico che regge davvero;
-- `php artisan chat:ingest` — legge le pagine in `public_html/`, le spezza in blocchi
-  e calcola gli embedding. **Da rilanciare dopo ogni modifica ai contenuti**;
-- `php artisan chat:report` — domande più frequenti, livelli più citati, risposte bocciate:
-  è la lista dei livelli da riscrivere;
-- conversazioni salvate in `conversations` / `chat_messages` con voto 👍/👎.
+- `Modules/Chat/app/Agents/QuantumTutor.php` — instructions and provider factories.
+  **Who answers** is chosen in `.env` (`CHAT_PROVIDER`): `deepseek` (default), `anthropic`,
+  `openai`. **How it searches** is chosen with `CHAT_EMBEDDINGS`;
+- `Modules/Chat/app/Embeddings/EmbeddingLocale.php` — embeddings computed in-house, with no
+  API. It exists because **DeepSeek offers no embedding API**: without it you would need a
+  second key, from a second provider, purely for search. It is feature hashing over words,
+  stems and word pairs; zero cost, no network, 189 chunks indexed in half a second. Its stated
+  limitation is that it does not understand synonyms: if you need more precision, switch to
+  `CHAT_EMBEDDINGS=openai` and a key;
+- a **file-based** vector store (`FileVectorStore`), created by itself on first install.
+  Neuron AI also supports Qdrant, Chroma, Pinecone, Weaviate, Elasticsearch and MariaDB, but
+  the first group are services you have to keep running, and `MariaDBVectorStore` requires
+  MariaDB 11.7+ with a native `VECTOR` type: on shared hosting the file store is the only one
+  that really holds up;
+- `php artisan chat:ingest` — reads the pages, splits them into chunks and computes the
+  embeddings. **Re-run it after every content change**;
+- `php artisan chat:report` — most frequent questions, most cited levels, rejected answers:
+  it is the list of levels to rewrite;
+- conversations saved in `conversations` / `chat_messages` with a 👍/👎 vote.
 
-Regole scritte nel prompt: risponde solo con quello che trova nel sito, cita il livello,
-**non dà le soluzioni delle missioni** (solo indizi) e non promette certificazioni accreditate.
+Rules written into the prompt: it answers only from what it finds on the site, cites the level,
+**does not give away mission solutions** (hints only) and does not promise accredited
+certifications.
 
 ---
 
-## 3. Avvio in locale
+## 3. Running it locally
 
 ```bash
 composer install
-cp .env.example .env            # se non c'è già
+cp .env.example .env            # if it is not there already
 php artisan key:generate
-touch database/database.sqlite  # oppure configura MySQL
+touch database/database.sqlite  # or configure MySQL
 php artisan migrate
-php artisan serve --port=8010   # oppure: npm start
+php artisan serve --port=8010   # or: npm start
 # → http://127.0.0.1:8010
 ```
 
-I contenuti si modificano direttamente in `public_html/`: nessun passaggio di build, nessun watcher.
+Content is edited directly in the views: no build step, no watcher.
 
-Con `MAIL_MAILER=log` le email di conferma finiscono in `storage/logs/laravel.log`:
-comodo per provare la registrazione senza configurare la posta.
+With `MAIL_MAILER=log` the confirmation emails land in `storage/logs/laravel.log`:
+handy for trying registration without configuring a mail server.
 
 ---
 
-## 4. Variabili d'ambiente
+## 4. Environment variables
 
 ```env
-APP_URL=https://iltuodominio.it
-DB_CONNECTION=mysql            # su Hostinger
+APP_URL=https://yourdomain.com
+DB_CONNECTION=mysql            # on Hostinger
 
-MAIL_MAILER=smtp               # casella del dominio creata dal pannello Hostinger
+MAIL_MAILER=smtp               # domain mailbox created from the Hostinger panel
 MAIL_HOST=smtp.hostinger.com
 MAIL_PORT=465
-MAIL_USERNAME=no-reply@iltuodominio.it
+MAIL_USERNAME=no-reply@yourdomain.com
 MAIL_PASSWORD=...
 MAIL_ENCRYPTION=ssl
-MAIL_FROM_ADDRESS=no-reply@iltuodominio.it
+MAIL_FROM_ADDRESS=no-reply@yourdomain.com
 MAIL_FROM_NAME="Quantum Arcade"
 
 CHAT_PROVIDER=deepseek         # deepseek | anthropic | openai
-CHAT_API_KEY=...               # la chiave del fornitore scelto
-CHAT_MODEL=                    # vuoto = predefinito del fornitore
-CHAT_EMBEDDINGS=locale         # nessuna chiave, nessun costo (vedi sopra)
+CHAT_API_KEY=...               # the key for the chosen provider
+CHAT_MODEL=                    # empty = the provider's default
+CHAT_EMBEDDINGS=locale         # no key, no cost (see above)
 CHAT_TOP_K=6
 CHAT_RATE_PER_HOUR=30
 CHAT_STORE_CONVERSATIONS=true
 ```
 
-Serve **una chiave sola**, quella del modello che risponde: la ricerca dentro il sito è
-locale. Senza chiave il tutor risponde «non sono configurato» e **il resto del sito funziona
-normalmente**: non è un blocco.
+You need **one key only**, the one for the model that answers: search inside the site is local.
+Without a key the tutor replies "I am not configured" and **the rest of the site works
+normally**: it is not a blocker.
 
 ---
 
-## 5. Messa online su Hostinger
+## 5. Going live on Hostinger
 
-Hostinger serve **sempre** la cartella `public_html` e non la si può rinominare: per questo
-la cartella pubblica di Laravel qui **si chiama già `public_html`** (glielo dice
-`bootstrap/app.php` con `usePublicPath`). Non c'è nessun pannello da toccare.
+Hostinger **always** serves the `public_html` folder and it cannot be renamed: that is why
+Laravel's public folder here **is already called `public_html`** (`bootstrap/app.php` says so
+with `usePublicPath`). There is no panel setting to touch.
 
-### Struttura sul server
+### Layout on the server
 
 ```
-~/                          ← home dell'hosting
+~/                          ← the hosting home directory
 ├── app/  bootstrap/  config/  database/  Modules/  routes/  storage/  vendor/
 ├── artisan  composer.json  .env
-└── public_html/            ← l'unica cartella raggiungibile dal web
-    ├── index.php               front controller Laravel
-    └── css/ js/ assets/                      gli asset del gioco
+└── public_html/            ← the only folder reachable from the web
+    ├── index.php               Laravel front controller
+    └── css/ js/ assets/                      the game's assets
 ```
 
-Tutto ciò che sta **fuori** da `public_html` non è raggiungibile dal browser: `.env`,
-database, codice dei moduli e archivio del tutor restano protetti.
+Everything **outside** `public_html` is unreachable from a browser: `.env`, the database, the
+modules' code and the tutor's store stay protected.
 
-### Passi
+### Steps
 
-1. **Carica il progetto nella home** (Git deploy, SSH o File Manager).
-   Se `public_html` esiste già ed è vuota, sovrascrivila con quella del progetto.
-2. Da SSH, prepara il `.env` (una volta sola):
+1. **Upload the project into the home directory** (Git deploy, SSH or File Manager).
+   If `public_html` already exists and is empty, overwrite it with the project's one.
+2. Over SSH, prepare the `.env` (once only):
    ```bash
    cd ~
-   cp .env.example .env && nano .env      # vedi la sezione 4
+   cp .env.example .env && nano .env      # see section 4
    php artisan key:generate
    ```
-3. Lancia lo script di messa online — fa tutto il resto nell'ordine giusto e si
-   ferma al primo passo che fallisce:
+3. Run the deploy script — it does everything else in the right order and stops at the first
+   step that fails:
    ```bash
    bash tools/deploy.sh
    ```
-   Dipendenze, permessi, migrazioni, cache, indice del tutor e **controllo
-   pre-volo**. Va rilanciato a ogni aggiornamento del sito: non tocca il `.env`
-   e non cancella dati.
-4. **Svuota la cache della CDN** (hPanel → *Prestazioni/CDN* → svuota cache), oppure
-   aspetta. Hostinger serve i file statici dietro la sua CDN (`hcdn`): dopo un
-   aggiornamento alcuni nodi possono continuare a servire il CSS e il JS vecchi, e
-   siccome HTML, CSS e JS di questo sito cambiano insieme, il risultato non è
-   «una funzione a metà» ma una pagina rotta — è già capitato con il glossario.
-   Da `public_html/.htaccess` css e js ora si riconvalidano a ogni visita
-   (ETag → 304, costo quasi zero); le pagine non passano di lì perché non sono
-   più file, ma Laravel risponde già `no-cache, private`, che è più stretto.
-   Le copie già in cache però restano fino alla scadenza: la prima volta la
-   cache va svuotata a mano. Come verificare da fuori:
+   Dependencies, permissions, migrations, caches, the tutor's index and the **pre-flight
+   check**. Re-run it on every site update: it does not touch `.env` and does not delete data.
+4. **Purge the CDN cache** (hPanel → *Performance/CDN* → purge cache), or wait. Hostinger
+   serves static files behind its CDN (`hcdn`): after an update some nodes may keep serving the
+   old CSS and JS, and since this site's HTML, CSS and JS change together, the result is not
+   "half a feature" but a broken page — it has already happened, with the glossary.
+   From `public_html/.htaccess` css and js now revalidate on every visit (ETag → 304, costing
+   next to nothing); the pages do not go through that rule because they are no longer files,
+   but Laravel already answers `no-cache, private`, which is stricter. Copies already in the
+   cache, however, stay until they expire: the first time, the cache has to be purged by hand.
+   How to check from outside:
    ```bash
-   curl -sI https://tuodominio/css/style.css | grep -iE 'last-modified|x-hcdn-cache-status'
-   curl -s  https://tuodominio/css/style.css | grep -c gloss-panel   # 0 = stai vedendo il vecchio
+   curl -sI https://yourdomain/css/style.css | grep -iE 'last-modified|x-hcdn-cache-status'
+   curl -s  https://yourdomain/css/style.css | grep -c gloss-panel   # 0 = you are seeing the old one
    ```
-5. **HTTPS**: attiva il certificato gratuito dal pannello e forza il redirect a https.
-6. **Cron** (pannello Hostinger, ogni minuto):
+5. **HTTPS**: enable the free certificate from the panel and force the redirect to https.
+6. **Cron** (Hostinger panel, every minute):
    ```
    php ~/artisan schedule:run >> /dev/null 2>&1
    ```
-7. **Prova a mano** quello che nessuno script può verificare: registrati con un
-   indirizzo vero, controlla che l'email di conferma arrivi (e non in spam), fai
-   l'esame, scarica il PDF, apri `/verifica/{codice}` da un browser in incognito.
+7. **Try by hand** what no script can verify: register with a real address, check the
+   confirmation email arrives (and not in spam), sit the exam, download the PDF, open
+   `/verifica/{code}` in a private window.
 
-### Il controllo pre-volo
+### The pre-flight check
 
 ```bash
 php artisan site:check --production
 ```
 
-Verifica una per una le cose che altrimenti si scoprono dagli utenti: versione ed
-estensioni di PHP, `APP_KEY`, `APP_URL` in https, `APP_DEBUG` spento, permessi di
-`storage`, presenza di `index.php` in `public_html` e delle view in `resources/views`, **`.env` non
-scaricabile dal web**, connessione al database e tabelle create, SMTP configurato
-(con `MAIL_MAILER=log` nessuno riceve la conferma), banca domande dell'esame,
-`dompdf` puntato alla cartella giusta, chiave del tutor e indice dei contenuti.
+It verifies one by one the things you would otherwise hear about from your users: PHP version
+and extensions, `APP_KEY`, `APP_URL` on https, `APP_DEBUG` off, `storage` permissions, the
+presence of `index.php` in `public_html` and of the views in `resources/views`, **`.env` not
+downloadable from the web**, the database connection and its tables, SMTP configured (with
+`MAIL_MAILER=log` nobody receives the confirmation), the exam question bank, `dompdf` pointed
+at the right folder, the tutor's key and the content index.
 
-Ogni riga rossa dice anche **come si risolve**. Esce con codice di errore se
-qualcosa impedisce di aprire al pubblico, quindi si può mettere in uno script.
+Every red line also says **how to fix it**. It exits with an error code if something stands in
+the way of opening to the public, so it can go into a script.
 
-### `proc_open` disattivato (succede su quasi tutti gli hosting condivisi)
+### `proc_open` disabled (it happens on almost every shared host)
 
-Se `composer install` scarica tutto e poi si ferma con
+If `composer install` downloads everything and then stops with
 
 ```
 The Process class relies on proc_open, which is not available on your PHP installation
 ```
 
-non è un guasto e i pacchetti ci sono già: Composer non riesce a lanciare l'ultimo script,
-perché per farlo dovrebbe avviare un altro processo. Si risolve così:
+it is not a fault and the packages are already there: Composer cannot run the last script,
+because doing so would mean starting another process. The fix:
 
 ```bash
 composer install --no-dev --optimize-autoloader --no-scripts
 php artisan package:discover
 ```
 
-`tools/deploy.sh` lo fa già in questo modo, quindi se usi lo script non incontri
-il problema. `php artisan site:check` segnala in giallo quando `proc_open` è disattivato.
+`tools/deploy.sh` already does it this way, so if you use the script you never meet the
+problem. `php artisan site:check` reports in yellow when `proc_open` is disabled.
 
-Lo stesso `proc_open` mancante colpiva anche il **tutor**: Neuron AI manda le sue tracce
-a Inspector in un processo separato, e ogni domanda finiva in errore 500 con
-`PHP function 'proc_open' is not available` (anche senza Inspector configurato).
-`ChatServiceProvider` ora, dove `proc_open` non c'è, impone a Inspector il trasporto
-`sync`: non serve toccare il `.env`.
+The same missing `proc_open` also hit the **tutor**: Neuron AI sends its traces to Inspector in
+a separate process, and every question ended in a 500 with
+`PHP function 'proc_open' is not available` (even with Inspector unconfigured).
+`ChatServiceProvider` now forces Inspector onto the `sync` transport wherever `proc_open` is
+absent: no `.env` change needed.
 
-### Se non hai accesso SSH (piani base)
+### If you have no SSH access (entry-level plans)
 
-`composer install` va lanciato in locale e la cartella `vendor/` caricata insieme al resto;
-le migrazioni si possono eseguire una volta sola da una rotta protetta temporanea, oppure
-importando lo schema SQL da phpMyAdmin. In quel caso ricordati di rimuovere la rotta subito dopo.
+Run `composer install` locally and upload the `vendor/` folder with everything else; the
+migrations can be run once from a temporary protected route, or by importing the SQL schema
+through phpMyAdmin. In that case remember to remove the route straight afterwards.
 
-### Node in produzione non serve
-Node è usato soltanto per i test e per il validatore. Il sito gira con PHP e basta.
+### Node is not needed in production
+Node is only used for the tests and the validator. The site runs on PHP alone.
 
 ---
 
-## 6. Manutenzione
+## 6. Maintenance
 
-| Quando | Comando |
+| When | Command |
 |---|---|
-| Hai modificato i livelli | `php artisan chat:ingest` |
-| Hai modificato l'esame | `npm run exam:sync` poi `php artisan config:cache` |
-| Vuoi sapere dove il corso non è chiaro | `php artisan chat:report` |
-| Prima di ogni pubblicazione | `npm run test:all` (unitari + PHP + end-to-end + validazione) |
-| Hai pubblicato e dal browser non vedi le modifiche | svuota la cache della CDN da hPanel, poi ricarica con Ctrl+Shift+R (o in incognito) |
-| `Class "Laravel\Pail\PailServiceProvider" not found` | `rm -f bootstrap/cache/*.php` e rilancia: è il manifest dei pacchetti rimasto da un'installazione di sviluppo (lo script lo fa già da sé) |
+| You changed the levels | `php artisan chat:ingest` |
+| You changed the exam | `npm run exam:sync` then `php artisan config:cache` |
+| You want to know where the course is unclear | `php artisan chat:report` |
+| Before every release | `npm run test:all` (unit + PHP + end-to-end + validation) |
+| You released and your browser does not show the changes | purge the CDN cache from hPanel, then reload with Ctrl+Shift+R (or in a private window) |
+| `Class "Laravel\Pail\PailServiceProvider" not found` | `rm -f bootstrap/cache/*.php` and re-run: it is the package manifest left over from a development install (the script already does this itself) |
 
 ---
 
-## 7. Cosa resta da decidere (non è codice, sono scelte tue)
+## 7. What is still to be decided (not code — your calls)
 
-- **Certificazione accreditata**: oggi l'attestato è rilasciato dall'autore ed è verificabile,
-  ma **non è accreditato**. Per renderlo tale serve un ente terzo: accordo con un ente di
-  formazione/ateneo che co-firmi, oppure uno schema ISO/IEC 17024 con accreditamento Accredia.
-  Finché non c'è, il sito lo dichiara apertamente (ed è la scelta giusta).
-- **Informativa privacy**: `privacy.html` è completa ma va integrata con i nomi reali dei
-  fornitori scelti (hosting, SMTP, modello AI) e con i relativi accordi art. 28 GDPR.
-- **Minori di 14 anni**: serve il consenso di chi esercita la responsabilità genitoriale.
-  Oggi è scritto nell'informativa; se il pubblico scolastico diventa importante,
-  vale la pena aggiungere un flusso dedicato per le classi.
+- **Accredited certification**: today the certificate is issued by the author and is
+  verifiable, but **not accredited**. Making it so requires a third party: an agreement with a
+  training body or university that co-signs it, or an ISO/IEC 17024 scheme with Accredia
+  accreditation. Until then, the site states this openly (which is the right call).
+- **Privacy notice**: the privacy page is complete but needs the real names of the chosen
+  providers (hosting, SMTP, AI model) and the corresponding GDPR art. 28 agreements.
+- **Under-14s**: consent from whoever holds parental responsibility is required. Today that is
+  written in the notice; if the school audience becomes significant, a dedicated flow for
+  classes is worth adding.

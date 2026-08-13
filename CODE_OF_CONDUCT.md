@@ -1,40 +1,40 @@
-# Codice di comportamento
+# Code of conduct
 
-## In una riga
+## In one line
 
-Questo è un progetto che insegna a chi non sa. Chi fa sentire stupido qualcuno
-sta lavorando **contro** l'obiettivo del progetto, per quanto buono sia il suo codice.
+This is a project that teaches people who do not know. Anyone who makes someone feel stupid is
+working **against** the point of the project, however good their code is.
 
-## Cosa ci si aspetta
+## What is expected
 
-- **Rispondere alle domande da principiante come se fossero legittime**, perché lo sono.
-  Qui arriva gente che non sa cos'è un numero negativo: è esattamente il pubblico previsto.
-- Dare per scontata la buona fede: chi segnala un problema sta regalando tempo al progetto.
-- Criticare il contenuto, mai la persona. "Questa spiegazione confonde perché…" è utile;
-  "non hai capito niente" no.
-- Accettare che una decisione motivata possa non piacerti.
+- **Answer beginner questions as if they were legitimate**, because they are. People arrive
+  here not knowing what a negative number is: that is exactly the intended audience.
+- Assume good faith: someone reporting a problem is giving the project their time.
+- Criticise the content, never the person. "This explanation is confusing because…" is useful;
+  "you have understood nothing" is not.
+- Accept that a reasoned decision may not be one you like.
 
-## Cosa non è accettato
+## What is not accepted
 
-- Insulti, molestie, commenti su etnia, genere, orientamento, religione, disabilità, età.
-- Fare il verso a chi fa domande semplici, o rispondere "è ovvio".
-- Pubblicare dati personali altrui.
-- Attenzioni sessuali non richieste.
-- Sabotare il progetto o i contributi altrui.
+- Insults, harassment, remarks about ethnicity, gender, orientation, religion, disability, age.
+- Mocking people who ask simple questions, or answering "it's obvious".
+- Publishing someone else's personal data.
+- Unwanted sexual attention.
+- Sabotaging the project or other people's contributions.
 
-## Se succede qualcosa
+## If something happens
 
-Scrivi all'autore: **[LinkedIn](https://www.linkedin.com/in/davidecavallini/)**.
-Le segnalazioni sono trattate in modo riservato e ricevono risposta.
+Write to the author: **[LinkedIn](https://www.linkedin.com/in/davidecavallini/)**.
+Reports are handled confidentially and are answered.
 
-Le conseguenze sono proporzionate: dal chiarimento privato, all'avvertimento pubblico,
-fino all'esclusione permanente dal progetto nei casi gravi o ripetuti.
+Consequences are proportionate: from a private word, to a public warning, up to permanent
+exclusion from the project in serious or repeated cases.
 
-## Ambito
+## Scope
 
-Vale su issue, pull request, discussioni e ovunque qualcuno rappresenti il progetto.
+It applies to issues, pull requests, discussions and anywhere someone represents the project.
 
 ---
 
-Ispirato al [Contributor Covenant](https://www.contributor-covenant.org/) 2.1, riscritto
-in modo che si capisca leggendolo una volta sola.
+Inspired by the [Contributor Covenant](https://www.contributor-covenant.org/) 2.1, rewritten so
+that it makes sense on a single read.

@@ -1,40 +1,42 @@
-# Sicurezza
+# Security
 
-## Segnalare una vulnerabilità
+## Reporting a vulnerability
 
-**Non aprire una issue pubblica.** Scrivi in privato tramite
-[LinkedIn](https://www.linkedin.com/in/davidecavallini/) oppure usa
-*Security → Report a vulnerability* qui su GitHub.
+**Do not open a public issue.** Write privately via
+[LinkedIn](https://www.linkedin.com/in/davidecavallini/) or use
+*Security → Report a vulnerability* here on GitHub.
 
-Rispondo entro **72 ore** e ti tengo aggiornato fino alla chiusura. Se vuoi, il tuo nome
-viene citato nel changelog della correzione.
+I reply within **72 hours** and keep you posted until it is closed. If you want, your name is
+credited in the changelog of the fix.
 
-## Cosa è particolarmente interessante segnalare
+## What is particularly worth reporting
 
-Questo progetto tratta **email, password e attestati verificabili**: i punti sensibili sono
+This project handles **emails, passwords and verifiable certificates**, so the sensitive points
+are:
 
-- aggiramento della correzione dell'esame lato server (ottenere un attestato senza superarlo);
-- accesso ai progressi o ai dati di un altro utente;
-- iniezione nei contenuti delle lezioni o nelle risposte del tutor (prompt injection compresa);
-- esposizione dei link di accesso monouso;
-- possibilità di usare il tutor come proxy per il modello AI a spese del gestore.
+- bypassing the server-side exam marking (getting a certificate without passing);
+- access to another user's progress or data;
+- injection into the lesson content or into the tutor's answers (prompt injection included);
+- exposure of the single-use sign-in links;
+- being able to use the tutor as a proxy to the AI model at the operator's expense.
 
-## Cosa è già previsto per progetto
+## What the design already accounts for
 
-- I token di accesso sono salvati **solo come hash** (SHA-256), mai in chiaro.
-- Le risposte esatte dell'esame **non escono mai dal server**.
-- Rate limiting su registrazione, accesso, richiesta link e domande al tutor.
-- La risposta a "questa email è registrata?" è identica in entrambi i casi.
-- Sessioni con cookie `HttpOnly` e protezione CSRF su tutte le richieste che scrivono.
-- `.env`, database, log e archivio del tutor stanno **fuori** da `public_html`.
+- Sign-in tokens are stored **as hashes only** (SHA-256), never in the clear.
+- The exam's correct answers **never leave the server**.
+- Rate limiting on registration, sign-in, link requests and tutor questions.
+- The answer to "is this email registered?" is identical either way.
+- Sessions with `HttpOnly` cookies and CSRF protection on every writing request.
+- `.env`, the database, the logs and the tutor's store live **outside** `public_html`.
 
-## Cosa NON è una vulnerabilità
+## What is NOT a vulnerability
 
-- Poter modificare i propri progressi locali in modalità offline: è previsto, ed è il motivo
-  per cui l'esame è corretto dal server.
-- L'attestato non è accreditato da un ente terzo: è dichiarato apertamente, non è un difetto.
-- Il tutor che rifiuta di dare la soluzione di una missione: è voluto.
+- Being able to edit your own local progress in offline mode: that is by design, and it is the
+  reason the exam is marked by the server.
+- The certificate is not accredited by a third-party body: this is stated openly, it is not a
+  defect.
+- The tutor refusing to give away a mission's solution: that is deliberate.
 
-## Versioni supportate
+## Supported versions
 
-Il progetto è a rilascio continuo: viene corretta sempre e solo la versione sul ramo `main`.
+The project is continuously released: only the version on the `main` branch is ever fixed.

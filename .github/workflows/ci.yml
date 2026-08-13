@@ -1,7 +1,7 @@
-name: Collaudo
+name: CI
 
-# Ogni push e ogni pull request devono passare gli stessi controlli che si
-# lanciano in locale con `npm run test:all`. Se qui è verde, è verde ovunque.
+# Every push and every pull request must pass the same checks you run locally with
+# `npm run test:all`. If it is green here, it is green everywhere.
 
 on:
   push:
@@ -10,34 +10,34 @@ on:
 
 jobs:
   backend:
-    name: Backend PHP (copertura 100%)
+    name: PHP backend (100% coverage)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Prepara PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
           extensions: sqlite3, pdo_sqlite, mbstring, dom, curl
           coverage: xdebug
 
-      - name: Installa le dipendenze
+      - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
-      - name: Prepara l'ambiente
+      - name: Prepare the environment
         run: |
           cp .env.example .env
           php artisan key:generate
           touch database/database.sqlite
 
-      - name: Test con copertura
+      - name: Tests with coverage
         run: php artisan test --coverage --min=100
         env:
           XDEBUG_MODE: coverage
 
   frontend:
-    name: Motore del gioco, validatore e lingue
+    name: Game engine, validator and languages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,24 +47,24 @@ jobs:
           node-version: '20'
           cache: npm
 
-      - name: Prepara PHP (serve al validatore per controllare i file .php)
+      - name: Set up PHP (the validator needs it to check the .php files)
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
 
       - run: npm ci
 
-      - name: Test unitari con copertura
+      - name: Unit tests with coverage
         run: node --test --experimental-test-coverage tests/js/unit/
 
-      - name: Validatore di tutti i file
+      - name: Validate every file
         run: node tools/validate.mjs
 
-      - name: Verifiche matematiche del simulatore
+      - name: Mathematical checks of the simulator
         run: node tools/test-math.mjs
 
   e2e:
-    name: End-to-end (Playwright, desktop e telefono)
+    name: End-to-end (Playwright, desktop and phone)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -83,21 +83,21 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
 
-      - name: Prepara l'ambiente
+      - name: Prepare the environment
         run: |
           cp .env.example .env
           php artisan key:generate
           touch database/database.sqlite
           php artisan migrate --force
 
-      - name: Test end-to-end
+      - name: End-to-end tests
         run: npx playwright test
 
-      - name: Salva il rapporto se qualcosa fallisce
+      - name: Keep the report if something fails
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: rapporto-playwright
+          name: playwright-report
           path: |
             tests/report/
             test-results/

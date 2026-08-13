@@ -1,23 +1,23 @@
-## Cosa cambia
+## What changes
 
-<!-- Una o due righe. Il "cosa" si vede dal diff: qui scrivi il PERCHÉ. -->
+<!-- One or two lines. The "what" is visible in the diff: write the WHY here. -->
 
-## Tipo
+## Type
 
-- [ ] Contenuto didattico (testi, quiz, spiegazioni)
-- [ ] Mini-gioco / interfaccia
+- [ ] Teaching content (text, quizzes, explanations)
+- [ ] Mini-game / interface
 - [ ] Backend
-- [ ] Documentazione
-- [ ] Correzione di un difetto
+- [ ] Documentation
+- [ ] Bug fix
 
-## Verifiche
+## Checks
 
-- [ ] `npm run test:all` è verde
-- [ ] Se ho toccato un livello: l'ho **giocato davvero** dall'inizio alla fine
-- [ ] Se ho toccato il backend: ho aggiunto i test per i rami nuovi
-- [ ] Se ho toccato la grafica: ho guardato anche da telefono
+- [ ] `npm run test:all` is green
+- [ ] If I touched a level: I **actually played it** from start to finish
+- [ ] If I touched the backend: I added tests for the new branches
+- [ ] If I touched the visuals: I looked at it on a phone too
 
-## Su cosa mi baso
+## What I am basing this on
 
-<!-- Per i contenuti didattici: un'esperienza in aula, una fonte, la segnalazione
-     di uno studente. Le opinioni valgono, purché dichiarate. -->
+<!-- For teaching content: classroom experience, a source, a student's report.
+     Opinions count, as long as they are declared. -->
