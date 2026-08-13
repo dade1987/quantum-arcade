@@ -124,7 +124,8 @@ qubit:      [ ampiezza di 0 , ampiezza di 1 ]
              diventa un quarto, non la metà. Non c'è niente da imparare a memoria, c'è da guardare.</p>`,
       mount: (el, api) => {
         const m = api.mission({ key: 'quadrato', title: 'Il quadrato della probabilità', text: 'centra tre aree diverse muovendo il lato.', xp: 25 });
-        probabilitaQuadrato(el, { need: 3, onWin: () => m.done() });
+        el.appendChild(m.root);
+        probabilitaQuadrato(el, { need: 3, onWin: () => m.complete() });
       },
     },
     {
