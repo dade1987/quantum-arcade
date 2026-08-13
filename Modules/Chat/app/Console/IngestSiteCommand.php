@@ -48,14 +48,14 @@ class IngestSiteCommand extends Command
         $documents = [];
 
         foreach ($pages as $path) {
-            $html  = file_get_contents($path);
-            $id    = basename($path, '.blade.php');
-            $level = \App\Support\Site::level($id);
+            $html = file_get_contents($path);
+            $id   = basename($path, '.blade.php');
+            $lv   = \App\Support\Site::level($id);
 
             // il titolo e l'indirizzo vengono dalla lista dei livelli, non dal file:
             // è la stessa fonte che usa il sito, quindi il tutor cita quello che si legge
-            $title = $level ? $level['n'] . '. ' . $level['title']['it'] : $id;
-            $url   = $level ? \App\Support\Site::lessonPath($id, 'it') : \App\Support\Site::page($id, 'it');
+            $title = $lv ? $lv['n'] . '. ' . $lv['title']['it'] : $id;
+            $url   = $lv ? \App\Support\Site::lessonPath($id, 'it') : \App\Support\Site::page($id, 'it');
             $level = $this->levelFromPath($path);
 
             $text = $this->toPlainText($html);
@@ -63,7 +63,9 @@ class IngestSiteCommand extends Command
                 continue;
             }
 
-            foreach ($this->chunk($text) as $i => $piece) {
+            $pieces = $this->chunk($text);
+
+            foreach ($pieces as $i => $piece) {
                 $doc = new Document(
                     "TITOLO: {$title}\nLIVELLO: {$level}\nURL: {$url}\n\n{$piece}"
                 );
@@ -73,7 +75,7 @@ class IngestSiteCommand extends Command
                 $documents[] = $doc;
             }
 
-            $this->line(sprintf('  %-34s %s', basename($path), '→ ' . count($this->chunk($text)) . ' pezzi'));
+            $this->line(sprintf('  %-34s %s', basename($path), '→ ' . count($pieces) . ' pezzi'));
         }
 
         $this->info(count($documents) . ' pezzi da ' . count($pages) . ' pagine.');
