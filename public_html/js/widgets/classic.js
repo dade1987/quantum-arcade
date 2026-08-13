@@ -369,6 +369,112 @@ export function logicLab(host, opts = {}) {
    3) COSTRUIRE CON UN SOLO TIPO DI PORTA (NAND)
    ============================================================ */
 
+/** I quattro casi possibili di due ingressi, sempre in quest'ordine. */
+export const CASI = [[0, 0], [0, 1], [1, 0], [1, 1]];
+
+/** Il bit che esce da ogni NAND per UN caso solo: gli ingressi valgono a e b.
+ *
+ *  Gli ingressi della rete restano due, A e B, e ogni filo porta UN bit: è la
+ *  cosa che si perde di vista guardando le tabelle a quattro cifre, e quindi è
+ *  anche quello che il gioco fa vedere acceso, un caso per volta.
+ *
+ *  Un NAND che pesca da sé stesso o da uno che viene dopo non ha un valore:
+ *  al suo posto c'è null, perché in un circuito quel filo non esisterebbe. */
+export function valoriNand(in1, in2, a, b) {
+  const v = [null, null, null, null];
+  const leggi = (nome, indiceGate) => {
+    if (nome === 'A') return a;
+    if (nome === 'B') return b;
+    const k = Number(nome[1]) - 1;
+    return k >= indiceGate ? null : v[k];    // né sé stesso né uno che viene dopo
+  };
+  for (let i = 0; i < 4; i++) {
+    const x = leggi(in1[i], i), y = leggi(in2[i], i);
+    v[i] = (x === null || y === null) ? null : ((x & y) ^ 1);
+  }
+  return v;
+}
+
+/** La tabella di verità di ogni singolo NAND, come stringa di 4 cifre.
+ *
+ *  Le quattro cifre NON sono quattro uscite: sono la stessa uscita, provata nei
+ *  quattro casi di A e B. È il riassunto della porta — quattro esperimenti messi
+ *  in fila — ed è pura apposta: il gioco la usa per far vedere cosa esce da OGNI
+ *  porta e non solo dall'ultima, il collaudo per verificare che le ricette
+ *  insegnate qui dentro producano davvero quello che promettono. */
+export function firmeNand(in1, in2) {
+  const casi = CASI.map(([a, b]) => valoriNand(in1, in2, a, b));
+  return [0, 1, 2, 3].map(i => casi.map(v => v[i] === null ? '·' : v[i]).join(''));
+}
+
+/** Le porte che l'uscita usa davvero, risalendo i fili all'indietro. */
+export function porteCollegate(in1, in2, uscita) {
+  const set = new Set();
+  const risali = nome => {
+    if (nome[0] !== 'G') return;
+    const k = Number(nome[1]) - 1;
+    if (set.has(k)) return;                  // il visitato ferma anche gli anelli
+    set.add(k);
+    risali(in1[k]); risali(in2[k]);
+  };
+  risali(uscita);
+  return set;
+}
+
+/* Una tabella di verità che vale la pena chiamare per nome. Serve a leggere la
+   rete un pezzo per volta: se G1 fa 1110 quello è un NAND, se G2 fa 0001 quello
+   è già l'AND, e il ragionamento si chiude prima di guardare il bersaglio. */
+const NOMI_DI_FIRMA = {
+  '0000': '0 fisso', '1111': '1 fisso',
+  '0001': 'AND', '0111': 'OR', '0110': 'XOR',
+  '1110': 'NAND', '1000': 'NOR', '1001': 'XNOR',
+  '1100': 'NOT A', '1010': 'NOT B', '0011': 'A', '0101': 'B',
+};
+
+/* Le ricette, scritte come dati e non come prosa, per due motivi: il gioco ne
+   ricava i passi da svelare uno per volta, e il collaudo verifica che montando
+   quei fili esca davvero la firma promessa. Un aiuto sbagliato in un esercizio
+   che si risolve a tentativi non se ne accorgerebbe nessuno. */
+export const RICETTE_NAND = {
+  'NOT A': {
+    firma: '1100',
+    passi: [
+      { gate: 1, in: ['A', 'A'], firma: '1100', motivo: t('lo stesso filo nei due ingressi: «non (A e A)» è «non A».') },
+    ],
+  },
+  AND: {
+    firma: '0001',
+    passi: [
+      { gate: 1, in: ['A', 'B'], firma: '1110', motivo: t('un NAND è l\'AND rovesciato: 1110 è 0001 con gli 0 e gli 1 scambiati.') },
+      { gate: 2, in: ['G1', 'G1'], firma: '0001', motivo: t('un NAND con lo stesso filo due volte fa da NOT: rovescia G1 e resta l\'AND.') },
+    ],
+  },
+  OR: {
+    firma: '0111',
+    passi: [
+      { gate: 1, in: ['A', 'A'], firma: '1100', motivo: t('questo è NOT A.') },
+      { gate: 2, in: ['B', 'B'], firma: '1010', motivo: t('e questo è NOT B.') },
+      { gate: 3, in: ['G1', 'G2'], firma: '0111', motivo: t('De Morgan: «non (non A e non B)» è «A oppure B».') },
+    ],
+  },
+  XOR: {
+    firma: '0110',
+    passi: [
+      { gate: 1, in: ['A', 'B'], firma: '1110', motivo: t('il NAND di partenza: vale 0 solo quando A e B sono tutti e due 1.') },
+      { gate: 2, in: ['A', 'G1'], firma: '1101', motivo: t('vale 0 solo nel caso A=1, B=0.') },
+      { gate: 3, in: ['B', 'G1'], firma: '1011', motivo: t('vale 0 solo nel caso opposto, A=0, B=1.') },
+      { gate: 4, in: ['G2', 'G3'], firma: '0110', motivo: t('il NAND dei due: dà 1 esattamente quando A e B sono diversi.') },
+    ],
+  },
+};
+
+/* La rete di partenza NON deve essere già la soluzione di un bersaglio. Con
+   tutti i fili su A, G1 era NAND(A,A) = NOT A: il gioco si dichiarava vinto da
+   solo prima che l'utente toccasse qualcosa, che è il modo migliore per non
+   capire cosa si è fatto. Si parte dal NAND liscio, A·B, che è la porta di casa
+   e non è nessuno dei bersagli. Esportata perché il collaudo lo verifichi. */
+export const PARTENZA_NAND = { in1: ['A', 'A', 'A', 'A'], in2: ['B', 'A', 'A', 'A'], uscita: 'G1' };
+
 export function nandForge(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
   const w = widget(host, {
@@ -387,39 +493,30 @@ export function nandForge(host, opts = {}) {
 
   const st = {
     bersaglio: 0,
-    in1: ['A', 'A', 'A', 'A'], in2: ['A', 'A', 'A', 'A'],
-    uscita: 'G1',
+    in1: [...PARTENZA_NAND.in1], in2: [...PARTENZA_NAND.in2],
+    uscita: PARTENZA_NAND.uscita,
+    a: 0, b: 0,                // il caso acceso adesso: gli ingressi sono due, e basta
     fatti: new Set(),
+    passi: 0,                  // quanti passi della ricetta sono già stati svelati
+    rects: [],
   };
 
-  /** Valuta la rete per un ingresso (a, b). Ritorna null se un filo è "in avanti". */
-  function valuta(a, b) {
-    const g = [null, null, null, null];
-    const leggi = (nome, indiceGate) => {
-      if (nome === 'A') return a;
-      if (nome === 'B') return b;
-      const k = Number(nome[1]) - 1;
-      if (k >= indiceGate) return null;      // un NAND non può usare sé stesso né uno che viene dopo
-      return g[k];
-    };
-    for (let i = 0; i < 4; i++) {
-      const x = leggi(st.in1[i], i), y = leggi(st.in2[i], i);
-      g[i] = (x === null || y === null) ? null : ((x & y) ^ 1);
-    }
-    return g[Number(st.uscita[1]) - 1];
-  }
-
-  const firmaRete = () => [[0, 0], [0, 1], [1, 0], [1, 1]].map(([a, b]) => {
-    const v = valuta(a, b);
-    return v === null ? '·' : v;
-  }).join('');
+  const firme = () => firmeNand(st.in1, st.in2);
+  const firmaRete = () => firme()[Number(st.uscita[1]) - 1];
+  const valori = () => valoriNand(st.in1, st.in2, st.a, st.b);
+  const collegate = () => porteCollegate(st.in1, st.in2, st.uscita);
+  const ricetta = () => RICETTE_NAND[BERSAGLI[st.bersaglio].nome];
+  const caso = () => st.a * 2 + st.b;        // qual è la colonna accesa, fra 00 01 10 11
 
   const stage = new Stage(w.body, {
-    height: 230,
+    height: 324,
     draw(ctx, s) {
       bg(ctx, s);
       const bers = BERSAGLI[st.bersaglio];
+      const f = firme();
+      const v = valori();
       const mia = firmaRete();
+      const usate = collegate();
       const uguali = mia.split('').filter((c, i) => c === bers.firma[i]).length;
       const hit = mia === bers.firma;
       const top = hudK(ctx, s, {
@@ -428,39 +525,77 @@ export function nandForge(host, opts = {}) {
         sub: bers.aiuto,
       });
 
-      // le quattro scatole NAND, in fila
-      const bw = Math.min(112, (s.w - 40) / 4 - 8), bh = 58;
-      const x0 = (s.w - (bw * 4 + 24)) / 2, y = top + 26;
+      /* Gli ingressi, come interruttori veri. Servono a rispondere alla domanda
+         che si fanno tutti: «se ho solo A e B, perché escono quattro bit?».
+         Ne esce uno: gli interruttori stanno lì per far vedere che cambiando il
+         caso cambia quel bit, e che le quattro cifre sono le quattro prove. */
+      const iy = top + 22;   // sotto il suggerimento dell'HUD, che sta a 48
+      st.rects = [
+        Object.assign(bitBox(ctx, 16, iy, 40, 40, st.a, { label: 'A' }), { chi: 'a' }),
+        Object.assign(bitBox(ctx, 64, iy, 40, 40, st.b, { label: 'B' }), { chi: 'b' }),
+      ];
+      text(ctx, t('gli ingressi sono due — tocca per cambiarli'), 116, iy + 12,
+        { size: 11, color: '#9dabc9', max: s.w - 130 });
+      text(ctx, t('adesso stai provando il caso :caso, la colonna :caso qui sotto', { caso: `${st.a}${st.b}` }),
+        116, iy + 30, { size: 11, color: COL.amber, max: s.w - 130 });
+
+      /* Le quattro scatole NAND, in fila. Ognuna dice tre cose: da dove prende i
+         suoi due ingressi, che bit ne esce adesso, e la sua tabella di verità
+         completa. È la differenza fra un esercizio che si risolve a tentativi e
+         uno che si ragiona: la catena si segue un pezzo per volta. */
+      const bw = Math.min(112, (s.w - 40) / 4 - 8), bh = 70;
+      const x0 = (s.w - (bw * 4 + 24)) / 2, y = iy + 70;
       for (let i = 0; i < 4; i++) {
-        const usata = st.uscita === 'G' + (i + 1) ||
-          [st.in1, st.in2].some(arr => arr.some((v, k) => v === 'G' + (i + 1) && k > i));
+        const usata = usate.has(i);
+        const finale = st.uscita === 'G' + (i + 1);
         const x = x0 + i * (bw + 8);
         roundRect(ctx, x, y, bw, bh, 9, {
           fill: usata ? 'rgba(34,211,238,.09)' : 'rgba(255,255,255,.03)',
-          stroke: st.uscita === 'G' + (i + 1) ? COL.amber : (usata ? COL.cyan : '#22304d'),
-          width: st.uscita === 'G' + (i + 1) ? 2 : 1.2,
+          stroke: finale ? COL.amber : (usata ? COL.cyan : '#22304d'),
+          width: finale ? 2 : 1.2,
+          alpha: usata ? 1 : 0.55,
         });
-        text(ctx, 'NAND', x + bw / 2, y + 18, { size: 12, align: 'center', color: '#9dabc9', weight: '800' });
-        text(ctx, `${st.in1[i]} · ${st.in2[i]}`, x + bw / 2, y + 38, { size: 12.5, align: 'center', color: COL.cyan });
-        text(ctx, 'G' + (i + 1), x + bw / 2, y - 10, { size: 10.5, align: 'center', color: '#7f8fb3' });
+        text(ctx, 'NAND', x + bw / 2, y + 13, { size: 11, align: 'center', color: '#9dabc9', weight: '800' });
+        text(ctx, `${st.in1[i]} · ${st.in2[i]}`, x + bw / 2, y + 30, { size: 12, align: 'center', color: usata ? COL.cyan : '#5b6b90', max: bw - 8 });
+        text(ctx, v[i] === null ? '—' : String(v[i]), x + bw / 2, y + 53, {
+          size: 20, align: 'center', weight: '800',
+          color: v[i] === null ? COL.red : (v[i] ? COL.green : '#5b6b90'),
+        });
+        text(ctx, 'G' + (i + 1) + (finale ? ' ⇒ ' + t('uscita') : ''), x + bw / 2, y - 10,
+          { size: 10.5, align: 'center', color: finale ? COL.amber : '#7f8fb3', max: bw + 24 });
+        text(ctx, usata ? f[i] : t('scollegata'), x + bw / 2, y + bh + 11,
+          { size: 10.5, align: 'center', color: usata ? '#9dabc9' : '#5b6b90', max: bw + 8 });
       }
 
       // le due tabelle, affiancate: la tua e quella richiesta
-      const ty = y + bh + 24;
+      const ty = y + bh + 30;
       const cella = 30;
       const tx = (s.w - cella * 4 - 92) / 2 + 92;
       text(ctx, t('la tua'), tx - 12, ty + 12, { size: 11, align: 'right', color: '#7f8fb3' });
       text(ctx, bers.nome, tx - 12, ty + 42, { size: 11, align: 'right', color: COL.amber, max: 88 });
       for (let i = 0; i < 4; i++) {
         const bene = mia[i] === bers.firma[i];
+        // la colonna del caso acceso: è il ponte fra l'interruttore e la tabella
+        if (i === caso()) {
+          roundRect(ctx, tx + i * cella - 4, ty - 5, cella + 3, 82, 7, { stroke: COL.amber, alpha: 0.55 });
+        }
         roundRect(ctx, tx + i * cella, ty, cella - 4, 24, 5,
           { stroke: bene ? COL.green : '#3a4c73', fill: bene ? 'rgba(52,211,153,.14)' : 'transparent' });
         text(ctx, mia[i], tx + i * cella + (cella - 4) / 2, ty + 12, { size: 13, align: 'center', color: bene ? COL.green : COL.red, weight: '800' });
         roundRect(ctx, tx + i * cella, ty + 30, cella - 4, 24, 5, { stroke: '#3a4c73' });
         text(ctx, bers.firma[i], tx + i * cella + (cella - 4) / 2, ty + 42, { size: 13, align: 'center', color: COL.amber, weight: '800' });
-        text(ctx, ['00', '01', '10', '11'][i], tx + i * cella + (cella - 4) / 2, ty + 68, { size: 10, align: 'center', color: '#5b6b90' });
+        text(ctx, CASI[i].join(''), tx + i * cella + (cella - 4) / 2, ty + 68, { size: 10, align: 'center', color: i === caso() ? COL.amber : '#5b6b90' });
       }
+      text(ctx, 'A B', tx - 12, ty + 68, { size: 10, align: 'right', color: '#5b6b90' });
       fx.draw(ctx);
+    },
+    onPointer(e) {
+      if (e.type !== 'down') return;
+      const r = st.rects.find(x => dentro(x, e.x, e.y));
+      if (!r) return;
+      st[r.chi] = st[r.chi] ? 0 : 1;
+      sfx.click();
+      aggiorna();
     },
   });
   const fx = new FX(stage);
@@ -469,62 +604,158 @@ export function nandForge(host, opts = {}) {
   /* I collegamenti si scelgono da menù a tendina e non trascinando i fili:
      il trascinamento su telefono è una lotteria, e qui il contenuto da imparare
      è «chi è collegato a chi», non la manualità. */
-  function menu(etichetta, valore, onchange, indiceGate) {
+  const menuIn1 = [], menuIn2 = [];
+  function menu(etichetta, elenco, valore, onchange, indiceGate) {
     const sel = h('select', { class: 'sel', onchange: e => { onchange(e.target.value); aggiorna(); } },
-      SORGENTI.map(sr => h('option', {
+      elenco.map(sr => h('option', {
         value: sr, selected: sr === valore || null,
-        disabled: sr[0] === 'G' && Number(sr[1]) - 1 >= indiceGate ? true : null,
+        disabled: indiceGate != null && sr[0] === 'G' && Number(sr[1]) - 1 >= indiceGate ? true : null,
       }, sr)));
-    return h('label', { class: 'sel-wrap' }, h('span', {}, etichetta), sel);
+    return { sel, root: h('label', { class: 'sel-wrap' }, h('span', {}, etichetta), sel) };
   }
+
+  /* Il gergo, detto una volta e in chiaro. «G1» non vuol dire niente a chi non
+     l'ha mai visto, e un esercizio che dà per scontato il proprio alfabeto si
+     può solo risolvere a tentativi. */
+  w.body.appendChild(h('div', { class: 'readout' },
+    h('div', { html: t('<b>G1, G2, G3, G4</b> sono le quattro porte NAND che hai a disposizione — <b>G</b> sta per <i>gate</i>, porta. Per ognuna scegli da dove arrivano i suoi due ingressi: da A, da B, oppure dall\'uscita di una porta precedente.') }),
+    h('div', { style: { marginTop: '6px' }, html: t('<b>Uscita della rete</b> dice quale di quelle quattro porte leggi alla fine: il bit che esce da lei è il risultato di tutta la rete. Le altre porte, se non arrivano fin lì, non contano niente.') }),
+  ));
 
   const griglia = h('div', { class: 'sel-grid' });
-  function costruisciMenu() {
-    griglia.innerHTML = '';
-    for (let i = 0; i < 4; i++) {
-      griglia.appendChild(h('div', { class: 'sel-row' },
-        h('b', {}, 'G' + (i + 1)),
-        menu(t('ingresso 1'), st.in1[i], v => { st.in1[i] = v; }, i),
-        menu(t('ingresso 2'), st.in2[i], v => { st.in2[i] = v; }, i),
-      ));
-    }
-    griglia.appendChild(h('div', { class: 'sel-row' },
-      h('b', {}, '⇒'),
-      h('label', { class: 'sel-wrap' }, h('span', {}, t('uscita della rete')),
-        h('select', {
-          class: 'sel', onchange: e => { st.uscita = e.target.value; aggiorna(); },
-        }, ['G1', 'G2', 'G3', 'G4'].map(g => h('option', { value: g, selected: g === st.uscita || null }, g)))),
-    ));
+  for (let i = 0; i < 4; i++) {
+    const m1 = menu(t('ingresso 1'), SORGENTI, st.in1[i], v => { st.in1[i] = v; }, i);
+    const m2 = menu(t('ingresso 2'), SORGENTI, st.in2[i], v => { st.in2[i] = v; }, i);
+    menuIn1.push(m1.sel); menuIn2.push(m2.sel);
+    griglia.appendChild(h('div', { class: 'sel-row' }, h('b', {}, 'G' + (i + 1)), m1.root, m2.root));
   }
-  costruisciMenu();
+  const menuUscita = menu(t('uscita della rete'), ['G1', 'G2', 'G3', 'G4'], st.uscita, v => { st.uscita = v; }, null);
+  griglia.appendChild(h('div', { class: 'sel-row' }, h('b', {}, '⇒'), menuUscita.root));
   w.body.appendChild(griglia);
 
+  /* La catena, scritta in chiaro: G1 fa questo, G2 fa quest'altro, e l'uscita
+     è quella. Senza questa riga l'unico modo di sapere se hai fatto giusto è
+     guardare se il semaforo è verde — cioè fidarsi, non capire. */
+  const catena = readout('');
   const out = readout('');
-  w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons(
-    BERSAGLI.map((b, i) => ({
-      label: (st.fatti.has(b.nome) ? '✓ ' : '') + b.nome,
-      onclick: () => { st.bersaglio = i; aggiorna(); },
-    })),
-  )));
+  const fileBottoni = h('div', { style: { marginTop: '10px' } });
+  const btnPassi = h('button', {
+    class: 'btn sm', onclick: () => {
+      st.passi = st.passi > ricetta().passi.length ? 0 : st.passi + 1;
+      aggiorna();
+    },
+  }, '');
+  const btnAzzera = h('button', {
+    class: 'btn sm', onclick: () => {
+      st.in1 = [...PARTENZA_NAND.in1]; st.in2 = [...PARTENZA_NAND.in2];
+      st.uscita = PARTENZA_NAND.uscita; st.passi = 0; aggiorna();
+    },
+  }, t('azzera la rete'));
+  const guida = readout('');
+  w.body.appendChild(fileBottoni);
+  w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '8px' } }, btnPassi, btnAzzera));
+  w.body.appendChild(guida.root);
+  w.body.appendChild(catena.root);
   w.body.appendChild(out.root);
+
+  /** La rete letta un pezzo per volta: cosa entra, cosa esce adesso, e la
+   *  tabella completa di ogni porta. Le due colonne stanno insieme apposta —
+   *  la prima è il bit vero che scorre nel filo con questi A e B, la seconda è
+   *  lo stesso filo provato in tutti e quattro i casi. */
+  function catenaHtml() {
+    const f = firme(), v = valori(), usate = collegate(), righe = [];
+    righe.push(t('con A=:a e B=:b (colonna :caso):', { a: st.a, b: st.b, caso: `${st.a}${st.b}` }));
+    for (let i = 0; i < 4; i++) {
+      if (!usate.has(i)) continue;
+      /* Un NAND con lo stesso filo in tutti e due gli ingressi è un NOT, e
+         chiamarlo NAND qui nasconderebbe proprio il passaggio da capire. */
+      const espr = st.in1[i] === st.in2[i] ? `NOT(${st.in1[i]})` : `NAND(${st.in1[i]},${st.in2[i]})`;
+      const nome = NOMI_DI_FIRMA[f[i]] || '';
+      righe.push((st.uscita === 'G' + (i + 1) ? '⇒ ' : '  ') + `G${i + 1} = ${espr}`.padEnd(17)
+        + ' → <b>' + (v[i] === null ? '—' : v[i]) + '</b>'
+        + '   <span class="c">' + f[i] + '</span>' + (nome ? ' <span class="a">' + nome + '</span>' : ''));
+    }
+    const fuori = [0, 1, 2, 3].filter(i => !usate.has(i)).map(i => 'G' + (i + 1));
+    if (fuori.length) {
+      righe.push(t('(:elenco non arrivano all\'uscita: non contano)', { elenco: fuori.join(', ') }));
+    }
+    righe.push(t('La colonna azzurra è la stessa porta provata in tutti e quattro i casi: <b>un</b> bit alla volta, quattro volte.'));
+    return righe.join('\n');
+  }
+
+  /** I passi della ricetta, svelati uno per volta e da montare a mano. */
+  function guidaHtml() {
+    if (!st.passi) return '';
+    const bers = BERSAGLI[st.bersaglio];
+    const ric = ricetta();
+    const righe = ric.passi.slice(0, st.passi).map((p, k) => t(
+      '<b>:passo.</b> G:gate: ingresso 1 = <b>:uno</b>, ingresso 2 = <b>:due</b> — :motivo Controlla G:gate: deve fare <b>:firma</b>.',
+      { passo: k + 1, gate: p.gate, uno: p.in[0], due: p.in[1], motivo: p.motivo, firma: p.firma },
+    ));
+    if (st.passi > ric.passi.length) {
+      righe.push(t('<b>:passo.</b> Uscita della rete = <b>G:gate</b>. Ecco :porta con :quante porte, e ogni passo si vede da solo nella catena qui sotto.', {
+        passo: ric.passi.length + 1,
+        gate: ric.passi[ric.passi.length - 1].gate,
+        porta: bers.nome,
+        quante: ric.passi.length,
+      }));
+    }
+    return righe.join('\n');
+  }
 
   function aggiorna() {
     const bers = BERSAGLI[st.bersaglio];
+    const ric = ricetta();
     const mia = firmaRete();
     const hit = mia === bers.firma;
-    if (hit && !st.fatti.has(bers.nome)) {
+    const usate = collegate().size;
+    /* Il primo giro serve solo a disegnare: una porta «costruita» senza che
+       nessuno abbia toccato niente non ha insegnato niente a nessuno. */
+    if (hit && montato && !st.fatti.has(bers.nome)) {
       st.fatti.add(bers.nome);
       sfx.ok(); fx.burst(stage.w / 2, stage.h / 2); fx.flash();
       /* Le prime tre bastano: XOR è il bonus, e legarci la missione vorrebbe
          dire fermare qui chi ha già capito il punto. */
       if (['NOT A', 'AND', 'OR'].every(n => st.fatti.has(n))) cfg.onWin && cfg.onWin(st.fatti.size);
     }
-    out.set(t('La tua rete fa <b>:mia</b>, il bersaglio è <b>:bersaglio</b>.', { mia, bersaglio: bers.firma })
+
+    // i menù seguono lo stato, perché «azzera» lo cambia senza toccarli
+    for (let i = 0; i < 4; i++) { menuIn1[i].value = st.in1[i]; menuIn2[i].value = st.in2[i]; }
+    menuUscita.sel.value = st.uscita;
+
+    fileBottoni.innerHTML = '';
+    fileBottoni.appendChild(buttons(BERSAGLI.map((b, i) => ({
+      label: (st.fatti.has(b.nome) ? '✓ ' : '') + b.nome,
+      onclick: () => { st.bersaglio = i; st.passi = 0; aggiorna(); },
+    }))));
+    btnPassi.textContent = st.passi === 0
+      ? t('👣 fammi vedere i passi')
+      : (st.passi > ric.passi.length
+        ? t('nascondi i passi')
+        : t('passo successivo (:passo di :quanti)', { passo: st.passi + 1, quanti: ric.passi.length + 1 }));
+
+    guida.set(guidaHtml());
+    guida.root.classList.toggle('hidden', !st.passi);
+    catena.set(catenaHtml());
+    const bitOra = valori()[Number(st.uscita[1]) - 1];
+    out.set(t('Adesso dalla rete esce <b>un</b> bit solo: :bit. Le quattro cifre qui sotto sono le quattro risposte, una per ogni caso di A e B.', {
+      bit: bitOra === null ? t('nessuno, un filo va all\'indietro') : bitOra,
+    })
+      + '\n' + t('La tua rete fa <b>:mia</b>, il bersaglio è <b>:bersaglio</b>.', { mia, bersaglio: bers.firma })
       + '\n' + t('Costruite finora: <b>:elenco</b>', { elenco: st.fatti.size ? [...st.fatti].join(', ') : '—' })
-      + (hit ? '\n<span class="g">✓ ' + t('è esattamente :porta, fatta di soli NAND.', { porta: bers.nome }) + '</span>' : ''));
+      + (hit
+        ? '\n<span class="g">✓ ' + t('è esattamente :porta, fatta di soli NAND.', { porta: bers.nome }) + '</span>'
+          /* Vincere con porte in più non è un errore — è il momento buono per
+             far notare che si può fare con meno, che è metà del mestiere. */
+          + (usate > ric.passi.length
+            ? '\n' + t('Hai usato :usate porte: lo stesso risultato si ottiene con :minimo. Guarda la catena: qualche porta rifà un lavoro già fatto (due NOT di fila si annullano).', { usate, minimo: ric.passi.length })
+            : '\n' + t('E con :minimo porte, che è il minimo per questa ricetta.', { minimo: ric.passi.length }))
+        : ''));
     stage.redraw();
   }
+  let montato = false;
   aggiorna();
+  montato = true;
 
   w.setFoot(t('<b>Perché conta:</b> un tipo solo di porta basta per costruire qualunque calcolo — si dice che il NAND è <b>universale</b>. Anche il computer quantistico ha i suoi insiemi universali di porte, e ci si arriva con lo stesso ragionamento: pochi mattoni, combinati, fanno tutto il resto.'));
   return { state: st };
