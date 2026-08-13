@@ -123,7 +123,8 @@ cúbit:      [ amplitud de 0 , amplitud de 1 ]
              queda en un cuarto, no en la mitad. No hay nada que memorizar, hay que mirar.</p>`,
       mount: (el, api) => {
         const m = api.mission({ key: 'quadrato', title: 'El cuadrado de la probabilidad', text: 'acierta tres áreas distintas moviendo el lado.', xp: 25 });
-        probabilitaQuadrato(el, { need: 3, onWin: () => m.done() });
+        el.appendChild(m.root);
+        probabilitaQuadrato(el, { need: 3, onWin: () => m.complete() });
       },
     },
     {

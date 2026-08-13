@@ -752,6 +752,54 @@ if (existsSync(certCfg)) {
   }
 }
 
+/* ---------- 5e. ogni missione deve essere mostrata e completabile ----------
+   La prova di padronanza si supera quando TUTTE le missioni del livello sono
+   completate. Una missione dichiarata ma mai completata blocca quindi il
+   livello per sempre — e con esso tutti quelli che vengono dopo, perché la
+   catena dei prerequisiti è a un passo.
+
+   È successo davvero: al livello 1 la missione «quadrato» chiamava m.done()
+   (che LEGGE lo stato) invece di m.complete() (che lo SCRIVE), e per di più
+   non aggiungeva m.root alla pagina. Risultato: chi aveva fatto tutto vedeva
+   «Missioni completate: 4/5» senza avere modo di sapere quale mancasse, e il
+   livello 2 non si apriva mai.
+
+   Due controlli, per ogni blocco mount: della missione si deve vedere il
+   riquadro (m.root appeso alla pagina) e si deve poter chiudere (m.complete()
+   invocata da qualche parte nello stesso blocco). */
+{
+  console.log('\n[5e] Missioni mostrate e completabili');
+  for (const l of linguePubblicate) {
+    for (const id of declared) {
+      const p = fileLezione(id, l);
+      if (!existsSync(p)) continue;
+      const src = readFileSync(p, 'utf8');
+
+      /* Si guarda un blocco mount: alla volta: il nome della variabile (`m`,
+         `m1`, …) si ripete da un passo all'altro, quindi cercare su tutto il
+         file farebbe passare per buona una missione completata da un'altra. */
+      const blocchi = src.split(/\n\s*mount:/).slice(1);
+      const viste = [];
+      for (const b of blocchi) {
+        for (const d of b.matchAll(/const\s+(\w+)\s*=\s*\w+\.mission\(\s*\{\s*key:\s*'([^']+)'/g)) {
+          const [, v, key] = d;
+          viste.push(key);
+          if (!new RegExp(`\\b${v}\\.complete\\(`).test(b))
+            err(rel(p), `la missione "${key}" non viene mai completata: il livello resta bloccato per sempre`);
+          else if (!new RegExp(`\\b${v}\\.root\\b`).test(b))
+            err(rel(p), `la missione "${key}" non viene mostrata (manca ${v}.root nella pagina): risulta da fare senza che si veda dove`);
+          else ok();
+        }
+      }
+      // una .mission() scritta in un modo che i due controlli sopra non vedono
+      // sarebbe un buco silenzioso: meglio saperlo.
+      const totali = [...src.matchAll(/\.mission\(\s*\{/g)].length;
+      if (totali !== viste.length)
+        err(rel(p), `${totali} missioni dichiarate ma ${viste.length} riconosciute: scrivile come "const m = api.mission({ key: '…' })" dentro un mount:`);
+    }
+  }
+}
+
 /* ---------- 6. Backend PHP ---------- */
 console.log('\n[6] Backend PHP (Laravel + moduli)');
 const backend = join(ROOT, 'Modules');

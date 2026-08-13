@@ -125,7 +125,8 @@ qubit:      [ amplitude of 0 , amplitude of 1 ]
              becomes a quarter, not a half. There is nothing to memorise here, only something to watch.</p>`,
       mount: (el, api) => {
         const m = api.mission({ key: 'quadrato', title: 'The square of probability', text: 'hit three different areas by moving the side.', xp: 25 });
-        probabilitaQuadrato(el, { need: 3, onWin: () => m.done() });
+        el.appendChild(m.root);
+        probabilitaQuadrato(el, { need: 3, onWin: () => m.complete() });
       },
     },
     {
