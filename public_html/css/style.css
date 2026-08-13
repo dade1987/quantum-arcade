@@ -250,6 +250,18 @@ li { margin-bottom: 5px; }
 }
 .widget-head .wt { font-weight: 800; font-size: 14px; letter-spacing: .3px; }
 .widget-head .ws { font-size: 12.5px; color: var(--txt-mute); }
+
+/* Il modo di calcolo: colore + icona + parola, mai il colore da solo. */
+.wmode {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10.5px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 99px; border: 1px solid;
+  white-space: nowrap;
+}
+.wmode.modo-c { color: var(--blue);   border-color: rgba(96, 165, 250, .5);  background: rgba(96, 165, 250, .12); }
+.wmode.modo-q { color: var(--violet); border-color: rgba(167, 139, 250, .5); background: rgba(167, 139, 250, .12); }
+.widget.modo-c { border-left: 3px solid rgba(96, 165, 250, .55); }
+.widget.modo-q { border-left: 3px solid rgba(167, 139, 250, .55); }
 .widget-body { padding: 15px; }
 .widget-foot {
   padding: 11px 15px; border-top: 1px solid var(--line);

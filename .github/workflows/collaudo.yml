@@ -37,7 +37,7 @@ jobs:
           XDEBUG_MODE: coverage
 
   frontend:
-    name: Motore del gioco (115 test) e validatore
+    name: Motore del gioco (122 test) e validatore
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

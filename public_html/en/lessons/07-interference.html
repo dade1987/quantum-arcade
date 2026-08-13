@@ -20,6 +20,7 @@ import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
 import { circuitLab } from '../../js/widgets/circuit.js';
 import { confronto } from '../../js/core/confronto.js';
+import { stradeCoppia } from '../../js/widgets/coppie.js';
 import { manyArrows } from '../../js/widgets/twowaves.js';
 
 const L = renderLesson({
@@ -35,8 +36,17 @@ const L = renderLesson({
              <p>And above all: <b>adding a route can never make things worse</b>. In no classical probability
              calculation is there a way to open a new path and end up with <i>fewer</i> chances of arriving.
              Probabilities are numbers between 0 and 1: a sum of positive things always grows.</p>
-             <p>A classical computer that "tries many routes" — a randomised algorithm, a Monte Carlo — lives
-             inside this rule. That is why it cannot do what you will see two screens from now.</p>` +
+             <p>Try it: below there is a source, two routes and a detector. In classical mode, try to
+             <b>switch off</b> the detector by opening the second route — you will not manage, and that is not a
+             flaw in the game. Then switch to quantum, where the second route can carry a <b>negative</b>
+             amplitude.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'strade', title: 'Switching off by opening', text: 'establish that it cannot be done classically, then switch the detector off in quantum mode with both routes open.', xp: 40 });
+        el.appendChild(m.root);
+        stradeCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>A classical computer that "tries many routes" — a randomised algorithm, a Monte Carlo — lives
+             inside this rule. That is why it cannot do what you have just done.</p>` +
              confronto({
                titolo: 'Classical probabilities and quantum amplitudes',
                livello: '00-caso',

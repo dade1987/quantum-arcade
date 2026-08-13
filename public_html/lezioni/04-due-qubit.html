@@ -19,6 +19,7 @@
 import { renderLesson } from '../js/core/lesson.js';
 import { twoQubitLab } from '../js/widgets/quantum2.js';
 import { confronto } from '../js/core/confronto.js';
+import { bellCoppia } from '../js/widgets/coppie.js';
 import { stepper, formula } from '../js/core/formula.js';
 
 const L = renderLesson({
@@ -36,9 +37,18 @@ const L = renderLesson({
              biglietti uguali in due buste — o tutti e due «0», o tutti e due «1» — mescola, e manda una busta
              a Roma e una a Sydney. Chi apre a Roma sa immediatamente cosa c'è a Sydney. Non c'è niente di
              misterioso: <b>l'informazione era già nella busta</b> da quando è partita.</p>
-             <p>Questo esempio serve a una cosa sola, e serve a molto: quando fra poco leggerai «i due qubit
-             entangled danno sempre lo stesso risultato», <b>non</b> sarà quello che ti stupirà. Le buste fanno
-             già così. Quello che le buste non sanno fare arriva dopo.</p>` +
+             <p>E quello che le buste <b>non</b> sanno fare si può misurare, adesso, con un gioco. Alice e Bob
+             sono lontani e ricevono una domanda a testa; vincono il turno se le loro risposte stanno in un certo
+             rapporto con le domande. Con qualunque accordo preso prima di separarsi non si supera il <b>75%</b>
+             dei turni vinti — provale tutte. Con una coppia entangled si arriva all'<b>85%</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'bell', title: 'Il sorpasso del 75%', text: 'gioca 100 turni con le buste, poi 100 con l\'entanglement e supera il 78%.', xp: 45 });
+        el.appendChild(m.root);
+        bellCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Quel sorpasso è l'esperimento che ha vinto il Nobel per la fisica nel 2022. Da qui in avanti,
+             quando fra poco leggerai «i due qubit entangled danno sempre lo stesso risultato», saprai che
+             <b>non</b> è quella la parte sorprendente: le buste fanno già così.</p>` +
              confronto({
                titolo: 'Correlazione classica e entanglement',
                livello: 'k1-bit',

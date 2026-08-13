@@ -27,6 +27,7 @@ const dentro = (r, x, y) => r && x >= r.x && x <= r.x + r.w && y >= r.y && y <= 
 export function searchRace(host, opts = {}) {
   const cfg = Object.assign({ n: 16, onWin: null }, opts);
   const w = widget(host, {
+    modo: 'classico',
     title: t('La caccia nello scaffale'),
     subtitle: t('apri le scatole finché non trovi il numero — e conta quante ne apri'),
   });
@@ -180,6 +181,7 @@ export function searchRace(host, opts = {}) {
 export function costLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
   const w = widget(host, {
+    modo: 'classico',
     title: t('La gara delle crescite'),
     subtitle: t('quante operazioni servono, al crescere del problema'),
   });
@@ -324,6 +326,7 @@ export function costLab(host, opts = {}) {
 export function reversibleLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
   const w = widget(host, {
+    modo: 'classico',
     title: t('Avanti e indietro'),
     subtitle: t('la porta AND perde la strada di casa, Toffoli no'),
   });
@@ -446,6 +449,7 @@ export function reversibleLab(host, opts = {}) {
 export function oracoloClassico(host, opts = {}) {
   const cfg = Object.assign({ modo: 'deutsch', bits: 4, onWin: null }, opts);
   const w = widget(host, {
+    modo: 'classico',
     title: cfg.modo === 'deutsch' ? t('La scatola: costante o bilanciata?') : t('La scatola con la stringa segreta'),
     subtitle: t('ogni interrogazione conta — e si vede'),
   });
@@ -574,6 +578,7 @@ export function oracoloClassico(host, opts = {}) {
 export function ripetizioneLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
   const w = widget(host, {
+    modo: 'classico',
     title: t('Il codice a ripetizione'),
     subtitle: t('dire la stessa cosa tre volte, e votare a maggioranza'),
   });

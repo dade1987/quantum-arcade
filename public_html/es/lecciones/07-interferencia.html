@@ -20,6 +20,7 @@ import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
 import { circuitLab } from '../../js/widgets/circuit.js';
 import { confronto } from '../../js/core/confronto.js';
+import { stradeCoppia } from '../../js/widgets/coppie.js';
 import { manyArrows } from '../../js/widgets/twowaves.js';
 
 const L = renderLesson({
@@ -35,9 +36,16 @@ const L = renderLesson({
              <p>Y sobre todo: <b>añadir un camino no puede empeorar nunca</b>. No existe, en ningún cálculo de
              probabilidad clásico, una manera de abrir un camino nuevo y obtener <i>menos</i> posibilidades de
              llegar. Las probabilidades son números entre 0 y 1: la suma de cosas positivas siempre crece.</p>
-             <p>Un ordenador clásico que «prueba muchos caminos» — un algoritmo aleatorizado, un Monte Carlo —
-             vive dentro de esta regla. Es el motivo por el que no puede hacer lo que verás dos pantallas más
-             abajo.</p>` +
+             <p>Pruébalo: aquí abajo hay una fuente, dos caminos y un detector. En modo clásico intenta
+             <b>apagar</b> el detector abriendo el segundo camino — no lo conseguirás, y no es un defecto del
+             juego. Luego pasa al cuántico, donde el segundo camino puede llevar una amplitud <b>negativa</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'strade', title: 'Apagar abriendo', text: 'comprueba que en clásico no se puede, luego apaga el detector en cuántico con los dos caminos abiertos.', xp: 40 });
+        el.appendChild(m.root);
+        stradeCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Un ordenador clásico que «prueba muchos caminos» — un algoritmo aleatorizado, un Monte Carlo —
+             vive dentro de esta regla. Es el motivo por el que no puede hacer lo que acabas de hacer tú.</p>` +
              confronto({
                titolo: 'Probabilidades clásicas y amplitudes cuánticas',
                livello: '00-caso',

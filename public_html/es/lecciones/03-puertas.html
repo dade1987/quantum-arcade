@@ -19,6 +19,7 @@
 import { renderLesson } from '../../js/core/lesson.js';
 import { blochLab } from '../../js/widgets/bloch.js';
 import { confronto } from '../../js/core/confronto.js';
+import { porteCoppia } from '../../js/widgets/coppie.js';
 import { formula, stepper } from '../../js/core/formula.js';
 
 const L = renderLesson({
@@ -35,7 +36,15 @@ const L = renderLesson({
              <p>Pero hay un detalle que en lo clásico no molesta a nadie y que aquí se convierte en el punto
              central: una puerta AND <b>tira un bit</b>. De una salida 0 ya no sabes si las entradas eran 00, 01
              o 10. El cálculo sigue perdiendo trozos por el camino, y a nadie le importa.</p>
-             <p>Las puertas cuánticas no se lo pueden permitir. No por elegancia: porque la física no lo
+             <p>Antes de leer el catálogo, pruébalo: aquí abajo hay una aguja que va de |0⟩ a |1⟩ y un objetivo
+             a medio camino. Intenta acertarlo con las puertas clásicas — luego pasa a las cuánticas e inténtalo
+             otra vez. El muro contra el que chocas en modo clásico <b>es</b> la lección.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'lancetta', title: 'El objetivo a medio camino', text: 'inténtalo con las puertas clásicas (no se puede, y está bien así), luego acértalo con las cuánticas.', xp: 35 });
+        el.appendChild(m.root);
+        porteCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Las puertas cuánticas no se lo pueden permitir. No por elegancia: porque la física no lo
              permite.</p>` +
              confronto({
                titolo: 'Puerta clásica y puerta cuántica',

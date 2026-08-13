@@ -19,6 +19,7 @@
 import { renderLesson } from '../../js/core/lesson.js';
 import { twoQubitLab } from '../../js/widgets/quantum2.js';
 import { confronto } from '../../js/core/confronto.js';
+import { bellCoppia } from '../../js/widgets/coppie.js';
 import { stepper, formula } from '../../js/core/formula.js';
 
 const L = renderLesson({
@@ -36,9 +37,18 @@ const L = renderLesson({
              tickets into two envelopes — either both "0" or both "1" — shuffle them, and send one envelope to
              Rome and one to Sydney. Whoever opens the one in Rome knows instantly what is in Sydney. Nothing
              mysterious: <b>the information was already in the envelope</b> when it left.</p>
-             <p>This example is here for one purpose, and it is a big one: when you shortly read "the two
-             entangled qubits always give the same result", that is <b>not</b> what should surprise you.
-             Envelopes already do that. What envelopes cannot do comes later.</p>` +
+             <p>And what envelopes <b>cannot</b> do can be measured, right now, with a game. Alice and Bob are
+             far apart and each receives a question; they win the round if their answers stand in a certain
+             relation to the questions. With any agreement made before separating you cannot pass <b>75%</b> of
+             rounds won — try them all. With an entangled pair you reach <b>85%</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'bell', title: 'Passing 75%', text: 'play 100 rounds with the envelopes, then 100 with entanglement and pass 78%.', xp: 45 });
+        el.appendChild(m.root);
+        bellCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>That overtaking is the experiment that won the 2022 Nobel Prize in physics. From here on, when
+             you shortly read "the two entangled qubits always give the same result", you will know that is
+             <b>not</b> the surprising part: envelopes already do that.</p>` +
              confronto({
                titolo: 'Classical correlation and entanglement',
                livello: 'k1-bit',

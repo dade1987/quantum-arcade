@@ -20,6 +20,7 @@ import { renderLesson } from '../js/core/lesson.js';
 import { stepper } from '../js/core/formula.js';
 import { circuitLab } from '../js/widgets/circuit.js';
 import { confronto } from '../js/core/confronto.js';
+import { stradeCoppia } from '../js/widgets/coppie.js';
 import { manyArrows } from '../js/widgets/twowaves.js';
 
 const L = renderLesson({
@@ -36,8 +37,16 @@ const L = renderLesson({
              calcolo di probabilità classico, un modo di aprire un nuovo percorso e ottenere <i>meno</i>
              possibilità di arrivare. Le probabilità sono numeri fra 0 e 1: la somma di roba positiva cresce
              sempre.</p>
-             <p>Un computer classico che «prova tante strade» — un algoritmo randomizzato, un Monte Carlo —
-             vive dentro questa regola. È il motivo per cui non può fare quello che vedrai fra due schermate.</p>` +
+             <p>Provaci: qui sotto ci sono una sorgente, due strade e un rivelatore. In modo classico prova a
+             <b>spegnere</b> il rivelatore aprendo la seconda strada — non ci riuscirai, e non è un difetto del
+             gioco. Poi passa al quantistico, dove la seconda strada può portare un'ampiezza <b>negativa</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'strade', title: 'Spegnere aprendo', text: 'constata che in classico non si può, poi spegni il rivelatore in quantistico con tutte e due le strade aperte.', xp: 40 });
+        el.appendChild(m.root);
+        stradeCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Un computer classico che «prova tante strade» — un algoritmo randomizzato, un Monte Carlo —
+             vive dentro questa regola. È il motivo per cui non può fare quello che hai appena fatto tu.</p>` +
              confronto({
                titolo: 'Probabilità classiche e ampiezze quantistiche',
                livello: '00-caso',

@@ -19,6 +19,7 @@
 import { renderLesson } from '../../js/core/lesson.js';
 import { blochLab } from '../../js/widgets/bloch.js';
 import { confronto } from '../../js/core/confronto.js';
+import { porteCoppia } from '../../js/widgets/coppie.js';
 import { formula, stepper } from '../../js/core/formula.js';
 
 const L = renderLesson({
@@ -35,7 +36,15 @@ const L = renderLesson({
              <p>But there is a detail that bothers nobody classically and becomes the whole point here: an AND
              gate <b>throws a bit away</b>. From a 0 output you no longer know whether the inputs were 00, 01
              or 10. The computation goes on shedding pieces along the way, and nobody minds.</p>
-             <p>Quantum gates cannot afford that. Not out of elegance: because physics does not allow it.</p>` +
+             <p>Before reading the catalogue, try it: below is a hand that swings from |0⟩ to |1⟩ and a target
+             halfway. Try to hit it with the classical gates — then switch to quantum and try again. The wall you
+             hit in classical mode <b>is</b> the lesson.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'lancetta', title: 'The target halfway', text: 'try it with the classical gates (you cannot, and that is the point), then hit it with the quantum ones.', xp: 35 });
+        el.appendChild(m.root);
+        porteCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Quantum gates cannot afford that. Not out of elegance: because physics does not allow it.</p>` +
              confronto({
                titolo: 'Classical gate and quantum gate',
                livello: 'k2-porte',

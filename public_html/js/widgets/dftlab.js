@@ -30,7 +30,8 @@ export function dftLab(host, opts = {}) {
     onChange: null, showMission: false,
   }, opts);
 
-  const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
+  const w = widget(host, {
+    modo: 'classico', title: cfg.title, subtitle: cfg.subtitle });
   const N = cfg.N;
   const st = {
     x: PRESETS[cfg.preset].gen(N),
@@ -231,7 +232,8 @@ export function dftLab(host, opts = {}) {
 
 export function windingLab(host, opts = {}) {
   const cfg = Object.assign({ freqs: [2, 5], title: t('Arrotola il segnale attorno al cerchio'), subtitle: t('e guarda il centro di massa') }, opts);
-  const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
+  const w = widget(host, {
+    modo: 'classico', title: cfg.title, subtitle: cfg.subtitle });
   const st = { f: 1, sweep: false };
   const sigFn = tempo => cfg.freqs.reduce((s, fr) => s + Math.cos(2 * Math.PI * fr * tempo), 0) / cfg.freqs.length + 1.15;
 

@@ -19,7 +19,8 @@ import { t } from '../core/i18n.js';
    ------------------------------------------------------------ */
 export function qftLab(host, opts = {}) {
   const cfg = Object.assign({ n: 3, x: 1, onWin: null }, opts);
-  const w = widget(host, { title: t('La QFT, porta per porta'), subtitle: t('guarda le fasi disporsi a ventaglio') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('La QFT, porta per porta'), subtitle: t('guarda le fasi disporsi a ventaglio') });
   const st = { n: cfg.n, x: cfg.x, step: -1 };
   let ops = qftOps(st.n);
 
@@ -102,7 +103,8 @@ export function qftLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function qftPeriodLab(host, opts = {}) {
   const cfg = Object.assign({ n: 4, onWin: null }, opts);
-  const w = widget(host, { title: t('Periodicità dentro, picchi fuori'), subtitle: t('il trucco che usa Shor') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Periodicità dentro, picchi fuori'), subtitle: t('il trucco che usa Shor') });
   const n = cfg.n, N = 1 << n;
   const st = { r: 4, off: 0 };
 
@@ -157,7 +159,8 @@ export function qftPeriodLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function qpeLab(host, opts = {}) {
   const cfg = Object.assign({ t: 4, onWin: null }, opts);
-  const w = widget(host, { title: t('Stima di fase (QPE)'), subtitle: t('leggere una fase nascosta come numero binario') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Stima di fase (QPE)'), subtitle: t('leggere una fase nascosta come numero binario') });
   const st = { phi: 0.375, t: cfg.t };
 
   const dist = () => {
@@ -234,7 +237,8 @@ export function qpeLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function shorLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
-  const w = widget(host, { title: t('Officina di Shor'), subtitle: t('fattorizza un numero con le tue mani') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Officina di Shor'), subtitle: t('fattorizza un numero con le tue mani') });
   const st = { N: 15, a: 7, t: 6, measured: null, r: null, factors: null };
 
   const validA = () => { const l = []; for (let a = 2; a < st.N; a++) if (gcd(a, st.N) === 1) l.push(a); return l; };

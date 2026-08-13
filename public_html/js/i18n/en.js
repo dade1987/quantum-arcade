@@ -1848,4 +1848,139 @@ export default {
     'Above p = 50% repeating <b>makes things worse</b>: the majority votes for the error. Quantum has its own threshold too, and that is why level 21 exists.',
   "<b>Perché il quantistico non può copiare questo trucco così com'è:</b> ripetere vuol dire <b>copiare</b>, e un qubit non si può copiare (teorema di no-cloning, livello 6). E poi qui l'errore è uno solo — il bit si rovescia — mentre un qubit può sbagliare anche di <b>fase</b>. Il codice di Shor a 9 qubit risolve tutti e due i problemi in una volta.":
     '<b>Why quantum cannot copy this trick as it is:</b> repeating means <b>copying</b>, and a qubit cannot be copied (the no-cloning theorem, level 6). And here there is only one kind of error — the bit flips — while a qubit can also go wrong in <b>phase</b>. Shor’s 9-qubit code solves both problems at once.',
+
+  /* ---------------- paired exercises: classical mode → quantum mode ---------------- */
+  'Questo gioco calcola con un :macchina': 'This game computes with a :macchina',
+  'con un computer normale': 'with a normal computer',
+  'con uno quantistico': 'with a quantum one',
+
+  /* the register */
+  'Lo stesso registro, due macchine': 'The same register, two machines',
+  "tre caselle: prova a leggerle con l'una e con l'altra": 'three cells: try reading them on one machine, then the other',
+  'leggi il registro 5 volte: esce sempre lo stesso?': 'read the register 5 times: is it always the same?',
+  'metti tutte e :n le caselle in sovrapposizione, poi leggi 20 volte':
+    'put all :n cells in superposition, then read 20 times',
+  'un registro classico contiene UNA configurazione: le altre :quante non esistono da nessuna parte':
+    'a classical register holds ONE configuration: the other :quante exist nowhere at all',
+  'un registro quantistico porta :quante ampiezze insieme — ma la lettura ne restituisce una sola':
+    'a quantum register carries :quante amplitudes together — but reading gives back only one',
+  'bit': 'bit',
+  'qubit': 'qubit',
+  'dove sta il registro adesso': 'where the register is right now',
+  'probabilità di ogni risultato': 'probability of each result',
+  'letture: :n — valori diversi usciti: :diversi': 'readings: :n — different values seen: :diversi',
+  'rovescia un bit a caso': 'flip a random bit',
+  'leggi il registro': 'read the register',
+  'misura': 'measure',
+  "Il registro contiene <b>:valore</b> e nient'altro. Le altre :quante configurazioni sono possibili, non presenti: nessuno le sta calcolando.":
+    'The register holds <b>:valore</b> and nothing else. The other :quante configurations are possible, not present: nobody is computing them.',
+  'Leggerlo non lo cambia: puoi leggerlo mille volte e trovare mille volte lo stesso numero. Letture fatte: <b>:n</b>, valori diversi usciti: <b>:diversi</b>.':
+    'Reading it does not change it: read it a thousand times and find the same number a thousand times. Readings so far: <b>:n</b>, different values seen: <b>:diversi</b>.',
+  'Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :p%.':
+    'The circuit you have built lights up <b>:piene amplitudes</b> out of :totale. With one H per qubit they all become :totale, each with probability :p%.',
+  'La misura ne restituirà <b>una sola</b>, a caso — e quella che esce è tutto quello che ti resta.':
+    'The measurement will give back <b>one only</b>, at random — and the one that comes out is all you are left with.',
+  "L'ultima misura ha fatto <b>collassare</b> lo stato su :valore: le altre ampiezze sono sparite. Premi ancora e il circuito riparte da capo, come su una macchina vera.":
+    'The last measurement <b>collapsed</b> the state onto :valore: the other amplitudes are gone. Press again and the circuit runs from scratch, as on a real machine.',
+  'Letture fatte: <b>:n</b>, valori diversi usciti: <b>:diversi</b>.':
+    'Readings so far: <b>:n</b>, different values seen: <b>:diversi</b>.',
+  'fatto in questo modo.': 'done in this mode.',
+  "<b>Quello che hai appena visto:</b> le barre sono lo stesso disegno nei due modi, e sono l'unica cosa che cambia. Una sola colonna piena contro :totale colonne insieme — ma la lettura, in tutti e due i casi, ti restituisce <b>una riga di :n cifre</b>. Il mestiere dell'informatica quantistica è far sì che la riga che esce sia quella che serve.":
+    '<b>What you have just seen:</b> the bars are the same drawing in both modes, and they are the only thing that changes. One single full column against :totale columns together — but reading, in both cases, gives you back <b>one row of :n digits</b>. The craft of quantum computing is making sure the row that comes out is the one you need.',
+
+  /* jumps against rotations */
+  'Salti contro rotazioni': 'Jumps against rotations',
+  'la stessa lancetta, e cosa le si può fare': 'the same hand, and what can be done to it',
+  "con un bit hai una porta sola che muove: NOT, e salta da un estremo all'altro":
+    'with a bit you have one gate that moves: NOT, and it jumps from one end to the other',
+  'con un qubit ogni porta è una rotazione: H fa un quarto di giro, X mezzo':
+    'with a qubit every gate is a rotation: H turns a quarter, X a half',
+  'probabilità di leggere 0: :p0%  ·  di leggere 1: :p1%':
+    'probability of reading 0: :p0%  ·  of reading 1: :p1%',
+  'nessuna porta classica arriva a metà: un bit è 0 oppure 1':
+    'no classical gate reaches halfway: a bit is 0 or 1',
+  'lascia stare (identità)': 'leave it alone (identity)',
+  "Con un bit ci sono <b>due sole posizioni</b>: 0 e 1. L'unica porta che muove è NOT, e ti sbatte da una all'altra.":
+    'With a bit there are <b>only two positions</b>: 0 and 1. The only gate that moves is NOT, and it throws you from one to the other.',
+  'Il bersaglio a 90° <b>non è raggiungibile</b>, e non perché manchi la porta giusta: non esiste niente da mettere lì. Un bit «mezzo acceso» non è uno stato, è un guasto.':
+    'The target at 90° is <b>unreachable</b>, and not because the right gate is missing: there is nothing that could be put there. A "half-on" bit is not a state, it is a fault.',
+  'Con un qubit la lancetta si muove con continuità: <b>H</b> è il quarto di giro che manda |0⟩ in |+⟩, X è mezzo giro, e le rotazioni fanno il resto.':
+    'With a qubit the hand moves continuously: <b>H</b> is the quarter turn that takes |0⟩ to |+⟩, X is a half turn, and rotations do the rest.',
+  "A 90° le due probabilità sono 50% e 50%. Sembra una moneta — e invece <b>applica H un'altra volta</b> e torni esattamente a |0⟩: una moneta mescolata due volte resta casuale, questa no.":
+    'At 90° the two probabilities are 50% and 50%. It looks like a coin — but <b>apply H once more</b> and you are back exactly at |0⟩: a coin shuffled twice stays random, this does not.',
+  'Mosse: :elenco': 'Moves: :elenco',
+  'hai toccato il muro: è quello il punto.': 'you have hit the wall: that is the point.',
+  'centrato, e classicamente era impossibile.': 'on target, and classically it was impossible.',
+  "<b>La differenza, detta bene:</b> una porta classica è una <b>tabella</b> (a ogni ingresso il suo uscita) e i valori possibili sono due. Una porta quantistica è una <b>rotazione</b>, e fra 0 e 1 c'è tutto un giro di posizioni intermedie. Le rotazioni si compongono e si disfano — ed è per questo che H·Z·H fa esattamente X.":
+    '<b>The difference, put properly:</b> a classical gate is a <b>table</b> (one output per input) and there are two possible values. A quantum gate is a <b>rotation</b>, and between 0 and 1 there is a whole turn of intermediate positions. Rotations compose and undo each other — which is why H·Z·H gives exactly X.',
+
+  /* the two envelopes (CHSH) */
+  'La sfida delle due buste': 'The two-envelope challenge',
+  'Alice e Bob, lontani, senza potersi parlare': 'Alice and Bob, far apart, unable to talk to each other',
+  'gioca 200 turni: quanto riesci a vincere?': 'play 200 rounds: how much can you win?',
+  'gioca 200 turni e supera il 78%': 'play 200 rounds and pass 78%',
+  "l'accordo si prende PRIMA di partire: dopo, Alice e Bob non comunicano più":
+    'the agreement is made BEFORE leaving: afterwards, Alice and Bob no longer communicate',
+  'stessa sfida, ma Alice e Bob condividono una coppia entangled':
+    'same challenge, but Alice and Bob share an entangled pair',
+  'domanda: :d': 'question: :d',
+  'un accordo preso prima': 'an agreement made beforehand',
+  'una coppia entangled': 'an entangled pair',
+  'turni vinti su :n giocati': 'rounds won out of :n played',
+  'muro classico 75%': 'classical wall 75%',
+  'quantistico 85%': 'quantum 85%',
+  'accordo di Alice e Bob (deciso prima di separarsi)': "Alice and Bob's agreement (decided before parting)",
+  'rispondiamo sempre 0': 'we always answer 0',
+  'rispondiamo sempre 1': 'we always answer 1',
+  'rispondiamo la nostra domanda': 'we answer our own question',
+  'io la domanda, lui il contrario': 'I answer my question, he answers the opposite',
+  'un turno': 'one round',
+  '100 turni': '100 rounds',
+  '200 turni': '200 rounds',
+  "<b>La regola del turno:</b> l'arbitro manda una domanda (0 o 1) a ciascuno. La coppia vince se <code>rispostaA XOR rispostaB = domandaA AND domandaB</code>.":
+    '<b>The rule of a round:</b> the referee sends a question (0 or 1) to each. The pair wins if <code>answerA XOR answerB = questionA AND questionB</code>.',
+  'Qualunque accordo preso prima è una tabella fissa: su quattro coppie di domande possibili, nessuna tabella ne indovina più di <b>tre</b>. Il muro è <b>75%</b>, e non lo si scavalca nemmeno tirando a sorte.':
+    'Any agreement made beforehand is a fixed table: out of four possible question pairs, no table gets more than <b>three</b> right. The wall is <b>75%</b>, and tossing coins does not get you over it either.',
+  'Con una coppia entangled misurata negli angoli giusti la probabilità di vincere un turno è cos²(π/8) = <b>85,4%</b>. Non è una strategia più furba: è che le risposte <b>non esistevano</b> prima della misura.':
+    'With an entangled pair measured at the right angles the probability of winning a round is cos²(π/8) = <b>85.4%</b>. It is not a cleverer strategy: it is that the answers <b>did not exist</b> before the measurement.',
+  "Record — con le buste: <b>:a%</b> · con l'entanglement: <b>:b%</b>":
+    'Best — with envelopes: <b>:a%</b> · with entanglement: <b>:b%</b>',
+  'hai misurato la differenza con le tue mani: è quella che ha vinto il Nobel nel 2022.':
+    'you have measured the difference with your own hands: that is what won the Nobel Prize in 2022.',
+  "<b>Perché questo conta più di «sono correlati»:</b> anche due buste sigillate sono correlate, e infatti arrivano al 75%. Il punto è il <b>sorpasso</b>: nessun accordo preso prima — nessuna informazione nascosta nelle particelle alla partenza — può superare quel muro. L'esperimento è stato fatto davvero, sempre più a prova di scappatoia, e il muro è stato superato: Aspect, Clauser e Zeilinger, Nobel 2022.":
+    '<b>Why this matters more than "they are correlated":</b> two sealed envelopes are correlated too, and indeed they reach 75%. The point is the <b>overtaking</b>: no agreement made beforehand — no information hidden in the particles at departure — can pass that wall. The experiment has actually been done, in ever more loophole-free versions, and the wall was passed: Aspect, Clauser and Zeilinger, Nobel 2022.',
+
+  /* two routes */
+  'Due strade per lo stesso posto': 'Two routes to the same place',
+  'apri la seconda strada e guarda il rivelatore': 'open the second route and watch the detector',
+  'prova a SPEGNERE il rivelatore aprendo la seconda strada':
+    'try to SWITCH OFF the detector by opening the second route',
+  'spegni il rivelatore tenendo aperte tutte e due le strade':
+    'switch off the detector while keeping both routes open',
+  'in classico ogni strada porta una probabilità, e le probabilità si sommano':
+    'classically each route carries a probability, and probabilities add up',
+  "in quantistico ogni strada porta un'ampiezza, che può essere negativa":
+    'quantumly each route carries an amplitude, which may be negative',
+  'rivelatore': 'detector',
+  'probabilità :v': 'probability :v',
+  'ampiezza :v': 'amplitude :v',
+  'strada chiusa': 'route closed',
+  'arriva :a + :b = :tot': 'arriving :a + :b = :tot',
+  '(:a :segno :b)² = :tot': '(:a :segno :b)² = :tot',
+  'al rivelatore arriva il :p%': ':p% reaches the detector',
+  'strada di sopra': 'upper route',
+  'strada di sotto': 'lower route',
+  'apri/chiudi la seconda strada': 'open/close the second route',
+  'Le probabilità sono numeri fra 0 e 1 e si <b>sommano</b>. Aprire una strada in più non può far arrivare <b>meno</b> roba: al massimo la seconda strada porta zero.':
+    'Probabilities are numbers between 0 and 1 and they <b>add up</b>. Opening one more route cannot make <b>less</b> arrive: at worst the second route carries zero.',
+  'Prova quanto vuoi: con due strade aperte il rivelatore non si spegne mai. Non è un limite del gioco, è come funziona la probabilità.':
+    'Try as long as you like: with two routes open the detector never switches off. That is not a limit of the game, it is how probability works.',
+  'Le ampiezze si sommano <b>prima</b> di diventare probabilità, e possono essere <b>negative</b>. Metti la seconda strada a −:a e guarda cosa succede: (:a − :a)² = <b>0</b>.':
+    'Amplitudes add up <b>before</b> becoming probabilities, and they may be <b>negative</b>. Set the second route to −:a and watch what happens: (:a − :a)² = <b>0</b>.',
+  "Due strade aperte, e non arriva niente. Chiudine una — <b>una qualsiasi</b> — e il rivelatore si riaccende. È l'interferenza distruttiva, ed è il motore di ogni algoritmo di questo corso.":
+    'Two routes open, and nothing arrives. Close one — <b>either one</b> — and the detector lights up again. That is destructive interference, and it is the engine of every algorithm in this course.',
+  'confermato: in classico non si spegne.': 'confirmed: classically it does not switch off.',
+  'spento, con tutte e due le strade aperte.': 'switched off, with both routes open.',
+  "<b>Questa è la differenza, ed è una sola:</b> un computer classico che «prova tante strade» somma probabilità, e sommare roba positiva fa sempre crescere il totale. Un computer quantistico somma ampiezze, che hanno un segno — e le strade sbagliate possono cancellarsi a vicenda prima che tu guardi. Tutto il resto del corso è imparare a scegliere i segni.":
+    '<b>This is the difference, and there is only one:</b> a classical computer that "tries many routes" adds probabilities, and adding positive things always grows the total. A quantum computer adds amplitudes, which have a sign — and the wrong routes can cancel each other out before you look. All the rest of this course is learning how to choose the signs.',
 };

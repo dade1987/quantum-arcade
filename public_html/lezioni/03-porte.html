@@ -19,6 +19,7 @@
 import { renderLesson } from '../js/core/lesson.js';
 import { blochLab } from '../js/widgets/bloch.js';
 import { confronto } from '../js/core/confronto.js';
+import { porteCoppia } from '../js/widgets/coppie.js';
 import { formula, stepper } from '../js/core/formula.js';
 
 const L = renderLesson({
@@ -35,7 +36,15 @@ const L = renderLesson({
              <p>C'è però un dettaglio che nel classico non dà fastidio a nessuno e che qui diventa il punto:
              una porta AND <b>butta via un bit</b>. Da un'uscita 0 non sai più se gli ingressi erano 00, 01 o
              10. Il calcolo va avanti perdendo pezzi per strada, e a nessuno importa.</p>
-             <p>Le porte quantistiche non possono permetterselo. Non per eleganza: perché la fisica non lo
+             <p>Prima di leggere il catalogo, provalo: qui sotto c'è una lancetta che va da |0⟩ a |1⟩ e un
+             bersaglio a metà strada. Con le porte classiche prova a centrarlo — poi passa al quantistico e
+             riprova. Il muro contro cui sbatti in modo classico <b>è</b> la lezione.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'lancetta', title: 'Il bersaglio a metà strada', text: 'provaci con le porte classiche (non si può, e va bene così), poi centralo con quelle quantistiche.', xp: 35 });
+        el.appendChild(m.root);
+        porteCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Le porte quantistiche non possono permetterselo. Non per eleganza: perché la fisica non lo
              consente.</p>` +
              confronto({
                titolo: 'Porta classica e porta quantistica',

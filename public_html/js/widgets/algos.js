@@ -22,7 +22,8 @@ import { t } from '../core/i18n.js';
    ------------------------------------------------------------ */
 export function deutschLab(host, opts = {}) {
   const cfg = Object.assign({ n: 3, onWin: null }, opts);
-  const w = widget(host, { title: 'Deutsch–Jozsa', subtitle: t('costante o bilanciata? Una sola domanda.') });
+  const w = widget(host, {
+    modo: 'quantistico', title: 'Deutsch–Jozsa', subtitle: t('costante o bilanciata? Una sola domanda.') });
   const n = cfg.n, N = 1 << n;
   const st = { f: null, kind: '', classicalQueries: 0, revealed: false, quantumRun: false };
 
@@ -114,7 +115,8 @@ export function deutschLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function bvLab(host, opts = {}) {
   const cfg = Object.assign({ n: 4, onWin: null }, opts);
-  const w = widget(host, { title: 'Bernstein–Vazirani', subtitle: t('trova la stringa segreta con UNA domanda') });
+  const w = widget(host, {
+    modo: 'quantistico', title: 'Bernstein–Vazirani', subtitle: t('trova la stringa segreta con UNA domanda') });
   const n = cfg.n, N = 1 << n;
   const st = { s: 0, asked: 0, found: null };
 
@@ -165,7 +167,8 @@ export function bvLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function groverLab(host, opts = {}) {
   const cfg = Object.assign({ n: 4, onWin: null }, opts);
-  const w = widget(host, { title: t('Grover: la ricerca amplificata'), subtitle: t('guarda la barra giusta crescere') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Grover: la ricerca amplificata'), subtitle: t('guarda la barra giusta crescere') });
   const n = cfg.n, N = 1 << n;
   const st = { marked: 5, iter: 0, s: null, best: 0 };
   const optimal = Math.round(Math.PI / 4 * Math.sqrt(N));
@@ -270,7 +273,8 @@ export function groverLab(host, opts = {}) {
 export function simonLab(host, opts = {}) {
   const cfg = Object.assign({ n: 3, onWin: null, onSolved: null }, opts);
   const n = cfg.n, N = 1 << n;
-  const w = widget(host, { title: 'Simon', subtitle: t('trova il periodo nascosto s: f(x) = f(x ⊕ s)') });
+  const w = widget(host, {
+    modo: 'quantistico', title: 'Simon', subtitle: t('trova il periodo nascosto s: f(x) = f(x ⊕ s)') });
 
   const bin = v => v.toString(2).padStart(n, '0');
   const st = {

@@ -1849,4 +1849,139 @@ export default {
     'Por encima de p = 50% repetir <b>empeora</b> las cosas: la mayoría vota por el error. Lo cuántico también tiene su umbral, y es el motivo por el que existe el nivel 21.',
   "<b>Perché il quantistico non può copiare questo trucco così com'è:</b> ripetere vuol dire <b>copiare</b>, e un qubit non si può copiare (teorema di no-cloning, livello 6). E poi qui l'errore è uno solo — il bit si rovescia — mentre un qubit può sbagliare anche di <b>fase</b>. Il codice di Shor a 9 qubit risolve tutti e due i problemi in una volta.":
     '<b>Por qué lo cuántico no puede copiar este truco tal cual:</b> repetir quiere decir <b>copiar</b>, y un cúbit no se puede copiar (teorema de no clonación, nivel 6). Y además aquí el error es uno solo — el bit se da la vuelta — mientras que un cúbit puede equivocarse también de <b>fase</b>. El código de Shor de 9 cúbits resuelve los dos problemas a la vez.',
+
+  /* ---------------- ejercicios emparejados: modo clásico → modo cuántico ---------------- */
+  'Questo gioco calcola con un :macchina': 'Este juego calcula con un :macchina',
+  'con un computer normale': 'con un ordenador normal',
+  'con uno quantistico': 'con uno cuántico',
+
+  /* el registro */
+  'Lo stesso registro, due macchine': 'El mismo registro, dos máquinas',
+  "tre caselle: prova a leggerle con l'una e con l'altra": 'tres casillas: prueba a leerlas con una máquina y con la otra',
+  'leggi il registro 5 volte: esce sempre lo stesso?': 'lee el registro 5 veces: ¿sale siempre lo mismo?',
+  'metti tutte e :n le caselle in sovrapposizione, poi leggi 20 volte':
+    'pon las :n casillas en superposición y luego lee 20 veces',
+  'un registro classico contiene UNA configurazione: le altre :quante non esistono da nessuna parte':
+    'un registro clásico contiene UNA configuración: las otras :quante no existen en ninguna parte',
+  'un registro quantistico porta :quante ampiezze insieme — ma la lettura ne restituisce una sola':
+    'un registro cuántico lleva :quante amplitudes a la vez — pero la lectura devuelve una sola',
+  'bit': 'bit',
+  'qubit': 'cúbit',
+  'dove sta il registro adesso': 'dónde está el registro ahora',
+  'probabilità di ogni risultato': 'probabilidad de cada resultado',
+  'letture: :n — valori diversi usciti: :diversi': 'lecturas: :n — valores distintos salidos: :diversi',
+  'rovescia un bit a caso': 'da la vuelta a un bit al azar',
+  'leggi il registro': 'lee el registro',
+  'misura': 'mide',
+  "Il registro contiene <b>:valore</b> e nient'altro. Le altre :quante configurazioni sono possibili, non presenti: nessuno le sta calcolando.":
+    'El registro contiene <b>:valore</b> y nada más. Las otras :quante configuraciones son posibles, no presentes: nadie las está calculando.',
+  'Leggerlo non lo cambia: puoi leggerlo mille volte e trovare mille volte lo stesso numero. Letture fatte: <b>:n</b>, valori diversi usciti: <b>:diversi</b>.':
+    'Leerlo no lo cambia: puedes leerlo mil veces y encontrar mil veces el mismo número. Lecturas hechas: <b>:n</b>, valores distintos salidos: <b>:diversi</b>.',
+  'Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :p%.':
+    'El circuito que has montado enciende <b>:piene amplitudes</b> de :totale. Con una H por cúbit se encienden las :totale, cada una con probabilidad :p%.',
+  'La misura ne restituirà <b>una sola</b>, a caso — e quella che esce è tutto quello che ti resta.':
+    'La medida devolverá <b>una sola</b>, al azar — y la que sale es todo lo que te queda.',
+  "L'ultima misura ha fatto <b>collassare</b> lo stato su :valore: le altre ampiezze sono sparite. Premi ancora e il circuito riparte da capo, come su una macchina vera.":
+    'La última medida ha hecho <b>colapsar</b> el estado en :valore: las demás amplitudes han desaparecido. Pulsa otra vez y el circuito se ejecuta desde cero, como en una máquina de verdad.',
+  'Letture fatte: <b>:n</b>, valori diversi usciti: <b>:diversi</b>.':
+    'Lecturas hechas: <b>:n</b>, valores distintos salidos: <b>:diversi</b>.',
+  'fatto in questo modo.': 'hecho en este modo.',
+  "<b>Quello che hai appena visto:</b> le barre sono lo stesso disegno nei due modi, e sono l'unica cosa che cambia. Una sola colonna piena contro :totale colonne insieme — ma la lettura, in tutti e due i casi, ti restituisce <b>una riga di :n cifre</b>. Il mestiere dell'informatica quantistica è far sì che la riga che esce sia quella che serve.":
+    '<b>Lo que acabas de ver:</b> las barras son el mismo dibujo en los dos modos, y son lo único que cambia. Una sola columna llena frente a :totale columnas a la vez — pero la lectura, en los dos casos, te devuelve <b>una fila de :n cifras</b>. El oficio de la computación cuántica es conseguir que la fila que sale sea la que hace falta.',
+
+  /* saltos contra rotaciones */
+  'Salti contro rotazioni': 'Saltos contra rotaciones',
+  'la stessa lancetta, e cosa le si può fare': 'la misma aguja, y qué se le puede hacer',
+  "con un bit hai una porta sola che muove: NOT, e salta da un estremo all'altro":
+    'con un bit tienes una sola puerta que mueve: NOT, y salta de un extremo al otro',
+  'con un qubit ogni porta è una rotazione: H fa un quarto di giro, X mezzo':
+    'con un cúbit cada puerta es una rotación: H gira un cuarto, X medio',
+  'probabilità di leggere 0: :p0%  ·  di leggere 1: :p1%':
+    'probabilidad de leer 0: :p0%  ·  de leer 1: :p1%',
+  'nessuna porta classica arriva a metà: un bit è 0 oppure 1':
+    'ninguna puerta clásica llega a la mitad: un bit es 0 o 1',
+  'lascia stare (identità)': 'déjalo estar (identidad)',
+  "Con un bit ci sono <b>due sole posizioni</b>: 0 e 1. L'unica porta che muove è NOT, e ti sbatte da una all'altra.":
+    'Con un bit hay <b>solo dos posiciones</b>: 0 y 1. La única puerta que mueve es NOT, y te lanza de una a la otra.',
+  'Il bersaglio a 90° <b>non è raggiungibile</b>, e non perché manchi la porta giusta: non esiste niente da mettere lì. Un bit «mezzo acceso» non è uno stato, è un guasto.':
+    'El objetivo a 90° <b>no es alcanzable</b>, y no porque falte la puerta adecuada: no existe nada que poner ahí. Un bit «medio encendido» no es un estado, es una avería.',
+  'Con un qubit la lancetta si muove con continuità: <b>H</b> è il quarto di giro che manda |0⟩ in |+⟩, X è mezzo giro, e le rotazioni fanno il resto.':
+    'Con un cúbit la aguja se mueve con continuidad: <b>H</b> es el cuarto de vuelta que lleva |0⟩ a |+⟩, X es media vuelta, y las rotaciones hacen el resto.',
+  "A 90° le due probabilità sono 50% e 50%. Sembra una moneta — e invece <b>applica H un'altra volta</b> e torni esattamente a |0⟩: una moneta mescolata due volte resta casuale, questa no.":
+    'A 90° las dos probabilidades son 50% y 50%. Parece una moneda — y en cambio <b>aplica H otra vez</b> y vuelves exactamente a |0⟩: una moneda mezclada dos veces sigue siendo aleatoria, esto no.',
+  'Mosse: :elenco': 'Movimientos: :elenco',
+  'hai toccato il muro: è quello il punto.': 'has tocado el muro: ese es el punto.',
+  'centrato, e classicamente era impossibile.': 'acertado, y clásicamente era imposible.',
+  "<b>La differenza, detta bene:</b> una porta classica è una <b>tabella</b> (a ogni ingresso il suo uscita) e i valori possibili sono due. Una porta quantistica è una <b>rotazione</b>, e fra 0 e 1 c'è tutto un giro di posizioni intermedie. Le rotazioni si compongono e si disfano — ed è per questo che H·Z·H fa esattamente X.":
+    '<b>La diferencia, dicha bien:</b> una puerta clásica es una <b>tabla</b> (a cada entrada su salida) y los valores posibles son dos. Una puerta cuántica es una <b>rotación</b>, y entre 0 y 1 hay toda una vuelta de posiciones intermedias. Las rotaciones se componen y se deshacen — y por eso H·Z·H da exactamente X.',
+
+  /* los dos sobres (CHSH) */
+  'La sfida delle due buste': 'El reto de los dos sobres',
+  'Alice e Bob, lontani, senza potersi parlare': 'Alice y Bob, lejos, sin poder hablarse',
+  'gioca 200 turni: quanto riesci a vincere?': 'juega 200 rondas: ¿cuánto consigues ganar?',
+  'gioca 200 turni e supera il 78%': 'juega 200 rondas y supera el 78%',
+  "l'accordo si prende PRIMA di partire: dopo, Alice e Bob non comunicano più":
+    'el acuerdo se toma ANTES de separarse: después, Alice y Bob ya no se comunican',
+  'stessa sfida, ma Alice e Bob condividono una coppia entangled':
+    'mismo reto, pero Alice y Bob comparten un par entrelazado',
+  'domanda: :d': 'pregunta: :d',
+  'un accordo preso prima': 'un acuerdo tomado antes',
+  'una coppia entangled': 'un par entrelazado',
+  'turni vinti su :n giocati': 'rondas ganadas de :n jugadas',
+  'muro classico 75%': 'muro clásico 75%',
+  'quantistico 85%': 'cuántico 85%',
+  'accordo di Alice e Bob (deciso prima di separarsi)': 'acuerdo de Alice y Bob (decidido antes de separarse)',
+  'rispondiamo sempre 0': 'respondemos siempre 0',
+  'rispondiamo sempre 1': 'respondemos siempre 1',
+  'rispondiamo la nostra domanda': 'respondemos nuestra propia pregunta',
+  'io la domanda, lui il contrario': 'yo mi pregunta, él lo contrario',
+  'un turno': 'una ronda',
+  '100 turni': '100 rondas',
+  '200 turni': '200 rondas',
+  "<b>La regola del turno:</b> l'arbitro manda una domanda (0 o 1) a ciascuno. La coppia vince se <code>rispostaA XOR rispostaB = domandaA AND domandaB</code>.":
+    '<b>La regla de la ronda:</b> el árbitro manda una pregunta (0 o 1) a cada uno. La pareja gana si <code>respuestaA XOR respuestaB = preguntaA AND preguntaB</code>.',
+  'Qualunque accordo preso prima è una tabella fissa: su quattro coppie di domande possibili, nessuna tabella ne indovina più di <b>tre</b>. Il muro è <b>75%</b>, e non lo si scavalca nemmeno tirando a sorte.':
+    'Cualquier acuerdo tomado antes es una tabla fija: de cuatro pares de preguntas posibles, ninguna tabla acierta más de <b>tres</b>. El muro es el <b>75%</b>, y no se salta ni echándolo a suertes.',
+  'Con una coppia entangled misurata negli angoli giusti la probabilità di vincere un turno è cos²(π/8) = <b>85,4%</b>. Non è una strategia più furba: è che le risposte <b>non esistevano</b> prima della misura.':
+    'Con un par entrelazado medido en los ángulos adecuados la probabilidad de ganar una ronda es cos²(π/8) = <b>85,4%</b>. No es una estrategia más astuta: es que las respuestas <b>no existían</b> antes de la medida.',
+  "Record — con le buste: <b>:a%</b> · con l'entanglement: <b>:b%</b>":
+    'Récord — con los sobres: <b>:a%</b> · con el entrelazamiento: <b>:b%</b>',
+  'hai misurato la differenza con le tue mani: è quella che ha vinto il Nobel nel 2022.':
+    'has medido la diferencia con tus propias manos: es la que ganó el Nobel en 2022.',
+  "<b>Perché questo conta più di «sono correlati»:</b> anche due buste sigillate sono correlate, e infatti arrivano al 75%. Il punto è il <b>sorpasso</b>: nessun accordo preso prima — nessuna informazione nascosta nelle particelle alla partenza — può superare quel muro. L'esperimento è stato fatto davvero, sempre più a prova di scappatoia, e il muro è stato superato: Aspect, Clauser e Zeilinger, Nobel 2022.":
+    '<b>Por qué esto cuenta más que «están correlacionados»:</b> también dos sobres cerrados están correlacionados, y de hecho llegan al 75%. El punto es el <b>adelantamiento</b>: ningún acuerdo tomado antes — ninguna información escondida en las partículas al partir — puede superar ese muro. El experimento se ha hecho de verdad, cada vez más a prueba de escapatorias, y el muro se superó: Aspect, Clauser y Zeilinger, Nobel 2022.',
+
+  /* dos caminos */
+  'Due strade per lo stesso posto': 'Dos caminos al mismo sitio',
+  'apri la seconda strada e guarda il rivelatore': 'abre el segundo camino y mira el detector',
+  'prova a SPEGNERE il rivelatore aprendo la seconda strada':
+    'intenta APAGAR el detector abriendo el segundo camino',
+  'spegni il rivelatore tenendo aperte tutte e due le strade':
+    'apaga el detector manteniendo abiertos los dos caminos',
+  'in classico ogni strada porta una probabilità, e le probabilità si sommano':
+    'en clásico cada camino lleva una probabilidad, y las probabilidades se suman',
+  "in quantistico ogni strada porta un'ampiezza, che può essere negativa":
+    'en cuántico cada camino lleva una amplitud, que puede ser negativa',
+  'rivelatore': 'detector',
+  'probabilità :v': 'probabilidad :v',
+  'ampiezza :v': 'amplitud :v',
+  'strada chiusa': 'camino cerrado',
+  'arriva :a + :b = :tot': 'llega :a + :b = :tot',
+  '(:a :segno :b)² = :tot': '(:a :segno :b)² = :tot',
+  'al rivelatore arriva il :p%': 'al detector llega el :p%',
+  'strada di sopra': 'camino de arriba',
+  'strada di sotto': 'camino de abajo',
+  'apri/chiudi la seconda strada': 'abre/cierra el segundo camino',
+  'Le probabilità sono numeri fra 0 e 1 e si <b>sommano</b>. Aprire una strada in più non può far arrivare <b>meno</b> roba: al massimo la seconda strada porta zero.':
+    'Las probabilidades son números entre 0 y 1 y se <b>suman</b>. Abrir un camino más no puede hacer que llegue <b>menos</b>: como mucho el segundo camino lleva cero.',
+  'Prova quanto vuoi: con due strade aperte il rivelatore non si spegne mai. Non è un limite del gioco, è come funziona la probabilità.':
+    'Prueba cuanto quieras: con dos caminos abiertos el detector no se apaga nunca. No es un límite del juego, es cómo funciona la probabilidad.',
+  'Le ampiezze si sommano <b>prima</b> di diventare probabilità, e possono essere <b>negative</b>. Metti la seconda strada a −:a e guarda cosa succede: (:a − :a)² = <b>0</b>.':
+    'Las amplitudes se suman <b>antes</b> de convertirse en probabilidades, y pueden ser <b>negativas</b>. Pon el segundo camino en −:a y mira qué pasa: (:a − :a)² = <b>0</b>.',
+  "Due strade aperte, e non arriva niente. Chiudine una — <b>una qualsiasi</b> — e il rivelatore si riaccende. È l'interferenza distruttiva, ed è il motore di ogni algoritmo di questo corso.":
+    'Dos caminos abiertos, y no llega nada. Cierra uno — <b>cualquiera de los dos</b> — y el detector se vuelve a encender. Es la interferencia destructiva, y es el motor de todos los algoritmos de este curso.',
+  'confermato: in classico non si spegne.': 'confirmado: en clásico no se apaga.',
+  'spento, con tutte e due le strade aperte.': 'apagado, con los dos caminos abiertos.',
+  "<b>Questa è la differenza, ed è una sola:</b> un computer classico che «prova tante strade» somma probabilità, e sommare roba positiva fa sempre crescere il totale. Un computer quantistico somma ampiezze, che hanno un segno — e le strade sbagliate possono cancellarsi a vicenda prima che tu guardi. Tutto il resto del corso è imparare a scegliere i segni.":
+    '<b>Esta es la diferencia, y es una sola:</b> un ordenador clásico que «prueba muchos caminos» suma probabilidades, y sumar cosas positivas siempre hace crecer el total. Un ordenador cuántico suma amplitudes, que tienen un signo — y los caminos equivocados pueden cancelarse entre sí antes de que mires. Todo el resto del curso es aprender a elegir los signos.',
 };

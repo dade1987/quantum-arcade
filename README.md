@@ -32,6 +32,11 @@ cosa con un computer normale, cosa cambia con quello quantistico, e il numero ch
 la differenza. Perché «quantistico» non è una cosa: è una differenza, e una differenza si vede solo
 avendo il termine di paragone.
 
+Dove il confronto vale una partita e non un paragrafo, i due modi stanno **dentro lo stesso
+mini-gioco**, con un interruttore che cambia macchina: stesso schermo, stessi bottoni, stessa
+missione — cambia il meccanismo, e basta. E in modo classico alcune missioni **non si possono
+vincere**: il muro è la lezione.
+
 | | |
 |---|---|
 | **Per chi** | Da chi ha finito le medie in su. Nessun prerequisito di fisica, né di informatica. |
@@ -90,6 +95,9 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
     classic.js  classic2.js  quelli del computer classico: interruttori, porte logiche,
                            sommatore, ricerca, curve di crescita, porte reversibili,
                            oracolo classico, codice a ripetizione
+    coppie.js              gli esercizi appaiati: la stessa plancia con un interruttore
+                           che passa dal computer normale a quello quantistico
+                           (registro, porte, sfida di Bell, due strade)
 
 lang/en.json  lang/es.json  le stesse traduzioni per il lato Laravel (__())
 
@@ -115,7 +123,7 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (115 test) + validazione di tutti i file
+npm test                 # motore del gioco (122 test) + validazione di tutti i file
 npm run test:coverage    # copertura del frontend
 npm run test:php         # 118 test dei moduli Laravel
 npm run test:php:coverage

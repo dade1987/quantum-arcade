@@ -20,6 +20,7 @@ import { renderLesson } from '../../js/core/lesson.js';
 import { formula, stepper } from '../../js/core/formula.js';
 import { qubitBuilder, coinVsQubit, hadamardMap, probabilitaQuadrato } from '../../js/widgets/qubit.js';
 import { confronto } from '../../js/core/confronto.js';
+import { registroCoppia } from '../../js/widgets/coppie.js';
 import { polaroidLab } from '../../js/widgets/quantum2.js';
 
 const L = renderLesson({
@@ -38,7 +39,16 @@ const L = renderLesson({
              <p>And with <b>n</b> bits? The possible configurations are 2ⁿ, but the computer holds <b>exactly
              one</b> at a time. With 300 switches the configurations would outnumber the atoms in the universe,
              and you would still be using one of them.</p>
-             <p>Keep that sentence in your hand while you read the rest of this level: it is the only thing
+             <p>Before reading any further, try it: below is the same three-cell register, with a switch that
+             changes machine. Read it five times as a normal computer, then move to the quantum one, put all
+             three cells in superposition and read it twenty times. The difference is not in the explanation,
+             it is in the bars.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'registro', title: 'The same register, two machines', text: 'read the classical register 5 times, then put the quantum one in superposition and measure it 20 times.', xp: 35 });
+        el.appendChild(m.root);
+        registroCoppia(el, { n: 3, onWin: () => m.complete() });
+      },
+      after: `<p>Keep that sentence in your hand while you read the rest of this level: it is the only thing
              about to change, and that is why it changes everything.</p>` +
              confronto({
                titolo: 'Bit and qubit, line by line',

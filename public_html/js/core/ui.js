@@ -26,21 +26,67 @@ export function h(tag, props = {}, ...children) {
   return el;
 }
 
-/** Contenitore standard di un widget interattivo. Ritorna {root, body, foot, setFoot}. */
-export function widget(host, { title = '', subtitle = '', foot = '' } = {}) {
+/* ---------------- il modo di calcolo di un mini-gioco ----------------
+
+   Ogni gioco che CALCOLA qualcosa dichiara con che macchina lo sta facendo:
+   blu «computer normale», viola «computer quantistico». Non è decorazione, è
+   la cosa che il corso insegna — e messa sull'intestazione del gioco vale più
+   di un paragrafo, perché è lì mentre si gioca invece che sopra mentre si
+   legge.
+
+   Tre canali per la stessa informazione (colore, icona, parola scritta) e non
+   il colore da solo: è quello che chiedono le WCAG, ed è anche quello che
+   serve a chi il corso lo fa sul telefono in metropolitana.
+
+   Regola di attribuzione, per non affibbiare l'etichetta a caso:
+   · «classico»     = il calcolo è quello che farebbe un computer normale
+                      (bit, porte, ricerca, DFT, FFT);
+   · «quantistico»  = c'è di mezzo il simulatore a vettore di stato;
+   · nessun modo    = matematica e onde, che non sono né l'uno né l'altro
+                      (la Parte 0, i laboratori delle onde, i fasori). */
+
+export const MODI = {
+  classico: { classe: 'modo-c', icona: '💻', etichetta: () => t('computer normale') },
+  quantistico: { classe: 'modo-q', icona: '⚛️', etichetta: () => t('computer quantistico') },
+};
+
+function badgeModo(modo) {
+  const m = MODI[modo];
+  if (!m) return null;
+  return h('span', { class: 'wmode ' + m.classe, 'aria-label': t('Questo gioco calcola con un :macchina', { macchina: m.etichetta() }) },
+    h('span', { 'aria-hidden': 'true' }, m.icona), ' ', m.etichetta());
+}
+
+/**
+ * Contenitore standard di un widget interattivo.
+ * opts: {title, subtitle, foot, modo: 'classico'|'quantistico'}
+ * Ritorna {root, body, foot, setFoot, setModo}.
+ */
+export function widget(host, { title = '', subtitle = '', foot = '', modo = null } = {}) {
   const body = h('div', { class: 'widget-body' });
   const footEl = h('div', { class: 'widget-foot' + (foot ? '' : ' hidden'), html: foot });
-  const root = h('div', { class: 'widget' },
-    (title || subtitle) ? h('div', { class: 'widget-head' },
-      h('span', { class: 'wt' }, title),
-      subtitle ? h('span', { class: 'ws' }, subtitle) : null,
-    ) : null,
-    body, footEl,
-  );
+  const head = (title || subtitle || modo) ? h('div', { class: 'widget-head' },
+    badgeModo(modo),
+    h('span', { class: 'wt' }, title),
+    subtitle ? h('span', { class: 'ws' }, subtitle) : null,
+  ) : null;
+  const root = h('div', { class: 'widget' + (MODI[modo] ? ' ' + MODI[modo].classe : '') }, head, body, footEl);
   host.appendChild(root);
   return {
     root, body, foot: footEl,
     setFoot(htmlStr) { footEl.innerHTML = htmlStr; footEl.classList.toggle('hidden', !htmlStr); },
+    /* Serve agli esercizi appaiati, che cambiano mondo con un interruttore:
+       il badge deve cambiare insieme al gioco, altrimenti dice una bugia. */
+    setModo(nuovo) {
+      if (!head) return;
+      root.classList.remove('modo-c', 'modo-q');
+      if (MODI[nuovo]) root.classList.add(MODI[nuovo].classe);
+      const vecchio = head.querySelector('.wmode');
+      const badge = badgeModo(nuovo);
+      if (vecchio && badge) head.replaceChild(badge, vecchio);
+      else if (vecchio) head.removeChild(vecchio);
+      else if (badge) head.prepend(badge);
+    },
   };
 }
 

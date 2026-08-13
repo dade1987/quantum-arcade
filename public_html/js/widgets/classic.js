@@ -74,6 +74,7 @@ export const inBinario = (v, n) => Array.from({ length: n }, (_, i) => (v >> (n 
 export function bitLab(host, opts = {}) {
   const cfg = Object.assign({ bits: 8, need: 3, onWin: null }, opts);
   const w = widget(host, {
+    modo: 'classico',
     title: t('La macchina a interruttori'),
     subtitle: t('accendi i bit finché il numero non è quello giusto'),
   });
@@ -194,6 +195,7 @@ export const firma = fn => [[0, 0], [0, 1], [1, 0], [1, 1]].map(([a, b]) => fn(a
 export function logicLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null, sfide: 3 }, opts);
   const w = widget(host, {
+    modo: 'classico',
     title: t('Il banco delle porte logiche'),
     subtitle: t('accendi gli ingressi e guarda cosa esce'),
   });
@@ -370,6 +372,7 @@ export function logicLab(host, opts = {}) {
 export function nandForge(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
   const w = widget(host, {
+    modo: 'classico',
     title: t('L\'officina del NAND'),
     subtitle: t('una porta sola, e ci costruisci tutte le altre'),
   });
@@ -534,6 +537,7 @@ export function nandForge(host, opts = {}) {
 export function adderLab(host, opts = {}) {
   const cfg = Object.assign({ bits: 4, need: 2, onWin: null }, opts);
   const w = widget(host, {
+    modo: 'classico',
     title: t('Il sommatore a :n bit', { n: cfg.bits }),
     subtitle: t('metti tu i riporti, come si fa in colonna'),
   });
