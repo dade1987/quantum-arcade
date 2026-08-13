@@ -16,7 +16,8 @@ import { sfx } from '../core/audio.js';
 import { t } from '../core/i18n.js';
 
 export function qubitBuilder(host, opts = {}) {
-  const w = widget(host, { title: t('Costruisci il tuo qubit'), subtitle: t('due manopole: quanto |1⟩ e quale fase') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Costruisci il tuo qubit'), subtitle: t('due manopole: quanto |1⟩ e quale fase') });
   const st = { theta: 60, phi: 0 };
   const mk = () => {
     const th = st.theta * Math.PI / 180, p = st.phi * Math.PI / 180;
@@ -92,7 +93,8 @@ export function qubitBuilder(host, opts = {}) {
 
 export function coinVsQubit(host, opts = {}) {
   const cfg = Object.assign({ onDiscover: null }, opts);
-  const w = widget(host, { title: t('Moneta contro qubit'), subtitle: t('due "lanci" a testa: chi torna a casa?') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Moneta contro qubit'), subtitle: t('due "lanci" a testa: chi torna a casa?') });
   const grid = h('div', { class: 'grid-2' });
   const left = h('div'), right = h('div');
   grid.append(left, right); w.body.appendChild(grid);
@@ -142,7 +144,8 @@ export function coinVsQubit(host, opts = {}) {
    ------------------------------------------------------------ */
 
 export function hadamardMap(host) {
-  const w = widget(host, { title: t('Cosa fa esattamente H'), subtitle: t('le quattro regole, disegnate') });
+  const w = widget(host, {
+    modo: 'quantistico', title: t('Cosa fa esattamente H'), subtitle: t('le quattro regole, disegnate') });
   const stage = new Stage(w.body, {
     // impilati servono due riquadri per riga: più alto, se no la nota in
     // fondo finisce sopra l'ultimo
@@ -200,6 +203,7 @@ export function hadamardMap(host) {
 export function probabilitaQuadrato(host, opts = {}) {
   const cfg = Object.assign({ onWin: null, need: 3 }, opts);
   const w = widget(host, {
+    modo: 'quantistico',
     title: t('Perché si eleva al quadrato'),
     subtitle: t('il lato è l\'ampiezza, l\'area è la probabilità'),
   });

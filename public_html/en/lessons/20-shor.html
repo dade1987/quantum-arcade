@@ -18,6 +18,7 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
 import { shorLab } from '../../js/widgets/qft.js';
 
 const L = renderLesson({
@@ -39,6 +40,42 @@ const L = renderLesson({
              and decrypt it in ten or twenty years. For data that has to stay secret for a long time (health, military,
              industrial) the threat is <b>already here</b>. That is why NIST standardised
              <b>post-quantum</b> algorithms in 2024.</div>`,
+      after: `<p>Before looking at Shor's move, it pays to know <b>exactly</b> what the normal method costs,
+              otherwise "faster" means nothing.</p>
+              <ul>
+                <li><b>Trial division:</b> you try 2, 3, 5, 7… up to the square root of N. It costs <b>√N</b>
+                    divisions, which sounds small but is exponential <b>in the number of digits</b>: doubling the
+                    digits squares the work.</li>
+                <li><b>The number field sieve (GNFS)</b>, the best one known: far cleverer, but still
+                    <b>sub-exponential</b>. On RSA-2048 it would take billions of years of computing.</li>
+              </ul>` + confronto({
+                titolo: 'Factoring a 2048-bit number',
+                livello: 'k5-costo',
+                vaiA: 'Review the exponential wall (level K·5)',
+                classico: {
+                  titolo: 'The best we know how to do',
+                  html: `<p>GNFS, on every computer in the world put together: <b>billions of years</b>.</p>
+                         <p class="mb0">And note: it is <b>not proved</b> that better is impossible. Nobody has
+                         ever proved factoring is hard — we only know nobody has managed it.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Shor',
+                  html: `<p>About <b>n³</b> operations, that is a few hours, on a machine with a few million
+                         error-corrected physical qubits.</p>
+                         <p class="mb0">That machine <b>does not exist</b>: today numbers like 15 and 21 get
+                         factored. The distance between 21 and RSA-2048 is all engineering (level 21), not
+                         theory.</p>`,
+                },
+                numeri: [
+                  { cosa: '2048-bit number', classico: 'billions of years', quantistico: 'hours' },
+                  { cosa: 'kind of growth', classico: 'sub-exponential', quantistico: 'polynomial (n³)' },
+                  { cosa: 'machine required', classico: 'a laptop', quantistico: 'millions of physical qubits' },
+                ],
+                verdetto: `<b>This is the one place in the course where the gain changes the world</b> — and it
+                           is worth remembering why: not because the quantum machine "tries all the divisions at
+                           once", but because the problem, rewritten, hides a <b>periodicity</b>. And at finding
+                           periodicities interference is unbeatable.`,
+              }),
     },
     {
       t: 'The brilliant move: from factors to period',

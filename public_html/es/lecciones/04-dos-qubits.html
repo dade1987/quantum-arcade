@@ -18,6 +18,8 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { twoQubitLab } from '../../js/widgets/quantum2.js';
+import { confronto } from '../../js/core/confronto.js';
+import { bellCoppia } from '../../js/widgets/coppie.js';
 import { stepper, formula } from '../../js/core/formula.js';
 
 const L = renderLesson({
@@ -27,6 +29,56 @@ const L = renderLesson({
          el <b>entrelazamiento</b>.`,
 
   steps: [
+    {
+      t: 'Primero en clásico: dos bits, y las correlaciones que se pueden hacer',
+      html: `<p>Dos bits clásicos tienen cuatro configuraciones: 00, 01, 10, 11. El ordenador guarda <b>una</b>.
+             Hasta aquí nada nuevo.</p>
+             <p>Pero los dos bits pueden estar <b>correlacionados</b>, y eso también se hace clásicamente. Mete
+             dos papeles iguales en dos sobres — o los dos «0», o los dos «1» — mézclalos, y manda un sobre a
+             Roma y otro a Sídney. Quien abre el de Roma sabe al instante qué hay en Sídney. No hay nada
+             misterioso: <b>la información ya estaba en el sobre</b> desde que salió.</p>
+             <p>Y lo que los sobres <b>no</b> saben hacer se puede medir, ahora mismo, con un juego. Alice y Bob
+             están lejos y reciben una pregunta cada uno; ganan la ronda si sus respuestas guardan cierta relación
+             con las preguntas. Con cualquier acuerdo tomado antes de separarse no se pasa del <b>75%</b> de
+             rondas ganadas — pruébalos todos. Con un par entrelazado se llega al <b>85%</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'bell', title: 'El adelantamiento del 75%', text: 'juega 100 rondas con los sobres, luego 100 con el entrelazamiento y supera el 78%.', xp: 45 });
+        el.appendChild(m.root);
+        bellCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Ese adelantamiento es el experimento que ganó el Nobel de física en 2022. A partir de aquí,
+             cuando dentro de poco leas «los dos cúbits entrelazados dan siempre el mismo resultado», sabrás que
+             <b>no</b> es esa la parte sorprendente: los sobres ya lo hacen.</p>` +
+             confronto({
+               titolo: 'Correlación clásica y entrelazamiento',
+               livello: 'k1-bit',
+               vaiA: 'Repasa los bits (nivel K·1)',
+               classico: {
+                 titolo: 'Dos sobres cerrados',
+                 html: `<p>El contenido está decidido <b>en la salida</b>. Abrir un sobre te dice el otro, pero no
+                        cambia nada: solo estás leyendo algo ya escrito.</p>
+                        <p class="mb0">Las correlaciones clásicas respetan un límite preciso (las
+                        <b>desigualdades de Bell</b>): ciertas combinaciones de medidas nunca superan el 75% de
+                        acuerdo.</p>`,
+               },
+               quantistico: {
+                 titolo: 'Dos cúbits entrelazados',
+                 html: `<p>El contenido <b>no está decidido</b> antes de la medida — y no es ignorancia nuestra,
+                        está demostrado experimentalmente.</p>
+                        <p class="mb0">Las mismas combinaciones de medidas llegan al <b>85%</b> de acuerdo. Es el
+                        número que ganó el Nobel de física en 2022, y es la manera de distinguir, en el
+                        laboratorio, un sobre de un entrelazamiento.</p>`,
+               },
+               numeri: [
+                 { cosa: 'configuraciones posibles', classico: '4', quantistico: '4 amplitudes a la vez' },
+                 { cosa: 'estado decidido antes de la medida', classico: 'sí', quantistico: 'no' },
+                 { cosa: 'acuerdo máximo en el test de Bell', classico: '75%', quantistico: '~85% (medido)' },
+               ],
+               verdetto: `<b>«Correlacionados» no basta para explicar el entrelazamiento — los sobres están
+                          correlacionados.</b> Lo que los sobres no pueden hacer es pasar del 75%, y los cúbits
+                          lo hacen. A partir de ahí ninguna explicación «clásica pero escondida» se sostiene.`,
+             }),
+    },
     {
       t: 'Dos cúbits = cuatro posibilidades',
       html: `<p>Si tienes dos monedas, los resultados posibles son cuatro: CC, CX, XC, XX. Con dos cúbits es igual,

@@ -136,7 +136,8 @@ export function blochLab(host, opts = {}) {
     showRotations: true, onChange: null, target: null,
     title: t('Il tuo qubit'), subtitle: t('applica le porte e guarda la freccia muoversi'),
   }, opts);
-  const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
+  const w = widget(host, {
+    modo: 'quantistico', title: cfg.title, subtitle: cfg.subtitle });
   let st = zeroState(1);
   const history = [];
 

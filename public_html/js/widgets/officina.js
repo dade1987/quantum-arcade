@@ -29,7 +29,8 @@ const BLOCKS = {
 
 export function officina(host, opts = {}) {
   const cfg = Object.assign({ n: 3, onSolve: null }, opts);
-  const w = widget(host, { title: '🛠️ ' + t('Officina degli algoritmi'), subtitle: t('monta, lancia, indovina, migliora') });
+  const w = widget(host, {
+    modo: 'quantistico', title: '🛠️ ' + t('Officina degli algoritmi'), subtitle: t('monta, lancia, indovina, migliora') });
   const n = cfg.n, N = 1 << n;
 
   const st = {

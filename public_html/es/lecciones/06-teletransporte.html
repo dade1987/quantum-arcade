@@ -18,6 +18,7 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
 import { teleportLab } from '../../js/widgets/quantum2.js';
 
 const L = renderLesson({
@@ -27,6 +28,45 @@ const L = renderLesson({
          Nada de magia: solo entrelazamiento y medida.`,
 
   steps: [
+    {
+      t: 'Primero en clásico: copiar es gratis, y por eso nunca piensas en ello',
+      html: `<p>Copia un archivo, reenvía un mensaje, dale a Ctrl-C: has duplicado información sin tocar el
+             original, sin coste y sin límites. Es tan obvio que ni siquiera parece una propiedad — y en cambio
+             es <b>la</b> propiedad sobre la que se sostiene media informática: las copias de seguridad, la
+             caché, el código de repetición del nivel K·6, el hecho mismo de que puedas leer un bit sin
+             gastarlo.</p>
+             <p>Un bit se copia porque leerlo <b>no lo cambia</b>: miras la tensión del cable, ves que es alta,
+             la reescribes en otro sitio. Ya está.</p>
+             <p>Con un cúbit ese paso — «miras… ves… reescribes» — es justo lo que no se puede hacer. Y no es un
+             límite tecnológico por superar: es un <b>teorema</b>.</p>` +
+             confronto({
+               titolo: 'Copiar un bit, copiar un cúbit',
+               livello: 'k1-bit',
+               vaiA: 'Repasa qué es un bit (nivel K·1)',
+               classico: {
+                 titolo: 'El bit se copia',
+                 html: `<p>Leer no altera. Copiar es gratis, ilimitado y perfecto.</p>
+                        <p class="mb0">Consecuencias: copias de seguridad, redundancia, corrección de errores por
+                        repetición, y que una interceptación en una línea <b>no deje rastro</b>.</p>`,
+               },
+               quantistico: {
+                 titolo: 'El cúbit no',
+                 html: `<p><b>Teorema de no clonación</b> (Wootters y Zurek, 1982): no existe ninguna operación
+                        que duplique un estado cuántico desconocido.</p>
+                        <p class="mb0">Consecuencias: nada de copias de seguridad de cúbits, corrección de
+                        errores mucho más difícil — pero también criptografía cuántica, donde <b>una
+                        interceptación se ve</b> porque deja marca.</p>`,
+               },
+               numeri: [
+                 { cosa: 'copias de un estado desconocido', classico: 'infinitas', quantistico: 'cero' },
+                 { cosa: 'moverlo a otro sitio', classico: 'copiar y borrar', quantistico: 'teletransporte: 2 bits clásicos + 1 par entrelazado' },
+                 { cosa: 'interceptación', classico: 'invisible', quantistico: 'detectable' },
+               ],
+               verdetto: `<b>La misma prohibición genera el problema y el regalo.</b> No poder copiar hace difícil
+                          proteger los cúbits de los errores (nivel 21), y al mismo tiempo hace posible una línea
+                          de comunicación en la que espiar es imposible sin que te pillen.`,
+             }),
+    },
     {
       t: 'El teorema de no-clonación',
       html: `<p>Pregunta razonable: si un cúbit es delicado, ¿por qué no hacer una copia de seguridad?</p>

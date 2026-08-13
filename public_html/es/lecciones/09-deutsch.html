@@ -18,7 +18,9 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
 import { deutschLab } from '../../js/widgets/algos.js';
+import { oracoloClassico } from '../../js/widgets/classic2.js';
 
 const L = renderLesson({
   id: '09-deutsch',
@@ -27,6 +29,48 @@ const L = renderLesson({
          es el <b>mismo</b> de todos los algoritmos posteriores.`,
 
   steps: [
+    {
+      t: 'Primero en clásico: cuántas preguntas hacen falta de verdad',
+      html: `<p>El problema es este: una caja esconde una función y tú tienes que decir si es <b>constante</b>
+             (responde siempre igual) o <b>equilibrada</b> (mitad 0 y mitad 1). No te importa <i>cuál</i>
+             función es: solo de qué tipo.</p>
+             <p>Pruébalo clásicamente, contando las consultas. Con un solo bit de entrada hay dos preguntas
+             posibles, y te harán falta las dos — porque una sola respuesta es compatible con los dos casos.</p>`,
+      mount: el => { oracoloClassico(el, { modo: 'deutsch' }); },
+      after: `<div class="callout key"><b>La cuenta clásica, en general.</b> Con <b>n</b> bits de entrada hay
+              2ⁿ preguntas posibles. En el peor caso tienes que hacer <b>2ⁿ⁻¹ + 1</b>: si la primera mitad
+              responde toda igual sigues con la duda, y necesitas una pregunta más para estar seguro.
+              Con n = 20 son más de medio millón de consultas.</div>` +
+              confronto({
+                titolo: 'La misma caja, dos maneras de interrogarla',
+                livello: 'k2-porte',
+                vaiA: 'Repasa las puertas y la caja negra (K·2)',
+                classico: {
+                  titolo: 'Una pregunta cada vez',
+                  html: `<p>El oráculo coge una entrada y devuelve una salida. Para saber cómo es la función
+                         tienes que interrogarlo <b>tantas veces como haga falta</b>, y las respuestas llegan
+                         de una en una.</p>
+                         <p class="mb0">Peor caso: <b>2ⁿ⁻¹ + 1</b> consultas.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Una sola pregunta, pero distinta',
+                  html: `<p>Al oráculo se le pregunta con <b>todas</b> las entradas en superposición. No devuelve
+                         todas las respuestas — esas quedan inalcanzables — pero las escribe en las <b>fases</b>
+                         de las amplitudes.</p>
+                         <p class="mb0">Luego una Hadamard hace interferir esas fases, y la respuesta a
+                         «¿constante o equilibrada?» aparece sola: <b>1 consulta</b>.</p>`,
+                },
+                numeri: [
+                  { cosa: 'n = 1 (el juego de arriba)', classico: '2 preguntas', quantistico: '1 pregunta' },
+                  { cosa: 'n = 20', classico: '524.289', quantistico: '1' },
+                  { cosa: 'información obtenida', classico: 'la función, trozo a trozo', quantistico: 'solo el TIPO, no la función' },
+                ],
+                verdetto: `<b>Cuidado con la última fila:</b> lo cuántico no te da más información, te da
+                           <b>menos</b> — pero exactamente la que habías pedido. El truco de todo algoritmo
+                           cuántico es hacer una pregunta <b>global</b>, a la que la interferencia sabe
+                           responder, en vez de reconstruirlo todo trozo a trozo.`,
+              }),
+    },
     {
       t: 'Qué es un oráculo',
       html: `<p>Un <b>oráculo</b> es una caja negra que sabe calcular una función <b>f</b> pero no te dice cómo.

@@ -19,6 +19,8 @@
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
 import { circuitLab } from '../../js/widgets/circuit.js';
+import { confronto } from '../../js/core/confronto.js';
+import { stradeCoppia } from '../../js/widgets/coppie.js';
 import { manyArrows } from '../../js/widgets/twowaves.js';
 
 const L = renderLesson({
@@ -27,6 +29,52 @@ const L = renderLesson({
          porque es el <b>único</b> mecanismo que hace útil a un ordenador cuántico. Todo lo demás es adorno.`,
 
   steps: [
+    {
+      t: 'Primero en clásico: las probabilidades se suman y ya está',
+      html: `<p>Coge un caso clásico cualquiera: dos caminos llevan al mismo sitio, uno con probabilidad 30% y
+             el otro con probabilidad 20%. Probabilidad de llegar: <b>50%</b>. Se suman, punto.</p>
+             <p>Y sobre todo: <b>añadir un camino no puede empeorar nunca</b>. No existe, en ningún cálculo de
+             probabilidad clásico, una manera de abrir un camino nuevo y obtener <i>menos</i> posibilidades de
+             llegar. Las probabilidades son números entre 0 y 1: la suma de cosas positivas siempre crece.</p>
+             <p>Pruébalo: aquí abajo hay una fuente, dos caminos y un detector. En modo clásico intenta
+             <b>apagar</b> el detector abriendo el segundo camino — no lo conseguirás, y no es un defecto del
+             juego. Luego pasa al cuántico, donde el segundo camino puede llevar una amplitud <b>negativa</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'strade', title: 'Apagar abriendo', text: 'comprueba que en clásico no se puede, luego apaga el detector en cuántico con los dos caminos abiertos.', xp: 40 });
+        el.appendChild(m.root);
+        stradeCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Un ordenador clásico que «prueba muchos caminos» — un algoritmo aleatorizado, un Monte Carlo —
+             vive dentro de esta regla. Es el motivo por el que no puede hacer lo que acabas de hacer tú.</p>` +
+             confronto({
+               titolo: 'Probabilidades clásicas y amplitudes cuánticas',
+               livello: '00-caso',
+               vaiA: 'Repasa la probabilidad (nivel 0·4)',
+               classico: {
+                 titolo: 'Probabilidades',
+                 html: `<p>Números entre <b>0 y 1</b>. Dos caminos que llevan al mismo resultado: las
+                        probabilidades se <b>suman</b>.</p>
+                        <p class="mb0">Un camino de más no puede quitar: 0,3 + 0,2 = 0,5. No existe un −0,2 de
+                        probabilidad.</p>`,
+               },
+               quantistico: {
+                 titolo: 'Amplitudes',
+                 html: `<p>Números que pueden ser <b>negativos</b> (y más adelante, flechas que apuntan a
+                        cualquier sitio). Dos caminos: se suman las <b>amplitudes</b>, y solo al final se eleva
+                        al cuadrado.</p>
+                        <p class="mb0">+0,7 y −0,7 dan <b>cero</b>: abrir un camino más puede anular un resultado
+                        que antes era posible.</p>`,
+               },
+               numeri: [
+                 { cosa: 'dos caminos del 50%', classico: '0,5 + 0,5 = 100%', quantistico: '(0,7 − 0,7)² = 0%, o (0,7 + 0,7)² = 100%' },
+                 { cosa: 'añadir una posibilidad', classico: 'nunca puede empeorar', quantistico: 'puede cancelarla del todo' },
+                 { cosa: 'mezclar dos veces', classico: 'sigue siendo aleatorio', quantistico: 'H·H vuelve exactamente al principio' },
+               ],
+               verdetto: `<b>Aquí está la única diferencia de verdad entre los dos mundos, y es todo lo que el
+                          curso usará a partir de ahora.</b> El ordenador cuántico no «prueba todos los caminos»:
+                          hace que los caminos equivocados se anulen entre sí antes de que mires.`,
+             }),
+    },
     {
       t: 'Varios caminos para llegar al mismo resultado',
       html: `<p>Esta es la regla completa del cálculo cuántico, en dos líneas:</p>

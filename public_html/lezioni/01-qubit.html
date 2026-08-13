@@ -19,6 +19,8 @@
 import { renderLesson } from '../js/core/lesson.js';
 import { formula, stepper } from '../js/core/formula.js';
 import { qubitBuilder, coinVsQubit, hadamardMap, probabilitaQuadrato } from '../js/widgets/qubit.js';
+import { confronto } from '../js/core/confronto.js';
+import { registroCoppia } from '../js/widgets/coppie.js';
 import { polaroidLab } from '../js/widgets/quantum2.js';
 
 const L = renderLesson({
@@ -28,6 +30,53 @@ const L = renderLesson({
          già la differenza vera fra un qubit e una moneta truccata — che è la cosa che quasi nessuno sa spiegare.`,
 
   steps: [
+    {
+      t: 'Prima, in classico: un bit è un interruttore, e basta',
+      html: `<p>Il termine di paragone, in una riga: un <b>bit</b> è una casella che contiene <b>0 oppure 1</b>.
+             Non «un po' tutti e due», non «il 30% acceso». Se guardi il transistor che lo tiene, lo trovi in uno
+             dei due stati — anche mentre nessuno lo guarda.</p>
+             <p>E con <b>n</b> bit? Le configurazioni possibili sono 2ⁿ, ma il computer ne tiene <b>una sola</b>
+             per volta. Con 300 interruttori le configurazioni sarebbero più degli atomi dell'universo, e
+             comunque ne staresti usando una.</p>
+             <p>Prima di leggere altro, prova: qui sotto c'è lo stesso registro di tre caselle, con un
+             interruttore che cambia macchina. Leggilo cinque volte da computer normale, poi passa al
+             quantistico, metti tutte e tre le caselle in sovrapposizione e leggilo venti volte. La differenza
+             non è nella spiegazione, è nelle barre.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'registro', title: 'Lo stesso registro, due macchine', text: 'leggi il registro classico 5 volte, poi metti quello quantistico in sovrapposizione e misuralo 20 volte.', xp: 35 });
+        el.appendChild(m.root);
+        registroCoppia(el, { n: 3, onWin: () => m.complete() });
+      },
+      after: `<p>Tieni questa frase in mano mentre leggi il resto del livello: è l'unica cosa che sta per
+             cambiare, ed è per questo che cambia tutto.</p>` +
+             confronto({
+               titolo: 'Bit e qubit, riga per riga',
+               livello: 'k1-bit',
+               vaiA: 'Gioca con i bit veri (livello K·1)',
+               classico: {
+                 titolo: 'Il bit',
+                 html: `<ul class="mb0">
+                          <li>contiene <b>0 oppure 1</b></li>
+                          <li>guardarlo <b>non lo cambia</b></li>
+                          <li>si può <b>copiare</b> quanto vuoi</li>
+                          <li>n bit = <b>un</b> numero fra 2ⁿ</li>
+                        </ul>`,
+               },
+               quantistico: {
+                 titolo: 'Il qubit',
+                 html: `<ul class="mb0">
+                          <li>contiene <b>due numeri</b> (le ampiezze), che possono essere negativi</li>
+                          <li>guardarlo lo <b>riscrive</b>: la misura fa collassare lo stato</li>
+                          <li><b>non</b> si può copiare (livello 6)</li>
+                          <li>n qubit = <b>2ⁿ ampiezze insieme</b>, ma leggi n cifre</li>
+                        </ul>`,
+               },
+               verdetto: `<b>La riga che conta è la prima:</b> un'ampiezza può essere <b>negativa</b>, una
+                          probabilità no. Ed è solo perché possono essere negative che due possibilità riescono
+                          a <b>cancellarsi</b>. Senza quella cancellazione un qubit sarebbe una moneta truccata
+                          costosa.`,
+             }),
+    },
     {
       t: 'Un bit che può essere un po\' tutti e due',
       html: `<p>Un <b>bit</b> normale è una casella che contiene <b>0 oppure 1</b>. Punto. È come una lampadina:

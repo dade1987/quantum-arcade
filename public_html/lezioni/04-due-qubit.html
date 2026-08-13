@@ -18,6 +18,8 @@
 <script type="module">
 import { renderLesson } from '../js/core/lesson.js';
 import { twoQubitLab } from '../js/widgets/quantum2.js';
+import { confronto } from '../js/core/confronto.js';
+import { bellCoppia } from '../js/widgets/coppie.js';
 import { stepper, formula } from '../js/core/formula.js';
 
 const L = renderLesson({
@@ -27,6 +29,56 @@ const L = renderLesson({
          l'<b>entanglement</b>.`,
 
   steps: [
+    {
+      t: 'Prima, in classico: due bit, e le correlazioni che si possono fare',
+      html: `<p>Due bit classici hanno quattro configurazioni: 00, 01, 10, 11. Il computer ne tiene <b>una</b>.
+             Fin qui niente di nuovo.</p>
+             <p>Ma i due bit possono essere <b>correlati</b>, e questo si fa anche classicamente. Metti due
+             biglietti uguali in due buste — o tutti e due «0», o tutti e due «1» — mescola, e manda una busta
+             a Roma e una a Sydney. Chi apre a Roma sa immediatamente cosa c'è a Sydney. Non c'è niente di
+             misterioso: <b>l'informazione era già nella busta</b> da quando è partita.</p>
+             <p>E quello che le buste <b>non</b> sanno fare si può misurare, adesso, con un gioco. Alice e Bob
+             sono lontani e ricevono una domanda a testa; vincono il turno se le loro risposte stanno in un certo
+             rapporto con le domande. Con qualunque accordo preso prima di separarsi non si supera il <b>75%</b>
+             dei turni vinti — provale tutte. Con una coppia entangled si arriva all'<b>85%</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'bell', title: 'Il sorpasso del 75%', text: 'gioca 100 turni con le buste, poi 100 con l\'entanglement e supera il 78%.', xp: 45 });
+        el.appendChild(m.root);
+        bellCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>Quel sorpasso è l'esperimento che ha vinto il Nobel per la fisica nel 2022. Da qui in avanti,
+             quando fra poco leggerai «i due qubit entangled danno sempre lo stesso risultato», saprai che
+             <b>non</b> è quella la parte sorprendente: le buste fanno già così.</p>` +
+             confronto({
+               titolo: 'Correlazione classica e entanglement',
+               livello: 'k1-bit',
+               vaiA: 'Ripassa i bit (livello K·1)',
+               classico: {
+                 titolo: 'Due buste sigillate',
+                 html: `<p>Il contenuto è deciso <b>alla partenza</b>. Aprire una busta ti dice l'altra, ma non
+                        cambia niente: stai solo leggendo una cosa già scritta.</p>
+                        <p class="mb0">Le correlazioni classiche rispettano un limite preciso (le
+                        <b>disuguaglianze di Bell</b>): certe combinazioni di misure non superano mai il 75%
+                        di accordo.</p>`,
+               },
+               quantistico: {
+                 titolo: 'Due qubit entangled',
+                 html: `<p>Il contenuto <b>non è deciso</b> prima della misura — e non è ignoranza nostra, è
+                        dimostrato sperimentalmente.</p>
+                        <p class="mb0">Le stesse combinazioni di misure arrivano all'<b>85%</b> di accordo. È il
+                        numero che ha vinto il Nobel per la fisica nel 2022, ed è il modo in cui si distingue,
+                        in laboratorio, una busta da un entanglement.</p>`,
+               },
+               numeri: [
+                 { cosa: 'configurazioni possibili', classico: '4', quantistico: '4 ampiezze insieme' },
+                 { cosa: 'stato deciso prima della misura', classico: 'sì', quantistico: 'no' },
+                 { cosa: 'accordo massimo nel test di Bell', classico: '75%', quantistico: '~85% (misurato)' },
+               ],
+               verdetto: `<b>«Correlati» non basta a spiegare l'entanglement — le buste sono correlate.</b> Quello
+                          che le buste non possono fare è superare il 75%, e i qubit lo fanno. Da lì in avanti
+                          nessuna spiegazione «classica ma nascosta» regge più.`,
+             }),
+    },
     {
       t: 'Due qubit = quattro possibilità',
       html: `<p>Se hai due monete, i risultati possibili sono quattro: TT, TC, CT, CC. Con due qubit è uguale,

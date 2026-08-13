@@ -18,6 +18,7 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
 import { simonLab } from '../../js/widgets/algos.js';
 
 const L = renderLesson({
@@ -64,6 +65,32 @@ const L = renderLesson({
              <b>demostrado</b> que clásicamente no se puede hacer mejor. Es la primera separación exponencial
              demostrada de la historia de la computación cuántica (Daniel Simon, 1994) — y es el artículo que
              convenció a Peter Shor de buscar algo parecido para la factorización.</p>`,
+      after: confronto({
+        titolo: 'Encontrar un periodo escondido: los dos caminos',
+        livello: 'k5-costo',
+        vaiA: 'Repasa exponencial contra polinómico (nivel K·5)',
+        classico: {
+          titolo: 'Buscar una colisión',
+          html: `<p>Pides valores al azar y esperas a que dos coincidan. La paradoja de los cumpleaños te ayuda
+                 — no hacen falta 2^n preguntas sino su raíz — y aun así no basta.</p>
+                 <p class="mb0"><b>√(2^n)</b> preguntas: sigue siendo <b>exponencial</b> en el número de bits.</p>`,
+        },
+        quantistico: {
+          titolo: 'Simon',
+          html: `<p>Cada consulta cuántica no devuelve un valor, sino <b>una ecuación</b> que el secreto debe
+                 cumplir. Bastan n−1 ecuaciones independientes para clavarlo.</p>
+                 <p class="mb0">Unas <b>n</b> preguntas, más un sistema lineal que resolver: <b>polinómico</b>.</p>`,
+        },
+        numeri: [
+          { cosa: 'secreto de 40 bits', classico: '~1.000.000 preguntas', quantistico: '39' },
+          { cosa: 'secreto de 80 bits', classico: '~10²⁴ preguntas', quantistico: '79' },
+          { cosa: 'tipo de ganancia', classico: '—', quantistico: 'exponencial (demostrada)' },
+        ],
+        verdetto: `<b>Este es el salto que Grover no da.</b> Grover parte el exponente por la mitad; aquí el
+                   exponente desaparece. Toda la diferencia está en que aquí <b>hay</b> una estructura — una
+                   periodicidad escondida — y la interferencia sabe verla. Shor hará exactamente lo mismo sobre
+                   un periodo distinto.`,
+      }),
     },
     {
       t: 'Juega: el camino lento y el rápido',

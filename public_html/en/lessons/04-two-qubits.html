@@ -18,6 +18,8 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { twoQubitLab } from '../../js/widgets/quantum2.js';
+import { confronto } from '../../js/core/confronto.js';
+import { bellCoppia } from '../../js/widgets/coppie.js';
 import { stepper, formula } from '../../js/core/formula.js';
 
 const L = renderLesson({
@@ -27,6 +29,55 @@ const L = renderLesson({
          <b>entanglement</b>.`,
 
   steps: [
+    {
+      t: 'Classical first: two bits, and the correlations you can build',
+      html: `<p>Two classical bits have four configurations: 00, 01, 10, 11. The computer holds <b>one</b>.
+             Nothing new so far.</p>
+             <p>But the two bits can be <b>correlated</b>, and that works classically too. Put two identical
+             tickets into two envelopes — either both "0" or both "1" — shuffle them, and send one envelope to
+             Rome and one to Sydney. Whoever opens the one in Rome knows instantly what is in Sydney. Nothing
+             mysterious: <b>the information was already in the envelope</b> when it left.</p>
+             <p>And what envelopes <b>cannot</b> do can be measured, right now, with a game. Alice and Bob are
+             far apart and each receives a question; they win the round if their answers stand in a certain
+             relation to the questions. With any agreement made before separating you cannot pass <b>75%</b> of
+             rounds won — try them all. With an entangled pair you reach <b>85%</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'bell', title: 'Passing 75%', text: 'play 100 rounds with the envelopes, then 100 with entanglement and pass 78%.', xp: 45 });
+        el.appendChild(m.root);
+        bellCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>That overtaking is the experiment that won the 2022 Nobel Prize in physics. From here on, when
+             you shortly read "the two entangled qubits always give the same result", you will know that is
+             <b>not</b> the surprising part: envelopes already do that.</p>` +
+             confronto({
+               titolo: 'Classical correlation and entanglement',
+               livello: 'k1-bit',
+               vaiA: 'Review bits (level K·1)',
+               classico: {
+                 titolo: 'Two sealed envelopes',
+                 html: `<p>The content is decided <b>at departure</b>. Opening one envelope tells you the other,
+                        but changes nothing: you are just reading something already written.</p>
+                        <p class="mb0">Classical correlations obey a precise limit (<b>Bell's inequalities</b>):
+                        certain combinations of measurements never exceed 75% agreement.</p>`,
+               },
+               quantistico: {
+                 titolo: 'Two entangled qubits',
+                 html: `<p>The content is <b>not decided</b> before the measurement — and that is not our
+                        ignorance, it has been demonstrated experimentally.</p>
+                        <p class="mb0">The same combinations of measurements reach <b>85%</b> agreement. That is
+                        the number that won the 2022 Nobel Prize in physics, and it is how you tell an envelope
+                        from an entanglement in the lab.</p>`,
+               },
+               numeri: [
+                 { cosa: 'possible configurations', classico: '4', quantistico: '4 amplitudes together' },
+                 { cosa: 'state decided before measurement', classico: 'yes', quantistico: 'no' },
+                 { cosa: 'maximum agreement in a Bell test', classico: '75%', quantistico: '~85% (measured)' },
+               ],
+               verdetto: `<b>"Correlated" is not enough to explain entanglement — envelopes are correlated.</b>
+                          What envelopes cannot do is pass 75%, and qubits do. From there on, no
+                          "classical but hidden" explanation survives.`,
+             }),
+    },
     {
       t: 'Two qubits = four possibilities',
       html: `<p>If you have two coins, the possible results are four: HH, HT, TH, TT. With two qubits it is the same,

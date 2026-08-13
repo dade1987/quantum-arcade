@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K·3. La suma, tal como la hace de verdad el procesador — Quantum Arcade</title>
+<meta name="description" content="Cómo suma de verdad un procesador: acarreo, semisumador, sumador completo y sumador de 4 bits, construidos jugando. Y la comparación con la suma cuántica en superposición.">
+<link rel="canonical" href="https://quantumarcade.it/es/lecciones/k3-suma.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/k3-somma.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/k3-addition.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/k3-suma.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/k3-somma.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
+import { adderLab } from '../../js/widgets/classic.js';
+
+const L = renderLesson({
+  id: 'k3-somma',
+  lead: `Un procesador, en el fondo, sabe hacer poquísimas cosas. La primera y más importante es <b>sumar</b>.
+         Y la hace exactamente como la aprendiste en primaria: coloca en columna, suma una columna cada vez, y
+         cuando la columna se pasa <b>lleva una</b>. Con la diferencia de que las cifras son 0 y 1, y quien
+         lleva el acarreo son dos puertas lógicas.`,
+
+  steps: [
+    {
+      t: 'Una columna cada vez, con el acarreo',
+      html: `<p>En binario solo hay dos cifras, así que una columna se pasa enseguida: ya en 1 + 1.</p>
+             <div class="formula">0 + 0 = <b>0</b> &nbsp;&nbsp;·&nbsp;&nbsp; 0 + 1 = <b>1</b> &nbsp;&nbsp;·&nbsp;&nbsp;
+             1 + 0 = <b>1</b> &nbsp;&nbsp;·&nbsp;&nbsp; 1 + 1 = <b>10</b> → escribe 0, <span class="hl-k">llevas 1</span></div>
+             <p>Eso es todo. Haz tú las columnas en el juego: pon la cifra de la suma <b>y</b> el acarreo que
+             entra en la columna siguiente. Se empieza por la derecha, como en primaria.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'somma', title: 'El sumador a mano', text: 'completa dos sumas de 4 bits poniendo tú acarreos y cifras.', xp: 40 });
+        el.appendChild(m.root);
+        adderLab(el, { bits: 4, need: 2, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Las dos puertas que hacen una columna',
+      html: `<p>Mira la tabla de una columna cualquiera (de momento sin acarreo de entrada) y compárala con las
+             puertas del nivel K·2:</p>
+             <table class="table">
+               <tr><th>A</th><th>B</th><th>cifra de la suma</th><th>acarreo</th></tr>
+               <tr><td class="mono">0</td><td class="mono">0</td><td class="mono">0</td><td class="mono">0</td></tr>
+               <tr><td class="mono">0</td><td class="mono">1</td><td class="mono">1</td><td class="mono">0</td></tr>
+               <tr><td class="mono">1</td><td class="mono">0</td><td class="mono">1</td><td class="mono">0</td></tr>
+               <tr><td class="mono">1</td><td class="mono">1</td><td class="mono">0</td><td class="mono">1</td></tr>
+             </table>
+             <div class="callout key">La columna «cifra de la suma» <b>es</b> la tabla del XOR.
+             La columna «acarreo» <b>es</b> la tabla del AND. Es decir:
+             <br><code>suma = A XOR B</code> &nbsp;&nbsp;·&nbsp;&nbsp; <code>acarreo = A AND B</code>
+             <br>Dos puertas, y ya tienes el <b>semisumador</b> (half adder).</div>
+             <p>Falta una pieza porque cada columna, salvo la primera, recibe también el acarreo de la anterior:
+             tres bits de entrada en vez de dos. El <b>sumador completo</b> (full adder) son dos semisumadores
+             más un OR, y la cuenta sale así:</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Entradas', html: 'Tres bits: <b>A</b>, <b>B</b> y el <b>acarreo que entra</b> (Ain).' },
+          { h: 'Primera mitad', html: '<code>s1 = A XOR B</code> y <code>a1 = A AND B</code> — es el semisumador de antes.' },
+          { h: 'Segunda mitad', html: '<code>suma = s1 XOR Ain</code> y <code>a2 = s1 AND Ain</code>.' },
+          { h: 'El acarreo que sale', html: '<code>Aout = a1 OR a2</code>. Sale 1 si la columna vale al menos 2.' },
+          { h: 'Cuatro columnas en fila', html: 'El Aout de cada columna pasa a ser el Ain de la siguiente: es el <b>ripple-carry adder</b>, el sumador «en cascada». Cinco puertas por columna, veinte puertas para sumar dos números de 4 bits.' },
+          { h: 'El defecto', html: 'La columna 4 no puede empezar antes de que la 3 haya terminado: el acarreo es una <b>cadena</b>. Y por eso un procesador moderno no usa este esquema sino el <i>carry-lookahead</i>, que calcula los acarreos por adelantado — más puertas, menos espera.' },
+          { h: 'El desbordamiento', html: 'Con 4 bits el máximo es 15. 9 + 8 = 17 no cabe: el resultado «da la vuelta» y sale 1. Es el <b>overflow</b>, y es un fallo real — en 1996 el cohete Ariane 5 explotó por un desbordamiento de ese tipo.' },
+        ], { doneLabel: '¡Entendido el sumador!' });
+      },
+      after: confronto({
+        titolo: 'Sumar 3 + 5, en clásico y en cuántico',
+        livello: '05-circuiti',
+        vaiA: 'Ve al laboratorio de circuitos (nivel 5)',
+        classico: {
+          titolo: 'El sumador del procesador',
+          html: `<p>Pon 3 en el primer registro, 5 en el segundo, la corriente atraviesa una veintena de puertas
+                 y en el tercero aparece <b>8</b>. Siempre el mismo resultado, siempre el mismo tiempo.</p>
+                 <p class="mb0">¿Quieres saber también cuánto es 2 + 7? Vuelve a poner los interruptores y repite
+                 la vuelta. Una cuenta cada vez.</p>`,
+        },
+        quantistico: {
+          titolo: 'El sumador cuántico',
+          html: `<p>Las mismas columnas, pero con puertas <b>reversibles</b>: CNOT en vez del XOR, Toffoli en vez
+                 del AND (que por sí solo borraría información, y no se puede).</p>
+                 <p class="mb0">Si el primer registro está en <b>superposición</b> de 3 y 2, el sumador produce la
+                 superposición de 8 y 7 — las dos <b>en una sola pasada</b>. El problema es que al medir lees
+                 <b>una</b>, al azar. Hace falta algo más (la interferencia) para que esto sea útil.</p>`,
+        },
+        numeri: [
+          { cosa: 'puertas por columna', classico: '5 (XOR, AND, OR)', quantistico: 'unas 2 CNOT + 2 Toffoli' },
+          { cosa: 'sumas en una pasada', classico: '1', quantistico: 'todas las que estén en superposición' },
+          { cosa: 'resultados que puedes leer', classico: '1', quantistico: '1' },
+        ],
+        verdetto: `<b>Por eso «prueba todos los caminos a la vez» es media mentira.</b> El cálculo en paralelo
+                   existe de verdad, pero la lectura devuelve uno solo. Todos los algoritmos de este curso
+                   sirven para una sola cosa: conseguir que el resultado que sale sea el correcto en vez de
+                   uno al azar.`,
+      }),
+    },
+    {
+      t: '¿Y la resta, la multiplicación, todo lo demás?',
+      html: `<p>No hace falta un circuito nuevo para cada una:</p>
+             <ul>
+               <li><b>Resta:</b> se suma el negativo. En binario el negativo se escribe en <i>complemento a dos</i>
+                   — da la vuelta a todos los bits y suma 1 — precisamente para que la resta sea una suma y se
+                   reutilice el sumador que acabas de montar.</li>
+               <li><b>Multiplicación:</b> sumas repetidas y desplazamientos. Desplazar todos los bits un lugar a
+                   la izquierda <b>duplica</b> el número: en base diez añadir un cero al final multiplica por
+                   diez, en base dos multiplica por dos.</li>
+               <li><b>División, raíces, senos y cosenos:</b> todo construido sobre sumas, desplazamientos y
+                   comparaciones, repetidos muchas veces.</li>
+             </ul>
+             <div class="callout"><b>Para guardar hasta el nivel 20:</b> también el algoritmo de Shor, al final,
+             necesita hacer aritmética — multiplicaciones y exponenciación modular — dentro del ordenador
+             cuántico. Y es esa parte, no la transformada de Fourier, la que ocupa la mayoría de los cúbits de
+             una implementación real.</div>`,
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> En el juego, prueba a sumar dos números cuya suma pase de 15: ¿dónde acaba el bit que sobra?</p>
+        <p><b>2.</b> ¿Cuántas puertas hacen falta para sumar dos números de 64 bits con el esquema en cascada? ¿Y cómo de larga es la cadena de acarreos?</p>
+        <p><b>3.</b> Comprueba el complemento a dos con 4 bits: escribe 5 (0101), dale la vuelta (1010), suma 1 (1011). Ahora suma 0101 + 1011 en 4 bits: ¿qué sale, tirando el desbordamiento?</p>
+        <p class="mb0"><b>4.</b> De inventor: el acarreo es una cadena y por eso frena. ¿Se te ocurre una forma de adivinar por adelantado si una columna generará acarreo, sin esperar a las anteriores? <span class="muted">(quien lo consiguió inventó el carry-lookahead, y está dentro de todos los procesadores)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'En una columna de suma binaria, la cifra del resultado se obtiene con…',
+      options: ['A AND B', 'A OR B', 'A XOR B', 'NOT A'], correct: 2,
+      why: 'XOR: 0+0=0, 0+1=1, 1+0=1, 1+1=0 (con acarreo). El acarreo es en cambio A AND B.' },
+    { q: '¿Por qué las columnas no se pueden sumar todas en paralelo?',
+      options: ['porque el procesador tiene un solo núcleo', 'porque el acarreo de una columna hace falta en la siguiente', 'para ahorrar corriente', 'porque el binario se lee de derecha a izquierda'], correct: 1,
+      why: 'Es una cadena de dependencias. El carry-lookahead existe justo para romperla, gastando más puertas.' },
+    { q: 'Un sumador cuántico usa Toffoli en lugar de AND porque…',
+      options: ['es más rápido', 'AND no es reversible y tiraría información', 'Toffoli trabaja con más bits', 'AND no existe en cuántica'], correct: 1,
+      why: 'Toda puerta cuántica debe ser reversible. Toffoli se queda las entradas y escribe el resultado en un bit de más.' },
+    { q: 'Si sumas dos números en superposición, ¿cuántos resultados puedes LEER al final?',
+      options: ['todos', 'uno solo, al azar', 'dos', 'ninguno'], correct: 1,
+      why: 'La medida devuelve una sola configuración. El paralelismo está en el cálculo, no en la lectura: por eso hace falta la interferencia.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas:</b> sumar es colocar en columna y llevar el acarreo, y en
+          silicio son dos puertas por columna más una cadena. Lo cuántico rehace las mismas columnas con puertas
+          reversibles, y las puede hacer sobre varios números a la vez — pero la lectura sigue siendo una sola.
+          Siguiente nivel: buscar algo, y contar cuánto cuesta.</div>`,
+});
+</script>
+</body>
+</html>

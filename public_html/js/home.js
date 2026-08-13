@@ -1,6 +1,6 @@
 /* Home: mappa dei livelli, blocchi di padronanza, ripasso spaziato. */
 
-import { LEVELS, PARTS, TOTAL_XP, rankFor, levelById } from './core/levels.js';
+import { LEVELS, PARTS, TOTAL_XP, rankFor, levelById, isMain } from './core/levels.js';
 import * as store from './core/store.js';
 import { h, langButton, suggerimentoLingua } from './core/ui.js';
 import { sfx, wireSounds, soundButton } from './core/audio.js';
@@ -95,7 +95,11 @@ function renderStatus() {
   document.getElementById('progress-line').innerHTML =
     t('Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli superati', { grado: rankFor(st.xp).name, xp: st.xp, fatti: done, totali: LEVELS.length }) +
     (done === 0 ? t(' — si comincia quando vuoi.') : '');
-  const first = LEVELS.filter(l => l.part !== '0').find(l => !store.isLessonDone(l.id) && store.isUnlocked(l.id)) || LEVELS[3];
+  /* "Continua" punta sempre al percorso principale: le parti facoltative si
+     scelgono, non si subiscono, e chi torna dopo una settimana vuole riprendere
+     da dove si era fermato, non dal primo livello di ripasso che non ha fatto. */
+  const main = LEVELS.filter(isMain);
+  const first = main.find(l => !store.isLessonDone(l.id) && store.isUnlocked(l.id)) || main[0];
   const cont = document.getElementById('continue');
   cont.href = first.file;
   cont.textContent = (done ? '▶ ' + t('Continua — livello :n: :titolo', { n: first.n, titolo: first.title }) : '▶ ' + t('Inizia dal livello 1'));

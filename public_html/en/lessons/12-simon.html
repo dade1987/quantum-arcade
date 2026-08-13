@@ -18,6 +18,7 @@
 <script type="module">
 import { renderLesson } from '../../js/core/lesson.js';
 import { stepper } from '../../js/core/formula.js';
+import { confronto } from '../../js/core/confronto.js';
 import { simonLab } from '../../js/widgets/algos.js';
 
 const L = renderLesson({
@@ -64,6 +65,32 @@ const L = renderLesson({
              <b>proven</b> that classically you cannot do better. It is the first proven exponential separation
              in the history of quantum computing (Daniel Simon, 1994) — and it is the paper that
              convinced Peter Shor to look for something similar for factorisation.</p>`,
+      after: confronto({
+        titolo: 'Finding a hidden period: the two roads',
+        livello: 'k5-costo',
+        vaiA: 'Review exponential against polynomial (level K·5)',
+        classico: {
+          titolo: 'Hunting for a collision',
+          html: `<p>You ask for random values and wait for two to match. The birthday paradox helps you — you do
+                 not need 2^n questions but their square root — and it still is not enough.</p>
+                 <p class="mb0"><b>√(2^n)</b> questions: still <b>exponential</b> in the number of bits.</p>`,
+        },
+        quantistico: {
+          titolo: 'Simon',
+          html: `<p>Every quantum query returns not a value but <b>an equation</b> the secret must satisfy.
+                 n−1 independent equations are enough to pin it down.</p>
+                 <p class="mb0">About <b>n</b> questions, plus a linear system to solve: <b>polynomial</b>.</p>`,
+        },
+        numeri: [
+          { cosa: '40-bit secret', classico: '~1,000,000 questions', quantistico: '39' },
+          { cosa: '80-bit secret', classico: '~10²⁴ questions', quantistico: '79' },
+          { cosa: 'kind of gain', classico: '—', quantistico: 'exponential (proved)' },
+        ],
+        verdetto: `<b>This is the jump Grover does not make.</b> Grover halves the exponent; here the exponent
+                   disappears. The whole difference is that here there <b>is</b> a structure — a hidden
+                   periodicity — and interference can see it. Shor will do exactly the same thing on a
+                   different period.`,
+      }),
     },
     {
       t: 'Play with it: the slow road and the fast one',
