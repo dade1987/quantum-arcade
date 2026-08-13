@@ -128,7 +128,7 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (152 test) + validatore + stato delle lingue
+npm test                 # motore del gioco (163 test) + validatore + stato delle lingue
 npm run test:coverage    # copertura del frontend
 npm run test:php         # 124 test dei moduli Laravel
 npm run test:php:coverage

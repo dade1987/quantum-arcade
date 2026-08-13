@@ -1698,6 +1698,49 @@ export default {
   'La tua rete fa <b>:mia</b>, il bersaglio è <b>:bersaglio</b>.': 'Your network gives <b>:mia</b>, the target is <b>:bersaglio</b>.',
   'Costruite finora: <b>:elenco</b>': 'Built so far: <b>:elenco</b>',
   'è esattamente :porta, fatta di soli NAND.': 'that is exactly :porta, made of NANDs only.',
+  '<b>G1, G2, G3, G4</b> sono le quattro porte NAND che hai a disposizione — <b>G</b> sta per <i>gate</i>, porta. Per ognuna scegli da dove arrivano i suoi due ingressi: da A, da B, oppure dall\'uscita di una porta precedente.':
+    '<b>G1, G2, G3, G4</b> are the four NAND gates you get — <b>G</b> is for <i>gate</i>. For each one you choose where its two inputs come from: from A, from B, or from the output of an earlier gate.',
+  '<b>Uscita della rete</b> dice quale di quelle quattro porte leggi alla fine: il bit che esce da lei è il risultato di tutta la rete. Le altre porte, se non arrivano fin lì, non contano niente.':
+    '<b>Network output</b> says which of those four gates you read at the end: the bit coming out of it is the result of the whole network. Any other gate that does not reach it counts for nothing.',
+  'gli ingressi sono due — tocca per cambiarli': 'there are two inputs — tap to flip them',
+  'adesso stai provando il caso :caso, la colonna :caso qui sotto':
+    'right now you are trying case :caso, column :caso below',
+  scollegata: 'not wired in',
+  'azzera la rete': 'clear the network',
+  'con A=:a e B=:b (colonna :caso):': 'with A=:a and B=:b (column :caso):',
+  '(:elenco non arrivano all\'uscita: non contano)': '(:elenco never reach the output: they do not count)',
+  'La colonna azzurra è la stessa porta provata in tutti e quattro i casi: <b>un</b> bit alla volta, quattro volte.':
+    'The cyan column is that same gate tried in all four cases: <b>one</b> bit at a time, four times over.',
+  'Adesso dalla rete esce <b>un</b> bit solo: :bit. Le quattro cifre qui sotto sono le quattro risposte, una per ogni caso di A e B.':
+    'Right now <b>one</b> bit comes out of the network: :bit. The four digits below are the four answers, one per case of A and B.',
+  'nessuno, un filo va all\'indietro': 'none, one wire runs backwards',
+  'Hai usato :usate porte: lo stesso risultato si ottiene con :minimo. Guarda la catena: qualche porta rifà un lavoro già fatto (due NOT di fila si annullano).':
+    'You used :usate gates: the same result needs only :minimo. Look at the chain: some gate is redoing work already done (two NOTs in a row cancel out).',
+  'E con :minimo porte, che è il minimo per questa ricetta.': 'And with :minimo gates, which is the minimum for this recipe.',
+
+  /* NAND workshop — the recipe, revealed one step at a time */
+  '👣 fammi vedere i passi': '👣 show me the steps',
+  'nascondi i passi': 'hide the steps',
+  'passo successivo (:passo di :quanti)': 'next step (:passo of :quanti)',
+  '<b>:passo.</b> G:gate: ingresso 1 = <b>:uno</b>, ingresso 2 = <b>:due</b> — :motivo Controlla G:gate: deve fare <b>:firma</b>.':
+    '<b>:passo.</b> G:gate: input 1 = <b>:uno</b>, input 2 = <b>:due</b> — :motivo Check G:gate: it must give <b>:firma</b>.',
+  '<b>:passo.</b> Uscita della rete = <b>G:gate</b>. Ecco :porta con :quante porte, e ogni passo si vede da solo nella catena qui sotto.':
+    '<b>:passo.</b> Network output = <b>G:gate</b>. There is :porta with :quante gates, and every step shows for itself in the chain below.',
+  'lo stesso filo nei due ingressi: «non (A e A)» è «non A».':
+    'the same wire in both inputs: "not (A and A)" is "not A".',
+  'un NAND è l\'AND rovesciato: 1110 è 0001 con gli 0 e gli 1 scambiati.':
+    'a NAND is the AND turned over: 1110 is 0001 with the 0s and 1s swapped.',
+  'un NAND con lo stesso filo due volte fa da NOT: rovescia G1 e resta l\'AND.':
+    'a NAND with the same wire twice acts as a NOT: it turns G1 over and the AND is left.',
+  'questo è NOT A.': 'this one is NOT A.',
+  'e questo è NOT B.': 'and this one is NOT B.',
+  'De Morgan: «non (non A e non B)» è «A oppure B».': 'De Morgan: "not (not A and not B)" is "A or B".',
+  'il NAND di partenza: vale 0 solo quando A e B sono tutti e due 1.':
+    'the starting NAND: it is 0 only when A and B are both 1.',
+  'vale 0 solo nel caso A=1, B=0.': 'it is 0 only in the case A=1, B=0.',
+  'vale 0 solo nel caso opposto, A=0, B=1.': 'it is 0 only in the opposite case, A=0, B=1.',
+  'il NAND dei due: dà 1 esattamente quando A e B sono diversi.':
+    'the NAND of those two: it gives 1 exactly when A and B differ.',
   '<b>Perché conta:</b> un tipo solo di porta basta per costruire qualunque calcolo — si dice che il NAND è <b>universale</b>. Anche il computer quantistico ha i suoi insiemi universali di porte, e ci si arriva con lo stesso ragionamento: pochi mattoni, combinati, fanno tutto il resto.':
     '<b>Why it matters:</b> a single kind of gate is enough to build any computation — NAND is said to be <b>universal</b>. Quantum computers have universal gate sets too, reached by the same reasoning: a few bricks, combined, make all the rest.',
 

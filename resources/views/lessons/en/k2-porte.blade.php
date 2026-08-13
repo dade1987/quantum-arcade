@@ -54,8 +54,26 @@ const L = renderLesson({
                <li><b>OR</b> = NAND(NOT A, NOT B) — this is De Morgan's law</li>
                <li><b>XOR</b> = four NANDs, and it is the piece you need in order to add</li>
              </ul>
-             <p>Build them in the workshop below: choose where each wire comes from and watch the truth table
-             change until it matches the target.</p>`,
+             <div class="callout warn"><b>Before you build, the thing that confuses everybody.</b> In the
+             workshop below every gate is summed up by <b>four digits</b> — <span class="mono">0001</span>,
+             say. Those are not four outputs: the inputs are still <b>two</b>, A and B, and <b>one single
+             bit</b> comes out of each gate. The four digits are that same gate <b>tried four times</b>, once
+             per possible combination of A and B — <span class="mono">00</span>, <span class="mono">01</span>,
+             <span class="mono">10</span>, <span class="mono">11</span>: it is the truth table above, written
+             on a single line. In the workshop A and B are real switches: flip them and watch which of the four
+             columns you are trying right now.</div>
+             <p><b>How to read the workshop.</b> You get four NAND gates, called
+             <span class="mono">G1 G2 G3 G4</span> — the <b>G</b> is for <i>gate</i>. For each one you choose
+             where its two inputs come from: from A, from B, or from the output of an <b>earlier</b> gate
+             (backwards is not allowed: in a real circuit that wire would have nothing to carry yet). The
+             <b>network output</b> is the last choice to make, and it says which of the four gates you read at
+             the end: the bit coming out of that one is the result of the whole network, and any gate that does
+             not reach it counts for nothing.</p>
+             <p>Then build: choose where each wire comes from. Every box tells you where it takes its two
+             inputs from, which bit comes out of it <i>right now</i>, and its full table, so you can check the
+             chain one piece at a time instead of guessing. If you would rather follow the recipe, the
+             <b>"show me the steps"</b> button reveals it one step at a time, and each step says which number
+             must come out: if that is not what you get, the mistake is right there.</p>`,
       mount: (el, api) => {
         const m = api.mission({ key: 'nand', title: 'NAND workshop', text: 'build NOT, AND and OR using NAND gates only.', xp: 45 });
         el.appendChild(m.root);
