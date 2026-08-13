@@ -75,6 +75,9 @@ export const VOCI = [
   { id: 'fft', liv: ['17-fft'], voce: t('FFT'),
     def: t('Algoritmo classico che calcola la DFT in N·log N invece di N² (dividi et impera).') },
 
+  { id: 'frazioni-continue', liv: ['00-orologio', '20-shor'], voce: t('Frazioni continue'), alt: t('frazione continua'),
+    def: t("Il modo di trovare la frazione più semplice vicinissima a un numero decimale. In Shor traducono il numero misurato nel periodo cercato: il denominatore è la risposta.") },
+
   { id: 'frequenza', liv: ['13-onde'], voce: t('Frequenza'), alt: t('frequenze'),
     def: t('Quanti cicli al secondo (Hz). Inversa del periodo: f = 1/T.') },
 
@@ -87,8 +90,14 @@ export const VOCI = [
   { id: 'interferenza', liv: ['07-interferenza'], voce: t('Interferenza'), alt: t('interferenze, interferire, interferiscono'),
     def: t('Le ampiezze si sommano prima del quadrato: quelle concordi si rinforzano, quelle opposte si annullano.') },
 
+  { id: 'mcd', liv: ['00-orologio', '20-shor'], voce: t('MCD (massimo comune divisore)'), alt: t('massimo comune divisore, massimi comuni divisori'),
+    def: t("Il numero più grande che divide due numeri senza lasciare resto. Si trova con l'algoritmo di Euclide, ed è l'ultimo passo — tutto classico — dell'algoritmo di Shor.") },
+
   { id: 'misura', liv: ['01-qubit', '02-bloch'], voce: t('Misura'), alt: t('misure, misurare, misurazione'),
     def: t('Operazione irreversibile: sceglie un risultato a caso secondo |ampiezza|² e riscrive lo stato.') },
+
+  { id: 'modulo', liv: ['00-orologio'], voce: t('Modulo (mod)'), alt: t('aritmetica modulare, mod'),
+    def: t("Il resto della divisione: 17 mod 5 = 2. Contare «mod N» vuol dire contare a giri su un quadrante da N ore, come sull'orologio.") },
 
   { id: 'no-cloning', liv: ['06-teletrasporto'], voce: t('No-cloning'), alt: t('teorema di no-cloning'),
     def: t('Non esiste una macchina che copia uno stato quantistico sconosciuto.') },
@@ -99,8 +108,8 @@ export const VOCI = [
   { id: 'oracolo', liv: ['09-deutsch'], voce: t('Oracolo'), alt: t('oracoli'),
     def: t("Scatola nera che marca con un segno meno gli stati che soddisfano una condizione: scrive l'informazione nelle fasi.") },
 
-  { id: 'periodo', liv: ['13-onde'], voce: t('Periodo'), alt: t('periodi, periodicità'),
-    def: t('Ogni quanto una cosa si ripete. T = 1/f.') },
+  { id: 'periodo', liv: ['00-orologio', '13-onde'], voce: t('Periodo'), alt: t('periodi, periodicità'),
+    def: t("Ogni quanto una cosa si ripete. Per un'onda T = 1/f; per la sequenza a^x mod N è dopo quanti passi si ritorna sull'1, ed è il numero che Shor va a cercare.") },
 
   { id: 'phase-kickback', liv: ['09-deutsch', '19-qpe'], voce: t('Phase kickback'), alt: t('kickback'),
     def: t('Il trucco per cui la fase generata da un oracolo "rimbalza" sul registro di controllo.') },

@@ -121,7 +121,7 @@
     <span class="tag cyan">🎮 free game-course in English</span>
     <h1 style="margin-top:14px">Learn quantum computing<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">by actually playing it.</span></h1>
     <p class="lead">
-      Thirty-four interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
+      Thirty-five interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
       (amplitude, frequency and phase: the three knobs that fully describe a sine wave — the period is just
       frequency the other way round, T = 1/f) and arrive at the <b>quantum Fourier transform</b> and <b>Shor's algorithm</b>.
       Every formula is taken apart piece by piece, and every piece is something you can

@@ -13,7 +13,7 @@
 export default {
   /* ---------------- mapa, partes, rangos ---------------- */
   'Parte 0 — Le basi (per chi parte proprio da zero)': 'Parte 0 — Las bases (para quien empieza desde cero)',
-  'Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità. Per chi ha finito le medie. Facoltativa se le sai già.':
+  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri. Per chi ha finito le medie. Facoltativa se le sai già.":
     'Números, porcentajes, coordenadas, grados, seno y coseno, probabilidad. Nivel de secundaria. Opcional si ya lo sabes.',
   'Parte A — Il qubit, subito': 'Parte A — El cúbit, ya mismo',
   'Sovrapposizione, misura, porte, entanglement, circuiti. Con ampiezze positive e negative: nessuna matematica difficile.':
@@ -2121,8 +2121,8 @@ export default {
   "Scatola nera che marca con un segno meno gli stati che soddisfano una condizione: scrive l'informazione nelle fasi.":
     'Caja negra que marca con un signo menos los estados que cumplen una condición: escribe la información en las fases.',
   'Periodo': 'Periodo',
-  'Ogni quanto una cosa si ripete. T = 1/f.':
-    'Cada cuánto se repite una cosa. T = 1/f.',
+  "Ogni quanto una cosa si ripete. Per un'onda T = 1/f; per la sequenza a^x mod N è dopo quanti passi si ritorna sull'1, ed è il numero che Shor va a cercare.":
+    'Cada cuánto se repite algo. Para una onda T = 1/f; para la secuencia a^x mod N es tras cuántos pasos se vuelve al 1, y es el número que Shor va a buscar.',
   'Phase kickback': 'Phase kickback',
   'Il trucco per cui la fase generata da un oracolo "rimbalza" sul registro di controllo.':
     'El truco por el que la fase generada por un oráculo "rebota" sobre el registro de control.',
@@ -2190,4 +2190,108 @@ export default {
   'sovrapposizioni': 'superposiciones',
   'teletrasportare': 'teletransportar',
   'unitaria, unitarie, operazione unitaria': 'unitaria, unitarias, operación unitaria',
+  /* ---------------- livello 0·5: l'orologio dei numeri ---------------- */
+  ":giri giri + :resto":
+    ":giri vueltas + :resto",
+  "<b>:numero</b> diviso :ore fa :giri con il resto di <b>:resto</b>.":
+    "<b>:numero</b> dividido entre :ore da :giri con resto <b>:resto</b>.",
+  "<b>Da portarsi dietro:</b> «mod» non è un'operazione strana, è <b>il resto della divisione</b>. E i numeri che finiscono nella stessa ora — 3, 10, 17, 24 con un quadrante da 7 — per l'orologio sono <b>la stessa cosa</b>. Nel livello di Shor l'orologio avrà N ore, con N il numero da fattorizzare.":
+    "<b>Para llevarte:</b> «mod» no es una operación rara, es <b>el resto de la división</b>. Y los números que caen en la misma hora — 3, 10, 17, 24 con una esfera de 7 — para el reloj son <b>la misma cosa</b>. En el nivel de Shor la esfera tendrá N horas, siendo N el número que hay que factorizar.",
+  "<b>Perché ci servirà:</b> è l'algoritmo di Euclide, di circa 2300 anni fa, e in Shor è <b>l'ultimo passo</b>: trovato il periodo, i fattori del numero saltano fuori con due massimi comuni divisori. Su numeri da centinaia di cifre ci mette meno di un battito di ciglia — il collo di bottiglia è tutto altrove.":
+    "<b>Por qué nos servirá:</b> es el algoritmo de Euclides, de hace unos 2300 años, y en Shor es <b>el último paso</b>: hallado el periodo, los factores del número salen con dos máximos comunes divisores. Con números de cientos de cifras tarda menos que un parpadeo: el cuello de botella está en otra parte.",
+  "<b>Qui c'è tutto Shor:</b> fattorizzare un numero N si riduce a trovare questo ritmo r. Su un quadrante da 15 lo si vede a occhio; su un N da 600 cifre nemmeno tutti i computer del mondo messi insieme ci arrivano, perché i passi da provare sono troppi. Il computer quantistico non prova i passi uno per uno: li fa <b>tutti insieme</b> e poi usa la trasformata di Fourier per far emergere il ritmo. È il livello :n.":
+    "<b>Aquí está todo Shor:</b> factorizar un número N se reduce a encontrar este ritmo r. En una esfera de 15 se ve a simple vista; con una N de 600 cifras no llegan ni todos los ordenadores del mundo juntos, porque los pasos que habría que probar son demasiados. El ordenador cuántico no prueba los pasos uno por uno: los hace <b>todos a la vez</b> y luego usa la transformada de Fourier para hacer emerger el ritmo. Es el nivel :n.",
+  "Avanza sempre un rettangolo più piccolo: è per questo che il metodo finisce presto. Continua.":
+    "Siempre sobra un rectángulo más pequeño: por eso el método termina pronto. Sigue.",
+  "Contare a giri, il pavimento di Euclide e il ritmo di a^x mod N: la matematica classica che sta dentro Shor.":
+    "Contar dando vueltas, el suelo de Euclides y el ritmo de a^x mod N: la matemática clásica que hay dentro de Shor.",
+  "Esatto: r = :r. Prova ora un'altra coppia (N, a): il ritmo cambia.":
+    "Exacto: r = :r. Prueba ahora otra pareja (N, a): el ritmo cambia.",
+  "Il bersaglio è <b>:ora</b>: cerca un numero che finisca lì. Ce ne sono infiniti, distanti :ore l'uno dall'altro.":
+    "El objetivo es <b>:ora</b>: busca un número que caiga ahí. Hay infinitos, separados exactamente por :ore.",
+  "Il moltiplicatore (a)":
+    "El multiplicador (a)",
+  "Il numero da contare":
+    "El número que hay que contar",
+  "Il pavimento di Euclide":
+    "El suelo de Euclides",
+  "Il quadrante (N)":
+    "La esfera (N)",
+  "Il ritmo che torna":
+    "El ritmo que vuelve",
+  "L'orologio dei numeri":
+    "El reloj de los números",
+  "L'orologio dei numeri: resto, MCD e ritmi che tornano":
+    "El reloj de los números: resto, MCD y ritmos que vuelven",
+  "L'ultimo quadrato ha lato <b>:mcd</b>: è il righello più grande che misura per intero sia :a sia :b. Si chiama <b>massimo comune divisore</b>.":
+    "El último cuadrado tiene lado <b>:mcd</b>: es la regla más larga que mide por entero tanto :a como :b. Se llama <b>máximo común divisor</b>.",
+  "No: conta i passi disegnati, l'1 di partenza non si conta.":
+    "No: cuenta los pasos dibujados, el 1 de partida no cuenta.",
+  "Ogni passo è «moltiplica per :a e prendi il resto della divisione per :N». Continua finché non ricompare l'1.":
+    "Cada paso es «multiplica por :a y toma el resto de la división entre :N». Sigue hasta que reaparezca el 1.",
+  "Pavimento <b>:a × :b</b>. Quadrati posati finora (lato): :lati":
+    "Suelo <b>:a × :b</b>. Cuadrados colocados hasta ahora (lado): :lati",
+  "Quadrante <b>:N</b>, moltiplicatore <b>:a</b>. Passeggiata: :seq":
+    "Esfera <b>:N</b>, multiplicador <b>:a</b>. Paseo: :seq",
+  "Quante ore ha il quadrante":
+    "Cuántas horas tiene la esfera",
+  "Sei tornato sull'1 dopo <b>:quanti</b> passi. Quel numero si chiama <b>periodo</b> e si scrive r.":
+    "Has vuelto al 1 tras <b>:quanti</b> pasos. Ese número se llama <b>periodo</b> y se escribe r.",
+  "altra coppia":
+    "otra pareja",
+  "cambia bersaglio":
+    "cambiar objetivo",
+  "conta oltre la fine del quadrante e guarda dove ti fermi":
+    "cuenta más allá del final de la esfera y mira dónde te paras",
+  "sempre il più grande che ci sta — risolti: :fatte su :totali":
+    "siempre el más grande que quepa — resueltos: :fatte de :totali",
+  "copri :a × :b con quadrati":
+    "cubre :a × :b con cuadrados",
+  "porta la lancetta sul :ora":
+    "para la aguja en :ora",
+  "fino in fondo":
+    "hasta el final",
+  "il periodo è :n":
+    "el periodo es :n",
+  "moltiplica":
+    "multiplica",
+  "moltiplica sempre per lo stesso numero: quando ripassi dall'1?":
+    "multiplica siempre por el mismo número: ¿cuándo vuelves a pasar por el 1?",
+  "passi fatti: :quanti":
+    "pasos dados: :quanti",
+  "piastrelle quadrate, tutte uguali alla fine: quanto misura il lato?":
+    "baldosas cuadradas, todas iguales: ¿cuánto mide el lado?",
+  "premi «taglia» e guarda cosa avanza":
+    "pulsa «corta» y mira lo que sobra",
+  "torna sull'1 premendo ×:a":
+    "vuelve al 1 pulsando ×:a",
+  "ritmi trovati: :fatti su :totali":
+    "ritmos encontrados: :fatti de :totali",
+  "sul bersaglio! Numeri diversi trovati: :fatti su :totali":
+    "¡en el objetivo! Números distintos encontrados: :fatti de :totali",
+  "taglia un quadrato":
+    "corta un cuadrado",
+  "servono :totali numeri diversi — trovati: :fatti":
+    "hacen falta :totali números distintos — encontrados: :fatti",
+  "ultimo quadrato: lato :lato = MCD(:a, :b)":
+    "último cuadrado: lado :lato = MCD(:a, :b)",
+  /* ---------------- glossario: modulo, MCD, frazioni continue ---------------- */
+  "Frazioni continue":
+    "Fracciones continuas",
+  "Il modo di trovare la frazione più semplice vicinissima a un numero decimale. In Shor traducono il numero misurato nel periodo cercato: il denominatore è la risposta.":
+    "La forma de encontrar la fracción más simple pegadísima a un número decimal. En Shor traducen el número medido en el periodo buscado: el denominador es la respuesta.",
+  "Il numero più grande che divide due numeri senza lasciare resto. Si trova con l'algoritmo di Euclide, ed è l'ultimo passo — tutto classico — dell'algoritmo di Shor.":
+    "El número más grande que divide a dos números sin dejar resto. Se encuentra con el algoritmo de Euclides y es el último paso — completamente clásico — del algoritmo de Shor.",
+  "Il resto della divisione: 17 mod 5 = 2. Contare «mod N» vuol dire contare a giri su un quadrante da N ore, come sull'orologio.":
+    "El resto de la división: 17 mod 5 = 2. Contar «mod N» significa contar dando vueltas en una esfera de N horas, como en el reloj.",
+  "MCD (massimo comune divisore)":
+    "MCD (máximo común divisor)",
+  "Modulo (mod)":
+    "Módulo (mod)",
+  "aritmetica modulare, mod":
+    "aritmética modular, mod",
+  "frazione continua":
+    "fracción continua",
+  "massimo comune divisore, massimi comuni divisori":
+    "máximo común divisor, máximos comunes divisores",
 };

@@ -1,8 +1,8 @@
 @extends('layouts.page', [
     'title' => 'Quantum Arcade — Informatica quantistica giocando | corso interattivo gratuito in italiano',
-    'description' => 'Corso-videogioco gratuito in italiano per imparare l\'informatica quantistica da zero: onde, fase, numeri complessi, trasformata di Fourier (DFT), qubit, porte, entanglement, Grover, QFT e algoritmo di Shor. 34 livelli interattivi con simulatore quantistico reale. Di Davide Cavallini.',
+    'description' => 'Corso-videogioco gratuito in italiano per imparare l\'informatica quantistica da zero: onde, fase, numeri complessi, trasformata di Fourier (DFT), qubit, porte, entanglement, Grover, QFT e algoritmo di Shor. 35 livelli interattivi con simulatore quantistico reale. Di Davide Cavallini.',
     'ogTitle' => 'Quantum Arcade — impara l\'informatica quantistica giocando',
-    'ogDescription' => '34 livelli interattivi in italiano: dalle onde alla trasformata di Fourier quantistica e all\'algoritmo di Shor. Con simulatore quantistico vero e sblocco per padronanza.',
+    'ogDescription' => '35 livelli interattivi in italiano: dalle onde alla trasformata di Fourier quantistica e all\'algoritmo di Shor. Con simulatore quantistico vero e sblocco per padronanza.',
 ])
 
 @push('head')
@@ -15,7 +15,7 @@
       "@type": "Course",
       "@id": "https://quantumarcade.it/#course",
       "name": "Quantum Arcade — Informatica quantistica giocando",
-      "description": "Corso interattivo gratuito in italiano che insegna l'informatica quantistica partendo dalle onde e dalla trasformata di Fourier fino alla QFT e all'algoritmo di Shor, tramite 34 livelli giocabili con simulatore quantistico a vettore di stato.",
+      "description": "Corso interattivo gratuito in italiano che insegna l'informatica quantistica partendo dalle onde e dalla trasformata di Fourier fino alla QFT e all'algoritmo di Shor, tramite 35 livelli giocabili con simulatore quantistico a vettore di stato.",
       "inLanguage": "it",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
@@ -126,7 +126,7 @@
     <span class="tag cyan">🇮🇹 corso-videogioco gratuito in italiano</span>
     <h1 style="margin-top:14px">Impara l'informatica quantistica<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">giocandoci davvero.</span></h1>
     <p class="lead">
-      Trentaquattro livelli interattivi che partono dalle <b>basi di matematica delle medie</b>, passano dalle <b>onde</b>
+      Trentacinque livelli interattivi che partono dalle <b>basi di matematica delle medie</b>, passano dalle <b>onde</b>
       (ampiezza, frequenza e fase: le tre manopole che bastano a descrivere una sinusoide — il periodo è la frequenza
       girata al contrario, T = 1/f) e arrivano fino alla <b>trasformata di Fourier quantistica</b> e all'<b>algoritmo di Shor</b>.
       Ogni formula è smontata pezzo per pezzo e ogni pezzo lo puoi <b>toccare, trascinare e rompere</b>

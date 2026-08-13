@@ -131,6 +131,27 @@ return [
             ],
         ],
         [
+            'id' => '00-orologio',
+            'n' => '0·5',
+            'part' => '0',
+            'xp' => 80,
+            'slug' => [
+                'it' => '00-orologio',
+                'en' => '00-clock',
+                'es' => '00-reloj',
+            ],
+            'title' => [
+                'it' => 'L\'orologio dei numeri: resto, MCD e ritmi che tornano',
+                'en' => 'The clock of numbers: remainder, GCD and rhythms that come back',
+                'es' => 'El reloj de los números: resto, MCD y ritmos que vuelven',
+            ],
+            'description' => [
+                'it' => 'Contare a giri, il pavimento di Euclide e il ritmo di a^x mod N: la matematica classica che sta dentro Shor.',
+                'en' => 'Counting in laps, Euclid\'s floor and the rhythm of a^x mod N: the classical maths that sits inside Shor.',
+                'es' => 'Contar dando vueltas, el suelo de Euclides y el ritmo de a^x mod N: la matemática clásica que hay dentro de Shor.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',
