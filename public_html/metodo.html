@@ -258,6 +258,40 @@ Le indicazioni emerse dalla ricerca sulla <i>Generative Engine Optimization</i> 
 <p class="dim small">Nota: la stessa ricerca mostra che i contenuti citati dalle AI sono quelli <b>strutturati e verificabili</b>.
 Un altro modo per dire che scrivere onestamente e scrivere per essere trovati, per una volta, coincidono.</p>
 
+<h2>17. Il glossario che sta aperto mentre leggi</h2>
+<p>Per un pezzo di strada il glossario è stato l'<b>ultima</b> pagina del corso. Sbagliato: la parola che blocca la
+lettura non la incontri in fondo, la incontri al livello 4 — e una parola non capita non rimanda il problema,
+lo <b>moltiplica</b>, perché ogni frase dopo la usa come se fosse chiara.</p>
+<p>Ora il glossario sta in cima a ogni pagina e resta aperto <i>mentre</i> si legge. Le scelte precise vengono
+da cinque risultati della ricerca, non da una moda grafica:</p>
+<table class="table">
+  <tr><th>Risultato</th><th>Come è applicato</th></tr>
+  <tr><td><b>Split-attention effect</b> (Ayres &amp; Sweller): tenere a mente una frase mentre si cerca altrove
+      la definizione consuma la stessa memoria di lavoro che serviva a capire il concetto</td>
+      <td>il pannello si apre <i>di fianco</i> al testo e, quando lo schermo lo consente, <b>sposta</b> la pagina
+      invece di coprirla: non si cambia pagina e non si perde il segno</td></tr>
+  <tr><td><b>Contiguità spaziale</b> (Mayer): la spiegazione va vicino all'oggetto spiegato</td>
+      <td>i termini sono marcati dentro il testo e la definizione compare <b>accanto alla parola</b>, in due righe,
+      col numero del livello che la spiega per davvero</td></tr>
+  <tr><td><b>Recognition rather than recall</b> (Nielsen, 6ª euristica): non si deve ricordare che una funzione esiste</td>
+      <td>il bottone 📖 è nella barra in alto di <b>ogni</b> pagina del corso — mappa, lezioni e questa — e la scorciatoia
+      (<b>G</b>) è la stessa in tutto il sito</td></tr>
+  <tr><td><b>Glosse</b> (Nation; meta-analisi di Yun sulle glosse ipertestuali): definizioni brevi e a un gesto di
+      distanza aiutano comprensione e memoria del lessico; quelle lunghe interrompono la lettura</td>
+      <td>due righe, mai un muro di testo, e la ricerca accetta anche il numero di un livello
+      («cos'era quella cosa del 12?»)</td></tr>
+  <tr><td><b>Expertise reversal effect</b> (Kalyuga et al.): l'aiuto che serve al principiante <b>ostacola</b>
+      chi già sa</td>
+      <td>ogni termine si marca <b>una volta sola per pagina</b>, la prima; e l'evidenziazione si spegne con un
+      interruttore che resta spento anche nelle pagine successive</td></tr>
+</table>
+<p>Il pannello, per scelta, <b>non è modale</b>: non blocca la lezione e non pretende di essere chiuso per continuare.
+Bloccare la pagina per mostrare una definizione sarebbe come chiudere il libro per aprire il vocabolario.
+Sotto i 1100 px di larghezza non c'è spazio per due colonne: lì copre, e allora basta toccare fuori per chiuderlo.</p>
+<p class="dim small">Effetto collaterale utile: i termini vivono in un <b>file solo</b> (<code>js/core/glossario.js</code>),
+quindi la tabella del livello 23, il pannello e le definizioni al tocco non possono più dire tre cose diverse —
+cosa che era già cominciata a succedere fra la versione italiana e quelle tradotte.</p>
+
 <h2>Fonti</h2>
 <p class="dim small">Elencate nell'ordine in cui compaiono nel testo. Dove non c'è un link è perché il riferimento
 è un libro o un articolo classico facilmente reperibile: preferisco citarlo così piuttosto che linkare una copia
@@ -282,6 +316,11 @@ di dubbia provenienza.</p>
   <li>Cialdini, R. B. — <i>Influence</i>: reciprocità, prova sociale, autorevolezza. Usate qui solo su affermazioni verificabili.</li>
   <li>Sulla <i>Generative Engine Optimization</i>: <a href="https://backlinko.com/generative-engine-optimization-geo" target="_blank" rel="noopener">panoramica delle pratiche</a> e <a href="https://arxiv.org/pdf/2606.12439" target="_blank" rel="noopener">position paper sui rischi (arXiv)</a></li>
   <li>WCAG 2.2 (W3C) per contrasto, bersagli tattili, focus visibile e informazione mai affidata al solo colore. — <a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener">quick reference</a></li>
+  <li>Ayres, P., Sweller, J. — <i>The Split-Attention Principle in Multimedia Learning</i>, in <i>The Cambridge Handbook of Multimedia Learning</i>: perché tenere insieme frase e definizione costa memoria di lavoro.</li>
+  <li>Kalyuga, S., Ayres, P., Chandler, P., Sweller, J. (2003). <i>The Expertise Reversal Effect</i>. Educational Psychologist, 38(1), 23–31 — l'aiuto utile al principiante ostacola l'esperto.</li>
+  <li>Nielsen, J. — <i>10 Usability Heuristics for User Interface Design</i>, in particolare la sesta («recognition rather than recall»). — <a href="https://www.nngroup.com/articles/ten-usability-heuristics/" target="_blank" rel="noopener">testo</a></li>
+  <li>Nation, I. S. P. (2001). <i>Learning Vocabulary in Another Language</i>. Cambridge University Press — sul ruolo delle glosse.</li>
+  <li>Yun, J. (2011). <i>The effects of hypertext glosses on L2 vocabulary acquisition: a meta-analysis</i>. Computer Assisted Language Learning, 24(1), 39–58.</li>
 </ul>
 
 <div class="callout"><b>Onestà intellettuale:</b> nessuno di questi studi riguarda <i>questo</i> corso in particolare, e gli effect size
@@ -302,5 +341,15 @@ in didattica sono medi, non garanzie. Se noti che qualcosa non funziona — un l
 </p>
 
 </main>
+
+<!-- Il glossario vale anche qui: chi legge come è fatto il corso incontra gli
+     stessi termini, e non deve andarseli a cercare in un'altra pagina. -->
+<script type="module">
+import { bottoneGlossario, montaGlossario } from './js/widgets/glossario.js';
+const barra = document.querySelector('.topbar-in');
+const mappa = barra.querySelector('.btn');
+barra.insertBefore(bottoneGlossario(), mappa);
+montaGlossario();
+</script>
 </body>
 </html>
