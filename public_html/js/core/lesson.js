@@ -11,7 +11,7 @@
      sia PRATICA (missioni nel gioco) sia DICHIARATIVA (quiz).
    ============================================================ */
 
-import { LEVELS, PARTS, levelById, neighbours } from './levels.js';
+import { LEVELS, PARTS, levelById, neighbours, lessonHref } from './levels.js';
 import * as store from './store.js';
 import { h, langButton, languageHint } from './ui.js';
 import { sfx, wireSounds, soundButton } from './audio.js';
@@ -144,7 +144,7 @@ function gateBlock(lv, missions, quiz, next) {
     if (!missions.length && !quiz.length) list.appendChild(h('li', { html: '✅ ' + t('Livello di sola lettura: nessuna prova richiesta.') }));
     box.appendChild(list);
     if (ok && next) box.appendChild(h('div', { class: 'btn-row', style: { marginTop: '14px' } },
-      h('a', { class: 'btn primary', href: next.slug + '.html' }, '▶ ' + t('Vai al livello :n: :titolo', { n: next.n, titolo: next.title }))));
+      h('a', { class: 'btn primary', href: lessonHref(next) }, '▶ ' + t('Vai al livello :n: :titolo', { n: next.n, titolo: next.title }))));
     if (!ok) box.appendChild(h('p', { class: 'small muted', style: { marginTop: '10px', marginBottom: 0 },
       html: t('Sei bloccato? Torna sul mini-gioco del passo corrispondente: la risposta si vede muovendo i cursori. In alternativa, dalla mappa puoi attivare la <b>modalità libera</b> (per adulti curiosi o per rivedere).') }));
   }
@@ -233,7 +233,7 @@ export function renderLesson(cfg) {
       h('h2', { class: 'panel-title', style: { marginTop: 0, color: 'var(--amber)' } }, h('span', { class: 'dot', style: { background: 'var(--amber)' } }), '🔒 ' + t('Livello ancora chiuso')),
       h('p', { html: t('Per aprire questo livello devi prima superare la prova del livello <b>:livello</b>. È così apposta: ogni livello usa gli attrezzi costruiti nel precedente, e saltarli rende tutto più difficile del necessario.', { livello: reqLv ? reqLv.n + ' — ' + reqLv.title : lv.req }) }),
       h('div', { class: 'btn-row' },
-        reqLv ? h('a', { class: 'btn primary', href: reqLv.slug + '.html' }, '← ' + t('Vai al livello richiesto')) : null,
+        reqLv ? h('a', { class: 'btn primary', href: lessonHref(reqLv) }, '← ' + t('Vai al livello richiesto')) : null,
         h('a', { class: 'btn ghost', href: href('home') }, '🗺️ ' + t('Mappa')),
         h('button', { class: 'btn ghost', onclick: () => { store.setFreeMode(true); location.reload(); } }, '🔓 ' + t('Modalità libera (adulti/ripasso)')),
       )));
@@ -312,10 +312,10 @@ export function renderLesson(cfg) {
   app.appendChild(gate.root);
 
   app.appendChild(h('nav', { class: 'nav-foot' },
-    prev ? h('a', { class: 'btn ghost', href: prev.slug + '.html' }, '← ' + prev.title)
+    prev ? h('a', { class: 'btn ghost', href: lessonHref(prev) }, '← ' + prev.title)
       : h('a', { class: 'btn ghost', href: href('home') }, '← ' + t('Mappa')),
-    h('a', { class: 'btn ghost', href: href('metodo') }, '🔬 ' + t('Come è fatto questo corso')),
-    next ? h('a', { class: 'btn primary', href: next.slug + '.html' }, next.title + ' →')
+    h('a', { class: 'btn ghost', href: href('method') }, '🔬 ' + t('Come è fatto questo corso')),
+    next ? h('a', { class: 'btn primary', href: lessonHref(next) }, next.title + ' →')
       : h('a', { class: 'btn primary', href: href('home') }, t('Torna alla mappa') + ' →'),
   ));
 

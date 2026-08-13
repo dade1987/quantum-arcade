@@ -1,6 +1,6 @@
 /* Home: mappa dei livelli, blocchi di padronanza, ripasso spaziato. */
 
-import { LEVELS, PARTS, TOTAL_XP, rankFor, levelById, isMain } from './core/levels.js';
+import { LEVELS, PARTS, TOTAL_XP, rankFor, levelById, isMain, lessonHref } from './core/levels.js';
 import * as store from './core/store.js';
 import { h, langButton, languageHint } from './core/ui.js';
 import { sfx, wireSounds, soundButton } from './core/audio.js';
@@ -69,7 +69,7 @@ function renderMap() {
       const req = l.req ? levelById(l.req) : null;
       const card = h(open ? 'a' : 'div', {
         class: 'level' + (done ? ' done' : '') + (l.boss ? ' boss' : '') + (open ? '' : ' locked'),
-        href: open ? l.file : null,
+        href: open ? lessonHref(l) : null,
         title: open ? '' : t('Si apre superando il livello :n', { n: req ? req.n : '' }),
       },
         h('div', { class: 'lv-n' }, t('LIVELLO :n', { n: l.n })),
@@ -101,7 +101,7 @@ function renderStatus() {
   const main = LEVELS.filter(isMain);
   const first = main.find(l => !store.isLessonDone(l.id) && store.isUnlocked(l.id)) || main[0];
   const cont = document.getElementById('continue');
-  cont.href = first.file;
+  cont.href = lessonHref(first);
   cont.textContent = (done ? '▶ ' + t('Continua — livello :n: :titolo', { n: first.n, titolo: first.title }) : '▶ ' + t('Inizia dal livello 1'));
 }
 renderStatus();

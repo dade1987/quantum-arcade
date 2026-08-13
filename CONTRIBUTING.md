@@ -155,7 +155,7 @@ Quattro cose non negoziabili, perché sono la differenza fra un widget e un gioc
 ## Modificare il backend
 
 ```bash
-php artisan test                       # 118 test, devono restare verdi
+php artisan test                       # 124 test, devono restare verdi
 XDEBUG_MODE=coverage php artisan test --coverage
 ```
 

@@ -49,6 +49,9 @@ const PAGES = {
   privacy: { it: 'privacy.html', en: 'privacy.html', es: 'privacidad.html' },
 };
 
+/** I nomi validi delle pagine fisse. Il validatore li rilegge da qui. */
+export const PAGINE = Object.keys(PAGES);
+
 const html = typeof document !== 'undefined' ? document.documentElement : null;
 
 function detect() {
@@ -138,11 +141,21 @@ export function browserLocales() {
 
 /* ---------------- addresses ---------------- */
 
-/** Address of a fixed page, valid from the page you are on. */
+/**
+ * Address of a fixed page, valid from the page you are on.
+ *
+ * An unknown name is an error and says so. It used to fall back to the home
+ * page, and that silence cost a broken button on every single lesson: the
+ * call said href('metodo') — the Italian word — while the page here is
+ * called 'method', so «Come è fatto questo corso» quietly pointed at the map
+ * in all three languages, and no test could tell the difference between a
+ * link to the home page and a link that MEANT to go to the home page.
+ */
 export function href(page, locale = LOCALE) {
-  const name = (PAGES[page] || PAGES.home)[locale] ?? PAGES.home[locale];
+  const entry = PAGES[page];
+  if (!entry) throw new Error(`href(): pagina sconosciuta "${page}" (valide: ${PAGINE.join(', ')})`);
   const prefix = locale === 'it' ? '' : locale + '/';
-  return ROOT + prefix + name;
+  return ROOT + prefix + (entry[locale] ?? entry.it);
 }
 
 /** The home page of the current locale. */
