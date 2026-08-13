@@ -1,4 +1,4 @@
-@php($description = 'Amplitud, periodo y frecuencia de una onda explicados con deslizadores y sonido: la base para entender la transformada de Fourier y después la QFT.')
+@php($description = 'Amplitud, frecuencia y fase de una onda — más el periodo, T = 1/f — explicadas con deslizadores y sonido: la base para entender la transformada de Fourier y después la QFT.')
 
 @extends('layouts.lesson')
 
