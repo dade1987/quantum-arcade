@@ -12,13 +12,14 @@ import { ampsView } from './amps.js';
 import { sfx } from '../core/audio.js';
 import { fromArray, dft } from '../core/dsp.js';
 import { str as cstr } from '../core/complex.js';
+import { t } from '../core/i18n.js';
 
 /* ------------------------------------------------------------
    1) QFT passo per passo
    ------------------------------------------------------------ */
 export function qftLab(host, opts = {}) {
   const cfg = Object.assign({ n: 3, x: 1, onWin: null }, opts);
-  const w = widget(host, { title: 'La QFT, porta per porta', subtitle: 'guarda le fasi disporsi a ventaglio' });
+  const w = widget(host, { title: t('La QFT, porta per porta'), subtitle: t('guarda le fasi disporsi a ventaglio') });
   const st = { n: cfg.n, x: cfg.x, step: -1 };
   let ops = qftOps(st.n);
 
@@ -28,12 +29,12 @@ export function qftLab(host, opts = {}) {
   const out = readout('');
 
   const sx = slider({
-    label: 'Stato di partenza |x⟩', min: 0, max: (1 << st.n) - 1, step: 1, value: st.x,
+    label: t('Stato di partenza |x⟩'), min: 0, max: (1 << st.n) - 1, step: 1, value: st.x,
     fmt: v => `|${v.toString(2).padStart(st.n, '0')}⟩  (x = ${v})`,
     oninput: v => { st.x = v; upd(); },
   });
   const ss = slider({
-    label: 'Porte applicate', min: -1, max: 0, step: 1, value: -1,
+    label: t('Porte applicate'), min: -1, max: 0, step: 1, value: -1,
     fmt: v => v < 0 ? 'nessuna (stato di partenza)' : `dopo la porta ${v + 1} di ${ops.length}`,
     oninput: v => { st.step = v; upd(); },
   });
@@ -85,14 +86,14 @@ export function qftLab(host, opts = {}) {
       if (Math.hypot(s.re[i], s.im[i]) > 1e-9) terms.push(`${cstr({ re: s.re[i], im: s.im[i] })}·|${label(i, st.n)}⟩`);
     }
     out.set(
-      `<b>Porte totali del circuito:</b> ${ops.length} (${qftGateCount(st.n)} per n=${st.n}) — la DFT classica su ${N} numeri ne farebbe ${N * N}.\n` +
-      (st.step >= 0 ? `<b>Appena applicata:</b> ${ops[st.step].note || ops[st.step].g}\n` : '<b>Stato di partenza:</b> una sola barra alta, tutto il resto a zero.\n') +
-      (nextOp ? `<b>Prossima porta:</b> ${nextOp.note || nextOp.g}\n` : '<b>Circuito finito.</b>\n') +
+      '<b>' + t('Porte totali del circuito:') + `</b> ${ops.length} ` + t('(:quante per n=:n) — la DFT classica su :N numeri ne farebbe :classiche.', { quante: qftGateCount(st.n), n: st.n, N, classiche: N * N }) + '\n' +
+      (st.step >= 0 ? '<b>' + t('Appena applicata:') + `</b> ${ops[st.step].note || ops[st.step].g}\n` : '<b>' + t('Stato di partenza:') + '</b> ' + t('una sola barra alta, tutto il resto a zero.') + '\n') +
+      (nextOp ? '<b>' + t('Prossima porta:') + `</b> ${nextOp.note || nextOp.g}\n` : '<b>' + t('Circuito finito.') + '</b>\n') +
       (terms.length ? `|ψ⟩ = ${terms.join(' + ')}\n` : '') + cmp);
     if (st.step === ops.length - 1) { if (!st.celebrated) { st.celebrated = true; fx.win(); sfx.ok(); } cfg.onWin && cfg.onWin(); }
   }
   setN(cfg.n);
-  w.setFoot('Osserva: si parte da <b>una</b> barra sola e si finisce con <b>tutte le barre uguali</b> ma con <b>fasi diverse</b> (colori diversi). L\'informazione non è sparita: è passata dalla <b>posizione</b> alla <b>fase</b>. Questa frase è tutta la QFT.');
+  w.setFoot(t("Osserva: si parte da <b>una</b> barra sola e si finisce con <b>tutte le barre uguali</b> ma con <b>fasi diverse</b> (colori diversi). L'informazione non è sparita: è passata dalla <b>posizione</b> alla <b>fase</b>. Questa frase è tutta la QFT."));
   return { state: st, update: upd };
 }
 
@@ -101,7 +102,7 @@ export function qftLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function qftPeriodLab(host, opts = {}) {
   const cfg = Object.assign({ n: 4, onWin: null }, opts);
-  const w = widget(host, { title: 'Periodicità dentro, picchi fuori', subtitle: 'il trucco che usa Shor' });
+  const w = widget(host, { title: t('Periodicità dentro, picchi fuori'), subtitle: t('il trucco che usa Shor') });
   const n = cfg.n, N = 1 << n;
   const st = { r: 4, off: 0 };
 
@@ -120,35 +121,34 @@ export function qftPeriodLab(host, opts = {}) {
   };
 
   const inHost = h('div'), outHost = h('div');
-  w.body.append(h('div', { class: 'small dim', html: '<b>PRIMA</b> — lo stato "a pettine": ampiezze diverse da zero ogni r posizioni' }), inHost,
-    h('div', { class: 'small dim', style: { marginTop: '8px' }, html: '<b>DOPO la QFT</b> — restano solo i multipli di N/r' }), outHost);
+  w.body.append(h('div', { class: 'small dim', html: t('<b>PRIMA</b> — lo stato "a pettine": ampiezze diverse da zero ogni r posizioni') }), inHost,
+    h('div', { class: 'small dim', style: { marginTop: '8px' }, html: t('<b>DOPO la QFT</b> — restano solo i multipli di N/r') }), outHost);
   const a1 = ampsView(inHost, { height: 140, showProb: false });
   const a2 = ampsView(outHost, { height: 150, showProb: true });
   const fx = attachFX(a2.stage);   // scintille, lampi e suono ai traguardi
 
-  const sr = slider({ label: 'Periodo <b>r</b>', min: 2, max: 8, step: 1, value: st.r, fmt: v => 'r = ' + v, oninput: v => { st.r = v; upd(); } });
-  const so = slider({ label: 'Sfasamento iniziale', min: 0, max: 7, step: 1, value: st.off, fmt: v => 'parte da ' + v, oninput: v => { st.off = v; upd(); } });
+  const sr = slider({ label: t('Periodo <b>r</b>'), min: 2, max: 8, step: 1, value: st.r, fmt: v => 'r = ' + v, oninput: v => { st.r = v; upd(); } });
+  const so = slider({ label: t('Sfasamento iniziale'), min: 0, max: 7, step: 1, value: st.off, fmt: v => t('parte da :n', { n: v }), oninput: v => { st.off = v; upd(); } });
   w.body.appendChild(controls(sr.root, so.root));
   const out = readout('');
   w.body.appendChild(out.root);
 
   function upd() {
-    const s = build(), t = transformed();
-    a1.set(s); a2.set(t);
-    const p = probs(t);
+    const s = build(), tr = transformed();
+    a1.set(s); a2.set(tr);
+    const p = probs(tr);
     const peaks = [];
     for (let i = 0; i < N; i++) if (p[i] > 0.05) peaks.push({ i, p: p[i] });
     out.set(
-      `Stato di partenza: ampiezze diverse da zero in ${Array.from({ length: N }, (_, i) => i).filter(i => i >= st.off && (i - st.off) % st.r === 0).join(', ')}\n` +
-      `<b>Dopo la QFT i picchi sono in:</b> ${peaks.map(x => x.i).join(', ')}\n` +
-      `N/r = ${N}/${st.r} = <b>${(N / st.r).toFixed(2)}</b> → i picchi cadono sui <b>multipli di N/r</b>.\n` +
-      `<span class="g">Fondamentale:</span> se sposti lo "sfasamento iniziale", i picchi <b>NON si muovono</b>. ` +
-      `Le probabilità dipendono solo dal <b>periodo</b>, non da dove comincia. Ecco perché Shor può misurare il secondo registro ` +
-      `senza rovinare tutto: qualunque cosa esca, la periodicità resta leggibile.`);
+      t('Stato di partenza: ampiezze diverse da zero in :posizioni', { posizioni: Array.from({ length: N }, (_, i) => i).filter(i => i >= st.off && (i - st.off) % st.r === 0).join(', ') }) + '\n' +
+      '<b>' + t('Dopo la QFT i picchi sono in:') + `</b> ${peaks.map(x => x.i).join(', ')}\n` +
+      t('N/r = :N/:r = <b>:valore</b> → i picchi cadono sui <b>multipli di N/r</b>.', { N, r: st.r, valore: (N / st.r).toFixed(2) }) + '\n' +
+      '<span class="g">' + t('Fondamentale:') + '</span> ' +
+      t('se sposti lo "sfasamento iniziale", i picchi <b>NON si muovono</b>. Le probabilità dipendono solo dal <b>periodo</b>, non da dove comincia. Ecco perché Shor può misurare il secondo registro senza rovinare tutto: qualunque cosa esca, la periodicità resta leggibile.'));
     if (peaks.length >= 2) { if (!st.celebrated) { st.celebrated = true; fx.win(); sfx.boost(); } cfg.onWin && cfg.onWin(); }
   }
   upd();
-  w.setFoot('<b>Da provare:</b> metti r = 4 e muovi lo sfasamento da 0 a 3. Le barre in alto si spostano tutte… e quelle in basso restano identiche. Questa è l\'invarianza che rende utilizzabile il risultato di una misura casuale.');
+  w.setFoot(t("<b>Da provare:</b> metti r = 4 e muovi lo sfasamento da 0 a 3. Le barre in alto si spostano tutte… e quelle in basso restano identiche. Questa è l'invarianza che rende utilizzabile il risultato di una misura casuale."));
   return { state: st };
 }
 
@@ -157,7 +157,7 @@ export function qftPeriodLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function qpeLab(host, opts = {}) {
   const cfg = Object.assign({ t: 4, onWin: null }, opts);
-  const w = widget(host, { title: 'Stima di fase (QPE)', subtitle: 'leggere una fase nascosta come numero binario' });
+  const w = widget(host, { title: t('Stima di fase (QPE)'), subtitle: t('leggere una fase nascosta come numero binario') });
   const st = { phi: 0.375, t: cfg.t };
 
   const dist = () => {
@@ -181,7 +181,7 @@ export function qpeLab(host, opts = {}) {
       const M = 1 << st.t, p = dist();
       const rect = { x: 20, y: 26, w: s.w - 34, h: s.h - 62 };
       const cw = rect.w / M;
-      text(ctx, `probabilità di leggere ciascun numero y (con ${st.t} qubit di lettura)`, rect.x, 12, { size: 11, color: COL.txt });
+      text(ctx, t('probabilità di leggere ciascun numero y (con :quanti qubit di lettura)', { quanti: st.t }), rect.x, 12, { size: 11, color: COL.txt });
       const best = p.indexOf(Math.max(...p));
       for (let y = 0; y < M; y++) {
         const hgt = p[y] * rect.h;
@@ -192,15 +192,15 @@ export function qpeLab(host, opts = {}) {
       const xTrue = rect.x + st.phi * rect.w;
       ctx.strokeStyle = COL.amber; ctx.setLineDash([4, 4]);
       ctx.beginPath(); ctx.moveTo(xTrue, rect.y); ctx.lineTo(xTrue, rect.y + rect.h); ctx.stroke(); ctx.setLineDash([]);
-      text(ctx, `fase vera φ = ${st.phi.toFixed(4)}`, xTrue + 5, rect.y + 10, { size: 11, color: COL.amber });
-      text(ctx, `miglior lettura: ${best}/${M} = ${(best / M).toFixed(4)} (${(p[best] * 100).toFixed(1)}%)`, rect.x, s.h - 8, { size: 11.5, color: COL.green });
+      text(ctx, t('fase vera') + ` φ = ${st.phi.toFixed(4)}`, xTrue + 5, rect.y + 10, { size: 11, color: COL.amber });
+      text(ctx, t('miglior lettura: :y/:M = :valore (:percento%)', { y: best, M, valore: (best / M).toFixed(4), percento: (p[best] * 100).toFixed(1) }), rect.x, s.h - 8, { size: 11.5, color: COL.green });
     },
   });
   const fx = attachFX(stage);   // scintille, lampi e suono ai traguardi
   stage.pause();
 
-  const sp = slider({ label: 'Fase nascosta <b>φ</b> (da 0 a 1)', min: 0, max: 0.999, step: 0.001, value: st.phi, fmt: v => v.toFixed(3), oninput: v => { st.phi = v; upd(); } });
-  const stt = slider({ label: 'Qubit di lettura <b>t</b>', min: 2, max: 7, step: 1, value: st.t, fmt: v => `${v} qubit → ${1 << v} valori`, oninput: v => { st.t = v; upd(); } });
+  const sp = slider({ label: t('Fase nascosta <b>φ</b> (da 0 a 1)'), min: 0, max: 0.999, step: 0.001, value: st.phi, fmt: v => v.toFixed(3), oninput: v => { st.phi = v; upd(); } });
+  const stt = slider({ label: t('Qubit di lettura <b>t</b>'), min: 2, max: 7, step: 1, value: st.t, fmt: v => t(':quanti qubit → :valori valori', { quanti: v, valori: 1 << v }), oninput: v => { st.t = v; upd(); } });
   w.body.appendChild(controls(sp.root, stt.root));
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
     h('button', { class: 'btn sm', onclick: () => { st.phi = 0.5; sp.value = .5; upd(); } }, 'φ = 1/2 (esatta)'),
@@ -215,18 +215,17 @@ export function qpeLab(host, opts = {}) {
     const best = p.indexOf(Math.max(...p));
     const exact = Math.abs(st.phi * M - Math.round(st.phi * M)) < 1e-9;
     out.set(
-      `Stiamo cercando di leggere una fase <b>φ = ${st.phi.toFixed(4)}</b> scrivendola in binario con ${st.t} cifre.\n` +
-      `Miglior risultato: <b>${best.toString(2).padStart(st.t, '0')}</b> = ${best}/${M} = <b>${(best / M).toFixed(4)}</b>` +
-      `  (probabilità ${(p[best] * 100).toFixed(1)}%)\n` +
+      t('Stiamo cercando di leggere una fase <b>φ = :fase</b> scrivendola in binario con :cifre cifre.', { fase: st.phi.toFixed(4), cifre: st.t }) + '\n' +
+      t('Miglior risultato: <b>:binario</b> = :y/:M = <b>:valore</b>  (probabilità :percento%)', { binario: best.toString(2).padStart(st.t, '0'), y: best, M, valore: (best / M).toFixed(4), percento: (p[best] * 100).toFixed(1) }) + '\n' +
       (exact
-        ? '<span class="g">φ è esattamente rappresentabile con questi qubit: il risultato esce con probabilità 100%.</span>'
-        : `<span class="a">φ non è rappresentabile esattamente: la probabilità si sparpaglia sui valori vicini (ma resta concentrata: almeno ${(4 / (Math.PI * Math.PI) * 100).toFixed(0)}% sul valore più vicino).</span>`) +
-      `\nAggiungere un qubit di lettura <b>raddoppia la precisione</b>: da ${(1 / M).toFixed(4)} a ${(1 / (2 * M)).toFixed(4)}.`);
+        ? '<span class="g">' + t('φ è esattamente rappresentabile con questi qubit: il risultato esce con probabilità 100%.') + '</span>'
+        : '<span class="a">' + t('φ non è rappresentabile esattamente: la probabilità si sparpaglia sui valori vicini (ma resta concentrata: almeno :minimo% sul valore più vicino).', { minimo: (4 / (Math.PI * Math.PI) * 100).toFixed(0) }) + '</span>') +
+      '\n' + t('Aggiungere un qubit di lettura <b>raddoppia la precisione</b>: da :prima a :dopo.', { prima: (1 / M).toFixed(4), dopo: (1 / (2 * M)).toFixed(4) }));
     stage.redraw();
     if (st.t >= 5) { if (!st.celebrated) { st.celebrated = true; fx.win(); sfx.ok(); } cfg.onWin && cfg.onWin(); }
   }
   upd();
-  w.setFoot('La QPE è la QFT <b>al contrario</b>: invece di trasformare posizioni in fasi, prende un\'informazione già scritta nelle fasi (con rotazioni controllate) e la riporta in una posizione <b>leggibile con una misura</b>. È il motore di Shor e di mezza chimica quantistica.');
+  w.setFoot(t("La QPE è la QFT <b>al contrario</b>: invece di trasformare posizioni in fasi, prende un'informazione già scritta nelle fasi (con rotazioni controllate) e la riporta in una posizione <b>leggibile con una misura</b>. È il motore di Shor e di mezza chimica quantistica."));
   return { state: st };
 }
 
@@ -235,7 +234,7 @@ export function qpeLab(host, opts = {}) {
    ------------------------------------------------------------ */
 export function shorLab(host, opts = {}) {
   const cfg = Object.assign({ onWin: null }, opts);
-  const w = widget(host, { title: 'Officina di Shor', subtitle: 'fattorizza un numero con le tue mani' });
+  const w = widget(host, { title: t('Officina di Shor'), subtitle: t('fattorizza un numero con le tue mani') });
   const st = { N: 15, a: 7, t: 6, measured: null, r: null, factors: null };
 
   const validA = () => { const l = []; for (let a = 2; a < st.N; a++) if (gcd(a, st.N) === 1) l.push(a); return l; };
@@ -247,7 +246,7 @@ export function shorLab(host, opts = {}) {
       bg(ctx, s);
       const cols = Math.min(16, 24);
       const cw = (s.w - 24) / cols;
-      text(ctx, `f(x) = ${st.a}^x mod ${st.N}  — guarda quando ricomincia da 1`, 12, 14, { size: 11.5, color: COL.txt });
+      text(ctx, `f(x) = ${st.a}^x mod ${st.N}  — ` + t('guarda quando ricomincia da 1'), 12, 14, { size: 11.5, color: COL.txt });
       const r = periodOf(st.a, st.N);
       for (let x = 0; x < cols; x++) {
         const v = modpow(st.a, x, st.N);
@@ -263,7 +262,7 @@ export function shorLab(host, opts = {}) {
         else if (cw > 15 && x % 2 === 0) text(ctx, String(x), cx + cw / 2, 82, { size: 9.5, align: 'center', color: '#6f7fa3', max: cw });
       }
       if (r) {
-        text(ctx, `il valore 1 ritorna ogni ${r} passi → PERIODO r = ${r}`, 12, 108, { size: 12, color: COL.green });
+        text(ctx, t('il valore 1 ritorna ogni :r passi → PERIODO r = :r', { r }), 12, 108, { size: 12, color: COL.green });
       }
     },
   });
@@ -278,7 +277,7 @@ export function shorLab(host, opts = {}) {
       const r = periodOf(st.a, st.N) || 1;
       const p = shorDist(M, r);
       const rect = { x: 18, y: 26, w: s.w - 32, h: s.h - 58 };
-      text(ctx, `dopo la QFT sul registro di lettura (${st.t} qubit → ${M} valori)`, rect.x, 12, { size: 11, color: COL.txt });
+      text(ctx, t('dopo la QFT sul registro di lettura (:qubit qubit → :valori valori)', { qubit: st.t, valori: M }), rect.x, 12, { size: 11, color: COL.txt });
       const maxP = Math.max(...p);
       const cw = rect.w / M;
       for (let y = 0; y < M; y++) {
@@ -294,9 +293,9 @@ export function shorLab(host, opts = {}) {
       }
       if (st.measured !== null) {
         const x = rect.x + (st.measured + .5) * cw;
-        text(ctx, `hai misurato y = ${st.measured}`, x, rect.y + 12, { size: 11, align: 'center', color: COL.amber });
+        text(ctx, t('hai misurato y = :y', { y: st.measured }), x, rect.y + 12, { size: 11, align: 'center', color: COL.amber });
       }
-      text(ctx, `i picchi cadono sui multipli di M/r = ${M}/${r} = ${(M / r).toFixed(2)}`, rect.x, s.h - 8, { size: 11, color: COL.green });
+      text(ctx, t('i picchi cadono sui multipli di M/r = :M/:r = :valore', { M, r, valore: (M / r).toFixed(2) }), rect.x, s.h - 8, { size: 11, color: COL.green });
     },
   });
   const fx = attachFX(chart);   // scintille, lampi e suono ai traguardi
@@ -321,7 +320,7 @@ export function shorLab(host, opts = {}) {
 
   const out = readout('');
   const sN = choice({
-    label: 'Numero da fattorizzare <b>N</b>', value: 15,
+    label: t('Numero da fattorizzare <b>N</b>'), value: 15,
     items: [{ label: '15', value: 15 }, { label: '21', value: 21 }, { label: '33', value: 33 }, { label: '35', value: 35 }],
     onchange: v => { st.N = v; st.a = validA()[0]; st.measured = null; st.r = null; st.factors = null; upd(); },
   });
@@ -329,8 +328,8 @@ export function shorLab(host, opts = {}) {
   const aRow = h('div', { class: 'btn-row', style: { marginTop: '8px' } });
   w.body.appendChild(aRow);
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '10px' } },
-    h('button', { class: 'btn sm primary', onclick: () => measure() }, '📏 misura il registro (come farebbe il computer quantistico)'),
-    h('button', { class: 'btn sm', onclick: () => { st.measured = null; st.r = null; st.factors = null; upd(); } }, '↺ ricomincia'),
+    h('button', { class: 'btn sm primary', onclick: () => measure() }, '📏 ' + t('misura il registro (come farebbe il computer quantistico)')),
+    h('button', { class: 'btn sm', onclick: () => { st.measured = null; st.r = null; st.factors = null; upd(); } }, '↺ ' + t('ricomincia')),
   ));
   w.body.appendChild(out.root);
 
@@ -364,31 +363,33 @@ export function shorLab(host, opts = {}) {
 
     const M = 1 << st.t, rTrue = periodOf(st.a, st.N);
     let msg =
-      `<b>Passo 1 (classico).</b> Scegli a = ${st.a}. Controlla che MCD(${st.a}, ${st.N}) = ${gcd(st.a, st.N)} = 1 ✓ ` +
-      `(se fosse diverso da 1 avresti già trovato un fattore per fortuna!)\n` +
-      `<b>Passo 2 (quantistico).</b> Si calcola ${st.a}^x mod ${st.N} in sovrapposizione su tutti gli x, si misura il secondo registro ` +
-      `e si applica la QFT al primo: le probabilità si concentrano sui multipli di M/r.\n`;
+      '<b>' + t('Passo 1 (classico).') + '</b> ' +
+      t('Scegli a = :a. Controlla che MCD(:a, :N) = :mcd = 1 ✓ (se fosse diverso da 1 avresti già trovato un fattore per fortuna!)', { a: st.a, N: st.N, mcd: gcd(st.a, st.N) }) + '\n' +
+      '<b>' + t('Passo 2 (quantistico).') + '</b> ' +
+      t('Si calcola :a^x mod :N in sovrapposizione su tutti gli x, si misura il secondo registro e si applica la QFT al primo: le probabilità si concentrano sui multipli di M/r.', { a: st.a, N: st.N }) + '\n';
     if (st.measured !== null) {
-      msg += `<b>Passo 3 (misura).</b> È uscito <b>y = ${st.measured}</b> → y/M = ${st.measured}/${M} = <b>${(st.measured / M).toFixed(4)}</b>\n` +
-        `<b>Passo 4 (classico).</b> Le frazioni continue cercano la frazione semplice più vicina a ${(st.measured / M).toFixed(4)}: `;
+      msg += '<b>' + t('Passo 3 (misura).') + '</b> ' +
+        t('È uscito <b>y = :y</b> → y/M = :y/:M = <b>:valore</b>', { y: st.measured, M, valore: (st.measured / M).toFixed(4) }) + '\n' +
+        '<b>' + t('Passo 4 (classico).') + '</b> ' +
+        t('Le frazioni continue cercano la frazione semplice più vicina a :valore:', { valore: (st.measured / M).toFixed(4) }) + ' ';
       if (st.r) {
-        msg += `denominatore <b>r = ${st.r}</b> ${st.r === rTrue ? '<span class="g">(giusto!)</span>' : ''}\n`;
-        if (st.r % 2) msg += `<span class="a">r è dispari: questo tentativo non serve. Rimisura (capita, è normale).</span>`;
+        msg += t('denominatore <b>r = :r</b>', { r: st.r }) + ' ' + (st.r === rTrue ? '<span class="g">' + t('(giusto!)') + '</span>' : '') + '\n';
+        if (st.r % 2) msg += '<span class="a">' + t('r è dispari: questo tentativo non serve. Rimisura (capita, è normale).') + '</span>';
         else if (st.factors && st.factors.length) {
           const h1 = modpow(st.a, st.r / 2, st.N);
-          msg += `<b>Passo 5.</b> ${st.a}^(${st.r}/2) mod ${st.N} = ${h1}\n` +
+          msg += '<b>' + t('Passo 5.') + `</b> ${st.a}^(${st.r}/2) mod ${st.N} = ${h1}\n` +
             `MCD(${h1}−1, ${st.N}) = ${gcd(h1 - 1, st.N)} · MCD(${h1}+1, ${st.N}) = ${gcd(h1 + 1, st.N)}\n` +
-            `<span class="g">🎉 ${st.N} = ${st.factors.join(' × ')}${st.factors.reduce((a, b) => a * b, 1) === st.N ? '' : ' (fattore trovato)'}</span>`;
-        } else msg += `<span class="a">questo r non porta a fattori utili: rimisura.</span>`;
-      } else msg += `<span class="a">nessun denominatore utile (y = 0 capita spesso e non dice nulla). Rimisura.</span>`;
+            `<span class="g">🎉 ${st.N} = ${st.factors.join(' × ')}${st.factors.reduce((a, b) => a * b, 1) === st.N ? '' : ' (' + t('fattore trovato') + ')'}</span>`;
+        } else msg += '<span class="a">' + t('questo r non porta a fattori utili: rimisura.') + '</span>';
+      } else msg += '<span class="a">' + t('nessun denominatore utile (y = 0 capita spesso e non dice nulla). Rimisura.') + '</span>';
     } else {
-      msg += `Il periodo vero è r = ${rTrue} (qui lo sappiamo perché stiamo simulando: il computer quantistico NON lo sa).\n` +
-        `Premi «misura» e ricava r dal risultato.`;
+      msg += t('Il periodo vero è r = :r (qui lo sappiamo perché stiamo simulando: il computer quantistico NON lo sa).', { r: rTrue }) + '\n' +
+        t('Premi «misura» e ricava r dal risultato.');
     }
     out.set(msg);
     table.redraw(); chart.redraw();
   }
   upd();
-  w.setFoot('<b>Perché serve la parte quantistica:</b> trovare il periodo di a^x mod N classicamente costa tempo esponenziale nel numero di cifre di N. La QFT lo trasforma in picchi misurabili con un numero di operazioni polinomiale. Tutto il resto di Shor (MCD, frazioni continue) è matematica classica dell\'Ottocento.');
+  w.setFoot(t("<b>Perché serve la parte quantistica:</b> trovare il periodo di a^x mod N classicamente costa tempo esponenziale nel numero di cifre di N. La QFT lo trasforma in picchi misurabili con un numero di operazioni polinomiale. Tutto il resto di Shor (MCD, frazioni continue) è matematica classica dell'Ottocento."));
   return { state: st };
 }

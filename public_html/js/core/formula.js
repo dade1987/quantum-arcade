@@ -6,6 +6,7 @@
    ============================================================ */
 
 import { h } from './ui.js';
+import { t } from './i18n.js';
 
 /**
  * @param {HTMLElement} host
@@ -14,7 +15,7 @@ import { h } from './ui.js';
  *   parts  : [{t:'testo', id?, color?, name?, say?, ex?}]  (senza id = solo decorazione)
  *   hint   : testo iniziale del pannello
  */
-export function formula(host, { title = '', parts, hint = 'Tocca un pezzo della formula per capire cosa fa.' } = {}) {
+export function formula(host, { title = '', parts, hint = t('Tocca un pezzo della formula per capire cosa fa.') } = {}) {
   const expl = h('div', { class: 'f-expl', html: `<span class="muted">${hint}</span>` });
   const row = h('div', { class: 'f-row' });
   const toks = new Map();
@@ -47,9 +48,9 @@ export function formula(host, { title = '', parts, hint = 'Tocca un pezzo della 
     root, select,
     /** aggiorna il valore numerico mostrato accanto a un simbolo */
     setValue(id, txt) {
-      const t = toks.get(id); if (!t) return;
-      let v = t.el.querySelector('.f-v');
-      if (!v) { v = h('span', { class: 'f-v' }); t.el.appendChild(v); }
+      const tok = toks.get(id); if (!tok) return;
+      let v = tok.el.querySelector('.f-v');
+      if (!v) { v = h('span', { class: 'f-v' }); tok.el.appendChild(v); }
       v.innerHTML = txt;
     },
   };
@@ -59,22 +60,22 @@ export function formula(host, { title = '', parts, hint = 'Tocca un pezzo della 
  * Sequenza "passo passo": mostra un blocco alla volta con il bottone Avanti.
  * steps: [{h: 'titolo', html: '...'}]
  */
-export function stepper(host, steps, { doneLabel = 'Fatto!' } = {}) {
+export function stepper(host, steps, { doneLabel = t('Fatto!') } = {}) {
   let i = 0;
   const box = h('div', { class: 'stepper' });
   const body = h('div', { class: 'stepper-body' });
   const bar = h('div', { class: 'stepper-bar' });
-  const btn = h('button', { class: 'btn sm primary', onclick: () => next() }, 'Avanti →');
+  const btn = h('button', { class: 'btn sm primary', onclick: () => next() }, t('Avanti') + ' →');
   const counter = h('span', { class: 'muted small' });
   box.append(bar, body, h('div', { class: 'btn-row', style: { marginTop: '10px' } }, btn, counter));
 
   function render() {
     const s = steps[i];
     body.innerHTML = `<div class="stepper-h">${s.h || ''}</div><div>${s.html}</div>`;
-    counter.textContent = `passo ${i + 1} di ${steps.length}`;
+    counter.textContent = t('passo :i di :totali', { i: i + 1, totali: steps.length });
     bar.innerHTML = '';
     steps.forEach((_, k) => bar.appendChild(h('span', { class: 'sdot' + (k <= i ? ' on' : ''), onclick: () => { i = k; render(); } })));
-    btn.textContent = i === steps.length - 1 ? doneLabel : 'Avanti →';
+    btn.textContent = i === steps.length - 1 ? doneLabel : t('Avanti') + ' →';
     btn.disabled = false;
   }
   function next() {

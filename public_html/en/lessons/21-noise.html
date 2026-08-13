@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20 · Noise and error correction — Quantum Arcade</title>
+<meta name="description" content="Decoherence, quantum noise and error correction explained simply: why quantum computers make mistakes, how they defend themselves and where we really stand.">
+<link rel="canonical" href="https://quantumarcade.it/en/lessons/21-noise.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/21-rumore.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/21-noise.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/21-ruido.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/21-rumore.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { stepper } from '../../js/core/formula.js';
+import { circuitLab } from '../../js/widgets/circuit.js';
+
+const L = renderLesson({
+  id: '21-rumore',
+  lead: `A legitimate question after Shor: <b>why is it not in my pocket yet?</b> The answer: because a real qubit is
+         an extremely fragile object, and the entire universe conspires to ruin it. This level tells you about the enemy
+         and the countermeasures — without sensationalism in either direction.`,
+
+  steps: [
+    {
+      t: 'The enemy is called decoherence',
+      html: `<p>A qubit stays useful as long as it keeps its <b>phase relationships</b>: those are what allow
+             interference (level 7). The problem is that <b>any</b> interaction with the outside —
+             a vibration, one photon too many, a stray magnetic field — works like a <b>measurement</b>
+             and destroys those relationships.</p>
+             <div class="callout key"><b>Decoherence:</b> the process by which the environment involuntarily "measures" the system,
+             turning a coherent superposition into a plain random mixture. From that point on the qubit is
+             a loaded coin, and all the quantum advantage vanishes.</div>
+             <p>It is also the reason why we <b>do not see</b> cats in superposition: a macroscopic object interacts
+             with billions of billions of particles per second, so it decoheres in unimaginably short times.
+             Quantum mechanics does not "stop applying" to big things — it simply becomes invisible very fast.</p>
+             <table class="table">
+               <tr><th>Kind of error</th><th>What it does</th><th>Classical analogy</th></tr>
+               <tr><td><b>Bit flip</b> (X)</td><td>swaps |0⟩ and |1⟩</td><td>a bit that flips over</td></tr>
+               <tr><td><b>Phase flip</b> (Z)</td><td>changes the sign of |1⟩</td><td><b>does not exist</b> classically!</td></tr>
+               <tr><td><b>Relaxation (T1)</b></td><td>the qubit "falls" from |1⟩ to |0⟩</td><td>a battery running down</td></tr>
+               <tr><td><b>Dephasing (T2)</b></td><td>the phase gets lost gradually</td><td>two clocks drifting apart</td></tr>
+             </table>
+             <p class="dim small">T1 and T2 are the two numbers you will find on every datasheet of a quantum processor:
+             typical times today are of the order of <b>microseconds or hundreds of microseconds</b>. Every gate lasts
+             tens of nanoseconds: that is why the number of operations you can run before everything falls apart is limited.</p>`,
+    },
+    {
+      t: 'Why correcting errors is extremely hard',
+      html: `<p>Classically, correction is trivial: you copy every bit three times and take a majority vote.
+             In the quantum world this road is closed <b>by law</b>:</p>
+             <ul>
+               <li><b>You cannot copy</b> the state (no-cloning, level 6).</li>
+               <li><b>You cannot look</b> to see whether there is an error: looking = measuring = destroying the superposition.</li>
+               <li>Errors are not discrete: a rotation can be by <b>0.3 degrees</b>, not just "yes/no".</li>
+             </ul>
+             <div class="callout key"><b>The stroke of genius (Shor 1995, Steane 1996):</b> you can measure the error
+             <b>without measuring the information</b>. You add auxiliary qubits and measure <i>relations</i> between the qubits
+             ("are these two the same?") instead of their values. The answer reveals <b>where</b> something happened,
+             without revealing <b>what</b> the state contains. It is called a <b>syndrome</b> measurement.</div>
+             <p>And the problem of "continuous" errors? It solves itself: measuring the syndrome forces the error to
+             <b>collapse</b> into a discrete one — either a bit flip, or a phase flip, or both. Correcting those three cases is enough
+             to correct <b>any</b> error.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: '3-qubit code (bit flip)', html: 'You encode <code>|0⟩ → |000⟩</code> and <code>|1⟩ → |111⟩</code> with two CNOTs. It is not a copy (superpositions become <code>a|000⟩ + b|111⟩</code>, not three independent qubits): it is a <b>code</b>.' },
+          { h: 'The error arrives', html: 'An X hits the second qubit: the state becomes <code>a|010⟩ + b|101⟩</code>.' },
+          { h: 'Syndrome measurement', html: 'You ask: "are the first and the second the same?" (no) and "are the second and the third the same?" (no). From these two answers you deduce that the culprit is the <b>second</b> qubit — without having learnt anything about a and b!' },
+          { h: 'Correction', html: 'You apply X to the second qubit and the state is exact again. The quantum information has survived an error.' },
+          { h: 'And phase flips?', html: 'The same code, but applied "rotated" with Hadamards: a phase flip in the Z basis is a bit flip in the X basis. Shor\'s <b>9-qubit</b> code combines the two and corrects any single error.' },
+          { h: 'The price', html: 'One reliable logical state costs <b>a great many</b> physical qubits. With today\'s surface codes we are talking about <b>1,000–10,000 physical qubits for every logical qubit</b>. That is why Shor on RSA-2048 needs millions of physical qubits.' },
+        ], { doneLabel: 'I have understood the syndrome!' });
+      },
+    },
+    {
+      t: 'Try it: build the code and break it',
+      html: `<p>In the simulator: build the encoding <b>H on q0 → CNOT q0→q1 → CNOT q0→q2</b>
+             (you get <code>(|000⟩ + |111⟩)/√2</code>). Then <b>insert an error</b> by putting an X on any qubit
+             and watch how the state changes: components appear that were not there before
+             (for example |010⟩ and |101⟩), and it is exactly that "fingerprint" that the syndrome can recognise.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'code3', title: 'Encoding and fault', text: 'build the state (|000⟩+|111⟩)/√2 and then introduce an X error on one qubit.', xp: 55 });
+        el.appendChild(m.root);
+        circuitLab(el, {
+          n: 3, maxCols: 8, preset: 'ghz',
+          title: 'The 3-qubit code laboratory', subtitle: 'encoding, fault, fingerprint',
+          onChange: ({ ops, state }) => {
+            const hasX = ops.some(o => o.g === 'X' && (!o.c || !o.c.length));
+            const p = i => state.re[i] ** 2 + state.im[i] ** 2;
+            const enc = ops.filter(o => o.g === 'X' && o.c && o.c.length).length >= 2;
+            if (enc && hasX && p(0) < 0.4 && p(7) < 0.4) m.complete();
+          },
+        });
+      },
+    },
+    {
+      t: 'Where we really stand (August 2026)',
+      html: `<p>Two opposite readings circulate in the newspapers, and they are both wrong:</p>
+             <div class="grid-2">
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "It is all ready already"</h3>
+                 <p class="mb0 dim">False. Current processors have hundreds of noisy physical qubits
+                 (the <b>NISQ</b> era: Noisy Intermediate-Scale Quantum). No algorithm of commercial usefulness
+                 runs better than on a good classical computer. Many "quantum advantage" announcements
+                 have subsequently been scaled back by cleverer classical simulations.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "It is all hot air"</h3>
+                 <p class="mb0 dim">This is false too. Error correction has passed the experimental demonstration
+                 threshold: it has been shown that by increasing the number of physical qubits the logical error <b>goes down</b>,
+                 which was the critical theoretical point. The road is engineering-wise very hard but it is not blocked by
+                 any obstacle of principle.</p></div>
+             </div>
+             <p><b>What to watch to understand the progress</b>, instead of the sensationalist headlines:</p>
+             <ul>
+               <li>the number of <b>logical qubits</b> (not physical ones) and their error rate;</li>
+               <li>the <b>circuit depth</b> you can run before the result turns into noise;</li>
+               <li>the <b>fidelity of two-qubit gates</b> (the bottleneck: today 99–99.9%, more would be needed).</li>
+             </ul>
+             <div class="callout"><b>The technologies in the race:</b> superconductors (IBM, Google), trapped ions (IonQ, Quantinuum),
+             neutral atoms (QuEra, Pasqal), photons (PsiQuantum, Xanadu), spins in silicon (Intel). Each one has different trade-offs
+             between speed, fidelity, scalability and operating temperature. <b>It is not yet clear who will win</b>,
+             and that is one of the most interesting things about the field.</div>`,
+    },
+    {
+      t: '💡 Try it yourself',
+      html: `<div class="callout think">
+        <p><b>1.</b> Why is a phase error (Z) more insidious than a bit flip? <span class="muted">(because it changes no probability: it is invisible until it comes to interference)</span></p>
+        <p><b>2.</b> If one logical qubit costs 1,000 physical qubits, how many are needed for the ~4,000 logical qubits estimated for RSA-2048?</p>
+        <p><b>3.</b> In the simulator, try inserting a <b>Z</b> instead of an X in the GHZ state: do the probabilities change?
+           And the state? <span class="muted">(no and yes: that is why a code is needed for phases too)</span></p>
+        <p class="mb0"><b>4.</b> As an inventor: there are algorithms designed to <b>live with</b> noise instead of fighting it
+           (variational ones, quantum-classical hybrids). Could you imagine what structure they must have to be robust?</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'What is decoherence?',
+      options: ['a programming error', 'the loss of phase relationships through interaction with the environment', 'a logic gate', 'the collapse wanted by the experimenter'], correct: 1,
+      why: 'The environment involuntarily "measures" the system: the coherent superposition becomes a random mixture and the interference disappears.' },
+    { q: 'Why can errors not be corrected by copying the qubits?',
+      options: ['because it costs too much', 'because of the no-cloning theorem', 'because qubits are slow', 'because the copy would be inaccurate'], correct: 1,
+      why: 'An unknown quantum state cannot be copied. Instead, codes are used that spread the information over several qubits, plus syndrome measurements.' },
+    { q: 'A syndrome measurement…',
+      options: ['reads the value of the qubits', 'reveals where the error happened without revealing the information', 'erases the state', 'doubles the qubits'], correct: 1,
+      why: 'It measures relations between qubits ("are they the same?") instead of their values: it locates the error while leaving the superposition intact.' },
+    { q: 'A kind of error that does not exist in the classical world is…',
+      options: ['the bit flip', 'the phase flip', 'a power failure', 'thermal noise'], correct: 1,
+      why: 'The phase flip changes the sign of the amplitude of |1⟩ without touching the probabilities: it is invisible to a measurement but it ruins all the subsequent interference.' },
+  ],
+
+  outro: `<div class="callout ok"><b>What you take home:</b> the enemy is decoherence; you cannot copy, so you
+          encode and measure <b>syndromes</b>; one logical qubit costs thousands of physical qubits; we are midstream,
+          neither arrived nor stuck. Now the level you have been waiting for: <b>invent your own algorithm</b>.</div>`,
+});
+</script>
+</body>
+</html>

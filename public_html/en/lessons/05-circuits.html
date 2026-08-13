@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5 · The circuit laboratory — Quantum Arcade</title>
+<meta name="description" content="How to read a quantum circuit, a 3-qubit sandbox to build Bell and GHZ states, and how to count the resources that matter: qubits, depth and two-qubit gates.">
+<link rel="canonical" href="https://quantumarcade.it/en/lessons/05-circuits.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/05-circuiti.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/05-circuits.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/05-circuitos.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/05-circuiti.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { circuitLab } from '../../js/widgets/circuit.js';
+
+const L = renderLesson({
+  id: '05-circuiti',
+  lead: `A workshop level: nothing new is learned here, everything from before is <b>put into practice</b>.
+         A quantum circuit is just a <b>score</b>: the qubits are the staves, the gates are the notes, you read left to right.`,
+
+  steps: [
+    {
+      t: 'How to read a circuit',
+      html: `<p>The reading rules, all of them:</p>
+             <ul>
+               <li>every <b>horizontal line</b> is a qubit; it always starts at |0⟩ (on the left).</li>
+               <li>time flows <b>left to right</b>: gates are applied in the order you meet them.</li>
+               <li>a <b>little box</b> with a letter is a gate on that qubit.</li>
+               <li>a <b>dot</b> connected to a ⊕ symbol is a <b>control</b>: "do this thing <i>only if</i> the dotted qubit is 1".</li>
+               <li>at the end there is (implicitly) the <b>measurement</b>.</li>
+             </ul>
+             <div class="callout"><b>One confusing thing to watch:</b> a circuit reads like a program,
+             but it is <b>not</b> a classical program. There are no "if… then" decisions taken during execution:
+             every route is travelled at once, and the result is decided by interference.</div>`,
+    },
+    {
+      t: 'The sandbox',
+      html: `<p>Pick a gate from the palette, click on the grid to place it. For two-qubit gates
+             (CNOT, CZ, SWAP) click <b>the control first, then the target</b>. Click an already placed gate to remove it.</p>
+             <p><b>The three things to always watch:</b></p>
+             <ol>
+               <li>the <b>amplitude bars</b> (height = how big, colour = phase/sign);</li>
+               <li>the <b>measurement histogram</b>: what you would actually see running the circuit 200 times;</li>
+               <li>the <b>written state</b> underneath: the formula with all its terms.</li>
+             </ol>`,
+      mount: (el, api) => {
+        const m1 = api.mission({ key: 'ghz', title: 'Build a GHZ', text: 'create the state |000⟩ + |111⟩ (H on q0, then two chained CNOTs) and measure it 200 times.', xp: 50 });
+        el.appendChild(m1.root);
+        circuitLab(el, {
+          n: 3, maxCols: 8,
+          onChange: ({ state, n }) => {
+            const p = (i) => state.re[i] ** 2 + state.im[i] ** 2;
+            if (n === 3 && Math.abs(p(0) - 0.5) < 0.02 && Math.abs(p(7) - 0.5) < 0.02) m1.complete();
+          },
+        });
+      },
+      after: `<div class="callout key"><b>Recommended experiments</b> (in order of increasing surprise):
+              <ol style="margin:8px 0 0">
+                <li><b>H on q0</b> and nothing else: two equal bars. Simple.</li>
+                <li><b>H on q0, H on q1, H on q2</b>: eight equal bars. You have put <b>all</b> 8 possibilities in play with 3 gates.</li>
+                <li><b>H q0 → CNOT q0→q1</b>: the Bell state. Only 00 and 11.</li>
+                <li><b>H q0 → CNOT q0→q1 → CNOT q1→q2</b>: GHZ. Three qubits all in agreement.</li>
+                <li>The <b>QFT on 3 qubits</b> preset: look at how many gates it takes and what pattern the phases make. We come back to it at level 18.</li>
+              </ol></div>`,
+    },
+    {
+      t: 'Counting resources (what matters in reality)',
+      html: `<p>When you design a real algorithm, three things get counted:</p>
+             <table class="table">
+               <tr><th>Resource</th><th>What it is</th><th>Why it matters</th></tr>
+               <tr><td><b>Number of qubits</b></td><td>how many rows the circuit has</td><td>real computers have few of them, and imperfect ones</td></tr>
+               <tr><td><b>Depth</b></td><td>how many columns (sequential steps)</td><td>the deeper it is, the more time passes and the more noise ruins everything (level 21)</td></tr>
+               <tr><td><b>Number of 2-qubit gates</b></td><td>how many CNOT/CZ</td><td>they are the hardest to build and the noisiest</td></tr>
+             </table>
+             <p>In the simulator you can count them by eye: an excellent exercise before moving on to real algorithms.</p>
+             <div class="callout warn"><b>Why your browser can handle this:</b> here we simulate 3 qubits, that is 8 amplitudes.
+             With 30 qubits it would take more than a billion complex numbers. That is why classical simulators
+             stop somewhere around 40 qubits even on supercomputers — and why real quantum computers are needed.</div>`,
+    },
+    {
+      t: '💡 Your turn',
+      html: `<div class="callout think">
+        <p><b>1.</b> Build a circuit producing <b>all 8</b> outputs with the same probability. How many gates does it take?</p>
+        <p><b>2.</b> Now try producing <b>only</b> |101⟩ with certainty. How many gates? What is the difference from point 1?</p>
+        <p><b>3.</b> Create a Bell state and then apply <b>H to both</b> qubits. What happens? Can you explain it?</p>
+        <p class="mb0"><b>4.</b> A real challenge: build a circuit giving |00⟩ and |11⟩ with <b>different</b> probabilities (say 80/20)
+           instead of 50/50. <span class="muted">(hint: instead of H use an RY rotation with the right angle)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'In a quantum circuit, the filled dot connected to another gate means…',
+      options: ['a measurement', 'a control qubit', 'an error', 'the end of the circuit'], correct: 1,
+      why: 'It is the control: the connected gate acts only on the part of the state where that qubit is 1.' },
+    { q: 'How many gates does it take to put 3 qubits in uniform superposition (8 equally likely results)?',
+      options: ['8', '3 (one H per qubit)', '1', '24'], correct: 1,
+      why: 'One Hadamard per qubit: 3 gates for 8 possibilities. With n gates you get 2^n — the first taste of quantum advantage.' },
+    { q: 'The "depth" of a circuit is…',
+      options: ['the number of qubits', 'the number of sequential steps', 'the number of measurements', 'the memory used'], correct: 1,
+      why: 'The columns, that is, how long the circuit stays running. It is the resource noise punishes most.' },
+  ],
+
+  outro: `<div class="callout ok"><b>What you take home:</b> being able to read and build circuits. From here on
+          every algorithm you meet will be "just" a circuit with precisely directed interference.
+          Next level: what you <b>cannot</b> do with qubits (and how to work around it).</div>`,
+});
+</script>
+</body>
+</html>

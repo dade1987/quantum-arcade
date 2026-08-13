@@ -6,11 +6,12 @@
 
 import { Stage, COL, bg, grid, arrow, circle, dot, text, makePlane, complexAxes, roundRect } from '../core/canvas.js';
 import { widget, slider, controls, buttons, readout, h, toggle } from '../core/ui.js';
+import { t } from '../core/i18n.js';
 
 export function phasorLab(host, opts = {}) {
   const cfg = Object.assign({
     theta: Math.PI / 4, spin: 0, showWave: true,
-    title: 'La freccia che gira', subtitle: 'trascinala col mouse!',
+    title: t('La freccia che gira'), subtitle: t('trascinala col mouse!'),
   }, opts);
   const w = widget(host, { title: cfg.title, subtitle: cfg.subtitle });
   const st = { theta: cfg.theta, spin: cfg.spin, trail: [] };
@@ -66,7 +67,7 @@ export function phasorLab(host, opts = {}) {
       const cycles = 2;
       grid(ctx, x0, cy - R, wD, 2 * R, wD / (cycles * 4), R / 2);
       ctx.strokeStyle = COL.axis; ctx.beginPath(); ctx.moveTo(x0, cy); ctx.lineTo(x0 + wD, cy); ctx.stroke();
-      for (const [fn, col, lab] of [[Math.cos, COL.amber, 'parte reale = cos'], [Math.sin, COL.green, 'parte immaginaria = sin']]) {
+      for (const [fn, col, lab] of [[Math.cos, COL.amber, t('parte reale = cos')], [Math.sin, COL.green, t('parte immaginaria = sin')]]) {
         ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.globalAlpha = .95; ctx.beginPath();
         for (let i = 0; i <= 260; i++) {
           const u = i / 260, a = th + u * cycles * 2 * Math.PI;
@@ -77,15 +78,15 @@ export function phasorLab(host, opts = {}) {
       }
       dot(ctx, x0, cy - Math.cos(th) * R, 4.5, COL.amber);
       dot(ctx, x0, cy - Math.sin(th) * R, 4.5, COL.green);
-      text(ctx, 'la freccia gira → escono le due onde', x0, cy - R - 8, { size: 10.5, color: '#5b6b90' });
+      text(ctx, t('la freccia gira → escono le due onde'), x0, cy - R - 8, { size: 10.5, color: '#5b6b90' });
       text(ctx, 'cos', x0 + wD - 2, cy - R + 10, { size: 10.5, align: 'right', color: COL.amber });
       text(ctx, 'sin', x0 + wD - 2, cy - R + 24, { size: 10.5, align: 'right', color: COL.green });
     },
   });
 
   const out = readout('');
-  const sTh = slider({ label: 'Angolo <b>θ</b>', min: -180, max: 180, step: 1, value: st.theta * 180 / Math.PI, fmt: v => v.toFixed(0) + '°', oninput: v => { st.theta = v * Math.PI / 180; st.spin = 0; sSpin.value = 0; upd(); } });
-  const sSpin = slider({ label: 'Velocità di rotazione <b>ω</b>', min: 0, max: 1.2, step: 0.02, value: st.spin, fmt: v => v.toFixed(2) + ' giri/s', oninput: v => { st.spin = v; } });
+  const sTh = slider({ label: t('Angolo <b>θ</b>'), min: -180, max: 180, step: 1, value: st.theta * 180 / Math.PI, fmt: v => v.toFixed(0) + '°', oninput: v => { st.theta = v * Math.PI / 180; st.spin = 0; sSpin.value = 0; upd(); } });
+  const sSpin = slider({ label: t('Velocità di rotazione <b>ω</b>'), min: 0, max: 1.2, step: 0.02, value: st.spin, fmt: v => v.toFixed(2) + ' ' + t('giri/s'), oninput: v => { st.spin = v; } });
   w.body.appendChild(controls(sTh.root, sSpin.root));
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
     { label: 'θ = 0° → 1', onclick: () => set(0) },
@@ -101,12 +102,12 @@ export function phasorLab(host, opts = {}) {
     out.set(
       `<b>e^{iθ}</b> = cos θ + i·sin θ\n` +
       `θ = <span class="p">${dg.toFixed(0)}°</span> = ${(dg / 180).toFixed(3)}π rad\n` +
-      `e^{iθ} = <span class="a">${Math.cos(th).toFixed(3)}</span> + <span class="g">${Math.sin(th).toFixed(3)}</span>i   (lunghezza sempre = 1)`);
+      `e^{iθ} = <span class="a">${Math.cos(th).toFixed(3)}</span> + <span class="g">${Math.sin(th).toFixed(3)}</span>i   ` + t('(lunghezza sempre = 1)'));
     stage.redraw();
     cfg.onChange && cfg.onChange(st.theta);
   }
   upd();
-  w.setFoot('<b>Da ricordare:</b> e^{iθ} non è un numero "strano", è solo <b>la freccia lunga 1 che punta all\'angolo θ</b>. La sua ombra orizzontale è il coseno, quella verticale è il seno.');
+  w.setFoot(t('<b>Da ricordare:</b> e^{iθ} non è un numero "strano", è solo <b>la freccia lunga 1 che punta all\'angolo θ</b>. La sua ombra orizzontale è il coseno, quella verticale è il seno.'));
   return { stage, state: st, set, update: upd };
 }
 
@@ -116,7 +117,7 @@ export function phasorLab(host, opts = {}) {
    ------------------------------------------------------------ */
 
 export function multiplyLab(host, opts = {}) {
-  const w = widget(host, { title: 'Moltiplicare frecce = sommare angoli', subtitle: 'trascina A e B' });
+  const w = widget(host, { title: t('Moltiplicare frecce = sommare angoli'), subtitle: t('trascina A e B') });
   const st = { a: { r: 1, th: 0.5 }, b: { r: 1, th: 0.9 }, drag: null };
 
   const stage = new Stage(w.body, {
@@ -157,7 +158,7 @@ export function multiplyLab(host, opts = {}) {
       dr(A, COL.cyan, 'A');
       dr(B, COL.amber, 'B');
       dr({ r: Cr, th: Cth }, COL.pink, 'A×B');
-      const deg = t => ((t * 180 / Math.PI) % 360 + 360) % 360;
+      const deg = ang => ((ang * 180 / Math.PI) % 360 + 360) % 360;
       text(ctx, `|A| = ${A.r.toFixed(2)}   ∠A = ${deg(A.th).toFixed(0)}°`, 12, 18, { size: 11.5, color: COL.cyan });
       text(ctx, `|B| = ${B.r.toFixed(2)}   ∠B = ${deg(B.th).toFixed(0)}°`, 12, 34, { size: 11.5, color: COL.amber });
       text(ctx, `|A×B| = ${A.r.toFixed(2)}×${B.r.toFixed(2)} = ${Cr.toFixed(2)}`, 12, 54, { size: 11.5, color: COL.pink });
@@ -170,13 +171,13 @@ export function multiplyLab(host, opts = {}) {
     const A = st.a, B = st.b;
     const ar = A.r * Math.cos(A.th), ai = A.r * Math.sin(A.th);
     const br = B.r * Math.cos(B.th), bi = B.r * Math.sin(B.th);
-    out.set(`Conto "a mano": (${ar.toFixed(2)} + ${ai.toFixed(2)}i) × (${br.toFixed(2)} + ${bi.toFixed(2)}i) = ` +
+    out.set(t('Conto "a mano":') + ` (${ar.toFixed(2)} + ${ai.toFixed(2)}i) × (${br.toFixed(2)} + ${bi.toFixed(2)}i) = ` +
       `<span class="p">${(ar * br - ai * bi).toFixed(2)} + ${(ar * bi + ai * br).toFixed(2)}i</span>\n` +
-      `Conto "con le frecce": lunghezze <b>si moltiplicano</b>, angoli <b>si sommano</b>. Stesso risultato, molto meno fatica.`);
+      t('Conto "con le frecce": lunghezze <b>si moltiplicano</b>, angoli <b>si sommano</b>. Stesso risultato, molto meno fatica.'));
     stage.redraw();
   }
   upd();
   w.body.appendChild(out.root);
-  w.setFoot('Se |B| = 1 (freccia lunga 1, cioè e^{iθ}), moltiplicare per B <b>non cambia la lunghezza di A: la fa solo ruotare</b>. Ecco perché tutta Fourier — e tutte le porte di fase quantistiche — sono moltiplicazioni per e^{iθ}.');
+  w.setFoot(t('Se |B| = 1 (freccia lunga 1, cioè e^{iθ}), moltiplicare per B <b>non cambia la lunghezza di A: la fa solo ruotare</b>. Ecco perché tutta Fourier — e tutte le porte di fase quantistiche — sono moltiplicazioni per e^{iθ}.'));
   return { stage, state: st };
 }

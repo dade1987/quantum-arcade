@@ -12,6 +12,8 @@
    · si può spegnere tutto, e la scelta viene ricordata.
    ============================================================ */
 
+import { t } from './i18n.js';
+
 const KEY = 'quantum-arcade:sound';
 let ctx = null, master = null;
 let muted = (() => { try { return localStorage.getItem(KEY) === 'off'; } catch { return false; } })();
@@ -201,8 +203,8 @@ export function wireSounds() {
 export function soundButton() {
   const b = document.createElement('button');
   b.className = 'btn sm ghost';
-  b.title = 'Attiva/disattiva i suoni';
-  b.setAttribute('aria-label', 'Attiva o disattiva i suoni');
+  b.title = t('Attiva/disattiva i suoni');
+  b.setAttribute('aria-label', t('Attiva o disattiva i suoni'));
   const paint = () => { b.textContent = muted ? '🔇' : '🔊'; };
   paint();
   b.addEventListener('click', () => { setMuted(!muted); paint(); if (!muted) sfx.unlock(); });

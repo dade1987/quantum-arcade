@@ -5,40 +5,147 @@
        node tools/sync-exam.mjs
    Le risposte esatte restano SOLO lato server: il browser riceve
    le domande senza soluzione, e la correzione la fa Laravel.
+
+   LINGUE
+   Ogni domanda porta con sé le proprie traduzioni in `en` e `es`
+   ({ q, o, w }: testo, opzioni, spiegazione). L'indice della risposta
+   giusta — `c` — è uno solo e vale per tutte le lingue: le opzioni
+   tradotte DEVONO restare nello stesso ordine, altrimenti l'esame
+   correggerebbe la domanda tradotta con la risposta di un'altra.
+   Se una traduzione manca, quella lingua ricade sull'italiano: meglio
+   una domanda in una lingua sola che una domanda sbagliata.
    ============================================================ */
 
 export const EXAM = [
-  { q: 'Un\'onda ha periodo T = 0,2 s. Qual è la sua frequenza?', o: ['0,2 Hz', '2 Hz', '5 Hz', '20 Hz'], c: 2, w: 'f = 1/T = 1/0,2 = 5 Hz.' },
-  { q: 'Che cosa descrive la <b>fase</b> di un\'onda?', o: ['Quanto è alta', 'Quanti cicli fa al secondo', 'A che punto del ciclo si trova', 'Quanto dura'], c: 2, w: 'La fase dice in quale punto del giro si trova l\'onda; 360° equivalgono a 0°.' },
-  { q: 'Due onde identiche sfasate di 180° vengono sommate. Risultato?', o: ['Onda doppia', 'Zero', 'Frequenza doppia', 'Invariata'], c: 1, w: 'Interferenza distruttiva: si cancellano.' },
-  { q: 'Quanto vale e^{iπ}?', o: ['1', 'i', '−1', 'π'], c: 2, w: 'Mezzo giro sul cerchio unitario porta a −1 (identità di Eulero).' },
-  { q: 'Moltiplicare un numero complesso per e^{iθ} significa…', o: ['allungarlo', 'ruotarlo di θ', 'coniugarlo', 'azzerarlo'], c: 1, w: 'e^{iθ} ha modulo 1: cambia solo l\'angolo.' },
-  { q: 'Nella DFT, e^{−i2πkn/N} serve a…', o: ['normalizzare', 'ruotare ogni campione', 'togliere il rumore', 'contare i campioni'], c: 1, w: 'È la freccia che ruota: la DFT è "ruota e somma".' },
-  { q: 'X(0) della DFT corrisponde a…', o: ['la frequenza massima', 'la somma dei campioni', 'la fase iniziale', 'zero'], c: 1, w: 'Con k = 0 non c\'è rotazione: si sommano i dati così come sono.' },
-  { q: 'Con N = 16 campioni, quante frequenze può testare la DFT?', o: ['4', '8', '16', 'infinite'], c: 2, w: 'Esattamente N: da k = 0 a k = N−1.' },
-  { q: 'La FFT su N punti costa circa…', o: ['N', 'N log N', 'N²', '2^N'], c: 1, w: 'Dividi et impera: log N livelli, N operazioni per livello.' },
-  { q: 'La probabilità di misurare uno stato con ampiezza a vale…', o: ['a', '|a|', '|a|²', '2a'], c: 2, w: 'Regola di Born: probabilità = modulo dell\'ampiezza al quadrato.' },
-  { q: 'Un qubit dopo H|0⟩ è…', o: ['0 col 50% e 1 col 50%, come una moneta', 'in sovrapposizione coerente di |0⟩ e |1⟩', 'sempre 1', 'entangled'], c: 1, w: 'La differenza con la moneta è la fase: applicando un\'altra H torna esattamente a |0⟩.' },
-  { q: 'Cosa fa la porta Z?', o: ['scambia |0⟩ e |1⟩', 'mette un segno meno su |1⟩', 'crea entanglement', 'misura il qubit'], c: 1, w: 'Z lascia |0⟩ e moltiplica |1⟩ per −1: è una rotazione di fase di 180°.' },
-  { q: 'Sulla sfera di Bloch, il polo nord e il polo sud sono…', o: ['|+⟩ e |−⟩', '|0⟩ e |1⟩', 'due qubit diversi', 'stati entangled'], c: 1, w: 'Nord = |0⟩, sud = |1⟩; l\'equatore contiene le sovrapposizioni al 50%, differenziate dalla fase.' },
-  { q: 'Con 10 qubit, quante ampiezze descrivono lo stato?', o: ['10', '100', '1024', '2·10'], c: 2, w: '2^10 = 1024: la crescita esponenziale è il motivo di tutto.' },
-  { q: 'Lo stato (|00⟩ + |11⟩)/√2 è…', o: ['separabile', 'entangled', 'classico', 'non normalizzato'], c: 1, w: 'Non si può scrivere come prodotto di due stati singoli: misurando uno, l\'altro è determinato.' },
-  { q: 'Il teorema di no-cloning dice che…', o: ['non si può misurare un qubit', 'non si può copiare uno stato quantistico sconosciuto', 'non si può creare entanglement', 'non si possono usare più di 2 qubit'], c: 1, w: 'Nessuna operazione unitaria copia uno stato arbitrario sconosciuto.' },
-  { q: 'Nel teletrasporto quantistico servono anche…', o: ['due bit classici comunicati normalmente', 'niente, è istantaneo', 'un terzo qubit entangled con Bob', 'una misura di Bob prima di tutto'], c: 0, w: 'Senza i due bit classici Bob non sa quale correzione applicare: niente informazione più veloce della luce.' },
-  { q: 'Deutsch–Jozsa distingue funzione costante da bilanciata con…', o: ['1 interrogazione', 'N/2 interrogazioni', 'N interrogazioni', 'log N interrogazioni'], c: 0, w: 'Una sola, contro le 2^{n−1}+1 del caso peggiore classico.' },
-  { q: 'Bernstein–Vazirani trova una stringa segreta di n bit con…', o: ['n interrogazioni', '1 interrogazione', '2^n interrogazioni', 'n² interrogazioni'], c: 1, w: 'Una sola: l\'oracolo scrive s nelle fasi e le Hadamard finali lo riportano in posizione.' },
-  { q: 'Grover su N elementi richiede circa…', o: ['N passi', 'log N passi', '√N passi', 'N² passi'], c: 2, w: 'Circa (π/4)√N iterazioni: guadagno quadratico, non esponenziale.' },
-  { q: 'L\'algoritmo di Simon cerca…', o: ['un elemento in una lista', 'un periodo nascosto s con f(x) = f(x ⊕ s)', 'i fattori di un numero', 'la fase di un autovalore'], c: 1, w: 'Ogni valore della funzione esce due volte, e le due x che lo producono distano sempre s.' },
-  { q: 'In Simon, una singola interrogazione quantistica produce…', o: ['il segreto s', 'un\'equazione lineare y·s = 0 mod 2', 'due bit di s', 'una collisione'], c: 1, w: 'Servono n−1 equazioni indipendenti, poi il segreto si ricava con l\'eliminazione di Gauss: un passo classico.' },
-  { q: 'Il vantaggio di Simon rispetto al classico è…', o: ['quadratico', 'esponenziale e dimostrato', 'nullo', 'solo teorico'], c: 1, w: 'Classicamente serve una collisione: circa √(2^n) domande (paradosso dei compleanni). Quantisticamente circa n. È la separazione che ispirò Shor.' },
-  { q: 'Se in Grover si fanno troppe iterazioni…', o: ['la probabilità continua a salire', 'la probabilità ricala', 'il circuito si blocca', 'si perde l\'entanglement'], c: 1, w: 'È una rotazione: superato il bersaglio si comincia a tornare indietro.' },
-  { q: 'La QFT su n qubit richiede circa quante porte?', o: ['n', 'n²', '2^n', 'n log n'], c: 1, w: 'n(n+1)/2 rotazioni e Hadamard più gli SWAP: dell\'ordine di n².' },
-  { q: 'Quali porte compongono il circuito della QFT?', o: ['solo CNOT', 'Hadamard e rotazioni di fase controllate', 'solo X e Z', 'misure ripetute'], c: 1, w: 'Su ogni qubit una H, poi rotazioni di fase controllate dai qubit meno significativi, infine gli SWAP.' },
-  { q: 'La QFT applicata a |01⟩ con 2 qubit produce ampiezze proporzionali a…', o: ['[1,1,1,1]', '[1, i, −1, −i]', '[0,1,0,0]', '[1,−1,1,−1]'], c: 1, w: 'Quattro frecce a 0°, 90°, 180°, 270°: l\'informazione è passata dalla posizione alla fase.' },
-  { q: 'Perché la QFT NON serve a calcolare velocemente lo spettro di un file audio?', o: ['perché è imprecisa', 'perché misurando si ottiene un solo risultato, non tutta la lista', 'perché è più lenta della FFT', 'perché funziona solo su numeri primi'], c: 1, w: 'La QFT trasforma tutte le ampiezze, ma la misura ne restituisce una sola: serve a far interferire, non a stampare.' },
-  { q: 'Se uno stato ha periodicità r, dopo la QFT i picchi cadono su…', o: ['multipli di r', 'multipli di N/r', 'numeri primi', 'posizioni casuali'], c: 1, w: 'Periodo r nel dominio di partenza → passo N/r nel dominio trasformato.' },
-  { q: 'La Quantum Phase Estimation serve a…', o: ['misurare l\'energia di un qubit', 'leggere una fase come numero binario', 'creare entanglement', 'correggere errori'], c: 1, w: 'Scrive la fase di un autovalore nei qubit di lettura e la rende misurabile tramite QFT inversa.' },
-  { q: 'Shor riduce la fattorizzazione al problema di…', o: ['trovare il periodo di a^x mod N', 'sommare numeri primi', 'ordinare una lista', 'cercare in un database'], c: 0, w: 'Trovato r, i fattori si ottengono con MCD(a^{r/2} ± 1, N).' },
-  { q: 'Nel dopo-misura di Shor si usano le frazioni continue per…', o: ['ridurre il rumore', 'ricavare r da y/M', 'moltiplicare i fattori', 'inizializzare i qubit'], c: 1, w: 'Approssimano y/M con la frazione k/r più semplice: il denominatore è il periodo cercato.' },
-  { q: 'La decoerenza è…', o: ['un errore di programmazione', 'la perdita dello stato quantistico per interazione con l\'ambiente', 'una porta logica', 'un tipo di misura'], c: 1, w: 'L\'ambiente "misura" il sistema senza chiedere permesso, distruggendo le relazioni di fase.' },
+  { q: 'Un\'onda ha periodo T = 0,2 s. Qual è la sua frequenza?', o: ['0,2 Hz', '2 Hz', '5 Hz', '20 Hz'], c: 2, w: 'f = 1/T = 1/0,2 = 5 Hz.',
+    en: { q: 'A wave has period T = 0.2 s. What is its frequency?', o: ['0.2 Hz', '2 Hz', '5 Hz', '20 Hz'], w: 'f = 1/T = 1/0.2 = 5 Hz.' },
+    es: { q: 'Una onda tiene periodo T = 0,2 s. ¿Cuál es su frecuencia?', o: ['0,2 Hz', '2 Hz', '5 Hz', '20 Hz'], w: 'f = 1/T = 1/0,2 = 5 Hz.' } },
+
+  { q: 'Che cosa descrive la <b>fase</b> di un\'onda?', o: ['Quanto è alta', 'Quanti cicli fa al secondo', 'A che punto del ciclo si trova', 'Quanto dura'], c: 2, w: 'La fase dice in quale punto del giro si trova l\'onda; 360° equivalgono a 0°.',
+    en: { q: 'What does the <b>phase</b> of a wave describe?', o: ['How tall it is', 'How many cycles it makes per second', 'Where in the cycle it is', 'How long it lasts'], w: 'The phase says where in the turn the wave is; 360° is the same as 0°.' },
+    es: { q: '¿Qué describe la <b>fase</b> de una onda?', o: ['Cómo de alta es', 'Cuántos ciclos hace por segundo', 'En qué punto del ciclo se encuentra', 'Cuánto dura'], w: 'La fase dice en qué punto de la vuelta está la onda; 360° equivalen a 0°.' } },
+
+  { q: 'Due onde identiche sfasate di 180° vengono sommate. Risultato?', o: ['Onda doppia', 'Zero', 'Frequenza doppia', 'Invariata'], c: 1, w: 'Interferenza distruttiva: si cancellano.',
+    en: { q: 'Two identical waves shifted by 180° are added together. Result?', o: ['A double wave', 'Zero', 'Double frequency', 'Unchanged'], w: 'Destructive interference: they cancel out.' },
+    es: { q: 'Dos ondas idénticas desfasadas 180° se suman. ¿Resultado?', o: ['Onda doble', 'Cero', 'Frecuencia doble', 'Invariada'], w: 'Interferencia destructiva: se cancelan.' } },
+
+  { q: 'Quanto vale e^{iπ}?', o: ['1', 'i', '−1', 'π'], c: 2, w: 'Mezzo giro sul cerchio unitario porta a −1 (identità di Eulero).',
+    en: { q: 'What is e^{iπ}?', o: ['1', 'i', '−1', 'π'], w: 'Half a turn on the unit circle takes you to −1 (Euler\'s identity).' },
+    es: { q: '¿Cuánto vale e^{iπ}?', o: ['1', 'i', '−1', 'π'], w: 'Media vuelta sobre el círculo unidad lleva a −1 (identidad de Euler).' } },
+
+  { q: 'Moltiplicare un numero complesso per e^{iθ} significa…', o: ['allungarlo', 'ruotarlo di θ', 'coniugarlo', 'azzerarlo'], c: 1, w: 'e^{iθ} ha modulo 1: cambia solo l\'angolo.',
+    en: { q: 'Multiplying a complex number by e^{iθ} means…', o: ['stretching it', 'rotating it by θ', 'conjugating it', 'zeroing it'], w: 'e^{iθ} has modulus 1: only the angle changes.' },
+    es: { q: 'Multiplicar un número complejo por e^{iθ} significa…', o: ['alargarlo', 'rotarlo θ', 'conjugarlo', 'anularlo'], w: 'e^{iθ} tiene módulo 1: solo cambia el ángulo.' } },
+
+  { q: 'Nella DFT, e^{−i2πkn/N} serve a…', o: ['normalizzare', 'ruotare ogni campione', 'togliere il rumore', 'contare i campioni'], c: 1, w: 'È la freccia che ruota: la DFT è "ruota e somma".',
+    en: { q: 'In the DFT, e^{−i2πkn/N} is there to…', o: ['normalise', 'rotate every sample', 'remove the noise', 'count the samples'], w: 'It is the rotating arrow: the DFT is "rotate and add".' },
+    es: { q: 'En la DFT, e^{−i2πkn/N} sirve para…', o: ['normalizar', 'rotar cada muestra', 'quitar el ruido', 'contar las muestras'], w: 'Es la flecha que rota: la DFT es "rota y suma".' } },
+
+  { q: 'X(0) della DFT corrisponde a…', o: ['la frequenza massima', 'la somma dei campioni', 'la fase iniziale', 'zero'], c: 1, w: 'Con k = 0 non c\'è rotazione: si sommano i dati così come sono.',
+    en: { q: 'X(0) of the DFT corresponds to…', o: ['the highest frequency', 'the sum of the samples', 'the initial phase', 'zero'], w: 'With k = 0 there is no rotation: the data are added up just as they are.' },
+    es: { q: 'X(0) de la DFT corresponde a…', o: ['la frecuencia máxima', 'la suma de las muestras', 'la fase inicial', 'cero'], w: 'Con k = 0 no hay rotación: se suman los datos tal cual.' } },
+
+  { q: 'Con N = 16 campioni, quante frequenze può testare la DFT?', o: ['4', '8', '16', 'infinite'], c: 2, w: 'Esattamente N: da k = 0 a k = N−1.',
+    en: { q: 'With N = 16 samples, how many frequencies can the DFT test?', o: ['4', '8', '16', 'infinitely many'], w: 'Exactly N: from k = 0 to k = N−1.' },
+    es: { q: 'Con N = 16 muestras, ¿cuántas frecuencias puede probar la DFT?', o: ['4', '8', '16', 'infinitas'], w: 'Exactamente N: de k = 0 a k = N−1.' } },
+
+  { q: 'La FFT su N punti costa circa…', o: ['N', 'N log N', 'N²', '2^N'], c: 1, w: 'Dividi et impera: log N livelli, N operazioni per livello.',
+    en: { q: 'The FFT on N points costs about…', o: ['N', 'N log N', 'N²', '2^N'], w: 'Divide and conquer: log N levels, N operations per level.' },
+    es: { q: 'La FFT sobre N puntos cuesta alrededor de…', o: ['N', 'N log N', 'N²', '2^N'], w: 'Divide y vencerás: log N niveles, N operaciones por nivel.' } },
+
+  { q: 'La probabilità di misurare uno stato con ampiezza a vale…', o: ['a', '|a|', '|a|²', '2a'], c: 2, w: 'Regola di Born: probabilità = modulo dell\'ampiezza al quadrato.',
+    en: { q: 'The probability of measuring a state with amplitude a is…', o: ['a', '|a|', '|a|²', '2a'], w: 'Born rule: probability = the modulus of the amplitude squared.' },
+    es: { q: 'La probabilidad de medir un estado con amplitud a vale…', o: ['a', '|a|', '|a|²', '2a'], w: 'Regla de Born: probabilidad = módulo de la amplitud al cuadrado.' } },
+
+  { q: 'Un qubit dopo H|0⟩ è…', o: ['0 col 50% e 1 col 50%, come una moneta', 'in sovrapposizione coerente di |0⟩ e |1⟩', 'sempre 1', 'entangled'], c: 1, w: 'La differenza con la moneta è la fase: applicando un\'altra H torna esattamente a |0⟩.',
+    en: { q: 'A qubit after H|0⟩ is…', o: ['0 with 50% and 1 with 50%, like a coin', 'in a coherent superposition of |0⟩ and |1⟩', 'always 1', 'entangled'], w: 'The difference from the coin is the phase: applying another H brings it back exactly to |0⟩.' },
+    es: { q: 'Un cúbit tras H|0⟩ está…', o: ['0 con el 50% y 1 con el 50%, como una moneda', 'en superposición coherente de |0⟩ y |1⟩', 'siempre en 1', 'entrelazado'], w: 'La diferencia con la moneda es la fase: aplicando otra H vuelve exactamente a |0⟩.' } },
+
+  { q: 'Cosa fa la porta Z?', o: ['scambia |0⟩ e |1⟩', 'mette un segno meno su |1⟩', 'crea entanglement', 'misura il qubit'], c: 1, w: 'Z lascia |0⟩ e moltiplica |1⟩ per −1: è una rotazione di fase di 180°.',
+    en: { q: 'What does the Z gate do?', o: ['it swaps |0⟩ and |1⟩', 'it puts a minus sign on |1⟩', 'it creates entanglement', 'it measures the qubit'], w: 'Z leaves |0⟩ alone and multiplies |1⟩ by −1: it is a 180° phase rotation.' },
+    es: { q: '¿Qué hace la puerta Z?', o: ['intercambia |0⟩ y |1⟩', 'pone un signo menos sobre |1⟩', 'crea entrelazamiento', 'mide el cúbit'], w: 'Z deja |0⟩ y multiplica |1⟩ por −1: es una rotación de fase de 180°.' } },
+
+  { q: 'Sulla sfera di Bloch, il polo nord e il polo sud sono…', o: ['|+⟩ e |−⟩', '|0⟩ e |1⟩', 'due qubit diversi', 'stati entangled'], c: 1, w: 'Nord = |0⟩, sud = |1⟩; l\'equatore contiene le sovrapposizioni al 50%, differenziate dalla fase.',
+    en: { q: 'On the Bloch sphere, the north pole and the south pole are…', o: ['|+⟩ and |−⟩', '|0⟩ and |1⟩', 'two different qubits', 'entangled states'], w: 'North = |0⟩, south = |1⟩; the equator holds the 50% superpositions, told apart by the phase.' },
+    es: { q: 'En la esfera de Bloch, el polo norte y el polo sur son…', o: ['|+⟩ y |−⟩', '|0⟩ y |1⟩', 'dos cúbits distintos', 'estados entrelazados'], w: 'Norte = |0⟩, sur = |1⟩; el ecuador contiene las superposiciones al 50%, diferenciadas por la fase.' } },
+
+  { q: 'Con 10 qubit, quante ampiezze descrivono lo stato?', o: ['10', '100', '1024', '2·10'], c: 2, w: '2^10 = 1024: la crescita esponenziale è il motivo di tutto.',
+    en: { q: 'With 10 qubits, how many amplitudes describe the state?', o: ['10', '100', '1024', '2·10'], w: '2^10 = 1024: the exponential growth is the reason for everything.' },
+    es: { q: 'Con 10 cúbits, ¿cuántas amplitudes describen el estado?', o: ['10', '100', '1024', '2·10'], w: '2^10 = 1024: el crecimiento exponencial es el motivo de todo.' } },
+
+  { q: 'Lo stato (|00⟩ + |11⟩)/√2 è…', o: ['separabile', 'entangled', 'classico', 'non normalizzato'], c: 1, w: 'Non si può scrivere come prodotto di due stati singoli: misurando uno, l\'altro è determinato.',
+    en: { q: 'The state (|00⟩ + |11⟩)/√2 is…', o: ['separable', 'entangled', 'classical', 'not normalised'], w: 'It cannot be written as a product of two single states: by measuring one, the other is determined.' },
+    es: { q: 'El estado (|00⟩ + |11⟩)/√2 es…', o: ['separable', 'entrelazado', 'clásico', 'no normalizado'], w: 'No se puede escribir como producto de dos estados individuales: midiendo uno, el otro queda determinado.' } },
+
+  { q: 'Il teorema di no-cloning dice che…', o: ['non si può misurare un qubit', 'non si può copiare uno stato quantistico sconosciuto', 'non si può creare entanglement', 'non si possono usare più di 2 qubit'], c: 1, w: 'Nessuna operazione unitaria copia uno stato arbitrario sconosciuto.',
+    en: { q: 'The no-cloning theorem says that…', o: ['you cannot measure a qubit', 'you cannot copy an unknown quantum state', 'you cannot create entanglement', 'you cannot use more than 2 qubits'], w: 'No unitary operation copies an arbitrary unknown state.' },
+    es: { q: 'El teorema de no-clonación dice que…', o: ['no se puede medir un cúbit', 'no se puede copiar un estado cuántico desconocido', 'no se puede crear entrelazamiento', 'no se pueden usar más de 2 cúbits'], w: 'Ninguna operación unitaria copia un estado arbitrario desconocido.' } },
+
+  { q: 'Nel teletrasporto quantistico servono anche…', o: ['due bit classici comunicati normalmente', 'niente, è istantaneo', 'un terzo qubit entangled con Bob', 'una misura di Bob prima di tutto'], c: 0, w: 'Senza i due bit classici Bob non sa quale correzione applicare: niente informazione più veloce della luce.',
+    en: { q: 'Quantum teleportation also needs…', o: ['two classical bits communicated in the normal way', 'nothing, it is instantaneous', 'a third qubit entangled with Bob', 'a measurement by Bob before anything else'], w: 'Without the two classical bits Bob does not know which correction to apply: no faster-than-light information.' },
+    es: { q: 'En el teletransporte cuántico hacen falta también…', o: ['dos bits clásicos comunicados de forma normal', 'nada, es instantáneo', 'un tercer cúbit entrelazado con Bob', 'una medida de Bob antes de nada'], w: 'Sin los dos bits clásicos Bob no sabe qué corrección aplicar: nada de información más rápida que la luz.' } },
+
+  { q: 'Deutsch–Jozsa distingue funzione costante da bilanciata con…', o: ['1 interrogazione', 'N/2 interrogazioni', 'N interrogazioni', 'log N interrogazioni'], c: 0, w: 'Una sola, contro le 2^{n−1}+1 del caso peggiore classico.',
+    en: { q: 'Deutsch–Jozsa tells a constant function from a balanced one with…', o: ['1 query', 'N/2 queries', 'N queries', 'log N queries'], w: 'Just one, against the 2^{n−1}+1 of the classical worst case.' },
+    es: { q: 'Deutsch–Jozsa distingue una función constante de una equilibrada con…', o: ['1 interrogación', 'N/2 interrogaciones', 'N interrogaciones', 'log N interrogaciones'], w: 'Una sola, frente a las 2^{n−1}+1 del peor caso clásico.' } },
+
+  { q: 'Bernstein–Vazirani trova una stringa segreta di n bit con…', o: ['n interrogazioni', '1 interrogazione', '2^n interrogazioni', 'n² interrogazioni'], c: 1, w: 'Una sola: l\'oracolo scrive s nelle fasi e le Hadamard finali lo riportano in posizione.',
+    en: { q: 'Bernstein–Vazirani finds a secret string of n bits with…', o: ['n queries', '1 query', '2^n queries', 'n² queries'], w: 'Just one: the oracle writes s into the phases and the final Hadamards bring it back into position.' },
+    es: { q: 'Bernstein–Vazirani encuentra una cadena secreta de n bits con…', o: ['n interrogaciones', '1 interrogación', '2^n interrogaciones', 'n² interrogaciones'], w: 'Una sola: el oráculo escribe s en las fases y las Hadamard finales lo devuelven a su posición.' } },
+
+  { q: 'Grover su N elementi richiede circa…', o: ['N passi', 'log N passi', '√N passi', 'N² passi'], c: 2, w: 'Circa (π/4)√N iterazioni: guadagno quadratico, non esponenziale.',
+    en: { q: 'Grover on N elements takes about…', o: ['N steps', 'log N steps', '√N steps', 'N² steps'], w: 'About (π/4)√N iterations: a quadratic gain, not an exponential one.' },
+    es: { q: 'Grover sobre N elementos requiere alrededor de…', o: ['N pasos', 'log N pasos', '√N pasos', 'N² pasos'], w: 'Unas (π/4)√N iteraciones: ganancia cuadrática, no exponencial.' } },
+
+  { q: 'L\'algoritmo di Simon cerca…', o: ['un elemento in una lista', 'un periodo nascosto s con f(x) = f(x ⊕ s)', 'i fattori di un numero', 'la fase di un autovalore'], c: 1, w: 'Ogni valore della funzione esce due volte, e le due x che lo producono distano sempre s.',
+    en: { q: 'Simon\'s algorithm looks for…', o: ['an element in a list', 'a hidden period s with f(x) = f(x ⊕ s)', 'the factors of a number', 'the phase of an eigenvalue'], w: 'Every value of the function comes out twice, and the two x that produce it are always s apart.' },
+    es: { q: 'El algoritmo de Simon busca…', o: ['un elemento en una lista', 'un periodo escondido s con f(x) = f(x ⊕ s)', 'los factores de un número', 'la fase de un autovalor'], w: 'Cada valor de la función sale dos veces, y las dos x que lo producen distan siempre s.' } },
+
+  { q: 'In Simon, una singola interrogazione quantistica produce…', o: ['il segreto s', 'un\'equazione lineare y·s = 0 mod 2', 'due bit di s', 'una collisione'], c: 1, w: 'Servono n−1 equazioni indipendenti, poi il segreto si ricava con l\'eliminazione di Gauss: un passo classico.',
+    en: { q: 'In Simon, a single quantum query produces…', o: ['the secret s', 'a linear equation y·s = 0 mod 2', 'two bits of s', 'a collision'], w: 'You need n−1 independent equations, then the secret is obtained with Gaussian elimination: a classical step.' },
+    es: { q: 'En Simon, una sola interrogación cuántica produce…', o: ['el secreto s', 'una ecuación lineal y·s = 0 mod 2', 'dos bits de s', 'una colisión'], w: 'Hacen falta n−1 ecuaciones independientes, y luego el secreto se obtiene con la eliminación de Gauss: un paso clásico.' } },
+
+  { q: 'Il vantaggio di Simon rispetto al classico è…', o: ['quadratico', 'esponenziale e dimostrato', 'nullo', 'solo teorico'], c: 1, w: 'Classicamente serve una collisione: circa √(2^n) domande (paradosso dei compleanni). Quantisticamente circa n. È la separazione che ispirò Shor.',
+    en: { q: 'Simon\'s advantage over the classical case is…', o: ['quadratic', 'exponential and proven', 'nil', 'only theoretical'], w: 'Classically you need a collision: about √(2^n) questions (the birthday paradox). Quantum-mechanically about n. It is the separation that inspired Shor.' },
+    es: { q: 'La ventaja de Simon respecto a lo clásico es…', o: ['cuadrática', 'exponencial y demostrada', 'nula', 'solo teórica'], w: 'Clásicamente hace falta una colisión: unas √(2^n) preguntas (paradoja de los cumpleaños). Cuánticamente unas n. Es la separación que inspiró a Shor.' } },
+
+  { q: 'Se in Grover si fanno troppe iterazioni…', o: ['la probabilità continua a salire', 'la probabilità ricala', 'il circuito si blocca', 'si perde l\'entanglement'], c: 1, w: 'È una rotazione: superato il bersaglio si comincia a tornare indietro.',
+    en: { q: 'If you do too many iterations in Grover…', o: ['the probability keeps rising', 'the probability drops back down', 'the circuit locks up', 'the entanglement is lost'], w: 'It is a rotation: once past the target you start going back.' },
+    es: { q: 'Si en Grover se hacen demasiadas iteraciones…', o: ['la probabilidad sigue subiendo', 'la probabilidad vuelve a bajar', 'el circuito se bloquea', 'se pierde el entrelazamiento'], w: 'Es una rotación: pasado el objetivo se empieza a volver atrás.' } },
+
+  { q: 'La QFT su n qubit richiede circa quante porte?', o: ['n', 'n²', '2^n', 'n log n'], c: 1, w: 'n(n+1)/2 rotazioni e Hadamard più gli SWAP: dell\'ordine di n².',
+    en: { q: 'About how many gates does the QFT on n qubits take?', o: ['n', 'n²', '2^n', 'n log n'], w: 'n(n+1)/2 rotations and Hadamards plus the SWAPs: of the order of n².' },
+    es: { q: '¿Cuántas puertas requiere aproximadamente la QFT sobre n cúbits?', o: ['n', 'n²', '2^n', 'n log n'], w: 'n(n+1)/2 rotaciones y Hadamard más los SWAP: del orden de n².' } },
+
+  { q: 'Quali porte compongono il circuito della QFT?', o: ['solo CNOT', 'Hadamard e rotazioni di fase controllate', 'solo X e Z', 'misure ripetute'], c: 1, w: 'Su ogni qubit una H, poi rotazioni di fase controllate dai qubit meno significativi, infine gli SWAP.',
+    en: { q: 'Which gates make up the QFT circuit?', o: ['only CNOT', 'Hadamard and controlled phase rotations', 'only X and Z', 'repeated measurements'], w: 'One H on every qubit, then phase rotations controlled by the less significant qubits, and finally the SWAPs.' },
+    es: { q: '¿Qué puertas componen el circuito de la QFT?', o: ['solo CNOT', 'Hadamard y rotaciones de fase controladas', 'solo X y Z', 'medidas repetidas'], w: 'Sobre cada cúbit una H, luego rotaciones de fase controladas por los cúbits menos significativos, y al final los SWAP.' } },
+
+  { q: 'La QFT applicata a |01⟩ con 2 qubit produce ampiezze proporzionali a…', o: ['[1,1,1,1]', '[1, i, −1, −i]', '[0,1,0,0]', '[1,−1,1,−1]'], c: 1, w: 'Quattro frecce a 0°, 90°, 180°, 270°: l\'informazione è passata dalla posizione alla fase.',
+    en: { q: 'The QFT applied to |01⟩ with 2 qubits produces amplitudes proportional to…', o: ['[1,1,1,1]', '[1, i, −1, −i]', '[0,1,0,0]', '[1,−1,1,−1]'], w: 'Four arrows at 0°, 90°, 180°, 270°: the information has moved from the position into the phase.' },
+    es: { q: 'La QFT aplicada a |01⟩ con 2 cúbits produce amplitudes proporcionales a…', o: ['[1,1,1,1]', '[1, i, −1, −i]', '[0,1,0,0]', '[1,−1,1,−1]'], w: 'Cuatro flechas a 0°, 90°, 180°, 270°: la información ha pasado de la posición a la fase.' } },
+
+  { q: 'Perché la QFT NON serve a calcolare velocemente lo spettro di un file audio?', o: ['perché è imprecisa', 'perché misurando si ottiene un solo risultato, non tutta la lista', 'perché è più lenta della FFT', 'perché funziona solo su numeri primi'], c: 1, w: 'La QFT trasforma tutte le ampiezze, ma la misura ne restituisce una sola: serve a far interferire, non a stampare.',
+    en: { q: 'Why is the QFT NOT useful for quickly computing the spectrum of an audio file?', o: ['because it is imprecise', 'because measuring gives a single result, not the whole list', 'because it is slower than the FFT', 'because it only works on prime numbers'], w: 'The QFT transforms all the amplitudes, but the measurement returns just one: it is for making things interfere, not for printing.' },
+    es: { q: '¿Por qué la QFT NO sirve para calcular rápidamente el espectro de un archivo de audio?', o: ['porque es imprecisa', 'porque al medir se obtiene un solo resultado, no toda la lista', 'porque es más lenta que la FFT', 'porque solo funciona con números primos'], w: 'La QFT transforma todas las amplitudes, pero la medida devuelve una sola: sirve para hacer interferir, no para imprimir.' } },
+
+  { q: 'Se uno stato ha periodicità r, dopo la QFT i picchi cadono su…', o: ['multipli di r', 'multipli di N/r', 'numeri primi', 'posizioni casuali'], c: 1, w: 'Periodo r nel dominio di partenza → passo N/r nel dominio trasformato.',
+    en: { q: 'If a state has periodicity r, after the QFT the peaks land on…', o: ['multiples of r', 'multiples of N/r', 'prime numbers', 'random positions'], w: 'Period r in the starting domain → step N/r in the transformed domain.' },
+    es: { q: 'Si un estado tiene periodicidad r, tras la QFT los picos caen en…', o: ['múltiplos de r', 'múltiplos de N/r', 'números primos', 'posiciones aleatorias'], w: 'Periodo r en el dominio de partida → paso N/r en el dominio transformado.' } },
+
+  { q: 'La Quantum Phase Estimation serve a…', o: ['misurare l\'energia di un qubit', 'leggere una fase come numero binario', 'creare entanglement', 'correggere errori'], c: 1, w: 'Scrive la fase di un autovalore nei qubit di lettura e la rende misurabile tramite QFT inversa.',
+    en: { q: 'Quantum Phase Estimation is for…', o: ['measuring the energy of a qubit', 'reading a phase as a binary number', 'creating entanglement', 'correcting errors'], w: 'It writes the phase of an eigenvalue into the reading qubits and makes it measurable through the inverse QFT.' },
+    es: { q: 'La Quantum Phase Estimation sirve para…', o: ['medir la energía de un cúbit', 'leer una fase como número binario', 'crear entrelazamiento', 'corregir errores'], w: 'Escribe la fase de un autovalor en los cúbits de lectura y la hace medible mediante la QFT inversa.' } },
+
+  { q: 'Shor riduce la fattorizzazione al problema di…', o: ['trovare il periodo di a^x mod N', 'sommare numeri primi', 'ordinare una lista', 'cercare in un database'], c: 0, w: 'Trovato r, i fattori si ottengono con MCD(a^{r/2} ± 1, N).',
+    en: { q: 'Shor reduces factorisation to the problem of…', o: ['finding the period of a^x mod N', 'adding up prime numbers', 'sorting a list', 'searching a database'], w: 'Once r is found, the factors are obtained with GCD(a^{r/2} ± 1, N).' },
+    es: { q: 'Shor reduce la factorización al problema de…', o: ['encontrar el periodo de a^x mod N', 'sumar números primos', 'ordenar una lista', 'buscar en una base de datos'], w: 'Hallado r, los factores se obtienen con MCD(a^{r/2} ± 1, N).' } },
+
+  { q: 'Nel dopo-misura di Shor si usano le frazioni continue per…', o: ['ridurre il rumore', 'ricavare r da y/M', 'moltiplicare i fattori', 'inizializzare i qubit'], c: 1, w: 'Approssimano y/M con la frazione k/r più semplice: il denominatore è il periodo cercato.',
+    en: { q: 'In the post-measurement part of Shor, continued fractions are used to…', o: ['reduce the noise', 'obtain r from y/M', 'multiply the factors', 'initialise the qubits'], w: 'They approximate y/M with the simplest fraction k/r: the denominator is the period we are after.' },
+    es: { q: 'En la fase posterior a la medida de Shor se usan las fracciones continuas para…', o: ['reducir el ruido', 'obtener r a partir de y/M', 'multiplicar los factores', 'inicializar los cúbits'], w: 'Aproximan y/M con la fracción k/r más sencilla: el denominador es el periodo buscado.' } },
+
+  { q: 'La decoerenza è…', o: ['un errore di programmazione', 'la perdita dello stato quantistico per interazione con l\'ambiente', 'una porta logica', 'un tipo di misura'], c: 1, w: 'L\'ambiente "misura" il sistema senza chiedere permesso, distruggendo le relazioni di fase.',
+    en: { q: 'Decoherence is…', o: ['a programming error', 'the loss of the quantum state through interaction with the environment', 'a logic gate', 'a kind of measurement'], w: 'The environment "measures" the system without asking permission, destroying the phase relationships.' },
+    es: { q: 'La decoherencia es…', o: ['un error de programación', 'la pérdida del estado cuántico por interacción con el entorno', 'una puerta lógica', 'un tipo de medida'], w: 'El entorno "mide" el sistema sin pedir permiso, destruyendo las relaciones de fase.' } },
 ];

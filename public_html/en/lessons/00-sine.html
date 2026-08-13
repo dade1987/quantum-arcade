@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0·3 · Sine and cosine — Quantum Arcade</title>
+<meta name="description" content="Sine and cosine without triangles: the two shadows of a turning point, the values worth memorising and the bridge to waves and complex numbers.">
+<link rel="canonical" href="https://quantumarcade.it/en/lessons/00-sine.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-seno.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-sine.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/00-seno.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/00-seno.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { stepper } from '../../js/core/formula.js';
+import { sinCosLab } from '../../js/widgets/basicmath.js';
+
+const L = renderLesson({
+  id: '00-seno',
+  lead: `Sine and cosine have a reputation as high-school stuff with triangles. They are actually two very simple things:
+         <b>the two shadows of a turning point</b>. If you understand that sentence — and by the end of this level you will —
+         you have half the course in your pocket.`,
+
+  steps: [
+    {
+      t: 'A point turns and casts two shadows',
+      html: `<p>Take the circle from the previous level and put a point on its edge. The circle has <b>radius 1</b>
+             (one unit: a metre, a centimetre, whatever you like).</p>
+             <p>Now switch on two lamps: one above, casting the point's shadow on the floor, one to the side, casting
+             it on the wall.</p>
+             <ul>
+               <li>The shadow <b>on the floor</b> (how far right you are) is called the <b>cosine</b>.</li>
+               <li>The shadow <b>on the wall</b> (how high up you are) is called the <b>sine</b>.</li>
+             </ul>
+             <p>That is all. There is nothing else to know: they are two <b>displacement measurements</b>, one horizontal and one vertical,
+             of a turning point.</p>
+             <div class="callout key">Because the radius is 1, sine and cosine <b>always</b> stay between −1 and +1.
+             They cannot be 3, nor 100. If a calculation gives you a sine of 2, something went wrong.</div>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'sincos', title: 'The two shadows', text: 'hit 3 angles asked for by the test.', xp: 30 });
+        el.appendChild(m.root);
+        sinCosLab(el, { need: 3, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'The four values worth memorising',
+      html: `<table class="table">
+               <tr><th>Angle</th><th>Where you are</th><th>cosine (horizontal shadow)</th><th>sine (height)</th></tr>
+               <tr><td class="mono">0°</td><td>far right →</td><td class="mono">1</td><td class="mono">0</td></tr>
+               <tr><td class="mono">90°</td><td>at the top ↑</td><td class="mono">0</td><td class="mono">1</td></tr>
+               <tr><td class="mono">180°</td><td>far left ←</td><td class="mono">−1</td><td class="mono">0</td></tr>
+               <tr><td class="mono">270°</td><td>at the bottom ↓</td><td class="mono">0</td><td class="mono">−1</td></tr>
+             </table>
+             <p>Notice the rhythm: when one is 1 or −1, the other is 0. They "take turns". And there is one special value
+             you will meet everywhere in this course:</p>
+             <div class="formula">cos 45° = sin 45° = <span class="hl-n">1/√2</span> ≈ 0.707</div>
+             <p>At 45° you are exactly halfway between "far right" and "at the top": the two shadows are equal.
+             And remember from level 0·1: <b>(0.707)² = 0.5</b>, that is 50%. This number will describe the qubit "halfway between 0 and 1".</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Question', html: 'At 90°, what is the <b>cosine</b>?' },
+          { h: 'Answer', html: 'It is <b>0</b>. At 90° you are at the top of the circle: you are shifted neither right nor left, so the horizontal shadow is nothing. The sine, on the other hand, is 1 (you are as high as the radius).' },
+          { h: 'Question', html: 'And at 180°, what is the <b>sine</b>?' },
+          { h: 'Answer', html: '<b>0</b>. You are all the way left, at the height of the centre: no height at all. The cosine is −1 (shifted left by the whole radius).' },
+          { h: 'Harder question', html: 'Why is the sine <b>−1</b> at 270° and not 1?' },
+          { h: 'Answer', html: 'Because at 270° you are <b>below</b> the centre. Height is measured with a sign: above is positive, below is negative. Exactly like the negative numbers on the line in level 0·1.' },
+        ], { doneLabel: 'Clear!' });
+      },
+    },
+    {
+      t: 'This is where waves come from (and therefore everything else)',
+      html: `<p>In the game, on the right, you have already seen the important part: if the point <b>keeps turning</b> and you plot
+             its height as time passes, out comes a <b>wavy curve</b>. That curve is the sine wave.</p>
+             <p>And the cosine? It is the exact same curve, only <b>started 90° earlier</b>. Cosine and sine are twins out of step.</p>
+             <div class="callout key"><b>The bridge to the whole course:</b>
+             <ul style="margin:8px 0 0">
+               <li>turning point → <b>sine and cosine</b> (this level)</li>
+               <li>sine and cosine over time → <b>waves</b> (level 13)</li>
+               <li>waves shifted against each other → <b>phase</b> (level 14)</li>
+               <li>length + angle of an arrow → <b>complex numbers</b> and <b>e^{iθ} = cos θ + i·sin θ</b> (level 8)</li>
+               <li>arrows that add up or cancel → <b>interference</b> (level 7) and <b>Fourier</b> (level 16)</li>
+             </ul>
+             No jumps: it is one single chain, and the first link is the turning point.</div>`,
+    },
+    {
+      t: '💡 Your turn',
+      html: `<div class="callout think">
+        <p><b>1.</b> Is there an angle where sine and cosine are <b>both</b> negative? Find it in the game.</p>
+        <p><b>2.</b> What is cos 360°? And cos 720°? Why?</p>
+        <p><b>3.</b> Try the sum: (cos 45°)² + (sin 45°)² = 0.5 + 0.5 = <b>1</b>. Try other angles:
+           it always comes out 1. Can you say why? <span class="muted">(hint: Pythagoras on a radius of length 1)</span></p>
+        <p class="mb0"><b>4.</b> That rule — <b>cos² + sin² = 1</b> — will become, in the quantum world,
+           "the probabilities add up to 100%". That is no coincidence.</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'The sine of an angle represents…', options: ['the length of the arrow', 'how high up the point is', 'how far right the point is', 'the angle in degrees'], correct: 1,
+      why: 'The sine is the height (vertical projection) of the point on the circle of radius 1; the cosine is the horizontal displacement.' },
+    { q: 'What is cos 180°?', options: ['1', '0', '−1', '180'], correct: 2,
+      why: 'At 180° the point is all the way left: horizontal displacement −1 (and height 0).' },
+    { q: 'Can sine and cosine be 1.5?', options: ['yes, if the angle is large', 'no, they always stay between −1 and 1', 'only the sine', 'only for negative angles'], correct: 1,
+      why: 'They are projections on a circle of radius 1: they cannot exceed the radius.' },
+    { q: 'Why is cos 45° = sin 45°?', options: ['by chance', 'because at 45° you are equally shifted right and up', 'because 45 is half of 90', 'it is not true'], correct: 1,
+      why: 'At 45° you are exactly halfway between the horizontal and vertical axes: the two shadows are identical and equal 1/√2 ≈ 0.707.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Done!</b> Sine and cosine are no longer two mysterious words: they are the two shadows
+          of a turning point. Last basics level: <b>chance</b>, that is probability — because every quantum
+          measurement is, at bottom, a very well organised coin toss.</div>`,
+});
+</script>
+</body>
+</html>

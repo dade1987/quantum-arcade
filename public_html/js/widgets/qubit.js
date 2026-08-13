@@ -13,15 +13,16 @@ import { zeroState, applyGate, GATES, probs, measureQubit, clone } from '../core
 import { blochSphere } from './bloch.js';
 import { histogram } from './amps.js';
 import { sfx } from '../core/audio.js';
+import { t } from '../core/i18n.js';
 
 export function qubitBuilder(host, opts = {}) {
-  const w = widget(host, { title: 'Costruisci il tuo qubit', subtitle: 'due manopole: quanto |1⟩ e quale fase' });
+  const w = widget(host, { title: t('Costruisci il tuo qubit'), subtitle: t('due manopole: quanto |1⟩ e quale fase') });
   const st = { theta: 60, phi: 0 };
   const mk = () => {
-    const t = st.theta * Math.PI / 180, p = st.phi * Math.PI / 180;
+    const th = st.theta * Math.PI / 180, p = st.phi * Math.PI / 180;
     const s = zeroState(1);
-    s.re[0] = Math.cos(t / 2); s.im[0] = 0;
-    s.re[1] = Math.sin(t / 2) * Math.cos(p); s.im[1] = Math.sin(t / 2) * Math.sin(p);
+    s.re[0] = Math.cos(th / 2); s.im[0] = 0;
+    s.re[1] = Math.sin(th / 2) * Math.cos(p); s.im[1] = Math.sin(th / 2) * Math.sin(p);
     return s;
   };
 
@@ -45,7 +46,7 @@ export function qubitBuilder(host, opts = {}) {
         const re = cur.re[i], im = cur.im[i];
         arrow(ctx, P.cx, P.cy, P.X(re), P.Y(im), { color: col, width: 3, head: 10 });
         const mag = Math.hypot(re, im);
-        text(ctx, `ampiezza di ${lab}`, P.cx, 16, { size: 11.5, align: 'center', color: col });
+        text(ctx, t('ampiezza di :ket', { ket: lab }), P.cx, 16, { size: 11.5, align: 'center', color: col });
         text(ctx, `${re.toFixed(2)} ${im < 0 ? '−' : '+'} ${Math.abs(im).toFixed(2)}i`, P.cx, s.h - 26, { size: 11, align: 'center', color: COL.txt });
         text(ctx, `|·|² = ${(mag * mag * 100).toFixed(1)}%`, P.cx, s.h - 10, { size: 11, align: 'center', color: '#8fa0c4' });
       });
@@ -54,15 +55,15 @@ export function qubitBuilder(host, opts = {}) {
   const fx = attachFX(ampStage);   // scintille, lampi e suono ai traguardi
   ampStage.pause();
 
-  const hist = histogram(right, { n: 1, height: 130, title: 'Misure' });
+  const hist = histogram(right, { n: 1, height: 130, title: t('Misure') });
   const out = readout('');
-  const sT = slider({ label: 'θ — <b>quanto |1⟩</b> c\'è', min: 0, max: 180, step: 1, value: st.theta, fmt: v => v + '°', oninput: v => { st.theta = v; upd(); } });
-  const sP = slider({ label: 'φ — <b>la fase</b> (non cambia le probabilità!)', min: 0, max: 360, step: 5, value: st.phi, fmt: v => v + '°', oninput: v => { st.phi = v; upd(); } });
+  const sT = slider({ label: t('θ — <b>quanto |1⟩</b> c\'è'), min: 0, max: 180, step: 1, value: st.theta, fmt: v => v + '°', oninput: v => { st.theta = v; upd(); } });
+  const sP = slider({ label: t('φ — <b>la fase</b> (non cambia le probabilità!)'), min: 0, max: 360, step: 5, value: st.phi, fmt: v => v + '°', oninput: v => { st.phi = v; upd(); } });
   w.body.appendChild(controls(sT.root, sP.root));
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
-    { label: '📏 misura 1 volta', onclick: () => shots(1) },
-    { label: '📏 misura 100 volte', onclick: () => shots(100) },
-    { label: '↺ azzera istogramma', onclick: () => hist.reset(1) },
+    { label: '📏 ' + t('misura 1 volta'), onclick: () => shots(1) },
+    { label: '📏 ' + t('misura 100 volte'), onclick: () => shots(100) },
+    { label: '↺ ' + t('azzera istogramma'), onclick: () => hist.reset(1) },
   ])));
   w.body.appendChild(out.root);
 
@@ -77,9 +78,9 @@ export function qubitBuilder(host, opts = {}) {
     out.set(
       `<b>|ψ⟩ = cos(θ/2)·|0⟩ + e^{iφ}·sin(θ/2)·|1⟩</b>\n` +
       `   = <span class="g">${Math.cos(st.theta * Math.PI / 360).toFixed(3)}</span>·|0⟩ + <span class="a">${Math.sin(st.theta * Math.PI / 360).toFixed(3)}·e^{i·${st.phi}°}</span>·|1⟩\n` +
-      `probabilità: 0 → <span class="g">${(p[0] * 100).toFixed(1)}%</span>, 1 → <span class="a">${(p[1] * 100).toFixed(1)}%</span>  ` +
-      `(somma sempre 100%: ${(p[0] + p[1]).toFixed(3)})\n` +
-      `<b>Prova:</b> muovi solo φ. Le probabilità NON cambiano… ma lo stato sì. Quella differenza invisibile è ciò che la prossima porta userà.`);
+      t('probabilità: 0 → <span class="g">:p0%</span>, 1 → <span class="a">:p1%</span>  (somma sempre 100%: :somma)',
+        { p0: (p[0] * 100).toFixed(1), p1: (p[1] * 100).toFixed(1), somma: (p[0] + p[1]).toFixed(3) }) + '\n' +
+      t('<b>Prova:</b> muovi solo φ. Le probabilità NON cambiano… ma lo stato sì. Quella differenza invisibile è ciò che la prossima porta userà.'));
   }
   upd();
   return { update: upd };
@@ -91,22 +92,22 @@ export function qubitBuilder(host, opts = {}) {
 
 export function coinVsQubit(host, opts = {}) {
   const cfg = Object.assign({ onDiscover: null }, opts);
-  const w = widget(host, { title: 'Moneta contro qubit', subtitle: 'due "lanci" a testa: chi torna a casa?' });
+  const w = widget(host, { title: t('Moneta contro qubit'), subtitle: t('due "lanci" a testa: chi torna a casa?') });
   const grid = h('div', { class: 'grid-2' });
   const left = h('div'), right = h('div');
   grid.append(left, right); w.body.appendChild(grid);
 
-  left.appendChild(h('div', { class: 'small dim', html: '<b>🪙 MONETA CLASSICA</b> — la mescoli due volte' }));
-  const hc = histogram(left, { n: 1, height: 150, title: 'moneta: mescola, mescola, guarda' });
-  right.appendChild(h('div', { class: 'small dim', html: '<b>⚛️ QUBIT</b> — applichi H due volte' }));
-  const hq = histogram(right, { n: 1, height: 150, title: 'qubit: H, H, misura' });
+  left.appendChild(h('div', { class: 'small dim', html: t('<b>🪙 MONETA CLASSICA</b> — la mescoli due volte') }));
+  const hc = histogram(left, { n: 1, height: 150, title: t('moneta: mescola, mescola, guarda') });
+  right.appendChild(h('div', { class: 'small dim', html: t('<b>⚛️ QUBIT</b> — applichi H due volte') }));
+  const hq = histogram(right, { n: 1, height: 150, title: t('qubit: H, H, misura') });
   const fx = attachFX(hq.stage);   // scintille, lampi e suono ai traguardi
 
   const out = readout('');
   let done = false;
   w.body.appendChild(h('div', { style: { marginTop: '10px' } }, buttons([
-    { label: '▶ prova 200 volte entrambi', class: 'sm primary', onclick: () => run(200) },
-    { label: '↺ azzera', onclick: () => { hc.reset(1); hq.reset(1); } },
+    { label: '▶ ' + t('prova 200 volte entrambi'), class: 'sm primary', onclick: () => run(200) },
+    { label: '↺ ' + t('azzera'), onclick: () => { hc.reset(1); hq.reset(1); } },
   ])));
   w.body.appendChild(out.root);
 
@@ -125,14 +126,14 @@ export function coinVsQubit(host, opts = {}) {
     }
     const c = hc.counts, q = hq.counts;
     out.set(
-      `MONETA: 0 → ${c[0]} volte, 1 → ${c[1]} volte  (resta 50/50: il caso non si "disfa")\n` +
-      `QUBIT : 0 → <span class="g">${q[0]}</span> volte, 1 → <span class="g">${q[1]}</span> volte  (torna SEMPRE a 0!)\n\n` +
-      `<b>Perché?</b> Dopo la prima H il qubit non è "0 oppure 1 con il 50%": è <b>entrambi con due ampiezze</b>.\n` +
-      `La seconda H fa incontrare quelle ampiezze: sul risultato |1⟩ una arriva <b>+</b> e l'altra <b>−</b>, e si cancellano.\n` +
-      `Questo è il <b>colpo di scena</b>: le probabilità classiche non si cancellano mai, le ampiezze sì.`);
+      t('MONETA: 0 → :zeri volte, 1 → :uni volte  (resta 50/50: il caso non si "disfa")', { zeri: c[0], uni: c[1] }) + '\n' +
+      t('QUBIT : 0 → <span class="g">:zeri</span> volte, 1 → <span class="g">:uni</span> volte  (torna SEMPRE a 0!)', { zeri: q[0], uni: q[1] }) + '\n\n' +
+      t('<b>Perché?</b> Dopo la prima H il qubit non è "0 oppure 1 con il 50%": è <b>entrambi con due ampiezze</b>.') + '\n' +
+      t('La seconda H fa incontrare quelle ampiezze: sul risultato |1⟩ una arriva <b>+</b> e l\'altra <b>−</b>, e si cancellano.') + '\n' +
+      t('Questo è il <b>colpo di scena</b>: le probabilità classiche non si cancellano mai, le ampiezze sì.'));
     if (!done) { done = true; fx.win(); sfx.boss(); cfg.onDiscover && cfg.onDiscover(); }
   }
-  w.setFoot('Se un qubit fosse solo "una moneta nascosta", mescolare due volte lo lascerebbe casuale. Invece torna esattamente al punto di partenza: la prova che dentro c\'è qualcosa che <b>si può cancellare</b>, cioè un\'onda.');
+  w.setFoot(t('Se un qubit fosse solo "una moneta nascosta", mescolare due volte lo lascerebbe casuale. Invece torna esattamente al punto di partenza: la prova che dentro c\'è qualcosa che <b>si può cancellare</b>, cioè un\'onda.'));
   return {};
 }
 
@@ -141,7 +142,7 @@ export function coinVsQubit(host, opts = {}) {
    ------------------------------------------------------------ */
 
 export function hadamardMap(host) {
-  const w = widget(host, { title: 'Cosa fa esattamente H', subtitle: 'le quattro regole, disegnate' });
+  const w = widget(host, { title: t('Cosa fa esattamente H'), subtitle: t('le quattro regole, disegnate') });
   const stage = new Stage(w.body, {
     // impilati servono due riquadri per riga: più alto, se no la nota in
     // fondo finisce sopra l'ultimo
@@ -171,12 +172,12 @@ export function hadamardMap(host) {
           text(ctx, o, x + 12, yb + 20, { size: 13, color: r.sign[j] > 0 ? COL.green : COL.red, max: boxW - 24 });
           const ax = x + boxW - 35, ay = yb + 30;
           arrow(ctx, ax - 16, ay, ax + 16 * r.sign[j], ay, { color: r.sign[j] > 0 ? COL.green : COL.red, width: 2.4 });
-          text(ctx, r.sign[j] > 0 ? 'freccia →' : 'freccia ←', x + 12, yb + 40, { size: 10.5, color: '#8fa0c4', max: boxW - 60 });
+          text(ctx, r.sign[j] > 0 ? t('freccia') + ' →' : t('freccia') + ' ←', x + 12, yb + 40, { size: 10.5, color: '#8fa0c4', max: boxW - 60 });
         });
       });
       text(ctx, s.w < 430
-        ? 'La differenza è quel MENO: da lì nasce l\'interferenza.'
-        : 'L\'unica differenza fra le due righe è quel MENO. Tutta l\'interferenza quantistica nasce da lì.',
+        ? t('La differenza è quel MENO: da lì nasce l\'interferenza.')
+        : t('L\'unica differenza fra le due righe è quel MENO. Tutta l\'interferenza quantistica nasce da lì.'),
         16, s.h - 16, { size: 11.5, color: COL.amber, max: s.w - 32 });
     },
   });
@@ -199,8 +200,8 @@ export function hadamardMap(host) {
 export function probabilitaQuadrato(host, opts = {}) {
   const cfg = Object.assign({ onWin: null, need: 3 }, opts);
   const w = widget(host, {
-    title: 'Perché si eleva al quadrato',
-    subtitle: 'il lato è l\'ampiezza, l\'area è la probabilità',
+    title: t('Perché si eleva al quadrato'),
+    subtitle: t('il lato è l\'ampiezza, l\'area è la probabilità'),
   });
   const st = { a: 0.8, centrati: 0, fatti: new Set(), bersaglio: 0.5 };
   const BERSAGLI = [0.5, 0.25, 0.09, 0.64];
@@ -212,7 +213,7 @@ export function probabilitaQuadrato(host, opts = {}) {
       const p = st.a * st.a;
       const vicino = Math.abs(p - st.bersaglio) < 0.02;
 
-      text(ctx, vicino ? '✓ CENTRATO!' : `🎯 fai diventare l'area ${Math.round(st.bersaglio * 100)}%`,
+      text(ctx, vicino ? '✓ ' + t('CENTRATO!') : '🎯 ' + t("fai diventare l'area :quanto%", { quanto: Math.round(st.bersaglio * 100) }),
         16, 18, { size: 13, weight: '800', mono: false, color: vicino ? COL.green : COL.amber, max: s.w - 32 });
 
       // il quadrato: lato = ampiezza, area = probabilità
@@ -225,25 +226,25 @@ export function probabilitaQuadrato(host, opts = {}) {
       // il lato, misurato
       ctx.strokeStyle = COL.amber; ctx.lineWidth = 2;
       ctx.beginPath(); ctx.moveTo(x0, y0 + lato + 12); ctx.lineTo(x0 + l, y0 + lato + 12); ctx.stroke();
-      text(ctx, `lato = ${st.a.toFixed(2)}`, x0, y0 + lato + 28, { size: 11.5, color: COL.amber, max: lato });
+      text(ctx, t('lato') + ` = ${st.a.toFixed(2)}`, x0, y0 + lato + 28, { size: 11.5, color: COL.amber, max: lato });
 
       // la lettura, a destra del quadrato
       const rx = x0 + lato + 18;
       const spazio = s.w - rx - 14;
-      text(ctx, 'AREA', rx, y0 + 16, { size: 11, color: '#7f8fb3', max: spazio });
+      text(ctx, t('AREA'), rx, y0 + 16, { size: 11, color: '#7f8fb3', max: spazio });
       text(ctx, `${(p * 100).toFixed(0)}%`, rx, y0 + 44, { size: 26, weight: '800', color: COL.cyan, max: spazio });
-      text(ctx, 'è la probabilità', rx, y0 + 66, { size: 11, color: '#7f8fb3', max: spazio });
+      text(ctx, t('è la probabilità'), rx, y0 + 66, { size: 11, color: '#7f8fb3', max: spazio });
       text(ctx, `${st.a.toFixed(2)} × ${st.a.toFixed(2)}`, rx, y0 + 92, { size: 13, color: COL.txt, max: spazio });
       text(ctx, `= ${p.toFixed(2)}`, rx, y0 + 112, { size: 13, color: COL.cyan, max: spazio });
 
-      text(ctx, s.w < 430 ? 'dimezza il lato: l\'area diventa un quarto' : 'dimezza il lato e l\'area diventa un quarto, non la metà',
+      text(ctx, s.w < 430 ? t('dimezza il lato: l\'area diventa un quarto') : t('dimezza il lato e l\'area diventa un quarto, non la metà'),
         16, s.h - 12, { size: 11, color: '#6f7fa3', max: s.w - 32 });
     },
   });
 
   const out = readout('');
   const sl = slider({
-    label: 'Lunghezza del lato (l\'ampiezza)', min: 0, max: 1, step: 0.01, value: st.a,
+    label: t('Lunghezza del lato (l\'ampiezza)'), min: 0, max: 1, step: 0.01, value: st.a,
     fmt: v => (+v).toFixed(2),
     oninput: v => { st.a = +v; upd(); },
   });
@@ -251,15 +252,15 @@ export function probabilitaQuadrato(host, opts = {}) {
   w.body.appendChild(h('div', { class: 'btn-row', style: { marginTop: '8px' } },
     BERSAGLI.map(b => h('button', {
       class: 'btn sm', onclick: () => { st.bersaglio = b; upd(); },
-    }, `obiettivo ${Math.round(b * 100)}%`))));
+    }, t('obiettivo :quanto%', { quanto: Math.round(b * 100) })))));
   w.body.appendChild(out.root);
 
   function upd() {
     const p = st.a * st.a;
     const vicino = Math.abs(p - st.bersaglio) < 0.02;
-    out.set(`Lato <b>${st.a.toFixed(2)}</b> → area <b>${(p * 100).toFixed(1)}%</b>\n` +
-      `Il lato è cresciuto di poco, l'area di molto: è questo che vuol dire "al quadrato".` +
-      (vicino ? `\n<span class="g">🎯 centrato!</span>` : ''));
+    out.set(t('Lato <b>:lato</b> → area <b>:area%</b>', { lato: st.a.toFixed(2), area: (p * 100).toFixed(1) }) + '\n' +
+      t('Il lato è cresciuto di poco, l\'area di molto: è questo che vuol dire "al quadrato".') +
+      (vicino ? '\n<span class="g">🎯 ' + t('centrato!') + '</span>' : ''));
     stage.redraw();
     if (vicino && !st.fatti.has(st.bersaglio)) {
       st.fatti.add(st.bersaglio); sfx.ok();
@@ -267,6 +268,6 @@ export function probabilitaQuadrato(host, opts = {}) {
     }
   }
   upd();
-  w.setFoot('<b>Adesso il nome:</b> quello che hai appena mosso si chiama <b>ampiezza</b>, e l\'area del quadrato — cioè l\'ampiezza moltiplicata per sé stessa — è la <b>probabilità</b> di ottenere quel risultato quando misuri. Si scrive <code>|ampiezza|²</code>: sono le stesse tre cose che hai davanti, scritte corte.');
+  w.setFoot(t('<b>Adesso il nome:</b> quello che hai appena mosso si chiama <b>ampiezza</b>, e l\'area del quadrato — cioè l\'ampiezza moltiplicata per sé stessa — è la <b>probabilità</b> di ottenere quel risultato quando misuri. Si scrive <code>|ampiezza|²</code>: sono le stesse tre cose che hai davanti, scritte corte.'));
   return { state: st };
 }

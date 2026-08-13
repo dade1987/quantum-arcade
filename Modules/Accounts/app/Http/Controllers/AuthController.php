@@ -40,9 +40,9 @@ class AuthController extends Controller
             'password'   => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
             'privacy'    => ['accepted'],
         ], [
-            'email.unique'       => 'Questa email è già registrata: prova ad accedere, oppure fatti mandare un link.',
-            'privacy.accepted'   => 'Per creare l\'account devi accettare l\'informativa privacy.',
-            'password.confirmed' => 'Le due password non coincidono.',
+            'email.unique'       => __('Questa email è già registrata: prova ad accedere, oppure fatti mandare un link.'),
+            'privacy.accepted'   => __('Per creare l\'account devi accettare l\'informativa privacy.'),
+            'password.confirmed' => __('Le due password non coincidono.'),
         ]);
 
         $user = User::create([
@@ -63,7 +63,7 @@ class AuthController extends Controller
         return response()->json([
             'ok'      => true,
             'user'    => $this->present($user),
-            'message' => 'Account creato. Ti ho mandato un\'email per confermare l\'indirizzo: serve per l\'attestato finale.',
+            'message' => __('Account creato. Ti ho mandato un\'email per confermare l\'indirizzo: serve per l\'attestato finale.'),
         ], 201);
     }
 
@@ -79,14 +79,14 @@ class AuthController extends Controller
         if (RateLimiter::tooManyAttempts($key, 8)) {
             return response()->json([
                 'ok'      => false,
-                'message' => 'Troppi tentativi. Riprova fra ' . RateLimiter::availableIn($key) . ' secondi.',
+                'message' => __('Troppi tentativi. Riprova fra :secondi secondi.', ['secondi' => RateLimiter::availableIn($key)]),
             ], 429);
         }
 
         if (! Auth::attempt(['email' => Str::lower($data['email']), 'password' => $data['password']], true)) {
             RateLimiter::hit($key, 900);
 
-            return response()->json(['ok' => false, 'message' => 'Email o password non corrette.'], 422);
+            return response()->json(['ok' => false, 'message' => __('Email o password non corrette.')], 422);
         }
 
         RateLimiter::clear($key);
@@ -105,7 +105,7 @@ class AuthController extends Controller
         if (RateLimiter::tooManyAttempts($key, 5)) {
             return response()->json([
                 'ok'      => false,
-                'message' => 'Troppe richieste. Riprova fra ' . RateLimiter::availableIn($key) . ' secondi.',
+                'message' => __('Troppe richieste. Riprova fra :secondi secondi.', ['secondi' => RateLimiter::availableIn($key)]),
             ], 429);
         }
         RateLimiter::hit($key, 3600);
@@ -119,7 +119,7 @@ class AuthController extends Controller
 
         return response()->json([
             'ok'      => true,
-            'message' => 'Se quell\'indirizzo è registrato, fra pochi istanti riceverai un link di accesso.',
+            'message' => __('Se quell\'indirizzo è registrato, fra pochi istanti riceverai un link di accesso.'),
         ]);
     }
 
@@ -146,12 +146,12 @@ class AuthController extends Controller
         $user = $request->user();
 
         if ($user->email_verified_at) {
-            return response()->json(['ok' => true, 'message' => 'La tua email risulta già confermata.']);
+            return response()->json(['ok' => true, 'message' => __('La tua email risulta già confermata.')]);
         }
 
         $this->sendVerification($user, $request->ip(), isNew: false);
 
-        return response()->json(['ok' => true, 'message' => 'Email inviata di nuovo a ' . $user->email]);
+        return response()->json(['ok' => true, 'message' => __('Email inviata di nuovo a :email', ['email' => $user->email])]);
     }
 
     /** GET /api/auth/me */
@@ -196,12 +196,12 @@ class AuthController extends Controller
         ]);
 
         if (! Hash::check($data['current'], $request->user()->password)) {
-            return response()->json(['ok' => false, 'message' => 'La password attuale non è corretta.'], 422);
+            return response()->json(['ok' => false, 'message' => __('La password attuale non è corretta.')], 422);
         }
 
         $request->user()->forceFill(['password' => Hash::make($data['password'])])->save();
 
-        return response()->json(['ok' => true, 'message' => 'Password aggiornata.']);
+        return response()->json(['ok' => true, 'message' => __('Password aggiornata.')]);
     }
 
     /** POST /api/auth/logout */
@@ -221,7 +221,7 @@ class AuthController extends Controller
         Auth::logout();
         $user->delete();
 
-        return response()->json(['ok' => true, 'message' => 'Account e dati collegati eliminati.']);
+        return response()->json(['ok' => true, 'message' => __('Account e dati collegati eliminati.')]);
     }
 
     /* ---------------- interni ---------------- */
@@ -229,7 +229,12 @@ class AuthController extends Controller
     private function sendVerification(User $user, ?string $ip, bool $isNew): void
     {
         $token = MagicLink::issueFor($user, $ip, $isNew ? 'verify' : 'login');
-        Mail::to($user->email)->send(new MagicLinkMail($user, url('/api/auth/verify?token=' . $token), $isNew));
+
+        // la lingua si fissa qui: se un giorno l'invio finisse in coda, la
+        // richiesta non ci sarà più e il messaggio partirebbe in italiano
+        Mail::to($user->email)
+            ->locale(app()->getLocale())
+            ->send(new MagicLinkMail($user, url('/api/auth/verify?token=' . $token), $isNew));
     }
 
     private function present(User $user): array

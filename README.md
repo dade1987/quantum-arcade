@@ -4,7 +4,9 @@
 
 # Quantum Arcade
 
-**Impara l'informatica quantistica giocando. In italiano, da zero, fino all'algoritmo di Shor.**
+**Impara l'informatica quantistica giocando. Da zero, fino all'algoritmo di Shor.**
+
+**In italiano, in inglese e in spagnolo.** &nbsp;·&nbsp; [🇮🇹 italiano](https://quantumarcade.it/) &nbsp;·&nbsp; [🇬🇧 English](https://quantumarcade.it/en/) &nbsp;·&nbsp; [🇪🇸 español](https://quantumarcade.it/es/)
 
 [![Collaudo](https://github.com/dade1987/quantum-arcade/actions/workflows/collaudo.yml/badge.svg)](https://github.com/dade1987/quantum-arcade/actions/workflows/collaudo.yml)
 [![Copertura backend](https://img.shields.io/badge/copertura%20backend-100%25-success)](docs/BACKEND.md)
@@ -30,6 +32,7 @@ a vettore di stato scritto da zero, verificato dai test: il circuito della QFT r
 | **Quanto dura** | 10–20 minuti a livello. Un pomeriggio abbondante il percorso completo. |
 | **Come si avanza** | Dimostrando la padronanza: una missione pratica **e** un quiz di richiamo. |
 | **Cosa c'è alla fine** | Un'officina dove inventi algoritmi tuoi, e un esame con attestato verificabile. |
+| **In che lingue** | Italiano (originale), inglese e spagnolo: tre edizioni complete, esame e attestato compresi. |
 
 È **un solo progetto Laravel**: il gioco vive dentro `public_html/`, le API e le pagine
 dinamiche sono gestite dai moduli. Un dominio, un deploy, nessun passaggio di build.
@@ -61,6 +64,9 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
   metodo.html              scelte didattiche e ricerche che le sostengono
   privacy.html             informativa GDPR
   lezioni/*.html           28 livelli
+  en/  es/                 le stesse pagine in inglese e spagnolo, con indirizzi tradotti
+                           (en/lessons/, es/lecciones/): stesso id di livello, così i
+                           progressi salvati sul server valgono in tutte e tre le lingue
   css/style.css            tema unico
   js/core/                 motore del gioco
     levels.js              ordine dei livelli e prerequisiti (fonte di verità)
@@ -70,7 +76,11 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
     account.js  api.js     registrazione, sessione, sincronizzazione
     canvas.js  audio.js    motore grafico 2D + suoni arcade
     lesson.js  ui.js  formula.js
+    i18n.js                lingua della pagina, t(), indirizzi delle altre versioni
+  js/i18n/en.js  es.js     i dizionari: la frase italiana è la chiave
   js/widgets/              i mini-giochi (uno o più per livello)
+
+lang/en.json  lang/es.json  le stesse traduzioni per il lato Laravel (__())
 
 dati/banca-esame-esempio.js   banca domande pubblica (per chi contribuisce)
                            l'esame vero sta in banca-esame-riservata.js, che NON è in git
@@ -109,6 +119,13 @@ Il validatore (`npm run validate`) controlla sintassi JS, script inline nelle pa
 import risolvibili, tag HTML bilanciati, risorse mancanti, coerenza con `levels.js`,
 sintassi PHP, JSON e SVG. Lanciarlo prima di ogni pubblicazione.
 
+Sulle tre lingue controlla anche che nessuna resti indietro: una lingua pubblicata
+deve avere **tutte** le lezioni, il numero di livelli scritto a parole deve combaciare
+in tutte e tre, e la sitemap deve elencare ogni pagina di ogni edizione. `npm run lingue`
+confronta le frasi usate nel codice con i dizionari e fallisce se ne manca una — così
+una frase nuova aggiunta in italiano non resta invisibile finché qualcuno non apre per
+caso la pagina in spagnolo.
+
 ---
 
 ## Manutenzione
@@ -116,6 +133,8 @@ sintassi PHP, JSON e SVG. Lanciarlo prima di ogni pubblicazione.
 | Quando | Comando |
 |---|---|
 | Hai modificato i livelli | `php artisan chat:ingest` (riallinea il tutor) |
+| Hai aggiunto o rinominato pagine | `npm run sitemap` |
+| Hai aggiunto frasi da tradurre | `npm run lingue` (con `--fix` prepara le chiavi mancanti) |
 | Hai modificato l'esame (`dati/banca-esame-*.js`) | `npm run exam:sync` |
 | Vuoi sapere dove il corso non è chiaro | `php artisan chat:report` |
 | Prima di pubblicare | `npm run test:all` |

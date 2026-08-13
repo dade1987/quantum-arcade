@@ -13,23 +13,25 @@
 
 import { LEVELS, PARTS, levelById, neighbours } from './levels.js';
 import * as store from './store.js';
-import { h } from './ui.js';
+import { h, langButton } from './ui.js';
 import { sfx, wireSounds, soundButton } from './audio.js';
 import { initAccount, accountButton, requireAccount } from './account.js';
 import { mountTutor } from '../widgets/chat.js';
+import { t, ROOT, href } from './i18n.js';
 
-function topbar(base = '../') {
+function topbar() {
   const bar = h('header', { class: 'topbar' },
     h('div', { class: 'wrap-wide topbar-in' },
-      h('a', { class: 'brand', href: base + 'index.html' },
-        h('img', { class: 'logo', src: base + 'assets/logo.svg', alt: '', width: 30, height: 30 }),
-        h('span', {}, 'Quantum Arcade', h('small', {}, 'informatica quantistica giocando')),
+      h('a', { class: 'brand', href: href('home') },
+        h('img', { class: 'logo', src: ROOT + 'assets/logo.svg', alt: '', width: 30, height: 30 }),
+        h('span', {}, 'Quantum Arcade', h('small', {}, t('informatica quantistica giocando'))),
       ),
       h('span', { class: 'topbar-spacer' }),
       h('div', { id: 'xp-host' }),
+      langButton(),
       soundButton(),
       accountButton(),
-      h('a', { class: 'btn sm ghost', href: base + 'index.html' }, '🗺️ Mappa'),
+      h('a', { class: 'btn sm ghost', href: href('home') }, '🗺️ ' + t('Mappa')),
     ));
   document.body.prepend(bar);
   store.mountXpBar(bar.querySelector('#xp-host'));
@@ -40,20 +42,20 @@ function topbar(base = '../') {
 
 function missionBlock(lessonId, { key, title, text, xp = 25 }, onDone) {
   const box = h('div', { class: 'mission' + (store.missionDone(lessonId, key) ? ' done' : '') },
-    h('div', { class: 'mh' }, '🎯 Missione', h('span', { class: 'muted', style: { fontWeight: '600' } }, `+${xp} XP`)),
+    h('div', { class: 'mh' }, '🎯 ' + t('Missione'), h('span', { class: 'muted', style: { fontWeight: '600' } }, `+${xp} XP`)),
     h('div', { html: `<b>${title}</b> — ${text}` }),
     h('div', { class: 'mstat small dim', style: { marginTop: '6px' } },
-      store.missionDone(lessonId, key) ? '✓ completata' : 'in corso…'),
+      store.missionDone(lessonId, key) ? '✓ ' + t('completata') : t('in corso…')),
   );
   return {
     root: box, key,
     complete() {
       if (store.missionDone(lessonId, key)) return;
       store.setMission(lessonId, key, true);
-      store.award(`mission:${lessonId}/${key}`, xp, 'missione');
+      store.award(`mission:${lessonId}/${key}`, xp, t('missione'));
       sfx.mission();
       box.classList.add('done');
-      box.querySelector('.mstat').textContent = '✓ completata';
+      box.querySelector('.mstat').textContent = '✓ ' + t('completata');
       onDone && onDone();
     },
     done: () => store.missionDone(lessonId, key),
@@ -64,15 +66,15 @@ function missionBlock(lessonId, { key, title, text, xp = 25 }, onDone) {
 
 function quizBlock(lessonId, quiz, onChange) {
   const wrap = h('section', { class: 'panel' },
-    h('h2', { class: 'panel-title', style: { marginTop: 0 } }, h('span', { class: 'dot' }), 'Controllo rapido'),
+    h('h2', { class: 'panel-title', style: { marginTop: 0 } }, h('span', { class: 'dot' }), t('Controllo rapido')),
     h('p', { class: 'small muted', style: { marginTop: '-4px' } },
-      'Rispondere a memoria — anche sbagliando — fa imparare più che rileggere. Se sbagli, riprova: non c\'è nessuna penalità.'),
+      t('Rispondere a memoria — anche sbagliando — fa imparare più che rileggere. Se sbagli, riprova: non c\'è nessuna penalità.')),
   );
 
   quiz.forEach((q, qi) => {
     const opts = h('div', { class: 'quiz-opts' });
     const why = h('div', { class: 'quiz-why hidden' });
-    const retry = h('button', { class: 'btn tiny hidden', onclick: () => reset() }, '🔄 riprova');
+    const retry = h('button', { class: 'btn tiny hidden', onclick: () => reset() }, '🔄 ' + t('riprova'));
 
     const buttons = q.options.map((o, oi) => {
       const b = h('button', { class: 'quiz-opt', type: 'button' }, o);
@@ -93,7 +95,7 @@ function quizBlock(lessonId, quiz, onChange) {
       retry.className = right ? 'btn tiny hidden' : 'btn tiny';
       store.recordQuiz(lessonId, qi, right, q);
       right ? sfx.ok() : sfx.err();
-      if (right) store.award(`quiz:${lessonId}/${qi}`, 15, 'risposta esatta');
+      if (right) store.award(`quiz:${lessonId}/${qi}`, 15, t('risposta esatta'));
       onChange && onChange();
     }
     function reset() {
@@ -127,20 +129,19 @@ function gateBlock(lv, missions, quiz, next) {
 
     box.innerHTML = '';
     box.appendChild(h('h2', { class: 'panel-title', style: { marginTop: 0 } },
-      h('span', { class: 'dot' }), ok ? '✅ Livello superato' : '🔒 Prova di padronanza'));
-    box.appendChild(h('p', { class: 'small dim', style: { marginTop: '-4px' } },
-      ok ? 'Hai dimostrato di saperlo <b>fare</b> e di saperlo <b>spiegare</b>. Il livello successivo è sbloccato.'
-        : 'Per sbloccare il livello successivo servono due cose: averlo fatto nel gioco e saperlo richiamare a memoria. Nessuna fretta e nessun punteggio negativo.'));
+      h('span', { class: 'dot' }), ok ? '✅ ' + t('Livello superato') : '🔒 ' + t('Prova di padronanza')));
+    box.appendChild(h('p', { class: 'small dim', style: { marginTop: '-4px' },
+      html: ok ? t('Hai dimostrato di saperlo <b>fare</b> e di saperlo <b>spiegare</b>. Il livello successivo è sbloccato.')
+        : t('Per sbloccare il livello successivo servono due cose: averlo fatto nel gioco e saperlo richiamare a memoria. Nessuna fretta e nessun punteggio negativo.') }));
     const list = h('ul', { style: { margin: '10px 0 0' } });
-    if (missions.length) list.appendChild(h('li', { html: `${mDone === missions.length ? '✅' : '⬜'} Missioni completate: <b>${mDone}/${missions.length}</b>` }));
-    if (quiz.length) list.appendChild(h('li', { html: `${qDone === quiz.length ? '✅' : '⬜'} Domande risposte correttamente: <b>${qDone}/${quiz.length}</b>` }));
-    if (!missions.length && !quiz.length) list.appendChild(h('li', { html: '✅ Livello di sola lettura: nessuna prova richiesta.' }));
+    if (missions.length) list.appendChild(h('li', { html: `${mDone === missions.length ? '✅' : '⬜'} ` + t('Missioni completate: <b>:fatte/:totali</b>', { fatte: mDone, totali: missions.length }) }));
+    if (quiz.length) list.appendChild(h('li', { html: `${qDone === quiz.length ? '✅' : '⬜'} ` + t('Domande risposte correttamente: <b>:fatte/:totali</b>', { fatte: qDone, totali: quiz.length }) }));
+    if (!missions.length && !quiz.length) list.appendChild(h('li', { html: '✅ ' + t('Livello di sola lettura: nessuna prova richiesta.') }));
     box.appendChild(list);
     if (ok && next) box.appendChild(h('div', { class: 'btn-row', style: { marginTop: '14px' } },
-      h('a', { class: 'btn primary', href: next.file.replace('lezioni/', '') }, `▶ Vai al livello ${next.n}: ${next.title}`)));
-    if (!ok) box.appendChild(h('p', { class: 'small muted', style: { marginTop: '10px', marginBottom: 0 } },
-      'Sei bloccato? Torna sul mini-gioco del passo corrispondente: la risposta si vede muovendo i cursori. ' +
-      'In alternativa, dalla mappa puoi attivare la <b>modalità libera</b> (per adulti curiosi o per rivedere).'));
+      h('a', { class: 'btn primary', href: next.slug + '.html' }, '▶ ' + t('Vai al livello :n: :titolo', { n: next.n, titolo: next.title }))));
+    if (!ok) box.appendChild(h('p', { class: 'small muted', style: { marginTop: '10px', marginBottom: 0 },
+      html: t('Sei bloccato? Torna sul mini-gioco del passo corrispondente: la risposta si vede muovendo i cursori. In alternativa, dalla mappa puoi attivare la <b>modalità libera</b> (per adulti curiosi o per rivedere).') }));
   }
   render();
   return { root: box, render };
@@ -161,7 +162,7 @@ function gateBlock(lv, missions, quiz, next) {
  * chiaro. Se il server non c'è, la nota resta almeno in questo browser.
  */
 function nonHoCapito(titoloPasso, apriTutor) {
-  const b = h('button', { class: 'btn tiny ghost', style: { marginTop: '10px' } }, '🤔 non ho capito questo passaggio');
+  const b = h('button', { class: 'btn tiny ghost', style: { marginTop: '10px' } }, '🤔 ' + t('non ho capito questo passaggio'));
   b.addEventListener('click', () => {
     try {
       const k = 'quantum-arcade:non-capito';
@@ -169,7 +170,7 @@ function nonHoCapito(titoloPasso, apriTutor) {
       el.push({ passo: titoloPasso, quando: new Date().toISOString() });
       localStorage.setItem(k, JSON.stringify(el.slice(-50)));
     } catch { /* modalità privata: pazienza */ }
-    b.textContent = '✓ grazie, segnalato';
+    b.textContent = '✓ ' + t('grazie, segnalato');
     b.disabled = true;
     apriTutor && apriTutor(titoloPasso);
   });
@@ -214,21 +215,21 @@ export function renderLesson(cfg) {
   if (!store.isUnlocked(cfg.id)) {
     const reqLv = levelById(lv.req);
     app.appendChild(h('div', { class: 'panel', style: { marginTop: '28px', borderColor: 'rgba(251,191,36,.5)' } },
-      h('h2', { class: 'panel-title', style: { marginTop: 0, color: 'var(--amber)' } }, h('span', { class: 'dot', style: { background: 'var(--amber)' } }), '🔒 Livello ancora chiuso'),
-      h('p', { html: `Per aprire questo livello devi prima superare la prova del livello <b>${reqLv ? reqLv.n + ' — ' + reqLv.title : lv.req}</b>. È così apposta: ogni livello usa gli attrezzi costruiti nel precedente, e saltarli rende tutto più difficile del necessario.` }),
+      h('h2', { class: 'panel-title', style: { marginTop: 0, color: 'var(--amber)' } }, h('span', { class: 'dot', style: { background: 'var(--amber)' } }), '🔒 ' + t('Livello ancora chiuso')),
+      h('p', { html: t('Per aprire questo livello devi prima superare la prova del livello <b>:livello</b>. È così apposta: ogni livello usa gli attrezzi costruiti nel precedente, e saltarli rende tutto più difficile del necessario.', { livello: reqLv ? reqLv.n + ' — ' + reqLv.title : lv.req }) }),
       h('div', { class: 'btn-row' },
-        reqLv ? h('a', { class: 'btn primary', href: reqLv.file.replace('lezioni/', '') }, '← Vai al livello richiesto') : null,
-        h('a', { class: 'btn ghost', href: '../index.html' }, '🗺️ Mappa'),
-        h('button', { class: 'btn ghost', onclick: () => { store.setFreeMode(true); location.reload(); } }, '🔓 Modalità libera (adulti/ripasso)'),
+        reqLv ? h('a', { class: 'btn primary', href: reqLv.slug + '.html' }, '← ' + t('Vai al livello richiesto')) : null,
+        h('a', { class: 'btn ghost', href: href('home') }, '🗺️ ' + t('Mappa')),
+        h('button', { class: 'btn ghost', onclick: () => { store.setFreeMode(true); location.reload(); } }, '🔓 ' + t('Modalità libera (adulti/ripasso)')),
       )));
     return;   // livello chiuso: non montiamo il resto
   }
 
   app.appendChild(h('div', { class: 'lesson-hero' },
-    h('nav', { class: 'crumbs', 'aria-label': 'percorso' },
-      h('a', { href: '../index.html' }, 'Mappa'), ' › ', part.title, ' › ', `Livello ${lv.n}`),
+    h('nav', { class: 'crumbs', 'aria-label': t('percorso') },
+      h('a', { href: href('home') }, t('Mappa')), ' › ', part.title, ' › ', t('Livello :n', { n: lv.n })),
     h('div', { class: 'btn-row', style: { marginBottom: '10px' } },
-      h('span', { class: `tag ${part.color}` }, `Livello ${lv.n}`),
+      h('span', { class: `tag ${part.color}` }, t('Livello :n', { n: lv.n })),
       h('span', { class: 'tag amber' }, `${lv.xp} XP`),
       lv.boss ? h('span', { class: 'tag' }, '☠ BOSS') : null,
     ),
@@ -247,7 +248,7 @@ export function renderLesson(cfg) {
       sec.appendChild(holder);
       try { s.mount(holder, api); }
       catch (err) {
-        holder.appendChild(h('div', { class: 'callout warn', html: `⚠️ Widget non caricato: ${err.message}` }));
+        holder.appendChild(h('div', { class: 'callout warn', html: '⚠️ ' + t('Widget non caricato: :errore', { errore: err.message }) }));
         console.error(err);
       }
     }
@@ -255,7 +256,7 @@ export function renderLesson(cfg) {
     sec.appendChild(nonHoCapito(s.t, titolo => {
       if (!tutor) return;
       tutor.open();
-      tutor.ask(`Non ho capito il passaggio "${titolo}". Me lo rispieghi in modo più semplice, senza formule?`);
+      tutor.ask(t('Non ho capito il passaggio ":titolo". Me lo rispieghi in modo più semplice, senza formule?', { titolo }));
     }));
   });
 
@@ -268,11 +269,11 @@ export function renderLesson(cfg) {
   app.appendChild(gate.root);
 
   app.appendChild(h('nav', { class: 'nav-foot' },
-    prev ? h('a', { class: 'btn ghost', href: prev.file.replace('lezioni/', '') }, '← ' + prev.title)
-      : h('a', { class: 'btn ghost', href: '../index.html' }, '← Mappa'),
-    h('a', { class: 'btn ghost', href: '../metodo.html' }, '🔬 Come è fatto questo corso'),
-    next ? h('a', { class: 'btn primary', href: next.file.replace('lezioni/', '') }, next.title + ' →')
-      : h('a', { class: 'btn primary', href: '../index.html' }, 'Torna alla mappa →'),
+    prev ? h('a', { class: 'btn ghost', href: prev.slug + '.html' }, '← ' + prev.title)
+      : h('a', { class: 'btn ghost', href: href('home') }, '← ' + t('Mappa')),
+    h('a', { class: 'btn ghost', href: href('metodo') }, '🔬 ' + t('Come è fatto questo corso')),
+    next ? h('a', { class: 'btn primary', href: next.slug + '.html' }, next.title + ' →')
+      : h('a', { class: 'btn primary', href: href('home') }, t('Torna alla mappa') + ' →'),
   ));
 
   } // fine mountLesson

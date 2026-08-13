@@ -76,13 +76,18 @@ return [
     | by Laravel's translation / localization methods. This option can be
     | set to any locale for which you plan to have translation strings.
     |
+    | Qui la lingua sorgente e' l'italiano: le chiavi di traduzione SONO le frasi
+    | italiane (lang/en.json, lang/es.json), quindi con locale = it non serve
+    | nessun dizionario e non si puo' rompere niente. La lingua vera della
+    | singola richiesta la sceglie App\Http\Middleware\ImpostaLingua.
+    |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', 'it'),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'it'),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+    'faker_locale' => env('APP_FAKER_LOCALE', 'it_IT'),
 
     /*
     |--------------------------------------------------------------------------

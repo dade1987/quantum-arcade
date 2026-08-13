@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1 · El cúbit: qué es de verdad — Quantum Arcade</title>
+<meta name="description" content="El puente entre los números complejos y los cúbits: amplitudes, notación de Dirac, regla de Born, fotones y filtros polaroid, y la diferencia real entre un cúbit y una moneda trucada.">
+<link rel="canonical" href="https://quantumarcade.it/es/lecciones/01-qubit.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/01-qubit.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/01-qubit.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/01-qubit.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/01-qubit.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { formula, stepper } from '../../js/core/formula.js';
+import { qubitBuilder, coinVsQubit, hadamardMap, probabilitaQuadrato } from '../../js/widgets/qubit.js';
+import { polaroidLab } from '../../js/widgets/quantum2.js';
+
+const L = renderLesson({
+  id: '01-qubit',
+  lead: `Empezamos por lo gordo: <b>qué es un cúbit</b>. Nada de ondas, ni de números complejos, ni de fórmulas
+         pesadas: bastan los porcentajes y los números con signo de la Parte 0. Al final de este nivel ya sabrás
+         la diferencia real entre un cúbit y una moneda trucada — que es justo lo que casi nadie sabe explicar.`,
+
+  steps: [
+    {
+      t: 'Un bit que puede ser un poco las dos cosas',
+      html: `<p>Un <b>bit</b> normal es una casilla que contiene <b>0 o 1</b>. Punto. Es como una bombilla:
+             encendida o apagada.</p>
+             <p>Un <b>cúbit</b> es una casilla distinta: mientras no lo mires, contiene <b>dos números</b>,
+             uno por cada resultado posible. Se llaman <b>amplitudes</b>:</p>
+             <pre><code>bit clásico:   0        o        1
+
+cúbit:      [ amplitud de 0 , amplitud de 1 ]
+             ej.  [   0,6    ,     0,8      ]</code></pre>
+             <p>Cuando lo <b>mides</b>, el cúbit te devuelve 0 o 1 (nunca "0,6"): el número que sale es al azar,
+             y la probabilidad se obtiene <b>elevando al cuadrado</b> la amplitud — justo el cuadrado del nivel 0·1.</p>
+             <div class="formula">probabilidad de leer 0 = (0,6)² = <span class="hl-n">36%</span>
+             &nbsp;&nbsp;&nbsp;&nbsp; probabilidad de leer 1 = (0,8)² = <span class="hl-k">64%</span>
+             &nbsp;&nbsp;&nbsp;→&nbsp; total <b>100%</b> ✓</div>
+             <div class="callout key"><b>Lo que lo cambia todo:</b> una amplitud puede ser <b>negativa</b>.
+             Una probabilidad no — no existe "el −30% de probabilidad" — pero una amplitud sí.
+             Y dos amplitudes iguales y opuestas, cuando se encuentran, <b>se cancelan</b>:
+             <code>+0,7 y −0,7 dan 0</code>. Es la única diferencia entre un cúbit y una moneda,
+             y de ahí nace toda la computación cuántica.</div>
+             <p class="dim small">Más adelante (nivel 8) descubriremos que la amplitud, en general, no es solo
+             "positiva o negativa": es una <b>flecha</b> que puede apuntar en cualquier dirección. Pero para los siete primeros niveles
+             el signo + o − basta y sobra.</p>`,
+    },
+    {
+      t: 'El cúbit físico: un fotón y unas gafas de sol',
+      html: `<p>Antes de las matemáticas, un objeto real. El cúbit más fácil de imaginar es la <b>polarización
+             de un fotón</b>: la dirección en la que oscila su campo eléctrico.</p>
+             <ul>
+               <li>fotón polarizado <b>verticalmente</b> → lo llamamos <b>|0⟩</b></li>
+               <li>fotón polarizado <b>horizontalmente</b> → lo llamamos <b>|1⟩</b></li>
+               <li>fotón polarizado <b>a 45°</b> → es una <b>superposición</b> de los dos</li>
+             </ul>
+             <p>Un filtro polaroid (el de las gafas de sol) solo deja pasar la luz polarizada en una cierta
+             dirección. Si el fotón está "oblicuo" respecto al filtro, pasa <b>con una cierta probabilidad</b>:</p>
+             <div class="formula">probabilidad de pasar = cos²(ángulo entre fotón y filtro) &nbsp;&nbsp;<span class="muted">(ley de Malus)</span></div>
+             <p>¿Reconoces el coseno del nivel 0·3 y el cuadrado del nivel 0·1? De ahí viene, físicamente,
+             la regla "probabilidad = amplitud²": la amplitud es el <b>coseno del ángulo</b>, la probabilidad es su cuadrado.</p>
+             <p><b>Y ahora el experimento que vuelve loco a todo el mundo.</b> Pon dos filtros cruzados (0° y 90°): no pasa nada,
+             oscuridad total. Luego <b>mete un tercer filtro a 45° entre los dos</b>. Según el sentido común debería pasar
+             todavía menos luz. En cambio la luz <b>vuelve a pasar</b>. Pruébalo:</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'polaroid', title: 'La paradoja de los tres filtros', text: 'pon dos filtros cruzados (0° y 90°), luego añade el de en medio a 45° y haz pasar la luz otra vez.', xp: 40 });
+        el.appendChild(m.root);
+        polaroidLab(el, { onDiscover: () => m.complete() });
+      },
+      after: `<div class="callout key"><b>Qué nos enseña:</b> un filtro no <i>selecciona</i> los fotones que ya estaban bien.
+              El filtro <b>mide</b>, y la medida <b>reescribe</b> el estado: tras el filtro a 45°, el fotón <b>está</b> a 45°,
+              y desde ahí tiene otra vez un 50% de probabilidad de pasar a 90°. La medida en física cuántica no es
+              "mirar sin tocar": es una operación que cambia el sistema.</div>`,
+    },
+    {
+      t: 'Por qué la probabilidad sale de elevar al cuadrado',
+      html: `<p>Antes de escribir ninguna fórmula, veamos la cosa suceder. El número que
+             describe un resultado — cuánto "pesa" ese resultado — es aquí el <b>lado de un cuadrado</b>.
+             La probabilidad de obtenerlo es el <b>área</b>.</p>
+             <p>Mueve el lado y mira el área: crece mucho más deprisa. Reduce el lado a la mitad y el área
+             queda en un cuarto, no en la mitad. No hay nada que memorizar, hay que mirar.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'quadrato', title: 'El cuadrado de la probabilidad', text: 'acierta tres áreas distintas moviendo el lado.', xp: 25 });
+        probabilitaQuadrato(el, { need: 3, onWin: () => m.done() });
+      },
+    },
+    {
+      t: 'Cómo se escribe un estado: la notación de Dirac',
+      html: `<p>Los físicos escriben los estados entre dos símbolos curiosos: <b>|</b> y <b>⟩</b>. Se llama <i>ket</i> y es
+             solo una caja para decir "esto es un estado". <code>|0⟩</code> se lee "ket cero".</p>
+             <p>Un estado genérico de un cúbit se escribe así:</p>`,
+      mount: el => {
+        formula(el, {
+          title: 'El estado de un cúbit — toca cada pieza',
+          parts: [
+            { t: '|ψ⟩', id: 'psi', color: 'cyan', name: 'el estado del cúbit', say: 'ψ (psi) es solo el nombre que le damos al estado, como llamar "x" a una incógnita. Las barritas |…⟩ dicen "aquí dentro hay un estado cuántico".' },
+            { t: '=' },
+            { t: 'a', id: 'a', color: 'green', name: 'amplitud del resultado 0', say: 'Un número: por ahora positivo o negativo (en el nivel 8 se convertirá en una flecha que puede apuntar a cualquier sitio). Su CUADRADO es la probabilidad de medir 0.', ex: 'a = 0,707 → probabilidad de 0 = 0,707² = 0,5 = 50%.' },
+            { t: '|0⟩', id: 'k0', color: 'green', name: 'el resultado "cero"', say: 'La etiqueta de la primera posibilidad. En el fotón: polarización vertical.' },
+            { t: '+' },
+            { t: 'b', id: 'b', color: 'amber', name: 'amplitud del resultado 1', say: 'La amplitud del otro resultado. Puede ser negativa: −0,707 da la misma probabilidad que +0,707, pero es un estado DISTINTO.', ex: 'a = 0,707 y b = −0,707 → 50% y 50%, exactamente igual que con b = +0,707… pero las dos se comportan de forma opuesta al aplicar una puerta H.' },
+            { t: '|1⟩', id: 'k1', color: 'amber', name: 'el resultado "uno"', say: 'La segunda posibilidad. En el fotón: polarización horizontal.' },
+            { t: '  con  ' },
+            { t: '|a|² + |b|² = 1', id: 'norm', color: 'violet', name: 'la regla de normalización', say: 'Las probabilidades tienen que sumar 1 (¡nivel 0·4!). Esto ata las longitudes de las dos flechas: si una crece, la otra baja.', ex: 'a = 0,6 y b = 0,8 → 0,36 + 0,64 = 1 ✓' },
+          ],
+        });
+      },
+      after: `<div class="callout"><b>La regla de Born</b> (el puente entre las matemáticas y la realidad):
+              la probabilidad de obtener un cierto resultado es el <b>cuadrado de la longitud</b> de su flecha.
+              <code>P(0) = |a|²</code>, <code>P(1) = |b|²</code>. No hace falta nada más para predecir cualquier experimento cuántico.</div>`,
+    },
+    {
+      t: 'Construye tu cúbit (y descubre el mando invisible)',
+      html: `<p>En el juego: <b>θ</b> decide cuánto |1⟩ hay (es decir, el "reparto" de las probabilidades),
+             <b>φ</b> es la <b>fase</b> de la segunda flecha.</p>
+             <p><b>Experimento obligatorio:</b> deja θ quieto y mueve <b>solo φ</b>. Mira el histograma de las medidas:
+             <b>no cambia nada</b>. Las probabilidades son idénticas. Y sin embargo el estado es distinto — y la flecha de la derecha gira.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'meta', title: 'Cincuenta y cincuenta', text: 'lleva el cúbit a exactamente 50% y 50% (pista: θ = 90°) y mídelo 100 veces.', xp: 35 });
+        el.appendChild(m.root);
+        qubitBuilder(el);
+        let done = false;
+        el.addEventListener('click', () => {
+          if (done) return;
+          const t = el.querySelector('input[type=range]');
+          if (t && Math.abs(parseFloat(t.value) - 90) < 3) { done = true; m.complete(); }
+        });
+      },
+      after: `<div class="callout warn"><b>La fase es invisible para una sola medida.</b> Por eso mucha gente se convence
+              de que el cúbit es "solo una moneda trucada": si miras únicamente los porcentajes, lo parece exactamente.
+              El paso siguiente desmonta esa idea de forma definitiva.</div>`,
+    },
+    {
+      t: 'La prueba de fuego: moneda contra cúbit',
+      html: `<p>Hagamos el experimento decisivo. Por un lado una <b>moneda</b> mezclada dos veces.
+             Por otro un <b>cúbit</b> al que aplicamos dos veces la puerta <b>H</b> (Hadamard), que es la operación
+             que "mezcla" un cúbit llevándolo a una superposición 50/50.</p>
+             <p>Si el cúbit fuera una moneda, tras dos mezclas debería seguir al azar. Mira qué pasa:</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'hh', title: 'El giro de guion', text: 'lanza el experimento y mira cómo el cúbit vuelve siempre a 0.', xp: 45 });
+        el.appendChild(m.root);
+        coinVsQubit(el, { onDiscover: () => m.complete() });
+      },
+      after: `<p>¿Por qué? Porque H no produce "0 o 1 al 50%": produce <b>dos flechas</b>. Y la segunda H las hace
+              <b>encontrarse</b>. Sobre el resultado |1⟩ llegan dos contribuciones iguales y <b>opuestas</b> (una con +, otra con −)
+              y se <b>cancelan</b>: la <b>interferencia destructiva</b>. La estudiaremos a fondo en el nivel 7, pero acabas de verla funcionar.</p>`,
+    },
+    {
+      t: 'Las cuatro líneas de la puerta H (apréndelas, vuelven siempre)',
+      html: `<p>Hadamard hace exactamente esto, y no hay más que saber:</p>
+             <div class="formula">
+               H|0⟩ = (|0⟩ + |1⟩)/√2 &nbsp;&nbsp;&nbsp;&nbsp; H|1⟩ = (|0⟩ <span class="hl-x">−</span> |1⟩)/√2
+             </div>
+             <p>La única diferencia entre las dos líneas es ese <b>menos</b>. Y el menos, desde el nivel 0·1, ya sabes qué es:
+             <b>«del lado contrario»</b>. De ese único signo nace toda la interferencia cuántica.</p>`,
+      mount: el => {
+        hadamardMap(el);
+        stepper(el, [
+          { h: 'Hagamos la cuenta de H·H|0⟩', html: 'Partimos de |0⟩. Primera H: obtenemos <code>(|0⟩ + |1⟩)/√2</code>.' },
+          { h: 'Segunda H, pieza a pieza', html: 'Aplicamos H a cada pieza:<br><code>H|0⟩ = (|0⟩ + |1⟩)/√2</code><br><code>H|1⟩ = (|0⟩ − |1⟩)/√2</code>' },
+          { h: 'Sumamos', html: '<code>(1/√2)[(|0⟩+|1⟩)/√2 + (|0⟩−|1⟩)/√2]</code> = <code>(1/2)[|0⟩ + |1⟩ + |0⟩ − |1⟩]</code>' },
+          { h: 'Mira los términos con |1⟩', html: '<code>+|1⟩</code> y <code>−|1⟩</code>: se <b>cancelan</b>. Quedan dos |0⟩ entre 2, es decir <code>|0⟩</code>.' },
+          { h: 'Resultado', html: '<b>H·H|0⟩ = |0⟩</b> con probabilidad 100%. Ninguna moneda se comporta así. El cúbit sí, porque sus "probabilidades" tienen <b>signo</b>.' },
+        ], { doneLabel: '¡He entendido el menos!' });
+      },
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> En el constructor, encuentra dos valores de φ distintos que den <b>exactamente</b> las mismas probabilidades.
+           ¿Cuántos hay? <span class="muted">(infinitos: la fase no se ve en una sola medida)</span></p>
+        <p><b>2.</b> En el juego de los polaroid, con los filtros a 0° y 90° y uno en medio a 30°: ¿pasa más o menos luz que con 45°?
+           Intenta predecirlo antes de mover el deslizador.</p>
+        <p><b>3.</b> Si |a| = 0,6, ¿cuánto vale |b|? <span class="muted">(0,8: porque 0,36 + 0,64 = 1)</span></p>
+        <p class="mb0"><b>4.</b> La pregunta que abre el resto del curso: si la fase no se ve al medir,
+           <b>¿para qué sirve</b>? <i>(Respuesta corta: para decidir qué se cancelará. Respuesta larga: los niveles del 14 al 19.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Si la amplitud de |1⟩ vale 0,6, ¿cuál es la probabilidad de medir 1?',
+      options: ['60%', '36%', '80%', '6%'], correct: 1,
+      why: 'Regla de Born: probabilidad = |amplitud|² = 0,6² = 0,36 = <b>36%</b>. Es el error más común de todos: la amplitud NO es la probabilidad.' },
+    { q: 'Dos estados con las mismas probabilidades pero fase distinta son…',
+      options: ['idénticos', 'distintos, y la diferencia se ve al aplicar otras puertas', 'imposibles', 'siempre entrelazados'], correct: 1,
+      why: 'Una sola medida no los distingue, pero una puerta posterior (por ejemplo H) los lleva a resultados distintos: la fase decide qué se cancelará.' },
+    { q: '¿Por qué dos Hadamard seguidas devuelven el cúbit a |0⟩?',
+      options: ['porque H es aleatoria', 'porque las contribuciones a |1⟩ llegan con signo opuesto y se cancelan', 'porque H mide el cúbit', 'porque |1⟩ es inestable'], correct: 1,
+      why: 'Interferencia destructiva: +|1⟩ y −|1⟩ se anulan, mientras que las dos contribuciones a |0⟩ se suman. Con una moneda no podría pasar nunca.' },
+    { q: 'En el experimento de los tres filtros polaroid, añadir un filtro a 45° entre dos cruzados…',
+      options: ['bloquea todavía más luz', 'hace que la luz vuelva a pasar, porque la medida reescribe el estado', 'no cambia nada', 'solo funciona con láser'], correct: 1,
+      why: 'El filtro no selecciona: mide. Tras el filtro a 45° el fotón <b>está</b> a 45°, así que tiene otra vez un 50% de probabilidad de atravesar el filtro a 90°.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas a casa:</b> un cúbit = dos flechas (amplitudes complejas);
+          probabilidad = longitud²; la fase no se ve en una medida pero decide las interferencias futuras;
+          la medida <b>modifica</b> el estado. Nivel siguiente: una manera de ver todo esto de un vistazo,
+          la <b>esfera de Bloch</b>.</div>`,
+});
+</script>
+</body>
+</html>

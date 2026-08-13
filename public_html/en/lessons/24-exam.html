@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>23 · Final exam and certificate — Quantum Arcade</title>
+<meta name="description" content="The Quantum Arcade final exam: about forty questions on waves, qubits, gates, entanglement, algorithms, the QFT and Shor. From 80% upwards the course completion certificate is generated.">
+<link rel="canonical" href="https://quantumarcade.it/en/lessons/24-exam.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/24-esame.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/24-exam.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/24-examen.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/24-esame.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { examLab } from '../../js/widgets/exam.js';
+
+const L = renderLesson({
+  id: '24-esame',
+  lead: `Last level. Thirty questions covering the whole journey, shuffled at random.
+         No time limit, no penalty, unlimited attempts: the aim is not to give you a mark,
+         it is to make you <b>fish every concept back out of memory</b> at least once — which is, according to research,
+         the most effective way of fixing it.`,
+
+  steps: [
+    {
+      t: 'Before you start',
+      html: `<p>Practical advice, tested:</p>
+             <ul>
+               <li><b>Do not re-read the course now.</b> Try to answer from memory: getting it wrong and then reading the correction
+                   fixes the concept far better than passive revision.</li>
+               <li>If a question stumps you, answer anyway: at the end you will get the complete correction, question by question.</li>
+               <li>If you go below 80%, look at which topics you got wrong, replay <b>those</b> levels and take the exam again.
+                   It is not a failure: it is the diagnosis.</li>
+             </ul>`,
+    },
+    {
+      t: 'Exam',
+      html: ``,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'esame', title: 'Pass the exam', text: 'reach at least 80% correct answers.', xp: 120 });
+        el.appendChild(m.root);
+        examLab(el, { pass: 0.8, onPass: () => m.complete() });
+      },
+    },
+    {
+      t: 'About the certificate: what it is and what it is not',
+      html: `<div class="callout warn"><b>Total transparency, because it matters.</b>
+             The certificate you generate here is a <b>course completion certificate</b>, issued by the author
+             (Davide Cavallini) and verifiable through the code it carries. It is <b>not</b> a certification issued
+             by an accredited body: claiming that would be false and it would put you in trouble the day somebody
+             checked it.</div>
+             <p><b>So what is it really for?</b> To show, concretely and verifiably, that you have completed a
+             structured journey of 28 levels on a non-trivial technical subject. In an interview, on a CV or on LinkedIn
+             it counts as <b>proof of initiative and curiosity</b>: put it there, but describe it for what it is.</p>
+             <h3>If you need a formally recognised credential</h3>
+             <p>The real routes are these, and they are independent of this site:</p>
+             <ul>
+               <li><b>IBM's Qiskit certification</b> — a paid exam with a digital badge issued by IBM.
+                   It is the most widespread reference in the field.</li>
+               <li><b>Online university courses with a certificate</b> (edX, Coursera) issued by accredited institutions.</li>
+               <li><b>Master's degrees and specialisation courses</b> from universities on quantum computing.</li>
+             </ul>
+             <p class="dim small">A technical note for the curious: a "recognised" certificate requires an <b>accredited third-party
+             body</b> that takes responsibility for the assessment (for the certification of persons the reference
+             standard is ISO/IEC 17024, with accreditation in Italy granted by Accredia).
+             It is a possible route but a long and expensive one, and until it is completed no serious site can claim it.</p>`,
+    },
+    {
+      t: 'And now?',
+      html: `<div class="callout ok"><b>If you have got here, you really do know how quantum computing works.</b>
+             Not "you have heard of it": you know why a qubit is not a coin, what a gate does, why
+             interference is needed, how a QFT is built and how Shor gets to the factors.</div>
+             <p>Three ways of not stopping:</p>
+             <ol>
+               <li><b>Go back to the workshop (level 22)</b> and try to beat your own records. It is the only bottomless level.</li>
+               <li><b>Write your first circuit in Qiskit</b>: after this course it is almost only a matter of syntax.</li>
+               <li><b>Explain it to someone.</b> That is the ultimate test: if you can make a friend understand interference
+                   using the arrows, the concept is yours forever.</li>
+             </ol>
+             <p class="dim">And if you find mistakes, unclear passages or you have ideas for new levels: write to me.
+             This course is designed to grow with the people who use it.</p>`,
+    },
+  ],
+
+  quiz: [],
+
+  outro: '',
+});
+</script>
+</body>
+</html>

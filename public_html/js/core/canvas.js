@@ -5,6 +5,8 @@
    - helper di disegno: griglia, assi, frecce, testo, barre
    ============================================================ */
 
+import { t } from './i18n.js';
+
 export class Stage {
   /**
    * @param {HTMLElement} host contenitore
@@ -267,9 +269,9 @@ export function complexAxes(ctx, P, { r = 1, labels = true, unitCircle = true } 
     /* "reale →" stava appoggiata sull'asse orizzontale, che le passava
        attraverso come una riga di cancellatura; "↑ immaginario" finiva sotto
        le scritte di lettura in alto. Ora stanno appena discoste. */
-    text(ctx, 'reale →', P.cx + R * 1.28, P.cy + 17, { size: 10, align: 'right', color: '#59688c' });
+    text(ctx, t('reale') + ' →', P.cx + R * 1.28, P.cy + 17, { size: 10, align: 'right', color: '#59688c' });
     // a metà dell'asse, non in cima: in cima ci sono le righe di lettura
-    text(ctx, '↑ immag.', P.cx - 10, P.cy - R * 0.62, { size: 10, align: 'right', color: '#59688c' });
+    text(ctx, '↑ ' + t('immag.'), P.cx - 10, P.cy - R * 0.62, { size: 10, align: 'right', color: '#59688c' });
     text(ctx, '1', P.X(1) + 4, P.cy + 30, { size: 10, color: '#59688c' });
     text(ctx, 'i', P.cx + 6, P.Y(1) - 2, { size: 10, color: '#59688c' });
   }

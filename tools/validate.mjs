@@ -10,9 +10,10 @@
    3. che ogni modulo importato esista davvero su disco
    4. struttura minima dell'HTML: tag bilanciati, head completo,
       link a css/js esistenti, attributi obbligatori
-   5. coerenza con levels.js: ogni livello ha il suo file e viceversa,
-      l'id dichiarato nella pagina è quello giusto, e il numero di livelli
-      scritto nei testi (home, README, attestato) è quello vero
+   5. coerenza con levels.js: ogni livello ha il suo file IN OGNI LINGUA
+      pubblicata e viceversa, l'id dichiarato nella pagina è quello giusto,
+      e il numero di livelli scritto nei testi (home, README, attestato)
+      è quello vero — in italiano, inglese e spagnolo
    6. sintassi dei file Python e degli SVG/JSON
    ============================================================ */
 
@@ -30,6 +31,24 @@ const warn = (file, msg) => { warnings++; console.log(`  ! ${file}\n     ${msg}`
 const ok = () => { checks++; };
 
 const SKIP = new Set(['node_modules', 'vendor', 'storage', 'bootstrap', 'test-results', 'coverage']);
+
+/* Le lingue del sito. L'italiano è l'originale e vive nella radice; le altre
+   in una cartella propria. Una lingua si considera PUBBLICATA quando ha la sua
+   home: da quel momento deve avere anche tutte le lezioni, perché mezzo corso
+   tradotto è peggio di nessuna traduzione — chi arriva dal terzo livello
+   inglese e trova l'italiano pensa che il sito sia rotto. */
+const LINGUE = [
+  { code: 'it', dir: '', lezioni: 'lezioni', parola: 'ventotto', unita: 'livelli' },
+  { code: 'en', dir: 'en/', lezioni: 'lessons', parola: 'twenty-eight', unita: 'levels' },
+  { code: 'es', dir: 'es/', lezioni: 'lecciones', parola: 'veintiocho', unita: 'niveles' },
+];
+
+/** La lingua di un file, dedotta dalla cartella in cui sta. */
+function linguaDi(percorso) {
+  const r = relative(join(ROOT, 'public_html'), percorso);
+  const primo = r.split(/[\\/]/)[0];
+  return LINGUE.find(l => l.dir === primo + '/') || LINGUE[0];
+}
 
 function walk(dir, filter, out = []) {
   for (const name of readdirSync(dir)) {
@@ -106,6 +125,75 @@ for (const { f, src } of allSources) {
   }
 }
 
+/* ---------- 3b. la t() delle traduzioni non deve essere oscurata ----------
+   Il gioco è pieno di matematica, e in matematica `t` è il tempo: `const t = i / N`
+   dentro un ciclo di disegno è la cosa più naturale del mondo. Ma nello stesso
+   file `t` è anche la funzione che traduce, e una variabile locale la copre
+   senza che nessuno se ne accorga — finché qualcuno non apre la pagina in
+   spagnolo e trova un errore invece della frase. Meglio scoprirlo qui. */
+/* Il sorgente senza commenti né stringhe, con la lunghezza intatta.
+   Serve perché le frasi da tradurre parlano proprio di codice — dentro le
+   lezioni ci sono `const t = …` scritti come esempio — e senza questo passaggio
+   il controllo qui sotto griderebbe al lupo per un pezzo di testo. Le
+   posizioni restano quelle originali, così il numero di riga è quello vero. */
+function senzaStringhe(src) {
+  // ogni carattere rimosso diventa uno spazio: stessa lunghezza, stessi indici
+  return src.replace(
+    /\/\*[\s\S]*?\*\/|\/\/[^\n]*|'(?:[^'\\\n]|\\.)*'|"(?:[^"\\\n]|\\.)*"|`(?:[^`\\]|\\.)*`/g,
+    m => m.replace(/[^\n]/g, ' '),
+  );
+}
+
+console.log('\n[3b] La funzione t() non è oscurata da variabili locali');
+
+/* Un'occorrenza di «t» che CREA un nome nuovo, cioè che copre il traduttore.
+   Non basta cercare `const t`: la prima versione di questo controllo faceva
+   solo quello, e si è lasciata sfuggire `const s = build(), t = transformed()`
+   — secondo dichiaratore, stessa riga — che ha rotto il livello 18 in tutte
+   e tre le lingue. Le forme sono tre, e vanno cercate tutte. */
+function ombreDiT(src) {
+  const ombre = [];
+  const nota = (indice, come) => ombre.push({ indice, come });
+
+  // 1. dichiarazioni, in qualunque posizione dell'elenco:
+  //    const t = …   ·   let a, t;   ·   const s = f(), t = g();
+  for (const m of src.matchAll(/\b(?:const|let|var)\s+([\s\S]*?);/g)) {
+    const elenco = m[1];
+    let profondita = 0, pezzo = '', pezzi = [];
+    for (const ch of elenco) {
+      if ('([{'.includes(ch)) profondita++;
+      else if (')]}'.includes(ch)) profondita--;
+      if (ch === ',' && profondita === 0) { pezzi.push(pezzo); pezzo = ''; continue; }
+      pezzo += ch;
+    }
+    pezzi.push(pezzo);
+    // il nome è quello che sta prima dell'«=»; se non c'è «=», è il pezzo intero
+    if (pezzi.some(p => p.split('=')[0].trim() === 't')) nota(m.index, 'dichiarazione');
+  }
+
+  // 2. parametri di funzione: function f(t) · (a, t) => · function (t) {
+  for (const m of src.matchAll(/(?:function\s*[\w$]*\s*)\(([^()]*)\)|\(([^()]*)\)\s*=>/g)) {
+    const parametri = (m[1] ?? m[2] ?? '').split(',').map(p => p.split('=')[0].trim());
+    if (parametri.includes('t')) nota(m.index, 'parametro');
+  }
+
+  // 3. la freccia senza parentesi, che è la forma più frequente: .map(t => …)
+  for (const m of src.matchAll(/(?:^|[^\w$.])t\s*=>/g)) nota(m.index, 'parametro');
+
+  return ombre;
+}
+
+for (const { f, src } of allSources) {
+  if (!/import\s*\{[^}]*\bt\b[^}]*\}\s*from\s*['"][^'"]*i18n\.js['"]/.test(src)) continue;
+  const ombre = ombreDiT(senzaStringhe(src));
+  if (ombre.length) {
+    const { indice, come } = ombre[0];
+    const riga = src.slice(0, indice).split('\n').length;
+    err(rel(f), `usa «t» come ${come} (riga ~${riga}) ma importa anche t() da i18n.js: `
+      + 'il nome locale oscura il traduttore. Rinominalo (per esempio in «tempo» o «tok»).');
+  } else ok();
+}
+
 /* ---------- 4. struttura HTML ---------- */
 console.log('\n[4] Struttura delle pagine HTML');
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
@@ -131,9 +219,10 @@ for (const f of htmlFiles) {
   else if (stack.length) err(name, 'tag non chiusi: ' + stack.join(', '));
   else ok();
 
+  const lingua = linguaDi(f);
   for (const [needle, msg] of [
     ['<!doctype html>', 'manca il doctype'],
-    ['lang="it"', 'manca lang="it" su <html>'],
+    [`lang="${lingua.code}"`, `manca lang="${lingua.code}" su <html> (la pagina sta nella cartella della lingua "${lingua.code}")`],
     ['<meta charset="utf-8">', 'manca il charset'],
     ['name="viewport"', 'manca il meta viewport'],
     ['<title>', 'manca il title'],
@@ -170,23 +259,49 @@ for (const f of htmlFiles) {
 /* ---------- 5. coerenza con levels.js ---------- */
 console.log('\n[5] Coerenza dei livelli');
 const levelsSrc = readFileSync(join(ROOT, 'public_html/js/core/levels.js'), 'utf8');
-const declared = [...levelsSrc.matchAll(/\{\s*id:\s*'([\w-]+)',[\s\S]{0,200}?file:\s*'([^']+)'/g)]
-  .map(m => ({ id: m[1], file: m[2] }));
-for (const lv of declared) {
-  const p = join(ROOT, 'public_html', lv.file);
-  if (!existsSync(p)) { err('levels.js', `il livello ${lv.id} punta a ${lv.file} che non esiste`); continue; }
-  const src = readFileSync(p, 'utf8');
-  const m = src.match(/renderLesson\(\{\s*\n?\s*id:\s*'([\w-]+)'/);
-  if (!m) err(rel(p), 'la pagina non chiama renderLesson con un id');
-  else if (m[1] !== lv.id) err(rel(p), `id dichiarato "${m[1]}" ma in levels.js è "${lv.id}"`);
-  else ok();
+
+/* Gli id sono gli stessi in tutte le lingue (è la chiave del progresso salvato
+   sul server); cambia solo il nome del file, dichiarato nella mappa SLUG. */
+const declared = [...levelsSrc.matchAll(/\{\s*id:\s*'([\w-]+)',\s*part:/g)].map(m => m[1]);
+const slugMap = {};
+{
+  const blocco = levelsSrc.match(/const SLUG = \{([\s\S]*?)\n\};/);
+  if (!blocco) err('levels.js', 'manca la mappa SLUG: senza, gli indirizzi tradotti non sono verificabili');
+  else {
+    for (const m of blocco[1].matchAll(/'([\w-]+)':\s*\{([^}]*)\}/g)) {
+      const voci = {};
+      for (const v of m[2].matchAll(/(\w+):\s*'([^']+)'/g)) voci[v[1]] = v[2];
+      slugMap[m[1]] = voci;
+    }
+  }
 }
-const lessonFiles = readdirSync(join(ROOT, 'public_html/lezioni')).filter(n => n.endsWith('.html'));
-for (const n of lessonFiles) {
-  if (!declared.some(l => l.file === 'lezioni/' + n)) warn('lezioni/' + n, 'file presente ma non elencato in levels.js');
-  else ok();
+const slugDi = (id, code) => code === 'it' ? id : (slugMap[id] || {})[code];
+
+/** Percorso su disco della lezione `id` nella lingua `l`. */
+const fileLezione = (id, l) => join(ROOT, 'public_html', l.dir + l.lezioni, slugDi(id, l.code) + '.html');
+
+const linguePubblicate = LINGUE.filter(l => existsSync(join(ROOT, 'public_html', l.dir + 'index.html')));
+for (const l of linguePubblicate) {
+  for (const id of declared) {
+    const slug = slugDi(id, l.code);
+    if (!slug) { err('levels.js', `il livello ${id} non ha uno slug per la lingua "${l.code}"`); continue; }
+    const p = fileLezione(id, l);
+    if (!existsSync(p)) { err('levels.js', `il livello ${id} in lingua "${l.code}" punta a ${rel(p)} che non esiste`); continue; }
+    const src = readFileSync(p, 'utf8');
+    const m = src.match(/renderLesson\(\{\s*\n?\s*id:\s*'([\w-]+)'/);
+    if (!m) err(rel(p), 'la pagina non chiama renderLesson con un id');
+    else if (m[1] !== id) err(rel(p), `id dichiarato "${m[1]}" ma in levels.js è "${id}"`);
+    else ok();
+  }
+  // e viceversa: un file rimasto lì dopo un riordino non deve passare inosservato
+  const cartella = join(ROOT, 'public_html', l.dir + l.lezioni);
+  if (!existsSync(cartella)) { err(l.dir + l.lezioni, 'la cartella delle lezioni non esiste'); continue; }
+  for (const n of readdirSync(cartella).filter(x => x.endsWith('.html'))) {
+    if (!declared.some(id => slugDi(id, l.code) + '.html' === n)) warn(l.dir + l.lezioni + '/' + n, 'file presente ma non elencato in levels.js');
+    else ok();
+  }
 }
-console.log(`  → ${declared.length} livelli dichiarati, ${lessonFiles.length} file presenti`);
+console.log(`  → ${declared.length} livelli dichiarati in ${linguePubblicate.length} lingue (${linguePubblicate.map(l => l.code).join(', ')})`);
 
 /* ---------- 5b. il numero di livelli scritto a parole nei testi ----------
    Il controllo sopra guarda solo levels.js e i file delle lezioni. Ma il
@@ -201,11 +316,26 @@ console.log(`  → ${declared.length} livelli dichiarati, ${lessonFiles.length} 
    Da qui in poi il numero scritto deve combaciare con LEVELS, ovunque. */
 const N_LIVELLI = declared.length;
 const A_PAROLE = {
-  20: 'venti', 21: 'ventuno', 22: 'ventidue', 23: 'ventitré', 24: 'ventiquattro',
-  25: 'venticinque', 26: 'ventisei', 27: 'ventisette', 28: 'ventotto',
-  29: 'ventinove', 30: 'trenta', 31: 'trentuno', 32: 'trentadue',
+  it: {
+    20: 'venti', 21: 'ventuno', 22: 'ventidue', 23: 'ventitré', 24: 'ventiquattro',
+    25: 'venticinque', 26: 'ventisei', 27: 'ventisette', 28: 'ventotto',
+    29: 'ventinove', 30: 'trenta', 31: 'trentuno', 32: 'trentadue',
+  },
+  en: {
+    20: 'twenty', 21: 'twenty-one', 22: 'twenty-two', 23: 'twenty-three', 24: 'twenty-four',
+    25: 'twenty-five', 26: 'twenty-six', 27: 'twenty-seven', 28: 'twenty-eight',
+    29: 'twenty-nine', 30: 'thirty', 31: 'thirty-one', 32: 'thirty-two',
+  },
+  es: {
+    20: 'veinte', 21: 'veintiuno', 22: 'veintidós', 23: 'veintitrés', 24: 'veinticuatro',
+    25: 'veinticinco', 26: 'veintiséis', 27: 'veintisiete', 28: 'veintiocho',
+    29: 'veintinueve', 30: 'treinta', 31: 'treinta y uno', 32: 'treinta y dos',
+  },
 };
-const PAROLA_GIUSTA = A_PAROLE[N_LIVELLI];
+/* "levels"/"niveles" compaiono anche in inglese e spagnolo: il conteggio va
+   tenuto allineato in tutte e tre le lingue, sennò l'attestato inglese
+   promette un numero di livelli che il corso non ha. */
+const UNITA = { livelli: 'it', levels: 'en', niveles: 'es' };
 const testi = [
   ...htmlFiles,
   ...jsFiles,
@@ -216,19 +346,22 @@ const testi = [
 for (const f of testi) {
   const src = readFileSync(f, 'utf8');
   let m;
-  const cifre = /(\d+)\s+livelli\b/g;
+  const cifre = /(\d+)\s+(livelli|levels|niveles)\b/gi;
   while ((m = cifre.exec(src))) {
     // "livelli" non parla sempre del corso: la lezione sulla FFT dice "log₂8 = 3
     // livelli" di ricorsione. Sotto la decina non è mai un conteggio del corso,
     // e sopra non è mai altro — la soglia separa i due usi senza casi ambigui.
     if (Number(m[1]) < 10) continue;
     if (Number(m[1]) === N_LIVELLI) ok();
-    else err(rel(f), `dice "${m[1]} livelli" ma in levels.js ce ne sono ${N_LIVELLI}`);
+    else err(rel(f), `dice "${m[1]} ${m[2]}" ma in levels.js ce ne sono ${N_LIVELLI}`);
   }
-  const parole = new RegExp(`\\b(${Object.values(A_PAROLE).join('|')})\\s+livelli\\b`, 'gi');
-  while ((m = parole.exec(src))) {
-    if (m[1].toLowerCase() === PAROLA_GIUSTA) ok();
-    else err(rel(f), `dice "${m[1]} livelli" ma in levels.js ce ne sono ${N_LIVELLI} ("${PAROLA_GIUSTA}")`);
+  for (const [unita, lingua] of Object.entries(UNITA)) {
+    const attesa = A_PAROLE[lingua][N_LIVELLI];
+    const parole = new RegExp(`\\b(${Object.values(A_PAROLE[lingua]).join('|')})\\s+${unita}\\b`, 'gi');
+    while ((m = parole.exec(src))) {
+      if (m[1].toLowerCase() === attesa) ok();
+      else err(rel(f), `dice "${m[1]} ${unita}" ma in levels.js ce ne sono ${N_LIVELLI} ("${attesa}")`);
+    }
   }
 }
 
@@ -241,6 +374,46 @@ if (existsSync(certCfg)) {
   if (!m) err(rel(certCfg), "manca 'levels_count': l'attestato non sa quanti livelli ha il corso");
   else if (Number(m[1]) !== N_LIVELLI) err(rel(certCfg), `levels_count = ${m[1]} ma in levels.js ce ne sono ${N_LIVELLI}`);
   else ok();
+}
+
+/* ---------- 5c. la sitemap conosce tutte le pagine, in tutte le lingue ----------
+   Una pagina che non sta nella sitemap esiste ma non la trova nessuno, e con
+   tre copie del sito il conto sale a novanta indirizzi: quello che prima si
+   controllava a occhio adesso non si controlla più. Qui si confronta la
+   sitemap con i file che ci sono davvero, nei due sensi — pagine dimenticate
+   e indirizzi che puntano al vuoto. */
+{
+  const mappa = join(ROOT, 'public_html/sitemap.xml');
+
+  if (!existsSync(mappa)) {
+    err('public_html/sitemap.xml', 'assente: nessun motore di ricerca troverà le pagine tradotte');
+  } else {
+    const src = readFileSync(mappa, 'utf8');
+    const indirizzi = new Set([...src.matchAll(/<loc>https:\/\/quantumarcade\.it\/(.*?)<\/loc>/g)].map(m => m[1]));
+
+    // le pagine vere: tutti gli .html sotto public_html che non sono frammenti
+    const attese = new Set();
+    for (const l of LINGUE) {
+      if (!existsSync(join(ROOT, 'public_html', l.dir, 'index.html'))) continue;   // lingua non pubblicata
+      attese.add(l.dir);                                                            // la radice si scrive senza index.html
+      for (const f of walk(join(ROOT, 'public_html', l.dir), n => n.endsWith('.html'))) {
+        const via = rel(f).replace('public_html/', '');
+        if (via.endsWith('index.html')) continue;                                   // già contata come radice
+        if (linguaDi(rel(f)).code !== l.code) continue;                             // file di un'altra copia del sito
+        attese.add(via);
+      }
+    }
+
+    for (const via of attese) {
+      if (indirizzi.has(via)) ok();
+      else err('public_html/sitemap.xml', `non elenca /${via} — esegui \`npm run sitemap\``);
+    }
+    for (const via of indirizzi) {
+      const f = join(ROOT, 'public_html', via === '' || via.endsWith('/') ? via + 'index.html' : via);
+      if (existsSync(f)) ok();
+      else err('public_html/sitemap.xml', `elenca /${via}, che non esiste`);
+    }
+  }
 }
 
 /* ---------- 6. Backend PHP ---------- */
@@ -335,6 +508,10 @@ console.log('\n[9] Ortografia italiana');
 
   let refusi = 0;
   for (const f of walk(join(ROOT, 'public_html'), n => /\.(html|js|txt)$/.test(n))) {
+    // le regole valgono solo per l'italiano: «propio» è un refuso italiano ma
+    // «propio» spagnolo è corretto, e i dizionari contengono le frasi tradotte
+    if (linguaDi(rel(f)).code !== 'it') continue;
+    if (/\/js\/i18n\//.test(rel(f))) continue;
     // i tag si tolgono SENZA metterci uno spazio, sennò nascono finti errori
     const testo = readFileSync(f, 'utf8').replace(/<[^>]*>/g, '').replace(/https?:\/\/\S+/g, ' ');
     for (const [re, spiega] of REGOLE) {

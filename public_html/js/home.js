@@ -2,15 +2,17 @@
 
 import { LEVELS, PARTS, TOTAL_XP, rankFor, levelById } from './core/levels.js';
 import * as store from './core/store.js';
-import { h } from './core/ui.js';
+import { h, langButton } from './core/ui.js';
 import { sfx, wireSounds, soundButton } from './core/audio.js';
 import { initAccount, accountButton, isLogged, isOffline, openRegister } from './core/account.js';
 import { mountTutor } from './widgets/chat.js';
+import { t } from './core/i18n.js';
 
 store.mountXpBar(document.getElementById('xp-host'));
 wireSounds();
 document.getElementById('xp-host').after(soundButton());
 document.getElementById('xp-host').after(accountButton());
+document.getElementById('xp-host').after(langButton());
 
 // Account: i progressi vivono sul server, quindi la prima cosa è capire chi sei.
 initAccount().then(() => {
@@ -43,7 +45,7 @@ function renderMap() {
       h('div', { class: 'num', style: { color: `var(--${p.color})`, borderColor: `var(--${p.color})` } }, p.id),
       h('div', {},
         h('h2', {}, p.title),
-        h('div', { class: 'sub' }, `${p.sub} · ${doneCount}/${lv.length} superati`),
+        h('div', { class: 'sub' }, `${p.sub} · ` + t(':fatti/:totali superati', { fatti: doneCount, totali: lv.length })),
       ),
     ));
     const grid = h('div', { class: 'levels' });
@@ -54,13 +56,13 @@ function renderMap() {
       const card = h(open ? 'a' : 'div', {
         class: 'level' + (done ? ' done' : '') + (l.boss ? ' boss' : '') + (open ? '' : ' locked'),
         href: open ? l.file : null,
-        title: open ? '' : `Si apre superando il livello ${req ? req.n : ''}`,
+        title: open ? '' : t('Si apre superando il livello :n', { n: req ? req.n : '' }),
       },
-        h('div', { class: 'lv-n' }, `LIVELLO ${l.n}`),
+        h('div', { class: 'lv-n' }, t('LIVELLO :n', { n: l.n })),
         h('div', { class: 'lv-t' }, l.title),
         h('div', { class: 'lv-d' }, l.desc),
         h('div', { class: 'lv-f' },
-          h('span', { class: `tag ${open ? p.color : ''}` }, done ? '✓ superato' : (open ? (l.boss ? '☠ BOSS' : 'gioca') : '🔒 chiuso')),
+          h('span', { class: `tag ${open ? p.color : ''}` }, done ? '✓ ' + t('superato') : (open ? (l.boss ? '☠ BOSS' : t('gioca')) : '🔒 ' + t('chiuso'))),
           h('span', { class: 'lv-xp' }, `${l.xp} XP`),
         ),
       );
@@ -77,12 +79,12 @@ function renderStatus() {
   const st = store.getState();
   const done = LEVELS.filter(l => store.isLessonDone(l.id)).length;
   document.getElementById('progress-line').innerHTML =
-    `Sei <b>${rankFor(st.xp).name}</b> · ${st.xp} XP · ${done}/${LEVELS.length} livelli superati` +
-    (done === 0 ? ' — si comincia quando vuoi.' : '');
+    t('Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli superati', { grado: rankFor(st.xp).name, xp: st.xp, fatti: done, totali: LEVELS.length }) +
+    (done === 0 ? t(' — si comincia quando vuoi.') : '');
   const first = LEVELS.filter(l => l.part !== '0').find(l => !store.isLessonDone(l.id) && store.isUnlocked(l.id)) || LEVELS[3];
   const cont = document.getElementById('continue');
   cont.href = first.file;
-  cont.textContent = (done ? `▶ Continua — livello ${first.n}: ${first.title}` : '▶ Inizia dal livello 1');
+  cont.textContent = (done ? '▶ ' + t('Continua — livello :n: :titolo', { n: first.n, titolo: first.title }) : '▶ ' + t('Inizia dal livello 1'));
 }
 renderStatus();
 
@@ -93,7 +95,7 @@ freeChk.checked = store.freeMode();
 freeChk.addEventListener('change', () => { store.setFreeMode(freeChk.checked); renderMap(); renderStatus(); });
 
 document.getElementById('reset').addEventListener('click', () => {
-  if (confirm('Azzerare tutti i progressi (XP, livelli, quiz, ripasso)?')) { store.resetAll(); location.reload(); }
+  if (confirm(t('Azzerare tutti i progressi (XP, livelli, quiz, ripasso)?'))) { store.resetAll(); location.reload(); }
 });
 
 /* ---------------- ripasso lampo (Leitner) ---------------- */
@@ -103,11 +105,11 @@ function renderReview() {
   const due = store.dueQuestions(5);
   rev.innerHTML = '';
   if (!store.bankSize()) {
-    rev.appendChild(h('p', { class: 'dim mb0', html: 'Qui compariranno le domande dei livelli che hai già giocato, riproposte <b>a distanza di giorni</b>: è il modo più efficace, secondo la ricerca, per non dimenticarle. Gioca un livello e torna qui.' }));
+    rev.appendChild(h('p', { class: 'dim mb0', html: t('Qui compariranno le domande dei livelli che hai già giocato, riproposte <b>a distanza di giorni</b>: è il modo più efficace, secondo la ricerca, per non dimenticarle. Gioca un livello e torna qui.') }));
     return;
   }
   if (!due.length) {
-    rev.appendChild(h('p', { class: 'dim mb0', html: `✅ Nessuna domanda in scadenza. Hai <b>${store.bankSize()}</b> domande nel mazzo: torna fra qualche giorno e te le riproporrò al momento giusto.` }));
+    rev.appendChild(h('p', { class: 'dim mb0', html: '✅ ' + t('Nessuna domanda in scadenza. Hai <b>:quante</b> domande nel mazzo: torna fra qualche giorno e te le riproporrò al momento giusto.', { quante: store.bankSize() }) }));
     return;
   }
   let i = 0;
@@ -115,7 +117,7 @@ function renderReview() {
   rev.appendChild(box);
   const step = () => {
     if (i >= due.length) {
-      box.innerHTML = '<p class="dim mb0">✅ Ripasso finito. Ottimo lavoro: ogni richiamo a memoria rende il ricordo più solido.</p>';
+      box.innerHTML = '<p class="dim mb0">✅ ' + t('Ripasso finito. Ottimo lavoro: ogni richiamo a memoria rende il ricordo più solido.') + '</p>';
       renderStatus();
       return;
     }
@@ -142,7 +144,7 @@ function renderReview() {
       opts.appendChild(b);
     });
     box.append(
-      h('div', { class: 'small muted', style: { marginBottom: '6px' } }, `domanda ${i + 1} di ${due.length} · dal livello ${lvl ? lvl.n : '?'}`),
+      h('div', { class: 'small muted', style: { marginBottom: '6px' } }, t('domanda :i di :totali · dal livello :livello', { i: i + 1, totali: due.length, livello: lvl ? lvl.n : '?' })),
       h('div', { class: 'qt', html: q.q }), opts, why);
   };
   step();

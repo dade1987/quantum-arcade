@@ -13,22 +13,23 @@ import {
 } from '../core/qsim.js';
 import { ampsView, histogram } from './amps.js';
 import { sfx } from '../core/audio.js';
+import { t } from '../core/i18n.js';
 
 const BEST_KEY = 'quantum-arcade:officina-best';
 
 const BLOCKS = {
-  H:     { lab: 'H su tutti',        col: COL.cyan,   desc: 'Mette tutte le possibilità in gioco con la stessa ampiezza.' },
-  ORACLE:{ lab: '❓ ORACOLO',         col: COL.amber,  desc: 'Interroga la funzione segreta: mette l\'informazione nelle fasi. Ogni uso costa 1 query!' },
-  QFT:   { lab: 'QFT',                col: COL.violet, desc: 'Trasformata di Fourier quantistica: trasforma periodicità in picchi.' },
-  IQFT:  { lab: 'QFT†',               col: COL.violet, desc: 'QFT inversa.' },
-  DIFF:  { lab: '📢 Diffusore',       col: COL.green,  desc: 'Riflessione attorno alla media: amplifica ciò che l\'oracolo ha marcato.' },
-  PH0:   { lab: '− su |0…0⟩',         col: COL.pink,   desc: 'Cambia segno solo allo stato tutto-zero.' },
-  X:     { lab: 'X su tutti',         col: COL.pink,   desc: 'Ribalta tutti i qubit.' },
+  H:     { lab: t('H su tutti'),      col: COL.cyan,   desc: t('Mette tutte le possibilità in gioco con la stessa ampiezza.') },
+  ORACLE:{ lab: '❓ ' + t('ORACOLO'),  col: COL.amber,  desc: t('Interroga la funzione segreta: mette l\'informazione nelle fasi. Ogni uso costa 1 query!') },
+  QFT:   { lab: 'QFT',                col: COL.violet, desc: t('Trasformata di Fourier quantistica: trasforma periodicità in picchi.') },
+  IQFT:  { lab: 'QFT†',               col: COL.violet, desc: t('QFT inversa.') },
+  DIFF:  { lab: '📢 ' + t('Diffusore'), col: COL.green, desc: t('Riflessione attorno alla media: amplifica ciò che l\'oracolo ha marcato.') },
+  PH0:   { lab: '− su |0…0⟩',         col: COL.pink,   desc: t('Cambia segno solo allo stato tutto-zero.') },
+  X:     { lab: t('X su tutti'),      col: COL.pink,   desc: t('Ribalta tutti i qubit.') },
 };
 
 export function officina(host, opts = {}) {
   const cfg = Object.assign({ n: 3, onSolve: null }, opts);
-  const w = widget(host, { title: '🛠️ Officina degli algoritmi', subtitle: 'monta, lancia, indovina, migliora' });
+  const w = widget(host, { title: '🛠️ ' + t('Officina degli algoritmi'), subtitle: t('monta, lancia, indovina, migliora') });
   const n = cfg.n, N = 1 << n;
 
   const st = {
@@ -46,9 +47,9 @@ export function officina(host, opts = {}) {
   /* ---------- sfide ---------- */
   const CHALLENGES = {
     dj: {
-      name: 'Costante o bilanciata?',
-      brief: `C'è una funzione segreta f che dà 0 o 1 per ognuno degli ${N} ingressi. O è <b>costante</b> (sempre lo stesso valore) o è <b>bilanciata</b> (metà 0 e metà 1). Scopri quale.`,
-      classical: `${N / 2 + 1} interrogazioni nel caso peggiore`,
+      name: t('Costante o bilanciata?'),
+      brief: t("C'è una funzione segreta f che dà 0 o 1 per ognuno degli :N ingressi. O è <b>costante</b> (sempre lo stesso valore) o è <b>bilanciata</b> (metà 0 e metà 1). Scopri quale.", { N }),
+      classical: t(':quante interrogazioni nel caso peggiore', { quante: N / 2 + 1 }),
       newSecret() {
         const kind = Math.random() < .5 ? 'cost' : 'bal';
         if (kind === 'cost') { const v = Math.random() < .5 ? 0 : 1; return { kind, f: () => v }; }
@@ -56,34 +57,34 @@ export function officina(host, opts = {}) {
         return { kind, f: x => ones.has(x) ? 1 : 0 };
       },
       oracle(s, sec) { phaseOracle(s, i => sec.f(i) === 1); },
-      answers: () => [{ label: 'è COSTANTE', value: 'cost' }, { label: 'è BILANCIATA', value: 'bal' }],
+      answers: () => [{ label: t('è COSTANTE'), value: 'cost' }, { label: t('è BILANCIATA'), value: 'bal' }],
       check: (ans, sec) => ans === sec.kind,
-      reveal: sec => `era <b>${sec.kind === 'cost' ? 'costante' : 'bilanciata'}</b>`,
+      reveal: sec => t('era <b>:cosa</b>', { cosa: sec.kind === 'cost' ? t('costante') : t('bilanciata') }),
     },
     bv: {
-      name: 'La stringa segreta',
-      brief: `C'è una stringa segreta <b>s</b> di ${n} bit. La funzione risponde f(x) = s·x mod 2 (parità dei bit in comune). Trova s.`,
-      classical: `${n} interrogazioni`,
+      name: t('La stringa segreta'),
+      brief: t("C'è una stringa segreta <b>s</b> di :n bit. La funzione risponde f(x) = s·x mod 2 (parità dei bit in comune). Trova s.", { n }),
+      classical: t(':quante interrogazioni', { quante: n }),
       newSecret() { return { s: 1 + Math.floor(Math.random() * (N - 1)) }; },
       oracle(s, sec) { phaseOracle(s, i => { let x = i & sec.s, p = 0; while (x) { p ^= x & 1; x >>= 1; } return p === 1; }); },
       answers: () => Array.from({ length: N }, (_, i) => ({ label: i.toString(2).padStart(n, '0'), value: i })),
       check: (ans, sec) => ans === sec.s,
-      reveal: sec => `era <b>${sec.s.toString(2).padStart(n, '0')}</b>`,
+      reveal: sec => t('era <b>:valore</b>', { valore: sec.s.toString(2).padStart(n, '0') }),
     },
     grover: {
-      name: 'Trova l\'ago nel pagliaio',
-      brief: `Uno solo degli ${N} stati è quello "giusto". L'oracolo sa dirti soltanto <b>sì/no</b> (mettendo un segno meno). Trovalo.`,
-      classical: `${N / 2} tentativi in media, ${N} nel caso peggiore`,
+      name: t("Trova l'ago nel pagliaio"),
+      brief: t('Uno solo degli :N stati è quello "giusto". L\'oracolo sa dirti soltanto <b>sì/no</b> (mettendo un segno meno). Trovalo.', { N }),
+      classical: t(':medi tentativi in media, :peggiore nel caso peggiore', { medi: N / 2, peggiore: N }),
       newSecret() { return { m: Math.floor(Math.random() * N) }; },
       oracle(s, sec) { phaseOracle(s, i => i === sec.m); },
       answers: () => Array.from({ length: N }, (_, i) => ({ label: '|' + i.toString(2).padStart(n, '0') + '⟩', value: i })),
       check: (ans, sec) => ans === sec.m,
-      reveal: sec => `era <b>|${sec.m.toString(2).padStart(n, '0')}⟩</b>`,
+      reveal: sec => t('era <b>|:valore⟩</b>', { valore: sec.m.toString(2).padStart(n, '0') }),
     },
     periodo: {
-      name: 'Trova il periodo',
-      brief: `L'oracolo "periodico" lascia in gioco solo gli stati x che stanno su una griglia con passo <b>r</b> (più uno sfasamento casuale). Trova r.`,
-      classical: 'devi provare i valori uno per uno',
+      name: t('Trova il periodo'),
+      brief: t('L\'oracolo "periodico" lascia in gioco solo gli stati x che stanno su una griglia con passo <b>r</b> (più uno sfasamento casuale). Trova r.'),
+      classical: t('devi provare i valori uno per uno'),
       newSecret() { const rs = [2, 4]; const r = rs[Math.floor(Math.random() * rs.length)]; return { r, off: Math.floor(Math.random() * r) }; },
       oracle(s, sec) {
         for (let i = 0; i < N; i++) if ((i - sec.off + N) % sec.r !== 0) { s.re[i] = 0; s.im[i] = 0; }
@@ -93,7 +94,7 @@ export function officina(host, opts = {}) {
       },
       answers: () => [2, 3, 4, 5, 6, 8].map(r => ({ label: 'r = ' + r, value: r })),
       check: (ans, sec) => ans === sec.r,
-      reveal: sec => `era <b>r = ${sec.r}</b> (con partenza da ${sec.off})`,
+      reveal: sec => t('era <b>r = :r</b> (con partenza da :off)', { r: sec.r, off: sec.off }),
     },
   };
 
@@ -102,7 +103,7 @@ export function officina(host, opts = {}) {
   w.body.appendChild(briefBox);
 
   const chSel = choice({
-    label: 'Sfida', value: 'grover',
+    label: t('Sfida'), value: 'grover',
     items: Object.entries(CHALLENGES).map(([k, c]) => ({ label: c.name, value: k })),
     onchange: k => { st.challenge = k; reset(true); },
   });
@@ -134,8 +135,8 @@ export function officina(host, opts = {}) {
         text(ctx, B.lab, x0 + i * bw + (bw - 10) / 2, 45, { size: 12, align: 'center', color: B.col, mono: false, weight: '700', max: bw - 14 });
         if (i < st.pipe.length - 1) text(ctx, '→', x0 + (i + 1) * bw - 7, 45, { size: 13, align: 'center', color: '#4a5877' });
       });
-      if (!st.pipe.length) text(ctx, '(vuota — aggiungi blocchi qui sotto)', 14, 45, { size: 12, color: '#5b6b90' });
-      text(ctx, '📏 MISURA', Math.min(x0 + st.pipe.length * bw + 8, s.w - spazioMisura), 45, { size: 12, color: '#6f7fa3', mono: false, max: spazioMisura - 6 });
+      if (!st.pipe.length) text(ctx, t('(vuota — aggiungi blocchi qui sotto)'), 14, 45, { size: 12, color: '#5b6b90' });
+      text(ctx, '📏 ' + t('MISURA'), Math.min(x0 + st.pipe.length * bw + 8, s.w - spazioMisura), 45, { size: 12, color: '#6f7fa3', mono: false, max: spazioMisura - 6 });
     },
   });
   const fx = attachFX(pipeStage);   // scintille, lampi e suono ai traguardi
@@ -157,10 +158,10 @@ export function officina(host, opts = {}) {
   const ampHost = h('div'), histHost = h('div');
   w.body.append(ampHost, histHost);
   const amps = ampsView(ampHost, { height: 170, showProb: true });
-  const hist = histogram(histHost, { n, height: 150, title: 'Misure (200 tiri)' });
+  const hist = histogram(histHost, { n, height: 150, title: t('Misure (200 tiri)') });
 
   const ansRow = h('div', { class: 'btn-row', style: { marginTop: '10px' } });
-  w.body.appendChild(h('div', {}, h('div', { class: 'small dim', html: '<b>La tua risposta:</b>' }), ansRow));
+  w.body.appendChild(h('div', {}, h('div', { class: 'small dim', html: '<b>' + t('La tua risposta:') + '</b>' }), ansRow));
   const out = readout('');
   w.body.appendChild(out.root);
 
@@ -170,7 +171,7 @@ export function officina(host, opts = {}) {
     if (newSecret || !st.secret) st.secret = C.newSecret();
     st.queries = 0; st.answered = null; st.state = zeroState(n);
     amps.set(st.state); hist.reset(n);
-    briefBox.innerHTML = `<b>${C.name}.</b> ${C.brief}<br><span class="muted">Un computer classico se la caverebbe con: ${C.classical}.</span>`;
+    briefBox.innerHTML = `<b>${C.name}.</b> ${C.brief}<br><span class="muted">` + t('Un computer classico se la caverebbe con: :costo.', { costo: C.classical }) + '</span>';
     renderAnswers();
     upd();
   }
@@ -222,24 +223,24 @@ export function officina(host, opts = {}) {
     const p = st.state ? probs(st.state) : null;
     const top = p ? p.indexOf(Math.max(...p)) : -1;
     let msg =
-      `Interrogazioni dell'oracolo usate: <b>${st.queries}</b>` +
-      (st.best[st.challenge] !== undefined ? `  ·  tuo record per questa sfida: <b>${st.best[st.challenge]}</b>` : '') + '\n';
+      t("Interrogazioni dell'oracolo usate: <b>:quante</b>", { quante: st.queries }) +
+      (st.best[st.challenge] !== undefined ? '  ·  ' + t('tuo record per questa sfida: <b>:record</b>', { record: st.best[st.challenge] }) : '') + '\n';
     if (p) {
-      msg += `Risultato più probabile: <b>|${label(top, n)}⟩</b> con ${(p[top] * 100).toFixed(1)}%\n`;
+      msg += t('Risultato più probabile: <b>|:stato⟩</b> con :percento%', { stato: label(top, n), percento: (p[top] * 100).toFixed(1) }) + '\n';
       const flat = Math.max(...p) < 1.5 / N;
-      if (flat) msg += `<span class="a">Le probabilità sono tutte uguali: così la misura non ti dice niente. Serve un blocco che faccia INTERFERIRE le ampiezze dopo l'oracolo.</span>\n`;
+      if (flat) msg += '<span class="a">' + t("Le probabilità sono tutte uguali: così la misura non ti dice niente. Serve un blocco che faccia INTERFERIRE le ampiezze dopo l'oracolo.") + '</span>\n';
     }
     if (st.answered) {
       msg += st.answered.ok
-        ? `<span class="g">✅ RISPOSTA GIUSTA con ${st.queries} interrogazioni!</span> (${C.reveal(st.secret)})\n` +
-        `Adesso la domanda vera: <b>riesci a farcela con meno?</b> Cambia pipeline e riprova.`
-        : `<span class="p">❌ Risposta sbagliata</span> — ${C.reveal(st.secret)}. Guarda l'istogramma: cosa avresti dovuto leggere?`;
-    } else if (p) msg += `Leggi l'istogramma e prova a dare la risposta qui sopra.`;
+        ? '<span class="g">✅ ' + t('RISPOSTA GIUSTA con :quante interrogazioni!', { quante: st.queries }) + `</span> (${C.reveal(st.secret)})\n` +
+        t('Adesso la domanda vera: <b>riesci a farcela con meno?</b> Cambia pipeline e riprova.')
+        : '<span class="p">❌ ' + t('Risposta sbagliata') + `</span> — ${C.reveal(st.secret)}. ` + t("Guarda l'istogramma: cosa avresti dovuto leggere?");
+    } else if (p) msg += t("Leggi l'istogramma e prova a dare la risposta qui sopra.");
     out.set(msg);
     draw();
   }
 
   reset(true);
-  w.setFoot('<b>Regola d\'oro dell\'officina:</b> ogni algoritmo quantistico utile ha la stessa forma — <b>metti tutto in gioco</b> (H), <b>scrivi l\'informazione nelle fasi</b> (oracolo), <b>fai interferire</b> (diffusore, QFT), <b>misura</b>. Quello che cambia è solo il terzo passo. Se inventi un terzo passo nuovo, hai inventato un algoritmo.');
+  w.setFoot(t('<b>Regola d\'oro dell\'officina:</b> ogni algoritmo quantistico utile ha la stessa forma — <b>metti tutto in gioco</b> (H), <b>scrivi l\'informazione nelle fasi</b> (oracolo), <b>fai interferire</b> (diffusore, QFT), <b>misura</b>. Quello che cambia è solo il terzo passo. Se inventi un terzo passo nuovo, hai inventato un algoritmo.'));
   return { state: st };
 }

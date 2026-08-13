@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3 · Suma de ondas — Quantum Arcade</title>
+<meta name="description" content="Síntesis de Fourier jugando: reconstruye una señal misteriosa sumando ondas simples y descubre cómo se construye una onda cuadrada.">
+<link rel="canonical" href="https://quantumarcade.it/es/lecciones/15-suma-de-ondas.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/15-somma-onde.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/15-wave-sum.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/15-suma-de-ondas.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/15-somma-onde.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { formula } from '../../js/core/formula.js';
+import { synthLab, squareLab } from '../../js/widgets/synth.js';
+
+const L = renderLesson({
+  id: '15-somma-onde',
+  lead: `La idea más potente de todas las matemáticas aplicadas, en una línea: <b>cualquier señal razonable
+         se puede obtener sumando ondas simples</b>. Aquí la usamos al revés y se convierte en un juego: adivinar la receta.`,
+
+  steps: [
+    {
+      t: 'El batido',
+      html: `
+        <p>Tienes un batido. Lo pruebas y te preguntas: <b>¿cuánta manzana lleva? ¿cuánta pera? ¿cuánto plátano?</b></p>
+        <p>Con las señales es idéntico. Un sonido grabado es un batido de frecuencias: dentro hay
+        a la vez 100 Hz, 300 Hz, 1000 Hz… todas mezcladas en un único gráfico que sube y baja
+        de forma aparentemente incomprensible.</p>
+        <div class="callout key"><b>Fourier dice:</b> ese dibujo complicado es <b>solo</b> una suma de ondas redondas,
+        cada una con su amplitud y su fase. Si encuentro la lista de las cantidades, lo he entendido todo de la señal.</div>
+        <p>La lista de las cantidades se llama <b>espectro</b>. Es la "receta" de la señal:</p>
+        <div class="formula">
+          señal = <span class="hl-x">3</span>·onda(10 Hz) + <span class="hl-x">0,5</span>·onda(20 Hz) + <span class="hl-x">7</span>·onda(50 Hz) + …
+        </div>
+        <p>Esos números (3 · 0,5 · 7) son las amplitudes de las distintas frecuencias. Dicen <b>cuánto</b> aporta cada ingrediente
+        al resultado final.</p>`,
+    },
+
+    {
+      t: 'Misión: adivina la receta',
+      html: `
+        <p>En el juego de abajo hay una <b>señal misteriosa</b> (rosa discontinua) construida mezclando ondas de
+        1, 2, 3, 4 y 5 Hz. Tú tienes cinco deslizadores: uno por cada ingrediente.</p>
+        <p><b>Cómo jugar bien:</b> no vayas al azar. Mira la señal misteriosa y pregúntate "¿cuántas jorobas grandes hay
+        en un segundo?" — esa es la frecuencia dominante. Sube ese deslizador primero, y luego ajusta los demás.
+        También puedes <b>escuchar</b> las dos señales y compararlas de oído.</p>`,
+      mount: el => {
+        const m = L.mission({ key: 'ricetta', title: 'Chef de Fourier', text: 'baja el error por debajo de 0,10 reconstruyendo la señal misteriosa.', xp: 50 });
+        el.appendChild(m.root);
+        synthLab(el, { nComp: 5, onSolve: () => m.complete() });
+      },
+      after: `<div class="callout"><b>Lo que acabas de hacer a mano</b> es exactamente el trabajo que la transformada de Fourier
+              hace sola, de una sola vez y sin tanteos. En el nivel 16 veremos <b>cómo</b> lo hace.</div>`,
+    },
+
+    {
+      t: 'Las esquinas también se hacen con curvas',
+      html: `
+        <p>Objeción razonable: "vale para las señales suaves, pero una onda <b>cuadrada</b> tiene esquinas.
+        ¿Cómo haces una esquina sumando curvas redondas?"</p>
+        <p>Respuesta: hacen falta muchas, y para hacerla <b>perfecta</b> harían falta infinitas. Pero ya con diez casi estamos.
+        La receta de la onda cuadrada es preciosa porque es regularísima: solo las frecuencias <b>impares</b>, cada una con amplitud
+        <b>1/k</b> (o sea, las altas cuentan cada vez menos):</p>
+        <div class="formula">cuadrada(t) = (4/π) · [ sin(2πt) + <span class="hl-n">⅓</span>·sin(3·2πt) + <span class="hl-n">⅕</span>·sin(5·2πt) + <span class="hl-n">⅐</span>·sin(7·2πt) + … ]</div>
+        <p>Mueve el deslizador y mira cómo la curva cian se acerca a la esquina rosa.</p>`,
+      mount: el => squareLab(el),
+      after: `<p class="dim small">Esas pequeñas "orejas" que quedan cerca de la esquina, y que nunca desaparecen del todo,
+              tienen nombre: <b>fenómeno de Gibbs</b>. No es un fallo del juego: pasa de verdad, también en los sistemas de audio reales.</p>`,
+    },
+
+    {
+      t: 'Escribámoslo en matemáticas (sin miedo)',
+      html: `<p>Lo que has hecho con los deslizadores, escrito como lo escribe un matemático, es esto:</p>`,
+      mount: el => {
+        formula(el, {
+          title: 'Síntesis: del recetario a la señal',
+          hint: 'Toca cada pieza: la fórmula dice exactamente lo que has hecho con los deslizadores.',
+          parts: [
+            { t: 'x(t)', id: 'x', color: 'cyan', name: 'la señal final', say: 'El batido: lo que ves en el gráfico o lo que oyes por el altavoz.' },
+            { t: '=' },
+            { t: 'Σ', id: 'sum', color: 'green', name: 'suma de todos los ingredientes', say: 'La sigma griega solo quiere decir "suma todo lo que viene detrás, para cada valor de k". Es la manera breve de escribir "primero + segundo + tercero + …".', ex: 'Con k yendo de 1 a 3: Σ = (trozo con k=1) + (trozo con k=2) + (trozo con k=3).' },
+            { t: 'A', id: 'A', color: 'amber', name: 'cuánto hay', say: 'La posición del deslizador: cuánto de esa frecuencia ponemos en la receta. Si es 0, ese ingrediente no está.', ex: 'A₃ = 0,7 → la onda de 3 Hz entra con peso 0,7.' },
+            { t: '_k', id: 'k', color: 'violet', name: 'qué ingrediente', say: 'El índice k dice DE QUÉ frecuencia estamos hablando: k=1 la más lenta, k=2 el doble de rápida, y así sucesivamente.' },
+            { t: '·cos(2π' },
+            { t: 'k', id: 'k2', color: 'violet', name: 'la frecuencia k-ésima', say: 'Al multiplicar k dentro del coseno, la onda gira k veces más rápido: es el armónico número k.' },
+            { t: 'f₀t +' },
+            { t: 'φ', id: 'phi', color: 'pink', name: 'la fase de ese ingrediente', say: 'Cada ingrediente también se puede desplazar en el tiempo. En el juego la hemos dejado a cero por simplicidad, pero en general cada frecuencia tiene su fase.' },
+            { t: '_k)' },
+          ],
+        });
+      },
+      after: `<div class="callout ok"><b>Traducido al castellano:</b> "coge todas las frecuencias, multiplica cada una por lo que quieras,
+              despláza­las la fase adecuada, suma todo". Fin. No hay nada más.</div>`,
+    },
+
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> En el juego de la receta: si pones <b>todos</b> los deslizadores al máximo, ¿qué forma sale? ¿Se parece a algo que conozcas?</p>
+        <p><b>2.</b> Genera una nueva señal misteriosa e intenta adivinarla <b>solo escuchando</b>, sin mirar el gráfico.
+           ¿Consigues oír qué frecuencia falta?</p>
+        <p><b>3.</b> En la onda cuadrada los armónicos pares no están. Intenta imaginar qué forma tendrías sumando solo los <b>pares</b>.</p>
+        <p class="mb0"><b>4.</b> Pregunta seria: dada una señal, ¿existe <b>una sola</b> receta posible o podría haber muchas distintas
+           que dan el mismo resultado? <i>(La respuesta — una sola — es el motivo por el que Fourier funciona y es la base del nivel 16.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: '¿Qué quiere decir "espectro de una señal"?',
+      options: ['Su gráfico en el tiempo', 'La lista de cuánto hay de cada frecuencia', 'Su amplitud máxima', 'Su periodo'],
+      correct: 1,
+      why: 'El espectro es la <b>receta</b>: para cada frecuencia dice cuánta contiene la señal (y, en general, con qué fase).' },
+    { q: 'Para construir una onda cuadrada perfecta hacen falta…',
+      options: ['dos ondas', 'solo las frecuencias pares', 'infinitos armónicos impares', 'una onda cuadrada: no se puede hacer con sinusoides'],
+      correct: 2,
+      why: 'Hacen falta <b>infinitos</b> armónicos impares con amplitud 1/k. Con pocos armónicos se obtiene una aproximación excelente, con las típicas "orejas" de Gibbs cerca de la esquina.' },
+    { q: 'El símbolo Σ en una fórmula significa…',
+      options: ['multiplica', 'suma todos los trozos', 'integra', 'la desviación típica'],
+      correct: 1,
+      why: 'Es solo una forma compacta de escribir "primero + segundo + tercero + …". Cada vez que veas Σ, lee <b>"suma todos"</b> y la fórmula deja de dar miedo.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas a casa:</b> toda señal = suma de ondas simples; la lista de las cantidades se llama
+          <b>espectro</b>; construir la señal a partir de la receta se llama <b>síntesis</b>. Ahora nos hace falta la herramienta para hacer lo contrario
+          (de la señal a la receta): y esa herramienta está hecha de <b>flechas que giran</b>. Nivel 16.</div>`,
+});
+</script>
+</body>
+</html>

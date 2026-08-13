@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9 · Oracles and Deutsch–Jozsa — Quantum Arcade</title>
+<meta name="description" content="The first algorithm that provably beats the classical one: phase oracles, phase kickback, and the four-beat pattern behind every quantum algorithm.">
+<link rel="canonical" href="https://quantumarcade.it/en/lessons/09-deutsch.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/09-deutsch.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/09-deutsch.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/09-deutsch.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/09-deutsch.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { stepper } from '../../js/core/formula.js';
+import { deutschLab } from '../../js/widgets/algos.js';
+
+const L = renderLesson({
+  id: '09-deutsch',
+  lead: `The first real algorithm. A toy problem, but the first historical case (Deutsch 1985, then Deutsch–Jozsa 1992)
+         in which a quantum computer <b>provably</b> beats a classical one. And the pattern you see here
+         is the <b>same</b> as in every later algorithm.`,
+
+  steps: [
+    {
+      t: 'What an oracle is',
+      html: `<p>An <b>oracle</b> is a black box that knows how to compute a function <b>f</b> but will not tell you how.
+             All you can do is query it: you give it an input, it gives you the output. The cost of the algorithm is measured in
+             <b>number of queries</b>.</p>
+             <p>Why work with black boxes? Because that way you can <b>prove</b> one method is better than another,
+             without arguing about how clever the programmer is. It is the standard test bench of complexity theory.</p>
+             <div class="callout key"><b>The quantum oracle (the "phase" version)</b> does one thing only:
+             <code>|x⟩ → (−1)^f(x) |x⟩</code><br>
+             That is: it <b>puts a minus sign</b> in front of the states where f is 1, and leaves the others alone.
+             It changes no probability at all (the square of −1 is 1!): it writes the information <b>into the phases only</b>.</div>
+             <p class="dim small">A technical aside: in practice the oracle is realised with an ancillary qubit placed in
+             |−⟩ = (|0⟩ − |1⟩)/√2. When the CNOT controlled by f flips that qubit, the effect is a minus sign that
+             "kicks back" onto the main register. The phenomenon is called <b>phase kickback</b> and it is the most
+             reused trick in the whole discipline.</p>`,
+    },
+    {
+      t: 'The problem',
+      html: `<p>You are given a function f that, for each of N inputs, answers 0 or 1. You are guaranteed it is
+             <b>one of these two</b>:</p>
+             <ul>
+               <li><b>constant</b>: it always answers the same thing (always 0 or always 1);</li>
+               <li><b>balanced</b>: it answers 0 for exactly half the inputs and 1 for the other half.</li>
+             </ul>
+             <p><b>Question:</b> which of the two?</p>
+             <p><b>What does it cost classically?</b> In the worst case you have to look at <b>half plus one</b> of the inputs:
+             if the first N/2 all give 0, you might be facing a constant… or a balanced one having a laugh at your expense.
+             With N = 8 it takes 5 queries, with N = 1,000,000 it takes 500,001.</p>
+             <p><b>Quantumly: ONE.</b> Always. Try it — first with the slow button, then with the quantum one.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'dj', title: 'One single question', text: 'solve the problem with the quantum query and get it right.', xp: 55 });
+        el.appendChild(m.root);
+        deutschLab(el, { n: 3, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Why it works (the sum, with no gaps)',
+      html: `<p>Three moves: <b>H on all → oracle → H on all</b>. Here is what happens at each move.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Move 1 — H on every qubit', html: 'From |000⟩ you get a superposition with <b>all 8 possibilities</b>, all with the same amplitude +1/√8.<br>On screen: eight identical bars.' },
+          { h: 'Move 2 — the oracle', html: 'It puts a <b>minus</b> on the possibilities where f = 1. The bar heights do not change (the probabilities are identical!), only the <b>signs</b> change. If you measured now, you would learn nothing: every output would be equally likely.' },
+          { h: 'Constant case', html: 'If f is constant, <b>all</b> the signs are the same (all + or all −). Up to a global sign, the state is identical to before.' },
+          { h: 'Balanced case', html: 'If f is balanced, <b>half</b> the signs are + and half −. The state is deeply different: it is "chequered".' },
+          { h: 'Move 3 — H on all again', html: 'H "counts" the agreements among the signs.<br>• All equal → every amplitude converges on |000⟩: probability <b>100%</b> of measuring all zeros.<br>• Half and half → the amplitudes on |000⟩ <b>cancel exactly</b>: probability <b>0%</b> of measuring all zeros.' },
+          { h: 'Reading the result', html: 'You measure once:<br>• <b>000…0</b> comes out → the function was <b>constant</b>;<br>• <b>anything else</b> comes out → it was <b>balanced</b>.<br>No chance of being wrong: the result is <b>deterministic</b>.' },
+          { h: 'The general pattern', html: '<b>H (put everything in play) → oracle (write into the phases) → H (make it interfere) → measure.</b><br>Every quantum algorithm you will see — Bernstein–Vazirani, Grover, Simon, Shor — is a variation on those four beats. In the final workshop it will be your palette.' },
+        ], { doneLabel: 'I get the mechanism!' });
+      },
+    },
+    {
+      t: 'How much is this result really worth?',
+      html: `<div class="callout warn"><b>Intellectual honesty.</b> Deutsch–Jozsa is a <b>huge</b> win on paper
+             (1 against 500,001!) but on a problem <b>invented for the purpose</b> and with no practical application.
+             What is more, a <b>probabilistic</b> classical algorithm gets by with very few queries: a dozen random
+             inputs are enough to be almost certain of the answer.<br><br>
+             The real value lies elsewhere: it is the <b>first clean demonstration</b> that interference is a computational resource,
+             and it is the template on which algorithms that do matter are built (Simon → Shor).</div>
+             <p>Historically it went like this: Deutsch (1985) solves the single-bit case; Deutsch and Jozsa (1992) extend it
+             to n bits; Bernstein and Vazirani (1993) find a similar problem with an advantage even over probabilistic methods;
+             Simon (1994) finds the first clean <b>exponential</b> advantage — and reading Simon's work,
+             Peter Shor gets the idea leading to factoring. A six-year chain, and we are at level 20.</p>`,
+    },
+    {
+      t: '💡 Your turn',
+      html: `<div class="callout think">
+        <p><b>1.</b> In the game, generate functions until you find a constant one: how many classical queries did you have to make
+           before you were <b>sure</b>?</p>
+        <p><b>2.</b> What would happen if the function were neither constant nor balanced (say 3 zeros and 5 ones)?
+           Would the result still be reliable? <span class="muted">(no — the algorithm trusts the promise)</span></p>
+        <p><b>3.</b> Why is measuring <b>only</b> the state |000…0⟩ enough to decide? What does that bar represent?</p>
+        <p class="mb0"><b>4.</b> As an inventor: could you build an oracle that, instead of saying "constant or balanced",
+           reveals something more useful? <i>(The next level does exactly that.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'What does a phase oracle do?',
+      options: ['it computes f and prints it', 'it puts a minus sign on the states where f is 1', 'it measures the register', 'it creates entanglement'], correct: 1,
+      why: 'It writes the information into the phases without changing any probability: on its own it is invisible, but it sets the stage for the final interference.' },
+    { q: 'How many queries does Deutsch–Jozsa need?',
+      options: ['1', 'N/2', 'log N', 'N'], correct: 0,
+      why: 'One only, with a certain answer. Classically, in the worst case, it takes N/2 + 1.' },
+    { q: 'How do you read the final result?',
+      options: ['you count the measurements', 'if all-zeros comes out the function is constant, otherwise it is balanced', 'you look at the phase', 'you measure only the first qubit'], correct: 1,
+      why: 'The amplitudes on |00…0⟩ add up if the signs are all equal (constant) and cancel if they are half and half (balanced).' },
+    { q: 'The general pattern of a quantum algorithm is…',
+      options: ['measure → gate → measure', 'H (superposition) → oracle (phases) → interference → measure', 'entanglement → copy → measure', 'oracle → oracle → oracle'], correct: 1,
+      why: 'Four beats: put everything in play, write the information into the phases, make it interfere, read. Only the third beat changes from one algorithm to the next.' },
+  ],
+
+  outro: `<div class="callout ok"><b>What you take home:</b> the oracle writes into the <b>phases</b>; the final Hadamards
+          turn signs into <b>measurable positions</b>; one query instead of half a million.
+          Next level: the same pattern, but to steal a password.</div>`,
+});
+</script>
+</body>
+</html>

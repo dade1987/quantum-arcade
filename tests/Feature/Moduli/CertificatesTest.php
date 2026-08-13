@@ -176,7 +176,7 @@ class CertificatesTest extends TestCase
         $r = $this->getJson('/api/badge/' . $codice . '.json')->assertOk();
         $this->assertContains('OpenBadgeCredential', $r->json('type'));
         $this->assertSame('Amos Rossi', $r->json('credentialSubject.name'));
-        $this->assertStringContainsString('Non è una certificazione accreditata', $r->json('evidence.0.description'));
+        $this->assertStringContainsString('Non costituisce una certificazione accreditata', $r->json('evidence.0.description'));
         $this->assertFalse($r->json('revoked'));
 
         $this->getJson('/api/badge/QA-FALSO1.json')->assertNotFound();

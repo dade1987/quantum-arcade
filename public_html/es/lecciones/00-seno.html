@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0·3 · Seno y coseno — Quantum Arcade</title>
+<meta name="description" content="Seno y coseno sin triángulos: las dos sombras de un punto que gira, los valores que conviene memorizar y el puente hacia las ondas y los números complejos.">
+<link rel="canonical" href="https://quantumarcade.it/es/lecciones/00-seno.html">
+<link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-seno.html">
+<link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-sine.html">
+<link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/00-seno.html">
+<link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/00-seno.html">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../assets/logo.svg">
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { renderLesson } from '../../js/core/lesson.js';
+import { stepper } from '../../js/core/formula.js';
+import { sinCosLab } from '../../js/widgets/basicmath.js';
+
+const L = renderLesson({
+  id: '00-seno',
+  lead: `El seno y el coseno tienen fama de ser cosa de bachillerato, con triángulos. En realidad son dos cosas sencillísimas:
+         <b>las dos sombras de un punto que gira</b>. Si entiendes esa frase — y al final de este nivel la entenderás —
+         tienes medio curso en el bolsillo.`,
+
+  steps: [
+    {
+      t: 'Un punto gira y proyecta dos sombras',
+      html: `<p>Coge el círculo del nivel anterior y pon un punto en el borde. El círculo tiene <b>radio 1</b>
+             (una unidad: un metro, un centímetro, lo que quieras).</p>
+             <p>Ahora enciende dos lámparas: una arriba, que proyecta la sombra del punto en el suelo, y otra de lado, que
+             la proyecta en la pared.</p>
+             <ul>
+               <li>La sombra <b>en el suelo</b> (cuánto estás desplazado a la derecha) se llama <b>coseno</b>.</li>
+               <li>La sombra <b>en la pared</b> (cuánto estás arriba) se llama <b>seno</b>.</li>
+             </ul>
+             <p>Eso es todo. No hay nada más que saber: son dos <b>medidas de desplazamiento</b>, una horizontal y otra vertical,
+             de un punto que gira.</p>
+             <div class="callout key">Como el radio es 1, el seno y el coseno están <b>siempre</b> entre −1 y +1.
+             No pueden valer 3, ni 100. Si en una cuenta te sale un seno igual a 2, algo has hecho mal.</div>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'sincos', title: 'Las dos sombras', text: 'acierta 3 ángulos pedidos por la prueba.', xp: 30 });
+        el.appendChild(m.root);
+        sinCosLab(el, { need: 3, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Los cuatro valores que conviene saberse de memoria',
+      html: `<table class="table">
+               <tr><th>Ángulo</th><th>Dónde estás</th><th>coseno (sombra horizontal)</th><th>seno (altura)</th></tr>
+               <tr><td class="mono">0°</td><td>del todo a la derecha →</td><td class="mono">1</td><td class="mono">0</td></tr>
+               <tr><td class="mono">90°</td><td>arriba del todo ↑</td><td class="mono">0</td><td class="mono">1</td></tr>
+               <tr><td class="mono">180°</td><td>del todo a la izquierda ←</td><td class="mono">−1</td><td class="mono">0</td></tr>
+               <tr><td class="mono">270°</td><td>abajo del todo ↓</td><td class="mono">0</td><td class="mono">−1</td></tr>
+             </table>
+             <p>Fíjate en el ritmo: cuando uno vale 1 o −1, el otro vale 0. Se "van turnando". Y hay un valor especial
+             que te encontrarás por todas partes en el curso:</p>
+             <div class="formula">cos 45° = sin 45° = <span class="hl-n">1/√2</span> ≈ 0,707</div>
+             <p>A 45° estás exactamente a medio camino entre "del todo a la derecha" y "del todo arriba": las dos sombras son iguales.
+             Y recuerda del nivel 0·1: <b>(0,707)² = 0,5</b>, es decir el 50%. Ese número describirá el cúbit "a medio camino entre 0 y 1".</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Pregunta', html: 'A 90°, ¿cuánto vale el <b>coseno</b>?' },
+          { h: 'Respuesta', html: 'Vale <b>0</b>. A 90° estás en lo alto del círculo: no estás desplazado ni a la derecha ni a la izquierda, así que la sombra horizontal es nula. El seno, en cambio, vale 1 (estás tan alto como el radio).' },
+          { h: 'Pregunta', html: 'Y a 180°, ¿cuánto vale el <b>seno</b>?' },
+          { h: 'Respuesta', html: '<b>0</b>. Estás del todo a la izquierda, a la altura del centro: nada de altura. El coseno, en cambio, vale −1 (desplazado a la izquierda todo el radio).' },
+          { h: 'Pregunta difícil', html: '¿Por qué a 270° el seno vale <b>−1</b> y no 1?' },
+          { h: 'Respuesta', html: 'Porque a 270° estás <b>por debajo</b> del centro. La altura se mide con signo: arriba es positiva, abajo es negativa. Exactamente como los números negativos de la recta del nivel 0·1.' },
+        ], { doneLabel: '¡Claro!' });
+      },
+    },
+    {
+      t: 'De aquí nacen las ondas (y por tanto todo lo demás)',
+      html: `<p>En el juego, a la derecha, ya has visto la parte importante: si el punto <b>sigue girando</b> y dibujas
+             su altura mientras pasa el tiempo, sale una <b>curva ondulada</b>. Esa curva es la onda del seno.</p>
+             <p>¿Y el coseno? Es exactamente la misma curva, solo que <b>arrancada 90° antes</b>. Coseno y seno son gemelos desfasados.</p>
+             <div class="callout key"><b>El puente con todo el curso:</b>
+             <ul style="margin:8px 0 0">
+               <li>punto que gira → <b>seno y coseno</b> (este nivel)</li>
+               <li>seno y coseno en el tiempo → <b>ondas</b> (nivel 13)</li>
+               <li>ondas desplazadas entre sí → <b>fase</b> (nivel 14)</li>
+               <li>longitud + ángulo de una flecha → <b>números complejos</b> y <b>e^{iθ} = cos θ + i·sin θ</b> (nivel 8)</li>
+               <li>flechas que se suman o se cancelan → <b>interferencia</b> (nivel 7) y <b>Fourier</b> (nivel 16)</li>
+             </ul>
+             Ningún salto: es una sola cadena, y el primer eslabón es el punto que gira.</div>`,
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> ¿Existe un ángulo en el que el seno y el coseno sean <b>los dos</b> negativos? Encuéntralo en el juego.</p>
+        <p><b>2.</b> ¿Cuánto vale cos 360°? ¿Y cos 720°? ¿Por qué?</p>
+        <p><b>3.</b> Haz la cuenta: (cos 45°)² + (sin 45°)² = 0,5 + 0,5 = <b>1</b>. Prueba con otros ángulos:
+           sale siempre 1. ¿Sabes por qué? <span class="muted">(pista: Pitágoras sobre un radio de longitud 1)</span></p>
+        <p class="mb0"><b>4.</b> Esa regla — <b>cos² + sin² = 1</b> — en el mundo cuántico se convertirá en
+           "la suma de las probabilidades da 100%". No es casualidad.</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'El seno de un ángulo representa…', options: ['la longitud de la flecha', 'cuánto está arriba el punto', 'cuánto está a la derecha el punto', 'el ángulo en grados'], correct: 1,
+      why: 'El seno es la altura (proyección vertical) del punto sobre el círculo de radio 1; el coseno es el desplazamiento horizontal.' },
+    { q: '¿Cuánto vale cos 180°?', options: ['1', '0', '−1', '180'], correct: 2,
+      why: 'A 180° el punto está del todo a la izquierda: desplazamiento horizontal −1 (y altura 0).' },
+    { q: '¿Pueden el seno y el coseno valer 1,5?', options: ['sí, si el ángulo es grande', 'no, están siempre entre −1 y 1', 'solo el seno', 'solo para ángulos negativos'], correct: 1,
+      why: 'Son proyecciones sobre un círculo de radio 1: no pueden superar el radio.' },
+    { q: '¿Por qué cos 45° = sin 45°?', options: ['por casualidad', 'porque a 45° estás igual de desplazado a la derecha y hacia arriba', 'porque 45 es la mitad de 90', 'no es cierto'], correct: 1,
+      why: 'A 45° estás exactamente a medio camino entre el eje horizontal y el vertical: las dos sombras son idénticas y valen 1/√2 ≈ 0,707.' },
+  ],
+
+  outro: `<div class="callout ok"><b>¡Hecho!</b> El seno y el coseno ya no son dos palabras misteriosas: son las dos sombras
+          de un punto que gira. Último nivel de base: el <b>azar</b>, es decir las probabilidades — porque toda medida
+          cuántica es, en el fondo, un lanzamiento de moneda muy bien organizado.</div>`,
+});
+</script>
+</body>
+</html>

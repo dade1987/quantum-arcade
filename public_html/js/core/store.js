@@ -12,6 +12,7 @@
 
 import { TOTAL_XP, rankFor, LEVELS, levelById } from './levels.js';
 import { sfx } from './audio.js';
+import { t } from './i18n.js';
 
 const KEY = 'quantum-arcade:v2';
 const DAY = 24 * 3600 * 1000;
@@ -90,7 +91,7 @@ export function completeLesson(id) {
   if (!lv || isLessonDone(id)) return false;
   state.lessons[id] = { at: Date.now(), mastered: true };
   save();
-  award('lesson:' + id, lv.xp, 'livello superato');
+  award('lesson:' + id, lv.xp, t('livello superato'));
   return true;
 }
 
@@ -188,7 +189,7 @@ export function mountXpBar(host) {
   host.innerHTML = `
     <div class="xp-wrap">
       <span class="xp-label" data-rank></span>
-      <div class="xp-bar" role="progressbar" aria-label="Punti esperienza"><div class="xp-fill" data-fill></div></div>
+      <div class="xp-bar" role="progressbar" aria-label="${t('Punti esperienza')}"><div class="xp-fill" data-fill></div></div>
       <span class="xp-label" data-xp></span>
     </div>`;
   const fill = host.querySelector('[data-fill]');
