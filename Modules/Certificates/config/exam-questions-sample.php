@@ -1,11 +1,11 @@
 <?php
 
 /*
- * GENERATO AUTOMATICAMENTE da tools/sync-exam.mjs — non modificare a mano.
- * Fonte: data/exam-bank-sample.js
+ * GENERATED AUTOMATICALLY by tools/sync-exam.mjs — do not edit by hand.
+ * Source: data/exam-bank-sample.js
  *
- * Le domande stanno qui e non nel browser: se le risposte esatte fossero
- * nel codice della pagina, l'attestato non dimostrerebbe nulla.
+ * The questions live here and not in the browser: if the correct answers
+ * were in the page's code, the certificate would prove nothing.
  */
 
 return [

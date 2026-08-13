@@ -30,7 +30,7 @@ auth.json
 # d'esempio; queste due si generano con `npm run exam:sync` e si caricano
 # a mano sul server.
 /data/exam-bank-private.js
-/Modules/Certificates/config/domande-riservate.php
+/Modules/Certificates/config/exam-questions-private.php
 
 # archivio vettoriale del tutor: si rigenera con `php artisan chat:ingest`
 /storage/app/rag

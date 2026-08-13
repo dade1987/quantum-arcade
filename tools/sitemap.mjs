@@ -1,21 +1,21 @@
 /* ============================================================
-   GENERA public_html/sitemap.xml
+   GENERATES public_html/sitemap.xml
 
-     node tools/sitemap.mjs          riscrive la sitemap
-     node tools/sitemap.mjs --check  controlla e basta (esce 1 se è vecchia)
+     node tools/sitemap.mjs          rewrites the sitemap
+     node tools/sitemap.mjs --check  only checks it (exits 1 if stale)
 
-   PERCHÉ È GENERATA E NON SCRITTA A MANO
+   WHY IT IS GENERATED AND NOT HAND-WRITTEN
 
-   Con una lingua sola erano trenta righe e si aggiornavano a occhio. Con tre
-   lingue sono novanta, e ognuna porta con sé i link alle altre due versioni
-   (`xhtml:link rel="alternate"`), che è il modo in cui si dice a Google
-   «queste tre pagine sono la stessa cosa in tre lingue» invece di lasciargliele
-   trattare come contenuto duplicato.
+   With one language it was thirty lines and you could keep them right by eye.
+   With three languages it is over a hundred, and each one carries links to the
+   other two editions (`xhtml:link rel="alternate"`), which is how you tell
+   Google «these three pages are the same thing in three languages» instead of
+   letting it treat them as duplicate content.
 
-   Novanta righe con tre rimandi incrociati ciascuna non si tengono allineate a
-   mano: la fonte di verità è l'elenco LEVELS di public_html/js/core/levels.js,
-   lo stesso da cui il gioco costruisce la mappa. Se nasce un livello, la
-   sitemap lo sa senza che nessuno se ne debba ricordare.
+   A hundred lines with three cross-references each do not stay aligned by
+   hand: the source of truth is the LEVELS list in public_html/js/core/levels.js,
+   the same one the game builds its map from. When a level is born, the sitemap
+   knows about it without anyone having to remember.
    ============================================================ */
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
@@ -23,116 +23,115 @@ import { join, dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const ROOT = resolve(dirname(new URL(import.meta.url).pathname), '..');
-const SITO = 'https://quantumarcade.it/';
+const SITE = 'https://quantumarcade.it/';
 const DEST = join(ROOT, 'public_html/sitemap.xml');
 const CHECK = process.argv.includes('--check');
 
-/* Le tre copie del sito. `dir` è il prefisso nell'indirizzo, `lezioni` la
-   cartella delle lezioni: cambiano entrambe, perché anche gli indirizzi sono
-   tradotti (una pagina in spagnolo che vive in /lezioni/ è una pagina mezza
-   tradotta, e si vede). */
-const LINGUE = [
-  { code: 'it', dir: '',    lezioni: 'lezioni',   metodo: 'metodo.html', privacy: 'privacy.html' },
-  { code: 'en', dir: 'en/', lezioni: 'lessons',   metodo: 'method.html', privacy: 'privacy.html' },
-  { code: 'es', dir: 'es/', lezioni: 'lecciones', metodo: 'metodo.html', privacy: 'privacidad.html' },
+/* The three editions of the site. `dir` is the prefix in the address, `lessons`
+   the lessons folder: both change, because the addresses are translated too (a
+   Spanish page living under /lezioni/ is a half-translated page, and it shows). */
+const LOCALES = [
+  { code: 'it', dir: '',    lessons: 'lezioni',   method: 'metodo.html', privacy: 'privacy.html' },
+  { code: 'en', dir: 'en/', lessons: 'lessons',   method: 'method.html', privacy: 'privacy.html' },
+  { code: 'es', dir: 'es/', lessons: 'lecciones', method: 'metodo.html', privacy: 'privacidad.html' },
 ];
 
 const { LEVELS, slugOf } = await import(pathToFileURL(join(ROOT, 'public_html/js/core/levels.js')).href);
 
-/** La data di oggi in formato ISO, o quella già scritta nella sitemap se non cambia niente. */
-function oggi() {
+/** Today's date in ISO form. */
+function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
 /**
- * Tutte le pagine del sito, ognuna con il suo indirizzo nelle tre lingue.
+ * Every page of the site, each with its address in the three languages.
  *
- * @returns {Array<{priorita: string, url: Record<string, string>}>}
+ * @returns {Array<{priority: string, url: Record<string, string>}>}
  */
-function pagine() {
-  const url = (l, nome) => SITO + l.dir + nome;
-  const perLingua = fn => Object.fromEntries(LINGUE.map(l => [l.code, fn(l)]));
+function pages() {
+  const url = (l, name) => SITE + l.dir + name;
+  const perLocale = fn => Object.fromEntries(LOCALES.map(l => [l.code, fn(l)]));
 
-  const elenco = [
-    { priorita: '1.0', url: perLingua(l => url(l, '')) },
-    { priorita: '0.8', url: perLingua(l => url(l, l.metodo)) },
+  const list = [
+    { priority: '1.0', url: perLocale(l => url(l, '')) },
+    { priority: '0.8', url: perLocale(l => url(l, l.method)) },
   ];
 
   for (const lv of LEVELS) {
-    elenco.push({
-      priorita: '0.8',
-      url: perLingua(l => url(l, `${l.lezioni}/${slugOf(lv.id, l.code)}.html`)),
+    list.push({
+      priority: '0.8',
+      url: perLocale(l => url(l, `${l.lessons}/${slugOf(lv.id, l.code)}.html`)),
     });
   }
 
-  // la privacy è ultima e conta poco per la ricerca, ma deve essere indicizzabile:
-  // un'informativa che i motori non trovano è un'informativa che nessuno legge
-  elenco.push({ priorita: '0.3', url: perLingua(l => url(l, l.privacy)) });
+  // privacy comes last and counts for little in search, but it must be
+  // indexable: a notice search engines cannot find is a notice nobody reads
+  list.push({ priority: '0.3', url: perLocale(l => url(l, l.privacy)) });
 
-  return elenco;
+  return list;
 }
 
 /**
- * Solo le lingue davvero pubblicate: una pagina promessa e assente è peggio
- * di una pagina assente.
+ * Only the languages actually published: a page promised and missing is worse
+ * than a page absent.
  *
- * Da quando le pagine sono view Blade, "pubblicata" vuol dire che esiste la
- * cartella delle sue view — non più che esiste un index.html.
+ * Since the pages became Blade views, "published" means its views folder
+ * exists — no longer that an index.html does.
  */
-function pubblicate() {
-  return LINGUE.filter(l => existsSync(join(ROOT, 'resources/views/pages', l.code)));
+function published() {
+  return LOCALES.filter(l => existsSync(join(ROOT, 'resources/views/pages', l.code)));
 }
 
-function costruisci(data) {
-  const lingue = pubblicate();
-  const righe = [
+function build(date) {
+  const locales = published();
+  const lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<!-- GENERATO da tools/sitemap.mjs (npm run sitemap) — non modificare a mano. -->',
+    '<!-- GENERATED by tools/sitemap.mjs (npm run sitemap) — do not edit by hand. -->',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
     '        xmlns:xhtml="http://www.w3.org/1999/xhtml">',
   ];
 
-  for (const p of pagine()) {
-    for (const l of lingue) {
-      righe.push('  <url>');
-      righe.push(`    <loc>${p.url[l.code]}</loc>`);
-      // ogni pagina elenca sé stessa e le sorelle: è la forma che Google
-      // pretende, e l'italiano fa anche da x-default per chi non combacia
-      for (const alt of lingue) {
-        righe.push(`    <xhtml:link rel="alternate" hreflang="${alt.code}" href="${p.url[alt.code]}"/>`);
+  for (const p of pages()) {
+    for (const l of locales) {
+      lines.push('  <url>');
+      lines.push(`    <loc>${p.url[l.code]}</loc>`);
+      // every page lists itself and its siblings: it is the shape Google
+      // expects, and Italian doubles as x-default for anyone who matches none
+      for (const alt of locales) {
+        lines.push(`    <xhtml:link rel="alternate" hreflang="${alt.code}" href="${p.url[alt.code]}"/>`);
       }
-      righe.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${p.url.it}"/>`);
-      righe.push(`    <lastmod>${data}</lastmod>`);
-      righe.push('    <changefreq>monthly</changefreq>');
-      righe.push(`    <priority>${p.priorita}</priority>`);
-      righe.push('  </url>');
+      lines.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${p.url.it}"/>`);
+      lines.push(`    <lastmod>${date}</lastmod>`);
+      lines.push('    <changefreq>monthly</changefreq>');
+      lines.push(`    <priority>${p.priority}</priority>`);
+      lines.push('  </url>');
     }
   }
 
-  righe.push('</urlset>', '');
+  lines.push('</urlset>', '');
 
-  return righe.join('\n');
+  return lines.join('\n');
 }
 
-/* La data non è un contenuto: se cambiassimo solo quella a ogni esecuzione,
-   ogni `npm run sitemap` sporcherebbe il diff senza dire niente di nuovo.
-   Quindi si riusa quella già scritta, a meno che qualcosa sia davvero cambiato. */
-const vecchia = existsSync(DEST) ? readFileSync(DEST, 'utf8') : '';
-const dataVecchia = (vecchia.match(/<lastmod>([\d-]+)<\/lastmod>/) || [])[1];
-const invariata = dataVecchia && costruisci(dataVecchia) === vecchia;
-const nuova = invariata ? vecchia : costruisci(oggi());
+/* The date is not content: if it were the only thing to change on each run,
+   every `npm run sitemap` would dirty the diff without saying anything new.
+   So the existing one is reused, unless something has genuinely changed. */
+const previous = existsSync(DEST) ? readFileSync(DEST, 'utf8') : '';
+const previousDate = (previous.match(/<lastmod>([\d-]+)<\/lastmod>/) || [])[1];
+const unchanged = previousDate && build(previousDate) === previous;
+const current = unchanged ? previous : build(today());
 
-const lingue = pubblicate().map(l => l.code).join(', ');
-const quante = (nuova.match(/<loc>/g) || []).length;
+const locales = published().map(l => l.code).join(', ');
+const count = (current.match(/<loc>/g) || []).length;
 
 if (CHECK) {
-  if (invariata) {
-    console.log(`✅ sitemap aggiornata: ${quante} indirizzi (${lingue})`);
+  if (unchanged) {
+    console.log(`✅ sitemap up to date: ${count} addresses (${locales})`);
   } else {
-    console.error('❌ sitemap.xml non è allineata ai livelli: esegui `npm run sitemap`');
+    console.error('❌ sitemap.xml is out of step with the levels: run `npm run sitemap`');
     process.exit(1);
   }
 } else {
-  writeFileSync(DEST, nuova);
-  console.log(`✅ ${quante} indirizzi in ${lingue} → public_html/sitemap.xml${invariata ? ' (già aggiornata)' : ''}`);
+  writeFileSync(DEST, current);
+  console.log(`✅ ${count} addresses in ${locales} → public_html/sitemap.xml${unchanged ? ' (already up to date)' : ''}`);
 }

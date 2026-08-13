@@ -241,7 +241,7 @@ class CheckInstallation extends Command
             $vere ? 'ok' : 'avviso',
             $vere ? 'In uso la banca domande riservata' : 'In uso la banca domande D\'ESEMPIO',
             'Le domande d\'esempio stanno nel repository pubblico: online serve quella riservata. '
-            . 'Genera Modules/Certificates/config/domande-riservate.php con npm run exam:sync '
+            . 'Genera Modules/Certificates/config/exam-questions-private.php con npm run exam:sync '
             . 'e caricalo sul server (non è in git, quindi non arriva con il deploy).',
         );
 

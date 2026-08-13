@@ -78,7 +78,7 @@ the exam measures nothing**. And they can be read two ways — from the URL, if 
 | `data/exam-bank-private.js` | **no** | the real exam, only on your machine and on the server |
 
 `npm run exam:sync` generates the corresponding PHP file from each; `config.php` loads the
-private one if it finds it, otherwise the sample. **The `domande-riservate.php` file does not
+private one if it finds it, otherwise the sample. **The `exam-questions-private.php` file does not
 travel with the deploy** (it is not in git): upload it by hand once, and again whenever you
 change the questions. `php artisan site:check` warns in yellow if the sample one is what is
 running in production.
