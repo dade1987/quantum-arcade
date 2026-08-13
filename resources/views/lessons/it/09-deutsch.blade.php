@@ -1,0 +1,158 @@
+@php($description = 'Che cos\'è un oracolo quantistico, come funziona il phase kickback e perché Deutsch-Jozsa risolve con una sola domanda un problema che classicamente ne richiede 2^(n-1)+1.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
+import { deutschLab } from '/js/widgets/algos.js';
+import { oracoloClassico } from '/js/widgets/classic2.js';
+
+const L = renderLesson({
+  id: '09-deutsch',
+  lead: `Primo algoritmo vero. Un problema giocattolo, ma il primo caso storico (Deutsch 1985, poi Deutsch–Jozsa 1992)
+         in cui un computer quantistico batte <b>dimostrabilmente</b> quello classico. E lo schema che vedrai qui
+         è lo <b>stesso</b> di tutti gli algoritmi successivi.`,
+
+  steps: [
+    {
+      t: 'Prima, in classico: quante domande servono davvero',
+      html: `<p>Il problema è questo: una scatola nasconde una funzione, e tu devi dire se è <b>costante</b>
+             (risponde sempre uguale) oppure <b>bilanciata</b> (metà 0 e metà 1). Non ti interessa <i>quale</i>
+             funzione sia: solo di che tipo.</p>
+             <p>Provalo classicamente, contando le interrogazioni. Con un solo bit di ingresso ci sono due
+             domande possibili, e ti serviranno tutte e due — perché una risposta sola è compatibile con
+             entrambi i casi.</p>`,
+      mount: el => { oracoloClassico(el, { modo: 'deutsch' }); },
+      after: `<div class="callout key"><b>Il conto classico, in generale.</b> Con <b>n</b> bit di ingresso ci sono
+              2ⁿ domande possibili. Nel caso peggiore devi farne <b>2ⁿ⁻¹ + 1</b>: se le prime metà rispondono
+              tutte uguale sei ancora in dubbio, e ti serve una domanda in più per essere certo.
+              Con n = 20 sono più di mezzo milione di interrogazioni.</div>` +
+              confronto({
+                titolo: 'La stessa scatola, due modi di interrogarla',
+                livello: 'k2-porte',
+                vaiA: 'Ripassa le porte e la scatola nera (K·2)',
+                classico: {
+                  titolo: 'Una domanda per volta',
+                  html: `<p>L'oracolo prende un ingresso e restituisce un'uscita. Per sapere com'è fatta la
+                         funzione devi interrogarlo <b>tante volte quante servono</b>, e le risposte arrivano
+                         una alla volta.</p>
+                         <p class="mb0">Caso peggiore: <b>2ⁿ⁻¹ + 1</b> interrogazioni.</p>`,
+                },
+                quantistico: {
+                  titolo: 'Una domanda sola, ma diversa',
+                  html: `<p>L'oracolo viene interrogato con <b>tutti</b> gli ingressi in sovrapposizione. Non
+                         restituisce tutte le risposte — quelle restano irraggiungibili — ma le scrive nelle
+                         <b>fasi</b> delle ampiezze.</p>
+                         <p class="mb0">Poi una Hadamard fa interferire quelle fasi, e la risposta alla domanda
+                         «costante o bilanciata?» compare da sola: <b>1 interrogazione</b>.</p>`,
+                },
+                numeri: [
+                  { cosa: 'n = 1 (il gioco qui sopra)', classico: '2 domande', quantistico: '1 domanda' },
+                  { cosa: 'n = 20', classico: '524.289', quantistico: '1' },
+                  { cosa: 'informazione ottenuta', classico: 'la funzione, pezzo per pezzo', quantistico: 'solo il TIPO, non la funzione' },
+                ],
+                verdetto: `<b>Attenzione all'ultima riga:</b> il quantistico non ti dà più informazione, te ne dà
+                           <b>meno</b> — ma esattamente quella che avevi chiesto. Il trucco di ogni algoritmo
+                           quantistico è fare una domanda <b>globale</b>, a cui l'interferenza sa rispondere,
+                           invece di ricostruire tutto pezzo per pezzo.`,
+              }),
+    },
+    {
+      t: 'Che cos\'è un oracolo',
+      html: `<p>Un <b>oracolo</b> è una scatola nera che sa calcolare una funzione <b>f</b> ma non ti dice come.
+             Tu puoi solo interrogarla: le dai un ingresso, ti dà l'uscita. Il costo dell'algoritmo si misura in
+             <b>numero di interrogazioni</b>.</p>
+             <p>Perché lavorare con le scatole nere? Perché così si può <b>dimostrare</b> che un metodo è migliore di un altro,
+             senza discutere di quanto sia furbo il programmatore. È il banco di prova standard della teoria della complessità.</p>
+             <div class="callout key"><b>L'oracolo quantistico (versione "a fase")</b> fa una cosa sola:
+             <code>|x⟩ → (−1)^f(x) |x⟩</code><br>
+             Cioè: <b>mette un segno meno</b> davanti agli stati in cui f vale 1, e lascia stare gli altri.
+             Non cambia nessuna probabilità (il quadrato di −1 è 1!): scrive l'informazione <b>solo nelle fasi</b>.</div>
+             <p class="dim small">Curiosità tecnica: nella pratica l'oracolo si realizza con un qubit ausiliario messo in
+             |−⟩ = (|0⟩ − |1⟩)/√2. Quando la CNOT controllata da f ribalta quel qubit, l'effetto è un segno meno che
+             "rimbalza indietro" sul registro principale. Il fenomeno si chiama <b>phase kickback</b> ed è il trucco
+             più riutilizzato di tutta la disciplina.</p>`,
+    },
+    {
+      t: 'Il problema',
+      html: `<p>Ti danno una funzione f che, per ognuno degli N ingressi, risponde 0 o 1. Ti garantiscono che è
+             <b>una di queste due</b>:</p>
+             <ul>
+               <li><b>costante</b>: risponde sempre la stessa cosa (sempre 0 oppure sempre 1);</li>
+               <li><b>bilanciata</b>: risponde 0 per esattamente metà degli ingressi e 1 per l'altra metà.</li>
+             </ul>
+             <p><b>Domanda:</b> quale delle due?</p>
+             <p><b>Quanto costa classicamente?</b> Nel caso peggiore devi guardare <b>metà più uno</b> degli ingressi:
+             se i primi N/2 danno tutti 0, potresti essere di fronte a una costante… o a una bilanciata che ti sta prendendo
+             in giro. Con N = 8 servono 5 domande, con N = 1.000.000 ne servono 500.001.</p>
+             <p><b>Quantisticamente: UNA.</b> Sempre. Provalo — prima con il bottone lento, poi con quello quantistico.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'dj', title: 'Una sola domanda', text: 'risolvi il problema con l\'interrogazione quantistica e azzeccalo.', xp: 55 });
+        el.appendChild(m.root);
+        deutschLab(el, { n: 3, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Perché funziona (il conto, senza salti)',
+      html: `<p>Tre mosse: <b>H su tutti → oracolo → H su tutti</b>. Ecco cosa succede a ogni mossa.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Mossa 1 — H su tutti i qubit', html: 'Da |000⟩ si passa a una sovrapposizione con <b>tutte le 8 possibilità</b>, tutte con la stessa ampiezza +1/√8.<br>Sullo schermo: otto barre identiche.' },
+          { h: 'Mossa 2 — l\'oracolo', html: 'Mette un <b>meno</b> sulle possibilità in cui f = 1. Le altezze delle barre non cambiano (le probabilità sono identiche!), cambiano solo i <b>segni</b>. Se misurassi ora, non impareresti nulla: tutte le uscite sarebbero equiprobabili.' },
+          { h: 'Caso costante', html: 'Se f è costante, <b>tutti</b> i segni sono uguali (tutti + oppure tutti −). Lo stato è, a meno del segno globale, identico a prima.' },
+          { h: 'Caso bilanciato', html: 'Se f è bilanciata, <b>metà</b> dei segni sono + e metà −. Lo stato è profondamente diverso: è "a scacchiera".' },
+          { h: 'Mossa 3 — di nuovo H su tutti', html: 'La H "conta" le concordanze fra i segni.<br>• Tutti uguali → tutte le ampiezze convergono su |000⟩: probabilità <b>100%</b> di misurare tutto zero.<br>• Metà e metà → le ampiezze su |000⟩ si <b>cancellano esattamente</b>: probabilità <b>0%</b> di misurare tutto zero.' },
+          { h: 'La lettura del risultato', html: 'Misuri una volta:<br>• esce <b>000…0</b> → la funzione era <b>costante</b>;<br>• esce <b>qualunque altra cosa</b> → era <b>bilanciata</b>.<br>Nessuna probabilità di sbagliare: il risultato è <b>deterministico</b>.' },
+          { h: 'Lo schema generale', html: '<b>H (metti tutto in gioco) → oracolo (scrivi nelle fasi) → H (fai interferire) → misura.</b><br>Ogni algoritmo quantistico che vedrai — Bernstein–Vazirani, Grover, Simon, Shor — è una variazione su questi quattro tempi. Nell\'officina finale sarà la tua tavolozza.' },
+        ], { doneLabel: 'Ho capito il meccanismo!' });
+      },
+    },
+    {
+      t: 'Quanto vale davvero questo risultato?',
+      html: `<div class="callout warn"><b>Onestà intellettuale.</b> Deutsch–Jozsa è una vittoria <b>enorme</b> sulla carta
+             (1 contro 500.001!) ma su un problema <b>inventato apposta</b> e senza applicazioni pratiche.
+             Inoltre un algoritmo classico <b>probabilistico</b> se la cava con pochissime domande: bastano una decina
+             di ingressi a caso per essere quasi certi della risposta.<br><br>
+             Il valore vero è un altro: è la <b>prima dimostrazione pulita</b> che l'interferenza è una risorsa di calcolo,
+             ed è il modello su cui sono costruiti algoritmi che invece contano eccome (Simon → Shor).</div>
+             <p>Storicamente è andata così: Deutsch (1985) risolve il caso con un solo bit; Deutsch e Jozsa (1992) lo estendono
+             a n bit; Bernstein e Vazirani (1993) trovano un problema simile ma con vantaggio anche sui metodi probabilistici;
+             Simon (1994) trova il primo vantaggio <b>esponenziale</b> netto — e leggendo il lavoro di Simon,
+             Peter Shor ha l'idea che porta alla fattorizzazione. Una catena di sei anni, e siamo al livello 20.</p>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Nel gioco, genera funzioni finché non ne trovi una costante: quante domande classiche hai dovuto fare
+           prima di esserne <b>sicuro</b>?</p>
+        <p><b>2.</b> Cosa succederebbe se la funzione non fosse né costante né bilanciata (ad esempio 3 zeri e 5 uno)?
+           Il risultato sarebbe ancora affidabile? <span class="muted">(no — l'algoritmo si fida della promessa)</span></p>
+        <p><b>3.</b> Perché la misura del <b>solo</b> stato |000…0⟩ basta a decidere? Cosa rappresenta quella barra?</p>
+        <p class="mb0"><b>4.</b> Da inventore: sapresti costruire un oracolo che, invece di dire "costante o bilanciata",
+           riveli qualcos'altro di più utile? <i>(Il prossimo livello fa esattamente questo.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Che cosa fa un oracolo a fase?',
+      options: ['calcola f e la stampa', 'mette un segno meno sugli stati in cui f vale 1', 'misura il registro', 'crea entanglement'], correct: 1,
+      why: 'Scrive l\'informazione nelle fasi senza cambiare nessuna probabilità: da solo è invisibile, ma prepara il terreno all\'interferenza finale.' },
+    { q: 'Quante interrogazioni servono a Deutsch–Jozsa?',
+      options: ['1', 'N/2', 'log N', 'N'], correct: 0,
+      why: 'Una sola, con risposta certa. Classicamente, nel caso peggiore, ne servono N/2 + 1.' },
+    { q: 'Come si legge il risultato finale?',
+      options: ['si contano le misure', 'se esce tutto-zero la funzione è costante, altrimenti è bilanciata', 'si guarda la fase', 'si misura solo il primo qubit'], correct: 1,
+      why: 'Le ampiezze su |00…0⟩ si sommano se i segni sono tutti uguali (costante) e si cancellano se sono metà e metà (bilanciata).' },
+    { q: 'Lo schema generale di un algoritmo quantistico è…',
+      options: ['misura → porta → misura', 'H (superposizione) → oracolo (fasi) → interferenza → misura', 'entanglement → copia → misura', 'oracolo → oracolo → oracolo'], correct: 1,
+      why: 'Quattro tempi: metti tutto in gioco, scrivi l\'informazione nelle fasi, fai interferire, leggi. Cambia solo il terzo tempo da un algoritmo all\'altro.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> l'oracolo scrive nelle <b>fasi</b>; le Hadamard finali
+          trasformano i segni in <b>posizioni misurabili</b>; una domanda invece di mezzo milione.
+          Prossimo livello: lo stesso schema, ma per rubare una password.</div>`,
+});
+@endsection

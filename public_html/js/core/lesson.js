@@ -13,7 +13,7 @@
 
 import { LEVELS, PARTS, levelById, neighbours } from './levels.js';
 import * as store from './store.js';
-import { h, langButton, suggerimentoLingua } from './ui.js';
+import { h, langButton, languageHint } from './ui.js';
 import { sfx, wireSounds, soundButton } from './audio.js';
 import { initAccount, accountButton, requireAccount } from './account.js';
 import { mountTutor } from '../widgets/chat.js';
@@ -195,8 +195,8 @@ export function renderLesson(cfg) {
 
   // «esiste anche nella tua lingua»: in cima, prima del contenuto, perché più
   // in basso non la leggerebbe chi sta già decidendo se chiudere la pagina
-  const avviso = suggerimentoLingua();
-  if (avviso) app.appendChild(avviso);
+  const hint = languageHint();
+  if (hint) app.appendChild(hint);
 
   // Registro delle missioni: vive qui fuori perché serve sia al montaggio
   // della lezione sia all'oggetto restituito da renderLesson.

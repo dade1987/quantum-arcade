@@ -7,7 +7,7 @@
    rompe este archivo: solo deja una frase sin traducir hasta que
    alguien la complete.
 
-   `npm run lingue` enumera lo que falta aquí.
+   `npm run languages` enumera lo que falta aquí.
    ============================================================ */
 
 export default {

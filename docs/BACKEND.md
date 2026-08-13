@@ -16,7 +16,7 @@ Modules/                       moduli nwidart (uno per dominio funzionale)
 
 public_html/                   ← WEB ROOT (nome obbligato da Hostinger)
 ├── index.php                  front controller Laravel
-└── index.html css/ js/ lezioni/ assets/    il gioco (nessun passaggio di build)
+└── css/ js/ assets/                       gli asset del gioco (nessun passaggio di build)
 
 storage/app/rag/               archivio vettoriale del tutor (file, niente DB extra)
 ```
@@ -29,7 +29,8 @@ altrimenti passa a PHP. Quindi:
 
 | URL | Chi risponde |
 |---|---|
-| `/` , `/lezioni/…` , `/css/…` | il gioco statico |
+| `/css/…` , `/js/…` , `/assets/…` | gli asset, serviti dal web server |
+| `/` , `/lezioni/…` , `/en/lessons/…` | le pagine, composte da Blade |
 | `/api/*` | Laravel (moduli) |
 | `/verifica/{codice}` | Laravel (pagina pubblica di verifica) |
 | `/attestato/{codice}.pdf` | Laravel (PDF generato al volo) |
@@ -75,13 +76,13 @@ Quindi le banche sono due:
 
 | File | In git? | A cosa serve |
 |---|---|---|
-| `dati/banca-esame-esempio.js` | sì | far girare sito e test a chi contribuisce |
-| `dati/banca-esame-riservata.js` | **no** | l'esame vero, solo sul tuo computer e sul server |
+| `data/exam-bank-sample.js` | sì | far girare sito e test a chi contribuisce |
+| `data/exam-bank-private.js` | **no** | l'esame vero, solo sul tuo computer e sul server |
 
 `npm run exam:sync` genera da ciascuna il rispettivo file PHP; `config.php` carica quello
 riservato se lo trova, altrimenti quello d'esempio. **Il file `domande-riservate.php` non
 arriva con il deploy** (non è in git): va caricato a mano una volta, e rifatto quando cambi
-le domande. `php artisan sito:controlla` avvisa in giallo se online sta girando quella
+le domande. `php artisan site:check` avvisa in giallo se online sta girando quella
 d'esempio.
 
 ### Chat — il tutor
@@ -175,7 +176,7 @@ la cartella pubblica di Laravel qui **si chiama già `public_html`** (glielo dic
 ├── artisan  composer.json  .env
 └── public_html/            ← l'unica cartella raggiungibile dal web
     ├── index.php               front controller Laravel
-    └── index.html css/ js/ lezioni/ assets/   il gioco
+    └── css/ js/ assets/                      gli asset del gioco
 ```
 
 Tutto ciò che sta **fuori** da `public_html` non è raggiungibile dal browser: `.env`,
@@ -194,7 +195,7 @@ database, codice dei moduli e archivio del tutor restano protetti.
 3. Lancia lo script di messa online — fa tutto il resto nell'ordine giusto e si
    ferma al primo passo che fallisce:
    ```bash
-   bash tools/messa-online.sh
+   bash tools/deploy.sh
    ```
    Dipendenze, permessi, migrazioni, cache, indice del tutor e **controllo
    pre-volo**. Va rilanciato a ogni aggiornamento del sito: non tocca il `.env`
@@ -204,9 +205,11 @@ database, codice dei moduli e archivio del tutor restano protetti.
    aggiornamento alcuni nodi possono continuare a servire il CSS e il JS vecchi, e
    siccome HTML, CSS e JS di questo sito cambiano insieme, il risultato non è
    «una funzione a metà» ma una pagina rotta — è già capitato con il glossario.
-   Da `public_html/.htaccess` html/css/js ora si riconvalidano a ogni visita
-   (ETag → 304, costo quasi zero), ma le copie già in cache restano lì fino alla
-   scadenza: la prima volta la cache va svuotata a mano. Come verificare da fuori:
+   Da `public_html/.htaccess` css e js ora si riconvalidano a ogni visita
+   (ETag → 304, costo quasi zero); le pagine non passano di lì perché non sono
+   più file, ma Laravel risponde già `no-cache, private`, che è più stretto.
+   Le copie già in cache però restano fino alla scadenza: la prima volta la
+   cache va svuotata a mano. Come verificare da fuori:
    ```bash
    curl -sI https://tuodominio/css/style.css | grep -iE 'last-modified|x-hcdn-cache-status'
    curl -s  https://tuodominio/css/style.css | grep -c gloss-panel   # 0 = stai vedendo il vecchio
@@ -223,12 +226,12 @@ database, codice dei moduli e archivio del tutor restano protetti.
 ### Il controllo pre-volo
 
 ```bash
-php artisan sito:controlla --produzione
+php artisan site:check --production
 ```
 
 Verifica una per una le cose che altrimenti si scoprono dagli utenti: versione ed
 estensioni di PHP, `APP_KEY`, `APP_URL` in https, `APP_DEBUG` spento, permessi di
-`storage`, presenza di `index.php` e `index.html` in `public_html`, **`.env` non
+`storage`, presenza di `index.php` in `public_html` e delle view in `resources/views`, **`.env` non
 scaricabile dal web**, connessione al database e tabelle create, SMTP configurato
 (con `MAIL_MAILER=log` nessuno riceve la conferma), banca domande dell'esame,
 `dompdf` puntato alla cartella giusta, chiave del tutor e indice dei contenuti.
@@ -252,8 +255,8 @@ composer install --no-dev --optimize-autoloader --no-scripts
 php artisan package:discover
 ```
 
-`tools/messa-online.sh` lo fa già in questo modo, quindi se usi lo script non incontri
-il problema. `php artisan sito:controlla` segnala in giallo quando `proc_open` è disattivato.
+`tools/deploy.sh` lo fa già in questo modo, quindi se usi lo script non incontri
+il problema. `php artisan site:check` segnala in giallo quando `proc_open` è disattivato.
 
 Lo stesso `proc_open` mancante colpiva anche il **tutor**: Neuron AI manda le sue tracce
 a Inspector in un processo separato, e ogni domanda finiva in errore 500 con

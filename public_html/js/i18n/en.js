@@ -6,7 +6,7 @@
    adding a string to the game never breaks this file — it just leaves
    one sentence untranslated until someone fills it in.
 
-   `npm run lingue` lists what is missing here.
+   `npm run languages` lists what is missing here.
    ============================================================ */
 
 export default {

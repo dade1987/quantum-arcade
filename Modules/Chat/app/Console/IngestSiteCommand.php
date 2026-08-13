@@ -26,23 +26,36 @@ class IngestSiteCommand extends Command
 
     public function handle(): int
     {
-        $root  = public_path();
+        /*
+         * Le pagine non sono più file in public_html: sono view Blade. Il corpus
+         * resta però l'ITALIANO soltanto — è la lingua sorgente, e il tutor
+         * risponde traducendo (vedi QuantumTutor). Indicizzare anche le altre due
+         * copie triplicherebbe l'archivio senza aggiungere un concetto.
+         */
+        // la cartella delle view, non resource_path(): così la si può puntare
+        // altrove in un test senza inventarsi un finto albero di progetto
+        $root  = rtrim((string) (config('view.paths')[0] ?? resource_path('views')), '/');
         $pages = array_merge(
-            glob($root . '/*.html') ?: [],
-            glob($root . '/lezioni/*.html') ?: [],
+            glob($root . '/pages/it/*.blade.php') ?: [],
+            glob($root . '/lessons/it/*.blade.php') ?: [],
         );
 
         if ($pages === []) {
-            $this->error("Nessuna pagina trovata in {$root}. Il gioco è stato copiato dentro public/?");
+            $this->error("Nessuna pagina trovata in {$root}: le view del sito sono al loro posto?");
             return self::FAILURE;
         }
 
         $documents = [];
 
         foreach ($pages as $path) {
-            $html  = file_get_contents($path);
-            $title = $this->extract('/<title>(.*?)<\/title>/s', $html) ?: basename($path);
-            $url   = '/' . ltrim(str_replace($root, '', $path), '/');
+            $html = file_get_contents($path);
+            $id   = basename($path, '.blade.php');
+            $lv   = \App\Support\Site::level($id);
+
+            // il titolo e l'indirizzo vengono dalla lista dei livelli, non dal file:
+            // è la stessa fonte che usa il sito, quindi il tutor cita quello che si legge
+            $title = $lv ? $lv['n'] . '. ' . $lv['title']['it'] : $id;
+            $url   = $lv ? \App\Support\Site::lessonPath($id, 'it') : \App\Support\Site::page($id, 'it');
             $level = $this->levelFromPath($path);
 
             $text = $this->toPlainText($html);
@@ -50,7 +63,9 @@ class IngestSiteCommand extends Command
                 continue;
             }
 
-            foreach ($this->chunk($text) as $i => $piece) {
+            $pieces = $this->chunk($text);
+
+            foreach ($pieces as $i => $piece) {
                 $doc = new Document(
                     "TITOLO: {$title}\nLIVELLO: {$level}\nURL: {$url}\n\n{$piece}"
                 );
@@ -60,7 +75,7 @@ class IngestSiteCommand extends Command
                 $documents[] = $doc;
             }
 
-            $this->line(sprintf('  %-34s %s', basename($path), '→ ' . count($this->chunk($text)) . ' pezzi'));
+            $this->line(sprintf('  %-34s %s', basename($path), '→ ' . count($pieces) . ' pezzi'));
         }
 
         $this->info(count($documents) . ' pezzi da ' . count($pages) . ' pagine.');
@@ -128,15 +143,10 @@ class IngestSiteCommand extends Command
 
     private function levelFromPath(string $path): string
     {
-        if (! str_contains($path, '/lezioni/')) {
+        if (! str_contains($path, '/lessons/')) {
             return 'home';
         }
 
-        return preg_replace('/\.html$/', '', basename($path));
-    }
-
-    private function extract(string $pattern, string $subject): ?string
-    {
-        return preg_match($pattern, $subject, $m) ? trim(strip_tags($m[1])) : null;
+        return basename($path, '.blade.php');
     }
 }

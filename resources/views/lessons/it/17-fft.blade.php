@@ -1,0 +1,98 @@
+@php($description = 'Perché la FFT costa N·log N invece di N²: dividi et impera spiegato passo passo, con il confronto diretto con le porte della QFT quantistica.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { costLab, butterflyLab } from '/js/widgets/fftlab.js';
+
+const L = renderLesson({
+  id: '17-fft',
+  lead: `La DFT del livello 16 è corretta ma lenta: per N numeri fa N×N moltiplicazioni. La <b>FFT</b> ottiene
+         lo stesso identico risultato con molte meno operazioni. Capire <i>perché</i> è importante, perché la QFT
+         quantistica usa lo stesso trucco — spinto molto più in là.`,
+
+  steps: [
+    {
+      t: 'Il problema: N² cresce malissimo',
+      html: `<p>Rileggi la formula del livello 16: per <b>ogni</b> frequenza k devi sommare <b>N</b> pezzi. E le frequenze
+             da testare sono N. Totale: <b>N × N</b> operazioni.</p>
+             <table class="table">
+               <tr><th>N (campioni)</th><th>DFT diretta (N²)</th><th>Tempo indicativo</th></tr>
+               <tr><td class="mono">8</td><td class="mono">64</td><td>istantaneo</td></tr>
+               <tr><td class="mono">1.024</td><td class="mono">1.048.576</td><td>qualche millisecondo</td></tr>
+               <tr><td class="mono">1.000.000</td><td class="mono">1.000.000.000.000</td><td>ore</td></tr>
+             </table>
+             <p>Un file audio di pochi secondi ha già centinaia di migliaia di campioni: con la DFT diretta,
+             ogni analisi richiederebbe ore. Con la FFT, millisecondi. È la differenza fra "impossibile" e "lo fa il tuo telefono
+             mentre canti al karaoke".</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'costi', title: 'Il conto che cambia tutto', text: 'porta il cursore ad almeno 16 qubit e confronta i tre numeri: DFT, FFT e porte della QFT.', xp: 35 });
+        el.appendChild(m.root);
+        costLab(el, { onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Il trucco: pari e dispari',
+      html: `<p>L'idea (Cooley e Tukey, 1965 — ma già intuita da Gauss nel 1805!) è questa:</p>
+             <div class="callout key">Una DFT su <b>N</b> punti si può ottenere da <b>due</b> DFT su <b>N/2</b> punti:
+             una sui campioni di posto <b>pari</b>, una su quelli di posto <b>dispari</b>. Poi bastano N combinazioni finali
+             per rimettere insieme i risultati.</div>
+             <p>Perché conviene? Perché due problemi da metà costano 2 × (N/2)² = N²/2: <b>già la metà</b>.
+             E la stessa cosa si può rifare dentro ognuna delle due metà. E dentro le loro metà. E così via.</p>
+             <p>Quante volte si può dimezzare N prima di arrivare a 1? Esattamente <b>log₂N</b> volte
+             (per N = 1024 sono 10 volte). Ecco da dove esce il famoso <b>N·log N</b>.</p>`,
+      mount: el => butterflyLab(el),
+      after: `<div class="callout"><b>La formula del "rimettere insieme":</b>
+              <code>X(k) = Pari(k) + e^{−i2πk/N} · Dispari(k)</code><br>
+              Quella <b>e^{−i2πk/N}</b> è la nostra freccia rotante del livello 8 (in gergo si chiama <i>twiddle factor</i>):
+              serve a ruotare il contributo dei dispari prima di sommarlo. Ogni combinazione di questo tipo si chiama
+              <b>farfalla</b>, per via di come si disegna lo schema.</div>`,
+    },
+    {
+      t: 'E la QFT? Stesso trucco, ma su ampiezze',
+      html: `<p>Adesso il confronto che ci porterà dritti alla parte quantistica. Guarda i tre numeri nel gioco qui sopra
+             per N = 2^20 (circa un milione):</p>
+             <table class="table">
+               <tr><th>Metodo</th><th>Operazioni</th><th>Cosa ottieni</th></tr>
+               <tr><td>DFT diretta</td><td class="mono">~10¹²</td><td>tutti i risultati, leggibili</td></tr>
+               <tr><td>FFT</td><td class="mono">~10⁷</td><td>tutti i risultati, leggibili</td></tr>
+               <tr><td><b>QFT</b> (quantistica)</td><td class="mono">~210 porte</td><td><b>un solo risultato</b> quando misuri</td></tr>
+             </table>
+             <div class="callout warn"><b>Non cascarci:</b> la QFT non è "una FFT 50.000 volte più veloce".
+             La QFT trasforma un milione di ampiezze con duecento porte, ma <b>quelle ampiezze non le puoi leggere</b>:
+             la misura te ne restituisce una sola, scelta a caso secondo le probabilità.
+             <br><br>La QFT serve quando ti interessa una <b>proprietà globale</b> — tipicamente una <b>periodicità</b> —
+             che, dopo la trasformata, diventa il risultato <b>più probabile</b>. Non serve a stampare lo spettro di un MP3.</div>
+             <p>Questa distinzione è la cosa che distingue chi ha capito il calcolo quantistico da chi ripete slogan.
+             Tienila stretta: torneremo a batterci sopra al livello 18.</p>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Nel gioco dei costi, trova il valore di n oltre il quale la DFT diretta supera il miliardo di operazioni.</p>
+        <p><b>2.</b> La FFT classica richiede che N sia una potenza di 2. Secondo te perché? <span class="muted">(indizio: dimezzare)</span></p>
+        <p><b>3.</b> Con 30 qubit avresti oltre un miliardo di ampiezze e la QFT userebbe circa 465 porte.
+           Se potessi leggerle tutte, avresti battuto la FFT di un fattore enorme. Perché il "se" è impossibile?</p>
+        <p class="mb0"><b>4.</b> Domanda da tenere aperta fino al livello 18: quale <b>domanda</b> potresti fare a un milione
+           di ampiezze, tale che la risposta sia <b>un solo numero</b>?</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Qual è il costo tipico della FFT su N punti?',
+      options: ['N', 'N log N', 'N²', '2^N'], correct: 1,
+      why: 'log₂N livelli di dimezzamento, N operazioni per livello. Per N = 1024: circa 5.120 farfalle contro 1.048.576 moltiplicazioni.' },
+    { q: 'Su cosa si basa il trucco della FFT?',
+      options: ['approssima il risultato', 'divide il problema in campioni pari e dispari', 'usa numeri reali invece che complessi', 'ignora le frequenze alte'], correct: 1,
+      why: 'È dividi et impera, e il risultato è <b>esatto</b>, non approssimato: identico a quello della DFT diretta.' },
+    { q: 'Perché la QFT non sostituisce la FFT per analizzare un file audio?',
+      options: ['perché è meno precisa', 'perché misurando si ottiene un solo risultato, non tutta la lista', 'perché è più lenta', 'perché serve solo per i numeri primi'], correct: 1,
+      why: 'Trasforma tutte le ampiezze in pochissime porte, ma leggerle tutte è impossibile: la misura ne restituisce una sola. Serve a far interferire, non a stampare.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Parte C completata!</b> Hai onde, fase, somma di onde, DFT e FFT: l'attrezzo è pronto.
+          Nella Parte D lo montiamo dentro un circuito quantistico e nasce la <b>QFT</b>.</div>`,
+});
+@endsection

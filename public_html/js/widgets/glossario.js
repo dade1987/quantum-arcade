@@ -1,7 +1,7 @@
 /* ============================================================
    GLOSSARIO SEMPRE A PORTATA — pannello, termini nel testo, tabella A–Z.
 
-   PERCHÉ (le fonti stanno in metodo.html, sezione 17):
+   PERCHÉ (le fonti stanno in metodo.html, sezione 19):
 
    · Una parola non capita non rimanda il problema: lo moltiplica. Chi legge
      "l'oracolo scrive nelle fasi" senza sapere cosa sia un oracolo deve

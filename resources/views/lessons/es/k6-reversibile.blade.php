@@ -1,0 +1,138 @@
+@php($description = 'Por qué la puerta AND tira información, por qué borrar un bit calienta (principio de Landauer), qué es la puerta de Toffoli y por qué todas las puertas cuánticas son reversibles.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
+import { reversibleLab } from '/js/widgets/classic2.js';
+
+const L = renderLesson({
+  id: 'k6-reversibile',
+  lead: `Este es el nivel bisagra. Hasta aquí hemos visto un ordenador que <b>tira</b> información en cada paso
+         — y es tan normal que no se nota. Ahora vamos a mirar qué cuesta tirarla, y qué le pasa a un ordenador
+         que lo tiene <b>prohibido</b>. Porque ese, sin saberlo, ya es medio ordenador cuántico.`,
+
+  steps: [
+    {
+      t: 'La puerta AND no sabe de dónde viene',
+      html: `<p>Mira la tabla del AND al revés. Te digo que la salida es <b>0</b>: ¿cuáles eran las entradas?</p>
+             <div class="formula">AND(0,0) = 0 &nbsp;&nbsp; AND(0,1) = 0 &nbsp;&nbsp; AND(1,0) = 0 &nbsp;&nbsp;
+             AND(1,1) = <span class="hl-k">1</span></div>
+             <p>No se puede saber: tres entradas distintas dan la misma salida. Esa información no está
+             «escondida», está <b>perdida</b>: entraron dos bits, salió uno solo, y el otro ya no existe en
+             ninguna parte.</p>
+             <div class="callout key"><b>Una puerta es reversible</b> cuando de cómo sale se puede volver siempre
+             a cómo entró. Ya conoces una: <b>NOT</b>. Y también <b>XOR</b>, si te guardas una de las dos
+             entradas: de (A, A XOR B) se recupera B. Todas las demás — AND, OR, NAND — tiran.</div>`,
+    },
+    {
+      t: 'Borrar un bit calienta. De verdad, se mide',
+      html: `<p>En 1961 Rolf Landauer, en IBM, demostró algo que parece filosofía y en cambio es termodinámica:
+             <b>borrar un bit de información libera calor</b>. Al menos</p>
+             <div class="formula">E = k<sub>B</sub> · T · ln 2 &nbsp;&nbsp;≈&nbsp;&nbsp; 3 · 10⁻²¹ julios
+             &nbsp;<span class="muted">(a temperatura ambiente)</span></div>
+             <p>El razonamiento en una línea: antes del borrado el bit podía estar en 2 estados, después en 1
+             solo. Los estados posibles se han reducido a la mitad, así que la entropía de la información ha
+             bajado — y como la entropía total no puede bajar, esa diferencia tiene que salir por algún lado.
+             Sale como calor, al ambiente.</p>
+             <p>No es una manera de hablar: en 2012 el grupo de Bérut y Lutz lo <b>midió</b> en el laboratorio,
+             con una sola partícula en una trampa óptica, encontrando exactamente ese valor.</p>
+             <div class="callout"><b>¿Cuánto pesa en la práctica?</b> Poquísimo: un procesador de hoy desperdicia
+             alrededor de un millón de veces más energía que ese mínimo, por motivos de ingeniería
+             completamente distintos. El límite de Landauer no es lo que te calienta el portátil. Pero es un
+             <b>límite de principio</b>, y su consecuencia teórica es enorme: un cálculo que no borra nada
+             podría, en principio, <b>no consumir energía en absoluto</b>.</div>`,
+    },
+    {
+      t: 'Toffoli: el AND que no tira nada',
+      html: `<p>Charles Bennett (1973) hizo la pregunta siguiente: ¿se puede calcular <b>todo</b> sin borrar nunca?
+             La respuesta es sí, al precio de guardarse algún bit de más. La puerta que lo hace es la
+             <b>puerta de Toffoli</b>, o CCNOT: tres bits dentro, tres bits fuera.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'La regla', html: 'Toffoli mira los dos primeros bits (<b>a</b> y <b>b</b>): los deja en paz. Al tercero (<b>c</b>) le da la vuelta <b>solo si a y b son los dos 1</b>.<br><code>(a, b, c) → (a, b, c XOR (a AND b))</code>' },
+          { h: 'Dónde está el AND', html: 'Pon <b>c = 0</b> al principio. A la salida el tercer bit pasa a ser <code>0 XOR (a AND b)</code>, es decir <b>justamente a AND b</b>.<br>Has calculado el AND — y además te has quedado a y b.' },
+          { h: 'Por qué es reversible', html: 'Aplica Toffoli <b>dos veces</b>: la segunda vuelve a dar la vuelta al mismo bit, y regresas al punto de partida. Toffoli es su propia inversa.<br>De (a, b, c\') se vuelve siempre a (a, b, c).' },
+          { h: 'El precio', html: 'Bits de más — se llaman <b>ancillas</b>, «sirvientes». El cálculo no tira nada, pero la basura se acumula en algún sitio en vez de desaparecer.' },
+          { h: 'El truco de Bennett', html: 'La basura se limpia sin borrarla: copia el resultado en un bit nuevo y luego <b>rehaz todo el cálculo hacia atrás</b>. Las ancillas vuelven a cero solas y te queda solo el resultado. Se llama <i>uncomputation</i>, y en los algoritmos cuánticos de verdad se usa continuamente.' },
+          { h: 'También universal', html: 'Solo con puertas de Toffoli (y algún bit constante) se construye cualquier circuito: es <b>universal</b> para el cálculo clásico reversible, como NAND lo era para el normal.' },
+        ], { doneLabel: '¡Entendido Toffoli!' });
+      },
+      after: `<p>En el paso de abajo hay cinco puertas reversibles — las mismas que en los niveles 3 y 4
+              reencontrarás en versión cuántica. El ordenador aplica tres al azar, y tú tienes que devolver los
+              bits a como estaban. No hay nada que adivinar: basta con rehacer el camino al revés.</p>`,
+    },
+    {
+      t: 'Inténtalo: vuelve atrás',
+      html: `<p>Cada puerta de aquí es su propia inversa, así que «deshacer» quiere decir <b>volver a aplicar</b>
+             las mismas puertas en orden inverso. Si te pierdes, el botón te dice cuáles se han usado.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'reverse', title: 'Marcha atrás', text: 'devuelve los bits al punto de partida dos veces.', xp: 45 });
+        el.appendChild(m.root);
+        reversibleLab(el, { onWin: () => m.complete() });
+      },
+      after: confronto({
+        titolo: 'El ordenador clásico, el reversible y el cuántico',
+        livello: '03-porte',
+        vaiA: 'Ve a las puertas cuánticas (nivel 3)',
+        classico: {
+          titolo: 'Ordenador clásico',
+          html: `<p>Las puertas <b>pueden</b> tirar información, y casi todas lo hacen. Cada bit borrado cuesta
+                 al menos kT·ln2 de calor.</p>
+                 <p class="mb0">Reversible <b>se puede</b> ser (Toffoli, Fredkin), pero nadie se toma la molestia:
+                 el consumo de verdad está en otra parte.</p>`,
+        },
+        quantistico: {
+          titolo: 'Ordenador cuántico',
+          html: `<p>Las puertas <b>deben</b> ser reversibles: sin excepciones. No es una elección de diseño, es
+                 cómo evoluciona un sistema cuántico aislado (se dice que es <b>unitaria</b>).</p>
+                 <p class="mb0">La única operación irreversible permitida es la <b>medida</b> — y justo por eso
+                 la medida destruye la superposición.</p>`,
+        },
+        numeri: [
+          { cosa: 'AND entre dos bits', classico: '1 puerta, 1 bit perdido', quantistico: '1 Toffoli, 1 bit de más' },
+          { cosa: '¿se vuelve atrás?', classico: 'no', quantistico: 'siempre, salvo la medida' },
+          { cosa: 'calor mínimo por bit borrado', classico: 'kT·ln2', quantistico: 'cero, mientras no midas' },
+        ],
+        verdetto: `<b>Por eso ya estás a mitad de camino.</b> Un circuito cuántico es, antes que nada, un circuito
+                   <b>reversible</b>: las puertas que acabas de usar — NOT, CNOT, Toffoli — son literalmente las
+                   mismas que encontrarás en los niveles 3 y 4. Lo único que añade lo cuántico es que los bits,
+                   además de ser 0 o 1, pueden ser <b>dos cosas a la vez con un signo</b>. Esa cosa se llama
+                   amplitud, y a partir de ahí empieza el curso de verdad.`,
+      }),
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> ¿Cuáles de estas son reversibles: NOT, AND, XOR (guardándose una entrada), OR, CNOT?</p>
+        <p><b>2.</b> Toffoli con c = 1 al principio: ¿qué calcula en el tercer bit? <span class="muted">(NAND: 1 XOR (a AND b))</span></p>
+        <p><b>3.</b> Si borrar un bit cuesta 3·10⁻²¹ J, ¿cuánto cuesta como mínimo borrar un gigabyte? <span class="muted">(unos 2,4·10⁻¹¹ J: poquísimo, pero no cero)</span></p>
+        <p class="mb0"><b>4.</b> De inventor: ¿por qué la <b>medida</b> cuántica es la única operación irreversible admitida? ¿Qué pasaría si también esa fuera reversible? <span class="muted">(es una de las preguntas abiertas serias de la física: busca «problema de la medida»)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: '¿Por qué la puerta AND no es reversible?',
+      options: ['porque es lenta', 'porque tres entradas distintas dan la misma salida 0', 'porque usa dos bits', 'porque calienta demasiado'], correct: 1,
+      why: 'De una salida 0 no se puede volver: podían ser 00, 01 o 10. Esa información está perdida.' },
+    { q: 'El principio de Landauer dice que…',
+      options: ['los ordenadores no pueden superar los 5 GHz', 'borrar un bit libera al menos kT·ln2 de calor', 'la información no se puede copiar', 'cada puerta consume un julio'], correct: 1,
+      why: 'Se midió en el laboratorio en 2012. Calcular sin borrar, en principio, podría costar cero.' },
+    { q: 'La puerta de Toffoli, aplicada dos veces seguidas, …',
+      options: ['pone todos los bits a cero', 'devuelve los bits al punto de partida', 'duplica el resultado', 'no está definida'], correct: 1,
+      why: 'Es su propia inversa: el segundo XOR deshace el primero. Por eso puede deshacer un cálculo.' },
+    { q: '¿Por qué todas las puertas cuánticas son reversibles?',
+      options: ['para ahorrar energía', 'porque la evolución de un sistema cuántico aislado es unitaria, y la física no permite otra cosa', 'por una convención de los físicos', 'para hacer los circuitos más cortos'], correct: 1,
+      why: 'Es una restricción física, no una elección. La única excepción permitida es la medida — y de hecho es la que destruye la superposición.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Fin de la Parte K.</b> Ahora tienes la vara de medir completa: sabes qué es
+          un bit, qué hacen las puertas, cómo se suma, cuánto cuesta buscar, cómo se mide el coste de un
+          algoritmo y por qué un circuito puede estar obligado a no olvidar nada.
+          A partir de aquí cambia una sola cosa — pero lo cambia todo: las casillas dejan de contener 0
+          <i>o</i> 1 y empiezan a contener <b>dos números con signo</b>. Que te diviertas en el nivel 1.</div>`,
+});
+@endsection

@@ -1,0 +1,112 @@
+@php($description = 'Glosario completo de la informática cuántica en español: amplitud, fase, cúbit, entrelazamiento, oráculo, QFT, decoherencia y todos los términos del curso, con el mapa que los conecta.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { nOf } from '/js/core/levels.js';   // i numeri di livello si calcolano, non si scrivono
+import { tabellaGlossario } from '/js/widgets/glossario.js';
+
+const L = renderLesson({
+  id: '23-glossario',
+  lead: `Todo el vocabulario en una sola página, en el orden en que te lo has encontrado — así puedes volver cada vez
+         que se te escape una palabra. Al final está el <b>hilo</b> completo: cómo se llega de "2 + 2" a Shor sin saltos.`,
+
+  steps: [
+    {
+      t: 'El hilo conductor, de principio a fin',
+      html: `<pre style="line-height:1.75"><code>números con signo (0·1)
+   └─ probabilidad = cuadrado (0·1) ───────────────┐
+coordenadas y grados (0·2)                         │
+   └─ flecha = punto = pareja de números           │
+seno y coseno = sombras de un punto que gira (0·3) │
+probabilidad y frecuencias (0·4)                   │
+                                                   ▼
+CÚBIT = dos amplitudes (1) ── medida → |amplitud|² ─┘
+   ├─ esfera de Bloch: latitud = probabilidad, longitud = fase (2)
+   ├─ puertas = rotaciones; H·Z·H = X (3)
+   ├─ dos cúbits → 4 amplitudes → ENTRELAZAMIENTO (4)
+   ├─ circuitos (5)
+   └─ no-clonación → teletransporte (6)
+                    │
+INTERFERENCIA: las amplitudes se suman, luego se eleva al cuadrado (7)
+   └─ dos signos no bastan → FLECHAS COMPLEJAS, e^{iθ} (8)
+                    │
+   ├─ oráculo: escribe en las fases → Deutsch–Jozsa (9)
+   ├─ cadena secreta en las fases → Bernstein–Vazirani (10)
+   └─ amplificación → Grover (11)
+                    │
+ONDAS: amplitud, periodo, frecuencia (${nOf('13-onde')}) → fase (${nOf('14-fase')}) → suma de ondas (${nOf('15-somma-onde')})
+   └─ DFT: "rota y suma" encuentra las periodicidades (${nOf('16-dft')}) → FFT (${nOf('17-fft')})
+                    │
+QFT = DFT sobre las amplitudes, con n²/2 puertas (${nOf('18-qft')})
+   ├─ QPE: leer una fase como número (${nOf('19-qpe')})
+   └─ SHOR: periodo → picos → fracciones continuas → factores (${nOf('20-shor')})
+                    │
+ruido y corrección de errores (${nOf('21-rumore')}) · taller creativo (${nOf('22-officina')}) · examen (${nOf('24-esame')})</code></pre>
+             <div class="callout key"><b>Si tuviera que resumir el curso entero en una frase:</b>
+             «Un ordenador cuántico explora todas las posibilidades a la vez y organiza las <b>fases</b> de forma que
+             las respuestas equivocadas se <b>cancelen</b> y la correcta se vuelva <b>muy probable</b>.»
+             Todo lo demás son detalles técnicos sobre cómo se organizan esas fases.</div>`,
+    },
+    {
+      t: 'Glosario A–Z',
+      html: `<p class="dim">La tabla que sigue la has tenido a mano desde el primer nivel: el panel
+             <b>📖 Glosario</b> de arriba — o la tecla <b>G</b> — la abre al lado del texto en cualquier página,
+             con búsqueda por palabra y por nivel. Aquí está completa, para leerla de corrido.</p>`,
+      mount: host => host.appendChild(tabellaGlossario()),
+    },
+    {
+      t: 'Los errores más comunes (que ahora sabes reconocer)',
+      html: `<div class="grid-2">
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Prueba todas las soluciones en paralelo"</h3>
+                 <p class="mb0 dim">Las explora todas, pero <b>solo puede leer una</b>. La ventaja nace de la interferencia
+                 que elimina las equivocadas, no del paralelismo en sí.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Un cúbit es 0 y 1 a la vez"</h3>
+                 <p class="mb0 dim">Es una lista de <b>amplitudes</b>, es decir, de flechas. El "0 y 1 a la vez" no explica por qué
+                 dos Hadamard devuelven el cúbit a cero: las flechas sí.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "La amplitud es la probabilidad"</h3>
+                 <p class="mb0 dim">La probabilidad es su <b>cuadrado</b>. Amplitud 0,6 → probabilidad 36%, no 60%.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "El entrelazamiento transmite información instantánea"</h3>
+                 <p class="mb0 dim">No: quien está al otro lado solo ve resultados aleatorios. Para usarlos hace falta un canal clásico
+                 normal (teletransporte, nivel 6).</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "Los ordenadores cuánticos sustituirán a los nuestros"</h3>
+                 <p class="mb0 dim">Son aceleradores especializados para unos pocos problemas con estructura adecuada.
+                 Para escribir un correo seguirán siendo inútiles para siempre.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>❌ "La QFT es una FFT más rápida"</h3>
+                 <p class="mb0 dim">Transforma 2^n amplitudes con n²/2 puertas, pero no las puedes leer: sirve para hacer interferir,
+                 no para producir espectros.</p></div>
+             </div>`,
+    },
+    {
+      t: 'Dónde continuar',
+      html: `<ul>
+               <li><b>Qiskit</b> (IBM, Python) — la manera más directa de hacer correr los circuitos que has construido aquí
+                   en simuladores serios y en hardware real, gratis.</li>
+               <li><b>Nielsen y Chuang</b>, <i>Quantum Computation and Quantum Information</i> — el libro de referencia.
+                   Después de este curso, los primeros capítulos te resultarán familiares.</li>
+               <li><b>Certificaciones reconocidas</b>: si necesitas un título que puedas hacer valer, mira la certificación
+                   oficial de IBM sobre Qiskit y los cursos universitarios en línea (edX, Coursera) emitidos por centros acreditados.
+                   El certificado del próximo nivel es del autor de este curso, no de un organismo acreditado: sirve para
+                   demostrar el recorrido hecho, no para sustituir a una certificación oficial.</li>
+               <li><b>Mi canal de YouTube</b> y los artículos en <b>Red Hot Cyber</b>, enlazados en la portada.</li>
+             </ul>`,
+    },
+  ],
+
+  quiz: [
+    { q: '¿Cuál es el resumen correcto de la ventaja cuántica?',
+      options: ['prueba todas las soluciones y lee la mejor', 'organiza las fases de forma que las respuestas equivocadas se cancelen', 'es simplemente más rápido', 'usa más memoria'], correct: 1,
+      why: 'Explorarlo todo es gratis; lo difícil es <b>leer</b>. La interferencia sirve para hacer muy probable la respuesta correcta.' },
+    { q: 'Amplitud 0,6: ¿cuál es la probabilidad?',
+      options: ['60%', '36%', '6%', '80%'], correct: 1,
+      why: 'Regla de Born: 0,6² = 0,36.' },
+    { q: '¿Permite el entrelazamiento comunicarse más rápido que la luz?',
+      options: ['sí', 'no: los resultados son aleatorios y hace falta un canal clásico', 'solo con fotones', 'solo a distancias cortas'], correct: 1,
+      why: 'Las correlaciones solo se ven comparando los resultados, y la comparación viaja a velocidad normal.' },
+  ],
+
+  outro: `<div class="callout ok">Lo tienes todo. Solo queda una cosa: <b>el examen final</b>. Preguntas sobre todo el recorrido,
+          sin límite de tiempo, intentos ilimitados — y, del 80% para arriba, tu certificado.</div>`,
+});
+@endsection

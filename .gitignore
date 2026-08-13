@@ -29,7 +29,7 @@ auth.json
 # l'attestato non misura più niente. Nel repository resta solo la banca
 # d'esempio; queste due si generano con `npm run exam:sync` e si caricano
 # a mano sul server.
-/dati/banca-esame-riservata.js
+/data/exam-bank-private.js
 /Modules/Certificates/config/domande-riservate.php
 
 # archivio vettoriale del tutor: si rigenera con `php artisan chat:ingest`

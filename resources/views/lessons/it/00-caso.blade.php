@@ -1,0 +1,87 @@
+@php($description = 'Probabilità spiegata con monete e dadi: frequenze, percentuali, legge dei grandi numeri. La base per capire la misura quantistica.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { diceLab } from '/js/widgets/basicmath.js';
+
+const L = renderLesson({
+  id: '00-caso',
+  lead: `Ultimo livello di base. Ogni volta che misurerai un qubit otterrai un risultato <b>a caso</b>, ma non
+         "a caso a caso": con probabilità precise, che il computer quantistico sa calcolare. Qui impariamo cosa vuol dire.`,
+
+  steps: [
+    {
+      t: 'Probabilità = quante volte su quante',
+      html: `<p>Lanci una moneta: due possibilità, testa o croce. Nessuna è favorita, quindi ognuna ha probabilità
+             <b>1 su 2</b> = 1/2 = 0,5 = <b>50%</b> (le tre scritture del livello 0·1!).</p>
+             <p>Lanci un dado: sei facce, ognuna <b>1 su 6</b> ≈ 0,167 ≈ <b>16,7%</b>.</p>
+             <div class="callout key"><b>Regola che vale sempre:</b> sommando le probabilità di tutte le possibilità
+             deve venire <b>1</b> (cioè 100%). Se ti viene di più o di meno, hai dimenticato un caso o ne hai contato uno due volte.</div>
+             <p><b>Ma attenzione al malinteso più comune:</b> "50%" non vuol dire che su 10 lanci escono esattamente
+             5 teste. Vuol dire che <b>più lanci fai</b>, più la proporzione si avvicina a metà. Provalo:</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'lanci', title: 'Mille lanci', text: 'fai almeno 1000 lanci e guarda le barre sistemarsi sulla riga teorica.', xp: 30 });
+        el.appendChild(m.root);
+        diceLab(el, { onWin: () => m.complete() });
+      },
+      after: `<p class="dim small">Questo fenomeno si chiama <b>legge dei grandi numeri</b>: il caso, sui numeri grandi,
+              diventa incredibilmente prevedibile. È il motivo per cui i casinò non falliscono mai.</p>`,
+    },
+    {
+      t: 'Perché ci serve nel quantistico',
+      html: `<p>Un computer quantistico, quando lo misuri, ti dà <b>un solo risultato</b>, scelto a caso fra i possibili,
+             con probabilità decise dallo stato. Un'unica esecuzione dice pochissimo. Per questo i veri esperimenti
+             si eseguono <b>migliaia di volte</b> (in gergo: "shots") e si guarda l'istogramma.</p>
+             <table class="table">
+               <tr><th>Moneta / dado</th><th>Qubit</th></tr>
+               <tr><td>possibilità: testa o croce</td><td>possibilità: |0⟩ o |1⟩</td></tr>
+               <tr><td>probabilità decise da come è fatta la moneta</td><td>probabilità decise dalle <b>ampiezze</b></td></tr>
+               <tr><td>lanci tante volte per stimare le percentuali</td><td>misuri tante volte per stimare le percentuali</td></tr>
+               <tr><td>una moneta mescolata resta casuale per sempre</td><td>un qubit può <b>tornare indietro</b>: le ampiezze si cancellano</td></tr>
+             </table>
+             <div class="callout warn"><b>L'unica differenza — ma è enorme:</b> le probabilità classiche sono numeri positivi
+             che si possono solo sommare. Le ampiezze quantistiche sono <b>frecce</b> (livello 0·2!) e due frecce opposte
+             <b>si annullano</b>. Ci arriveremo al livello 1, e sarà il momento in cui tutto il corso ha un senso.</div>`,
+    },
+    {
+      t: 'Un po\' di conti facili (utili davvero)',
+      html: `<p><b>Probabilità di due cose insieme (indipendenti):</b> si <b>moltiplicano</b>.<br>
+             Due teste di fila: 1/2 × 1/2 = 1/4 = 25%.<br>
+             Tre teste di fila: 1/2 × 1/2 × 1/2 = 1/8 = 12,5%. <span class="muted">(ecco di nuovo le potenze di 2!)</span></p>
+             <p><b>Probabilità di "questo oppure quello" (casi diversi):</b> si <b>sommano</b>.<br>
+             Con un dado, "esce 1 oppure 6" = 1/6 + 1/6 = 2/6 = 33,3%.</p>
+             <div class="callout"><b>Collegamento diretto:</b> con <b>n</b> qubit ci sono <b>2^n</b> risultati possibili,
+             ognuno con la sua probabilità, e la somma di tutte fa 100%. Con 3 qubit gli esiti sono 000, 001, 010, 011,
+             100, 101, 110, 111: otto, esattamente come tre lanci di moneta.</div>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Con il dado, quanti lanci servono perché tutte le barre stiano entro l'1% dalla riga teorica? Prova.</p>
+        <p><b>2.</b> Se lanci 10 monete, qual è la probabilità che escano <b>tutte</b> teste? <span class="muted">(1/2^10 = 1/1024)</span></p>
+        <p><b>3.</b> Un amico dice: "sono uscite 5 croci di fila, adesso è più probabile che esca testa". Ha ragione?
+           <span class="muted">(no: la moneta non ha memoria — è la "fallacia del giocatore")</span></p>
+        <p class="mb0"><b>4.</b> Domanda che riprenderemo al livello 1: esiste un modo per far sì che due possibilità,
+           entrambe possibili, diventino <b>impossibili</b> quando le metti insieme? Con le monete no. Con i qubit… sì.</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Lanciando una moneta 10 volte, escono sempre esattamente 5 teste?',
+      options: ['sì, sempre', 'no, ma più lanci fai più la proporzione si avvicina a metà', 'no, escono sempre più croci', 'dipende dalla moneta'], correct: 1,
+      why: 'È la legge dei grandi numeri: su pochi lanci le percentuali ballano, su tanti si stabilizzano.' },
+    { q: 'Probabilità di fare tre teste di fila?',
+      options: ['1/2', '1/6', '1/8', '3/2'], correct: 2,
+      why: 'Eventi indipendenti: si moltiplicano. 1/2 × 1/2 × 1/2 = 1/8 = 12,5%.' },
+    { q: 'La somma delle probabilità di tutti i risultati possibili vale…',
+      options: ['0', '1 (cioè 100%)', 'dipende', 'il numero di risultati'], correct: 1,
+      why: 'Qualcosa deve pur succedere: la somma è sempre 1. Nel quantistico questa regola diventa "la somma dei quadrati delle ampiezze fa 1".' },
+  ],
+
+  outro: `<div class="callout ok"><b>Parte 0 completata!</b> Hai numeri, percentuali, quadrati, potenze di 2, coordinate,
+          gradi, seno, coseno e probabilità: tutto quello che serve. Ora si comincia sul serio, dal <b>livello 1: il qubit</b>.</div>`,
+});
+@endsection

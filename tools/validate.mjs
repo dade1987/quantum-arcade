@@ -43,11 +43,16 @@ const LINGUE = [
   { code: 'es', dir: 'es/', lezioni: 'lecciones', parola: 'treinta y cuatro', unita: 'niveles' },
 ];
 
-/** La lingua di un file, dedotta dalla cartella in cui sta. */
+/* Le pagine non sono più file dentro public_html: sono view Blade. Qui stanno
+   i due posti dove vivono, perché mezza dozzina di controlli deve saperlo. */
+const VIEWS = join(ROOT, 'resources/views');
+const viewLezioni = code => join(VIEWS, 'lessons', code);
+const viewPagine = code => join(VIEWS, 'pages', code);
+
+/** La lingua di una view, dedotta dalla cartella in cui sta. */
 function linguaDi(percorso) {
-  const r = relative(join(ROOT, 'public_html'), percorso);
-  const primo = r.split(/[\\/]/)[0];
-  return LINGUE.find(l => l.dir === primo + '/') || LINGUE[0];
+  const parti = relative(VIEWS, percorso).split(/[\\/]/);
+  return LINGUE.find(l => l.code === parti[1]) || LINGUE[0];
 }
 
 function walk(dir, filter, out = []) {
@@ -70,35 +75,50 @@ for (const f of jsFiles) {
 }
 console.log(`  → ${jsFiles.length} moduli controllati`);
 
-/* ---------- 2. script inline nelle pagine ---------- */
-console.log('\n[2] Sintassi degli script inline nelle pagine HTML');
-const htmlFiles = walk(join(ROOT, 'public_html'), n => n.endsWith('.html'));
-for (const f of htmlFiles) {
+/* ---------- 2. il codice dentro le pagine ----------
+   Le pagine sono view Blade, non documenti HTML interi: il JavaScript di una
+   lezione sta dentro `@section('lesson')`, e i dati strutturati dentro un
+   `<script type="application/ld+json">` protetto da @verbatim. Sono due cose
+   diverse e si controllano diversamente. */
+console.log('\n[2] Il codice dentro le pagine');
+
+const lessonViews = LINGUE
+  .filter(l => existsSync(viewLezioni(l.code)))
+  .flatMap(l => walk(viewLezioni(l.code), n => n.endsWith('.blade.php')));
+const pageViews = LINGUE
+  .filter(l => existsSync(viewPagine(l.code)))
+  .flatMap(l => walk(viewPagine(l.code), n => n.endsWith('.blade.php')));
+const htmlFiles = [...lessonViews, ...pageViews];
+
+/** Il corpo di una sezione Blade, senza le direttive che lo delimitano. */
+function sezione(src, nome) {
+  const m = src.match(new RegExp(`@section\\('${nome}'\\)\\n([\\s\\S]*?)\\n@endsection`));
+  return m ? m[1] : null;
+}
+
+let i = 0;
+for (const f of lessonViews) {
+  const code = sezione(readFileSync(f, 'utf8'), 'lesson');
+  if (code === null) { err(rel(f), "non contiene una @section('lesson'): la lezione non verrebbe montata"); continue; }
+
+  const tmp = join(TMP, `lesson-${i++}-${Math.abs(hash(f))}.mjs`);
+  writeFileSync(tmp, code);
+  try { execFileSync('node', ['--check', tmp], { stdio: 'pipe' }); ok(); }
+  catch (e) {
+    const msg = String(e.stderr || e.message).split('\n').filter(l => l.trim()).slice(0, 4);
+    err(rel(f), 'il codice della lezione non è JavaScript valido:\n     ' + msg.join('\n     '));
+  }
+  try { unlinkSync(tmp); } catch { }
+}
+
+for (const f of [...pageViews, ...walk(join(VIEWS, 'layouts'), n => n.endsWith('.blade.php'))]) {
   const src = readFileSync(f, 'utf8');
-  const re = /<script\b([^>]*)>([\s\S]*?)<\/script>/g;
-  let m, i = 0;
-  while ((m = re.exec(src))) {
-    const attrs = m[1], code = m[2];
-    if (/\bsrc\s*=/.test(attrs)) continue;              // script esterno: già controllato al punto 1
-    if (/type\s*=\s*["']application\/ld\+json["']/.test(attrs)) {
-      try { JSON.parse(code); ok(); }
-      catch (e) { err(rel(f), 'JSON-LD non valido: ' + e.message); }
-      continue;
-    }
-    const tmp = join(TMP, `inline-${i++}-${Math.abs(hash(f))}.mjs`);
-    writeFileSync(tmp, code);
-    try { execFileSync('node', ['--check', tmp], { stdio: 'pipe' }); ok(); }
-    catch (e) {
-      const msg = String(e.stderr || e.message).split('\n').filter(l => l.trim()).slice(0, 4);
-      // riporta la riga reale nel file HTML
-      const lineInScript = (msg.find(l => /:\d+$/.test(l.trim())) || '').match(/:(\d+)$/);
-      const offset = src.slice(0, m.index).split('\n').length;
-      err(rel(f), `script inline non valido (riga HTML ≈ ${offset + (lineInScript ? +lineInScript[1] : 0)}):\n     ` + msg.join('\n     '));
-    }
-    try { unlinkSync(tmp); } catch { }
+  for (const m of src.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    try { JSON.parse(m[1]); ok(); }
+    catch (e) { err(rel(f), 'JSON-LD non valido: ' + e.message); }
   }
 }
-console.log(`  → ${htmlFiles.length} pagine controllate`);
+console.log(`  → ${lessonViews.length} lezioni e ${pageViews.length} pagine controllate`);
 
 /* ---------- 3. import esistenti ---------- */
 console.log('\n[3] Import risolvibili');
@@ -194,14 +214,26 @@ for (const { f, src } of allSources) {
   } else ok();
 }
 
-/* ---------- 4. struttura HTML ---------- */
-console.log('\n[4] Struttura delle pagine HTML');
+/* ---------- 4. struttura delle pagine ----------
+   Una view Blade non è un documento intero: il doctype, <html> e il <title>
+   li mette il layout, una volta per tutte. Qui si controlla quello che resta
+   di responsabilità della singola pagina — che i suoi tag si chiudano e che
+   le risorse che nomina esistano davvero — e, per il layout, che la testa
+   sia completa.
+
+   Il controllo sul <title> di ogni pagina è sparito insieme al problema:
+   nessuna pagina scrive più il proprio titolo, quindi non può più smentire
+   quello che il sito mostra. */
+console.log('\n[4] Struttura delle pagine');
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
 for (const f of htmlFiles) {
   const raw = readFileSync(f, 'utf8');
   const name = rel(f);
+  // di una pagina si controlla il corpo: è l'unica parte che scrive lei
+  const corpo = sezione(raw, 'body') ?? '';
   // togli script/style/commenti prima di contare i tag
-  const src = raw.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '').replace(/<!--[\s\S]*?-->/g, '');
+  const src = corpo.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '').replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/@\w+(\([^)]*\))?/g, '');   // le direttive Blade non sono tag
   const stack = [];
   const tagRe = /<(\/?)([a-zA-Z][\w-]*)([^>]*?)(\/?)>/g;
   let m, unbalanced = null;
@@ -219,23 +251,30 @@ for (const f of htmlFiles) {
   else if (stack.length) err(name, 'tag non chiusi: ' + stack.join(', '));
   else ok();
 
-  const lingua = linguaDi(f);
-  for (const [needle, msg] of [
-    ['<!doctype html>', 'manca il doctype'],
-    [`lang="${lingua.code}"`, `manca lang="${lingua.code}" su <html> (la pagina sta nella cartella della lingua "${lingua.code}")`],
-    ['<meta charset="utf-8">', 'manca il charset'],
-    ['name="viewport"', 'manca il meta viewport'],
-    ['<title>', 'manca il title'],
+  // ogni pagina deve dichiarare da quale layout dipende, se no esce nuda
+  if (/@extends\('layouts\.(page|lesson)'/.test(raw)) ok();
+  else err(name, "non estende nessun layout: uscirebbe senza <head>");
+
+  // e nessuna deve riscriversi la testa da sola: è il motivo per cui i titoli
+  // di ventuno lezioni su ventotto avevano smesso di corrispondere alla pagina
+  for (const [re, msg] of [
+    [/<title>/i, 'scrive il proprio <title>: lo fa il layout, a partire da levels.js'],
+    [/<!doctype/i, 'scrive il proprio doctype: lo fa il layout'],
+    [/rel="canonical"/i, 'scrive il proprio canonical: lo fa il layout'],
+    [/rel="alternate"\s+hreflang/i, 'scrive i propri hreflang: li fa il layout'],
   ]) {
-    if (raw.toLowerCase().includes(needle.toLowerCase())) ok();
-    else warn(name, msg);
+    if (re.test(raw)) err(name, msg);
+    else ok();
   }
-  if (!/name="description"/.test(raw)) warn(name, 'manca la meta description (SEO/GEO)');
 
   // risorse referenziate
   const resRe = /(?:href|src)\s*=\s*"([^"#?:]+\.(?:css|js|svg|jpe?g|png|webp|xml|txt))"/g;
   while ((m = resRe.exec(raw))) {
-    const target = resolve(dirname(f), m[1]);
+    // gli indirizzi sono assoluti da quando c'è un layout solo: si risolvono
+    // dalla radice del sito, non dalla cartella della view
+    const target = m[1].startsWith('/')
+      ? join(ROOT, 'public_html', m[1].slice(1))
+      : resolve(dirname(f), m[1]);
     if (existsSync(target)) ok();
     else err(name, `risorsa mancante: ${m[1]}`);
   }
@@ -309,10 +348,13 @@ const slugMap = {};
 }
 const slugDi = (id, code) => code === 'it' ? id : (slugMap[id] || {})[code];
 
-/** Percorso su disco della lezione `id` nella lingua `l`. */
-const fileLezione = (id, l) => join(ROOT, 'public_html', l.dir + l.lezioni, slugDi(id, l.code) + '.html');
+/* La view di una lezione porta il nome dell'ID, non dello slug: lo slug vive
+   nell'indirizzo, che è una cosa che si traduce, mentre l'id è quello che tutte
+   e tre le lingue hanno in comune — ed è la chiave del progresso salvato. */
+const fileLezione = (id, l) => join(viewLezioni(l.code), id + '.blade.php');
 
-const linguePubblicate = LINGUE.filter(l => existsSync(join(ROOT, 'public_html', l.dir + 'index.html')));
+/** Una lingua è pubblicata quando ha le sue pagine, non più quando ha un index.html. */
+const linguePubblicate = LINGUE.filter(l => existsSync(viewPagine(l.code)));
 for (const l of linguePubblicate) {
   for (const id of declared) {
     const slug = slugDi(id, l.code);
@@ -325,50 +367,40 @@ for (const l of linguePubblicate) {
     else if (m[1] !== id) err(rel(p), `id dichiarato "${m[1]}" ma in levels.js è "${id}"`);
     else ok();
   }
-  // e viceversa: un file rimasto lì dopo un riordino non deve passare inosservato
-  const cartella = join(ROOT, 'public_html', l.dir + l.lezioni);
-  if (!existsSync(cartella)) { err(l.dir + l.lezioni, 'la cartella delle lezioni non esiste'); continue; }
-  for (const n of readdirSync(cartella).filter(x => x.endsWith('.html'))) {
-    if (!declared.some(id => slugDi(id, l.code) + '.html' === n)) warn(l.dir + l.lezioni + '/' + n, 'file presente ma non elencato in levels.js');
+  // e viceversa: una view rimasta lì dopo un riordino non deve passare inosservata
+  const cartella = viewLezioni(l.code);
+  if (!existsSync(cartella)) { err(rel(cartella), 'la cartella delle lezioni non esiste'); continue; }
+  for (const n of readdirSync(cartella).filter(x => x.endsWith('.blade.php'))) {
+    if (!declared.includes(n.replace('.blade.php', ''))) warn(rel(join(cartella, n)), 'view presente ma non elencata in levels.js');
     else ok();
   }
 }
 console.log(`  → ${declared.length} livelli dichiarati in ${linguePubblicate.length} lingue (${linguePubblicate.map(l => l.code).join(', ')})`);
 
-/* ---------- 5a. il <title> scritto nella pagina è quello che il gioco mostra ----------
-   La pagina ha DUE titoli: quello scritto nel <head>, che leggono Google, il
-   tutor e la scheda del browser prima che parta il JavaScript, e quello che
-   `renderLesson` scrive in document.title appena la pagina si apre.
+/* ---------- 5a. il titolo lo costruisce il layout, e da una fonte sola ----------
+   Questo controllo prima confrontava il <title> scritto a mano in ogni pagina
+   con quello che il gioco mostra. Ne trovò ventuno diversi su ventotto: la
+   scheda del browser diceva «17 · QFT» e il sito «18. QFT».
 
-   Erano diversi in 21 lezioni su 28: la scheda diceva «17 · QFT» e il sito
-   «18. QFT», e 01-qubit.html annunciava «8 · Dal numero complesso al qubit»,
-   un titolo rimasto dall'ordinamento di due riorganizzazioni fa — mentre la
-   lezione, dentro, dice «niente numeri complessi». Chi arriva da una ricerca
-   legge un numero, entra e ne trova un altro: è il tipo di incoerenza che
-   costa fiducia senza che nessuno segnali mai un bug.
-
-   Da qui in poi la fonte è una sola: levels.js. */
+   Adesso il confronto non serve più, perché il secondo termine non esiste:
+   nessuna pagina scrive il proprio titolo, lo compone il layout a partire
+   dalla lista dei livelli. Quello che resta da controllare è che il
+   meccanismo sia ancora al suo posto — cioè che il layout continui a
+   prendere numero e titolo da lì, e non da una stringa scritta a mano. */
 {
-  const formato = readFileSync(join(ROOT, 'public_html/js/core/lesson.js'), 'utf8')
-    .match(/document\.title\s*=\s*`([^`]*)`/);
+  const layout = join(ROOT, 'resources/views/layouts/lesson.blade.php');
 
-  if (!formato) {
-    err('js/core/lesson.js', 'non si capisce più come viene composto document.title: il controllo sui <title> non è più affidabile');
-  } else if (!/\$\{lv\.n\}\.\s\$\{lv\.title\}/.test(formato[1])) {
-    err('js/core/lesson.js', `document.title usa il formato «${formato[1]}», che questo controllo non sa riprodurre: aggiornalo`);
+  if (!existsSync(layout)) {
+    err('resources/views/layouts/lesson.blade.php', 'assente: le lezioni resterebbero senza <head>');
   } else {
-    const coda = formato[1].replace(/^\$\{lv\.n\}\.\s\$\{lv\.title\}/, '');   // « — Quantum Arcade»
-
-    for (const l of linguePubblicate) {
-      const dizionario = dizionarioDi(l.code);
-      for (const lv of livelliDichiarati(levelsSrc)) {
-        const p = fileLezione(lv.id, l);
-        if (!existsSync(p)) continue;   // già segnalato sopra
-        const scritto = (readFileSync(p, 'utf8').match(/<title>([\s\S]*?)<\/title>/) || [])[1];
-        const atteso = `${lv.n}. ${dizionario[lv.title] ?? lv.title}${coda}`;
-        if (scritto === atteso) ok();
-        else err(rel(p), `il <title> dice «${scritto}» ma aprendo la pagina si legge «${atteso}»`);
-      }
+    const src = readFileSync(layout, 'utf8');
+    for (const [re, msg] of [
+      [/\$level\['n'\]/, "non usa più il numero del livello: il titolo tornerebbe a poter mentire"],
+      [/\$level\['title'\]\[\$locale\]/, 'non usa più il titolo tradotto della lista dei livelli'],
+      [/@extends\('layouts\.page'/, 'non estende più il layout comune: perderebbe canonical e hreflang'],
+    ]) {
+      if (re.test(src)) ok();
+      else err(rel(layout), msg);
     }
   }
 }
@@ -454,10 +486,13 @@ if (existsSync(certCfg)) {
 
 /* ---------- 5c. la sitemap conosce tutte le pagine, in tutte le lingue ----------
    Una pagina che non sta nella sitemap esiste ma non la trova nessuno, e con
-   tre copie del sito il conto sale a novanta indirizzi: quello che prima si
-   controllava a occhio adesso non si controlla più. Qui si confronta la
-   sitemap con i file che ci sono davvero, nei due sensi — pagine dimenticate
-   e indirizzi che puntano al vuoto. */
+   tre copie del sito il conto sale a novantatré indirizzi: quello che prima
+   si controllava a occhio adesso non si controlla più.
+
+   Da quando le pagine sono rotte e non file, il confronto non può più essere
+   con il disco: si confronta con l'elenco dei livelli e con le pagine fisse,
+   cioè con le stesse cose da cui le rotte sono costruite. Nei due sensi —
+   pagine dimenticate, e indirizzi che non portano da nessuna parte. */
 {
   const mappa = join(ROOT, 'public_html/sitemap.xml');
 
@@ -467,17 +502,26 @@ if (existsSync(certCfg)) {
     const src = readFileSync(mappa, 'utf8');
     const indirizzi = new Set([...src.matchAll(/<loc>https:\/\/quantumarcade\.it\/(.*?)<\/loc>/g)].map(m => m[1]));
 
-    // le pagine vere: tutti gli .html sotto public_html che non sono frammenti
-    const attese = new Set();
-    for (const l of LINGUE) {
-      if (!existsSync(join(ROOT, 'public_html', l.dir, 'index.html'))) continue;   // lingua non pubblicata
-      attese.add(l.dir);                                                            // la radice si scrive senza index.html
-      for (const f of walk(join(ROOT, 'public_html', l.dir), n => n.endsWith('.html'))) {
-        const via = rel(f).replace('public_html/', '');
-        if (via.endsWith('index.html')) continue;                                   // già contata come radice
-        if (linguaDi(rel(f)).code !== l.code) continue;                             // file di un'altra copia del sito
-        attese.add(via);
+    /* Il nome dei file fissi per lingua, letto da i18n.js: è la stessa tabella
+       da cui `npm run sync` costruisce le rotte. */
+    const i18n = readFileSync(join(ROOT, 'public_html/js/core/i18n.js'), 'utf8');
+    const pagineFisse = {};
+    {
+      const blocco = i18n.match(/const PAGES = \{([\s\S]*?)\n\};/);
+      if (!blocco) err('js/core/i18n.js', 'non dichiara più PAGES: la sitemap non è più verificabile');
+      else {
+        for (const m of blocco[1].matchAll(/(\w+):\s*\{([^}]*)\}/g)) {
+          const perLingua = {};
+          for (const v of m[2].matchAll(/(\w+):\s*'([^']*)'/g)) perLingua[v[1]] = v[2];
+          pagineFisse[m[1]] = perLingua;
+        }
       }
+    }
+
+    const attese = new Set();
+    for (const l of linguePubblicate) {
+      for (const nome of Object.keys(pagineFisse)) attese.add(l.dir + (pagineFisse[nome][l.code] ?? ''));
+      for (const id of declared) attese.add(`${l.dir}${l.lezioni}/${slugDi(id, l.code)}.html`);
     }
 
     for (const via of attese) {
@@ -485,9 +529,8 @@ if (existsSync(certCfg)) {
       else err('public_html/sitemap.xml', `non elenca /${via} — esegui \`npm run sitemap\``);
     }
     for (const via of indirizzi) {
-      const f = join(ROOT, 'public_html', via === '' || via.endsWith('/') ? via + 'index.html' : via);
-      if (existsSync(f)) ok();
-      else err('public_html/sitemap.xml', `elenca /${via}, che non esiste`);
+      if (attese.has(via)) ok();
+      else err('public_html/sitemap.xml', `elenca /${via}, che non è una pagina del sito`);
     }
   }
 }
@@ -570,16 +613,16 @@ console.log('\n[8] Segreti fuori dalla radice web');
   // Tutto ciò che sta dentro public_html è scaricabile da chiunque conosca
   // l'URL: nessun controllo di accesso, nessuna eccezione. Le risposte esatte
   // dell'esame lì dentro renderebbero l'attestato una formalità.
-  const banca = join(ROOT, 'dati/banca-esame-esempio.js');
+  const banca = join(ROOT, 'data/exam-bank-sample.js');
   if (existsSync(banca)) ok();
-  else err('dati/banca-esame-esempio.js', 'la banca domande non è al suo posto (fuori dalla radice web)');
+  else err('data/exam-bank-sample.js', 'la banca domande non è al suo posto (fuori dalla radice web)');
 
   let colpevoli = 0;
   for (const f of walk(join(ROOT, 'public_html'), n => n.endsWith('.js') || n.endsWith('.json'))) {
     const src = readFileSync(f, 'utf8');
     if (/export\s+const\s+EXAM\b/.test(src) || /\bc:\s*\d\s*,\s*w:\s*'/.test(src)) {
       err(rel(f), 'contiene le soluzioni dell\'esame: dentro public_html sono scaricabili da chiunque. '
-        + 'La banca domande va in dati/, e sul server ci arriva solo tramite npm run exam:sync.');
+        + 'La banca domande va in data/, e sul server ci arriva solo tramite npm run exam:sync.');
       colpevoli++;
     }
   }

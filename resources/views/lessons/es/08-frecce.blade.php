@@ -1,0 +1,159 @@
+@php($description = 'Los números complejos como flechas: módulo y fase, la fórmula de Euler e^{iθ} = cos θ + i·sin θ, y por qué multiplicar por e^{iθ} es sencillamente rotar.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { formula, stepper } from '/js/core/formula.js';
+import { phasorLab, multiplyLab } from '/js/widgets/phasor.js';
+
+const L = renderLesson({
+  id: '08-frecce',
+  lead: `En el nivel 7 vimos el límite de los signos + y −: solo dos direcciones. Ahora damos a las amplitudes
+         la libertad de apuntar <b>a cualquier sitio</b>. La herramienta se llama <b>número complejo</b> y su símbolo más temido,
+         <b>e^{iθ}</b>, es sencillamente la aguja de un reloj.`,
+
+  steps: [
+    {
+      t: 'El problema práctico que estamos resolviendo',
+      html: `
+        <p>Recapitulemos. Una amplitud cuántica necesita <b>dos</b> informaciones:
+        <b>cuánto vale</b> (que decide la probabilidad) y <b>hacia dónde apunta</b>
+        (la <b>fase</b>: la longitud en la esfera de Bloch del nivel 2).</p>
+        <p>Hasta ahora las direcciones eran solo dos: adelante (+) y atrás (−). Pero para cancelar muchas posibilidades a la vez
+        hacen falta muchas direcciones, y hacen falta cuentas cómodas: sumar dos amplitudes tiene que seguir siendo fácil, y
+        <b>rotarlas</b> también. El objeto matemático que hace exactamente eso se llama <b>número complejo</b>.</p>
+        <div class="callout warn"><b>Aclaremos el nombre de entrada.</b> "Imaginario" es un término histórico desafortunado, elegido por gente
+        que los veía sospechosos. No tienen nada de falso: son <b>parejas de números</b> con una regla de multiplicación
+        especialmente astuta. Si lo prefieres, llámalos <b>"flechas"</b> durante todo el curso: funciona igual.</div>`,
+    },
+
+    {
+      t: 'Un número complejo es una flecha sobre el papel',
+      html: `
+        <p>Coge una hoja con dos ejes. Al horizontal lo llamamos <b>real</b> y al vertical <b>imaginario</b>.
+        Una flecha que parte del origen se describe de dos maneras equivalentes:</p>
+        <ul>
+          <li><b>Coordenadas:</b> "ve 3 a la derecha y 4 hacia arriba" → se escribe <code>3 + 4i</code>. Esa <b>i</b> es solo una etiqueta
+              que quiere decir "esta parte es vertical".</li>
+          <li><b>Longitud y ángulo:</b> "de longitud 5, inclinada 53°" → es la misma flecha, dicha de otro modo.</li>
+        </ul>
+        <p>La longitud se llama <b>módulo</b>, el ángulo se llama <b>fase</b> (o argumento). El vínculo es el teorema de Pitágoras:</p>
+        <div class="formula">|z| = √(<span class="hl-n">a</span>² + <span class="hl-k">b</span>²)&nbsp;&nbsp;&nbsp;&nbsp;
+        con z = <span class="hl-n">a</span> + <span class="hl-k">b</span>i&nbsp;&nbsp;&nbsp;&nbsp;
+        (ejemplo: |3 + 4i| = √(9+16) = √25 = 5)</div>
+        <div class="callout key">Así que: <b>amplitud = longitud de la flecha</b>, <b>fase = ángulo de la flecha</b>.
+        Un solo objeto lleva las dos informaciones. Era exactamente lo que necesitábamos.</div>`,
+    },
+
+    {
+      t: 'e^{iθ}: la flecha de longitud 1 que apunta al ángulo θ',
+      html: `
+        <p>Aquí está el símbolo que asusta a todo el mundo. Tomémoslo a la ligera, porque significa una sola cosa:</p>
+        <div class="formula" style="font-size:19px">e<sup>iθ</sup> = cos θ + i · sin θ &nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="muted" style="font-size:13px">(fórmula de Euler)</span></div>
+        <p>Traducido: <b>«la flecha de longitud 1 que apunta al ángulo θ»</b>. Su sombra sobre el eje horizontal es
+        <b>cos θ</b>, la del eje vertical es <b>sin θ</b>. Eso es todo.</p>
+        <p>Arrastra la flecha en el juego de aquí abajo y mira moverse las dos sombras (amarilla y verde).
+        A la derecha ves las dos ondas que salen: <b>el coseno y el seno no son más que las sombras de un punto que gira</b>.</p>`,
+      mount: el => {
+        phasorLab(el, { theta: Math.PI / 4, spin: 0 });
+        formula(el, {
+          title: 'e^{iθ} desmontado pieza a pieza',
+          parts: [
+            { t: 'e', id: 'e', color: 'amber', name: 'el número de Euler (2,718…)', say: 'Es solo una constante, como π. Aquí no te hace falta saber de dónde viene: está por una propiedad comodísima, que multiplicar dos exponenciales equivale a SUMAR los exponentes.', ex: 'e^a · e^b = e^(a+b) — esa propiedad, aplicada a los ángulos, se convierte en "rotar dos veces = sumar los ángulos".' },
+            { t: '^{ i', id: 'i', color: 'violet', name: 'la unidad imaginaria', say: 'La i quiere decir "dirección vertical". Su única regla es: i × i = −1. De esa sola regla sale todo lo demás, rotaciones incluidas.', ex: 'Multiplicar por i = rotar 90° en sentido antihorario. Hazlo dos veces y obtienes −1, es decir media vuelta: de hecho i·i = −1.' },
+            { t: 'θ }', id: 'th', color: 'cyan', name: 'el ángulo', say: 'Cuánto está girada la flecha, medido en radianes (2π = vuelta completa). Es la FASE del nivel 2, es decir la longitud en la esfera de Bloch.', ex: 'θ = π/2 (90°) → e^{iπ/2} = i, la flecha que apunta hacia arriba.' },
+            { t: '=' },
+            { t: 'cos θ', id: 'cos', color: 'amber', name: 'la sombra horizontal', say: 'La proyección de la flecha sobre el eje real: cuánto está "desplazada a la derecha".' },
+            { t: '+ i ·' },
+            { t: 'sin θ', id: 'sin', color: 'green', name: 'la sombra vertical', say: 'La proyección sobre el eje imaginario: cuánto está "desplazada hacia arriba".' },
+          ],
+        });
+      },
+    },
+
+    {
+      t: 'Las cuatro posiciones que conviene memorizar',
+      html: `
+        <p>Hay cuatro ángulos que volverán <b>continuamente</b> en el resto del curso (y son los mismos que aparecen
+        en la QFT de 2 cúbits). Aprendértelos de un vistazo te ahorrará horas:</p>
+        <table class="table">
+          <tr><th>Ángulo</th><th>e^{iθ} vale</th><th>Flecha</th><th>Cómo leerlo</th></tr>
+          <tr><td class="mono">0°</td><td class="mono">1</td><td style="font-size:20px">→</td><td>derecha, punto de partida</td></tr>
+          <tr><td class="mono">90°</td><td class="mono">i</td><td style="font-size:20px">↑</td><td>un cuarto de vuelta</td></tr>
+          <tr><td class="mono">180°</td><td class="mono">−1</td><td style="font-size:20px">←</td><td>media vuelta: <b>¡el signo menos es una rotación!</b></td></tr>
+          <tr><td class="mono">270°</td><td class="mono">−i</td><td style="font-size:20px">↓</td><td>tres cuartos de vuelta</td></tr>
+        </table>
+        <div class="callout key"><b>Revelación importante:</b> el <b>signo menos</b> no es "lo contrario", es
+        <b>una rotación de media vuelta</b>. Por eso en el nivel 7 dos amplitudes opuestas se cancelaban:
+        una era la otra multiplicada por −1, es decir girada media vuelta.</div>`,
+      mount: el => {
+        stepper(el, [
+          { h: '¿Por qué i × i = −1?', html: 'Multiplicar por <b>i</b> significa rotar 90°. Hacerlo <b>dos veces</b> significa rotar 180°, es decir llegar al lado contrario. Y "el lado contrario de 1" es −1. Así que i·i = −1. No es una rareza: es geometría.' },
+          { h: '¿Y i × i × i × i?', html: 'Cuatro rotaciones de 90° = 360° = vuelta completa = has vuelto a <b>1</b>. De hecho i⁴ = 1. Las potencias de i giran en círculo: 1, i, −1, −i, 1, i, −1, −i…' },
+          { h: '¿Para qué sirve todo esto?', html: 'En la transformada de Fourier multiplicaremos los datos por e^{-i2πkn/N}. Ahora sabes qué significa: <b>hacer girar cada dato un cierto ángulo</b>. Nada más.' },
+          { h: '¿Y en lo cuántico?', html: 'Las "puertas de fase" (S, T, R) hacen exactamente esto con las amplitudes de los cúbits: multiplican por e^{iθ}, es decir <b>rotan la flecha</b> sin cambiar su longitud. Así que no cambian las probabilidades… pero cambian todo lo demás.' },
+        ]);
+      },
+    },
+
+    {
+      t: 'Multiplicar = rotar (el truco que hace funcionar todo)',
+      html: `
+        <p>Última regla, y es la que hace que los números complejos sean <b>irrenunciables</b>:</p>
+        <div class="callout key">Cuando <b>multiplicas</b> dos flechas: las <b>longitudes se multiplican</b> y los <b>ángulos se suman</b>.</div>
+        <p>Consecuencia práctica: si multiplicas una flecha cualquiera por e^{iθ} (que tiene longitud 1),
+        la longitud <b>no cambia</b> y el ángulo <b>aumenta en θ</b>. Es decir: <b>multiplicar por e^{iθ} = rotar θ</b>.</p>
+        <p>Arrastra las flechas A y B en el juego y compruébalo: la flecha rosa (el producto) tiene siempre longitud |A|·|B| y ángulo ∠A + ∠B.</p>`,
+      mount: el => {
+        const m = L.mission({ key: 'rot90', title: 'Rotación a la orden', text: 'pon A con longitud 1 y ángulo 0°, y B con longitud 1 y ángulo 90°: el producto tiene que acabar exactamente en i.', xp: 40 });
+        el.appendChild(m.root);
+        const lab = multiplyLab(el);
+        const check = setInterval(() => {
+          const a = lab.state.a, b = lab.state.b;
+          const dg = ang => ((ang * 180 / Math.PI) % 360 + 360) % 360;
+          const near = (x, y, tol) => Math.abs(x - y) < tol;
+          if (near(a.r, 1, .12) && (dg(a.th) < 10 || dg(a.th) > 350) && near(b.r, 1, .12) && near(dg(b.th), 90, 10)) {
+            m.complete(); clearInterval(check);
+          }
+        }, 400);
+      },
+    },
+
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> En el primer juego pon la velocidad de rotación a 1 vuelta/s y mira las dos ondas de la derecha.
+           ¿Cuál de las dos (cos o sin) va "por delante" de la otra? ¿Cuántos grados?</p>
+        <p><b>2.</b> ¿Qué número es e^{i·360°}? ¿Y e^{i·720°}? ¿Qué te dice eso sobre que la fase sea
+           una información "circular"?</p>
+        <p><b>3.</b> En el juego de la multiplicación, deja B con longitud <b>0,5</b>: ¿qué le pasa a la flecha producto
+           si sigues rotando A? Dibuja mentalmente la trayectoria.</p>
+        <p class="mb0"><b>4.</b> Reto de verdad: ¿cómo harías para <b>rotar hacia atrás</b> θ usando una multiplicación?
+           <span class="muted">(pista: ¿qué ángulo tiene e^{-iθ}?)</span> Esa es la diferencia entre la transformada directa y la inversa.</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: '¿Cuánto vale e^{iπ} (es decir e^{i·180°})?',
+      options: ['1', 'i', '−1', '0'],
+      correct: 2,
+      why: 'Media vuelta lleva la flecha de "derecha" a "izquierda": e^{iπ} = <b>−1</b>. Escrita como e^{iπ} + 1 = 0, es la célebre identidad de Euler, que junta e, i, π, 1 y 0.' },
+    { q: '¿Qué hace geométricamente la multiplicación por e^{iθ}?',
+      options: ['Alarga la flecha en θ', 'Rota la flecha θ sin cambiar su longitud', 'Cambia el signo', 'No hace nada'],
+      correct: 1,
+      why: 'e^{iθ} tiene longitud 1, así que en el producto las longitudes no cambian; los ángulos, en cambio, se suman. Es una <b>rotación pura</b> — el ladrillo de Fourier y de las puertas de fase cuánticas.' },
+    { q: '¿Por qué un número complejo es cómodo para describir una onda?',
+      options: ['Porque es más preciso', 'Porque conserva juntas la amplitud (longitud) y la fase (ángulo)', 'Porque elimina la fase', 'Porque hace las cuentas solo'],
+      correct: 1,
+      why: 'Un solo objeto lleva las dos informaciones que hacen falta para describir una onda a una frecuencia dada, y las operaciones (suma = encadenar las flechas, multiplicación = rotar) se vuelven geométricas en vez de trigonométricas.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas a casa:</b> número complejo = flecha (longitud + ángulo);
+          <b>e^{iθ} = flecha de longitud 1 al ángulo θ</b> = cos θ + i·sin θ; multiplicar por e^{iθ} = <b>rotar</b>;
+          el signo menos es una rotación de 180°. Las puertas S, T y P(θ) del nivel 3 ahora tienen un sentido preciso:
+          rotan la amplitud de |1⟩ un ángulo. En los niveles siguientes usaremos esto para construir algoritmos de verdad.</div>`,
+});
+@endsection

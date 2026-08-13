@@ -1,0 +1,197 @@
+@php($description = 'El algoritmo de Simon explicado jugando: encontrar un periodo escondido con pocas preguntas en vez de millones. La primera ventaja cuántica exponencial, y el puente directo hacia el algoritmo de Shor.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
+import { simonLab } from '/js/widgets/algos.js';
+
+const L = renderLesson({
+  id: '12-simon',
+  lead: `En el nivel 10 robaste una <b>cadena</b> secreta. Ahora el secreto es más escurridizo: es un <b>periodo</b>.
+         Y es aquí donde la ventaja cuántica deja de ser "un poco mejor" y se vuelve <b>exponencial</b>.`,
+
+  steps: [
+    {
+      t: 'El problema: una función que se repite',
+      html: `<p>Hay una función f que toma ${'n'} bits y devuelve otros tantos. No sabes cómo está hecha, pero sabes
+             que esconde una regla: existe una cadena secreta <b>s</b> tal que</p>
+             <div class="formula">f(x) = f(x ⊕ s) &nbsp;&nbsp;<span class="muted">para toda x</span></div>
+             <p>El símbolo <b>⊕</b> es el XOR: se comparan los bits uno a uno y se escribe 1 donde son <b>distintos</b>.
+             Es la forma más sencilla de decir "desplázate s".</p>
+             <pre><code>1 0 1 1        s = 0110
+⊕ 0 1 1 0
+─────────
+= 1 1 0 1      → f(1011) = f(1101)</code></pre>
+             <p>Consecuencia: <b>cada valor sale exactamente dos veces</b>, y las dos x que lo producen
+             distan siempre s. La función es como una figura que se repite: si descubres cuánto está desplazada,
+             has descubierto el secreto.</p>
+             <div class="callout key">Es la primera vez en el curso que buscamos un <b>periodo</b> y no un valor.
+             Tenlo presente: dentro de unos niveles haremos exactamente lo mismo con
+             <b>f(x) = a^x mod N</b>, y ese periodo vale la factorización de los números enteros.</div>`,
+    },
+    {
+      t: 'Cuánto cuesta clásicamente: la paradoja de los cumpleaños',
+      html: `<p>Con un ordenador normal el único camino es pedir valores de f hasta encontrar <b>dos iguales</b>.
+             Hallada la pareja, el secreto es gratis: <code>s = x₁ ⊕ x₂</code>.</p>
+             <p>¿Cuántas preguntas hacen falta? Es la misma cuenta que la de las personas en una sala que comparten cumpleaños:
+             con 2^n valores posibles, una colisión llega tras unos <b>√(2^n)</b> intentos.</p>
+             <table class="table">
+               <tr><th>Bits del secreto</th><th>Preguntas clásicas (aprox.)</th><th>Preguntas cuánticas</th></tr>
+               <tr><td>3</td><td>3</td><td>2</td></tr>
+               <tr><td>10</td><td>32</td><td>9</td></tr>
+               <tr><td>40</td><td>1.048.576</td><td>39</td></tr>
+               <tr><td>80</td><td>1.208.925.819.614.629.174.706.176</td><td>79</td></tr>
+             </table>
+             <p>La columna de la izquierda <b>se duplica cada dos bits</b>; la de la derecha crece de uno en uno. Con 80 bits,
+             un ordenador que hiciera mil millones de preguntas por segundo tardaría <b>más que la edad del universo</b>;
+             el método cuántico haría 79.</p>
+             <p class="dim small">Y no es que "no hayamos encontrado el algoritmo adecuado": para este problema está
+             <b>demostrado</b> que clásicamente no se puede hacer mejor. Es la primera separación exponencial
+             demostrada de la historia de la computación cuántica (Daniel Simon, 1994) — y es el artículo que
+             convenció a Peter Shor de buscar algo parecido para la factorización.</p>`,
+      after: confronto({
+        titolo: 'Encontrar un periodo escondido: los dos caminos',
+        livello: 'k5-costo',
+        vaiA: 'Repasa exponencial contra polinómico (nivel K·5)',
+        classico: {
+          titolo: 'Buscar una colisión',
+          html: `<p>Pides valores al azar y esperas a que dos coincidan. La paradoja de los cumpleaños te ayuda
+                 — no hacen falta 2^n preguntas sino su raíz — y aun así no basta.</p>
+                 <p class="mb0"><b>√(2^n)</b> preguntas: sigue siendo <b>exponencial</b> en el número de bits.</p>`,
+        },
+        quantistico: {
+          titolo: 'Simon',
+          html: `<p>Cada consulta cuántica no devuelve un valor, sino <b>una ecuación</b> que el secreto debe
+                 cumplir. Bastan n−1 ecuaciones independientes para clavarlo.</p>
+                 <p class="mb0">Unas <b>n</b> preguntas, más un sistema lineal que resolver: <b>polinómico</b>.</p>`,
+        },
+        numeri: [
+          { cosa: 'secreto de 40 bits', classico: '~1.000.000 preguntas', quantistico: '39' },
+          { cosa: 'secreto de 80 bits', classico: '~10²⁴ preguntas', quantistico: '79' },
+          { cosa: 'tipo de ganancia', classico: '—', quantistico: 'exponencial (demostrada)' },
+        ],
+        verdetto: `<b>Este es el salto que Grover no da.</b> Grover parte el exponente por la mitad; aquí el
+                   exponente desaparece. Toda la diferencia está en que aquí <b>hay</b> una estructura — una
+                   periodicidad escondida — y la interferencia sabe verla. Shor hará exactamente lo mismo sobre
+                   un periodo distinto.`,
+      }),
+    },
+    {
+      t: 'Juega: el camino lento y el rápido',
+      html: `<p>Abajo está el oráculo con un secreto de 3 bits. Puedes interrogarlo de dos maneras.</p>
+             <p><b>🐌 A la clásica:</b> pulsa las casillas una a una y busca dos valores iguales.
+             Con 3 bits es fácil — pero fíjate en cuántas casillas tienes que descubrir, e imagina lo mismo con 8 casillas
+             miles de millones de veces más numerosas.</p>
+             <p><b>⚛️ A la cuántica:</b> una sola llamada al oráculo interroga <b>todas las x a la vez</b>.
+             El resultado no es el secreto: es una <b>ecuación</b> sobre el secreto. Reúne dos independientes
+             y el sistema se resuelve solo.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({
+          key: 'simon',
+          title: 'Encuentra el periodo con matemáticas, no con fuerza bruta',
+          text: 'reúne suficientes ecuaciones cuánticas y resuelve el sistema.',
+          xp: 60,
+        });
+        el.appendChild(m.root);
+        simonLab(el, { n: 3, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Por qué cada medida es una ecuación',
+      html: `<p>Este es el paso más bonito del nivel, y vale la pena seguirlo línea a línea:
+             es el <b>mismísimo mecanismo</b> que en el nivel 20 hará funcionar a Shor.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: '1. Dos registros, no uno',
+            html: 'Hacen falta dos registros de n cúbits: uno para la <b>pregunta</b> x, otro para la <b>respuesta</b> f(x). No se puede sobrescribir la entrada con la salida, porque toda operación cuántica debe ser reversible: la respuesta se <b>suma en XOR</b> al segundo registro.' },
+          { h: '2. Hadamard en el primer registro',
+            html: 'Todas las 2^n preguntas a la vez, con la misma amplitud. Como en los niveles 9 y 10.' },
+          { h: '3. Una sola llamada al oráculo',
+            html: 'Ahora el estado contiene <b>todas</b> las parejas (x, f(x)) simultáneamente. Ojo: no es "lo hemos calculado todo" — si midiéramos ahora obtendríamos <b>una</b> pareja al azar, exactamente como al tirar un dado. La información está, pero todavía no se puede leer.' },
+          { h: '4. Medimos el segundo registro',
+            html: 'Sale un valor v, que por sí solo no dice nada útil. Pero el colapso hace la magia: quedan en juego <b>solo</b> las x con f(x) = v, y son exactamente <b>dos</b>: x₀ y x₀⊕s.<br>El estado del primer registro es ahora <code>(|x₀⟩ + |x₀⊕s⟩)/√2</code>. El secreto está ahí dentro — pero si midiéramos, obtendríamos uno de los dos al azar, y <b>un</b> punto no dice cuánto está desplazada la figura.' },
+          { h: '5. Hadamard otra vez: la transformada',
+            html: 'Las Hadamard sobre n cúbits mandan cada |x⟩ a una suma de todos los |y⟩ con signo <code>(−1)^(x·y)</code>. Aplicándolas a nuestros dos estados, la amplitud de cada |y⟩ pasa a ser proporcional a<br><code>(−1)^(x₀·y) + (−1)^((x₀⊕s)·y)</code>' },
+          { h: '6. La cancelación (el corazón)',
+            html: 'Ese segundo exponente vale <code>x₀·y + s·y</code>. Por tanto:<br>• si <b>s·y = 0</b> los dos signos son <b>iguales</b> → se suman → amplitud doble;<br>• si <b>s·y = 1</b> los dos signos son <b>opuestos</b> → se <b>cancelan</b> → amplitud cero.<br>Mira las barras del juego: ha desaparecido exactamente la mitad, y no es casualidad — son todas y solo las "no ortogonales" al secreto.' },
+          { h: '7. Qué tienes en la mano',
+            html: 'Mides y obtienes una y al azar <b>entre las supervivientes</b>. No es el secreto, pero sabes que <b>y·s = 0</b>: una ecuación lineal mod 2. Repite: cada vuelta cuesta <b>una</b> llamada al oráculo y rinde una ecuación.' },
+          { h: '8. El último paso es clásico',
+            html: 'Con n−1 ecuaciones independientes queda una sola s distinta de cero, y se halla con la <b>eliminación de Gauss</b> — la misma de los sistemas del colegio, con el XOR en lugar de la resta. El ordenador cuántico ha hecho la parte imposible; el resto lo hace un portátil en una milésima de segundo.' },
+          { h: '9. Por qué a veces hace falta una vuelta más',
+            html: 'Las y salen al azar: puede tocarte una que es la suma de dos ya vistas, y entonces no añade nada (en el juego ves "independientes: 1 de 2"). De media bastan poco más de n−1 vueltas.' },
+        ], { doneLabel: '¡Lo tengo!' });
+      },
+    },
+    {
+      t: 'El puente hacia Shor',
+      html: `<p>Pon en fila lo que has aprendido en los últimos tres niveles:</p>
+             <table class="table">
+               <tr><th>Nivel</th><th>Qué está escondido</th><th>Cómo se lee</th></tr>
+               <tr><td>10 · Bernstein–Vazirani</td><td>una cadena s</td><td>Hadamard (Fourier sobre + y −)</td></tr>
+               <tr><td>12 · Simon</td><td>un periodo s, en XOR</td><td>Hadamard + sistema lineal</td></tr>
+               <tr><td>20 · Shor</td><td>un periodo r, en aritmética de verdad</td><td><b>QFT</b> + fracciones continuas</td></tr>
+             </table>
+             <p>Simon y Shor son <b>el mismo algoritmo</b> con una herramienta distinta. La estructura es idéntica:
+             dos registros, superposición, una llamada al oráculo, medida del segundo registro para hacer
+             colapsar el primero sobre un conjunto periódico, transformada sobre el primero, medida, matemáticas clásicas al final.</p>
+             <div class="callout key">¿Por qué a Shor no le bastan las Hadamard? Porque su periodo no es un desplazamiento
+             XOR sino una <b>suma de verdad</b>: 0, r, 2r, 3r… Para leer ese tipo de periodicidad hacen falta flechas que
+             apunten en <b>todas</b> las direcciones, no solo hacia delante y hacia atrás. Esas flechas son las ondas —
+             y por eso el próximo capítulo del curso habla de ondas y de Fourier.</div>
+             <p>Dicho de otro modo: acabas de ganarte el derecho a saber qué es una transformada de Fourier,
+             porque ahora sabes <b>para qué te sirve</b>.</p>`,
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> En el juego, prueba a resolver el sistema con <b>una sola</b> ecuación. ¿Cuántas s siguen siendo posibles?
+           ¿Y con dos? La cuenta es 2^(n−1), 2^(n−2)… ¿llegas tú solo al porqué?</p>
+        <p><b>2.</b> ¿Qué pasaría si el secreto fuera <code>s = 000</code>? ¿Seguiría siendo la función dos a uno?
+           ¿Y qué ecuaciones daría el algoritmo? <i>(Pista: y·0 = 0 siempre.)</i></p>
+        <p><b>3.</b> ¿Por qué medir el segundo registro <b>no</b> desperdicia la información, aunque el valor leído
+           sea inútil? Prueba a explicárselo a alguien usando la palabra "colapso".</p>
+        <p class="mb0"><b>4.</b> Pregunta de inventor: el oráculo es una caja negra. En la vida real nadie te regala
+           una caja así — eres tú quien la construye a partir de una función que te interesa.
+           ¿Qué función construirías, si quisieras romper un cifrado?
+           <i>(Quien se hizo esta pregunta en 1994 se llamaba Peter Shor.)</i></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: '¿Qué esconde el oráculo de Simon?',
+      options: ['un único valor x', 'un periodo s tal que f(x) = f(x ⊕ s)', 'la clave de un cifrado', 'un número primo'],
+      correct: 1,
+      why: 'Cada valor de la función sale dos veces, y las dos x que lo producen distan siempre s: la función se repite con periodo s (en XOR).' },
+    { q: '¿Cuántas preguntas hacen falta clásicamente, más o menos, para un secreto de n bits?',
+      options: ['n', 'n²', '√(2^n)', '2^n'],
+      correct: 2,
+      why: 'Hay que encontrar una colisión, y por la paradoja de los cumpleaños llega tras aproximadamente la raíz del número de valores posibles: √(2^n). Con 80 bits son más de mil trillones de preguntas.' },
+    { q: '¿Qué obtienes de UNA interrogación cuántica?',
+      options: ['el secreto s', 'una ecuación y·s = 0', 'dos bits de s', 'nada útil'],
+      correct: 1,
+      why: 'La medida final da una y tomada entre las que cumplen y·s = 0: no es el secreto, es una restricción sobre él. Con n−1 restricciones independientes el secreto queda determinado.' },
+    { q: '¿Por qué las y con y·s = 1 no salen nunca?',
+      options: ['porque el oráculo las prohíbe', 'porque reciben dos contribuciones de signo opuesto que se cancelan', 'porque tienen probabilidad baja pero posible', 'porque se miden después'],
+      correct: 1,
+      why: 'Interferencia destructiva: los dos estados que quedan, x₀ y x₀⊕s, contribuyen a esas y con signos opuestos. Es el mismo mecanismo de Grover y de la QFT, aplicado a un periodo.' },
+    { q: 'El último paso de Simon (resolver el sistema mod 2) lo ejecuta…',
+      options: ['el ordenador cuántico', 'un ordenador clásico', 'el oráculo', 'no hace falta'],
+      correct: 1,
+      why: 'Es una eliminación de Gauss normal con el XOR: rapidísima clásicamente. Los algoritmos cuánticos reales son casi siempre así — una pieza cuántica que hace lo imposible, encajada en un programa clásico.' },
+    { q: '¿Qué relación hay entre Simon y Shor?',
+      options: ['ninguna', 'misma estructura, pero Shor busca un periodo en aritmética de verdad y para leerlo hace falta la QFT', 'Shor es la versión clásica de Simon', 'Simon factoriza los números'],
+      correct: 1,
+      why: 'Dos registros, oráculo, medida que hace colapsar sobre un conjunto periódico, transformada, medida, matemáticas clásicas. Solo cambia el tipo de periodo: XOR para Simon, suma de verdad para Shor — y para eso hacen falta las ondas.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas a casa:</b> la primera ventaja <b>exponencial</b> demostrada,
+          y la idea que sostiene todo el resto del curso: <b>una medida puede ser una ecuación</b>.
+          También has descubierto el límite de las Hadamard — solo leen periodos en XOR.
+          Para los periodos de verdad hacen falta las ondas: y de hecho la próxima parte del curso habla justo de eso.</div>`,
+});
+@endsection

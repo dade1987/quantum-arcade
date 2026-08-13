@@ -70,16 +70,8 @@ comodo per provare la registrazione senza configurare la posta.
 ## Struttura
 
 ```
-public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioco E il front controller
-  index.html               hub: mappa livelli, ripasso spaziato, bio, servizi
+public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — solo asset e front controller
   index.php                front controller di Laravel
-  metodo.html              scelte didattiche e ricerche che le sostengono
-  privacy.html             informativa GDPR
-  lezioni/*.html           34 livelli (00-* basi di matematica, k*-* computer classico,
-                           poi il percorso quantistico da 01 a 24)
-  en/  es/                 le stesse pagine in inglese e spagnolo, con indirizzi tradotti
-                           (en/lessons/, es/lecciones/): stesso id di livello, così i
-                           progressi salvati sul server valgono in tutte e tre le lingue
   css/style.css            tema unico
   js/core/                 motore del gioco
     levels.js              ordine dei livelli e prerequisiti (fonte di verità)
@@ -104,8 +96,18 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
 
 lang/en.json  lang/es.json  le stesse traduzioni per il lato Laravel (__())
 
-dati/banca-esame-esempio.js   banca domande pubblica (per chi contribuisce)
-                           l'esame vero sta in banca-esame-riservata.js, che NON è in git
+resources/views/           LE PAGINE. Una view per pagina per lingua, un layout per tutte
+  layouts/page.blade.php   <head> di ogni pagina: title, canonical, hreflang, dati strutturati
+  layouts/lesson.blade.php titolo e descrizione di una lezione, presi da levels.js
+  partials/                il selettore di lingua, in un posto solo
+  pages/{it,en,es}/        home, metodo, privacy
+  lessons/{it,en,es}/      i 34 livelli, con il nome dell'ID (lo slug sta nell'indirizzo)
+
+config/site.php            GENERATO da levels.js con `npm run sync`: lingue, livelli, slug,
+                           titoli. È da qui che nascono le rotte e i <head>
+
+data/exam-bank-sample.js   banca domande pubblica (per chi contribuisce)
+                           l'esame vero sta in exam-bank-private.js, che NON è in git
 
 Modules/                   moduli nwidart
   Accounts/                registrazione, conferma email, accesso, profilo
@@ -114,7 +116,7 @@ Modules/                   moduli nwidart
   Chat/                    tutor AI (Neuron AI, RAG sui contenuti del sito, embedding locali)
 
 tests/
-  Feature/Moduli/          test PHP dei quattro moduli (100% di copertura)
+  Feature/Modules/         test PHP dei quattro moduli (100% di copertura)
   js/unit/                 test del motore del gioco (100% righe)
   js/e2e/                  Playwright: percorso utente + audit grafico
 tools/                     validatore, test matematici, sincronizzazione esame
@@ -131,7 +133,7 @@ npm run test:coverage    # copertura del frontend
 npm run test:php         # 118 test dei moduli Laravel
 npm run test:php:coverage
 npm run test:e2e         # Playwright: percorso utente, audit grafico di ogni pagina, le tre lingue
-npm run test:incrociato  # confronta il simulatore con QuantumSim (implementazione indipendente)
+npm run test:cross  # confronta il simulatore con QuantumSim (implementazione indipendente)
 npm run test:all         # tutto
 ```
 
@@ -146,7 +148,7 @@ sintassi PHP, JSON e SVG. Lanciarlo prima di ogni pubblicazione.
 
 Sulle tre lingue controlla anche che nessuna resti indietro: una lingua pubblicata
 deve avere **tutte** le lezioni, il numero di livelli scritto a parole deve combaciare
-in tutte e tre, e la sitemap deve elencare ogni pagina di ogni edizione. `npm run lingue`
+in tutte e tre, e la sitemap deve elencare ogni pagina di ogni edizione. `npm run languages`
 confronta le frasi usate nel codice con i dizionari e fallisce se ne manca una — così
 una frase nuova aggiunta in italiano non resta invisibile finché qualcuno non apre per
 caso la pagina in spagnolo.
@@ -159,12 +161,12 @@ caso la pagina in spagnolo.
 |---|---|
 | Hai modificato i livelli | `php artisan chat:ingest` (riallinea il tutor) |
 | Hai aggiunto o rinominato pagine | `npm run sitemap` |
-| Hai aggiunto frasi da tradurre | `npm run lingue` (con `--fix` prepara le chiavi mancanti) |
-| Hai modificato l'esame (`dati/banca-esame-*.js`) | `npm run exam:sync` |
+| Hai aggiunto frasi da tradurre | `npm run languages` (con `--fix` prepara le chiavi mancanti) |
+| Hai modificato l'esame (`data/exam-bank-*.js`) | `npm run exam:sync` |
 | Vuoi sapere dove il corso non è chiaro | `php artisan chat:report` |
 | Prima di pubblicare | `npm run test:all` |
-| Sul server, dopo ogni caricamento | `bash tools/messa-online.sh` |
-| Per sapere se il server è a posto | `php artisan sito:controlla --produzione` |
+| Sul server, dopo ogni caricamento | `bash tools/deploy.sh` |
+| Per sapere se il server è a posto | `php artisan site:check --production` |
 
 ---
 
@@ -175,10 +177,10 @@ Su Hostinger la web root è già `public_html`: si carica il progetto nella home
 ```bash
 cp .env.example .env && nano .env     # una volta sola
 php artisan key:generate
-bash tools/messa-online.sh            # dipendenze, migrazioni, cache, indice, controllo
+bash tools/deploy.sh            # dipendenze, migrazioni, cache, indice, controllo
 ```
 
-L'ultimo passo dello script è `php artisan sito:controlla --produzione`, che verifica
+L'ultimo passo dello script è `php artisan site:check --production`, che verifica
 una per una le cose che altrimenti si scoprono dagli utenti — `.env` scaricabile dal web,
 `APP_DEBUG` acceso, SMTP non configurato, PDF puntato alla cartella sbagliata — e per
 ognuna dice **come si risolve**.
@@ -242,7 +244,7 @@ simulatore di questo progetto: trecento circuiti generati a caso, due programmi 
 linguaggi diversi, scarto massimo dell'ordine di 10⁻¹⁵. Lo ringrazio per avermene concesso liberamente l'uso, e
 soprattutto perché **è dai suoi libri che ho cominciato a imparare questa materia**.
 
-> QuantumSim è rilasciato con licenza GNU GPL v3 e **non è incluso in questo progetto**: `npm run test:incrociato`
+> QuantumSim è rilasciato con licenza GNU GPL v3 e **non è incluso in questo progetto**: `npm run test:cross`
 > lo scarica in `.quantumsim/` (fuori da git), lo compila e lo interroga. Resta un attrezzo del banco di prova,
 > non una dipendenza del sito.
 

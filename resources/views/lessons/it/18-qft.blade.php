@@ -1,0 +1,191 @@
+@php($description = 'La trasformata di Fourier quantistica (QFT) spiegata passo passo: dal circuito con Hadamard e rotazioni di fase controllate al confronto con la DFT classica, con simulatore verificato.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { formula, stepper } from '/js/core/formula.js';
+import { confronto } from '/js/core/confronto.js';
+import { qftLab, qftPeriodLab } from '/js/widgets/qft.js';
+
+const L = renderLesson({
+  id: '18-qft',
+  lead: `Ci siamo. Prendiamo la DFT del livello 16 e la applichiamo <b>non</b> a dei dati registrati,
+         ma alle <b>ampiezze di uno stato quantistico</b>. Il risultato è la QFT: stessa matematica, hardware diverso,
+         conseguenze enormi.`,
+
+  steps: [
+    {
+      t: 'Prima, in classico: la DFT e la FFT, che sai già fare',
+      html: `<p>I due livelli precedenti ti hanno lasciato con due algoritmi <b>classici</b> in tasca, e
+             conviene guardarli bene un'ultima volta prima di passare alla versione quantistica.</p>
+             <ul>
+               <li>La <b>DFT</b> prende N numeri e ne restituisce N: per ognuno dei quali fa N moltiplicazioni.
+                   Totale <b>N²</b>. Con N = 1024 sono più di un milione di operazioni.</li>
+               <li>La <b>FFT</b> fa esattamente lo stesso risultato spezzando il problema a metà, ricorsivamente:
+                   <b>N·log₂N</b>. Con N = 1024 sono circa 10.000 operazioni, cento volte meno.</li>
+             </ul>
+             <p>Sono due algoritmi normalissimi, che girano ogni volta che apri un MP3 o fai una telefonata.
+             E — questo è il punto — <b>alla fine ti danno tutti gli N numeri, scritti, da leggere</b>.</p>` +
+             confronto({
+               titolo: 'Fourier: tre modi di farla',
+               livello: 'k5-costo',
+               vaiA: 'Ripassa i costi degli algoritmi (livello K·5)',
+               classico: {
+                 titolo: 'DFT e FFT',
+                 html: `<p>DFT: <b>N²</b> moltiplicazioni. FFT: <b>N·log N</b>, ed è una delle idee più utili del
+                        Novecento.</p>
+                        <p class="mb0">Alla fine hai <b>tutti gli N coefficienti</b> in memoria: li stampi, li
+                        confronti, li modifichi, ci fai quello che vuoi.</p>`,
+               },
+               quantistico: {
+                 titolo: 'QFT',
+                 html: `<p>Circa <b>log²N</b> porte: su N = 2⁶⁰ sono qualche migliaio di porte contro un numero di
+                        operazioni classiche più grande dell'età dell'universo in secondi.</p>
+                        <p class="mb0">Ma i coefficienti restano <b>ampiezze</b>: non li puoi leggere. Misuri, e
+                        ne esce <b>uno</b>, con probabilità proporzionale al suo quadrato.</p>`,
+               },
+               numeri: [
+                 { cosa: 'N = 1024', classico: 'FFT: ~10.000 operazioni', quantistico: 'QFT: ~100 porte' },
+                 { cosa: 'risultati leggibili', classico: 'tutti e N', quantistico: 'uno, a caso, pesato' },
+                 { cosa: 'serve a', classico: 'guardare uno spettro', quantistico: 'trovare un periodo (Shor)' },
+               ],
+               verdetto: `<b>La QFT è enormemente più veloce e enormemente meno utile — presa da sola.</b>
+                          Diventa un'arma solo quando lo spettro ha <b>un picco solo</b>, o pochissimi: allora
+                          quell'unica misura pesca quasi sicuramente il numero che serve. Ed è esattamente il
+                          caso della ricerca di periodo, cioè di Shor.`,
+             }),
+    },
+    {
+      t: 'Stessa formula, numeri diversi',
+      html: `<p>Mettiamo le due cose una accanto all'altra. Nota che <b>cambia solo la prima colonna</b>:</p>
+             <table class="table">
+               <tr><th>Fourier classica (DFT)</th><th>Fourier quantistica (QFT)</th></tr>
+               <tr><td>lavora su N numeri registrati in memoria</td><td>lavora sulle 2^n <b>ampiezze</b> di n qubit</td></tr>
+               <tr><td><code>X(k) = Σ x(n)·e^{−2πikn/N}</code></td><td><code>|k⟩ ← Σ ampiezza(n)·e^{+2πikn/N}/√N</code></td></tr>
+               <tr><td>costa N² (o N·log N con la FFT)</td><td>costa circa <b>n²/2 porte</b></td></tr>
+               <tr><td>leggi <b>tutti</b> gli N risultati</td><td>leggi <b>un solo</b> risultato, a caso, misurando</td></tr>
+               <tr><td>serve ad analizzare segnali</td><td>serve a far <b>interferire</b> e a rivelare <b>periodicità</b></td></tr>
+             </table>
+             <div class="callout key"><b>La frase da tenere:</b> la QFT prende l'informazione che sta nella
+             <b>posizione</b> delle ampiezze e la sposta nella loro <b>fase</b> — e viceversa.
+             Non "calcola Fourier più in fretta": <b>riorganizza</b> lo stato in modo che, dopo, una misura
+             riveli qualcosa che prima era invisibile.</div>`,
+    },
+    {
+      t: 'L\'esempio con 2 qubit, tutto scritto',
+      html: `<p>Prendiamo lo stato <b>|01⟩</b>, cioè ampiezze <code>[0, 1, 0, 0]</code>. La QFT lo trasforma in
+             qualcosa di proporzionale a:</p>
+             <div class="formula">½ · [ <span class="hl-n">1</span> , <span class="hl-k">i</span> , <span class="hl-N">−1</span> , <span class="hl-x">−i</span> ]
+             &nbsp;&nbsp;→&nbsp;&nbsp; quattro frecce a <b>0°, 90°, 180°, 270°</b>: → ↑ ← ↓</div>
+             <p>Guarda cosa è successo:</p>
+             <ul>
+               <li><b>Prima:</b> una sola barra alta. L'informazione era <b>nella posizione</b> ("sono nello stato 01").</li>
+               <li><b>Dopo:</b> quattro barre <b>tutte uguali</b> (probabilità 25% ciascuna), ma con <b>quattro fasi diverse</b>.
+                   L'informazione è passata <b>nelle fasi</b>.</li>
+             </ul>
+             <p>Se ora misurassi, otterresti un risultato a caso fra quattro: <b>sembra</b> di aver perso tutto.
+             Non è così: quelle fasi sono esattamente ciò che serve per far cancellare le risposte sbagliate
+             al passo successivo dell'algoritmo. <b>La QFT non è mai l'ultimo passo di un algoritmo utile.</b></p>
+             <p class="dim small">(A seconda della convenzione di segno che si sceglie nella formula, potresti trovare
+             scritto <code>[1, −i, −1, i]</code>. Cambia solo il verso di rotazione: la sostanza è identica.)</p>`,
+    },
+    {
+      t: 'Il circuito: tre ingredienti e basta',
+      html: `<p>La QFT si costruisce con porte che conosci già:</p>
+             <ol>
+               <li><b>Hadamard</b> su un qubit — mette in gioco le due possibilità (livello 3);</li>
+               <li><b>Rotazioni di fase controllate</b> <code>CP(π/2^k)</code> — ruotano la fase <i>solo se</i> l'altro qubit è 1
+                   (livello 8 per la rotazione, livello 4 per il controllo);</li>
+               <li><b>SWAP</b> finali — perché il circuito produce i qubit in ordine invertito.</li>
+             </ol>
+             <p>Muovi il cursore "porte applicate" e guarda le barre trasformarsi una porta alla volta.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'qft', title: 'Esegui la QFT', text: 'porta il circuito fino in fondo e verifica che coincida con la DFT classica.', xp: 70 });
+        el.appendChild(m.root);
+        qftLab(el, { n: 3, x: 1, onWin: () => m.complete() });
+      },
+      after: `<div class="callout"><b>Perché quelle rotazioni proprio così?</b> Perché la fase che serve al qubit j
+              dipende da <b>tutti</b> i bit meno significativi, ognuno con un peso dimezzato: il primo contribuisce con 180°,
+              il secondo con 90°, il terzo con 45°… È esattamente il modo in cui un numero binario "pesa" le sue cifre.
+              Le rotazioni controllate sono la traduzione quantistica di quella pesatura.</div>`,
+    },
+    {
+      t: 'Il conto delle porte (dove sta il vantaggio)',
+      html: ``,
+      mount: el => {
+        formula(el, {
+          title: 'Quante porte servono per n qubit',
+          hint: 'Tocca i pezzi per capire da dove esce il conto.',
+          parts: [
+            { t: 'n', id: 'n', color: 'cyan', name: 'numero di qubit', say: 'Su ogni qubit va una Hadamard: n porte in totale.' },
+            { t: '+' },
+            { t: 'n(n−1)/2', id: 'rot', color: 'violet', name: 'rotazioni controllate', say: 'Il primo qubit ne riceve n−1, il secondo n−2, e così via: è la somma 1+2+…+(n−1).', ex: 'n = 10 → 45 rotazioni controllate.' },
+            { t: '+' },
+            { t: 'n/2', id: 'sw', color: 'green', name: 'SWAP finali', say: 'Servono a rimettere i qubit nell\'ordine giusto. Spesso si evitano del tutto, semplicemente leggendo i qubit al contrario.' },
+            { t: '≈' },
+            { t: 'n²/2', id: 'tot', color: 'amber', name: 'totale', say: 'Cresce come il QUADRATO del numero di qubit, mentre il numero di ampiezze trasformate cresce come 2^n. È una crescita ridicolmente lenta rispetto a ciò che maneggia.', ex: 'n = 20 qubit → 1.048.576 ampiezze trasformate con circa 210 porte.' },
+          ],
+        });
+      },
+      after: `<div class="callout warn"><b>E qui la trappola, di nuovo (ma ora sei attrezzato per capirla).</b>
+              Con 210 porte tocchi un milione di ampiezze. Ma <b>non puoi leggerle</b>: la misura ne restituisce una sola,
+              scelta a caso. Non hai "calcolato la FFT di un milione di numeri in 210 passi": hai <b>riorganizzato</b>
+              un milione di ampiezze in modo che una certa <b>proprietà globale</b> diventi molto probabile.
+              Quale proprietà? Il prossimo passo lo mostra.</div>`,
+    },
+    {
+      t: 'La cosa per cui la QFT esiste: periodicità → picchi',
+      html: `<p>Prepariamo uno stato "a pettine": ampiezze diverse da zero <b>ogni r posizioni</b>
+             (esattamente quello che produrrà l'algoritmo di Shor). Poi applichiamo la QFT.</p>
+             <p>Il risultato è la ragione per cui tutta questa costruzione esiste:</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'periodo', title: 'Da pettine a picchi', text: 'prova almeno due periodi diversi e osserva dove finiscono i picchi.', xp: 60 });
+        el.appendChild(m.root);
+        qftPeriodLab(el, { n: 4, onWin: () => m.complete() });
+      },
+      after: `<div class="callout key"><b>Le due proprietà d'oro:</b>
+              <ol style="margin:8px 0 0">
+                <li>periodo <b>r</b> nello stato di partenza → picchi sui <b>multipli di N/r</b> dopo la QFT.
+                    Misurando un picco e facendo due conti, <b>ricavi r</b>.</li>
+                <li>lo <b>sfasamento iniziale</b> del pettine (da dove comincia) <b>non sposta i picchi</b>.
+                    È una fortuna enorme: significa che si può misurare a metà algoritmo qualcosa di casuale
+                    senza rovinare l'informazione utile.</li>
+              </ol></div>`,
+    },
+    {
+      t: '💡 Prova tu',
+      html: `<div class="callout think">
+        <p><b>1.</b> Applica la QFT allo stato |000⟩ (tutti zeri): cosa ottieni? <span class="muted">(la sovrapposizione uniforme: la QFT di una "costante" è un picco solo, e viceversa)</span></p>
+        <p><b>2.</b> E allo stato |100⟩? Guarda il disegno delle fasi: quante volte "gira" mentre scorri le barre?</p>
+        <p><b>3.</b> Nel gioco del pettine, prova r = 3 con N = 16: i picchi non cadono più su numeri interi.
+           Cosa succede alle barre? <span class="muted">(si allargano — è il motivo per cui Shor ha bisogno delle frazioni continue)</span></p>
+        <p class="mb0"><b>4.</b> Da inventore: che altra proprietà "globale" di uno stato ti piacerebbe trasformare in un picco?
+           Se trovi una trasformazione unitaria che lo fa, hai un algoritmo nuovo.</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'Che cosa fa la QFT all\'informazione contenuta in uno stato?',
+      options: ['la cancella', 'la sposta dalla posizione delle ampiezze alle loro fasi (e viceversa)', 'la copia', 'la misura'], correct: 1,
+      why: 'Da |01⟩ (una barra sola) si passa a quattro barre uguali con quattro fasi diverse: l\'informazione è tutta lì, ma scritta in un altro posto.' },
+    { q: 'Da quali porte è composto il circuito della QFT?',
+      options: ['solo CNOT', 'Hadamard, rotazioni di fase controllate e SWAP', 'solo misure', 'X e Y'], correct: 1,
+      why: 'Una H per qubit, poi rotazioni di fase controllate dai qubit meno significativi, infine gli SWAP per rimettere l\'ordine.' },
+    { q: 'Quante porte servono per la QFT su n qubit?',
+      options: ['2^n', 'circa n²/2', 'n·log n', 'sempre 10'], correct: 1,
+      why: 'n Hadamard + n(n−1)/2 rotazioni + gli SWAP: con 20 qubit bastano circa 210 porte per un milione di ampiezze.' },
+    { q: 'Se uno stato ha periodo r, dopo la QFT i picchi si trovano…',
+      options: ['sui multipli di r', 'sui multipli di N/r', 'sempre in 0', 'a caso'], correct: 1,
+      why: 'Periodo piccolo → picchi distanziati, periodo grande → picchi ravvicinati. È la relazione inversa fra periodo e frequenza del livello 13.' },
+    { q: 'Perché la QFT non serve a calcolare lo spettro di un file audio?',
+      options: ['perché è imprecisa', 'perché misurando si legge un solo risultato, non l\'intero spettro', 'perché è lenta', 'perché funziona solo su 2 qubit'], correct: 1,
+      why: 'Trasforma tutte le ampiezze in pochissime porte, ma la misura ne restituisce una sola: serve a organizzare interferenze, non a produrre liste di numeri leggibili.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Cosa ti porti a casa:</b> la QFT è la DFT applicata alle ampiezze;
+          costa n²/2 porte; sposta l'informazione fra posizione e fase; trasforma <b>periodicità</b> in <b>picchi di probabilità</b>.
+          Prossimo livello: usarla al contrario per leggere una fase nascosta — l'ultimo pezzo prima di Shor.</div>`,
+});
+@endsection

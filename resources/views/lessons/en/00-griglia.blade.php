@@ -1,0 +1,98 @@
+@php($description = 'Coordinates (x,y), arrows and angles in degrees: the geometric basics for understanding complex numbers and quantum phase, explained with two mini-games.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { gridLab, angleLab } from '/js/widgets/basicmath.js';
+
+const L = renderLesson({
+  id: '00-griglia',
+  lead: `Two tools and no more: saying <b>where</b> a point is (coordinates) and saying <b>how far an arrow has turned</b> (degrees).
+         With those two, a few levels from now, you will understand complex numbers without even noticing.`,
+
+  steps: [
+    {
+      t: 'Coordinates: two numbers for one point',
+      html: `<p>If I tell you "the treasure is at 3", that is not enough: three what? You have to say <b>how far right</b> and <b>how far up</b>.
+             That is why two numbers are used, always in this order: <b>(x, y)</b>.</p>
+             <ul>
+               <li><b>x</b> = horizontal shift. Positive to the right, negative to the left.</li>
+               <li><b>y</b> = vertical shift. Positive up, negative down.</li>
+             </ul>
+             <p>The point (3, 2) means: start from the centre, take 3 steps right and 2 up.
+             The point (−4, 1): 4 steps left and 1 up.</p>
+             <p><b>Play:</b> the target is hidden; move the sliders (or click straight on the grid) and fire.
+             After each shot you get a hint.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'battaglia', title: 'Battleship', text: 'hit 3 targets.', xp: 30 });
+        el.appendChild(m.root);
+        gridLab(el, { need: 3, onWin: () => m.complete() });
+      },
+      after: `<div class="callout key"><b>The link you will use for the whole course:</b> the pair (x, y) describes
+              both a <b>point</b> and the <b>arrow</b> that reaches it starting from the centre. Point and arrow are the same
+              information. At level 8 that arrow will be called a <b>complex number</b>: x will be the "real part"
+              and y the "imaginary part". Nothing new: just a different name for this game.</div>`,
+    },
+    {
+      t: 'Degrees: how far an arrow has turned',
+      html: `<p>A full turn is <b>360°</b>. It is an ancient convention (the Babylonians counted in sixties),
+             but a handy one, because 360 divides nicely: half = 180°, a quarter = 90°, an eighth = 45°.</p>
+             <table class="table">
+               <tr><th>Angle</th><th>Fraction of a turn</th><th>Where the arrow points</th></tr>
+               <tr><td class="mono">0°</td><td>nothing</td><td>right →</td></tr>
+               <tr><td class="mono">90°</td><td>a quarter</td><td>up ↑</td></tr>
+               <tr><td class="mono">180°</td><td>half</td><td>left ←</td></tr>
+               <tr><td class="mono">270°</td><td>three quarters</td><td>down ↓</td></tr>
+               <tr><td class="mono">360°</td><td>whole turn</td><td>right → (again!)</td></tr>
+             </table>
+             <div class="callout"><b>The most important rule:</b> <b>360° = 0°</b>. After a full turn you are back
+             exactly where you started. Angles are <b>circular</b>: 370° is like 10°, and −90° is like 270°.</div>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'gradi', title: 'The human protractor', text: 'hit 3 requested angles.', xp: 30 });
+        el.appendChild(m.root);
+        angleLab(el, { need: 3, onWin: () => m.complete() });
+      },
+    },
+    {
+      t: 'Why these two things together are so powerful',
+      html: `<p>An arrow can be described in <b>two different but equivalent ways</b>:</p>
+             <div class="grid-2">
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Way A — coordinates</h3>
+                 <p class="mb0 dim">"go 3 right and 4 up" → <b>(3, 4)</b><br>
+                 Handy for <b>adding</b> two arrows: add the x's together and the y's together.</p></div>
+               <div class="panel"><h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Way B — length and angle</h3>
+                 <p class="mb0 dim">"length 5, turned by 53°" → <b>(5 ; 53°)</b><br>
+                 Handy for <b>rotating</b>: you just add degrees to degrees.</p></div>
+             </div>
+             <p>The length comes from Pythagoras: √(3² + 4²) = √25 = <b>5</b>.
+             In this course we will use <b>both</b> ways, picking whichever is handier each time — exactly as you would
+             say "5 Roma Street" or "200 metres north of the bar" to point at the same place.</p>`,
+    },
+    {
+      t: '💡 Your turn',
+      html: `<div class="callout think">
+        <p><b>1.</b> What are the coordinates of the point opposite (3, 2) with respect to the centre? And what angle do the two arrows make between them?</p>
+        <p><b>2.</b> An arrow of length 1 turned by 90°: what are its coordinates? And at 180°?</p>
+        <p><b>3.</b> If you add the arrows (2, 1) and (−2, −1), what do you get? Try picturing it before working it out.</p>
+        <p class="mb0"><b>4.</b> If an arrow turns by 45° eight times in a row, where does it end up? <span class="muted">(45 × 8 = 360 → back at the start)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'The point (−2, 3) is…', options: ['2 right and 3 down', '2 left and 3 up', '3 left and 2 up', 'off the grid'], correct: 1,
+      why: 'The first coordinate is always x (horizontal) and the minus sign means "to the left"; the second is y, positive so upwards.' },
+    { q: 'An arrow turned by 180° points…', options: ['up', 'right', 'left', 'down'], correct: 2,
+      why: 'Half a turn: the opposite way from 0°, that is, left. It is the same thing as multiplying by −1.' },
+    { q: 'What is 360° + 90°, as a direction?', options: ['450°, a brand new direction', 'the same as 90°', 'the same as 180°', 'the same as 0°'], correct: 1,
+      why: 'Angles are circular: a full turn brings you back to the start, so 450° points exactly like 90°.' },
+    { q: 'How long is the arrow with coordinates (3, 4)?', options: ['7', '5', '12', '3.4'], correct: 1,
+      why: 'Pythagoras: √(9 + 16) = √25 = 5. The length is not the sum of the coordinates.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Done!</b> You can say where a point is and how far an arrow has turned.
+          Now we put the two together and see what happens to a point that <b>turns on a circle</b>:
+          out of that come the sine, the cosine and every wave in the course.</div>`,
+});
+@endsection

@@ -1,0 +1,193 @@
+@php($description = 'La transformada discreta de Fourier (DFT) desmontada símbolo a símbolo, con las flechas rotatorias que se suman o se cancelan.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { formula, stepper } from '/js/core/formula.js';
+import { dftLab, windingLab } from '/js/widgets/dftlab.js';
+
+const L = renderLesson({
+  id: '16-dft',
+  lead: `Ya estamos: la fórmula que asusta a medio internet. Al final de este nivel la leerás como se lee
+         una receta de la abuela, porque cada una de sus piezas la habrás <b>movido con las manos</b>.`,
+
+  steps: [
+    {
+      t: 'El problema, dicho en castellano llano',
+      html: `
+        <p>Un ordenador no ve una curva continua: ve una <b>lista de números</b>, las <b>muestras</b>.
+        Por ejemplo la lista de 4 números:</p>
+        <pre><code>x = [ 1 , 0 , 1 , 0 ]
+      n=0 n=1 n=2 n=3</code></pre>
+        <p>La pregunta es siempre la misma: <b>¿qué periodicidades hay dentro de esta lista?</b>
+        Mirándola a ojo se ve que se repite cada 2 posiciones. La DFT (transformada discreta de Fourier)
+        es la herramienta que <b>lo descubre sola</b>, y lo hace para todas las periodicidades posibles de una sola vez.</p>
+        <div class="callout"><b>Nota sobre el nombre:</b> "discreta" solo quiere decir que trabaja sobre una lista finita de números
+        en vez de sobre una curva continua. Nada más profundo.</div>`,
+    },
+
+    {
+      t: 'La fórmula. Ahora. Sin rodeos',
+      html: `
+        <div class="formula" style="font-size:20px">
+          <span class="hl-x">X(k)</span> = Σ<sub>n=0</sub><sup>N−1</sup> <span class="hl-n">x(n)</span> · e<sup>−i·2π·<span class="hl-k">k</span>·<span class="hl-n">n</span>/<span class="hl-N">N</span></sup>
+        </div>
+        <p>Toca cada pieza aquí abajo: cada una tiene un significado concreto y un ejemplo numérico.
+        Luego, debajo, está el juego donde <b>ves esa misma fórmula girar</b>.</p>`,
+      mount: el => {
+        formula(el, {
+          title: 'La DFT desmontada — toca cada símbolo',
+          hint: 'Ningún símbolo se queda en el misterio: tócalos todos, uno a uno.',
+          parts: [
+            { t: 'X(k)', id: 'X', color: 'pink', name: 'el resultado para la frecuencia k', say: 'Un número complejo, es decir, una flecha. Su LONGITUD dice cuánto está presente esa frecuencia en la señal; su ÁNGULO dice con qué fase.', ex: 'Si |X(2)| es grande y |X(1)| ≈ 0, la señal tiene una periodicidad que corresponde a k=2 y no a k=1.' },
+            { t: '=' },
+            { t: 'Σ', id: 'S', color: 'green', name: 'suma todos los trozos', say: 'Suma lo que viene detrás para n = 0, 1, 2, …, N−1. Es decir: coge cada muestra, haz su parte de la cuenta, y échalo todo a un único total.', ex: 'Con N = 4: X(k) = (trozo de n=0) + (trozo de n=1) + (trozo de n=2) + (trozo de n=3).' },
+            { t: 'x(n)', id: 'x', color: 'cyan', name: 'la muestra número n', say: 'Tu dato en bruto: el valor medido en el instante n. En el juego es la altura de la barrita que arrastras.', ex: 'x = [1, 0, 1, 0] → x(0)=1, x(1)=0, x(2)=1, x(3)=0.' },
+            { t: '·' },
+            { t: 'e^{−i·2π', id: 'e', color: 'violet', name: 'la flecha que rota', say: 'La flecha de longitud 1 en el ángulo indicado (¡nivel 8!). El signo MENOS indica que rotamos en sentido horario. Multiplicar x(n) por esta flecha significa: coge el dato y RÓTALO.', ex: 'e^{−i·2π·(1/4)} = e^{−i·90°} = −i, es decir "rota un cuarto de vuelta en sentido horario".' },
+            { t: 'k', id: 'k', color: 'amber', name: 'la frecuencia que estás probando', say: 'k es la pregunta: "¿hay una periodicidad que hace exactamente k ciclos dentro de la ventana?". Cambiando k cambias la VELOCIDAD a la que giran las flechas.', ex: 'k=0 → ninguna rotación (todas las flechas se quedan quietas, y la suma es la media). k=1 → una vuelta completa repartida entre todas las muestras. k=2 → dos vueltas.' },
+            { t: '·' },
+            { t: 'n', id: 'n', color: 'cyan', name: 'el número de la muestra', say: 'Hace de "tiempo". Cuanto más adelante está la muestra en la lista, más se la rota. Es esto lo que convierte la rotación en un barrido ordenado.', ex: 'Para k=1 y N=4: n=0 rota 0°, n=1 rota 90°, n=2 rota 180°, n=3 rota 270°.' },
+            { t: '/', id: 'div' , color: 'green', name: 'dividido por', say: 'La división por N reparte las vueltas entre todas las muestras: sirve para que salgan exactamente k vueltas completas cuando llegas al final de la lista.' },
+            { t: 'N}', id: 'N', color: 'green', name: 'cuántas muestras tienes', say: 'La longitud de la lista. Determina también CUÁNTAS frecuencias puedes probar: exactamente N, es decir k = 0, 1, …, N−1. No más: con pocos datos no puedes distinguir infinitas frecuencias.', ex: 'N = 8 muestras → 8 frecuencias comprobables, de k=0 a k=7.' },
+          ],
+        });
+      },
+      after: `<div class="callout key"><b>Traducción completa al castellano:</b><br>
+              «Para cada frecuencia k: coge cada dato, <b>rótalo</b> un ángulo que crece a medida que avanzas
+              por la lista, y <b>suma</b> todas las flechas obtenidas. Si la suma es larga, esa frecuencia está. Si es corta, no está.»
+              <br>Fin. No hay nada más dentro de esa fórmula.</div>`,
+    },
+
+    {
+      t: 'El juego: mira las flechas rotar de verdad',
+      html: `
+        <p>Aquí está la fórmula en movimiento. A la izquierda están tus datos <b>x(n)</b> (¡arrastra las barritas con el ratón!).
+        En el centro las <b>N flechas rotadas</b> pegadas punta con cola: la rosa es la suma, es decir X(k).
+        Abajo el <b>espectro</b>: la longitud de X(k) para cada k (se puede pulsar).</p>
+        <p><b>Qué probar, por orden:</b></p>
+        <ol>
+          <li>Deja el preajuste <code>1 0 1 0…</code> y pon <b>k = 0</b>: ninguna rotación, las flechas van todas a la derecha, suma grande.</li>
+          <li>Pon <b>k = 1</b>: las flechas se desparraman y se cierran sobre sí mismas → suma ≈ 0. <b>Esa frecuencia no está.</b></li>
+          <li>Pon <b>k = 4</b> (con N=8): todas las flechas de las muestras pares apuntan a la derecha… suma grande.
+              <b>¡Periodicidad encontrada!</b></li>
+          <li>Pulsa «suma las flechas una a una» para ver el total construirse paso a paso.</li>
+        </ol>`,
+      mount: el => {
+        const m = L.mission({ key: 'trovak', title: 'Encuentra la periodicidad', text: 'carga el preajuste "periodo 4" y encuentra una k en la que la suma supere 1,5 (barra alta en el espectro).', xp: 60 });
+        el.appendChild(m.root);
+        dftLab(el, {
+          N: 8, preset: 'alternato', k: 0,
+          onChange: s => {
+            const isP4 = s.x.every((v, i) => Math.abs(v - (i % 4 === 0 ? 1 : 0)) < 0.01);
+            if (isP4 && s.mag > 1.5) m.complete();
+          },
+        });
+      },
+    },
+
+    {
+      t: 'Hagamos la cuenta a mano: x = [1, 0, 1, 0]',
+      html: `<p>Ahora la cuenta de verdad, toda escrita, con N = 4. Sirve para convencerte de que el juego no hace trampas.</p>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'k = 0 (ninguna rotación)', html: `Los ángulos son todos 0°, así que cada flecha apunta a la derecha:<br>
+            <code>X(0) = 1·(→) + 0·(→) + 1·(→) + 0·(→) = 2</code><br>
+            <b>|X(0)| = 2.</b> El valor para k = 0 es siempre la <b>suma de los datos</b> (es decir, salvo un factor N, su media).` },
+          { h: 'k = 1 (una vuelta repartida entre 4 muestras)', html: `Los ángulos son 0°, −90°, −180°, −270°:<br>
+            <code>X(1) = 1·(→) + 0·(↓) + 1·(←) + 0·(↑) = (+1) + (−1) = 0</code><br>
+            <b>|X(1)| = 0.</b> Las dos flechas no nulas son opuestas: <b>cancelación perfecta</b>.` },
+          { h: 'k = 2 (dos vueltas)', html: `Los ángulos son 0°, −180°, −360°, −540°, es decir →, ←, →, ←:<br>
+            <code>X(2) = 1·(→) + 0·(←) + 1·(→) + 0·(←) = 2</code><br>
+            <b>|X(2)| = 2.</b> Ahí está la periodicidad: la señal se repite <b>cada 2 muestras</b>, y k=2 significa justamente
+            "2 ciclos dentro de una ventana de 4".` },
+          { h: 'k = 3', html: `<code>X(3) = 1·(→) + 0 + 1·(←) + 0 = 0</code><br>
+            <b>|X(3)| = 0.</b> Como k=1.` },
+          { h: 'Resultado final', html: `Espectro = <b>[2, 0, 2, 0]</b>.<br>
+            La señal <code>[1,0,1,0]</code> en el tiempo se convierte en <code>[2,0,2,0]</code> en las frecuencias:
+            "hay una componente constante y una a dos ciclos, y nada más". <br>
+            <b>Hemos cambiado de punto de vista, no hemos perdido información</b>: desde estos 4 números se puede volver atrás exactamente.` },
+          { h: 'Pruébalo en el juego', html: `En el widget de arriba, pon los 4 valores (o usa el preajuste alterno con N=8, que da el mismo esquema
+            duplicado) y compara el espectro con los números que acabamos de calcular. <b>Coinciden.</b>` },
+        ], { doneLabel: '¡Cuenta hecha!' });
+      },
+    },
+
+    {
+      t: 'La versión "enrollada": lo mismo, aún más visual',
+      html: `
+        <p>Existe una segunda manera de mirar la transformada, que a mucha gente le enciende la bombilla definitiva.</p>
+        <p>Coge la señal y <b>enróllala alrededor de un círculo</b>: en vez de desenrollarla en el tiempo, la envuelves
+        a una cierta velocidad. Luego mira dónde está el <b>centro de masas</b> de la figura que sale
+        (imagínala hecha de alambre: ¿dónde pondrías el dedo para mantenerla en equilibrio?).</p>
+        <ul>
+          <li>Velocidad de enrollado <b>equivocada</b> → los trozos pesados acaban desparramados por todas partes → el centro de masas está
+              cerca del origen → esa frecuencia no está.</li>
+          <li>Velocidad <b>acertada</b> → todos los picos de la señal acaban <b>del mismo lado</b> → el centro de masas
+              sale disparado → esa frecuencia está.</li>
+        </ul>
+        <p>En el juego: pulsa «barre todas las frecuencias» y mira aparecer abajo los <b>picos</b> exactamente
+        en las frecuencias contenidas en la señal.</p>`,
+      mount: el => windingLab(el, { freqs: [2, 5] }),
+    },
+
+    {
+      t: 'Las cosas que confunden a todo el mundo (y la respuesta)',
+      html: `
+        <h3>¿Qué quiere decir exactamente k?</h3>
+        <p>No es "k Hz". Es <b>"k ciclos completos en la ventana de N muestras"</b>. Para convertirlo en Hz hay que saber
+        cada cuánto has muestreado: si tomas <code>fs</code> muestras por segundo, entonces
+        <b>frecuencia en Hz = k · fs / N</b>.</p>
+        <h3>¿Por qué el espectro está "reflejado"?</h3>
+        <p>Si los datos son números reales, notarás que |X(k)| y |X(N−k)| son iguales. No es un fallo: k y N−k son
+        <b>la misma velocidad de rotación, en sentido opuesto</b> — como decir "3 vueltas hacia delante" y "3 vueltas hacia atrás".
+        Por eso, con datos reales, medio espectro es redundante.</p>
+        <h3>¿Por qué hay un signo menos en el exponente?</h3>
+        <p>Pura convención: en la transformada <b>directa</b> se rota en sentido horario, en la <b>inversa</b> en sentido antihorario
+        (signo más) y se divide por N. Algunos textos — ¡y la QFT cuántica! — usan el signo <b>más</b> para la directa.
+        No cambia la sustancia: solo cambia el sentido de rotación, y por tanto el signo de las fases.</p>
+        <div class="callout"><b>Reconstrucción (transformada inversa):</b> <br>
+        <code>x(n) = (1/N) · Σ_k X(k) · e^{+i·2π·k·n/N}</code><br>
+        Es decir: vuelve a juntar todas las ondas con sus amplitudes y fases. Es la <b>síntesis</b> del nivel 15, escrita bien.</div>`,
+    },
+
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> Pon todas las muestras iguales a 1 (preajuste "todo igual"). ¿Qué espectro sale? ¿Por qué todas las demás barras son cero?</p>
+        <p><b>2.</b> Pon una sola muestra a 1 y todas las demás a 0 (preajuste "un solo golpe"). Mira el espectro:
+           es <b>plano</b>. ¿Qué quiere decir "un impulso contiene todas las frecuencias"? Prueba a explicarlo con las flechas.</p>
+        <p><b>3.</b> Coge el preajuste "3 ciclos" y mueve <b>una sola</b> muestra. ¿Cuántas barras del espectro cambian?
+           <span class="muted">(respuesta incómoda: prácticamente todas — cada muestra participa en cada frecuencia)</span></p>
+        <p class="mb0"><b>4.</b> Reto creativo: ¿consigues construir, arrastrando las barritas, una señal cuyo espectro tenga
+           <b>dos</b> picos iguales y nada más? ¿Y una que tenga un solo pico en k=1?</p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'En la fórmula de la DFT, ¿qué hace exactamente e^{−i·2πkn/N}?',
+      options: ['Amplifica la muestra', 'Rota la muestra un ángulo que depende de k y n', 'Elimina el ruido', 'Calcula la media'],
+      correct: 1,
+      why: 'Es la flecha de longitud 1 en el ángulo −2πkn/N: multiplicar por ella <b>rota</b> la muestra, sin cambiarle la longitud. Toda la DFT es "rota y suma".' },
+    { q: 'X(0) (es decir, k = 0) corresponde a…',
+      options: ['la frecuencia más alta', 'la suma de todas las muestras (la componente constante)', 'siempre cero', 'la fase inicial'],
+      correct: 1,
+      why: 'Con k = 0 todos los ángulos son cero: ninguna rotación, así que se suman los datos tal cual. Es la componente "continua", el valor medio de la señal multiplicado por N.' },
+    { q: 'La señal [1,0,1,0] tiene espectro [2,0,2,0]. ¿Por qué |X(1)| = 0?',
+      options: ['Porque la señal es demasiado corta', 'Porque las flechas de las dos muestras no nulas resultan opuestas y se cancelan', 'Porque k=1 no existe', 'Porque la suma de los datos es 2'],
+      correct: 1,
+      why: 'Con k=1 y N=4, la muestra n=0 no rota (flecha →) y la muestra n=2 rota 180° (flecha ←). Uno más uno en direcciones opuestas da <b>cero</b>: interferencia destructiva perfecta.' },
+    { q: 'Con N = 8 muestras, ¿cuántas frecuencias distintas puedes probar?',
+      options: ['infinitas', '8 (de k=0 a k=7)', '4', 'depende de la amplitud'],
+      correct: 1,
+      why: 'Exactamente N. Con 8 números de entrada salen 8 números complejos de salida: ninguna información creada, ninguna perdida — solo cambiada de forma.' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas a casa:</b> la DFT es <b>«rota y suma»</b> repetido para cada frecuencia k.
+          Las flechas alineadas dan un pico (frecuencia presente), las desparramadas dan cero (ausente).
+          De aquí en adelante, cada vez que veas <code>e^{±i2πkn/N}</code> — incluso dentro de un circuito cuántico —
+          sabrás leerlo de un vistazo.</div>`,
+});
+@endsection

@@ -1,0 +1,140 @@
+@php($description = 'AND, OR, NOT, XOR y NAND explicadas jugando: tablas de verdad, puerta universal y la cuenta de las preguntas que hay que hacerle a una caja negra. Las puertas clásicas antes de las cuánticas.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { confronto } from '/js/core/confronto.js';
+import { logicLab, nandForge } from '/js/widgets/classic.js';
+
+const L = renderLesson({
+  id: 'k2-porte',
+  lead: `Los bits solos no hacen nada: están ahí. El cálculo empieza cuando algo los <b>transforma</b>.
+         Ese algo se llama <b>puerta lógica</b>, y es un trozo de circuito que coge uno o dos bits y produce
+         uno nuevo. Hay un puñado, se aprenden en diez minutos, y con ellas está hecho todo lo que tu móvil
+         sabe hacer.`,
+
+  steps: [
+    {
+      t: 'Las cinco palabras de toda la informática',
+      html: `<p>Una puerta se describe por completo con su <b>tabla de verdad</b>: qué sale, para cada combinación
+             de lo que entra. Son cuatro filas, y no hay nada más que saber.</p>
+             <table class="table">
+               <tr><th>A</th><th>B</th><th>AND<br><span class="muted">los dos</span></th><th>OR<br><span class="muted">al menos uno</span></th><th>XOR<br><span class="muted">solo uno</span></th><th>NAND<br><span class="muted">no los dos</span></th></tr>
+               <tr><td class="mono">0</td><td class="mono">0</td><td class="mono">0</td><td class="mono">0</td><td class="mono">0</td><td class="mono">1</td></tr>
+               <tr><td class="mono">0</td><td class="mono">1</td><td class="mono">0</td><td class="mono">1</td><td class="mono">1</td><td class="mono">1</td></tr>
+               <tr><td class="mono">1</td><td class="mono">0</td><td class="mono">0</td><td class="mono">1</td><td class="mono">1</td><td class="mono">1</td></tr>
+               <tr><td class="mono">1</td><td class="mono">1</td><td class="mono">1</td><td class="mono">1</td><td class="mono">0</td><td class="mono">0</td></tr>
+             </table>
+             <p>La sexta es <b>NOT</b>, que tiene una sola entrada y la da la vuelta: 0 pasa a 1 y 1 pasa a 0.</p>
+             <div class="callout key"><b>XOR es la que hay que vigilar.</b> Significa «uno sí y el otro no», y es
+             lo mismo que «suma, y tira el acarreo»: 1 + 1 = 10, te quedas el 0. En el nivel K·3 construiremos
+             la suma con ella, y en el nivel 4 descubrirás que la puerta cuántica <b>CNOT</b> hace exactamente
+             un XOR — solo que sin destruir nada.</div>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'porte', title: 'La puerta misteriosa', text: 'pasa a «puerta misteriosa» y adivina dos cajas, contando las preguntas que necesitas.', xp: 30 });
+        el.appendChild(m.root);
+        logicLab(el, { sfide: 2, onWin: () => m.complete() });
+      },
+      after: `<div class="callout"><b>¿Has contado las preguntas?</b> Para estar <b>seguro</b> de qué puerta hay
+              dentro de la caja tienes que probar las cuatro combinaciones de entrada: la caja responde a una
+              pregunta cada vez, y no hay estrategia que te ahorre la última prueba. Ese número — <b>4 preguntas
+              para 2 bits de entrada</b>, es decir 2ⁿ preguntas para n bits — es el muro contra el que choca el
+              ordenador clásico cada vez que tiene que averiguar cómo es una función. En los niveles 9 y 10
+              verás dos algoritmos cuánticos que lo saltan.</div>`,
+    },
+    {
+      t: 'Una sola puerta basta para todas las demás',
+      html: `<p>Hay un hecho sorprendente y comprobable a mano: la <b>NAND</b> sola es suficiente. Solo con NAND
+             se construyen NOT, AND, OR, XOR — y por tanto cualquier circuito, y por tanto cualquier programa.
+             Se dice que la NAND es una puerta <b>universal</b>.</p>
+             <p>Las recetas son cortas:</p>
+             <ul>
+               <li><b>NOT A</b> = NAND(A, A) — mete el mismo cable en las dos entradas</li>
+               <li><b>AND</b> = NOT(NAND(A, B)) — o sea una NAND, y luego una NAND que hace de NOT</li>
+               <li><b>OR</b> = NAND(NOT A, NOT B) — es la ley de De Morgan</li>
+               <li><b>XOR</b> = cuatro NAND, y es la pieza que hace falta para sumar</li>
+             </ul>
+             <p>Móntalas en el taller de abajo: elige de dónde llega cada cable y mira cómo cambia la tabla de
+             verdad hasta que coincide con el objetivo.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'nand', title: 'Taller de la NAND', text: 'construye NOT, AND y OR usando solo puertas NAND.', xp: 45 });
+        el.appendChild(m.root);
+        nandForge(el, { onWin: () => m.complete() });
+      },
+      after: confronto({
+        titolo: 'Puertas clásicas y puertas cuánticas',
+        livello: '03-porte',
+        vaiA: 'Ve a las puertas cuánticas (nivel 3)',
+        classico: {
+          titolo: 'Una puerta lógica',
+          html: `<p>Coge <b>dos bits</b> y devuelve <b>uno</b>. Un bit desaparece en cada puerta: de 00, 01 o 10
+                 sale siempre 0, y mirando la salida ya no sabes de dónde venías.</p>
+                 <p>Hay un conjunto universal: <b>NAND</b> sola basta para todo.</p>`,
+        },
+        quantistico: {
+          titolo: 'Una puerta cuántica',
+          html: `<p>Coge n cúbits y devuelve <b>n</b>: no se pierde nada, y cada puerta se puede <b>rehacer hacia
+                 atrás</b>. No es una elección de estilo — la física no permite otra cosa (nivel K·6).</p>
+                 <p>También aquí hay conjuntos universales (por ejemplo H, T y CNOT), y valen por el mismo motivo:
+                 pocos ladrillos, combinados, hacen todo lo demás.</p>`,
+        },
+        numeri: [
+          { cosa: 'bits/cúbits de entrada y de salida', classico: '2 → 1', quantistico: 'n → n' },
+          { cosa: '¿se puede volver atrás?', classico: 'no (salvo NOT)', quantistico: 'siempre' },
+          { cosa: 'conjunto universal', classico: '{ NAND }', quantistico: '{ H, T, CNOT }' },
+        ],
+        verdetto: `<b>La diferencia no es la potencia, es la conservación.</b> Una puerta clásica puede tirar
+                   información; una puerta cuántica no, nunca. De esa restricción — que parece una limitación —
+                   nace todo lo que lo cuántico sabe hacer de más.`,
+      }),
+    },
+    {
+      t: 'De las puertas al ordenador, en tres pasos',
+      html: `<p>Parece un salto enorme y en cambio es una escalera corta:</p>
+             <ol>
+               <li><b>Puertas → funciones.</b> Cualquier tabla de verdad, por grande que sea, se construye con
+                   AND, OR y NOT (basta escribir una línea de circuito por cada fila de la tabla que dé 1).</li>
+               <li><b>Funciones → memoria.</b> Dos NAND conectadas en anillo se guardan su propio estado:
+                   es un <b>latch</b>, el abuelo de la RAM. La memoria no es un componente distinto: es un
+                   circuito que se mira la cola.</li>
+               <li><b>Memoria + funciones → procesador.</b> Un bloque que sabe sumar y comparar (la ALU),
+                   registros para guardar los números, y un contador que dice qué instrucción toca.</li>
+             </ol>
+             <div class="callout warn"><b>El punto que casi todos se saltan:</b> un ordenador no «entiende» nada
+             y no prueba caminos. Hace correr corriente por una red de interruptores, una configuración cada vez,
+             miles de millones de veces por segundo. Cuando en el nivel 9 leas «el ordenador cuántico evalúa la
+             función sobre todas las entradas a la vez», acuérdate de esta línea: lo que cambia no es la
+             velocidad de los interruptores, es qué corre por los cables.</div>`,
+    },
+    {
+      t: '💡 Pruébalo tú',
+      html: `<div class="callout think">
+        <p><b>1.</b> En el juego, ¿qué puerta se comporta como «las dos entradas son <b>distintas</b>»? ¿Y cuál como «son iguales»?</p>
+        <p><b>2.</b> Prueba NAND(A, A) en el taller: ¿qué puerta sale? ¿Por qué?</p>
+        <p><b>3.</b> Con la puerta misteriosa: si tras tres preguntas has obtenido 1, 1, 1, ¿qué puertas siguen siendo posibles?</p>
+        <p class="mb0"><b>4.</b> De inventor: XOR tiene una propiedad curiosa — aplicada dos veces con la misma B, devuelve A tal cual. ¿Se te ocurre para qué puede servir? <span class="muted">(es el cifrado más simple que existe, y también el motivo por el que la CNOT cuántica es reversible)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'La puerta XOR da 1 cuando…',
+      options: ['las dos entradas son 1', 'las entradas son distintas entre sí', 'al menos una entrada es 1', 'las dos son 0'], correct: 1,
+      why: 'XOR = «uno sí y el otro no». Es también la suma binaria sin acarreo.' },
+    { q: '¿Qué quiere decir que NAND es una puerta universal?',
+      options: ['que es la más rápida', 'que solo con NAND se puede construir cualquier otra puerta', 'que es la única reversible', 'que consume menos corriente'], correct: 1,
+      why: 'NOT, AND, OR y XOR se construyen todas solo con NAND: por tanto cualquier circuito.' },
+    { q: '¿Cuántas pruebas hacen falta, como mínimo, para saber con certeza qué puerta de 2 entradas hay escondida en una caja negra?',
+      options: ['1', '2', '4', 'depende de la suerte'], correct: 2,
+      why: 'Las cuatro combinaciones de entrada: la caja responde a una pregunta cada vez.' },
+    { q: '¿Por qué una puerta AND clásica no se puede usar tal cual en un circuito cuántico?',
+      options: ['porque es demasiado lenta', 'porque tira información y no es reversible', 'porque necesita demasiada corriente', 'porque trabaja con bits y no con números'], correct: 1,
+      why: 'De una salida 0 no se puede volver a las entradas. Las puertas cuánticas deben ser reversibles: se usa Toffoli (nivel K·6).' },
+  ],
+
+  outro: `<div class="callout ok"><b>Lo que te llevas:</b> el cálculo clásico es una red de interruptores que
+          transforman bits, una pieza cada vez, tirando información en cada paso.
+          Siguiente nivel: juntamos estas puertas y les hacemos hacer lo más elemental que existe — una suma.</div>`,
+});
+@endsection

@@ -1,0 +1,183 @@
+@php($description = 'From 2 amplitudes to 4: the CNOT gate, the Bell recipe, the separability test and why entanglement is what makes classical simulation impossible.')
+
+@extends('layouts.lesson')
+
+@section('lesson')
+import { renderLesson } from '/js/core/lesson.js';
+import { twoQubitLab } from '/js/widgets/quantum2.js';
+import { confronto } from '/js/core/confronto.js';
+import { bellCoppia } from '/js/widgets/coppie.js';
+import { stepper, formula } from '/js/core/formula.js';
+
+const L = renderLesson({
+  id: '04-due-qubit',
+  lead: `With one qubit we had 2 amplitudes. With two qubits we have <b>4</b>, with three <b>8</b>, with n qubits <b>2^n</b>
+         (the powers of 2 from level 0·1!). And above all: a phenomenon appears that does not exist in the classical world,
+         <b>entanglement</b>.`,
+
+  steps: [
+    {
+      t: 'Classical first: two bits, and the correlations you can build',
+      html: `<p>Two classical bits have four configurations: 00, 01, 10, 11. The computer holds <b>one</b>.
+             Nothing new so far.</p>
+             <p>But the two bits can be <b>correlated</b>, and that works classically too. Put two identical
+             tickets into two envelopes — either both "0" or both "1" — shuffle them, and send one envelope to
+             Rome and one to Sydney. Whoever opens the one in Rome knows instantly what is in Sydney. Nothing
+             mysterious: <b>the information was already in the envelope</b> when it left.</p>
+             <p>And what envelopes <b>cannot</b> do can be measured, right now, with a game. Alice and Bob are
+             far apart and each receives a question; they win the round if their answers stand in a certain
+             relation to the questions. With any agreement made before separating you cannot pass <b>75%</b> of
+             rounds won — try them all. With an entangled pair you reach <b>85%</b>.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'bell', title: 'Passing 75%', text: 'play 100 rounds with the envelopes, then 100 with entanglement and pass 78%.', xp: 45 });
+        el.appendChild(m.root);
+        bellCoppia(el, { onWin: () => m.complete() });
+      },
+      after: `<p>That overtaking is the experiment that won the 2022 Nobel Prize in physics. From here on, when
+             you shortly read "the two entangled qubits always give the same result", you will know that is
+             <b>not</b> the surprising part: envelopes already do that.</p>` +
+             confronto({
+               titolo: 'Classical correlation and entanglement',
+               livello: 'k1-bit',
+               vaiA: 'Review bits (level K·1)',
+               classico: {
+                 titolo: 'Two sealed envelopes',
+                 html: `<p>The content is decided <b>at departure</b>. Opening one envelope tells you the other,
+                        but changes nothing: you are just reading something already written.</p>
+                        <p class="mb0">Classical correlations obey a precise limit (<b>Bell's inequalities</b>):
+                        certain combinations of measurements never exceed 75% agreement.</p>`,
+               },
+               quantistico: {
+                 titolo: 'Two entangled qubits',
+                 html: `<p>The content is <b>not decided</b> before the measurement — and that is not our
+                        ignorance, it has been demonstrated experimentally.</p>
+                        <p class="mb0">The same combinations of measurements reach <b>85%</b> agreement. That is
+                        the number that won the 2022 Nobel Prize in physics, and it is how you tell an envelope
+                        from an entanglement in the lab.</p>`,
+               },
+               numeri: [
+                 { cosa: 'possible configurations', classico: '4', quantistico: '4 amplitudes together' },
+                 { cosa: 'state decided before measurement', classico: 'yes', quantistico: 'no' },
+                 { cosa: 'maximum agreement in a Bell test', classico: '75%', quantistico: '~85% (measured)' },
+               ],
+               verdetto: `<b>"Correlated" is not enough to explain entanglement — envelopes are correlated.</b>
+                          What envelopes cannot do is pass 75%, and qubits do. From there on, no
+                          "classical but hidden" explanation survives.`,
+             }),
+    },
+    {
+      t: 'Two qubits = four possibilities',
+      html: `<p>If you have two coins, the possible results are four: HH, HT, TH, TT. With two qubits it is the same,
+             except that each possibility has its own <b>arrow</b>:</p>
+             <div class="formula">|ψ⟩ = <span class="hl-n">a</span>|00⟩ + <span class="hl-k">b</span>|01⟩ + <span class="hl-N">c</span>|10⟩ + <span class="hl-x">d</span>|11⟩
+             &nbsp;&nbsp; with &nbsp; |a|²+|b|²+|c|²+|d|² = 1</div>
+             <p class="dim small">Convention used throughout this course: in the notation |q₁q₀⟩ the qubit <b>q0</b> is the
+             rightmost one. So |10⟩ means "q1 is 1, q0 is 0".</p>
+             <p>If the two qubits are independent, the four amplitudes are obtained by <b>multiplying</b> the single ones
+             (it is called the <b>tensor product</b>, but it is just "all the combinations"):</p>
+             <pre><code>qubit A = a₀|0⟩ + a₁|1⟩        qubit B = b₀|0⟩ + b₁|1⟩
+
+together: a₀b₀|00⟩ + a₀b₁|01⟩ + a₁b₀|10⟩ + a₁b₁|11⟩
+          └── every combination: probability that A happens and B happens ──┘</code></pre>
+             <p>Exactly like "probability of two things together = you multiply" from level 0·4. Nothing new… yet.</p>`,
+    },
+    {
+      t: 'The CNOT gate: the first two-qubit gate',
+      html: `<p>CNOT ("controlled NOT") looks at one qubit (the <b>control</b>) and, <b>only if it is 1</b>, flips the other
+             (the <b>target</b>). As a table:</p>
+             <table class="table">
+               <tr><th>before</th><th>after</th><th>what happened</th></tr>
+               <tr><td class="mono">|00⟩</td><td class="mono">|00⟩</td><td>control 0 → nothing is touched</td></tr>
+               <tr><td class="mono">|01⟩</td><td class="mono">|11⟩</td><td>control 1 → flips the target</td></tr>
+               <tr><td class="mono">|10⟩</td><td class="mono">|10⟩</td><td>control 0 → nothing</td></tr>
+               <tr><td class="mono">|11⟩</td><td class="mono">|01⟩</td><td>control 1 → flips</td></tr>
+             </table>
+             <p class="dim small">(here the control is q0, the target q1)</p>
+             <div class="callout"><b>A note for programmers:</b> CNOT is <b>reversible</b> — apply it twice and you are back
+             at the start — and it can act as a "copy" for classical bits (if the target starts at 0, it ends up equal to the control).
+             This is the gate Fredkin and Toffoli used to show you can compute without destroying information.
+             <b>But careful:</b> it copies <i>bits</i>, not <i>quantum states</i>. On a superposition it does
+             something else entirely — and that "something else" is exactly entanglement.</div>`,
+    },
+    {
+      t: 'The Bell recipe: H + CNOT',
+      html: `<p>Now the big moment. In the game press, in sequence, <b>H q0</b> and then <b>CNOT q0→q1</b>.
+             Watch the amplitude bars and the two Bloch spheres.</p>`,
+      mount: (el, api) => {
+        const m = api.mission({ key: 'bell', title: 'Create a Bell state', text: 'press H q0 and then CNOT q0→q1: the separability test has to report "entangled".', xp: 50 });
+        el.appendChild(m.root);
+        twoQubitLab(el, { onEntangle: () => m.complete() });
+      },
+      after: `<div class="callout key"><b>What happened:</b> the state is <code>(|00⟩ + |11⟩)/√2</code>.
+              Only two possibilities: <b>both 0</b> or <b>both 1</b>, at 50%. Never 01, never 10.<br><br>
+              And the two Bloch spheres have <b>shrunk until they vanished</b>: taken on their own, the two qubits no longer have
+              any definite state at all. <b>The information is not in the parts: it is in the relationship between the parts.</b>
+              This is entanglement.</div>`,
+    },
+    {
+      t: 'How to spot entanglement (the actual sum)',
+      html: `<p>A two-qubit state is <b>separable</b> (= the two qubits are independent) if and only if it can be written
+             as a product of two single states. There is a very quick test:</p>
+             <div class="formula">a·d − b·c = 0 &nbsp;→&nbsp; separable &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             a·d − b·c ≠ 0 &nbsp;→&nbsp; <span class="hl-x">ENTANGLED</span></div>`,
+      mount: el => {
+        stepper(el, [
+          { h: 'Example 1', html: 'State <code>(|00⟩ + |01⟩)/√2</code> → a = b = 1/√2, c = d = 0.<br>a·d − b·c = 0 − 0 = <b>0</b> → separable. Indeed it is "q1 sits at 0, q0 is in superposition": two independent qubits.' },
+          { h: 'Example 2 (Bell)', html: 'State <code>(|00⟩ + |11⟩)/√2</code> → a = d = 1/√2, b = c = 0.<br>a·d − b·c = 1/2 − 0 = <b>1/2 ≠ 0</b> → <b>ENTANGLED</b>.' },
+          { h: 'Why the test works', html: 'If the state were a product, you would have a = a₀b₀, b = a₀b₁, c = a₁b₀, d = a₁b₁. Working out a·d you would get a₀b₀a₁b₁, and b·c would give a₀b₁a₁b₀: the same four factors! The difference would necessarily be zero.' },
+          { h: 'The physical consequence', html: 'If the state is entangled, measuring <b>one single</b> qubit gives a random result, but <b>instantly determines</b> the other one too. However far apart they are.' },
+          { h: 'The limit (important!)', html: 'This does NOT allow information to travel faster than light: whoever is on the other side sees only random results. They notice only by <b>comparing the results</b>, and comparing them takes an ordinary phone call. We come back to this at level 6.' },
+        ], { doneLabel: 'Test understood!' });
+      },
+    },
+    {
+      t: 'Why entanglement is the real resource',
+      html: `<p>Let us count the numbers needed to describe the state:</p>
+             <table class="table">
+               <tr><th>System</th><th>Classical description</th><th>Quantum description</th></tr>
+               <tr><td>2 separable qubits</td><td>2 + 2 numbers</td><td>2 + 2 numbers: describing them one by one is enough</td></tr>
+               <tr><td>2 entangled qubits</td><td>—</td><td><b>4 numbers</b>: there is no way to break it apart</td></tr>
+               <tr><td>50 entangled qubits</td><td>—</td><td><b>2⁵⁰ ≈ 10¹⁵ numbers</b></td></tr>
+             </table>
+             <div class="callout key">This is why simulating a quantum computer on an ordinary computer becomes
+             impossible so fast: at 50 qubits you would already have to hold a million billion complex numbers in memory.
+             <b>It is not superposition alone that makes classical computation hard: it is entanglement.</b>
+             (A state without entanglement, however superposed, simulates perfectly well on a laptop.)</div>
+             <p class="dim">A historical aside: it was exactly this impossibility that made Richard Feynman say, in 1981,
+             a sentence that founded the field: «Nature isn't classical, dammit, and if you want to make a simulation of nature,
+             you'd better make it quantum mechanical».</p>`,
+    },
+    {
+      t: '💡 Your turn',
+      html: `<div class="callout think">
+        <p><b>1.</b> Create the Bell state, then measure 200 times: how many times does 01 or 10 come up? <span class="muted">(zero — always)</span></p>
+        <p><b>2.</b> Try <b>H q0</b> and <b>H q1</b> (without CNOT): does the test say separable or entangled? Why,
+           if both are in superposition?</p>
+        <p><b>3.</b> After creating Bell, apply <b>Z q0</b>: do the probabilities change? And the state?
+           <span class="muted">(it becomes (|00⟩ − |11⟩)/√2: another Bell state, invisible to the probabilities)</span></p>
+        <p class="mb0"><b>4.</b> Can you "undo" the entanglement and get back to |00⟩? <span class="muted">(yes: CNOT then H — gates are reversible!)</span></p>
+      </div>`,
+    },
+  ],
+
+  quiz: [
+    { q: 'With 4 qubits, how many amplitudes describe the state?',
+      options: ['4', '8', '16', '32'], correct: 2,
+      why: '2⁴ = 16. Every added qubit doubles the number of amplitudes.' },
+    { q: 'The state (|00⟩ + |11⟩)/√2, when measured, gives…',
+      options: ['always 00', '00 or 11, at 50%, never 01 or 10', 'the four results equally likely', '01 or 10'], correct: 1,
+      why: 'The amplitudes of 01 and 10 are zero: those results never come up. The two qubits are perfectly correlated.' },
+    { q: 'What does CNOT do when the control is in superposition?',
+      options: ['half-flips the target', 'creates entanglement between the two qubits', 'measures the control', 'nothing'], correct: 1,
+      why: 'With a control in superposition, CNOT ties the two qubits together: the result can no longer be broken into two separate states.' },
+    { q: 'Why is simulating 50 entangled qubits on a PC impractical?',
+      options: ['because qubits are fast', 'because it would take 2⁵⁰ complex numbers in memory', 'because measurement is random', 'because the libraries are missing'], correct: 1,
+      why: 'About 10¹⁵ amplitudes: petabytes of memory just to write the state down. It is Feynman\'s observation that kicked off quantum computing.' },
+  ],
+
+  outro: `<div class="callout ok"><b>What you take home:</b> n qubits = 2^n amplitudes; CNOT ties qubits together;
+          an entangled state cannot be described qubit by qubit; entanglement — not superposition alone —
+          is what makes quantum computation hard to imitate. Now let us see what you <b>can</b> and <b>cannot</b>
+          do with it: no-cloning and teleportation.</div>`,
+});
+@endsection

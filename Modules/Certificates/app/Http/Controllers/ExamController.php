@@ -39,7 +39,7 @@ class ExamController extends Controller
     /**
      * La domanda nella lingua di chi la sta leggendo.
      *
-     * Le traduzioni viaggiano dentro la domanda (vedi dati/banca-esame-esempio.js)
+     * Le traduzioni viaggiano dentro la domanda (vedi data/exam-bank-sample.js)
      * e non in lang/*.json, per un motivo preciso: l'indice della risposta giusta
      * è uno solo per tutte le lingue, quindi le opzioni tradotte devono restare
      * nello stesso ordine di quelle italiane. Tenerle nello stesso record è ciò
