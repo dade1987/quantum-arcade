@@ -78,6 +78,8 @@ public_html/               DOCUMENT ROOT (nome imposto da Hostinger) — il gioc
     canvas.js  audio.js    motore grafico 2D + suoni arcade
     lesson.js  ui.js  formula.js
     i18n.js                lingua della pagina, t(), indirizzi delle altre versioni
+    glossario.js           i termini del corso (fonte di verità: pannello, definizioni
+                           al tocco e tabella del livello 23 leggono tutti da qui)
   js/i18n/en.js  es.js     i dizionari: la frase italiana è la chiave
   js/widgets/              i mini-giochi (uno o più per livello)
 
@@ -105,7 +107,7 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (114 test) + validatore + stato delle lingue
+npm test                 # motore del gioco (132 test) + validatore + stato delle lingue
 npm run test:coverage    # copertura del frontend
 npm run test:php         # 118 test dei moduli Laravel
 npm run test:php:coverage

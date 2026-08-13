@@ -1605,4 +1605,167 @@ export default {
     "… y otros :quanti (no caben en la pantalla)",
   "→ risposta: :risposta (la funzione era davvero <b>:vera</b>) :esito":
     "→ respuesta: :risposta (la función era de verdad <b>:vera</b>) :esito",
+
+  /* ---------------- glossary: panel, terms in the text ---------------- */
+  'Glossario': 'Glosario',
+  'Glossario — si apre anche col tasto G': 'Glosario — también se abre con la tecla G',
+  'sempre qui · tasto G': 'siempre aquí · tecla G',
+  'cerca un termine, o il numero di un livello…': 'busca un término, o el número de un nivel…',
+  'Cerca nel glossario': 'Buscar en el glosario',
+  'chiudi (Esc)': 'cerrar (Esc)',
+  'chiudi': 'cerrar',
+  'evidenzia i termini nel testo': 'resaltar los términos en el texto',
+  'mappa completa →': 'mapa completo →',
+  ':quanti termini': ':quanti términos',
+  ':trovati di :totale': ':trovati de :totale',
+  'Nessun termine con questa parola. Prova con una parola più corta, o chiedi al tutor 🎓.': 'Ningún término con esa palabra. Prueba con una más corta, o pregunta al tutor 🎓.',
+  'liv. :n': 'niv. :n',
+  'cosa vuol dire — tocca per la definizione': 'qué significa — toca para ver la definición',
+  'tutto il glossario': 'todo el glosario',
+  'Glossario dei termini': 'Glosario de términos',
+  'tienilo aperto mentre leggi — si apre anche col tasto <b>G</b>, da qualsiasi livello. Le parole <span class="gloss-t">sottolineate così</span> nel testo danno la definizione al tocco.': 'tenlo abierto mientras lees — también se abre con la tecla <b>G</b>, desde cualquier nivel. Las palabras <span class="gloss-t">subrayadas así</span> en el texto dan la definición con un toque.',
+  'Termine': 'Término',
+  'Che cosa significa (in italiano vero)': 'Qué significa (en castellano de verdad)',
+  'Livello': 'Nivel',
+
+  /* the A–Z entries: one source for the panel, the bubbles and level 23 */
+  'Ampiezza': 'Amplitud',
+  "Il numero (in generale una freccia complessa) associato a un possibile risultato. Il suo <b>quadrato</b> è la probabilità. Può essere negativa: da qui l'interferenza.":
+    'El número (en general una flecha compleja) asociado a un resultado posible. Su <b>cuadrado</b> es la probabilidad. Puede ser negativa: de ahí la interferencia.',
+  "Ampiezza (di un'onda)": 'Amplitud (de una onda)',
+  "Quanto è alta un'onda; nel suono è il volume.":
+    'Cómo de alta es una onda; en el sonido es el volumen.',
+  'Autostato / autovalore': 'Autoestado / autovalor',
+  "Stato che un'operazione lascia identico a parte una fase; quella fase è l'autovalore.":
+    'Estado que una operación deja idéntico salvo por una fase; esa fase es el autovalor.',
+  'Base di misura': 'Base de medida',
+  'La "direzione" lungo cui si misura. Misurare in base Z dà 0/1; in base X dà +/−. Non esiste uno stato certo in tutte le basi.':
+    'La "dirección" a lo largo de la cual se mide. Medir en base Z da 0/1; en base X da +/−. No existe un estado que sea seguro en todas las bases.',
+  'Bloch (sfera di)': 'Bloch (esfera de)',
+  'Mappa di tutti gli stati di un qubit: nord |0⟩, sud |1⟩, equatore le sovrapposizioni al 50%.':
+    'Mapa de todos los estados de un cúbit: norte |0⟩, sur |1⟩, ecuador las superposiciones al 50%.',
+  'Born (regola di)': 'Born (regla de)',
+  'Probabilità = |ampiezza|². Il ponte fra matematica e laboratorio.':
+    'Probabilidad = |amplitud|². El puente entre las matemáticas y el laboratorio.',
+  'Bra-ket': 'Bra-ket',
+  'Notazione |ψ⟩ per gli stati (ket) e ⟨ψ| per i "duali" (bra). È solo una scatola per dire "questo è uno stato".':
+    'Notación |ψ⟩ para los estados (ket) y ⟨ψ| para los "duales" (bra). Es solo una caja para decir "esto es un estado".',
+  'CNOT': 'CNOT',
+  'Porta a due qubit: ribalta il bersaglio solo se il controllo vale 1. Su una sovrapposizione crea entanglement.':
+    'Puerta de dos cúbits: da la vuelta al objetivo solo si el control vale 1. Sobre una superposición crea entrelazamiento.',
+  'Decoerenza': 'Decoherencia',
+  "L'ambiente \"misura\" involontariamente il sistema e distrugge le fasi. Il nemico numero uno dell'hardware.":
+    'El entorno "mide" involuntariamente el sistema y destruye las fases. El enemigo número uno del hardware.',
+  'Dense coding': 'Codificación densa',
+  'Mandare 2 bit classici trasmettendo 1 qubit, sfruttando entanglement già condiviso.':
+    'Mandar 2 bits clásicos transmitiendo 1 cúbit, aprovechando entrelazamiento ya compartido.',
+  'DFT': 'DFT',
+  'Trasformata di Fourier discreta: "ruota ogni dato e somma" per scoprire le periodicità.':
+    'Transformada discreta de Fourier: "rota cada dato y suma" para descubrir las periodicidades.',
+  'Diffusore': 'Difusor',
+  'In Grover: riflette le ampiezze attorno alla media, amplificando quella marcata.':
+    'En Grover: refleja las amplitudes alrededor de la media, amplificando la marcada.',
+  'Entanglement': 'Entrelazamiento',
+  "Stato di più qubit che non si può descrivere qubit per qubit: l'informazione sta nella relazione.":
+    'Estado de varios cúbits que no se puede describir cúbit a cúbit: la información está en la relación.',
+  'Fase': 'Fase',
+  "\"A che punto del giro sei\". Non cambia le probabilità, ma decide cosa si cancellerà. L'ingrediente segreto di tutto.":
+    '"En qué punto de la vuelta estás". No cambia las probabilidades, pero decide qué se cancelará. El ingrediente secreto de todo.',
+  'FFT': 'FFT',
+  'Algoritmo classico che calcola la DFT in N·log N invece di N² (dividi et impera).':
+    'Algoritmo clásico que calcula la DFT en N·log N en vez de N² (divide y vencerás).',
+  'Frequenza': 'Frecuencia',
+  'Quanti cicli al secondo (Hz). Inversa del periodo: f = 1/T.':
+    'Cuántos ciclos por segundo (Hz). Inversa del periodo: f = 1/T.',
+  'Grover': 'Grover',
+  'Ricerca in √N tentativi invece di N/2. Guadagno quadratico, valido per qualunque ricerca senza struttura.':
+    'Búsqueda en √N intentos en vez de N/2. Ganancia cuadrática, válida para cualquier búsqueda sin estructura.',
+  'Hadamard (H)': 'Hadamard (H)',
+  'La porta più importante: crea e disfa le sovrapposizioni. È lei che trasforma le fasi in probabilità osservabili.':
+    'La puerta más importante: crea y deshace las superposiciones. Es ella la que convierte las fases en probabilidades observables.',
+  'Interferenza': 'Interferencia',
+  'Le ampiezze si sommano prima del quadrato: quelle concordi si rinforzano, quelle opposte si annullano.':
+    'Las amplitudes se suman antes del cuadrado: las concordes se refuerzan, las opuestas se anulan.',
+  'Misura': 'Medida',
+  'Operazione irreversibile: sceglie un risultato a caso secondo |ampiezza|² e riscrive lo stato.':
+    'Operación irreversible: elige un resultado al azar según |amplitud|² y reescribe el estado.',
+  'No-cloning': 'No-clonación',
+  'Non esiste una macchina che copia uno stato quantistico sconosciuto.':
+    'No existe una máquina que copie un estado cuántico desconocido.',
+  'Numero complesso': 'Número complejo',
+  "Una freccia: lunghezza + angolo. e^{iθ} è la freccia lunga 1 all'angolo θ.":
+    'Una flecha: longitud + ángulo. e^{iθ} es la flecha de longitud 1 en el ángulo θ.',
+  'Oracolo': 'Oráculo',
+  "Scatola nera che marca con un segno meno gli stati che soddisfano una condizione: scrive l'informazione nelle fasi.":
+    'Caja negra que marca con un signo menos los estados que cumplen una condición: escribe la información en las fases.',
+  'Periodo': 'Periodo',
+  'Ogni quanto una cosa si ripete. T = 1/f.':
+    'Cada cuánto se repite una cosa. T = 1/f.',
+  'Phase kickback': 'Phase kickback',
+  'Il trucco per cui la fase generata da un oracolo "rimbalza" sul registro di controllo.':
+    'El truco por el que la fase generada por un oráculo "rebota" sobre el registro de control.',
+  'Porta (gate)': 'Puerta (gate)',
+  'Operazione reversibile (unitaria) su uno o più qubit: sulla sfera è sempre una rotazione.':
+    'Operación reversible (unitaria) sobre uno o más cúbits: en la esfera es siempre una rotación.',
+  'Post-quantistica (crittografia)': 'Poscuántica (criptografía)',
+  'Algoritmi classici resistenti a Shor e Grover; standardizzati dal NIST nel 2024.':
+    'Algoritmos clásicos resistentes a Shor y Grover; estandarizados por el NIST en 2024.',
+  'QFT': 'QFT',
+  'Trasformata di Fourier sulle ampiezze: n²/2 porte, trasforma periodicità in picchi.':
+    'Transformada de Fourier sobre las amplitudes: n²/2 puertas, convierte periodicidad en picos.',
+  'QPE': 'QPE',
+  'Stima di fase: copia una fase nei qubit di lettura e la rende misurabile con la QFT inversa.':
+    'Estimación de fase: copia una fase en los cúbits de lectura y la hace medible con la QFT inversa.',
+  'Qubit': 'Cúbit',
+  'Unità elementare: due ampiezze, una per |0⟩ e una per |1⟩.':
+    'Unidad elemental: dos amplitudes, una para |0⟩ y otra para |1⟩.',
+  'Shor': 'Shor',
+  'Fattorizzazione in tempo polinomiale, riducendo il problema alla ricerca di un periodo.':
+    'Factorización en tiempo polinómico, reduciendo el problema a la búsqueda de un periodo.',
+  'Sindrome (misura di)': 'Síndrome (medida de)',
+  "Misura che rivela <b>dove</b> è avvenuto un errore senza rivelare l'informazione codificata.":
+    'Medida que revela <b>dónde</b> ha ocurrido un error sin revelar la información codificada.',
+  'Sovrapposizione': 'Superposición',
+  'Stato in cui più risultati hanno ampiezza diversa da zero contemporaneamente.':
+    'Estado en el que varios resultados tienen amplitud distinta de cero a la vez.',
+  'SWAP': 'SWAP',
+  'Porta che scambia due qubit; chiude il circuito della QFT.':
+    'Puerta que intercambia dos cúbits; cierra el circuito de la QFT.',
+  'Teletrasporto': 'Teletransporte',
+  "Trasferire uno stato usando entanglement + 2 bit classici. L'originale viene distrutto.":
+    'Transferir un estado usando entrelazamiento + 2 bits clásicos. El original se destruye.',
+  'Unitaria (operazione)': 'Unitaria (operación)',
+  'Conserva la probabilità totale ed è reversibile: tutte le porte lo sono, la misura no.':
+    'Conserva la probabilidad total y es reversible: todas las puertas lo son, la medida no.',
+
+  /* other written forms of each term, used only to spot it in the text */
+  'ampiezze': 'amplitudes',
+  'autostati, autovalore, autovalori': 'autoestados, autovalor, autovalores',
+  'basi di misura, base Z, base X': 'bases de medida, base Z, base X',
+  'sfera di Bloch': 'esfera de Bloch',
+  'regola di Born': 'regla de Born',
+  'bra, ket': 'bra, ket',
+  'decoerente': 'decoherente',
+  'codifica densa': 'dense coding',
+  'trasformata di Fourier discreta': 'transformada discreta de Fourier',
+  'entangled, entangolati': 'entrelazados, entangled',
+  'fasi': 'fases',
+  'frequenze': 'frecuencias',
+  'Hadamard, porta H': 'Hadamard, puerta H',
+  'interferenze, interferire, interferiscono': 'interferencias, interferir, interfieren',
+  'misure, misurare, misurazione': 'medidas, medir, medición',
+  'teorema di no-cloning': 'teorema de no-clonación',
+  'numeri complessi': 'números complejos',
+  'oracoli': 'oráculos',
+  'periodi, periodicità': 'periodos, periodicidad',
+  'kickback': 'kickback',
+  'porte, porta quantistica, gate': 'puertas, puerta cuántica, gate',
+  'crittografia post-quantistica': 'criptografía poscuántica',
+  'trasformata di Fourier quantistica': 'transformada de Fourier cuántica',
+  'stima di fase': 'estimación de fase',
+  'algoritmo di Shor': 'algoritmo de Shor',
+  'misura di sindrome': 'síndrome, medida de síndrome',
+  'sovrapposizioni': 'superposiciones',
+  'teletrasportare': 'teletransportar',
+  'unitaria, unitarie, operazione unitaria': 'unitaria, unitarias, operación unitaria',
 };
