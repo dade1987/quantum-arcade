@@ -3473,4 +3473,87 @@ export default {
     "no agreement made beforehand beats 75%",
   "il tetto quantistico è cos²(22,5°) = 85,4%":
     "the quantum ceiling is cos²(22.5°) = 85.4%",
+  /* ---------------- livello M·8: successioni e limiti ---------------- */
+  "Successioni e limiti: cosa vuol dire davvero «tende a»":
+    "Sequences and limits: what «tends to» really means",
+  "Il gioco del corridoio, la banca che paga interessi immaginari — e la scoperta che «quanti tiri servono» era già la definizione di limite.":
+    "The corridor game, the bank that pays imaginary interest — and the discovery that «how many shots do I need» was already the definition of a limit.",
+  "Il gioco del corridoio":
+    "The corridor game",
+  "io stringo il corridoio, tu dimmi da che punto in poi la successione non esce più":
+    "I tighten the corridor, you tell me from which point on the sequence never leaves it",
+  "resta nel corridoio ±:e":
+    "stay inside the corridor ±:e",
+  "corridoi vinti: :fatte su :totali":
+    "corridors won: :fatte of :totali",
+  "limite :L":
+    "limit :L",
+  "da N in poi escono ancora :q termini":
+    "from N on, :q terms still get out",
+  "da N in poi non esce più nessuno":
+    "from N on, none of them gets out",
+  "questa non tende a niente":
+    "this one tends to nothing",
+  "da qui in poi":
+    "from here on",
+  "il più piccolo N che vince":
+    "the smallest N that wins",
+  "stringi il corridoio":
+    "tighten the corridor",
+  "La sfida è questa: io scelgo un corridoio largo <b>±:e</b> attorno al limite, tu trovi un <b>N</b> tale che da lì in poi la successione ci resti dentro <b>per sempre</b>. Se ci riesci per ogni corridoio, per quanto stretto, allora quella successione <b>tende</b> a quel numero. Questa è la definizione, tutta qui.":
+    "The challenge is this: I pick a corridor <b>±:e</b> wide around the limit, you find an <b>N</b> such that from there on the sequence stays inside <b>forever</b>. If you can do it for every corridor, however narrow, then that sequence <b>tends</b> to that number. That is the definition, all of it.",
+  "Questa non ha limite: qualunque N scegli, più avanti la successione torna a scappare. Non è che «non lo hai trovato»: non c'è.":
+    "This one has no limit: whatever N you pick, further on the sequence escapes again. It is not that «you have not found it»: there is none.",
+  "Qui l'N esiste, ma è <b>:m</b>: fuori da questo grafico. Non è un difetto del gioco — è che questa successione ci mette troppo. Con un corridoio così stretto serve una successione che scenda più in fretta.":
+    "Here the N exists, but it is <b>:m</b>: off this chart. It is not a flaw of the game — this sequence simply takes too long. With a corridor this narrow you need a sequence that falls faster.",
+  "Da N = :n in poi escono ancora :q termini. Sposta N più a destra.":
+    "From N = :n on, :q terms still get out. Move N further right.",
+  "✓ Da N = :n in poi la successione non esce più. Il minimo che bastava era <b>:m</b>.":
+    "✓ From N = :n on the sequence never gets out again. The smallest one that would do was <b>:m</b>.",
+  "Nella finestra che si vede non c'è: o la successione non tende a niente, o il corridoio è così stretto che N finisce fuori dal grafico.":
+    "It is not in the window you can see: either the sequence tends to nothing, or the corridor is so narrow that N falls off the chart.",
+  "<b>Questo gioco lo hai già giocato al livello :n.</b> Lì la domanda era «quanti tiri servono per stare sotto un certo errore», e la risposta era (σ/errore)². Ecco: quel numero È l'N di questo gioco, per la successione 1/√n. La definizione di limite non è un formalismo da matematici — è la stessa domanda che si fa chi deve decidere quante volte far girare un circuito.":
+    "<b>You have already played this game at level :n.</b> There the question was «how many shots to stay under a given error», and the answer was (σ/error)². Well: that number IS the N of this game, for the sequence 1/√n. The definition of a limit is not mathematicians' formalism — it is the same question asked by anyone deciding how many times to run a circuit.",
+  "La banca di Bernoulli":
+    "Bernoulli's bank",
+  "interesse del 100% spezzato in n rate: dove va a finire il capitale?":
+    "100% interest split into n instalments: where does the capital end up?",
+  "arriva a e a meno di :s":
+    "get within :s of e",
+  "porta la freccia sul cerchio":
+    "bring the arrow onto the circle",
+  "prove riuscite: :fatte su :totali":
+    "attempts succeeded: :fatte of :totali",
+  "rate: :n · capitale: :c":
+    "instalments: :n · capital: :c",
+  "più rate, più il capitale sale — ma non supera mai e":
+    "more instalments, more capital — but never past e",
+  "il cerchio dove il capitale non cresce":
+    "the circle where the capital does not grow",
+  "rate: :n · capitale: :a + :b i · lunghezza: :l":
+    "instalments: :n · capital: :a + :b i · length: :l",
+  "l'interesse immaginario non fa crescere il capitale: lo fa girare":
+    "imaginary interest does not grow the capital: it turns it",
+  "interesse vero":
+    "real interest",
+  "interesse immaginario":
+    "imaginary interest",
+  "in quante rate":
+    "in how many instalments",
+  "interesse immaginario θ":
+    "imaginary interest θ",
+  "Metti 1 in banca al 100% di interesse. Pagato in una volta sola diventa 2. Spezzato in <b>:n</b> rate diventa (1 + 1/:n)^:n = <b>:c</b>: ogni rata è più piccola, ma frutta anche lei.":
+    "Put 1 in the bank at 100% interest. Paid all at once it becomes 2. Split into <b>:n</b> instalments it becomes (1 + 1/:n)^:n = <b>:c</b>: each instalment is smaller, but it earns interest too.",
+  "Più si spezza, più si guadagna — ma sempre meno. Il capitale non scappa: si ferma a <b>e = 2,718281…</b>, e ne dista ancora :d.":
+    "The more you split it, the more you earn — but by less and less. The capital does not run away: it stops at <b>e = 2.718281…</b>, and it is still :d away.",
+  "Questo è un limite, ed è il primo numero della storia definito così: non «quanto fa», ma «dove va a finire».":
+    "This is a limit, and it is the first number in history defined this way: not «what it equals», but «where it ends up».",
+  "Stessa banca, ma l'interesse è <b>i·θ</b>: immaginario. Ogni rata moltiplica per (1 + iθ/n), e moltiplicare per un numero complesso vuol dire <b>allungare e girare</b> — solo che qui l'allungamento è quasi zero e il giro no.":
+    "Same bank, but the interest is <b>i·θ</b>: imaginary. Each instalment multiplies by (1 + iθ/n), and multiplying by a complex number means <b>stretch and turn</b> — except that here the stretching is almost zero and the turning is not.",
+  "Con <b>:n</b> rate il capitale è <b>:a + :b i</b>, lungo <b>:l</b>. Il punto giusto sul cerchio è (cos θ, sin θ), e ne dista :d.":
+    "With <b>:n</b> instalments the capital is <b>:a + :b i</b>, of length <b>:l</b>. The right point on the circle is (cos θ, sin θ), and it is :d away.",
+  "Ecco perché e^(iθ) è la freccia girata di θ e non un'altra cosa: è l'unico posto dove quel limite può andare a finire.":
+    "This is why e^(iθ) is the arrow turned by θ and not something else: it is the only place that limit can end up.",
+  "<b>Serve davvero, e non solo per essere pignoli.</b> Al livello :n si scrive e^(iθ) per «freccia girata di θ», e la giustificazione era che moltiplicando le frecce gli angoli si sommano. Quella è una somiglianza; questo è il conto. E lo stesso limite, con al posto di iθ una matrice, è il modo in cui un computer quantistico simula un sistema fisico: si spezza il tempo in n pezzetti e si applica n volte una porta quasi-identità.":
+    "<b>This is genuinely useful, not just fussy.</b> At level :n we write e^(iθ) for «arrow turned by θ», and the justification was that multiplying arrows adds the angles. That is a resemblance; this is the calculation. And the same limit, with a matrix in place of iθ, is how a quantum computer simulates a physical system: time is split into n little pieces and an almost-identity gate is applied n times.",
 };

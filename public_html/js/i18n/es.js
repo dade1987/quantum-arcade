@@ -3474,4 +3474,87 @@ export default {
     "ningún acuerdo tomado antes supera el 75%",
   "il tetto quantistico è cos²(22,5°) = 85,4%":
     "el techo cuántico es cos²(22,5°) = 85,4%",
+  /* ---------------- livello M·8: successioni e limiti ---------------- */
+  "Successioni e limiti: cosa vuol dire davvero «tende a»":
+    "Sucesiones y límites: qué quiere decir de verdad «tiende a»",
+  "Il gioco del corridoio, la banca che paga interessi immaginari — e la scoperta che «quanti tiri servono» era già la definizione di limite.":
+    "El juego del pasillo, el banco que paga intereses imaginarios — y el descubrimiento de que «cuántas tiradas hacen falta» ya era la definición de límite.",
+  "Il gioco del corridoio":
+    "El juego del pasillo",
+  "io stringo il corridoio, tu dimmi da che punto in poi la successione non esce più":
+    "yo aprieto el pasillo, tú dime a partir de qué punto la sucesión ya no sale",
+  "resta nel corridoio ±:e":
+    "quédate dentro del pasillo ±:e",
+  "corridoi vinti: :fatte su :totali":
+    "pasillos ganados: :fatte de :totali",
+  "limite :L":
+    "límite :L",
+  "da N in poi escono ancora :q termini":
+    "de N en adelante todavía salen :q términos",
+  "da N in poi non esce più nessuno":
+    "de N en adelante ya no sale ninguno",
+  "questa non tende a niente":
+    "esta no tiende a nada",
+  "da qui in poi":
+    "de aquí en adelante",
+  "il più piccolo N che vince":
+    "la N más pequeña que gana",
+  "stringi il corridoio":
+    "aprieta el pasillo",
+  "La sfida è questa: io scelgo un corridoio largo <b>±:e</b> attorno al limite, tu trovi un <b>N</b> tale che da lì in poi la successione ci resti dentro <b>per sempre</b>. Se ci riesci per ogni corridoio, per quanto stretto, allora quella successione <b>tende</b> a quel numero. Questa è la definizione, tutta qui.":
+    "El reto es este: yo elijo un pasillo de <b>±:e</b> de ancho alrededor del límite, tú encuentras una <b>N</b> tal que de ahí en adelante la sucesión se quede dentro <b>para siempre</b>. Si lo consigues para cada pasillo, por estrecho que sea, entonces esa sucesión <b>tiende</b> a ese número. Esta es la definición, toda entera.",
+  "Questa non ha limite: qualunque N scegli, più avanti la successione torna a scappare. Non è che «non lo hai trovato»: non c'è.":
+    "Esta no tiene límite: elijas la N que elijas, más adelante la sucesión vuelve a escaparse. No es que «no lo hayas encontrado»: no lo hay.",
+  "Qui l'N esiste, ma è <b>:m</b>: fuori da questo grafico. Non è un difetto del gioco — è che questa successione ci mette troppo. Con un corridoio così stretto serve una successione che scenda più in fretta.":
+    "Aquí la N existe, pero es <b>:m</b>: fuera de este gráfico. No es un defecto del juego — es que esta sucesión tarda demasiado. Con un pasillo así de estrecho hace falta una sucesión que baje más deprisa.",
+  "Da N = :n in poi escono ancora :q termini. Sposta N più a destra.":
+    "De N = :n en adelante todavía salen :q términos. Mueve N más a la derecha.",
+  "✓ Da N = :n in poi la successione non esce più. Il minimo che bastava era <b>:m</b>.":
+    "✓ De N = :n en adelante la sucesión ya no sale. La mínima que bastaba era <b>:m</b>.",
+  "Nella finestra che si vede non c'è: o la successione non tende a niente, o il corridoio è così stretto che N finisce fuori dal grafico.":
+    "En la ventana que se ve no está: o la sucesión no tiende a nada, o el pasillo es tan estrecho que la N acaba fuera del gráfico.",
+  "<b>Questo gioco lo hai già giocato al livello :n.</b> Lì la domanda era «quanti tiri servono per stare sotto un certo errore», e la risposta era (σ/errore)². Ecco: quel numero È l'N di questo gioco, per la successione 1/√n. La definizione di limite non è un formalismo da matematici — è la stessa domanda che si fa chi deve decidere quante volte far girare un circuito.":
+    "<b>Ya has jugado a este juego en el nivel :n.</b> Allí la pregunta era «cuántas tiradas hacen falta para quedar por debajo de cierto error», y la respuesta era (σ/error)². Pues bien: ese número ES la N de este juego, para la sucesión 1/√n. La definición de límite no es un formalismo de matemáticos — es la misma pregunta que se hace quien tiene que decidir cuántas veces ejecutar un circuito.",
+  "La banca di Bernoulli":
+    "El banco de Bernoulli",
+  "interesse del 100% spezzato in n rate: dove va a finire il capitale?":
+    "un interés del 100% partido en n plazos: ¿dónde acaba el capital?",
+  "arriva a e a meno di :s":
+    "llega a e a menos de :s",
+  "porta la freccia sul cerchio":
+    "lleva la flecha al círculo",
+  "prove riuscite: :fatte su :totali":
+    "intentos logrados: :fatte de :totali",
+  "rate: :n · capitale: :c":
+    "plazos: :n · capital: :c",
+  "più rate, più il capitale sale — ma non supera mai e":
+    "más plazos, más sube el capital — pero nunca pasa de e",
+  "il cerchio dove il capitale non cresce":
+    "el círculo donde el capital no crece",
+  "rate: :n · capitale: :a + :b i · lunghezza: :l":
+    "plazos: :n · capital: :a + :b i · longitud: :l",
+  "l'interesse immaginario non fa crescere il capitale: lo fa girare":
+    "el interés imaginario no hace crecer el capital: lo hace girar",
+  "interesse vero":
+    "interés de verdad",
+  "interesse immaginario":
+    "interés imaginario",
+  "in quante rate":
+    "en cuántos plazos",
+  "interesse immaginario θ":
+    "interés imaginario θ",
+  "Metti 1 in banca al 100% di interesse. Pagato in una volta sola diventa 2. Spezzato in <b>:n</b> rate diventa (1 + 1/:n)^:n = <b>:c</b>: ogni rata è più piccola, ma frutta anche lei.":
+    "Pon 1 en el banco al 100% de interés. Pagado de una sola vez se convierte en 2. Partido en <b>:n</b> plazos se convierte en (1 + 1/:n)^:n = <b>:c</b>: cada plazo es más pequeño, pero también renta.",
+  "Più si spezza, più si guadagna — ma sempre meno. Il capitale non scappa: si ferma a <b>e = 2,718281…</b>, e ne dista ancora :d.":
+    "Cuanto más se parte, más se gana — pero cada vez menos. El capital no se escapa: se para en <b>e = 2,718281…</b>, y todavía está a :d.",
+  "Questo è un limite, ed è il primo numero della storia definito così: non «quanto fa», ma «dove va a finire».":
+    "Esto es un límite, y es el primer número de la historia definido así: no «cuánto da», sino «dónde acaba».",
+  "Stessa banca, ma l'interesse è <b>i·θ</b>: immaginario. Ogni rata moltiplica per (1 + iθ/n), e moltiplicare per un numero complesso vuol dire <b>allungare e girare</b> — solo che qui l'allungamento è quasi zero e il giro no.":
+    "El mismo banco, pero el interés es <b>i·θ</b>: imaginario. Cada plazo multiplica por (1 + iθ/n), y multiplicar por un número complejo significa <b>estirar y girar</b> — solo que aquí el estiramiento es casi cero y el giro no.",
+  "Con <b>:n</b> rate il capitale è <b>:a + :b i</b>, lungo <b>:l</b>. Il punto giusto sul cerchio è (cos θ, sin θ), e ne dista :d.":
+    "Con <b>:n</b> plazos el capital es <b>:a + :b i</b>, de longitud <b>:l</b>. El punto correcto sobre el círculo es (cos θ, sin θ), y está a :d.",
+  "Ecco perché e^(iθ) è la freccia girata di θ e non un'altra cosa: è l'unico posto dove quel limite può andare a finire.":
+    "Por eso e^(iθ) es la flecha girada θ y no otra cosa: es el único sitio donde ese límite puede acabar.",
+  "<b>Serve davvero, e non solo per essere pignoli.</b> Al livello :n si scrive e^(iθ) per «freccia girata di θ», e la giustificazione era che moltiplicando le frecce gli angoli si sommano. Quella è una somiglianza; questo è il conto. E lo stesso limite, con al posto di iθ una matrice, è il modo in cui un computer quantistico simula un sistema fisico: si spezza il tempo in n pezzetti e si applica n volte una porta quasi-identità.":
+    "<b>Sirve de verdad, y no solo para ser puntillosos.</b> En el nivel :n se escribe e^(iθ) para «flecha girada θ», y la justificación era que multiplicando flechas los ángulos se suman. Eso es un parecido; esto es la cuenta. Y el mismo límite, con una matriz en lugar de iθ, es la forma en que un ordenador cuántico simula un sistema físico: se parte el tiempo en n trocitos y se aplica n veces una puerta casi idéntica a la identidad.",
 };

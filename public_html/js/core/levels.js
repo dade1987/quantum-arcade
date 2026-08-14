@@ -49,6 +49,7 @@ const SLUG = {
   'm5-operatori': { en: 'm5-operators', es: 'm5-operadores' },
   'm6-tensore': { en: 'm6-tensor-product', es: 'm6-producto-tensorial' },
   'm7-probabilita': { en: 'm7-probability', es: 'm7-probabilidad' },
+  'm8-limiti': { en: 'm8-limits', es: 'm8-limites' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -205,6 +206,10 @@ export const LEVELS = [
   { id: 'm7-probabilita', part: 'M', n: 'M·7', open: true,
     title: t('Probabilità sul serio: media, errore, e la prova che il mondo non è classico'),
     desc: t('Perché un decimale in più costa cento volte le misure, come si aggiorna quello che si crede, e il test di Bell — quello del Nobel 2022 — giocato con le mani.'), xp: 100 },
+
+  { id: 'm8-limiti', part: 'M', n: 'M·8', open: true,
+    title: t('Successioni e limiti: cosa vuol dire davvero «tende a»'),
+    desc: t('Il gioco del corridoio, la banca che paga interessi immaginari — e la scoperta che «quanti tiri servono» era già la definizione di limite.'), xp: 95 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

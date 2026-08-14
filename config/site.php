@@ -404,6 +404,27 @@ return [
             ],
         ],
         [
+            'id' => 'm8-limiti',
+            'n' => 'M·8',
+            'part' => 'M',
+            'xp' => 95,
+            'slug' => [
+                'it' => 'm8-limiti',
+                'en' => 'm8-limits',
+                'es' => 'm8-limites',
+            ],
+            'title' => [
+                'it' => 'Successioni e limiti: cosa vuol dire davvero «tende a»',
+                'en' => 'Sequences and limits: what «tends to» really means',
+                'es' => 'Sucesiones y límites: qué quiere decir de verdad «tiende a»',
+            ],
+            'description' => [
+                'it' => 'Il gioco del corridoio, la banca che paga interessi immaginari — e la scoperta che «quanti tiri servono» era già la definizione di limite.',
+                'en' => 'The corridor game, the bank that pays imaginary interest — and the discovery that «how many shots do I need» was already the definition of a limit.',
+                'es' => 'El juego del pasillo, el banco que paga intereses imaginarios — y el descubrimiento de que «cuántas tiradas hacen falta» ya era la definición de límite.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',
