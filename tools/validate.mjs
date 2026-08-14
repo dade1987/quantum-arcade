@@ -608,6 +608,11 @@ const A_PAROLE = {
     29: 'ventinove', 30: 'trenta', 31: 'trentuno', 32: 'trentadue',
     33: 'trentatré', 34: 'trentaquattro', 35: 'trentacinque', 36: 'trentasei',
     37: 'trentasette', 38: 'trentotto', 39: 'trentanove', 40: 'quaranta',
+    41: 'quarantuno', 42: 'quarantadue', 43: 'quarantatré', 44: 'quarantaquattro',
+    45: 'quarantacinque', 46: 'quarantasei', 47: 'quarantasette', 48: 'quarantotto',
+    49: 'quarantanove', 50: 'cinquanta', 51: 'cinquantuno', 52: 'cinquantadue',
+    53: 'cinquantatré', 54: 'cinquantaquattro', 55: 'cinquantacinque', 56: 'cinquantasei',
+    57: 'cinquantasette', 58: 'cinquantotto', 59: 'cinquantanove', 60: 'sessanta',
   },
   en: {
     20: 'twenty', 21: 'twenty-one', 22: 'twenty-two', 23: 'twenty-three', 24: 'twenty-four',
@@ -615,6 +620,11 @@ const A_PAROLE = {
     29: 'twenty-nine', 30: 'thirty', 31: 'thirty-one', 32: 'thirty-two',
     33: 'thirty-three', 34: 'thirty-four', 35: 'thirty-five', 36: 'thirty-six',
     37: 'thirty-seven', 38: 'thirty-eight', 39: 'thirty-nine', 40: 'forty',
+    41: 'forty-one', 42: 'forty-two', 43: 'forty-three', 44: 'forty-four',
+    45: 'forty-five', 46: 'forty-six', 47: 'forty-seven', 48: 'forty-eight',
+    49: 'forty-nine', 50: 'fifty', 51: 'fifty-one', 52: 'fifty-two',
+    53: 'fifty-three', 54: 'fifty-four', 55: 'fifty-five', 56: 'fifty-six',
+    57: 'fifty-seven', 58: 'fifty-eight', 59: 'fifty-nine', 60: 'sixty',
   },
   es: {
     20: 'veinte', 21: 'veintiuno', 22: 'veintidós', 23: 'veintitrés', 24: 'veinticuatro',
@@ -622,6 +632,11 @@ const A_PAROLE = {
     29: 'veintinueve', 30: 'treinta', 31: 'treinta y uno', 32: 'treinta y dos',
     33: 'treinta y tres', 34: 'treinta y cuatro', 35: 'treinta y cinco', 36: 'treinta y seis',
     37: 'treinta y siete', 38: 'treinta y ocho', 39: 'treinta y nueve', 40: 'cuarenta',
+    41: 'cuarenta y uno', 42: 'cuarenta y dos', 43: 'cuarenta y tres', 44: 'cuarenta y cuatro',
+    45: 'cuarenta y cinco', 46: 'cuarenta y seis', 47: 'cuarenta y siete', 48: 'cuarenta y ocho',
+    49: 'cuarenta y nueve', 50: 'cincuenta', 51: 'cincuenta y uno', 52: 'cincuenta y dos',
+    53: 'cincuenta y tres', 54: 'cincuenta y cuatro', 55: 'cincuenta y cinco', 56: 'cincuenta y seis',
+    57: 'cincuenta y siete', 58: 'cincuenta y ocho', 59: 'cincuenta y nueve', 60: 'sesenta',
   },
 };
 /* "levels"/"niveles" compaiono anche in inglese e spagnolo: il conteggio va
@@ -635,24 +650,34 @@ const testi = [
   ...(existsSync(join(ROOT, 'Modules')) ? walk(join(ROOT, 'Modules'), n => n.endsWith('.php')) : []),
 ].filter(existsSync);
 
+/* Il numero e la parola "livelli" non sono per forza attaccati: la home
+   inglese diceva «Forty-two interactive levels», e l'aggettivo in mezzo è
+   bastato a far passare il controllo per mesi — mentre i livelli diventavano
+   cinquantacinque. Un aggettivo di mezzo si concede; due no, che a quel punto
+   la frase parla d'altro. */
+const AGG = '(?:\\s+[\\p{L}]+)?';
+
 for (const f of testi) {
   const src = readFileSync(f, 'utf8');
   let m;
-  const cifre = /(\d+)\s+(livelli|levels|niveles)\b/gi;
+  const cifre = new RegExp(`(\\d+)${AGG}\\s+(livelli|levels|niveles)\\b`, 'giu');
   while ((m = cifre.exec(src))) {
     // "livelli" non parla sempre del corso: la lezione sulla FFT dice "log₂8 = 3
     // livelli" di ricorsione. Sotto la decina non è mai un conteggio del corso,
     // e sopra non è mai altro — la soglia separa i due usi senza casi ambigui.
     if (Number(m[1]) < 10) continue;
     if (Number(m[1]) === N_LIVELLI) ok();
-    else err(rel(f), `dice "${m[1]} ${m[2]}" ma in levels.js ce ne sono ${N_LIVELLI}`);
+    else err(rel(f), `dice "${m[0].trim()}" ma in levels.js ce ne sono ${N_LIVELLI}`);
   }
   for (const [unita, lingua] of Object.entries(UNITA)) {
     const attesa = A_PAROLE[lingua][N_LIVELLI];
-    const parole = new RegExp(`\\b(${Object.values(A_PAROLE[lingua]).join('|')})\\s+${unita}\\b`, 'gi');
+    /* Senza la parola attesa il controllo non controllerebbe più niente, e lo
+       farebbe in silenzio: meglio un errore che dice di allungare la tabella. */
+    if (!attesa) { err('tools/validate.mjs', `A_PAROLE.${lingua} non arriva a ${N_LIVELLI}: allungala`); continue; }
+    const parole = new RegExp(`\\b(${Object.values(A_PAROLE[lingua]).join('|')})${AGG}\\s+${unita}\\b`, 'giu');
     while ((m = parole.exec(src))) {
       if (m[1].toLowerCase() === attesa) ok();
-      else err(rel(f), `dice "${m[1]} ${unita}" ma in levels.js ce ne sono ${N_LIVELLI} ("${attesa}")`);
+      else err(rel(f), `dice "${m[0].trim()}" ma in levels.js ce ne sono ${N_LIVELLI} ("${attesa}")`);
     }
   }
 }

@@ -35,8 +35,10 @@ export default {
   'Analista di Fourier': 'Analista de Fourier',
   'Ingegnere di circuiti': 'Ingeniero de circuitos',
   'Cacciatore di periodi': 'Cazador de periodos',
+  'Architetto della QFT': 'Arquitecto de la QFT',
   'Quantum Wizard': 'Quantum Wizard',
   'Inventore di algoritmi': 'Inventor de algoritmos',
+  'Gran maestro': 'Gran maestro',
 
   /* ---------------- títulos y resúmenes de los niveles ---------------- */
   'Numeri: negativi, metà, doppi, quadrati': 'Números: negativos, mitades, dobles, cuadrados',
@@ -140,8 +142,12 @@ export default {
   'superato': 'superado',
   'gioca': 'jugar',
   'chiuso': 'cerrado',
-  'Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli superati':
-    'Eres <b>:grado</b> · :xp XP · :fatti/:totali niveles superados',
+  'Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli del corso':
+    'Eres <b>:grado</b> · :xp XP · :fatti/:totali niveles del curso',
+  ':n facoltativi': ':n opcionales',
+  'Ultimi 7 giorni · livelli: :liv · ripassi: :rip · nei 7 giorni prima: :prima':
+    'Últimos 7 días · niveles: :liv · repasos: :rip · en los 7 días anteriores: :prima',
+  'prossimo grado: :grado': 'siguiente grado: :grado',
   ' — si comincia quando vuoi.': ' — se empieza cuando quieras.',
   'Continua — livello :n: :titolo': 'Continuar — nivel :n: :titolo',
   'Inizia dal livello 1': 'Empieza por el nivel 1',
@@ -298,7 +304,7 @@ export default {
   /* ---------------- red ---------------- */
   'Server non raggiungibile': 'Servidor no accesible',
   'Errore :codice': 'Error :codice',
-  'Punti esperienza': 'Puntos de experiencia',
+  'Avanzamento del corso': 'Avance del curso',
 
   /* ---------------- widgets, pantallas y el tutor ---------------- */
   "  DFT diretta : <span class=\"p\">:quante</span> moltiplicazioni":

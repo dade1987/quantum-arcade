@@ -121,7 +121,7 @@
     <span class="tag cyan">🎮 curso-videojuego gratuito en español</span>
     <h1 style="margin-top:14px">Aprende computación cuántica<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">jugando de verdad.</span></h1>
     <p class="lead">
-      Cuarenta y dos niveles interactivos que parten de las <b>matemáticas de secundaria</b>, pasan por las <b>ondas</b>
+      Cincuenta y cinco niveles interactivos que parten de las <b>matemáticas de secundaria</b>, pasan por las <b>ondas</b>
       (amplitud, frecuencia y fase: los tres mandos que bastan para describir una sinusoide — el periodo es la frecuencia
       del revés, T = 1/f) y llegan hasta la <b>transformada de Fourier cuántica</b> y el <b>algoritmo de Shor</b>.
       Cada fórmula está desmontada pieza a pieza, y cada pieza la puedes <b>tocar, arrastrar y romper</b>
@@ -137,6 +137,7 @@
     </div>
 
     <p id="progress-line" class="dim" style="font-size:15px"></p>
+    <p id="settimana" class="dim hidden" style="font-size:13px;margin-top:-6px"></p>
     <div class="btn-row" style="margin:18px 0 6px">
       <a class="btn primary" id="continue" href="{{ \App\Support\Site::lessonPath('01-qubit', $locale) }}">▶ Empezar</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('00-numeri', $locale) }}">🧮 Empiezo desde cero absoluto (Parte 0)</a>

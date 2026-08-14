@@ -126,7 +126,7 @@
     <span class="tag cyan">🇮🇹 corso-videogioco gratuito in italiano</span>
     <h1 style="margin-top:14px">Impara l'informatica quantistica<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">giocandoci davvero.</span></h1>
     <p class="lead">
-      Quarantadue livelli interattivi che partono dalle <b>basi di matematica delle medie</b>, passano dalle <b>onde</b>
+      Cinquantacinque livelli interattivi che partono dalle <b>basi di matematica delle medie</b>, passano dalle <b>onde</b>
       (ampiezza, frequenza e fase: le tre manopole che bastano a descrivere una sinusoide — il periodo è la frequenza
       girata al contrario, T = 1/f) e arrivano fino alla <b>trasformata di Fourier quantistica</b> e all'<b>algoritmo di Shor</b>.
       Ogni formula è smontata pezzo per pezzo e ogni pezzo lo puoi <b>toccare, trascinare e rompere</b>
@@ -142,6 +142,7 @@
     </div>
 
     <p id="progress-line" class="dim" style="font-size:15px"></p>
+    <p id="settimana" class="dim hidden" style="font-size:13px;margin-top:-6px"></p>
     <div class="btn-row" style="margin:18px 0 6px">
       <a class="btn primary" id="continue" href="{{ \App\Support\Site::lessonPath('01-qubit', $locale) }}">▶ Inizia</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('00-numeri', $locale) }}">🧮 Parto da zero zero (Parte 0)</a>

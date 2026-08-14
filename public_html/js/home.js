@@ -1,6 +1,6 @@
 /* Home: mappa dei livelli, blocchi di padronanza, ripasso spaziato. */
 
-import { LEVELS, PARTS, TOTAL_XP, rankFor, levelById, isMain, lessonHref } from './core/levels.js';
+import { LEVELS, PARTS, levelById, isMain, lessonHref } from './core/levels.js';
 import * as store from './core/store.js';
 import { h, langButton, languageHint } from './core/ui.js';
 import { sfx, wireSounds, soundButton } from './core/audio.js';
@@ -92,9 +92,21 @@ renderMap();
 function renderStatus() {
   const st = store.getState();
   const done = LEVELS.filter(l => store.isLessonDone(l.id)).length;
+  /* Il grado misura il corso; i livelli facoltativi superati si contano a
+     parte, così chi si fa tutta la matematica vede il proprio lavoro invece
+     di guardare una barra che non si muove. */
+  const extra = LEVELS.filter(l => !isMain(l) && store.isLessonDone(l.id)).length;
+  const dopo = store.prossimoGrado();
   document.getElementById('progress-line').innerHTML =
-    t('Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli superati', { grado: rankFor(st.xp).name, xp: st.xp, fatti: done, totali: LEVELS.length }) +
+    t('Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli del corso', {
+      grado: store.rank().name, xp: st.xp,
+      fatti: LEVELS.filter(l => isMain(l) && store.isLessonDone(l.id)).length,
+      totali: LEVELS.filter(isMain).length,
+    }) +
+    (extra ? ' · ' + t(':n facoltativi', { n: extra }) : '') +
+    (dopo ? ' · ' + t('prossimo grado: :grado', { grado: dopo.name }) : '') +
     (done === 0 ? t(' — si comincia quando vuoi.') : '');
+  renderSettimana(done);
   /* "Continua" punta sempre al percorso principale: le parti facoltative si
      scelgono, non si subiscono, e chi torna dopo una settimana vuole riprendere
      da dove si era fermato, non dal primo livello di ripasso che non ha fatto. */
@@ -105,6 +117,26 @@ function renderStatus() {
   cont.textContent = (done ? '▶ ' + t('Continua — livello :n: :titolo', { n: first.n, titolo: first.title }) : '▶ ' + t('Inizia dal livello 1'));
 }
 renderStatus();
+
+/* ---------------- il proprio ritmo ---------------- */
+
+/**
+ * «Ultimi 7 giorni» — il confronto è con la settimana scorsa, cioè con sé
+ * stessi. Non c'è una classifica, e non è una dimenticanza: le classifiche
+ * pubbliche aiutano chi sta in cima e scoraggiano chi sta in fondo, che è
+ * esattamente la persona per cui questo corso esiste. Il ragionamento per
+ * esteso, con le ricerche, sta nella pagina del metodo.
+ */
+function renderSettimana(done) {
+  const box = document.getElementById('settimana');
+  if (!box) return;
+  const s = store.settimana();
+  if (!done && !s.ripassi) { box.textContent = ''; box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+  box.innerHTML = t('Ultimi 7 giorni · livelli: :liv · ripassi: :rip · nei 7 giorni prima: :prima', {
+    liv: s.livelli, rip: s.ripassi, prima: s.prima,
+  }) + (s.livelli > s.prima && s.prima >= 0 && s.livelli > 0 ? ' 📈' : '');
+}
 
 /* ---------------- impostazioni ---------------- */
 
