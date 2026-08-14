@@ -10,7 +10,7 @@
      distanza crescente nel "Ripasso lampo" della home.
    ============================================================ */
 
-import { TOTAL_XP, rankFor, LEVELS, levelById } from './levels.js';
+import { TOTAL_XP, XP_CORSO, rankFor, nextRank, LEVELS, levelById, isMain } from './levels.js';
 import { sfx } from './audio.js';
 import { t } from './i18n.js';
 
@@ -108,7 +108,25 @@ export function getState() { return state; }
 export function subscribe(fn) { subs.add(fn); fn(state); return () => subs.delete(fn); }
 export function xp() { return state.xp; }
 export function totalXp() { return TOTAL_XP; }
-export function rank() { return rankFor(state.xp); }
+
+/**
+ * Quanta parte del CORSO è superata, da 0 a 1.
+ *
+ * Si contano gli XP dei livelli del percorso principale già padroneggiati,
+ * sul totale degli XP del percorso principale. Non gli XP guadagnati: quelli
+ * salgono anche ripassando, e un punteggio che sale ripassando è giusto (è il
+ * ripasso spaziato che va premiato) ma non è un avanzamento — se comandasse
+ * lui, la barra arriverebbe in fondo senza che il corso sia finito.
+ */
+function progressoDi(s) {
+  if (!XP_CORSO) return 0;
+  const fatti = LEVELS.reduce((tot, l) => tot + (isMain(l) && s.lessons[l.id]?.mastered ? l.xp : 0), 0);
+  return Math.min(1, fatti / XP_CORSO);
+}
+export function progresso() { return progressoDi(state); }
+export function rank() { return rankFor(progresso()); }
+/** Il grado successivo, o null se si è in cima. */
+export function prossimoGrado() { return nextRank(progresso()); }
 
 /** XP assegnati una sola volta per chiave. */
 export function award(key, amount, label) {
@@ -235,16 +253,16 @@ export function mountXpBar(host) {
   host.innerHTML = `
     <div class="xp-wrap">
       <span class="xp-label" data-rank></span>
-      <div class="xp-bar" role="progressbar" aria-label="${t('Punti esperienza')}"><div class="xp-fill" data-fill></div></div>
+      <div class="xp-bar" role="progressbar" aria-label="${t('Avanzamento del corso')}"><div class="xp-fill" data-fill></div></div>
       <span class="xp-label" data-xp></span>
     </div>`;
   const fill = host.querySelector('[data-fill]');
   const lab = host.querySelector('[data-xp]');
   const rk = host.querySelector('[data-rank]');
   subscribe(s => {
-    const pct = Math.min(100, (s.xp / TOTAL_XP) * 100);
+    const pct = progressoDi(s) * 100;
     fill.style.width = pct.toFixed(1) + '%';
     lab.textContent = `${s.xp} XP`;
-    rk.textContent = rankFor(s.xp).name;
+    rk.textContent = rankFor(progressoDi(s)).name;
   });
 }

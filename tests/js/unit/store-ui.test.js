@@ -2,6 +2,7 @@
 import { test, describe, before, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { Window } from 'happy-dom';
+import { LEVELS, RANKS, isMain } from '../../../public_html/js/core/levels.js';
 
 let store, ui, formula;
 
@@ -45,6 +46,35 @@ describe('store: XP e padronanza', () => {
     assert.equal(store.xp(), 0);
     assert.equal(store.rank().name, 'Curioso');
     assert.ok(store.totalXp() > 3000);
+  });
+
+  /* Il grado dice a che punto sei DEL CORSO. Gli XP no: salgono anche
+     ripassando, e ripassare deve pagare. Le due cose vanno tenute separate,
+     altrimenti si diventa «Inventore di algoritmi» a furia di ripassi. */
+  test('il grado segue i livelli superati, non gli XP guadagnati', () => {
+    const primaXp = store.xp();
+    assert.equal(store.progresso(), 0);
+
+    store.award('un-mucchio-di-punti', 99999);
+    assert.ok(store.xp() > primaXp + 9000);
+    assert.equal(store.progresso(), 0, 'gli XP da soli non fanno avanzare');
+    assert.equal(store.rank().name, 'Curioso');
+
+    store.completeLesson('01-qubit');
+    assert.ok(store.progresso() > 0, 'un livello del corso invece sì');
+  });
+
+  test('i livelli facoltativi danno XP ma non avanzamento di corso', () => {
+    store.completeLesson('m1-polinomi');
+    assert.ok(store.xp() > 0, 'la Parte M paga in XP');
+    assert.equal(store.progresso(), 0, 'ma non è il corso');
+  });
+
+  test('finire tutto il corso porta al grado massimo, e non oltre', () => {
+    for (const l of LEVELS.filter(isMain)) store.completeLesson(l.id);
+    assert.equal(store.progresso(), 1);
+    assert.equal(store.rank().name, RANKS.at(-1).name);
+    assert.equal(store.prossimoGrado(), null);
   });
 
   test('award assegna una sola volta per chiave', () => {
@@ -439,6 +469,9 @@ describe('store: funzioni residue', () => {
     store.mountXpBar(host);
     store.award('nuovo-xp', 300, 'prova');
     assert.ok(host.querySelector('[data-rank]').textContent.length > 0);
+    assert.match(host.querySelector('[data-xp]').textContent, /300 XP/, 'gli XP si vedono subito');
+    assert.equal(parseFloat(host.querySelector('.xp-fill').style.width), 0, 'ma la barra è il corso');
+    store.completeLesson('01-qubit');
     assert.ok(parseFloat(host.querySelector('.xp-fill').style.width) > 0);
   });
 });

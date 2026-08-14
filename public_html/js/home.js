@@ -1,6 +1,6 @@
 /* Home: mappa dei livelli, blocchi di padronanza, ripasso spaziato. */
 
-import { LEVELS, PARTS, TOTAL_XP, rankFor, levelById, isMain, lessonHref } from './core/levels.js';
+import { LEVELS, PARTS, levelById, isMain, lessonHref } from './core/levels.js';
 import * as store from './core/store.js';
 import { h, langButton, languageHint } from './core/ui.js';
 import { sfx, wireSounds, soundButton } from './core/audio.js';
@@ -92,8 +92,19 @@ renderMap();
 function renderStatus() {
   const st = store.getState();
   const done = LEVELS.filter(l => store.isLessonDone(l.id)).length;
+  /* Il grado misura il corso; i livelli facoltativi superati si contano a
+     parte, così chi si fa tutta la matematica vede il proprio lavoro invece
+     di guardare una barra che non si muove. */
+  const extra = LEVELS.filter(l => !isMain(l) && store.isLessonDone(l.id)).length;
+  const dopo = store.prossimoGrado();
   document.getElementById('progress-line').innerHTML =
-    t('Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli superati', { grado: rankFor(st.xp).name, xp: st.xp, fatti: done, totali: LEVELS.length }) +
+    t('Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli del corso', {
+      grado: store.rank().name, xp: st.xp,
+      fatti: LEVELS.filter(l => isMain(l) && store.isLessonDone(l.id)).length,
+      totali: LEVELS.filter(isMain).length,
+    }) +
+    (extra ? ' · ' + t(':n facoltativi', { n: extra }) : '') +
+    (dopo ? ' · ' + t('prossimo grado: :grado', { grado: dopo.name }) : '') +
     (done === 0 ? t(' — si comincia quando vuoi.') : '');
   /* "Continua" punta sempre al percorso principale: le parti facoltative si
      scelgono, non si subiscono, e chi torna dopo una settimana vuole riprendere

@@ -400,8 +400,9 @@ export const TOTAL_XP = LEVELS.reduce((s, l) => s + l.xp, 0);
 /* Parti FACOLTATIVE: si giocano quando si vuole, non sbloccano niente e non
    vengono sbloccate da niente.
 
-   Sono due, e per lo stesso motivo: contengono i prerequisiti, non il corso.
-   La Parte 0 è la matematica delle medie, la Parte K è il computer classico.
+   Sono tre, e per lo stesso motivo: contengono i prerequisiti, non il corso.
+   La Parte 0 è la matematica delle medie, la Parte M è quella delle superiori
+   e del primo anno di università, la Parte K è il computer classico.
    Chi le sa già le salta senza pagare pegno; chi ha dei buchi ci torna nel
    momento in cui il buco si fa sentire — che è il momento in cui si impara
    davvero, e non due settimane prima "perché è nel programma".
@@ -409,10 +410,14 @@ export const TOTAL_XP = LEVELS.reduce((s, l) => s + l.xp, 0);
    Tenerle fuori dalla catena ha anche un effetto pratico che vale da solo:
    una parte nuova aggiunta qui in mezzo non richiude i livelli a chi era già
    a metà corso. */
-export const OPTIONAL_PARTS = ['0', 'K'];
+export const OPTIONAL_PARTS = ['0', 'K', 'M'];
 
 /** Un livello del percorso principale, cioè quello che va superato in ordine. */
 export const isMain = l => !OPTIONAL_PARTS.includes(l.part);
+
+/* Gli XP del solo corso: è il denominatore dei gradi e della barra.
+   Cresce da sé quando si aggiunge un livello — che è tutto il punto. */
+export const XP_CORSO = LEVELS.filter(isMain).reduce((s, l) => s + l.xp, 0);
 
 /* Prerequisiti: ogni livello del percorso principale richiede la PADRONANZA
    del precedente. Parti facoltative e livello 1 sono sempre aperti. */
@@ -440,20 +445,55 @@ export function neighbours(id) {
   return { prev: i > 0 ? LEVELS[i - 1] : null, next: i >= 0 && i < LEVELS.length - 1 ? LEVELS[i + 1] : null };
 }
 
+/* ============================================================
+   I GRADI — proporzionali, non a soglie fisse.
+
+   La soglia non è un numero di XP ma una FRAZIONE del corso: 0.33 vuol dire
+   «un terzo del percorso principale superato», qualunque sia oggi la lunghezza
+   del percorso. Due motivi, tutti e due concreti.
+
+   1) Gli XP non sono limitati. Il ripasso spaziato paga 5 XP a ogni domanda
+      rifatta, e deve pagarli — è la pratica distribuita, cioè la cosa che fa
+      restare le nozioni. Ma con le soglie fisse bastava macinare ripassi per
+      diventare «Inventore di algoritmi» senza aver mai visto Shor: il grado
+      misurava il tempo passato sul sito, non quello che si sa fare.
+   2) Il corso cresce. Con le soglie fisse l'ultimo grado arrivava a 3400 XP:
+      quando i livelli erano una ventina era la fine del percorso, oggi è poco
+      più di metà strada, e tutta la seconda metà del corso non dava più nulla.
+      Scritte in frazioni le soglie si riscalano da sole a ogni livello nuovo.
+
+   Le parti facoltative danno XP ma non gradi, ed è una scelta di onestà: un
+   grado dice a che punto sei DEL CORSO, e il corso è il percorso principale.
+   Il lavoro fatto sulla matematica si vede lo stesso — negli XP e nel
+   conteggio «superati» di ogni parte, sulla mappa.
+
+   I nomi sono agganciati a quello che si sa fare davvero a quel punto:
+   «Analista di Fourier» arriva dopo il livello 15, non prima.
+   ============================================================ */
 export const RANKS = [
-  { xp: 0,    name: t('Curioso') },
-  { xp: 200,  name: t('Domatore di qubit') },
-  { xp: 500,  name: t('Signore delle frecce') },
-  { xp: 900,  name: t('Cacciatore di interferenze') },
-  { xp: 1400, name: t('Analista di Fourier') },
-  { xp: 1900, name: t('Ingegnere di circuiti') },
-  { xp: 2400, name: t('Cacciatore di periodi') },
-  { xp: 2900, name: t('Quantum Wizard') },
-  { xp: 3400, name: t('Inventore di algoritmi') },
+  { q: 0.00, name: t('Curioso') },
+  { q: 0.05, name: t('Domatore di qubit') },
+  { q: 0.14, name: t('Ingegnere di circuiti') },
+  { q: 0.23, name: t('Signore delle frecce') },
+  { q: 0.33, name: t('Cacciatore di interferenze') },
+  { q: 0.44, name: t('Analista di Fourier') },
+  { q: 0.58, name: t('Architetto della QFT') },
+  { q: 0.72, name: t('Cacciatore di periodi') },
+  { q: 0.80, name: t('Quantum Wizard') },
+  { q: 0.88, name: t('Inventore di algoritmi') },
+  { q: 1.00, name: t('Gran maestro') },
 ];
 
-export function rankFor(xp) {
+/** Il grado corrispondente a una frazione di corso superata (0…1). */
+export function rankFor(frazione) {
+  const f = Number.isFinite(frazione) ? frazione : 0;
   let r = RANKS[0];
-  for (const c of RANKS) if (xp >= c.xp) r = c;
+  for (const c of RANKS) if (f >= c.q) r = c;
   return r;
+}
+
+/** Il grado successivo, o null se si è in cima. Serve a dire quanto manca. */
+export function nextRank(frazione) {
+  const f = Number.isFinite(frazione) ? frazione : 0;
+  return RANKS.find(c => f < c.q) || null;
 }

@@ -7,7 +7,7 @@ import {
   signal, fromArray, N_of, dft, dftTerms, fft, magnitudes, phases,
   synth, sampleFn, winding, costs,
 } from '../../../public_html/js/core/dsp.js';
-import { LEVELS, PARTS, TOTAL_XP, levelById, neighbours, rankFor, RANKS } from '../../../public_html/js/core/levels.js';
+import { LEVELS, PARTS, TOTAL_XP, XP_CORSO, levelById, neighbours, rankFor, nextRank, RANKS, isMain, OPTIONAL_PARTS } from '../../../public_html/js/core/levels.js';
 
 const vicino = (a, b, t = 1e-9) => Math.abs(a - b) < t;
 
@@ -197,11 +197,59 @@ describe('mappa dei livelli', () => {
     assert.equal(TOTAL_XP, LEVELS.reduce((s, l) => s + l.xp, 0));
   });
 
-  test('rankFor sale con gli XP e non scende mai', () => {
+  test('i gradi sono frazioni del corso, crescenti, da 0 a 1', () => {
+    assert.equal(RANKS[0].q, 0);
+    assert.equal(RANKS.at(-1).q, 1);
+    let prima = -1;
+    for (const r of RANKS) { assert.ok(r.q > prima, `${r.name} non sale`); prima = r.q; }
+  });
+
+  test('rankFor sale con la frazione di corso e non scende mai', () => {
     assert.equal(rankFor(0).name, RANKS[0].name);
     assert.equal(rankFor(-5).name, RANKS[0].name);
+    assert.equal(rankFor(NaN).name, RANKS[0].name);
+    assert.equal(rankFor(1).name, RANKS.at(-1).name);
     assert.equal(rankFor(99999).name, RANKS.at(-1).name);
-    let prima = -1;
-    for (const r of RANKS) { assert.ok(r.xp > prima); prima = r.xp; }
+    let prima = RANKS[0];
+    for (let f = 0; f <= 1.0001; f += 0.01) {
+      const r = rankFor(f);
+      assert.ok(RANKS.indexOf(r) >= RANKS.indexOf(prima), 'il grado è tornato indietro');
+      prima = r;
+    }
+  });
+
+  test('nextRank indica il gradino dopo, e in cima non c’è più niente', () => {
+    assert.equal(nextRank(0).name, RANKS[1].name);
+    assert.equal(nextRank(RANKS[1].q - 0.001).name, RANKS[1].name);
+    assert.equal(nextRank(RANKS[1].q).name, RANKS[2].name);
+    assert.equal(nextRank(1), null);
+  });
+
+  /* Il motivo per cui i gradi sono frazioni: il corso cresce. Qui si verifica
+     che l'ultimo grado resti irraggiungibile senza finire il corso, e che il
+     penultimo arrivi comunque prima della fine — con QUALUNQUE lunghezza. */
+  test('l’ultimo grado richiede tutto il corso, il penultimo no', () => {
+    const main = LEVELS.filter(isMain);
+    const tot = main.reduce((s, l) => s + l.xp, 0);
+    assert.equal(tot, XP_CORSO);
+    let acc = 0, penultimoRaggiunto = false;
+    for (const l of main.slice(0, -1)) {
+      acc += l.xp;
+      assert.notEqual(rankFor(acc / tot).name, RANKS.at(-1).name, 'grado massimo prima della fine');
+      if (rankFor(acc / tot).name === RANKS.at(-2).name) penultimoRaggiunto = true;
+    }
+    assert.ok(penultimoRaggiunto, 'il penultimo grado non si raggiunge mai');
+  });
+
+  /* Le parti facoltative non possono, da sole, portare in cima: se un giorno
+     la matematica pesasse più del corso, un grado smetterebbe di dire
+     «a che punto sei del corso». */
+  test('le parti facoltative stanno fuori dalla catena e dal denominatore', () => {
+    assert.ok(OPTIONAL_PARTS.includes('M'), 'la Parte M è facoltativa');
+    for (const l of LEVELS.filter(l => !isMain(l))) {
+      assert.equal(l.req, null, `${l.n} non deve avere prerequisiti`);
+      assert.ok(l.open, `${l.n} deve essere sempre aperto`);
+    }
+    assert.ok(XP_CORSO > TOTAL_XP - XP_CORSO, 'il corso deve pesare più delle parti facoltative');
   });
 });

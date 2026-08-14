@@ -34,8 +34,10 @@ export default {
   'Analista di Fourier': 'Fourier analyst',
   'Ingegnere di circuiti': 'Circuit engineer',
   'Cacciatore di periodi': 'Period hunter',
+  'Architetto della QFT': 'QFT architect',
   'Quantum Wizard': 'Quantum Wizard',
   'Inventore di algoritmi': 'Algorithm inventor',
+  'Gran maestro': 'Grandmaster',
 
   /* ---------------- level titles and blurbs ---------------- */
   'Numeri: negativi, metà, doppi, quadrati': 'Numbers: negatives, halves, doubles, squares',
@@ -139,8 +141,10 @@ export default {
   'superato': 'passed',
   'gioca': 'play',
   'chiuso': 'locked',
-  'Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli superati':
-    'You are a <b>:grado</b> · :xp XP · :fatti/:totali levels passed',
+  'Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli del corso':
+    'You are a <b>:grado</b> · :xp XP · :fatti/:totali course levels',
+  ':n facoltativi': ':n optional ones',
+  'prossimo grado: :grado': 'next rank: :grado',
   ' — si comincia quando vuoi.': ' — start whenever you like.',
   'Continua — livello :n: :titolo': 'Continue — level :n: :titolo',
   'Inizia dal livello 1': 'Start from level 1',
@@ -297,7 +301,7 @@ export default {
   /* ---------------- network ---------------- */
   'Server non raggiungibile': 'Server unreachable',
   'Errore :codice': 'Error :codice',
-  'Punti esperienza': 'Experience points',
+  'Avanzamento del corso': 'Course progress',
 
   /* ---------------- widgets, screens and the tutor ---------------- */
   "  DFT diretta : <span class=\"p\">:quante</span> moltiplicazioni":
