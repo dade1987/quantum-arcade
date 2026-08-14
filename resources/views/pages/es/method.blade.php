@@ -237,7 +237,7 @@ y referida a la <b>tarea</b>, no a la persona. De ahí tres añadidos, presentes
 <p>Pedir un registro es fricción, y la fricción hace perder gente: sería más cómodo para todos hacer correr
 todo en el navegador. Dos razones lo convierten igualmente en la decisión correcta:</p>
 <ul>
-  <li><b>el progreso no debe morir con la caché.</b> Un curso de 36 niveles se hace en varias sesiones y a menudo en varios
+  <li><b>el progreso no debe morir con la caché.</b> Un curso de 37 niveles se hace en varias sesiones y a menudo en varios
       dispositivos: perderlo todo por una limpieza del navegador es la forma más tonta de abandonar;</li>
   <li><b>el certificado tiene que valer algo.</b> Las preguntas del examen llegan del servidor <b>sin</b> las respuestas correctas
       y la corrección ocurre en el servidor: si el estado viviera en el navegador, cualquiera podría asignarse el 100%
@@ -283,7 +283,7 @@ Me parece honesto declarar qué palancas estoy usando, para que puedas valorarla
   <tr><td><b>Progreso regalado</b></td><td>Nunes &amp; Drèze (2006)</td>
       <td>la Parte 0 ya es "camino recorrido" para quien conoce las bases: se parte de una barra que no está vacía</td></tr>
   <tr><td><b>Prueba social</b></td><td>Cialdini</td>
-      <td>números <b>reales</b>: 8 organizaciones en las que he enseñado, 36 niveles, más de 300 pruebas automáticas. Ningún "10.000 alumnos felices" inventado</td></tr>
+      <td>números <b>reales</b>: 8 organizaciones en las que he enseñado, 37 niveles, más de 300 pruebas automáticas. Ningún "10.000 alumnos felices" inventado</td></tr>
   <tr><td><b>Reciprocidad</b></td><td>Cialdini</td>
       <td>el curso completo es gratuito y sigue siéndolo: la petición de contacto llega después, y solo si te ha servido</td></tr>
   <tr><td><b>Reducción de la fricción</b></td><td>modelo de Fogg (B = MAP)</td>

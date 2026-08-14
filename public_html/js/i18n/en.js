@@ -2381,4 +2381,104 @@ export default {
     "A table of numbers that turns one arrow into another. Its columns say where the basis arrows land: from those you can work out where any other arrow lands.",
   "matrici, matrice 2×2":
     "matrices, 2×2 matrix",
+  /* ---------------- livello 18·b: autovettori e autovalori ---------------- */
+  "<b>I nomi:</b> una freccia che la macchina lascia in linea con sé stessa si chiama <b>autovettore</b>; il numero per cui viene moltiplicata si chiama <b>autovalore</b>. Sono le due parole che aprono il livello :n — e la rotazione, che di autovettori reali non ne ha nessuno, spiega da sola perché nel quantistico gli autovalori sono <b>fasi</b> e non allungamenti.":
+    "<b>The names:</b> an arrow the machine leaves in line with itself is called an <b>eigenvector</b>; the number it gets multiplied by is called the <b>eigenvalue</b>. They are the two words level :n opens with — and the rotation, which has no real eigenvectors at all, explains on its own why in the quantum world eigenvalues are <b>phases</b> and not stretches.",
+  "<b>Questa è la stima di fase, fatta a mano.</b> Tu hai contato le applicazioni una per una: sono tante quante il denominatore della frazione di giro. Il livello :n fa la stessa identica cosa <b>in sovrapposizione</b> — applica U una volta, due, quattro, otto in parallelo, e poi con la trasformata di Fourier legge la fase da un picco solo. E se il conteggio ti ricorda il ritmo che tornava sull'orologio del livello :m, hai visto giusto: è la stessa matematica.":
+    "<b>This is phase estimation, done by hand.</b> You counted the applications one at a time: there are as many as the denominator of the fraction of a turn. Level :n does exactly the same thing <b>in superposition</b> — it applies U once, twice, four times, eight times in parallel, and then reads the phase off a single peak with the Fourier transform. And if the counting reminds you of the rhythm that came back on the clock in level :m, you saw right: it is the same mathematics.",
+  "Esatto: :n applicazioni per un giro intero, cioè :g° l'una. Prova un'altra porta.":
+    "Correct: :n applications for a full turn, that is :g° each. Try another gate.",
+  "Fuori linea: la freccia in uscita punta da un'altra parte. Continua a girare.":
+    "Out of line: the outgoing arrow points somewhere else. Keep turning.",
+  "IN LINEA! ×:lambda":
+    "IN LINE! ×:lambda",
+  "In linea! La macchina non ha girato questa freccia: l'ha solo moltiplicata per <b>:lambda</b>. È un <b>autovettore</b>, e :lambda è il suo <b>autovalore</b>.":
+    "In line! The machine did not turn this arrow: it only multiplied it by <b>:lambda</b>. It is an <b>eigenvector</b>, and :lambda is its <b>eigenvalue</b>.",
+  "La caccia alle frecce che non girano":
+    "The hunt for arrows that do not turn",
+  "La fase che si conta":
+    "The phase you count",
+  "La macchina da esaminare":
+    "The machine to examine",
+  "La porta U (di quanto gira la fase)":
+    "The gate U (how far it turns the phase)",
+  "La probabilità di leggere il risultato non è cambiata di un capello: la fase da sola non si vede. Si vede solo <b>facendola interferire</b> — ed è quello che fa la QFT.":
+    "The probability of reading the result has not changed one bit: a phase on its own cannot be seen. It only shows up <b>by making it interfere</b> — and that is what the QFT does.",
+  "Le frecce che la macchina non gira: autovettori e autovalori":
+    "The arrows the machine does not turn: eigenvectors and eigenvalues",
+  "Macchina: <b>:nome</b>. La tua freccia punta a :gradi°.":
+    "Machine: <b>:nome</b>. Your arrow points at :gradi°.",
+  "No: conta le applicazioni che hai fatto per tornare a casa.":
+    "No: count the applications it took you to get home.",
+  "Ogni applicazione di U gira la fase di <b>:g°</b>. Applicazioni fatte: <b>:n</b>, fase totale <b>:tot°</b>.":
+    "Every application of U turns the phase by <b>:g°</b>. Applications so far: <b>:n</b>, total phase <b>:tot°</b>.",
+  "Questa macchina ha :quante direzioni ferme.":
+    "This machine has :quante still directions.",
+  "Questa macchina non ha nessuna direzione ferma: gira tutto. Con i soli numeri reali, qui non c'è niente da trovare.":
+    "This machine has no still direction at all: it turns everything. With real numbers alone there is nothing to find here.",
+  "Sei tornato a casa dopo <b>:n</b> applicazioni. Quindi ogni applicazione valeva <b>1/:n di giro</b>: hai misurato la fase contando.":
+    "You are home after <b>:n</b> applications. So each one was worth <b>1/:n of a turn</b>: you measured the phase by counting.",
+  "Trascina finché la freccia non resta in linea con sé stessa. E scopri che su quelle frecce una porta cambia solo la fase.":
+    "Drag until the arrow stays in line with itself. And discover that on those arrows a gate changes only the phase.",
+  "applica U":
+    "apply U",
+  "riporta la freccia a casa":
+    "bring the arrow home",
+  "applicazioni: :n":
+    "applications: :n",
+  "cambia solo la fase":
+    "only the phase changes",
+  "casa":
+    "home",
+  ":macchina — trovate :fatte su :totali":
+    ":macchina — found :fatte of :totali",
+  "fase totale: :g°":
+    "total phase: :g°",
+  "fasi misurate: :fatte su :totali":
+    "phases measured: :fatte of :totali",
+  "la porta H":
+    "the H gate",
+  "la porta non muove lo stato: gli gira solo la freccia della fase":
+    "the gate does not move the state: it only turns the phase arrow",
+  "la rotazione di 90°: nessuna freccia resta in linea":
+    "the 90° rotation: no arrow stays in line",
+  "la tua freccia":
+    "your arrow",
+  "lo scivolo: una sola direzione ferma":
+    "the shear: a single still direction",
+  "lo specchio: Z":
+    "the mirror: Z",
+  "lo stato non cambia:":
+    "the state does not change:",
+  "porta H":
+    "H gate",
+  "probabilità: 100%":
+    "probability: 100%",
+  "quella che esce dalla macchina":
+    "the one that comes out of the machine",
+  "rotazione 90°":
+    "90° rotation",
+  "ruota di poco":
+    "turn a little",
+  "ruota indietro":
+    "turn back",
+  "scivolo":
+    "shear",
+  "specchio Z":
+    "mirror Z",
+  "stira":
+    "stretch",
+  "stira in orizzontale, schiaccia in verticale":
+    "stretches horizontally, squashes vertically",
+  "trascina la freccia: per quasi tutte la macchina cambia direzione. Per qualcuna no.":
+    "drag the arrow: for almost every one the machine changes the direction. For a few it does not.",
+  "un giro = :n applicazioni":
+    "one turn = :n applications",
+  /* ---------------- glossario: autostato ampliato ---------------- */
+  "Stato (o freccia) che un'operazione lascia in linea con sé stesso: cambia solo per un fattore, l'autovalore. Su una porta quantistica quel fattore è una fase, ed è il numero che la stima di fase va a leggere.":
+    "A state (or arrow) that an operation leaves in line with itself: it changes only by a factor, the eigenvalue. On a quantum gate that factor is a phase, and it is the number phase estimation goes to read.",
+  "autostati, autovalore, autovalori, autovettore, autovettori":
+    "eigenstates, eigenvalue, eigenvalues, eigenvector, eigenvectors",
+  "trova una direzione ferma":
+    "find a still direction",
 };

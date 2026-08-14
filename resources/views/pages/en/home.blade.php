@@ -1,8 +1,8 @@
 @extends('layouts.page', [
     'title' => 'Quantum Arcade — Quantum computing by playing | free interactive course in English',
-    'description' => 'Free game-course in English to learn quantum computing from scratch: waves, phase, complex numbers, the Fourier transform (DFT), qubits, gates, entanglement, Grover, QFT and Shor\'s algorithm. 36 interactive levels with a real quantum simulator. By Davide Cavallini.',
+    'description' => 'Free game-course in English to learn quantum computing from scratch: waves, phase, complex numbers, the Fourier transform (DFT), qubits, gates, entanglement, Grover, QFT and Shor\'s algorithm. 37 interactive levels with a real quantum simulator. By Davide Cavallini.',
     'ogTitle' => 'Quantum Arcade — learn quantum computing by playing',
-    'ogDescription' => '36 interactive levels in English: from waves to the quantum Fourier transform and Shor\'s algorithm. With a real quantum simulator and unlock-by-mastery.',
+    'ogDescription' => '37 interactive levels in English: from waves to the quantum Fourier transform and Shor\'s algorithm. With a real quantum simulator and unlock-by-mastery.',
 ])
 
 @push('head')
@@ -121,7 +121,7 @@
     <span class="tag cyan">🎮 free game-course in English</span>
     <h1 style="margin-top:14px">Learn quantum computing<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">by actually playing it.</span></h1>
     <p class="lead">
-      Thirty-six interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
+      Thirty-seven interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
       (amplitude, frequency and phase: the three knobs that fully describe a sine wave — the period is just
       frequency the other way round, T = 1/f) and arrive at the <b>quantum Fourier transform</b> and <b>Shor's algorithm</b>.
       Every formula is taken apart piece by piece, and every piece is something you can

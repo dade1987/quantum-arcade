@@ -62,6 +62,7 @@ const SLUG = {
   '16-dft': { en: '16-dft', es: '16-dft' },
   '17-fft': { en: '17-fft', es: '17-fft' },
   '18-qft': { en: '18-qft', es: '18-qft' },
+  '18b-autovettori': { en: '18b-eigenvectors', es: '18b-autovectores' },
   '19-qpe': { en: '19-qpe', es: '19-qpe' },
   '20-shor': { en: '20-shor', es: '20-shor' },
   '21-rumore': { en: '21-noise', es: '21-ruido' },
@@ -241,6 +242,10 @@ export const LEVELS = [
   { id: '18-qft', part: 'D', n: 18,
     title: t('QFT: Fourier sulle ampiezze quantistiche'),
     desc: t('Il cuore del corso: dalla DFT al circuito con Hadamard, rotazioni controllate e SWAP.'), xp: 200 },
+
+  { id: '18b-autovettori', part: 'D', n: '18·b',
+    title: t('Le frecce che la macchina non gira: autovettori e autovalori'),
+    desc: t('Trascina finché la freccia non resta in linea con sé stessa. E scopri che su quelle frecce una porta cambia solo la fase.'), xp: 130 },
 
   { id: '19-qpe', part: 'D', n: 19,
     title: t('Quantum Phase Estimation'),

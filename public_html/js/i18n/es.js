@@ -2382,4 +2382,104 @@ export default {
     "Una tabla de números que convierte una flecha en otra. Sus columnas dicen dónde acaban las flechas de base: de ahí se deduce dónde acaba cualquier otra flecha.",
   "matrici, matrice 2×2":
     "matrices, matriz 2×2",
+  /* ---------------- livello 18·b: autovettori e autovalori ---------------- */
+  "<b>I nomi:</b> una freccia che la macchina lascia in linea con sé stessa si chiama <b>autovettore</b>; il numero per cui viene moltiplicata si chiama <b>autovalore</b>. Sono le due parole che aprono il livello :n — e la rotazione, che di autovettori reali non ne ha nessuno, spiega da sola perché nel quantistico gli autovalori sono <b>fasi</b> e non allungamenti.":
+    "<b>Los nombres:</b> una flecha que la máquina deja en línea consigo misma se llama <b>autovector</b>; el número por el que queda multiplicada se llama <b>autovalor</b>. Son las dos palabras con las que empieza el nivel :n, y la rotación, que no tiene ningún autovector real, explica por sí sola por qué en lo cuántico los autovalores son <b>fases</b> y no estiramientos.",
+  "<b>Questa è la stima di fase, fatta a mano.</b> Tu hai contato le applicazioni una per una: sono tante quante il denominatore della frazione di giro. Il livello :n fa la stessa identica cosa <b>in sovrapposizione</b> — applica U una volta, due, quattro, otto in parallelo, e poi con la trasformata di Fourier legge la fase da un picco solo. E se il conteggio ti ricorda il ritmo che tornava sull'orologio del livello :m, hai visto giusto: è la stessa matematica.":
+    "<b>Esto es la estimación de fase, hecha a mano.</b> Tú has contado las aplicaciones una a una: son tantas como el denominador de la fracción de vuelta. El nivel :n hace exactamente lo mismo <b>en superposición</b>: aplica U una vez, dos, cuatro, ocho en paralelo, y luego con la transformada de Fourier lee la fase de un único pico. Y si el recuento te recuerda al ritmo que volvía en el reloj del nivel :m, has visto bien: es la misma matemática.",
+  "Esatto: :n applicazioni per un giro intero, cioè :g° l'una. Prova un'altra porta.":
+    "Exacto: :n aplicaciones para una vuelta entera, es decir :g° cada una. Prueba otra puerta.",
+  "Fuori linea: la freccia in uscita punta da un'altra parte. Continua a girare.":
+    "Fuera de línea: la flecha de salida apunta a otro sitio. Sigue girando.",
+  "IN LINEA! ×:lambda":
+    "¡EN LÍNEA! ×:lambda",
+  "In linea! La macchina non ha girato questa freccia: l'ha solo moltiplicata per <b>:lambda</b>. È un <b>autovettore</b>, e :lambda è il suo <b>autovalore</b>.":
+    "¡En línea! La máquina no ha girado esta flecha: solo la ha multiplicado por <b>:lambda</b>. Es un <b>autovector</b>, y :lambda es su <b>autovalor</b>.",
+  "La caccia alle frecce che non girano":
+    "La caza de las flechas que no giran",
+  "La fase che si conta":
+    "La fase que se cuenta",
+  "La macchina da esaminare":
+    "La máquina que examinar",
+  "La porta U (di quanto gira la fase)":
+    "La puerta U (cuánto gira la fase)",
+  "La probabilità di leggere il risultato non è cambiata di un capello: la fase da sola non si vede. Si vede solo <b>facendola interferire</b> — ed è quello che fa la QFT.":
+    "La probabilidad de leer el resultado no ha cambiado ni un pelo: la fase por sí sola no se ve. Solo se ve <b>haciéndola interferir</b>, que es lo que hace la QFT.",
+  "Le frecce che la macchina non gira: autovettori e autovalori":
+    "Las flechas que la máquina no gira: autovectores y autovalores",
+  "Macchina: <b>:nome</b>. La tua freccia punta a :gradi°.":
+    "Máquina: <b>:nome</b>. Tu flecha apunta a :gradi°.",
+  "No: conta le applicazioni che hai fatto per tornare a casa.":
+    "No: cuenta las aplicaciones que has hecho para volver a casa.",
+  "Ogni applicazione di U gira la fase di <b>:g°</b>. Applicazioni fatte: <b>:n</b>, fase totale <b>:tot°</b>.":
+    "Cada aplicación de U gira la fase <b>:g°</b>. Aplicaciones hechas: <b>:n</b>, fase total <b>:tot°</b>.",
+  "Questa macchina ha :quante direzioni ferme.":
+    "Esta máquina tiene :quante direcciones quietas.",
+  "Questa macchina non ha nessuna direzione ferma: gira tutto. Con i soli numeri reali, qui non c'è niente da trovare.":
+    "Esta máquina no tiene ninguna dirección quieta: lo gira todo. Solo con números reales aquí no hay nada que encontrar.",
+  "Sei tornato a casa dopo <b>:n</b> applicazioni. Quindi ogni applicazione valeva <b>1/:n di giro</b>: hai misurato la fase contando.":
+    "Has vuelto a casa tras <b>:n</b> aplicaciones. Así que cada aplicación valía <b>1/:n de vuelta</b>: has medido la fase contando.",
+  "Trascina finché la freccia non resta in linea con sé stessa. E scopri che su quelle frecce una porta cambia solo la fase.":
+    "Arrastra hasta que la flecha se quede en línea consigo misma. Y descubre que sobre esas flechas una puerta solo cambia la fase.",
+  "applica U":
+    "aplica U",
+  "riporta la freccia a casa":
+    "lleva la flecha a casa",
+  "applicazioni: :n":
+    "aplicaciones: :n",
+  "cambia solo la fase":
+    "solo cambia la fase",
+  "casa":
+    "casa",
+  ":macchina — trovate :fatte su :totali":
+    ":macchina — encontradas :fatte de :totali",
+  "fase totale: :g°":
+    "fase total: :g°",
+  "fasi misurate: :fatte su :totali":
+    "fases medidas: :fatte de :totali",
+  "la porta H":
+    "la puerta H",
+  "la porta non muove lo stato: gli gira solo la freccia della fase":
+    "la puerta no mueve el estado: solo le gira la flecha de la fase",
+  "la rotazione di 90°: nessuna freccia resta in linea":
+    "la rotación de 90°: ninguna flecha se queda en línea",
+  "la tua freccia":
+    "tu flecha",
+  "lo scivolo: una sola direzione ferma":
+    "el tobogán: una sola dirección quieta",
+  "lo specchio: Z":
+    "el espejo: Z",
+  "lo stato non cambia:":
+    "el estado no cambia:",
+  "porta H":
+    "puerta H",
+  "probabilità: 100%":
+    "probabilidad: 100%",
+  "quella che esce dalla macchina":
+    "la que sale de la máquina",
+  "rotazione 90°":
+    "rotación 90°",
+  "ruota di poco":
+    "gira un poco",
+  "ruota indietro":
+    "gira hacia atrás",
+  "scivolo":
+    "tobogán",
+  "specchio Z":
+    "espejo Z",
+  "stira":
+    "estira",
+  "stira in orizzontale, schiaccia in verticale":
+    "estira en horizontal, aplasta en vertical",
+  "trascina la freccia: per quasi tutte la macchina cambia direzione. Per qualcuna no.":
+    "arrastra la flecha: para casi todas la máquina cambia la dirección. Para alguna, no.",
+  "un giro = :n applicazioni":
+    "una vuelta = :n aplicaciones",
+  /* ---------------- glossario: autostato ampliato ---------------- */
+  "Stato (o freccia) che un'operazione lascia in linea con sé stesso: cambia solo per un fattore, l'autovalore. Su una porta quantistica quel fattore è una fase, ed è il numero che la stima di fase va a leggere.":
+    "Estado (o flecha) que una operación deja en línea consigo mismo: solo cambia por un factor, el autovalor. En una puerta cuántica ese factor es una fase, y es el número que la estimación de fase va a leer.",
+  "autostati, autovalore, autovalori, autovettore, autovettori":
+    "autoestados, autovalor, autovalores, autovector, autovectores",
+  "trova una direzione ferma":
+    "encuentra una dirección quieta",
 };

@@ -73,6 +73,17 @@ describe('store: XP e padronanza', () => {
     assert.ok(store.isUnlocked('id-che-non-esiste'));
   });
 
+  /* Il corso cresce: un livello nuovo inserito in mezzo sposta il prerequisito
+     di quello dopo. Chi quel livello dopo l'aveva già superato non deve
+     ritrovarselo sbarrato — sarebbe un progresso cancellato da una modifica
+     alla mappa, e per lo studente sarebbe indistinguibile da un bug del salvataggio. */
+  test('un livello già superato non si richiude, nemmeno se il prerequisito cambia', () => {
+    store.resetAll();
+    store.completeLesson('02-bloch');            // superato senza avere fatto il precedente
+    assert.ok(store.isUnlocked('02-bloch'), 'un livello superato resta aperto');
+    assert.ok(!store.isUnlocked('04-due-qubit'), 'ma non apre di suo tutto il resto del percorso');
+  });
+
   test('le missioni si segnano una volta sola', () => {
     assert.equal(store.setMission('01-qubit', 'm1'), true);
     assert.equal(store.setMission('01-qubit', 'm1'), false);

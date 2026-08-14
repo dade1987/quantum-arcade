@@ -677,6 +677,27 @@ return [
             ],
         ],
         [
+            'id' => '18b-autovettori',
+            'n' => '18·b',
+            'part' => 'D',
+            'xp' => 130,
+            'slug' => [
+                'it' => '18b-autovettori',
+                'en' => '18b-eigenvectors',
+                'es' => '18b-autovectores',
+            ],
+            'title' => [
+                'it' => 'Le frecce che la macchina non gira: autovettori e autovalori',
+                'en' => 'The arrows the machine does not turn: eigenvectors and eigenvalues',
+                'es' => 'Las flechas que la máquina no gira: autovectores y autovalores',
+            ],
+            'description' => [
+                'it' => 'Trascina finché la freccia non resta in linea con sé stessa. E scopri che su quelle frecce una porta cambia solo la fase.',
+                'en' => 'Drag until the arrow stays in line with itself. And discover that on those arrows a gate changes only the phase.',
+                'es' => 'Arrastra hasta que la flecha se quede en línea consigo misma. Y descubre que sobre esas flechas una puerta solo cambia la fase.',
+            ],
+        ],
+        [
             'id' => '19-qpe',
             'n' => '19',
             'part' => 'D',

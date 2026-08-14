@@ -36,8 +36,8 @@ export const VOCI = [
   { id: 'ampiezza-onda', liv: ['13-onde'], voce: t("Ampiezza (di un'onda)"),
     def: t("Quanto è alta un'onda; nel suono è il volume.") },
 
-  { id: 'autostato', liv: ['19-qpe'], voce: t('Autostato / autovalore'), alt: t('autostati, autovalore, autovalori'),
-    def: t("Stato che un'operazione lascia identico a parte una fase; quella fase è l'autovalore.") },
+  { id: 'autostato', liv: ['18b-autovettori', '19-qpe'], voce: t('Autostato / autovalore'), alt: t('autostati, autovalore, autovalori, autovettore, autovettori'),
+    def: t("Stato (o freccia) che un'operazione lascia in linea con sé stesso: cambia solo per un fattore, l'autovalore. Su una porta quantistica quel fattore è una fase, ed è il numero che la stima di fase va a leggere.") },
 
   { id: 'base-misura', liv: ['02-bloch'], voce: t('Base di misura'), alt: t('basi di misura, base Z, base X'),
     def: t('La "direzione" lungo cui si misura. Misurare in base Z dà 0/1; in base X dà +/−. Non esiste uno stato certo in tutte le basi.') },
