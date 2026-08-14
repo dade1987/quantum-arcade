@@ -873,6 +873,36 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://quantumarcade.it/lezioni/15b-serie.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/15b-serie.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/15b-geometric-series.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/15b-serie-geometrica.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/15b-serie.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantumarcade.it/en/lessons/15b-geometric-series.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/15b-serie.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/15b-geometric-series.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/15b-serie-geometrica.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/15b-serie.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantumarcade.it/es/lecciones/15b-serie-geometrica.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/15b-serie.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/15b-geometric-series.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/15b-serie-geometrica.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/15b-serie.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://quantumarcade.it/lezioni/16-dft.html</loc>
     <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/16-dft.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/16-dft.html"/>

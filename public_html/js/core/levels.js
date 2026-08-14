@@ -59,6 +59,7 @@ const SLUG = {
   '13-onde': { en: '13-waves', es: '13-ondas' },
   '14-fase': { en: '14-phase', es: '14-fase' },
   '15-somma-onde': { en: '15-wave-sum', es: '15-suma-de-ondas' },
+  '15b-serie': { en: '15b-geometric-series', es: '15b-serie-geometrica' },
   '16-dft': { en: '16-dft', es: '16-dft' },
   '17-fft': { en: '17-fft', es: '17-fft' },
   '18-qft': { en: '18-qft', es: '18-qft' },
@@ -229,6 +230,10 @@ export const LEVELS = [
   { id: '15-somma-onde', part: 'C', n: 15,
     title: t('Ogni segnale è una somma di onde'),
     desc: t('Sfida: ricostruisci il segnale misterioso mescolando onde semplici.'), xp: 90 },
+
+  { id: '15b-serie', part: 'C', n: '15·b',
+    title: t('Tante cose sommate: quando si accumulano e quando si annullano'),
+    desc: t('La serie geometrica giocata con i pezzi e con le frecce. È la ragione per cui la trasformata di Fourier fa un picco.'), xp: 100 },
 
   { id: '16-dft', part: 'C', n: 16,
     title: t('La DFT passo passo: il rilevatore di periodicità'),

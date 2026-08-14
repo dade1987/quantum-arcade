@@ -2481,4 +2481,69 @@ export default {
     "eigenstates, eigenvalue, eigenvalues, eigenvector, eigenvectors",
   "trova una direzione ferma":
     "find a still direction",
+  /* ---------------- livello 15·b: la serie geometrica ---------------- */
+  "<b>Il fatto sorprendente:</b> infiniti pezzi, totale finito. Mezzo più un quarto più un ottavo… non arriva mai a 2, ci si avvicina e basta. La formula che lo dice — <b>(1 − rⁿ)/(1 − r)</b> — è la stessa che fra un attimo farà nascere il picco della trasformata di Fourier: cambia solo che al posto di una frazione ci sarà una <b>rotazione</b>.":
+    "<b>The surprising part:</b> infinitely many pieces, a finite total. A half plus a quarter plus an eighth… never reaches 2, it only gets closer. The formula that says so — <b>(1 − rⁿ)/(1 − r)</b> — is the same one that in a moment will make the Fourier peak appear: the only change is that instead of a fraction there will be a <b>rotation</b>.",
+  "<b>Questa è la trasformata di Fourier, in una frase.</b> Per ogni frequenza di prova, la DFT gira i dati di un passo fisso e li somma: se il passo è sbagliato, la catena si chiude e viene zero; se è quello giusto, il passo è nullo, le frecce si allineano e nasce il <b>picco</b>. Il livello :n lo fa sui dati veri — ma il motivo per cui funziona è quello che hai appena mosso con il cursore.":
+    "<b>This is the Fourier transform, in one sentence.</b> For every test frequency the DFT turns the data by a fixed step and adds it up: if the step is wrong the chain closes and the result is zero; if it is right the step is null, the arrows line up and the <b>peak</b> appears. Level :n does it on real data — but the reason it works is what you have just been moving with the slider.",
+  "Con la formula: (1 − :r^:n) / (1 − :r) = <b>:formula</b> — stesso numero, senza sommare a mano.":
+    "With the formula: (1 − :r^:n) / (1 − :r) = <b>:formula</b> — same number, without adding by hand.",
+  "Con la formula: |sin(:n·Δ/2) / sin(Δ/2)| = <b>:formula</b>.":
+    "With the formula: |sin(:n·Δ/2) / sin(Δ/2)| = <b>:formula</b>.",
+  "Di quanto gira ogni freccia in più (gradi)":
+    "How much further each arrow turns (degrees)",
+  "I pezzi che si rimpiccioliscono":
+    "The pieces that keep shrinking",
+  "La catena di frecce":
+    "The chain of arrows",
+  "La catena si è chiusa: le frecce fanno un giro esatto e si annullano a vicenda. Somma zero — non \"piccola\": zero.":
+    "The chain has closed: the arrows make one exact turn and cancel each other out. Sum zero — not \"small\": zero.",
+  "La serie geometrica giocata con i pezzi e con le frecce. È la ragione per cui la trasformata di Fourier fa un picco.":
+    "The geometric series played with pieces and with arrows. It is the reason the Fourier transform makes a peak.",
+  "Le frecce puntano un po' ovunque: la somma è un numero qualunque, né grande né nullo.":
+    "The arrows point more or less everywhere: the sum is just some number, neither large nor null.",
+  "Ogni pezzo è questa frazione del precedente":
+    "Each piece is this fraction of the previous one",
+  "Passo <b>:passo°</b>, <b>:n</b> frecce. Lunghezza della somma: <b>:mod</b> (su :n possibili).":
+    "Step <b>:passo°</b>, <b>:n</b> arrows. Length of the sum: <b>:mod</b> (out of :n possible).",
+  "Passo nullo (o un giro intero): tutte le frecce puntano nello stesso verso e si sommano tutte. È il picco.":
+    "Null step (or a whole turn): every arrow points the same way and they all add up. That is the peak.",
+  "Quanti pezzi":
+    "How many pieces",
+  "Se i pezzi non finissero mai: <b>:limite</b>. Il totale non supera mai quel muro, per quanti pezzi aggiungi.":
+    "If the pieces never ended: <b>:limite</b>. The total never passes that wall, however many pieces you add.",
+  "Somma dei primi :n pezzi: <b>:tot</b>.":
+    "Sum of the first :n pieces: <b>:tot</b>.",
+  "Tante cose sommate: quando si accumulano e quando si annullano":
+    "Many things added up: when they pile up and when they cancel",
+  "altro bersaglio":
+    "another target",
+  "bersaglio centrato!":
+    "target hit!",
+  "cambia obiettivo":
+    "change goal",
+  "fai la somma più grande possibile":
+    "make the sum as large as possible",
+  "fai sparire la somma":
+    "make the sum vanish",
+  "il muro: :limite":
+    "the wall: :limite",
+  "lunghezza della somma: :mod su :n":
+    "length of the sum: :mod out of :n",
+    "metà ogni volta":
+    "half every time",
+  "obiettivi centrati: :fatti su :totali":
+    "goals hit: :fatti of :totali",
+  "ogni pezzo è una frazione del precedente: dove si ferma il totale?":
+    "each piece is a fraction of the previous one: where does the total stop?",
+  "porta il totale a :bersaglio":
+    "bring the total to :bersaglio",
+  "stessa somma, ma ogni pezzo è girato di un passo fisso":
+    "same sum, but each piece is turned by a fixed step",
+  "totale: :tot":
+    "total: :tot",
+  "totali centrati: :fatti su :totali":
+    "totals hit: :fatti of :totali",
+  "un giro diviso il numero di frecce":
+    "one turn divided by the number of arrows",
 };

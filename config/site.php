@@ -614,6 +614,27 @@ return [
             ],
         ],
         [
+            'id' => '15b-serie',
+            'n' => '15·b',
+            'part' => 'C',
+            'xp' => 100,
+            'slug' => [
+                'it' => '15b-serie',
+                'en' => '15b-geometric-series',
+                'es' => '15b-serie-geometrica',
+            ],
+            'title' => [
+                'it' => 'Tante cose sommate: quando si accumulano e quando si annullano',
+                'en' => 'Many things added up: when they pile up and when they cancel',
+                'es' => 'Muchas cosas sumadas: cuándo se acumulan y cuándo se anulan',
+            ],
+            'description' => [
+                'it' => 'La serie geometrica giocata con i pezzi e con le frecce. È la ragione per cui la trasformata di Fourier fa un picco.',
+                'en' => 'The geometric series played with pieces and with arrows. It is the reason the Fourier transform makes a peak.',
+                'es' => 'La serie geométrica jugada con trozos y con flechas. Es la razón por la que la transformada de Fourier hace un pico.',
+            ],
+        ],
+        [
             'id' => '16-dft',
             'n' => '16',
             'part' => 'C',

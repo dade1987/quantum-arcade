@@ -1,8 +1,8 @@
 @extends('layouts.page', [
     'title' => 'Quantum Arcade — Computación cuántica jugando | curso interactivo gratuito en español',
-    'description' => 'Curso-videojuego gratuito en español para aprender computación cuántica desde cero: ondas, fase, números complejos, transformada de Fourier (DFT), cúbits, puertas, entrelazamiento, Grover, QFT y algoritmo de Shor. 37 niveles interactivos con un simulador cuántico real. De Davide Cavallini.',
+    'description' => 'Curso-videojuego gratuito en español para aprender computación cuántica desde cero: ondas, fase, números complejos, transformada de Fourier (DFT), cúbits, puertas, entrelazamiento, Grover, QFT y algoritmo de Shor. 38 niveles interactivos con un simulador cuántico real. De Davide Cavallini.',
     'ogTitle' => 'Quantum Arcade — aprende computación cuántica jugando',
-    'ogDescription' => '37 niveles interactivos en español: de las ondas a la transformada de Fourier cuántica y al algoritmo de Shor. Con un simulador cuántico de verdad y desbloqueo por dominio.',
+    'ogDescription' => '38 niveles interactivos en español: de las ondas a la transformada de Fourier cuántica y al algoritmo de Shor. Con un simulador cuántico de verdad y desbloqueo por dominio.',
 ])
 
 @push('head')
@@ -15,7 +15,7 @@
       "@type": "Course",
       "@id": "https://quantumarcade.it/es/#course",
       "name": "Quantum Arcade — Computación cuántica jugando",
-      "description": "Curso interactivo gratuito en español que enseña computación cuántica partiendo de las ondas y la transformada de Fourier hasta la QFT y el algoritmo de Shor, con 37 niveles jugables y un simulador cuántico de vector de estado.",
+      "description": "Curso interactivo gratuito en español que enseña computación cuántica partiendo de las ondas y la transformada de Fourier hasta la QFT y el algoritmo de Shor, con 38 niveles jugables y un simulador cuántico de vector de estado.",
       "inLanguage": "es",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
@@ -121,7 +121,7 @@
     <span class="tag cyan">🎮 curso-videojuego gratuito en español</span>
     <h1 style="margin-top:14px">Aprende computación cuántica<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">jugando de verdad.</span></h1>
     <p class="lead">
-      Treinta y siete niveles interactivos que parten de las <b>matemáticas de secundaria</b>, pasan por las <b>ondas</b>
+      Treinta y ocho niveles interactivos que parten de las <b>matemáticas de secundaria</b>, pasan por las <b>ondas</b>
       (amplitud, frecuencia y fase: los tres mandos que bastan para describir una sinusoide — el periodo es la frecuencia
       del revés, T = 1/f) y llegan hasta la <b>transformada de Fourier cuántica</b> y el <b>algoritmo de Shor</b>.
       Cada fórmula está desmontada pieza a pieza, y cada pieza la puedes <b>tocar, arrastrar y romper</b>

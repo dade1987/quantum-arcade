@@ -2482,4 +2482,69 @@ export default {
     "autoestados, autovalor, autovalores, autovector, autovectores",
   "trova una direzione ferma":
     "encuentra una dirección quieta",
+  /* ---------------- livello 15·b: la serie geometrica ---------------- */
+  "<b>Il fatto sorprendente:</b> infiniti pezzi, totale finito. Mezzo più un quarto più un ottavo… non arriva mai a 2, ci si avvicina e basta. La formula che lo dice — <b>(1 − rⁿ)/(1 − r)</b> — è la stessa che fra un attimo farà nascere il picco della trasformata di Fourier: cambia solo che al posto di una frazione ci sarà una <b>rotazione</b>.":
+    "<b>Lo sorprendente:</b> infinitos trozos, total finito. Un medio más un cuarto más un octavo… nunca llega a 2, solo se acerca. La fórmula que lo dice — <b>(1 − rⁿ)/(1 − r)</b> — es la misma que dentro de un momento hará nacer el pico de la transformada de Fourier: lo único que cambia es que en lugar de una fracción habrá una <b>rotación</b>.",
+  "<b>Questa è la trasformata di Fourier, in una frase.</b> Per ogni frequenza di prova, la DFT gira i dati di un passo fisso e li somma: se il passo è sbagliato, la catena si chiude e viene zero; se è quello giusto, il passo è nullo, le frecce si allineano e nasce il <b>picco</b>. Il livello :n lo fa sui dati veri — ma il motivo per cui funziona è quello che hai appena mosso con il cursore.":
+    "<b>Esto es la transformada de Fourier, en una frase.</b> Para cada frecuencia de prueba, la DFT gira los datos un paso fijo y los suma: si el paso es equivocado, la cadena se cierra y sale cero; si es el correcto, el paso es nulo, las flechas se alinean y nace el <b>pico</b>. El nivel :n lo hace con datos de verdad, pero el motivo por el que funciona es lo que acabas de mover con el cursor.",
+  "Con la formula: (1 − :r^:n) / (1 − :r) = <b>:formula</b> — stesso numero, senza sommare a mano.":
+    "Con la fórmula: (1 − :r^:n) / (1 − :r) = <b>:formula</b>, el mismo número sin sumar a mano.",
+  "Con la formula: |sin(:n·Δ/2) / sin(Δ/2)| = <b>:formula</b>.":
+    "Con la fórmula: |sin(:n·Δ/2) / sin(Δ/2)| = <b>:formula</b>.",
+  "Di quanto gira ogni freccia in più (gradi)":
+    "Cuánto gira de más cada flecha (grados)",
+  "I pezzi che si rimpiccioliscono":
+    "Los trozos que se encogen",
+  "La catena di frecce":
+    "La cadena de flechas",
+  "La catena si è chiusa: le frecce fanno un giro esatto e si annullano a vicenda. Somma zero — non \"piccola\": zero.":
+    "La cadena se ha cerrado: las flechas dan una vuelta exacta y se anulan entre sí. Suma cero, no «pequeña»: cero.",
+  "La serie geometrica giocata con i pezzi e con le frecce. È la ragione per cui la trasformata di Fourier fa un picco.":
+    "La serie geométrica jugada con trozos y con flechas. Es la razón por la que la transformada de Fourier hace un pico.",
+  "Le frecce puntano un po' ovunque: la somma è un numero qualunque, né grande né nullo.":
+    "Las flechas apuntan un poco a todas partes: la suma es un número cualquiera, ni grande ni nulo.",
+  "Ogni pezzo è questa frazione del precedente":
+    "Cada trozo es esta fracción del anterior",
+  "Passo <b>:passo°</b>, <b>:n</b> frecce. Lunghezza della somma: <b>:mod</b> (su :n possibili).":
+    "Paso <b>:passo°</b>, <b>:n</b> flechas. Longitud de la suma: <b>:mod</b> (de :n posibles).",
+  "Passo nullo (o un giro intero): tutte le frecce puntano nello stesso verso e si sommano tutte. È il picco.":
+    "Paso nulo (o una vuelta entera): todas las flechas apuntan en el mismo sentido y se suman. Ese es el pico.",
+  "Quanti pezzi":
+    "Cuántos trozos",
+  "Se i pezzi non finissero mai: <b>:limite</b>. Il totale non supera mai quel muro, per quanti pezzi aggiungi.":
+    "Si los trozos no acabaran nunca: <b>:limite</b>. El total nunca pasa de ese muro, por muchos trozos que añadas.",
+  "Somma dei primi :n pezzi: <b>:tot</b>.":
+    "Suma de los primeros :n trozos: <b>:tot</b>.",
+  "Tante cose sommate: quando si accumulano e quando si annullano":
+    "Muchas cosas sumadas: cuándo se acumulan y cuándo se anulan",
+  "altro bersaglio":
+    "otro objetivo",
+  "bersaglio centrato!":
+    "¡objetivo acertado!",
+  "cambia obiettivo":
+    "cambiar objetivo",
+  "fai la somma più grande possibile":
+    "haz la suma lo más grande posible",
+  "fai sparire la somma":
+    "haz desaparecer la suma",
+  "il muro: :limite":
+    "el muro: :limite",
+  "lunghezza della somma: :mod su :n":
+    "longitud de la suma: :mod de :n",
+    "metà ogni volta":
+    "la mitad cada vez",
+  "obiettivi centrati: :fatti su :totali":
+    "objetivos acertados: :fatti de :totali",
+  "ogni pezzo è una frazione del precedente: dove si ferma il totale?":
+    "cada trozo es una fracción del anterior: ¿dónde se para el total?",
+  "porta il totale a :bersaglio":
+    "lleva el total a :bersaglio",
+  "stessa somma, ma ogni pezzo è girato di un passo fisso":
+    "la misma suma, pero cada trozo está girado un paso fijo",
+  "totale: :tot":
+    "total: :tot",
+  "totali centrati: :fatti su :totali":
+    "totales acertados: :fatti de :totali",
+  "un giro diviso il numero di frecce":
+    "una vuelta dividida entre el número de flechas",
 };
