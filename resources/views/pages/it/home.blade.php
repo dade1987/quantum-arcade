@@ -1,8 +1,8 @@
 @extends('layouts.page', [
     'title' => 'Quantum Arcade — Informatica quantistica giocando | corso interattivo gratuito in italiano',
-    'description' => 'Corso-videogioco gratuito in italiano per imparare l\'informatica quantistica da zero: onde, fase, numeri complessi, trasformata di Fourier (DFT), qubit, porte, entanglement, Grover, QFT e algoritmo di Shor. 54 livelli interattivi con simulatore quantistico reale. Di Davide Cavallini.',
+    'description' => 'Corso-videogioco gratuito in italiano per imparare l\'informatica quantistica da zero: onde, fase, numeri complessi, trasformata di Fourier (DFT), qubit, porte, entanglement, Grover, QFT e algoritmo di Shor. 55 livelli interattivi con simulatore quantistico reale. Di Davide Cavallini.',
     'ogTitle' => 'Quantum Arcade — impara l\'informatica quantistica giocando',
-    'ogDescription' => '54 livelli interattivi in italiano: dalle onde alla trasformata di Fourier quantistica e all\'algoritmo di Shor. Con simulatore quantistico vero e sblocco per padronanza.',
+    'ogDescription' => '55 livelli interattivi in italiano: dalle onde alla trasformata di Fourier quantistica e all\'algoritmo di Shor. Con simulatore quantistico vero e sblocco per padronanza.',
 ])
 
 @push('head')
@@ -15,7 +15,7 @@
       "@type": "Course",
       "@id": "https://quantumarcade.it/#course",
       "name": "Quantum Arcade — Informatica quantistica giocando",
-      "description": "Corso interattivo gratuito in italiano che insegna l'informatica quantistica partendo dalle onde e dalla trasformata di Fourier fino alla QFT e all'algoritmo di Shor, tramite 54 livelli giocabili con simulatore quantistico a vettore di stato.",
+      "description": "Corso interattivo gratuito in italiano che insegna l'informatica quantistica partendo dalle onde e dalla trasformata di Fourier fino alla QFT e all'algoritmo di Shor, tramite 55 livelli giocabili con simulatore quantistico a vettore di stato.",
       "inLanguage": "it",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",

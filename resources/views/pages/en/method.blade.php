@@ -283,7 +283,7 @@ I think it is only fair to declare which levers I am pulling, so you can weigh t
   <tr><td><b>Endowed progress</b></td><td>Nunes &amp; Drèze (2006)</td>
       <td>Part 0 is already "path covered" for anyone who knows the basics: you start from a bar that is not empty</td></tr>
   <tr><td><b>Social proof</b></td><td>Cialdini</td>
-      <td><b>real</b> numbers: 8 organisations I have taught at, 54 levels, over 300 automated tests. No made-up "10,000 happy students"</td></tr>
+      <td><b>real</b> numbers: 8 organisations I have taught at, 55 levels, over 300 automated tests. No made-up "10,000 happy students"</td></tr>
   <tr><td><b>Reciprocity</b></td><td>Cialdini</td>
       <td>the full course is free and stays free: the contact request comes afterwards, and only if it was useful to you</td></tr>
   <tr><td><b>Friction reduction</b></td><td>Fogg's model (B = MAP)</td>

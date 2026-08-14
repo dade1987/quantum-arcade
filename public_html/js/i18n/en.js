@@ -3741,4 +3741,61 @@ export default {
     "Turn the ruler: there is a tilt at which the two off-diagonal numbers go to zero. The green and pink arrows tell you — when they come out straight instead of skewed, you are there.",
   "<b>Perché questa è la cosa più utile del livello.</b> Una matrice generica è difficile da capire: mescola tutto con tutto. Ma se esiste una base in cui diventa diagonale, in quella base è solo «moltiplica per un numero, ciascuno per conto suo». Elevare a potenza, calcolare e^(matrice), applicare mille volte: tutto diventa un conto su singoli numeri. Al livello :n hai trovato gli autovettori; qui hai visto <b>a che servono</b>.":
     "<b>Why this is the most useful thing in the level.</b> A generic matrix is hard to understand: it mixes everything with everything. But if there is a basis in which it becomes diagonal, in that basis it is just «multiply by a number, each one on its own». Raising to a power, computing e^(matrix), applying it a thousand times: it all turns into arithmetic on single numbers. At level :n you found the eigenvectors; here you have seen <b>what they are for</b>.",
+  /* ---------------- livello M·12: esponenziale di matrice ---------------- */
+  "e elevato a una matrice: come si fa evolvere un sistema fisico":
+    "e to the power of a matrix: how you make a physical system evolve",
+  "La serie di Taylor con una matrice dentro, la scorciatoia degli autovettori — e la formula di Trotter, cioè il conto vero di quanto costa simulare una molecola.":
+    "The Taylor series with a matrix inside, the eigenvector shortcut — and the Trotter formula, the actual cost of simulating a molecule.",
+  "e elevato a una matrice":
+    "e to the power of a matrix",
+  "la stessa serie del livello M·10, con una matrice al posto del numero":
+    "the same series as level M·10, with a matrix in place of the number",
+  "serie a meno di :s":
+    "series within :s",
+  "generatori domati: :fatte su :totali":
+    "generators tamed: :fatte of :totali",
+  "termini: :k · errore: :e":
+    "terms: :k · error: :e",
+  "la strada gialla è la somma che si costruisce":
+    "the yellow path is the sum being built",
+  "il cerchio verde è dove si deve arrivare":
+    "the green circle is where you must land",
+  "gira":
+    "turn",
+  "storto":
+    "skewed",
+  "per quanto tempo":
+    "for how long",
+  "quanti termini della serie":
+    "how many terms of the series",
+  "e^M vuol dire <b>I + M + M²/2! + M³/3! + …</b>, esattamente la serie del livello :n con una matrice al posto del numero. Con <b>:k</b> termini sbagli di <b>:e</b>.":
+    "e^M means <b>I + M + M²/2! + M³/3! + …</b>, exactly the series of level :n with a matrix in place of the number. With <b>:k</b> terms you are off by <b>:e</b>.",
+  "Il risultato vero è la matrice [ :a &nbsp;:b ; :c &nbsp;:d ], e si calcola <b>senza sommare niente</b>: nella base degli autovettori (livello :m) basta fare e^(autovalore) su ciascuna direzione.":
+    "The true result is the matrix [ :a &nbsp;:b ; :c &nbsp;:d ], and it is computed <b>without summing anything</b>: in the eigenvector basis (level :m) you just take e^(eigenvalue) on each direction.",
+  "E c'è un fatto che vale sempre: <b>det(e^M) = e^(traccia di M)</b>. Qui la traccia è :t e il determinante viene :s. Se la traccia è zero il determinante è 1 — cioè la trasformazione non cambia le aree, e in quantistica vuol dire che le probabilità continuano a fare 1.":
+    "And there is a fact that always holds: <b>det(e^M) = e^(trace of M)</b>. Here the trace is :t and the determinant comes out :s. If the trace is zero the determinant is 1 — the transformation does not change areas, and in quantum mechanics that means the probabilities keep adding up to 1.",
+  "<b>A che serve.</b> Un sistema fisico che parte da uno stato ψ e ha energia H si trova, dopo un tempo t, nello stato <b>e^(−iHt)·ψ</b>. È la soluzione dell'equazione di Schrödinger, ed è un esponenziale di matrice — cioè questa cosa qui. Nel gioco è tutto reale per poterlo disegnare: la freccia gira nel piano invece che sulla sfera di Bloch del livello :b, ma la formula è la stessa.":
+    "<b>What it is for.</b> A physical system that starts in a state ψ and has energy H is found, after a time t, in the state <b>e^(−iHt)·ψ</b>. That is the solution of the Schrödinger equation, and it is a matrix exponential — this thing here. In the game everything is real so it can be drawn: the arrow turns in the plane instead of on the Bloch sphere of level :b, but the formula is the same.",
+  "Spezzare il tempo: la formula di Trotter":
+    "Slicing up time: the Trotter formula",
+  "due pezzi di energia che non vanno d'accordo, e come si fa lo stesso":
+    "two pieces of energy that do not get along, and how it is done anyway",
+  "avvicinati a meno di :s":
+    "get within :s",
+  "pezzetti: :n · errore: :e":
+    "slices: :n · error: :e",
+  "viola: spezzato · verde: bersaglio":
+    "purple: sliced · green: target",
+  "raddoppiare i pezzetti dimezza l'errore":
+    "doubling the slices halves the error",
+  "in quanti pezzetti spezzo il tempo":
+    "how many slices I cut time into",
+  "L'energia è fatta di due pezzi, A e B. Vorresti scrivere e^(A+B) = e^A·e^B, come si fa con i numeri. <b>Non si può</b>: qui il commutatore AB − BA vale :c, cioè l'ordine conta.":
+    "The energy is made of two pieces, A and B. You would like to write e^(A+B) = e^A·e^B, as you do with numbers. <b>You cannot</b>: here the commutator AB − BA is :c, which means the order matters.",
+  "Con <b>:n</b> pezzetti il cammino spezzato finisce a <b>:e</b> dal punto giusto. Raddoppia i pezzetti e guarda l'errore: si dimezza.":
+    "With <b>:n</b> slices the sliced path ends up <b>:e</b> away from the right point. Double the slices and watch the error: it halves.",
+  "Questo è letteralmente quello che fa un computer quantistico quando simula una molecola: non sa applicare e^(−iHt) in un colpo, ma sa applicare i pezzi uno alla volta. Più pezzetti, più porte da eseguire, meno errore. È il prezzo, ed è tutto qui.":
+    "This is literally what a quantum computer does when it simulates a molecule: it cannot apply e^(−iHt) in one go, but it can apply the pieces one at a time. More slices, more gates to run, less error. That is the price, and that is all there is to it.",
+  "<b>Perché non si può spezzare e basta.</b> Con i numeri e^(a+b) = e^a·e^b sempre, perché a·b = b·a. Con le matrici no: se AB ≠ BA quella regola salta, e la differenza si chiama <b>commutatore</b>. Il commutatore è la stessa cosa che al livello :i rende impossibile misurare due grandezze insieme — il principio di indeterminazione è una disuguaglianza sul commutatore. Qui lo vedi come uno scarto fra due frecce.":
+    "<b>Why you cannot just split it.</b> With numbers e^(a+b) = e^a·e^b always, because a·b = b·a. With matrices, no: if AB ≠ BA that rule breaks, and the difference is called the <b>commutator</b>. The commutator is the same thing that at level :i makes it impossible to measure two quantities together — the uncertainty principle is an inequality about the commutator. Here you see it as a gap between two arrows.",
 };

@@ -20,7 +20,7 @@
 
 ---
 
-54 livelli interattivi che partono dalle **basi di matematica delle medie**, passano dal
+55 livelli interattivi che partono dalle **basi di matematica delle medie**, passano dal
 **computer classico** (bit, porte logiche, somma binaria, ricerca, complessità, reversibilità)
 e arrivano alla **trasformata di Fourier quantistica**, alla **stima di fase** e all'**algoritmo
 di Shor**. Ogni concetto ha un mini-gioco: prima muovi, poi capisci. Sotto c'è un simulatore
@@ -32,6 +32,12 @@ servire**. L'aritmetica dell'orologio e il massimo comune divisore stanno prima 
 matrici prima delle porte, gli autovettori prima della stima di fase, la serie geometrica prima
 della trasformata di Fourier — e la derivata prima dei **metodi variazionali**, cioè del
 quantistico che gira davvero, oggi, sull'hardware rumoroso.
+
+Chi vuole andare più a fondo ha una **parte facoltativa** che copre il programma di matematica
+dalla prima superiore ad Analisi 2 — ma solo i pezzi che il corso usa davvero, e sempre con la
+curiosità dentro: perché la formula risolutiva è fatta così, da dove esce il numero e, perché il
+√N di Grover è una serie di Taylor troncata al primo termine, e come si calcola e^(iHt), cioè
+come si simula una molecola. Non è obbligatoria: chi la fa capisce il resto molto meglio.
 
 Ogni livello quantistico si apre con il **confronto fianco a fianco**: come si farebbe la stessa
 cosa con un computer normale, cosa cambia con quello quantistico, e il numero che dice quanto vale
@@ -107,7 +113,7 @@ resources/views/           LE PAGINE. Una view per pagina per lingua, un layout 
   layouts/lesson.blade.php titolo e descrizione di una lezione, presi da levels.js
   partials/                il selettore di lingua, in un posto solo
   pages/{it,en,es}/        home, metodo, privacy
-  lessons/{it,en,es}/      i 54 livelli, con il nome dell'ID (lo slug sta nell'indirizzo)
+  lessons/{it,en,es}/      i 55 livelli, con il nome dell'ID (lo slug sta nell'indirizzo)
 
 config/site.php            GENERATO da levels.js con `npm run sync`: lingue, livelli, slug,
                            titoli. È da qui che nascono le rotte e i <head>
@@ -134,7 +140,7 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (458 test) + validatore + stato delle lingue
+npm test                 # motore del gioco (476 test) + validatore + stato delle lingue
 npm run test:coverage    # copertura del frontend
 npm run test:php         # 124 test dei moduli Laravel
 npm run test:php:coverage

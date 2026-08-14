@@ -53,6 +53,7 @@ const SLUG = {
   'm9-integrali': { en: 'm9-integrals', es: 'm9-integrales' },
   'm10-taylor': { en: 'm10-taylor', es: 'm10-taylor' },
   'm11-base': { en: 'm11-change-of-basis', es: 'm11-cambio-de-base' },
+  'm12-evoluzione': { en: 'm12-matrix-exponential', es: 'm12-exponencial-de-matriz' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -225,6 +226,10 @@ export const LEVELS = [
   { id: 'm11-base', part: 'M', n: 'M·11', open: true,
     title: t('Cambio di base: lo stesso stato, due righelli diversi'),
     desc: t('Misurare è proiettare, la porta di Hadamard è un cambio di righello, e nella base giusta una matrice diventa una pura stiratura — che è la scorciatoia su cui è costruita la stima di fase.'), xp: 95 },
+
+  { id: 'm12-evoluzione', part: 'M', n: 'M·12', open: true,
+    title: t('e elevato a una matrice: come si fa evolvere un sistema fisico'),
+    desc: t('La serie di Taylor con una matrice dentro, la scorciatoia degli autovettori — e la formula di Trotter, cioè il conto vero di quanto costa simulare una molecola.'), xp: 105 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

@@ -488,6 +488,27 @@ return [
             ],
         ],
         [
+            'id' => 'm12-evoluzione',
+            'n' => 'M·12',
+            'part' => 'M',
+            'xp' => 105,
+            'slug' => [
+                'it' => 'm12-evoluzione',
+                'en' => 'm12-matrix-exponential',
+                'es' => 'm12-exponencial-de-matriz',
+            ],
+            'title' => [
+                'it' => 'e elevato a una matrice: come si fa evolvere un sistema fisico',
+                'en' => 'e to the power of a matrix: how you make a physical system evolve',
+                'es' => 'e elevado a una matriz: cómo se hace evolucionar un sistema físico',
+            ],
+            'description' => [
+                'it' => 'La serie di Taylor con una matrice dentro, la scorciatoia degli autovettori — e la formula di Trotter, cioè il conto vero di quanto costa simulare una molecola.',
+                'en' => 'The Taylor series with a matrix inside, the eigenvector shortcut — and the Trotter formula, the actual cost of simulating a molecule.',
+                'es' => 'La serie de Taylor con una matriz dentro, el atajo de los autovectores — y la fórmula de Trotter, es decir la cuenta real de lo que cuesta simular una molécula.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

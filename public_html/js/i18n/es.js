@@ -3742,4 +3742,61 @@ export default {
     "Gira la regla: hay una inclinación en la que los dos números de fuera de la diagonal se vuelven cero. Las flechas verde y rosa te lo dicen — cuando salen rectas en vez de torcidas, ya está.",
   "<b>Perché questa è la cosa più utile del livello.</b> Una matrice generica è difficile da capire: mescola tutto con tutto. Ma se esiste una base in cui diventa diagonale, in quella base è solo «moltiplica per un numero, ciascuno per conto suo». Elevare a potenza, calcolare e^(matrice), applicare mille volte: tutto diventa un conto su singoli numeri. Al livello :n hai trovato gli autovettori; qui hai visto <b>a che servono</b>.":
     "<b>Por qué esto es lo más útil del nivel.</b> Una matriz cualquiera es difícil de entender: mezcla todo con todo. Pero si existe una base en la que se vuelve diagonal, en esa base es solo «multiplica por un número, cada uno por su cuenta». Elevar a potencia, calcular e^(matriz), aplicar mil veces: todo se convierte en una cuenta con números sueltos. En el nivel :n encontraste los autovectores; aquí has visto <b>para qué sirven</b>.",
+  /* ---------------- livello M·12: esponenziale di matrice ---------------- */
+  "e elevato a una matrice: come si fa evolvere un sistema fisico":
+    "e elevado a una matriz: cómo se hace evolucionar un sistema físico",
+  "La serie di Taylor con una matrice dentro, la scorciatoia degli autovettori — e la formula di Trotter, cioè il conto vero di quanto costa simulare una molecola.":
+    "La serie de Taylor con una matriz dentro, el atajo de los autovectores — y la fórmula de Trotter, es decir la cuenta real de lo que cuesta simular una molécula.",
+  "e elevato a una matrice":
+    "e elevado a una matriz",
+  "la stessa serie del livello M·10, con una matrice al posto del numero":
+    "la misma serie del nivel M·10, con una matriz en lugar del número",
+  "serie a meno di :s":
+    "serie a menos de :s",
+  "generatori domati: :fatte su :totali":
+    "generadores domados: :fatte de :totali",
+  "termini: :k · errore: :e":
+    "términos: :k · error: :e",
+  "la strada gialla è la somma che si costruisce":
+    "el camino amarillo es la suma construyéndose",
+  "il cerchio verde è dove si deve arrivare":
+    "el círculo verde es donde hay que llegar",
+  "gira":
+    "gira",
+  "storto":
+    "torcido",
+  "per quanto tempo":
+    "durante cuánto tiempo",
+  "quanti termini della serie":
+    "cuántos términos de la serie",
+  "e^M vuol dire <b>I + M + M²/2! + M³/3! + …</b>, esattamente la serie del livello :n con una matrice al posto del numero. Con <b>:k</b> termini sbagli di <b>:e</b>.":
+    "e^M significa <b>I + M + M²/2! + M³/3! + …</b>, exactamente la serie del nivel :n con una matriz en lugar del número. Con <b>:k</b> términos te equivocas en <b>:e</b>.",
+  "Il risultato vero è la matrice [ :a &nbsp;:b ; :c &nbsp;:d ], e si calcola <b>senza sommare niente</b>: nella base degli autovettori (livello :m) basta fare e^(autovalore) su ciascuna direzione.":
+    "El resultado verdadero es la matriz [ :a &nbsp;:b ; :c &nbsp;:d ], y se calcula <b>sin sumar nada</b>: en la base de los autovectores (nivel :m) basta hacer e^(autovalor) en cada dirección.",
+  "E c'è un fatto che vale sempre: <b>det(e^M) = e^(traccia di M)</b>. Qui la traccia è :t e il determinante viene :s. Se la traccia è zero il determinante è 1 — cioè la trasformazione non cambia le aree, e in quantistica vuol dire che le probabilità continuano a fare 1.":
+    "Y hay un hecho que vale siempre: <b>det(e^M) = e^(traza de M)</b>. Aquí la traza es :t y el determinante sale :s. Si la traza es cero el determinante es 1 — la transformación no cambia las áreas, y en cuántica significa que las probabilidades siguen sumando 1.",
+  "<b>A che serve.</b> Un sistema fisico che parte da uno stato ψ e ha energia H si trova, dopo un tempo t, nello stato <b>e^(−iHt)·ψ</b>. È la soluzione dell'equazione di Schrödinger, ed è un esponenziale di matrice — cioè questa cosa qui. Nel gioco è tutto reale per poterlo disegnare: la freccia gira nel piano invece che sulla sfera di Bloch del livello :b, ma la formula è la stessa.":
+    "<b>Para qué sirve.</b> Un sistema físico que parte de un estado ψ y tiene energía H se encuentra, tras un tiempo t, en el estado <b>e^(−iHt)·ψ</b>. Es la solución de la ecuación de Schrödinger, y es una exponencial de matriz — esta cosa de aquí. En el juego todo es real para poder dibujarlo: la flecha gira en el plano en vez de en la esfera de Bloch del nivel :b, pero la fórmula es la misma.",
+  "Spezzare il tempo: la formula di Trotter":
+    "Trocear el tiempo: la fórmula de Trotter",
+  "due pezzi di energia che non vanno d'accordo, e come si fa lo stesso":
+    "dos piezas de energía que no se llevan bien, y cómo se hace igualmente",
+  "avvicinati a meno di :s":
+    "acércate a menos de :s",
+  "pezzetti: :n · errore: :e":
+    "trocitos: :n · error: :e",
+  "viola: spezzato · verde: bersaglio":
+    "morado: troceado · verde: objetivo",
+  "raddoppiare i pezzetti dimezza l'errore":
+    "doblar los trocitos reduce el error a la mitad",
+  "in quanti pezzetti spezzo il tempo":
+    "en cuántos trocitos troceo el tiempo",
+  "L'energia è fatta di due pezzi, A e B. Vorresti scrivere e^(A+B) = e^A·e^B, come si fa con i numeri. <b>Non si può</b>: qui il commutatore AB − BA vale :c, cioè l'ordine conta.":
+    "La energía está hecha de dos piezas, A y B. Te gustaría escribir e^(A+B) = e^A·e^B, como se hace con los números. <b>No se puede</b>: aquí el conmutador AB − BA vale :c, es decir que el orden cuenta.",
+  "Con <b>:n</b> pezzetti il cammino spezzato finisce a <b>:e</b> dal punto giusto. Raddoppia i pezzetti e guarda l'errore: si dimezza.":
+    "Con <b>:n</b> trocitos el camino troceado acaba a <b>:e</b> del punto correcto. Dobla los trocitos y mira el error: se reduce a la mitad.",
+  "Questo è letteralmente quello che fa un computer quantistico quando simula una molecola: non sa applicare e^(−iHt) in un colpo, ma sa applicare i pezzi uno alla volta. Più pezzetti, più porte da eseguire, meno errore. È il prezzo, ed è tutto qui.":
+    "Esto es literalmente lo que hace un ordenador cuántico cuando simula una molécula: no sabe aplicar e^(−iHt) de golpe, pero sabe aplicar las piezas una a una. Más trocitos, más puertas que ejecutar, menos error. Ese es el precio, y no hay más.",
+  "<b>Perché non si può spezzare e basta.</b> Con i numeri e^(a+b) = e^a·e^b sempre, perché a·b = b·a. Con le matrici no: se AB ≠ BA quella regola salta, e la differenza si chiama <b>commutatore</b>. Il commutatore è la stessa cosa che al livello :i rende impossibile misurare due grandezze insieme — il principio di indeterminazione è una disuguaglianza sul commutatore. Qui lo vedi come uno scarto fra due frecce.":
+    "<b>Por qué no se puede trocear y ya está.</b> Con los números e^(a+b) = e^a·e^b siempre, porque a·b = b·a. Con las matrices no: si AB ≠ BA esa regla se rompe, y la diferencia se llama <b>conmutador</b>. El conmutador es lo mismo que en el nivel :i hace imposible medir dos magnitudes a la vez — el principio de indeterminación es una desigualdad sobre el conmutador. Aquí lo ves como una separación entre dos flechas.",
 };
