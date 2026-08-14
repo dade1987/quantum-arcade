@@ -46,6 +46,7 @@ const SLUG = {
   'm2-goniometria': { en: 'm2-trigonometry', es: 'm2-trigonometria' },
   'm3-complessi': { en: 'm3-complex-numbers', es: 'm3-numeros-complejos' },
   'm4-spazi': { en: 'm4-vector-spaces', es: 'm4-espacios-vectoriales' },
+  'm5-operatori': { en: 'm5-operators', es: 'm5-operadores' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -190,6 +191,10 @@ export const LEVELS = [
   { id: 'm4-spazi', part: 'M', n: 'M·4', open: true,
     title: t('Spazi vettoriali: base, dimensione, e perché 2^n'),
     desc: t('Poche frecce che raggiungono tutto, il numero che non cambia qualunque base tu scelga, e la ragione per cui n qubit vivono in uno spazio di dimensione 2^n.'), xp: 90 },
+
+  { id: 'm5-operatori', part: 'M', n: 'M·5', open: true,
+    title: t('Operatori: porte, osservabili e misure sono tre tipi di matrice'),
+    desc: t('Unitaria = non cambia le lunghezze. Hermitiana = autovalori reali. Proiettore = rifarlo non cambia niente. Le tre parole della quantistica, costruite con quattro manopole.'), xp: 95 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

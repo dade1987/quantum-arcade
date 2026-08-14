@@ -3219,4 +3219,97 @@ export default {
     "Cubres todo el plano, pero con :q flechas: una sobra, se puede escribir usando las otras. Apaga una.",
   "<b>Il numero che non cambia mai.</b> Comunque scegli le frecce, per coprire il piano ce ne vogliono <b>esattamente due</b>: meno non bastano, di più sono ridondanti. Quel numero è la <b>dimensione</b>, e non dipende dalla base. Un qubit vive in dimensione 2 (le ampiezze di 0 e 1); due qubit in dimensione 4; <b>n qubit in dimensione 2^n</b> — non 2n. È tutta lì la ragione per cui, da qualche decina di qubit in su, simulare il registro su un computer normale diventa impossibile.":
     "<b>El número que nunca cambia.</b> Elijas las flechas como las elijas, para cubrir el plano hacen falta <b>exactamente dos</b>: menos no bastan, más son redundantes. Ese número es la <b>dimensión</b>, y no depende de la base. Un cúbit vive en dimensión 2 (las amplitudes de 0 y 1); dos cúbits en dimensión 4; <b>n cúbits en dimensión 2^n</b> — no 2n. Ahí está toda la razón por la que, de unas decenas de cúbits en adelante, simular el registro en un ordenador normal se vuelve imposible.",
+  /* ---------------- livello M·5: operatori ---------------- */
+  "Operatori: porte, osservabili e misure sono tre tipi di matrice":
+    "Operadores: puertas, observables y medidas son tres tipos de matriz",
+  "Unitaria = non cambia le lunghezze. Hermitiana = autovalori reali. Proiettore = rifarlo non cambia niente. Le tre parole della quantistica, costruite con quattro manopole.":
+    "Unitaria = no cambia las longitudes. Hermítica = autovalores reales. Proyector = rehacerlo no cambia nada. Las tres palabras de lo cuántico, construidas con cuatro mandos.",
+  "Che razza di macchina è?":
+    "¿Qué clase de máquina es?",
+  "quattro manopole, tre etichette: conserva le lunghezze? è uguale al suo aggiunto? si può rifare?":
+    "cuatro mandos, tres etiquetas: ¿conserva las longitudes? ¿es igual a su adjunto? ¿se puede rehacer?",
+  "costruisci una unitaria, una hermitiana e una che sia tutte e due":
+    "construye una unitaria, una hermítica y una que sea las dos",
+  "famiglie trovate: :fatte su :totali":
+    "familias encontradas: :fatte de :totali",
+  "✓ unitaria: non cambia le lunghezze":
+    "✓ unitaria: no cambia las longitudes",
+  "✗ non unitaria: le lunghezze cambiano":
+    "✗ no unitaria: las longitudes cambian",
+  "✓ hermitiana: uguale al suo aggiunto":
+    "✓ hermítica: igual a su adjunto",
+  "✗ non hermitiana":
+    "✗ no hermítica",
+  "✓ proiettore: rifarlo non cambia niente":
+    "✓ proyector: rehacerlo no cambia nada",
+  "autovalori: :a e :b":
+    "autovalores: :a y :b",
+  "autovalori complessi (delta < 0)":
+    "autovalores complejos (discriminante < 0)",
+  "unitaria":
+    "unitaria",
+  "hermitiana":
+    "hermítica",
+  "proiettore":
+    "proyector",
+  "i pallini grigi sono le frecce di partenza, quelli colorati dove finiscono":
+    "los puntos grises son las flechas de partida, los de color dónde acaban",
+  "Macchine pronte":
+    "Máquinas listas",
+  "rotazione":
+    "rotación",
+  "schiaccia":
+    "aplasta",
+  "Traccia :t, determinante :d.":
+    "Traza :t, determinante :d.",
+  "Autovalori <b>:a</b> e <b>:b</b>: numeri veri, quindi ci sono direzioni ferme.":
+    "Autovalores <b>:a</b> y <b>:b</b>: números reales, así que hay direcciones fijas.",
+  "Autovalori complessi: nessuna direzione resta ferma — è una rotazione.":
+    "Autovalores complejos: ninguna dirección se queda quieta — es una rotación.",
+  "Unitaria <b>e</b> hermitiana insieme: è una specchiata. Applicandola due volte torni al punto di partenza — come le porte X, Z e H.":
+    "Unitaria <b>y</b> hermítica a la vez: es una reflexión. Aplicándola dos veces vuelves al punto de partida — como las puertas X, Z y H.",
+  "Unitaria: nessuna freccia cambia lunghezza. Una porta quantistica deve essere così, altrimenti le probabilità non farebbero più 100%.":
+    "Unitaria: ninguna flecha cambia de longitud. Una puerta cuántica tiene que ser así, si no las probabilidades dejarían de sumar 100%.",
+  "Hermitiana: uguale al suo aggiunto, e i suoi autovalori sono sempre numeri reali. È la forma di un'osservabile.":
+    "Hermítica: igual a su adjunto, y sus autovalores son siempre números reales. Es la forma de un observable.",
+  "Proiettore: schiaccia tutto su una retta, e rifarlo non cambia più niente. È la forma di una misura.":
+    "Proyector: aplasta todo sobre una recta, y rehacerlo ya no cambia nada. Es la forma de una medida.",
+  "Per ora non è di nessuna delle tre famiglie: continua a girare le manopole.":
+    "Por ahora no es de ninguna de las tres familias: sigue girando los mandos.",
+  "<b>Le tre parole della meccanica quantistica.</b> Una <b>porta</b> è una macchina unitaria: non cambia le lunghezze, quindi le probabilità restano 100% e il circuito si può rifare al contrario (livello :k). Un'<b>osservabile</b> è una macchina hermitiana: i suoi autovalori sono reali, cioè numeri che si possono leggere su uno strumento. Una <b>misura</b> è un proiettore. Tre famiglie di matrici, tre concetti — e li hai appena costruiti con quattro manopole.":
+    "<b>Las tres palabras de la mecánica cuántica.</b> Una <b>puerta</b> es una máquina unitaria: no cambia las longitudes, así que las probabilidades siguen sumando 100% y el circuito se puede rehacer al revés (nivel :k). Un <b>observable</b> es una máquina hermítica: sus autovalores son reales, es decir números que se pueden leer en un instrumento. Una <b>medida</b> es un proyector. Tres familias de matrices, tres conceptos — y acabas de construirlos con cuatro mandos.",
+  "Misurare è proiettare":
+    "Medir es proyectar",
+  "lo stato si schiaccia sulla direzione che esce — e se rileggi, trovi lo stesso":
+    "el estado se aplasta sobre la dirección que sale — y si vuelves a leer, encuentras lo mismo",
+  "misura, poi rimisura: cambia qualcosa?":
+    "mide, luego vuelve a medir: ¿cambia algo?",
+  "basi provate: :fatte su :totali":
+    "bases probadas: :fatte de :totali",
+  "probabilità: :a% sulla verde, :b% sulla rosa":
+    "probabilidad: :a% en la verde, :b% en la rosa",
+  "letture: :l":
+    "lecturas: :l",
+  "verde":
+    "verde",
+  "rosa":
+    "rosa",
+  "nessuna lettura ancora":
+    "todavía ninguna lectura",
+  "Direzione di misura":
+    "Dirección de medida",
+  "lo stato, a quanti gradi":
+    "el estado, a cuántos grados",
+  "rimetti lo stato com'era":
+    "deja el estado como estaba",
+  "Lo stato è a <b>:s°</b>, la direzione di misura a <b>:d°</b>. Le due ombre al quadrato fanno <b>:a%</b> e <b>:b%</b> — e sommano a 100.":
+    "El estado está a <b>:s°</b>, la dirección de medida a <b>:d°</b>. Las dos sombras al cuadrado dan <b>:a%</b> y <b>:b%</b> — y suman 100.",
+  "Premi «misura»: il risultato esce a caso, con quelle probabilità.":
+    "Pulsa «medir»: el resultado sale al azar, con esas probabilidades.",
+  "È uscito <b>:e</b>, e lo stato si è schiacciato su quella direzione. Adesso rimisura: la probabilità è diventata 100% da quella parte.":
+    "Ha salido <b>:e</b>, y el estado se ha aplastado sobre esa dirección. Ahora vuelve a medir: la probabilidad se ha vuelto 100% por ese lado.",
+  "Letto :q volte, sempre lo stesso. Non è fortuna: il proiettore applicato due volte dà lo stesso risultato della prima — P·P = P, e i numeri lo confermano: :n.":
+    "Leído :q veces, siempre lo mismo. No es suerte: el proyector aplicado dos veces da el mismo resultado que la primera — P·P = P, y los números lo confirman: :n.",
+  "<b>Perché rileggere non cambia la risposta.</b> Un proiettore ha una proprietà che si scrive in tre simboli — <b>P·P = P</b> — e vuol dire «applicarlo due volte è come applicarlo una volta». Nel mondo quantistico è la frase «una volta misurato, lo stato è quello»: il collasso non è un'ipotesi in più, è la faccia fisica dell'idempotenza. E le due probabilità che sommano a 100 sono l'altra proprietà: i due proiettori messi insieme fanno l'identità.":
+    "<b>Por qué releer no cambia la respuesta.</b> Un proyector tiene una propiedad que cabe en tres símbolos — <b>P·P = P</b> — y significa «aplicarlo dos veces es como aplicarlo una». En el mundo cuántico es la frase «una vez medido, el estado es ese»: el colapso no es una hipótesis de más, es la cara física de la idempotencia. Y las dos probabilidades que suman 100 son la otra propiedad: los dos proyectores juntos dan la identidad.",
 };

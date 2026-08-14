@@ -3218,4 +3218,97 @@ export default {
     "You cover the whole plane, but with :q arrows: one is redundant, it can be written using the others. Switch one off.",
   "<b>Il numero che non cambia mai.</b> Comunque scegli le frecce, per coprire il piano ce ne vogliono <b>esattamente due</b>: meno non bastano, di più sono ridondanti. Quel numero è la <b>dimensione</b>, e non dipende dalla base. Un qubit vive in dimensione 2 (le ampiezze di 0 e 1); due qubit in dimensione 4; <b>n qubit in dimensione 2^n</b> — non 2n. È tutta lì la ragione per cui, da qualche decina di qubit in su, simulare il registro su un computer normale diventa impossibile.":
     "<b>The number that never changes.</b> However you pick the arrows, covering the plane takes <b>exactly two</b>: fewer are not enough, more are redundant. That number is the <b>dimension</b>, and it does not depend on the basis. A qubit lives in dimension 2 (the amplitudes of 0 and 1); two qubits in dimension 4; <b>n qubits in dimension 2^n</b> — not 2n. That is the whole reason why, from a few dozen qubits up, simulating the register on an ordinary computer becomes impossible.",
+  /* ---------------- livello M·5: operatori ---------------- */
+  "Operatori: porte, osservabili e misure sono tre tipi di matrice":
+    "Operators: gates, observables and measurements are three kinds of matrix",
+  "Unitaria = non cambia le lunghezze. Hermitiana = autovalori reali. Proiettore = rifarlo non cambia niente. Le tre parole della quantistica, costruite con quattro manopole.":
+    "Unitary = does not change lengths. Hermitian = real eigenvalues. Projector = redoing it changes nothing. The three words of quantum mechanics, built with four knobs.",
+  "Che razza di macchina è?":
+    "What kind of machine is it?",
+  "quattro manopole, tre etichette: conserva le lunghezze? è uguale al suo aggiunto? si può rifare?":
+    "four knobs, three labels: does it keep lengths? does it equal its adjoint? can it be redone?",
+  "costruisci una unitaria, una hermitiana e una che sia tutte e due":
+    "build a unitary, a Hermitian, and one that is both",
+  "famiglie trovate: :fatte su :totali":
+    "families found: :fatte of :totali",
+  "✓ unitaria: non cambia le lunghezze":
+    "✓ unitary: it does not change lengths",
+  "✗ non unitaria: le lunghezze cambiano":
+    "✗ not unitary: lengths change",
+  "✓ hermitiana: uguale al suo aggiunto":
+    "✓ Hermitian: equal to its adjoint",
+  "✗ non hermitiana":
+    "✗ not Hermitian",
+  "✓ proiettore: rifarlo non cambia niente":
+    "✓ projector: redoing it changes nothing",
+  "autovalori: :a e :b":
+    "eigenvalues: :a and :b",
+  "autovalori complessi (delta < 0)":
+    "complex eigenvalues (discriminant < 0)",
+  "unitaria":
+    "unitary",
+  "hermitiana":
+    "Hermitian",
+  "proiettore":
+    "projector",
+  "i pallini grigi sono le frecce di partenza, quelli colorati dove finiscono":
+    "the grey dots are the starting arrows, the coloured ones where they end up",
+  "Macchine pronte":
+    "Ready-made machines",
+  "rotazione":
+    "rotation",
+  "schiaccia":
+    "flatten",
+  "Traccia :t, determinante :d.":
+    "Trace :t, determinant :d.",
+  "Autovalori <b>:a</b> e <b>:b</b>: numeri veri, quindi ci sono direzioni ferme.":
+    "Eigenvalues <b>:a</b> and <b>:b</b>: real numbers, so there are still directions.",
+  "Autovalori complessi: nessuna direzione resta ferma — è una rotazione.":
+    "Complex eigenvalues: no direction stays still — it is a rotation.",
+  "Unitaria <b>e</b> hermitiana insieme: è una specchiata. Applicandola due volte torni al punto di partenza — come le porte X, Z e H.":
+    "Unitary <b>and</b> Hermitian at once: it is a reflection. Apply it twice and you are back where you started — like the X, Z and H gates.",
+  "Unitaria: nessuna freccia cambia lunghezza. Una porta quantistica deve essere così, altrimenti le probabilità non farebbero più 100%.":
+    "Unitary: no arrow changes length. A quantum gate has to be like this, otherwise the probabilities would stop making 100%.",
+  "Hermitiana: uguale al suo aggiunto, e i suoi autovalori sono sempre numeri reali. È la forma di un'osservabile.":
+    "Hermitian: equal to its adjoint, and its eigenvalues are always real numbers. That is the shape of an observable.",
+  "Proiettore: schiaccia tutto su una retta, e rifarlo non cambia più niente. È la forma di una misura.":
+    "Projector: it flattens everything onto a line, and redoing it changes nothing more. That is the shape of a measurement.",
+  "Per ora non è di nessuna delle tre famiglie: continua a girare le manopole.":
+    "For now it belongs to none of the three families: keep turning the knobs.",
+  "<b>Le tre parole della meccanica quantistica.</b> Una <b>porta</b> è una macchina unitaria: non cambia le lunghezze, quindi le probabilità restano 100% e il circuito si può rifare al contrario (livello :k). Un'<b>osservabile</b> è una macchina hermitiana: i suoi autovalori sono reali, cioè numeri che si possono leggere su uno strumento. Una <b>misura</b> è un proiettore. Tre famiglie di matrici, tre concetti — e li hai appena costruiti con quattro manopole.":
+    "<b>The three words of quantum mechanics.</b> A <b>gate</b> is a unitary machine: it does not change lengths, so the probabilities stay at 100% and the circuit can be run backwards (level :k). An <b>observable</b> is a Hermitian machine: its eigenvalues are real, that is, numbers you can read on an instrument. A <b>measurement</b> is a projector. Three families of matrices, three concepts — and you have just built them with four knobs.",
+  "Misurare è proiettare":
+    "Measuring is projecting",
+  "lo stato si schiaccia sulla direzione che esce — e se rileggi, trovi lo stesso":
+    "the state flattens onto whichever direction comes out — and if you read again, you find the same",
+  "misura, poi rimisura: cambia qualcosa?":
+    "measure, then measure again: does anything change?",
+  "basi provate: :fatte su :totali":
+    "bases tried: :fatte of :totali",
+  "probabilità: :a% sulla verde, :b% sulla rosa":
+    "probability: :a% on the green, :b% on the pink",
+  "letture: :l":
+    "readings: :l",
+  "verde":
+    "green",
+  "rosa":
+    "pink",
+  "nessuna lettura ancora":
+    "no reading yet",
+  "Direzione di misura":
+    "Measurement direction",
+  "lo stato, a quanti gradi":
+    "the state, at how many degrees",
+  "rimetti lo stato com'era":
+    "put the state back as it was",
+  "Lo stato è a <b>:s°</b>, la direzione di misura a <b>:d°</b>. Le due ombre al quadrato fanno <b>:a%</b> e <b>:b%</b> — e sommano a 100.":
+    "The state is at <b>:s°</b>, the measurement direction at <b>:d°</b>. The two shadows squared make <b>:a%</b> and <b>:b%</b> — and they add to 100.",
+  "Premi «misura»: il risultato esce a caso, con quelle probabilità.":
+    "Press «measure»: the result comes out at random, with those probabilities.",
+  "È uscito <b>:e</b>, e lo stato si è schiacciato su quella direzione. Adesso rimisura: la probabilità è diventata 100% da quella parte.":
+    "It came out <b>:e</b>, and the state has flattened onto that direction. Now measure again: the probability has become 100% on that side.",
+  "Letto :q volte, sempre lo stesso. Non è fortuna: il proiettore applicato due volte dà lo stesso risultato della prima — P·P = P, e i numeri lo confermano: :n.":
+    "Read :q times, always the same. It is not luck: the projector applied twice gives the same result as the first time — P·P = P, and the numbers confirm it: :n.",
+  "<b>Perché rileggere non cambia la risposta.</b> Un proiettore ha una proprietà che si scrive in tre simboli — <b>P·P = P</b> — e vuol dire «applicarlo due volte è come applicarlo una volta». Nel mondo quantistico è la frase «una volta misurato, lo stato è quello»: il collasso non è un'ipotesi in più, è la faccia fisica dell'idempotenza. E le due probabilità che sommano a 100 sono l'altra proprietà: i due proiettori messi insieme fanno l'identità.":
+    "<b>Why re-reading does not change the answer.</b> A projector has a property that fits in three symbols — <b>P·P = P</b> — meaning «applying it twice is like applying it once». In the quantum world that is the sentence «once measured, the state is that one»: collapse is not an extra hypothesis, it is the physical face of idempotence. And the two probabilities adding to 100 are the other property: the two projectors put together make the identity.",
 };

@@ -341,6 +341,27 @@ return [
             ],
         ],
         [
+            'id' => 'm5-operatori',
+            'n' => 'M·5',
+            'part' => 'M',
+            'xp' => 95,
+            'slug' => [
+                'it' => 'm5-operatori',
+                'en' => 'm5-operators',
+                'es' => 'm5-operadores',
+            ],
+            'title' => [
+                'it' => 'Operatori: porte, osservabili e misure sono tre tipi di matrice',
+                'en' => 'Operators: gates, observables and measurements are three kinds of matrix',
+                'es' => 'Operadores: puertas, observables y medidas son tres tipos de matriz',
+            ],
+            'description' => [
+                'it' => 'Unitaria = non cambia le lunghezze. Hermitiana = autovalori reali. Proiettore = rifarlo non cambia niente. Le tre parole della quantistica, costruite con quattro manopole.',
+                'en' => 'Unitary = does not change lengths. Hermitian = real eigenvalues. Projector = redoing it changes nothing. The three words of quantum mechanics, built with four knobs.',
+                'es' => 'Unitaria = no cambia las longitudes. Hermítica = autovalores reales. Proyector = rehacerlo no cambia nada. Las tres palabras de lo cuántico, construidas con cuatro mandos.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',
