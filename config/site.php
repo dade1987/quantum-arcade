@@ -299,6 +299,27 @@ return [
             ],
         ],
         [
+            'id' => 'm3-complessi',
+            'n' => 'M·3',
+            'part' => 'M',
+            'xp' => 95,
+            'slug' => [
+                'it' => 'm3-complessi',
+                'en' => 'm3-complex-numbers',
+                'es' => 'm3-numeros-complejos',
+            ],
+            'title' => [
+                'it' => 'Numeri complessi per bene: e^(iθ) e le radici dell\'unità',
+                'en' => 'Complex numbers properly: e^(iθ) and the roots of unity',
+                'es' => 'Números complejos como es debido: e^(iθ) y las raíces de la unidad',
+            ],
+            'description' => [
+                'it' => 'Moltiplicare è allungare e girare, da lì la scrittura e^(iθ) — e le n frecce che sommate fanno zero, cioè il motore della trasformata di Fourier.',
+                'en' => 'Multiplying is stretching and turning, hence the notation e^(iθ) — and the n arrows that add up to zero, the engine of the Fourier transform.',
+                'es' => 'Multiplicar es alargar y girar, de ahí la escritura e^(iθ) — y las n flechas que sumadas dan cero, es decir el motor de la transformada de Fourier.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

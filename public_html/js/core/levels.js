@@ -44,6 +44,7 @@ const SLUG = {
   '00-scalare': { en: '00-dot-product', es: '00-producto-escalar' },
   'm1-polinomi': { en: 'm1-polynomials', es: 'm1-polinomios' },
   'm2-goniometria': { en: 'm2-trigonometry', es: 'm2-trigonometria' },
+  'm3-complessi': { en: 'm3-complex-numbers', es: 'm3-numeros-complejos' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -180,6 +181,10 @@ export const LEVELS = [
   { id: 'm2-goniometria', part: 'M', n: 'M·2', open: true,
     title: t('Girare due volte: le formule di addizione'),
     desc: t('L\'identità fondamentale che è Pitagora travestito, due giri che ne fanno uno solo — e la scoperta che ogni giro di Grover aggiunge 2θ.'), xp: 90 },
+
+  { id: 'm3-complessi', part: 'M', n: 'M·3', open: true,
+    title: t('Numeri complessi per bene: e^(iθ) e le radici dell\'unità'),
+    desc: t('Moltiplicare è allungare e girare, da lì la scrittura e^(iθ) — e le n frecce che sommate fanno zero, cioè il motore della trasformata di Fourier.'), xp: 95 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

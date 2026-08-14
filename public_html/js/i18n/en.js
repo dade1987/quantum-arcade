@@ -3062,4 +3062,75 @@ export default {
     "Still far from 90°: try another round.",
   "<b>Perché 2θ e non θ.</b> Un giro di Grover fa due specchiate, e due specchiate di fila sono <b>una rotazione del doppio dell'angolo fra i due specchi</b>. Quindi ogni giro somma 2θ — ed è la formula di duplicazione applicata al livello :n. Il √N non è una scelta: è il numero di volte che ci sta 2θ dentro 90°.":
     "<b>Why 2θ and not θ.</b> A Grover round performs two reflections, and two reflections in a row are <b>a rotation by twice the angle between the two mirrors</b>. So each round adds 2θ — and that is the double-angle formula applied to level :n. The √N is not a choice: it is how many times 2θ fits inside 90°.",
+  /* ---------------- livello M·3: numeri complessi ---------------- */
+  "Numeri complessi per bene: e^(iθ) e le radici dell'unità":
+    "Complex numbers properly: e^(iθ) and the roots of unity",
+  "Moltiplicare è allungare e girare, da lì la scrittura e^(iθ) — e le n frecce che sommate fanno zero, cioè il motore della trasformata di Fourier.":
+    "Multiplying is stretching and turning, hence the notation e^(iθ) — and the n arrows that add up to zero, the engine of the Fourier transform.",
+  "Moltiplicare due frecce":
+    "Multiplying two arrows",
+  "le lunghezze si moltiplicano, gli angoli si sommano: guardalo succedere":
+    "the lengths multiply, the angles add: watch it happen",
+  "fai finire il prodotto sul bersaglio (lungo :r, girato di :g°)":
+    "land the product on the target (length :r, turned by :g°)",
+  "freccia 1: lunga :r, a :g°":
+    "arrow 1: length :r, at :g°",
+  "freccia 2: lunga :r, a :g°":
+    "arrow 2: length :r, at :g°",
+  "prodotto: lungo :r, a :g°":
+    "product: length :r, at :g°",
+  ":a × :b = :c":
+    ":a × :b = :c",
+  ":a° + :b° = :c°":
+    ":a° + :b° = :c°",
+  "in coordinate: (:a + :b i) × (:c + :d i)":
+    "in coordinates: (:a + :b i) × (:c + :d i)",
+  "= :e + :f i":
+    "= :e + :f i",
+  "lunghezza 1":
+    "length 1",
+  "angolo 1":
+    "angle 1",
+  "lunghezza 2":
+    "length 2",
+  "angolo 2":
+    "angle 2",
+  "Lunghezze: :a × :b = <b>:c</b>. Angoli: :d° + :e° = <b>:f°</b>.":
+    "Lengths: :a × :b = <b>:c</b>. Angles: :d° + :e° = <b>:f°</b>.",
+  "E il prodotto calcolato in coordinate viene lungo <b>:r</b> e girato di <b>:g°</b>: gli stessi due numeri.":
+    "And the product worked out in coordinates comes out with length <b>:r</b> and turned by <b>:g°</b>: the same two numbers.",
+  "Moltiplicare non è «fare più grande»: è <b>allungare e girare</b>. Con lunghezza 1 resta solo il girare — ed è quello che fa una fase quantistica.":
+    "Multiplying is not «making bigger»: it is <b>stretching and turning</b>. With length 1 only the turning is left — and that is what a quantum phase does.",
+  "<b>Perché gli angoli si sommano.</b> Svolgi il prodotto di due frecce di lunghezza 1: (cos a + i·sin a)(cos b + i·sin b). La parte senza i viene cos a·cos b − sin a·sin b, quella con la i viene sin a·cos b + cos a·sin b. Sono <b>esattamente</b> le formule di addizione del livello :n: cioè cos(a+b) e sin(a+b). Il prodotto è la freccia a a+b gradi, e non poteva essere altro.":
+    "<b>Why the angles add.</b> Expand the product of two arrows of length 1: (cos a + i·sin a)(cos b + i·sin b). The part without i comes out cos a·cos b − sin a·sin b, the part with the i comes out sin a·cos b + cos a·sin b. Those are <b>exactly</b> the addition formulas of level :n: that is, cos(a+b) and sin(a+b). The product is the arrow at a+b degrees, and it could not have been anything else.",
+  "Le radici dell'unità: n frecce che si annullano":
+    "The roots of unity: n arrows that cancel out",
+  "gli n numeri che elevati alla n danno 1 — e la loro somma":
+    "the n numbers that raised to the n give 1 — and their sum",
+  "somma tutte le :n frecce e guarda dove arrivi":
+    "add up all :n arrows and see where you land",
+  "poligoni chiusi: :fatte su :totali":
+    "polygons closed: :fatte of :totali",
+  "punta contro coda":
+    "tip to tail",
+  "torna al punto di partenza: somma = 0":
+    "back to the starting point: sum = 0",
+  "somma delle prime :q: (:a ; :b)":
+    "sum of the first :q: (:a ; :b)",
+  "Quante radici":
+    "How many roots",
+  "aggiungi una freccia":
+    "add one arrow",
+  "tutte insieme":
+    "all at once",
+  "Le <b>:n</b> radici stanno a :p° una dall'altra: sono i vertici di un poligono regolare, il primo in 1.":
+    "The <b>:n</b> roots sit :p° apart: they are the vertices of a regular polygon, the first one on 1.",
+  "Sommate le prime :q, sei arrivato a (<b>:a</b> ; <b>:b</b>).":
+    "Having added the first :q, you have reached (<b>:a</b> ; <b>:b</b>).",
+  "Zero. Le :n frecce si annullano fra loro: puntano in tutte le direzioni in modo perfettamente bilanciato, e la catena si chiude.":
+    "Zero. The :n arrows cancel one another: they point in every direction in perfect balance, and the chain closes.",
+  "Aggiungine ancora: la catena non si è ancora chiusa.":
+    "Add some more: the chain has not closed yet.",
+  "<b>Questo zero è l'interferenza distruttiva.</b> Le n radici dell'unità sono le stesse frecce che la DFT del livello :dft usa per pesare i campioni, e il fatto che sommate facciano zero è il motivo per cui tutte le frequenze sbagliate si cancellano e resta solo il picco. La stessa catena che si chiude l'hai già vista al livello :serie: qui sai anche <b>chi sono</b> quelle frecce.":
+    "<b>This zero is destructive interference.</b> The n roots of unity are the same arrows the DFT of level :dft uses to weight the samples, and the fact that they add to zero is why every wrong frequency cancels and only the peak is left. You have seen the same closing chain at level :serie: here you also know <b>who</b> those arrows are.",
 };

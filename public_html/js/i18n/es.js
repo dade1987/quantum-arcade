@@ -3063,4 +3063,75 @@ export default {
     "Todavía lejos de 90°: prueba otra vuelta.",
   "<b>Perché 2θ e non θ.</b> Un giro di Grover fa due specchiate, e due specchiate di fila sono <b>una rotazione del doppio dell'angolo fra i due specchi</b>. Quindi ogni giro somma 2θ — ed è la formula di duplicazione applicata al livello :n. Il √N non è una scelta: è il numero di volte che ci sta 2θ dentro 90°.":
     "<b>Por qué 2θ y no θ.</b> Una vuelta de Grover hace dos reflexiones, y dos reflexiones seguidas son <b>una rotación del doble del ángulo entre los dos espejos</b>. Así que cada vuelta suma 2θ — y es la fórmula de duplicación aplicada al nivel :n. El √N no es una elección: es el número de veces que cabe 2θ dentro de 90°.",
+  /* ---------------- livello M·3: numeri complessi ---------------- */
+  "Numeri complessi per bene: e^(iθ) e le radici dell'unità":
+    "Números complejos como es debido: e^(iθ) y las raíces de la unidad",
+  "Moltiplicare è allungare e girare, da lì la scrittura e^(iθ) — e le n frecce che sommate fanno zero, cioè il motore della trasformata di Fourier.":
+    "Multiplicar es alargar y girar, de ahí la escritura e^(iθ) — y las n flechas que sumadas dan cero, es decir el motor de la transformada de Fourier.",
+  "Moltiplicare due frecce":
+    "Multiplicar dos flechas",
+  "le lunghezze si moltiplicano, gli angoli si sommano: guardalo succedere":
+    "las longitudes se multiplican, los ángulos se suman: míralo suceder",
+  "fai finire il prodotto sul bersaglio (lungo :r, girato di :g°)":
+    "haz que el producto acabe en el objetivo (longitud :r, girado :g°)",
+  "freccia 1: lunga :r, a :g°":
+    "flecha 1: longitud :r, a :g°",
+  "freccia 2: lunga :r, a :g°":
+    "flecha 2: longitud :r, a :g°",
+  "prodotto: lungo :r, a :g°":
+    "producto: longitud :r, a :g°",
+  ":a × :b = :c":
+    ":a × :b = :c",
+  ":a° + :b° = :c°":
+    ":a° + :b° = :c°",
+  "in coordinate: (:a + :b i) × (:c + :d i)":
+    "en coordenadas: (:a + :b i) × (:c + :d i)",
+  "= :e + :f i":
+    "= :e + :f i",
+  "lunghezza 1":
+    "longitud 1",
+  "angolo 1":
+    "ángulo 1",
+  "lunghezza 2":
+    "longitud 2",
+  "angolo 2":
+    "ángulo 2",
+  "Lunghezze: :a × :b = <b>:c</b>. Angoli: :d° + :e° = <b>:f°</b>.":
+    "Longitudes: :a × :b = <b>:c</b>. Ángulos: :d° + :e° = <b>:f°</b>.",
+  "E il prodotto calcolato in coordinate viene lungo <b>:r</b> e girato di <b>:g°</b>: gli stessi due numeri.":
+    "Y el producto calculado en coordenadas sale de longitud <b>:r</b> y girado <b>:g°</b>: los mismos dos números.",
+  "Moltiplicare non è «fare più grande»: è <b>allungare e girare</b>. Con lunghezza 1 resta solo il girare — ed è quello che fa una fase quantistica.":
+    "Multiplicar no es «hacer más grande»: es <b>alargar y girar</b>. Con longitud 1 solo queda el girar — y es lo que hace una fase cuántica.",
+  "<b>Perché gli angoli si sommano.</b> Svolgi il prodotto di due frecce di lunghezza 1: (cos a + i·sin a)(cos b + i·sin b). La parte senza i viene cos a·cos b − sin a·sin b, quella con la i viene sin a·cos b + cos a·sin b. Sono <b>esattamente</b> le formule di addizione del livello :n: cioè cos(a+b) e sin(a+b). Il prodotto è la freccia a a+b gradi, e non poteva essere altro.":
+    "<b>Por qué se suman los ángulos.</b> Desarrolla el producto de dos flechas de longitud 1: (cos a + i·sin a)(cos b + i·sin b). La parte sin i sale cos a·cos b − sin a·sin b, la parte con la i sale sin a·cos b + cos a·sin b. Son <b>exactamente</b> las fórmulas de adición del nivel :n: es decir cos(a+b) y sin(a+b). El producto es la flecha a a+b grados, y no podía ser otra cosa.",
+  "Le radici dell'unità: n frecce che si annullano":
+    "Las raíces de la unidad: n flechas que se anulan",
+  "gli n numeri che elevati alla n danno 1 — e la loro somma":
+    "los n números que elevados a la n dan 1 — y su suma",
+  "somma tutte le :n frecce e guarda dove arrivi":
+    "suma las :n flechas y mira dónde llegas",
+  "poligoni chiusi: :fatte su :totali":
+    "polígonos cerrados: :fatte de :totali",
+  "punta contro coda":
+    "punta con cola",
+  "torna al punto di partenza: somma = 0":
+    "vuelve al punto de partida: suma = 0",
+  "somma delle prime :q: (:a ; :b)":
+    "suma de las primeras :q: (:a ; :b)",
+  "Quante radici":
+    "Cuántas raíces",
+  "aggiungi una freccia":
+    "añade una flecha",
+  "tutte insieme":
+    "todas a la vez",
+  "Le <b>:n</b> radici stanno a :p° una dall'altra: sono i vertici di un poligono regolare, il primo in 1.":
+    "Las <b>:n</b> raíces están a :p° una de otra: son los vértices de un polígono regular, la primera en el 1.",
+  "Sommate le prime :q, sei arrivato a (<b>:a</b> ; <b>:b</b>).":
+    "Sumadas las primeras :q, has llegado a (<b>:a</b> ; <b>:b</b>).",
+  "Zero. Le :n frecce si annullano fra loro: puntano in tutte le direzioni in modo perfettamente bilanciato, e la catena si chiude.":
+    "Cero. Las :n flechas se anulan entre sí: apuntan en todas las direcciones de forma perfectamente equilibrada, y la cadena se cierra.",
+  "Aggiungine ancora: la catena non si è ancora chiusa.":
+    "Añade alguna más: la cadena todavía no se ha cerrado.",
+  "<b>Questo zero è l'interferenza distruttiva.</b> Le n radici dell'unità sono le stesse frecce che la DFT del livello :dft usa per pesare i campioni, e il fatto che sommate facciano zero è il motivo per cui tutte le frequenze sbagliate si cancellano e resta solo il picco. La stessa catena che si chiude l'hai già vista al livello :serie: qui sai anche <b>chi sono</b> quelle frecce.":
+    "<b>Este cero es la interferencia destructiva.</b> Las n raíces de la unidad son las mismas flechas que la DFT del nivel :dft usa para pesar las muestras, y el hecho de que sumadas den cero es el motivo por el que todas las frecuencias equivocadas se cancelan y solo queda el pico. La misma cadena que se cierra ya la viste en el nivel :serie: aquí sabes además <b>quiénes son</b> esas flechas.",
 };
