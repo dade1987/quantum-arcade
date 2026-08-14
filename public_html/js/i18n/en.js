@@ -2993,4 +2993,73 @@ export default {
     "The last number is <b>:v</b>. If it is zero, r is a root and the other numbers are the polynomial left over. If it is not zero, you have still just evaluated P(:r) with only :h multiplications instead of :b.",
   "<b>La stessa riga di numeri fa due cose.</b> Se il resto è zero hai <b>diviso</b> il polinomio; se non lo è hai <b>calcolato</b> il polinomio in quel punto (teorema del resto). E l'hai fatto con una moltiplicazione per coefficiente: è lo schema di Horner, il modo più veloce che si conosca. Al livello :n scoprirai che la DFT è proprio questo — calcolare un polinomio in tanti punti — e la FFT è il «dividi a metà» applicato qui dentro.":
     "<b>The same row of numbers does two things.</b> If the remainder is zero you have <b>divided</b> the polynomial; if it is not, you have <b>evaluated</b> the polynomial at that point (remainder theorem). And you did it with one multiplication per coefficient: that is Horner's scheme, the fastest known. At level :n you will discover that the DFT is exactly this — evaluating a polynomial at many points — and the FFT is the «split in half» applied inside it.",
+  /* ---------------- livello M·2: goniometria ---------------- */
+  "Girare due volte: le formule di addizione":
+    "Turning twice: the addition formulas",
+  "L'identità fondamentale che è Pitagora travestito, due giri che ne fanno uno solo — e la scoperta che ogni giro di Grover aggiunge 2θ.":
+    "The fundamental identity that is Pythagoras in disguise, two turns that make one — and the discovery that every Grover round adds 2θ.",
+  "La giostra: due giri fanno un giro solo":
+    "The carousel: two turns make one turn",
+  "gira di a, poi di b: dove finisci? e che numeri ci sono dietro?":
+    "turn by a, then by b: where do you end up? and what numbers are behind it?",
+  "arriva esattamente a :b° sommando i due giri":
+    "land exactly on :b° by adding the two turns",
+  "bersagli presi: :fatte su :totali":
+    "targets hit: :fatte of :totali",
+  "a = :a°":
+    "a = :a°",
+  "b = :b°":
+    "b = :b°",
+  "a + b = :s°":
+    "a + b = :s°",
+  "sin² + cos² = :p":
+    "sin² + cos² = :p",
+  "il giro azzurro poi quello viola finiscono dove finisce un giro solo di :s°":
+    "the blue turn then the purple one end up where a single turn of :s° ends up",
+  "Giro di <b>:a°</b>, poi di <b>:b°</b>: finisci a <b>:s°</b>.":
+    "A turn of <b>:a°</b>, then of <b>:b°</b>: you end up at <b>:s°</b>.",
+  "Con la formula: cos(a+b) = cos a · cos b − sin a · sin b = <b>:f</b>.":
+    "With the formula: cos(a+b) = cos a · cos b − sin a · sin b = <b>:f</b>.",
+  "Girando davvero di :s°: cos = <b>:d</b>.":
+    "Actually turning by :s°: cos = <b>:d</b>.",
+  "Stesso numero. Non è una coincidenza: la formula dice soltanto che due giri sono un giro solo.":
+    "Same number. Not a coincidence: the formula says only that two turns are one turn.",
+  "<b>Da dove esce la formula.</b> Al livello :n hai visto che una rotazione è una matrice. Fare due rotazioni è <b>moltiplicare le due matrici</b>: svolgi il prodotto riga per colonna e nelle caselle compaiono, già scritte, cos a·cos b − sin a·sin b e sin a·cos b + cos a·sin b. Le formule di addizione non sono da imparare: sono il prodotto di due matrici letto ad alta voce.":
+    "<b>Where the formula comes from.</b> At level :n you saw that a rotation is a matrix. Doing two rotations means <b>multiplying the two matrices</b>: work the product out row by column and the cells already contain cos a·cos b − sin a·sin b and sin a·cos b + cos a·sin b. The addition formulas are not to be learnt: they are the product of two matrices read out loud.",
+  "Grover visto come un angolo che cresce":
+    "Grover seen as a growing angle",
+  "ogni giro aggiunge 2θ: arriva più vicino che puoi a 90°, e prova a superarlo":
+    "each round adds 2θ: get as close to 90° as you can, then try going past it",
+  "porta la freccia il più vicino possibile a 90°":
+    "bring the arrow as close as possible to 90°",
+  "elenchi centrati: :fatte su :totali":
+    "lists hit: :fatte of :totali",
+  "sbagliate":
+    "wrong ones",
+  "giusta":
+    "right one",
+  "probabilità":
+    "probability",
+  "θ = :t° · giri fatti: :k · angolo = (2·:k+1)·θ = :a°":
+    "θ = :t° · rounds done: :k · angle = (2·:k+1)·θ = :a°",
+  "hai superato i 90°: da qui in poi la probabilità SCENDE":
+    "you have gone past 90°: from here on the probability GOES DOWN",
+  "il numero di giri che centra meglio è :o":
+    "the number of rounds that hits best is :o",
+  "Quante risposte in tutto":
+    "How many answers in total",
+  "un giro di Grover":
+    "one Grover round",
+  "Su <b>:n</b> risposte, all'inizio la freccia sta a θ = <b>:t°</b> dall'asse delle sbagliate: sin θ = √(1/:n).":
+    "On <b>:n</b> answers, at the start the arrow sits at θ = <b>:t°</b> from the axis of the wrong ones: sin θ = √(1/:n).",
+  "Dopo <b>:k</b> giri l'angolo è (2·:k+1)·θ = <b>:a°</b>, e la probabilità di leggere la risposta giusta è sin² di quell'angolo = <b>:p%</b>.":
+    "After <b>:k</b> rounds the angle is (2·:k+1)·θ = <b>:a°</b>, and the probability of reading the right answer is sin² of that angle = <b>:p%</b>.",
+  "Oltre i 90° la freccia si allontana di nuovo: continuare a girare PEGGIORA le cose. È il difetto che nessuna ricerca classica ha.":
+    "Beyond 90° the arrow moves away again: going on rotating MAKES THINGS WORSE. It is the flaw no classical search has.",
+  "Questo è il punto migliore: :o giri, cioè circa π/4·√:n. Ecco da dove esce il √N di Grover.":
+    "This is the best point: :o rounds, that is about π/4·√:n. That is where Grover's √N comes from.",
+  "Ancora lontano dai 90°: prova un altro giro.":
+    "Still far from 90°: try another round.",
+  "<b>Perché 2θ e non θ.</b> Un giro di Grover fa due specchiate, e due specchiate di fila sono <b>una rotazione del doppio dell'angolo fra i due specchi</b>. Quindi ogni giro somma 2θ — ed è la formula di duplicazione applicata al livello :n. Il √N non è una scelta: è il numero di volte che ci sta 2θ dentro 90°.":
+    "<b>Why 2θ and not θ.</b> A Grover round performs two reflections, and two reflections in a row are <b>a rotation by twice the angle between the two mirrors</b>. So each round adds 2θ — and that is the double-angle formula applied to level :n. The √N is not a choice: it is how many times 2θ fits inside 90°.",
 };

@@ -43,6 +43,7 @@ const SLUG = {
   '00-logaritmi': { en: '00-logarithms', es: '00-logaritmos' },
   '00-scalare': { en: '00-dot-product', es: '00-producto-escalar' },
   'm1-polinomi': { en: 'm1-polynomials', es: 'm1-polinomios' },
+  'm2-goniometria': { en: 'm2-trigonometry', es: 'm2-trigonometria' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -175,6 +176,10 @@ export const LEVELS = [
   { id: 'm1-polinomi', part: 'M', n: 'M·1', open: true,
     title: t('Polinomi, Ruffini e la formula che non esiste'),
     desc: t('Scomporre cercando i sospettati, la staffetta di Ruffini che è anche il modo più veloce di calcolare un polinomio, e il motivo per cui dal quinto grado in poi una formula non c\'è — e non ci sarà mai.'), xp: 90 },
+
+  { id: 'm2-goniometria', part: 'M', n: 'M·2', open: true,
+    title: t('Girare due volte: le formule di addizione'),
+    desc: t('L\'identità fondamentale che è Pitagora travestito, due giri che ne fanno uno solo — e la scoperta che ogni giro di Grover aggiunge 2θ.'), xp: 90 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

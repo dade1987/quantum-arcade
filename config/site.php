@@ -278,6 +278,27 @@ return [
             ],
         ],
         [
+            'id' => 'm2-goniometria',
+            'n' => 'M·2',
+            'part' => 'M',
+            'xp' => 90,
+            'slug' => [
+                'it' => 'm2-goniometria',
+                'en' => 'm2-trigonometry',
+                'es' => 'm2-trigonometria',
+            ],
+            'title' => [
+                'it' => 'Girare due volte: le formule di addizione',
+                'en' => 'Turning twice: the addition formulas',
+                'es' => 'Girar dos veces: las fórmulas de adición',
+            ],
+            'description' => [
+                'it' => 'L\'identità fondamentale che è Pitagora travestito, due giri che ne fanno uno solo — e la scoperta che ogni giro di Grover aggiunge 2θ.',
+                'en' => 'The fundamental identity that is Pythagoras in disguise, two turns that make one — and the discovery that every Grover round adds 2θ.',
+                'es' => 'La identidad fundamental que es Pitágoras disfrazado, dos giros que hacen uno solo — y el descubrimiento de que cada vuelta de Grover añade 2θ.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

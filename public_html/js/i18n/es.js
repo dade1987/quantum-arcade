@@ -2994,4 +2994,73 @@ export default {
     "El último número es <b>:v</b>. Si es cero, r es una raíz y los demás números son el polinomio que queda. Si no es cero, has calculado igualmente P(:r) con solo :h multiplicaciones en vez de :b.",
   "<b>La stessa riga di numeri fa due cose.</b> Se il resto è zero hai <b>diviso</b> il polinomio; se non lo è hai <b>calcolato</b> il polinomio in quel punto (teorema del resto). E l'hai fatto con una moltiplicazione per coefficiente: è lo schema di Horner, il modo più veloce che si conosca. Al livello :n scoprirai che la DFT è proprio questo — calcolare un polinomio in tanti punti — e la FFT è il «dividi a metà» applicato qui dentro.":
     "<b>La misma fila de números hace dos cosas.</b> Si el resto es cero has <b>dividido</b> el polinomio; si no lo es has <b>calculado</b> el polinomio en ese punto (teorema del resto). Y lo has hecho con una multiplicación por coeficiente: es el esquema de Horner, el más rápido que se conoce. En el nivel :n descubrirás que la DFT es justo esto — calcular un polinomio en muchos puntos — y la FFT es el «parte por la mitad» aplicado aquí dentro.",
+  /* ---------------- livello M·2: goniometria ---------------- */
+  "Girare due volte: le formule di addizione":
+    "Girar dos veces: las fórmulas de adición",
+  "L'identità fondamentale che è Pitagora travestito, due giri che ne fanno uno solo — e la scoperta che ogni giro di Grover aggiunge 2θ.":
+    "La identidad fundamental que es Pitágoras disfrazado, dos giros que hacen uno solo — y el descubrimiento de que cada vuelta de Grover añade 2θ.",
+  "La giostra: due giri fanno un giro solo":
+    "El tiovivo: dos giros hacen un solo giro",
+  "gira di a, poi di b: dove finisci? e che numeri ci sono dietro?":
+    "gira a, luego b: ¿dónde acabas? ¿y qué números hay detrás?",
+  "arriva esattamente a :b° sommando i due giri":
+    "llega exactamente a :b° sumando los dos giros",
+  "bersagli presi: :fatte su :totali":
+    "objetivos acertados: :fatte de :totali",
+  "a = :a°":
+    "a = :a°",
+  "b = :b°":
+    "b = :b°",
+  "a + b = :s°":
+    "a + b = :s°",
+  "sin² + cos² = :p":
+    "sin² + cos² = :p",
+  "il giro azzurro poi quello viola finiscono dove finisce un giro solo di :s°":
+    "el giro azul y luego el violeta acaban donde acaba un solo giro de :s°",
+  "Giro di <b>:a°</b>, poi di <b>:b°</b>: finisci a <b>:s°</b>.":
+    "Giro de <b>:a°</b>, luego de <b>:b°</b>: acabas en <b>:s°</b>.",
+  "Con la formula: cos(a+b) = cos a · cos b − sin a · sin b = <b>:f</b>.":
+    "Con la fórmula: cos(a+b) = cos a · cos b − sin a · sin b = <b>:f</b>.",
+  "Girando davvero di :s°: cos = <b>:d</b>.":
+    "Girando de verdad :s°: cos = <b>:d</b>.",
+  "Stesso numero. Non è una coincidenza: la formula dice soltanto che due giri sono un giro solo.":
+    "El mismo número. No es casualidad: la fórmula solo dice que dos giros son un giro solo.",
+  "<b>Da dove esce la formula.</b> Al livello :n hai visto che una rotazione è una matrice. Fare due rotazioni è <b>moltiplicare le due matrici</b>: svolgi il prodotto riga per colonna e nelle caselle compaiono, già scritte, cos a·cos b − sin a·sin b e sin a·cos b + cos a·sin b. Le formule di addizione non sono da imparare: sono il prodotto di due matrici letto ad alta voce.":
+    "<b>De dónde sale la fórmula.</b> En el nivel :n viste que una rotación es una matriz. Hacer dos rotaciones es <b>multiplicar las dos matrices</b>: haz el producto fila por columna y en las casillas aparecen, ya escritas, cos a·cos b − sin a·sin b y sin a·cos b + cos a·sin b. Las fórmulas de adición no hay que aprenderlas: son el producto de dos matrices leído en voz alta.",
+  "Grover visto come un angolo che cresce":
+    "Grover visto como un ángulo que crece",
+  "ogni giro aggiunge 2θ: arriva più vicino che puoi a 90°, e prova a superarlo":
+    "cada vuelta añade 2θ: acércate a 90° todo lo que puedas, y luego prueba a pasarte",
+  "porta la freccia il più vicino possibile a 90°":
+    "lleva la flecha lo más cerca posible de 90°",
+  "elenchi centrati: :fatte su :totali":
+    "listas acertadas: :fatte de :totali",
+  "sbagliate":
+    "equivocadas",
+  "giusta":
+    "correcta",
+  "probabilità":
+    "probabilidad",
+  "θ = :t° · giri fatti: :k · angolo = (2·:k+1)·θ = :a°":
+    "θ = :t° · vueltas dadas: :k · ángulo = (2·:k+1)·θ = :a°",
+  "hai superato i 90°: da qui in poi la probabilità SCENDE":
+    "te has pasado de 90°: de aquí en adelante la probabilidad BAJA",
+  "il numero di giri che centra meglio è :o":
+    "el número de vueltas que acierta mejor es :o",
+  "Quante risposte in tutto":
+    "Cuántas respuestas en total",
+  "un giro di Grover":
+    "una vuelta de Grover",
+  "Su <b>:n</b> risposte, all'inizio la freccia sta a θ = <b>:t°</b> dall'asse delle sbagliate: sin θ = √(1/:n).":
+    "Con <b>:n</b> respuestas, al principio la flecha está a θ = <b>:t°</b> del eje de las equivocadas: sin θ = √(1/:n).",
+  "Dopo <b>:k</b> giri l'angolo è (2·:k+1)·θ = <b>:a°</b>, e la probabilità di leggere la risposta giusta è sin² di quell'angolo = <b>:p%</b>.":
+    "Tras <b>:k</b> vueltas el ángulo es (2·:k+1)·θ = <b>:a°</b>, y la probabilidad de leer la respuesta correcta es sin² de ese ángulo = <b>:p%</b>.",
+  "Oltre i 90° la freccia si allontana di nuovo: continuare a girare PEGGIORA le cose. È il difetto che nessuna ricerca classica ha.":
+    "Pasados los 90° la flecha se aleja otra vez: seguir girando EMPEORA las cosas. Es el defecto que ninguna búsqueda clásica tiene.",
+  "Questo è il punto migliore: :o giri, cioè circa π/4·√:n. Ecco da dove esce il √N di Grover.":
+    "Este es el mejor punto: :o vueltas, es decir unos π/4·√:n. De ahí sale el √N de Grover.",
+  "Ancora lontano dai 90°: prova un altro giro.":
+    "Todavía lejos de 90°: prueba otra vuelta.",
+  "<b>Perché 2θ e non θ.</b> Un giro di Grover fa due specchiate, e due specchiate di fila sono <b>una rotazione del doppio dell'angolo fra i due specchi</b>. Quindi ogni giro somma 2θ — ed è la formula di duplicazione applicata al livello :n. Il √N non è una scelta: è il numero di volte che ci sta 2θ dentro 90°.":
+    "<b>Por qué 2θ y no θ.</b> Una vuelta de Grover hace dos reflexiones, y dos reflexiones seguidas son <b>una rotación del doble del ángulo entre los dos espejos</b>. Así que cada vuelta suma 2θ — y es la fórmula de duplicación aplicada al nivel :n. El √N no es una elección: es el número de veces que cabe 2θ dentro de 90°.",
 };
