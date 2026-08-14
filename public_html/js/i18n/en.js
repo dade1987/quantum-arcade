@@ -3311,4 +3311,69 @@ export default {
     "Read :q times, always the same. It is not luck: the projector applied twice gives the same result as the first time — P·P = P, and the numbers confirm it: :n.",
   "<b>Perché rileggere non cambia la risposta.</b> Un proiettore ha una proprietà che si scrive in tre simboli — <b>P·P = P</b> — e vuol dire «applicarlo due volte è come applicarlo una volta». Nel mondo quantistico è la frase «una volta misurato, lo stato è quello»: il collasso non è un'ipotesi in più, è la faccia fisica dell'idempotenza. E le due probabilità che sommano a 100 sono l'altra proprietà: i due proiettori messi insieme fanno l'identità.":
     "<b>Why re-reading does not change the answer.</b> A projector has a property that fits in three symbols — <b>P·P = P</b> — meaning «applying it twice is like applying it once». In the quantum world that is the sentence «once measured, the state is that one»: collapse is not an extra hypothesis, it is the physical face of idempotence. And the two probabilities adding to 100 are the other property: the two projectors put together make the identity.",
+  /* ---------------- livello M·6: prodotto tensoriale ---------------- */
+  "Prodotto tensoriale: e finalmente cosa vuol dire «entangled»":
+    "Tensor product: and finally what «entangled» means",
+  "Mettere insieme due registri moltiplica le dimensioni invece di sommarle — e uno stato è entangled quando quel prodotto non si può disfare. Con il conto che lo dice in una riga.":
+    "Putting two registers together multiplies the dimensions instead of adding them — and a state is entangled when that product cannot be undone. With the one-line calculation that says so.",
+  "Due qubit fanno quattro ampiezze":
+    "Two qubits make four amplitudes",
+  "ogni ampiezza del primo per ogni ampiezza del secondo: le dimensioni si moltiplicano":
+    "every amplitude of the first times every amplitude of the second: the dimensions multiply",
+  "costruisci la coppia :a° e :b°":
+    "build the pair :a° and :b°",
+  "coppie costruite: :fatte su :totali":
+    "pairs built: :fatte of :totali",
+  "primo qubit":
+    "first qubit",
+  "secondo qubit":
+    "second qubit",
+  "la coppia: quattro ampiezze":
+    "the pair: four amplitudes",
+  "incrocio a00·a11 − a01·a10 = :i → separabile per costruzione":
+    "cross a00·a11 − a01·a10 = :i → separable by construction",
+  "Primo qubit (<b>:a0</b> ; <b>:a1</b>), secondo (<b>:b0</b> ; <b>:b1</b>).":
+    "First qubit (<b>:a0</b> ; <b>:a1</b>), second (<b>:b0</b> ; <b>:b1</b>).",
+  "La coppia: |00⟩ = :p00, |01⟩ = :p01, |10⟩ = :p10, |11⟩ = :p11 — ognuna è un prodotto delle due di sopra.":
+    "The pair: |00⟩ = :p00, |01⟩ = :p01, |10⟩ = :p10, |11⟩ = :p11 — each one is a product of the two above.",
+  "Due numeri più due numeri non fanno quattro numeri qualsiasi: ne fanno solo quelli che si ottengono moltiplicando. Ed è per questo che esistono stati di due qubit che <b>non</b> si possono scrivere così.":
+    "Two numbers plus two numbers do not make four arbitrary numbers: they make only those you get by multiplying. And that is why there exist two-qubit states that <b>cannot</b> be written this way.",
+  "<b>Da dove viene davvero il 2^n.</b> Il livello :m diceva che n qubit vivono in dimensione 2^n; qui vedi il meccanismo. Mettere insieme due registri non somma le dimensioni: le <b>moltiplica</b>, perché ogni ampiezza dell'uno va accoppiata con ogni ampiezza dell'altro. 2 × 2 = 4, poi 4 × 2 = 8, e così via — mentre due registri classici da n bit ne fanno semplicemente 2n.":
+    "<b>Where the 2^n really comes from.</b> Level :m said that n qubits live in dimension 2^n; here you see the mechanism. Putting two registers together does not add the dimensions: it <b>multiplies</b> them, because every amplitude of one has to be paired with every amplitude of the other. 2 × 2 = 4, then 4 × 2 = 8, and so on — while two classical n-bit registers simply make 2n.",
+  "Prova a separarlo":
+    "Try to separate it",
+  "cerca i due qubit che ricostruiscono lo stato — e guarda quando è impossibile":
+    "look for the two qubits that rebuild the state — and see when it is impossible",
+  "trova i due qubit che lo ricostruiscono":
+    "find the two qubits that rebuild it",
+  "provaci: poi dichiara che è impossibile":
+    "give it a try: then declare it impossible",
+  "stati classificati: :fatte su :totali":
+    "states classified: :fatte of :totali",
+  "lo stato da separare (viola) e il tuo tentativo (azzurro)":
+    "the state to separate (purple) and your attempt (blue)",
+  "incrocio = 0 → separabile":
+    "cross = 0 → separable",
+  "incrocio = :i → NON separabile":
+    "cross = :i → NOT separable",
+  "scarto dal bersaglio: :s":
+    "distance from the target: :s",
+  "Lo stato":
+    "The state",
+  "stato :n":
+    "state :n",
+  "dichiaro: è impossibile":
+    "I declare: it is impossible",
+  "Incrocio a00·a11 − a01·a10 = <b>:i</b>.":
+    "Cross a00·a11 − a01·a10 = <b>:i</b>.",
+  "È <b>separabile</b>: esistono due qubit che lo ricostruiscono, ed è la coppia (:a0 ; :a1) con (:b0 ; :b1). Muovi i cursori finché le barrette azzurre non coprono quelle viola.":
+    "It is <b>separable</b>: two qubits that rebuild it do exist, and they are the pair (:a0 ; :a1) with (:b0 ; :b1). Move the sliders until the blue bars cover the purple ones.",
+  "È <b>entangled</b>: nessuna coppia di qubit lo ricostruisce, e non è una questione di pazienza. Guarda: servirebbe a00·a11 ≠ 0 e insieme a01·a10 = 0 con a01 e a10 che non sono entrambi nulli — cioè due cose che non possono valere insieme. Premi «dichiaro: è impossibile».":
+    "It is <b>entangled</b>: no pair of qubits rebuilds it, and it is not a matter of patience. Look: you would need a00·a11 ≠ 0 and at the same time a01·a10 = 0 with a01 and a10 not both zero — that is, two things that cannot hold together. Press «I declare: it is impossible».",
+  "Questo però si separa: cercalo ancora, i cursori bastano.":
+    "This one does separate, though: keep looking, the sliders are enough.",
+  "Ricostruito.":
+    "Rebuilt.",
+  "<b>Entangled vuol dire «non si scrive come due cose separate».</b> Non «i due qubit comunicano», non «si influenzano a distanza»: vuol dire che lo stato della coppia <b>non si spezza</b> in uno stato del primo e uno del secondo. E si riconosce con un conto solo, a00·a11 − a01·a10 — la stessa riga che al livello :m diceva se due frecce erano indipendenti. La porta che quel numero lo rende diverso da zero è la CNOT del livello :c.":
+    "<b>Entangled means «it cannot be written as two separate things».</b> Not «the two qubits communicate», not «they influence each other at a distance»: it means the pair's state <b>does not split</b> into a state of the first and a state of the second. And it is detected by one calculation, a00·a11 − a01·a10 — the same line that at level :m said whether two arrows were independent. The gate that makes that number non-zero is the CNOT of level :c.",
 };

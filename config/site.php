@@ -362,6 +362,27 @@ return [
             ],
         ],
         [
+            'id' => 'm6-tensore',
+            'n' => 'M·6',
+            'part' => 'M',
+            'xp' => 95,
+            'slug' => [
+                'it' => 'm6-tensore',
+                'en' => 'm6-tensor-product',
+                'es' => 'm6-producto-tensorial',
+            ],
+            'title' => [
+                'it' => 'Prodotto tensoriale: e finalmente cosa vuol dire «entangled»',
+                'en' => 'Tensor product: and finally what «entangled» means',
+                'es' => 'Producto tensorial: y por fin qué significa «entrelazado»',
+            ],
+            'description' => [
+                'it' => 'Mettere insieme due registri moltiplica le dimensioni invece di sommarle — e uno stato è entangled quando quel prodotto non si può disfare. Con il conto che lo dice in una riga.',
+                'en' => 'Putting two registers together multiplies the dimensions instead of adding them — and a state is entangled when that product cannot be undone. With the one-line calculation that says so.',
+                'es' => 'Juntar dos registros multiplica las dimensiones en vez de sumarlas — y un estado está entrelazado cuando ese producto no se puede deshacer. Con la cuenta que lo dice en una línea.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

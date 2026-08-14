@@ -42,7 +42,7 @@ const L = renderLesson({
              por un organismo acreditado: declararlo sería falso y te pondría en un aprieto el día en que alguien
              lo comprobara.</div>
              <p><b>¿Entonces para qué sirve de verdad?</b> Para demostrar, de forma concreta y verificable, que has completado un
-             recorrido estructurado de 48 niveles sobre un tema técnico nada trivial. En una entrevista, en un CV o en LinkedIn
+             recorrido estructurado de 49 niveles sobre un tema técnico nada trivial. En una entrevista, en un CV o en LinkedIn
              vale como <b>prueba de iniciativa y de curiosidad</b>: ponlo, pero descríbelo por lo que es.</p>
              <h3>Si necesitas un título formalmente reconocido</h3>
              <p>Los caminos de verdad son estos, y son independientes de este sitio:</p>

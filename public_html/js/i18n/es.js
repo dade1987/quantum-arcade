@@ -3312,4 +3312,69 @@ export default {
     "Leído :q veces, siempre lo mismo. No es suerte: el proyector aplicado dos veces da el mismo resultado que la primera — P·P = P, y los números lo confirman: :n.",
   "<b>Perché rileggere non cambia la risposta.</b> Un proiettore ha una proprietà che si scrive in tre simboli — <b>P·P = P</b> — e vuol dire «applicarlo due volte è come applicarlo una volta». Nel mondo quantistico è la frase «una volta misurato, lo stato è quello»: il collasso non è un'ipotesi in più, è la faccia fisica dell'idempotenza. E le due probabilità che sommano a 100 sono l'altra proprietà: i due proiettori messi insieme fanno l'identità.":
     "<b>Por qué releer no cambia la respuesta.</b> Un proyector tiene una propiedad que cabe en tres símbolos — <b>P·P = P</b> — y significa «aplicarlo dos veces es como aplicarlo una». En el mundo cuántico es la frase «una vez medido, el estado es ese»: el colapso no es una hipótesis de más, es la cara física de la idempotencia. Y las dos probabilidades que suman 100 son la otra propiedad: los dos proyectores juntos dan la identidad.",
+  /* ---------------- livello M·6: prodotto tensoriale ---------------- */
+  "Prodotto tensoriale: e finalmente cosa vuol dire «entangled»":
+    "Producto tensorial: y por fin qué significa «entrelazado»",
+  "Mettere insieme due registri moltiplica le dimensioni invece di sommarle — e uno stato è entangled quando quel prodotto non si può disfare. Con il conto che lo dice in una riga.":
+    "Juntar dos registros multiplica las dimensiones en vez de sumarlas — y un estado está entrelazado cuando ese producto no se puede deshacer. Con la cuenta que lo dice en una línea.",
+  "Due qubit fanno quattro ampiezze":
+    "Dos cúbits dan cuatro amplitudes",
+  "ogni ampiezza del primo per ogni ampiezza del secondo: le dimensioni si moltiplicano":
+    "cada amplitud del primero por cada amplitud del segundo: las dimensiones se multiplican",
+  "costruisci la coppia :a° e :b°":
+    "construye la pareja :a° y :b°",
+  "coppie costruite: :fatte su :totali":
+    "parejas construidas: :fatte de :totali",
+  "primo qubit":
+    "primer cúbit",
+  "secondo qubit":
+    "segundo cúbit",
+  "la coppia: quattro ampiezze":
+    "la pareja: cuatro amplitudes",
+  "incrocio a00·a11 − a01·a10 = :i → separabile per costruzione":
+    "cruce a00·a11 − a01·a10 = :i → separable por construcción",
+  "Primo qubit (<b>:a0</b> ; <b>:a1</b>), secondo (<b>:b0</b> ; <b>:b1</b>).":
+    "Primer cúbit (<b>:a0</b> ; <b>:a1</b>), segundo (<b>:b0</b> ; <b>:b1</b>).",
+  "La coppia: |00⟩ = :p00, |01⟩ = :p01, |10⟩ = :p10, |11⟩ = :p11 — ognuna è un prodotto delle due di sopra.":
+    "La pareja: |00⟩ = :p00, |01⟩ = :p01, |10⟩ = :p10, |11⟩ = :p11 — cada una es un producto de las dos de arriba.",
+  "Due numeri più due numeri non fanno quattro numeri qualsiasi: ne fanno solo quelli che si ottengono moltiplicando. Ed è per questo che esistono stati di due qubit che <b>non</b> si possono scrivere così.":
+    "Dos números más dos números no dan cuatro números cualesquiera: dan solo los que se obtienen multiplicando. Y por eso existen estados de dos cúbits que <b>no</b> se pueden escribir así.",
+  "<b>Da dove viene davvero il 2^n.</b> Il livello :m diceva che n qubit vivono in dimensione 2^n; qui vedi il meccanismo. Mettere insieme due registri non somma le dimensioni: le <b>moltiplica</b>, perché ogni ampiezza dell'uno va accoppiata con ogni ampiezza dell'altro. 2 × 2 = 4, poi 4 × 2 = 8, e così via — mentre due registri classici da n bit ne fanno semplicemente 2n.":
+    "<b>De dónde viene de verdad el 2^n.</b> El nivel :m decía que n cúbits viven en dimensión 2^n; aquí ves el mecanismo. Juntar dos registros no suma las dimensiones: las <b>multiplica</b>, porque cada amplitud de uno hay que emparejarla con cada amplitud del otro. 2 × 2 = 4, luego 4 × 2 = 8, y así — mientras que dos registros clásicos de n bits dan simplemente 2n.",
+  "Prova a separarlo":
+    "Intenta separarlo",
+  "cerca i due qubit che ricostruiscono lo stato — e guarda quando è impossibile":
+    "busca los dos cúbits que reconstruyen el estado — y mira cuándo es imposible",
+  "trova i due qubit che lo ricostruiscono":
+    "encuentra los dos cúbits que lo reconstruyen",
+  "provaci: poi dichiara che è impossibile":
+    "inténtalo: luego declara que es imposible",
+  "stati classificati: :fatte su :totali":
+    "estados clasificados: :fatte de :totali",
+  "lo stato da separare (viola) e il tuo tentativo (azzurro)":
+    "el estado que hay que separar (violeta) y tu intento (azul)",
+  "incrocio = 0 → separabile":
+    "cruce = 0 → separable",
+  "incrocio = :i → NON separabile":
+    "cruce = :i → NO separable",
+  "scarto dal bersaglio: :s":
+    "distancia al objetivo: :s",
+  "Lo stato":
+    "El estado",
+  "stato :n":
+    "estado :n",
+  "dichiaro: è impossibile":
+    "declaro: es imposible",
+  "Incrocio a00·a11 − a01·a10 = <b>:i</b>.":
+    "Cruce a00·a11 − a01·a10 = <b>:i</b>.",
+  "È <b>separabile</b>: esistono due qubit che lo ricostruiscono, ed è la coppia (:a0 ; :a1) con (:b0 ; :b1). Muovi i cursori finché le barrette azzurre non coprono quelle viola.":
+    "Es <b>separable</b>: existen dos cúbits que lo reconstruyen, y son la pareja (:a0 ; :a1) con (:b0 ; :b1). Mueve los deslizadores hasta que las barritas azules cubran las violetas.",
+  "È <b>entangled</b>: nessuna coppia di qubit lo ricostruisce, e non è una questione di pazienza. Guarda: servirebbe a00·a11 ≠ 0 e insieme a01·a10 = 0 con a01 e a10 che non sono entrambi nulli — cioè due cose che non possono valere insieme. Premi «dichiaro: è impossibile».":
+    "Está <b>entrelazado</b>: ninguna pareja de cúbits lo reconstruye, y no es cuestión de paciencia. Mira: haría falta a00·a11 ≠ 0 y a la vez a01·a10 = 0 con a01 y a10 no ambos nulos — es decir, dos cosas que no pueden valer juntas. Pulsa «declaro: es imposible».",
+  "Questo però si separa: cercalo ancora, i cursori bastano.":
+    "Este sí se separa: sigue buscando, los deslizadores bastan.",
+  "Ricostruito.":
+    "Reconstruido.",
+  "<b>Entangled vuol dire «non si scrive come due cose separate».</b> Non «i due qubit comunicano», non «si influenzano a distanza»: vuol dire che lo stato della coppia <b>non si spezza</b> in uno stato del primo e uno del secondo. E si riconosce con un conto solo, a00·a11 − a01·a10 — la stessa riga che al livello :m diceva se due frecce erano indipendenti. La porta che quel numero lo rende diverso da zero è la CNOT del livello :c.":
+    "<b>Entrelazado significa «no se escribe como dos cosas separadas».</b> No «los dos cúbits se comunican», no «se influyen a distancia»: significa que el estado de la pareja <b>no se parte</b> en un estado del primero y otro del segundo. Y se reconoce con una sola cuenta, a00·a11 − a01·a10 — la misma línea que en el nivel :m decía si dos flechas eran independientes. La puerta que hace ese número distinto de cero es la CNOT del nivel :c.",
 };

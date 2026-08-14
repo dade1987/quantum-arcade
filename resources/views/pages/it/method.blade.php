@@ -237,7 +237,7 @@ e riferito al <b>compito</b>, non alla persona. Da qui tre aggiunte, presenti or
 <p>Chiedere una registrazione è attrito, e l'attrito fa perdere persone: sarebbe più comodo per tutti far girare
 tutto nel browser. Due ragioni lo rendono comunque la scelta giusta:</p>
 <ul>
-  <li><b>i progressi non devono morire con la cache.</b> Un corso da 48 livelli si fa in più sessioni e spesso su più
+  <li><b>i progressi non devono morire con la cache.</b> Un corso da 49 livelli si fa in più sessioni e spesso su più
       dispositivi: perdere tutto per una pulizia del browser è il modo più stupido di abbandonare;</li>
   <li><b>l'attestato deve valere qualcosa.</b> Le domande dell'esame arrivano dal server <b>senza</b> le risposte esatte
       e la correzione avviene sul server: se lo stato vivesse nel browser, chiunque potrebbe assegnarsi il 100%
@@ -283,7 +283,7 @@ Trovo corretto dichiarare quali leve sto usando, così puoi valutarle:</p>
   <tr><td><b>Progresso donato</b></td><td>Nunes &amp; Drèze (2006)</td>
       <td>la Parte 0 è già "percorso fatto" per chi conosce le basi: si parte da una barra non vuota</td></tr>
   <tr><td><b>Prova sociale</b></td><td>Cialdini</td>
-      <td>numeri <b>veri</b>: 8 realtà in cui ho insegnato, 48 livelli, oltre 300 test automatici. Nessun "10.000 studenti felici" inventato</td></tr>
+      <td>numeri <b>veri</b>: 8 realtà in cui ho insegnato, 49 livelli, oltre 300 test automatici. Nessun "10.000 studenti felici" inventato</td></tr>
   <tr><td><b>Reciprocità</b></td><td>Cialdini</td>
       <td>il corso completo è gratuito e resta gratuito: la richiesta di contatto viene dopo, e solo se ti è servito</td></tr>
   <tr><td><b>Riduzione dell'attrito</b></td><td>modello di Fogg (B = MAP)</td>
