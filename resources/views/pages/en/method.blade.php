@@ -416,6 +416,45 @@ evidence — the literature is made of small studies, modest average effects and
 That is why it is used as <b>seasoning on an example that stands up on its own</b>, never as the main vehicle for
 a concept.</p>
 
+<h2>21. Part M: the maths in full, and why it is optional</h2>
+<p>The course has a rule that holds everywhere: <b>mathematical tools arrive played, right before they are
+needed</b>, and in the minimum amount needed there. Clock arithmetic arrives before Shor, eigenvectors before
+phase estimation, the derivative before variational methods. That keeps the course walkable, but it leaves a
+debt: anyone who wants to know <b>where what they have just used comes from</b> will not find the answer inside
+the level, because there it would have been dead weight.</p>
+<p><b>Part M</b> pays that debt. It is twelve optional levels covering the syllabus from the first year of
+secondary school to <b>second-year calculus</b> — but only the pieces this course actually uses, and always with
+the question «why is it built like that» at the centre: why the quadratic formula has that shape, where the
+number <i>e</i> comes from, why Grover's √N is a Taylor series stopped at the first term, how you compute
+e^(iHt), which is how you simulate a molecule.</p>
+<p>Why it is organised this way:</p>
+<ul>
+  <li><b>The maths arrives twice, spaced apart.</b> Once stripped to the bone inside the course, and once in
+      full in Part M. That is not wasted repetition: <b>distributed practice</b> is, along with retrieval
+      practice, one of only two techniques Dunlosky and colleagues (2013) rate as <i>high utility</i> in their
+      review of ten study methods. Revisiting the same thing weeks later, in a different form, is worth more
+      than seeing it twice in a row.</li>
+  <li><b>«Why is it built like that» is not an ornament.</b> Asking yourself the reason for what you are
+      learning — <i>elaborative interrogation</i> — and explaining it to yourself in your own words —
+      <i>self-explanation</i> — are two techniques the same review places at <i>moderate utility</i>, and which
+      Chi and colleagues (1994) had shown improve understanding merely by asking students to comment out loud
+      while reading. They are also the two that work best <b>when you already have a foothold</b> in the topic:
+      which is exactly the position of someone arriving at Part M after using those tools in play.</li>
+  <li><b>It is optional, and not out of politeness.</b> The <i>expertise reversal effect</i> (Kalyuga et al.,
+      2003) says the explanation that helps a beginner <b>hinders</b> someone who already knows that piece: they
+      have to read it anyway just to discover they did not need it. Making Part M compulsory would charge a toll
+      to anyone who has already done secondary-school maths. It sits outside the prerequisite chain, and every
+      level of the main course links to its matching M level: the door is open, it is not a gate.</li>
+  <li><b>Every claim is checked by a test, not asserted.</b> When a Part M level says «there are sixteen possible
+      classical strategies and none beats 75%», the project's tests enumerate all sixteen; when it says «the
+      error falls like 1/n», the exponent is <b>measured</b> by doubling the terms and checking what the error
+      gets divided by. It is the same rule the simulator is tested with (section 15), applied to teaching
+      sentences.</li>
+</ul>
+<p class="dim small">Honest note: Part M is the youngest part of the site and the one with the least testing on
+real users. The choices above are defensible on the literature, but the field evidence — how many start it, how
+many finish it, whether it actually helps those who do — I do not have yet.</p>
+
 <h2>Sources</h2>
 <p class="dim small">Listed in the order they appear in the text. Where there is no link it is because the reference
 is a book or a classic paper that is easy to find: I prefer citing it that way rather than linking a copy
@@ -453,6 +492,8 @@ of dubious provenance.</p>
   <li>Nielsen, J. — <i>10 Usability Heuristics for User Interface Design</i>, in particular the sixth ("recognition rather than recall"). — <a href="https://www.nngroup.com/articles/ten-usability-heuristics/" target="_blank" rel="noopener">text</a></li>
   <li>Nation, I. S. P. (2001). <i>Learning Vocabulary in Another Language</i>. Cambridge University Press — on the role of glosses.</li>
   <li>Yun, J. (2011). <i>The effects of hypertext glosses on L2 vocabulary acquisition: a meta-analysis</i>. Computer Assisted Language Learning, 24(1), 39–58.</li>
+  <li>Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., Willingham, D. T. (2013). <i>Improving Students' Learning With Effective Learning Techniques</i>. Psychological Science in the Public Interest, 14(1), 4–58 — the review that rates ten study techniques: retrieval practice and distributed practice at high utility, elaborative interrogation and self-explanation at moderate utility. — <a href="https://journals.sagepub.com/doi/abs/10.1177/1529100612453266" target="_blank" rel="noopener">publisher's page</a></li>
+  <li>Chi, M. T. H., de Leeuw, N., Chiu, M.-H., LaVancher, C. (1994). <i>Eliciting self-explanations improves understanding</i>. Cognitive Science, 18(3), 439–477 — explaining out loud what you are reading improves understanding.</li>
 </ul>
 
 <div class="callout"><b>Intellectual honesty:</b> none of these studies is about <i>this</i> course in particular, and effect sizes

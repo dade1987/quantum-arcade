@@ -416,6 +416,45 @@ delle prove — la letteratura è fatta di studi piccoli, effetti medi modesti e
 Per questo è usata come <b>condimento di un esempio che sta in piedi da solo</b>, mai come veicolo principale
 di un concetto.</p>
 
+<h2>21. La Parte M: la matematica per intero, e perché è facoltativa</h2>
+<p>Il corso ha una regola che vale ovunque: <b>gli attrezzi matematici arrivano giocati, appena prima di
+servire</b>, e nella quantità minima che serve lì. L'aritmetica dell'orologio arriva prima di Shor, gli
+autovettori prima della stima di fase, la derivata prima dei metodi variazionali. Questo tiene il corso
+percorribile, ma lascia un debito: chi vuole sapere <b>da dove viene</b> quello che ha appena usato non trova
+la risposta dentro il livello, perché lì avrebbe fatto solo peso morto.</p>
+<p>La <b>Parte M</b> paga quel debito. Sono dodici livelli facoltativi che coprono il programma dalla prima
+superiore ad <b>Analisi 2</b> — ma soltanto i pezzi che questo corso usa davvero, e sempre con la domanda
+«perché è fatto così» al centro: perché la formula risolutiva ha quella faccia, da dove esce il numero <i>e</i>,
+perché il √N di Grover è una serie di Taylor fermata al primo termine, come si calcola e^(iHt) cioè come si
+simula una molecola.</p>
+<p>Le ragioni per cui è organizzata così:</p>
+<ul>
+  <li><b>La matematica arriva due volte, a distanza.</b> Una prima volta ridotta all'osso dentro il corso, una
+      seconda per intero nella Parte M. Non è una ripetizione sprecata: la <b>pratica distribuita</b> è, insieme
+      alla pratica di richiamo, una delle due sole tecniche a cui Dunlosky e colleghi (2013) assegnano
+      <i>utilità alta</i> nella loro rassegna di dieci metodi di studio. Rivedere la stessa cosa a settimane di
+      distanza, e in una forma diversa, vale più che vederla due volte di fila.</li>
+  <li><b>«Perché è fatto così» non è un ornamento.</b> Chiedersi il motivo di quello che si sta imparando —
+      <i>interrogazione elaborativa</i> — e spiegarselo a parole proprie — <i>auto-spiegazione</i> — sono due
+      tecniche che la stessa rassegna colloca a <i>utilità moderata</i>, e che Chi e colleghi (1994) avevano
+      mostrato migliorare la comprensione anche solo chiedendo allo studente di commentare ad alta voce mentre
+      legge. Sono anche le due che funzionano meglio <b>quando si ha già un aggancio</b> nell'argomento: ed è
+      esattamente la posizione di chi arriva alla Parte M dopo aver già usato quegli attrezzi giocando.</li>
+  <li><b>È facoltativa, e non per gentilezza.</b> L'<i>expertise reversal effect</i> (Kalyuga et al., 2003) dice
+      che la spiegazione che aiuta il principiante <b>ostacola</b> chi quel pezzo lo sa già: gli tocca comunque
+      leggerla per scoprire che non gli serviva. Rendere obbligatoria la Parte M vorrebbe dire far pagare un
+      pedaggio a chi ha già fatto il liceo scientifico. Sta fuori dalla catena dei prerequisiti, e ogni livello
+      del corso principale rimanda al livello M corrispondente: la porta è aperta, non è un cancello.</li>
+  <li><b>Ogni affermazione è verificata da un test, non asserita.</b> Quando un livello della Parte M dice «le
+      strategie classiche possibili sono sedici e nessuna supera il 75%», i test del progetto le enumerano tutte
+      e sedici; quando dice «l'errore scende come 1/n», l'esponente è <b>misurato</b> raddoppiando i termini e
+      guardando per quanto viene diviso l'errore. È la stessa regola con cui è collaudato il simulatore
+      (sezione 15), applicata alle frasi didattiche.</li>
+</ul>
+<p class="dim small">Nota onesta: la Parte M è la parte più giovane del sito ed è quella con meno collaudo su
+utenti veri. Le scelte qui sopra sono difendibili sulla letteratura, ma la prova sul campo — quanti la
+cominciano, quanti la finiscono, se serve davvero a chi la fa — non l'ho ancora.</p>
+
 <h2>Fonti</h2>
 <p class="dim small">Elencate nell'ordine in cui compaiono nel testo. Dove non c'è un link è perché il riferimento
 è un libro o un articolo classico facilmente reperibile: preferisco citarlo così piuttosto che linkare una copia
@@ -453,6 +492,8 @@ di dubbia provenienza.</p>
   <li>Nielsen, J. — <i>10 Usability Heuristics for User Interface Design</i>, in particolare la sesta («recognition rather than recall»). — <a href="https://www.nngroup.com/articles/ten-usability-heuristics/" target="_blank" rel="noopener">testo</a></li>
   <li>Nation, I. S. P. (2001). <i>Learning Vocabulary in Another Language</i>. Cambridge University Press — sul ruolo delle glosse.</li>
   <li>Yun, J. (2011). <i>The effects of hypertext glosses on L2 vocabulary acquisition: a meta-analysis</i>. Computer Assisted Language Learning, 24(1), 39–58.</li>
+  <li>Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., Willingham, D. T. (2013). <i>Improving Students' Learning With Effective Learning Techniques</i>. Psychological Science in the Public Interest, 14(1), 4–58 — la rassegna che valuta dieci tecniche di studio: pratica di richiamo e pratica distribuita a utilità alta, interrogazione elaborativa e auto-spiegazione a utilità moderata. — <a href="https://journals.sagepub.com/doi/abs/10.1177/1529100612453266" target="_blank" rel="noopener">scheda dell'editore</a></li>
+  <li>Chi, M. T. H., de Leeuw, N., Chiu, M.-H., LaVancher, C. (1994). <i>Eliciting self-explanations improves understanding</i>. Cognitive Science, 18(3), 439–477 — spiegarsi a voce quello che si sta leggendo migliora la comprensione.</li>
 </ul>
 
 <div class="callout"><b>Onestà intellettuale:</b> nessuno di questi studi riguarda <i>questo</i> corso in particolare, e gli effect size

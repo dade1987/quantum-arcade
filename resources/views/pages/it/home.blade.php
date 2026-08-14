@@ -75,7 +75,7 @@
         {
           "@type": "Question",
           "name": "Serve saper già la matematica per imparare l'informatica quantistica?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Quantum Arcade parte da una Parte 0 dedicata alle basi (numeri negativi, frazioni e percentuali, coordinate, gradi, probabilità) pensata per chi ha finito la scuola media. Seno, coseno, numeri complessi ed esponenziale complesso vengono costruiti dentro il corso partendo da un punto che gira su un cerchio." }
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Quantum Arcade parte da una Parte 0 dedicata alle basi (numeri negativi, frazioni e percentuali, coordinate, gradi, probabilità, equazioni, logaritmi, prodotto scalare) pensata per chi ha finito la scuola media. Seno, coseno, numeri complessi ed esponenziale complesso vengono costruiti dentro il corso partendo da un punto che gira su un cerchio. Chi invece vuole andare più a fondo ha una Parte M facoltativa che copre il programma dalla prima superiore ad Analisi 2, ma solo i pezzi che il corso usa davvero." }
         },
         {
           "@type": "Question",
@@ -146,6 +146,7 @@
       <a class="btn primary" id="continue" href="{{ \App\Support\Site::lessonPath('01-qubit', $locale) }}">▶ Inizia</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('00-numeri', $locale) }}">🧮 Parto da zero zero (Parte 0)</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('k1-bit', $locale) }}">💻 Non so cos'è un bit (Parte K)</a>
+      <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('m1-polinomi', $locale) }}">📐 Voglio la matematica sotto (Parte M)</a>
       <a class="btn ghost" href="#mappa">🗺️ Tutti i livelli</a>
       <a class="btn ghost" href="{{ \App\Support\Site::page('method', $locale) }}">🔬 Il metodo (e le ricerche)</a>
     </div>
@@ -318,8 +319,9 @@
   <h2 id="mappa">🗺️ La mappa dei livelli</h2>
   <p class="dim">Ogni livello si apre superando la prova del precedente: una <b>missione pratica</b> dentro il gioco
   più il <b>quiz di richiamo</b>. Tentativi illimitati, nessuna penalità, nessun voto.
-  La <b>Parte 0</b> (matematica delle medie), la <b>Parte K</b> (il computer classico) e il <b>livello 1</b>
-  sono sempre aperti: le prime due sono facoltative e si giocano quando servono.</p>
+  La <b>Parte 0</b> (matematica delle medie), la <b>Parte K</b> (il computer classico), la <b>Parte M</b>
+  (dalle superiori ad Analisi 2) e il <b>livello 1</b> sono sempre aperti: le prime tre sono facoltative e si
+  giocano quando servono.</p>
   <div id="map"></div>
 
   <!-- ============ FAQ ============ -->
@@ -327,9 +329,18 @@
   <div class="grid-2">
     <div class="panel">
       <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Devo saper già la matematica?</h3>
-      <p class="mb0 dim">No. La <b>Parte 0</b> copre numeri negativi, frazioni e percentuali, coordinate, gradi e probabilità:
-      è pensata per chi ha appena finito le medie. Seno, coseno, numeri complessi ed e^{iθ} vengono costruiti
-      dentro il corso, partendo da un punto che gira su un cerchio.</p>
+      <p class="mb0 dim">No. La <b>Parte 0</b> copre numeri negativi, frazioni e percentuali, coordinate, gradi,
+      probabilità, equazioni, logaritmi e prodotto scalare: è pensata per chi ha appena finito le medie. Seno,
+      coseno, numeri complessi ed e^{iθ} vengono costruiti dentro il corso, partendo da un punto che gira su un
+      cerchio.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>E se invece volessi andare più a fondo?</h3>
+      <p class="mb0 dim">C'è la <b>Parte M</b>, facoltativa: copre il programma di matematica <b>dalla prima
+      superiore ad Analisi 2</b>, ma solo i pezzi che il corso usa davvero, e sempre con la curiosità dentro —
+      perché la formula risolutiva è fatta così, da dove esce il numero <i>e</i>, perché il √N di Grover è una
+      serie di Taylor troncata al primo termine, come si calcola e^(iHt) cioè come si simula una molecola. Nessuno
+      ti obbliga a farla: chi la fa capisce il resto molto meglio.</p>
     </div>
     <div class="panel">
       <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Devo sapere già come funziona un computer normale?</h3>

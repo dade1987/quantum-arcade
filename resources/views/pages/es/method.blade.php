@@ -421,6 +421,45 @@ pruebas — la literatura está hecha de estudios pequeños, efectos medios mode
 Por eso se usa como <b>condimento de un ejemplo que se sostiene solo</b>, nunca como vehículo principal de un
 concepto.</p>
 
+<h2>21. La Parte M: las matemáticas enteras, y por qué es opcional</h2>
+<p>El curso tiene una regla que vale en todas partes: <b>las herramientas matemáticas llegan jugadas, justo
+antes de hacer falta</b>, y en la cantidad mínima que hace falta ahí. La aritmética del reloj llega antes que
+Shor, los autovectores antes que la estimación de fase, la derivada antes que los métodos variacionales. Eso
+mantiene el curso transitable, pero deja una deuda: quien quiere saber <b>de dónde viene</b> lo que acaba de
+usar no encuentra la respuesta dentro del nivel, porque allí habría sido peso muerto.</p>
+<p>La <b>Parte M</b> paga esa deuda. Son doce niveles opcionales que cubren el temario desde el primer curso de
+bachillerato hasta <b>Análisis 2</b> — pero solo las piezas que este curso usa de verdad, y siempre con la
+pregunta «por qué está hecho así» en el centro: por qué la fórmula de la ecuación de segundo grado tiene esa
+cara, de dónde sale el número <i>e</i>, por qué el √N de Grover es una serie de Taylor parada en el primer
+término, cómo se calcula e^(iHt), es decir cómo se simula una molécula.</p>
+<p>Las razones por las que está organizada así:</p>
+<ul>
+  <li><b>Las matemáticas llegan dos veces, separadas en el tiempo.</b> Una primera vez reducidas al hueso dentro
+      del curso, y una segunda enteras en la Parte M. No es una repetición desperdiciada: la <b>práctica
+      distribuida</b> es, junto con la práctica de recuperación, una de las dos únicas técnicas a las que
+      Dunlosky y colegas (2013) asignan <i>utilidad alta</i> en su revisión de diez métodos de estudio. Volver a
+      ver lo mismo semanas después, y en otra forma, vale más que verlo dos veces seguidas.</li>
+  <li><b>«Por qué está hecho así» no es un adorno.</b> Preguntarse el motivo de lo que se está aprendiendo —
+      <i>interrogación elaborativa</i> — y explicárselo con palabras propias — <i>autoexplicación</i> — son dos
+      técnicas que esa misma revisión sitúa en <i>utilidad moderada</i>, y que Chi y colegas (1994) habían
+      mostrado que mejoran la comprensión con solo pedir al estudiante que comente en voz alta mientras lee. Son
+      además las dos que funcionan mejor <b>cuando ya se tiene un agarre</b> en el tema: que es exactamente la
+      posición de quien llega a la Parte M después de haber usado esas herramientas jugando.</li>
+  <li><b>Es opcional, y no por cortesía.</b> El <i>expertise reversal effect</i> (Kalyuga et al., 2003) dice que
+      la explicación que ayuda al principiante <b>estorba</b> a quien ya se sabe esa pieza: le toca leerla igual
+      solo para descubrir que no le hacía falta. Hacer obligatoria la Parte M sería cobrar un peaje a quien ya ha
+      hecho bachillerato. Está fuera de la cadena de prerrequisitos, y cada nivel del curso principal enlaza con
+      su nivel M correspondiente: la puerta está abierta, no es una barrera.</li>
+  <li><b>Cada afirmación la comprueba un test, no se asegura sin más.</b> Cuando un nivel de la Parte M dice «las
+      estrategias clásicas posibles son dieciséis y ninguna supera el 75%», los tests del proyecto las enumeran
+      las dieciséis; cuando dice «el error baja como 1/n», el exponente se <b>mide</b> doblando los términos y
+      mirando por cuánto queda dividido el error. Es la misma regla con la que está probado el simulador
+      (sección 15), aplicada a las frases didácticas.</li>
+</ul>
+<p class="dim small">Nota honesta: la Parte M es la parte más joven del sitio y la que menos se ha probado con
+usuarios reales. Las decisiones de arriba son defendibles sobre la literatura, pero la prueba de campo — cuántos
+la empiezan, cuántos la terminan, si de verdad sirve a quien la hace — todavía no la tengo.</p>
+
 <h2>Fuentes</h2>
 <p class="dim small">Listadas en el orden en que aparecen en el texto. Donde no hay enlace es porque la referencia
 es un libro o un artículo clásico fácil de encontrar: prefiero citarlo así antes que enlazar una copia
@@ -458,6 +497,8 @@ de origen dudoso.</p>
   <li>Nielsen, J. — <i>10 Usability Heuristics for User Interface Design</i>, en particular la sexta («recognition rather than recall»). — <a href="https://www.nngroup.com/articles/ten-usability-heuristics/" target="_blank" rel="noopener">texto</a></li>
   <li>Nation, I. S. P. (2001). <i>Learning Vocabulary in Another Language</i>. Cambridge University Press — sobre el papel de las glosas.</li>
   <li>Yun, J. (2011). <i>The effects of hypertext glosses on L2 vocabulary acquisition: a meta-analysis</i>. Computer Assisted Language Learning, 24(1), 39–58.</li>
+  <li>Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., Willingham, D. T. (2013). <i>Improving Students' Learning With Effective Learning Techniques</i>. Psychological Science in the Public Interest, 14(1), 4–58 — la revisión que evalúa diez técnicas de estudio: práctica de recuperación y práctica distribuida con utilidad alta, interrogación elaborativa y autoexplicación con utilidad moderada. — <a href="https://journals.sagepub.com/doi/abs/10.1177/1529100612453266" target="_blank" rel="noopener">ficha del editor</a></li>
+  <li>Chi, M. T. H., de Leeuw, N., Chiu, M.-H., LaVancher, C. (1994). <i>Eliciting self-explanations improves understanding</i>. Cognitive Science, 18(3), 439–477 — explicarse en voz alta lo que se está leyendo mejora la comprensión.</li>
 </ul>
 
 <div class="callout"><b>Honestidad intelectual:</b> ninguno de estos estudios trata de <i>este</i> curso en particular, y los tamaños de efecto
