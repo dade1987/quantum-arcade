@@ -45,6 +45,7 @@ const SLUG = {
   'm1-polinomi': { en: 'm1-polynomials', es: 'm1-polinomios' },
   'm2-goniometria': { en: 'm2-trigonometry', es: 'm2-trigonometria' },
   'm3-complessi': { en: 'm3-complex-numbers', es: 'm3-numeros-complejos' },
+  'm4-spazi': { en: 'm4-vector-spaces', es: 'm4-espacios-vectoriales' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -185,6 +186,10 @@ export const LEVELS = [
   { id: 'm3-complessi', part: 'M', n: 'M·3', open: true,
     title: t('Numeri complessi per bene: e^(iθ) e le radici dell\'unità'),
     desc: t('Moltiplicare è allungare e girare, da lì la scrittura e^(iθ) — e le n frecce che sommate fanno zero, cioè il motore della trasformata di Fourier.'), xp: 95 },
+
+  { id: 'm4-spazi', part: 'M', n: 'M·4', open: true,
+    title: t('Spazi vettoriali: base, dimensione, e perché 2^n'),
+    desc: t('Poche frecce che raggiungono tutto, il numero che non cambia qualunque base tu scelga, e la ragione per cui n qubit vivono in uno spazio di dimensione 2^n.'), xp: 90 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

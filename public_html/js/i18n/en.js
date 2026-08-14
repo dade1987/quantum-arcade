@@ -3133,4 +3133,89 @@ export default {
     "Add some more: the chain has not closed yet.",
   "<b>Questo zero è l'interferenza distruttiva.</b> Le n radici dell'unità sono le stesse frecce che la DFT del livello :dft usa per pesare i campioni, e il fatto che sommate facciano zero è il motivo per cui tutte le frequenze sbagliate si cancellano e resta solo il picco. La stessa catena che si chiude l'hai già vista al livello :serie: qui sai anche <b>chi sono</b> quelle frecce.":
     "<b>This zero is destructive interference.</b> The n roots of unity are the same arrows the DFT of level :dft uses to weight the samples, and the fact that they add to zero is why every wrong frequency cancels and only the peak is left. You have seen the same closing chain at level :serie: here you also know <b>who</b> those arrows are.",
+  /* ---------------- livello M·4: spazi vettoriali ---------------- */
+  "Spazi vettoriali: base, dimensione, e perché 2^n":
+    "Vector spaces: basis, dimension, and why 2^n",
+  "Poche frecce che raggiungono tutto, il numero che non cambia qualunque base tu scelga, e la ragione per cui n qubit vivono in uno spazio di dimensione 2^n.":
+    "A few arrows that reach everything, the number that stays the same whichever basis you pick, and the reason n qubits live in a space of dimension 2^n.",
+  "Costruire una freccia da altre due":
+    "Building an arrow out of two others",
+  "allunga le due frecce della base e sommale: ci arrivi sempre?":
+    "stretch the two basis arrows and add them: can you always get there?",
+  "arriva sul bersaglio (:x ; :y)":
+    "land on the target (:x ; :y)",
+  "bersagli raggiunti: :fatte su :totali":
+    "targets reached: :fatte of :totali",
+  "prima freccia × :a":
+    "first arrow × :a",
+  "seconda freccia × :c":
+    "second arrow × :c",
+  "arrivi in (:x ; :y)":
+    "you land on (:x ; :y)",
+  "è una base: ci arrivi sempre":
+    "it is a basis: you always get there",
+  "NON è una base":
+    "NOT a basis",
+  "due frecce non in linea bastano per tutto il piano":
+    "two arrows not in line are enough for the whole plane",
+  "le due frecce sono in linea: si raggiunge solo la retta tratteggiata":
+    "the two arrows are in line: only the dashed straight line is reachable",
+  "La base":
+    "The basis",
+  "gli assi":
+    "the axes",
+  "girata di 45°":
+    "turned by 45°",
+  "storta":
+    "skewed",
+  "due in linea":
+    "two in line",
+  "quanto della prima":
+    "how much of the first",
+  "quanto della seconda":
+    "how much of the second",
+  "Stai costruendo <b>:a</b> volte la prima freccia più <b>:c</b> volte la seconda, e arrivi in (<b>:x</b> ; <b>:y</b>).":
+    "You are building <b>:a</b> times the first arrow plus <b>:c</b> times the second, and you land on (<b>:x</b> ; <b>:y</b>).",
+  "Questa è una <b>base</b>: le due frecce non stanno in linea, quindi con i due cursori si arriva in <b>qualunque</b> punto del piano. Per questo bersaglio i numeri giusti sono :a e :c.":
+    "This is a <b>basis</b>: the two arrows are not in line, so the two sliders reach <b>any</b> point of the plane. For this target the right numbers are :a and :c.",
+  "Queste due frecce stanno <b>sulla stessa retta</b>: allungale come vuoi, la somma resterà sempre su quella retta. Non è un tuo errore ed è inutile insistere — non è una base, e metà del piano è irraggiungibile.":
+    "These two arrows lie <b>on the same straight line</b>: stretch them however you like, the sum will always stay on that line. It is not your mistake and there is no point insisting — it is not a basis, and half the plane is unreachable.",
+  "Centrato.":
+    "Hit.",
+  "<b>Due parole che adesso hai in mano.</b> Le due frecce che bastano si chiamano <b>base</b>; il loro numero — qui due — si chiama <b>dimensione</b>, ed è lo stesso qualunque base tu scelga. I due numeri dei cursori sono le <b>coordinate</b> del punto <i>in quella base</i>: cambiando base cambiano i numeri, ma il punto resta dov'è. È esattamente ciò che succede quando al livello :n misuri lo stesso qubit in due basi diverse.":
+    "<b>Two words you now have in hand.</b> The two arrows that suffice are called a <b>basis</b>; their number — two here — is called the <b>dimension</b>, and it is the same whichever basis you pick. The two slider numbers are the point's <b>coordinates</b> <i>in that basis</i>: change basis and the numbers change, but the point stays where it is. That is exactly what happens at level :n when you measure the same qubit in two different bases.",
+  "Quante frecce servono davvero":
+    "How many arrows are really needed",
+  "accendi e spegni le frecce: quali insiemi coprono tutto il piano?":
+    "switch the arrows on and off: which sets cover the whole plane?",
+  "copri tutto il piano con il <b>minimo</b> numero di frecce":
+    "cover the whole plane with the <b>smallest</b> number of arrows",
+  "insiemi minimi trovati: :fatte su :totali":
+    "minimal sets found: :fatte of :totali",
+  "raggiungi TUTTO il piano":
+    "you reach the WHOLE plane",
+  "raggiungi solo una retta":
+    "you only reach a straight line",
+  "non raggiungi niente":
+    "you reach nothing",
+  "frecce accese: :q · direzioni indipendenti: :r":
+    "arrows on: :q · independent directions: :r",
+  "La collezione":
+    "The collection",
+  "collezione :n":
+    "collection :n",
+  "freccia :n":
+    "arrow :n",
+  "Frecce accese: <b>:q</b>. Direzioni indipendenti: <b>:r</b>.":
+    "Arrows on: <b>:q</b>. Independent directions: <b>:r</b>.",
+  "Senza frecce non si va da nessuna parte.":
+    "With no arrows you go nowhere.",
+  "Tutte le frecce accese stanno sulla stessa retta: sommandole e allungandole resti sempre lì. Una direzione sola.":
+    "Every arrow switched on lies on the same straight line: adding and stretching them keeps you there. One direction only.",
+  "Due frecce, due direzioni: questa è una <b>base</b>, ed è il minimo possibile. La <b>dimensione</b> del piano è 2.":
+    "Two arrows, two directions: this is a <b>basis</b>, and it is the smallest possible. The plane's <b>dimension</b> is 2.",
+  "Copri tutto il piano, ma con :q frecce: una è di troppo, si può scrivere usando le altre. Spegnine una.":
+    "You cover the whole plane, but with :q arrows: one is redundant, it can be written using the others. Switch one off.",
+  "<b>Il numero che non cambia mai.</b> Comunque scegli le frecce, per coprire il piano ce ne vogliono <b>esattamente due</b>: meno non bastano, di più sono ridondanti. Quel numero è la <b>dimensione</b>, e non dipende dalla base. Un qubit vive in dimensione 2 (le ampiezze di 0 e 1); due qubit in dimensione 4; <b>n qubit in dimensione 2^n</b> — non 2n. È tutta lì la ragione per cui, da qualche decina di qubit in su, simulare il registro su un computer normale diventa impossibile.":
+    "<b>The number that never changes.</b> However you pick the arrows, covering the plane takes <b>exactly two</b>: fewer are not enough, more are redundant. That number is the <b>dimension</b>, and it does not depend on the basis. A qubit lives in dimension 2 (the amplitudes of 0 and 1); two qubits in dimension 4; <b>n qubits in dimension 2^n</b> — not 2n. That is the whole reason why, from a few dozen qubits up, simulating the register on an ordinary computer becomes impossible.",
 };

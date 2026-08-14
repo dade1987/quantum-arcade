@@ -320,6 +320,27 @@ return [
             ],
         ],
         [
+            'id' => 'm4-spazi',
+            'n' => 'M·4',
+            'part' => 'M',
+            'xp' => 90,
+            'slug' => [
+                'it' => 'm4-spazi',
+                'en' => 'm4-vector-spaces',
+                'es' => 'm4-espacios-vectoriales',
+            ],
+            'title' => [
+                'it' => 'Spazi vettoriali: base, dimensione, e perché 2^n',
+                'en' => 'Vector spaces: basis, dimension, and why 2^n',
+                'es' => 'Espacios vectoriales: base, dimensión y por qué 2^n',
+            ],
+            'description' => [
+                'it' => 'Poche frecce che raggiungono tutto, il numero che non cambia qualunque base tu scelga, e la ragione per cui n qubit vivono in uno spazio di dimensione 2^n.',
+                'en' => 'A few arrows that reach everything, the number that stays the same whichever basis you pick, and the reason n qubits live in a space of dimension 2^n.',
+                'es' => 'Pocas flechas que lo alcanzan todo, el número que no cambia elijas la base que elijas, y la razón por la que n cúbits viven en un espacio de dimensión 2^n.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

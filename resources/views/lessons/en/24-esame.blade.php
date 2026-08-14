@@ -42,7 +42,7 @@ const L = renderLesson({
              by an accredited body: claiming that would be false and it would put you in trouble the day somebody
              checked it.</div>
              <p><b>So what is it really for?</b> To show, concretely and verifiably, that you have completed a
-             structured journey of 46 levels on a non-trivial technical subject. In an interview, on a CV or on LinkedIn
+             structured journey of 47 levels on a non-trivial technical subject. In an interview, on a CV or on LinkedIn
              it counts as <b>proof of initiative and curiosity</b>: put it there, but describe it for what it is.</p>
              <h3>If you need a formally recognised credential</h3>
              <p>The real routes are these, and they are independent of this site:</p>

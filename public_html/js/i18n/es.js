@@ -3134,4 +3134,89 @@ export default {
     "Añade alguna más: la cadena todavía no se ha cerrado.",
   "<b>Questo zero è l'interferenza distruttiva.</b> Le n radici dell'unità sono le stesse frecce che la DFT del livello :dft usa per pesare i campioni, e il fatto che sommate facciano zero è il motivo per cui tutte le frequenze sbagliate si cancellano e resta solo il picco. La stessa catena che si chiude l'hai già vista al livello :serie: qui sai anche <b>chi sono</b> quelle frecce.":
     "<b>Este cero es la interferencia destructiva.</b> Las n raíces de la unidad son las mismas flechas que la DFT del nivel :dft usa para pesar las muestras, y el hecho de que sumadas den cero es el motivo por el que todas las frecuencias equivocadas se cancelan y solo queda el pico. La misma cadena que se cierra ya la viste en el nivel :serie: aquí sabes además <b>quiénes son</b> esas flechas.",
+  /* ---------------- livello M·4: spazi vettoriali ---------------- */
+  "Spazi vettoriali: base, dimensione, e perché 2^n":
+    "Espacios vectoriales: base, dimensión y por qué 2^n",
+  "Poche frecce che raggiungono tutto, il numero che non cambia qualunque base tu scelga, e la ragione per cui n qubit vivono in uno spazio di dimensione 2^n.":
+    "Pocas flechas que lo alcanzan todo, el número que no cambia elijas la base que elijas, y la razón por la que n cúbits viven en un espacio de dimensión 2^n.",
+  "Costruire una freccia da altre due":
+    "Construir una flecha a partir de otras dos",
+  "allunga le due frecce della base e sommale: ci arrivi sempre?":
+    "alarga las dos flechas de la base y súmalas: ¿llegas siempre?",
+  "arriva sul bersaglio (:x ; :y)":
+    "llega al objetivo (:x ; :y)",
+  "bersagli raggiunti: :fatte su :totali":
+    "objetivos alcanzados: :fatte de :totali",
+  "prima freccia × :a":
+    "primera flecha × :a",
+  "seconda freccia × :c":
+    "segunda flecha × :c",
+  "arrivi in (:x ; :y)":
+    "llegas a (:x ; :y)",
+  "è una base: ci arrivi sempre":
+    "es una base: siempre llegas",
+  "NON è una base":
+    "NO es una base",
+  "due frecce non in linea bastano per tutto il piano":
+    "dos flechas no alineadas bastan para todo el plano",
+  "le due frecce sono in linea: si raggiunge solo la retta tratteggiata":
+    "las dos flechas están alineadas: solo se alcanza la recta discontinua",
+  "La base":
+    "La base",
+  "gli assi":
+    "los ejes",
+  "girata di 45°":
+    "girada 45°",
+  "storta":
+    "torcida",
+  "due in linea":
+    "dos en línea",
+  "quanto della prima":
+    "cuánto de la primera",
+  "quanto della seconda":
+    "cuánto de la segunda",
+  "Stai costruendo <b>:a</b> volte la prima freccia più <b>:c</b> volte la seconda, e arrivi in (<b>:x</b> ; <b>:y</b>).":
+    "Estás construyendo <b>:a</b> veces la primera flecha más <b>:c</b> veces la segunda, y llegas a (<b>:x</b> ; <b>:y</b>).",
+  "Questa è una <b>base</b>: le due frecce non stanno in linea, quindi con i due cursori si arriva in <b>qualunque</b> punto del piano. Per questo bersaglio i numeri giusti sono :a e :c.":
+    "Esta es una <b>base</b>: las dos flechas no están alineadas, así que con los dos deslizadores se llega a <b>cualquier</b> punto del plano. Para este objetivo los números correctos son :a y :c.",
+  "Queste due frecce stanno <b>sulla stessa retta</b>: allungale come vuoi, la somma resterà sempre su quella retta. Non è un tuo errore ed è inutile insistere — non è una base, e metà del piano è irraggiungibile.":
+    "Estas dos flechas están <b>sobre la misma recta</b>: alárgalas como quieras, la suma se quedará siempre en esa recta. No es un error tuyo y no sirve de nada insistir — no es una base, y medio plano es inalcanzable.",
+  "Centrato.":
+    "Acertado.",
+  "<b>Due parole che adesso hai in mano.</b> Le due frecce che bastano si chiamano <b>base</b>; il loro numero — qui due — si chiama <b>dimensione</b>, ed è lo stesso qualunque base tu scelga. I due numeri dei cursori sono le <b>coordinate</b> del punto <i>in quella base</i>: cambiando base cambiano i numeri, ma il punto resta dov'è. È esattamente ciò che succede quando al livello :n misuri lo stesso qubit in due basi diverse.":
+    "<b>Dos palabras que ahora tienes en la mano.</b> Las dos flechas que bastan se llaman <b>base</b>; su número — aquí dos — se llama <b>dimensión</b>, y es el mismo elijas la base que elijas. Los dos números de los deslizadores son las <b>coordenadas</b> del punto <i>en esa base</i>: al cambiar de base cambian los números, pero el punto se queda donde está. Es exactamente lo que pasa cuando en el nivel :n mides el mismo cúbit en dos bases distintas.",
+  "Quante frecce servono davvero":
+    "Cuántas flechas hacen falta de verdad",
+  "accendi e spegni le frecce: quali insiemi coprono tutto il piano?":
+    "enciende y apaga las flechas: ¿qué conjuntos cubren todo el plano?",
+  "copri tutto il piano con il <b>minimo</b> numero di frecce":
+    "cubre todo el plano con el <b>mínimo</b> número de flechas",
+  "insiemi minimi trovati: :fatte su :totali":
+    "conjuntos mínimos encontrados: :fatte de :totali",
+  "raggiungi TUTTO il piano":
+    "alcanzas TODO el plano",
+  "raggiungi solo una retta":
+    "solo alcanzas una recta",
+  "non raggiungi niente":
+    "no alcanzas nada",
+  "frecce accese: :q · direzioni indipendenti: :r":
+    "flechas encendidas: :q · direcciones independientes: :r",
+  "La collezione":
+    "La colección",
+  "collezione :n":
+    "colección :n",
+  "freccia :n":
+    "flecha :n",
+  "Frecce accese: <b>:q</b>. Direzioni indipendenti: <b>:r</b>.":
+    "Flechas encendidas: <b>:q</b>. Direcciones independientes: <b>:r</b>.",
+  "Senza frecce non si va da nessuna parte.":
+    "Sin flechas no se va a ninguna parte.",
+  "Tutte le frecce accese stanno sulla stessa retta: sommandole e allungandole resti sempre lì. Una direzione sola.":
+    "Todas las flechas encendidas están sobre la misma recta: sumándolas y alargándolas te quedas siempre ahí. Una sola dirección.",
+  "Due frecce, due direzioni: questa è una <b>base</b>, ed è il minimo possibile. La <b>dimensione</b> del piano è 2.":
+    "Dos flechas, dos direcciones: esto es una <b>base</b>, y es el mínimo posible. La <b>dimensión</b> del plano es 2.",
+  "Copri tutto il piano, ma con :q frecce: una è di troppo, si può scrivere usando le altre. Spegnine una.":
+    "Cubres todo el plano, pero con :q flechas: una sobra, se puede escribir usando las otras. Apaga una.",
+  "<b>Il numero che non cambia mai.</b> Comunque scegli le frecce, per coprire il piano ce ne vogliono <b>esattamente due</b>: meno non bastano, di più sono ridondanti. Quel numero è la <b>dimensione</b>, e non dipende dalla base. Un qubit vive in dimensione 2 (le ampiezze di 0 e 1); due qubit in dimensione 4; <b>n qubit in dimensione 2^n</b> — non 2n. È tutta lì la ragione per cui, da qualche decina di qubit in su, simulare il registro su un computer normale diventa impossibile.":
+    "<b>El número que nunca cambia.</b> Elijas las flechas como las elijas, para cubrir el plano hacen falta <b>exactamente dos</b>: menos no bastan, más son redundantes. Ese número es la <b>dimensión</b>, y no depende de la base. Un cúbit vive en dimensión 2 (las amplitudes de 0 y 1); dos cúbits en dimensión 4; <b>n cúbits en dimensión 2^n</b> — no 2n. Ahí está toda la razón por la que, de unas decenas de cúbits en adelante, simular el registro en un ordenador normal se vuelve imposible.",
 };
