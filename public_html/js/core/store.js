@@ -226,6 +226,41 @@ export function reviewAnswer(key, correct) {
 }
 export const bankSize = () => Object.keys(state.bank).length;
 
+/* ---------------- il proprio ritmo ---------------- */
+
+const SETTIMANA = 7 * DAY;
+
+/**
+ * Quanto si è fatto negli ultimi sette giorni, e quanto nei sette prima.
+ *
+ * È un confronto con sé stessi, non con gli altri, ed è una scelta presa
+ * sulla ricerca: il riscontro «normativo» — la classifica, cioè il confronto
+ * con i pari — fa danni precisi a chi sta sotto, che attribuisce il ritardo
+ * alla propria mancanza di capacità e cala nel compito successivo. Il
+ * riscontro «autoriferito» — quanto sei andato avanti rispetto a te stesso —
+ * sostiene invece gli obiettivi di padronanza, che sono quelli che tengono
+ * in piedi l'interesse a distanza di settimane. Le fonti stanno nella pagina
+ * del metodo, sezione «Il ritmo, le classifiche e la comunità».
+ *
+ * Non serve nessun dato nuovo: i livelli hanno già la data in cui sono stati
+ * superati, e ogni carta del mazzo di ripasso ha la data dell'ultima volta
+ * che è stata rivista. `ora` è un parametro perché il tempo, nei test, deve
+ * poter essere deciso.
+ */
+export function settimana(ora = Date.now()) {
+  let livelli = 0, prima = 0, ripassi = 0;
+  for (const v of Object.values(state.lessons || {})) {
+    if (!v || !v.mastered || !v.at) continue;
+    const eta = ora - v.at;
+    if (eta < SETTIMANA) livelli++;
+    else if (eta < 2 * SETTIMANA) prima++;
+  }
+  for (const carta of Object.values(state.bank || {})) {
+    if (carta && carta.last && ora - carta.last < SETTIMANA) ripassi++;
+  }
+  return { livelli, prima, ripassi };
+}
+
 export function resetAll() { state = structuredClone(DEFAULT); save(); }
 
 /* ---------------- toast ---------------- */

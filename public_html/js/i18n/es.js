@@ -145,6 +145,8 @@ export default {
   'Sei <b>:grado</b> · :xp XP · :fatti/:totali livelli del corso':
     'Eres <b>:grado</b> · :xp XP · :fatti/:totali niveles del curso',
   ':n facoltativi': ':n opcionales',
+  'Ultimi 7 giorni · livelli: :liv · ripassi: :rip · nei 7 giorni prima: :prima':
+    'Últimos 7 días · niveles: :liv · repasos: :rip · en los 7 días anteriores: :prima',
   'prossimo grado: :grado': 'siguiente grado: :grado',
   ' — si comincia quando vuoi.': ' — se empieza cuando quieras.',
   'Continua — livello :n: :titolo': 'Continuar — nivel :n: :titolo',

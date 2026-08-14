@@ -116,7 +116,7 @@ Meta-analyses on gamification show positive but <b>fragile</b> effects: points a
 social-comparison pressure.</p>
 <p><b>What we take from it here:</b> XP arrives only for things genuinely done (mission passed, question recalled),
 the ranks describe a skill ("Lord of the arrows", "Period hunter") and <b>there is no leaderboard at all</b>,
-nor a running timer. Autonomy is protected by free mode and by the ability to replay any level.</p>
+nor a running timer — the reasons, with the research, are in section 22. Autonomy is protected by free mode and by the ability to replay any level.</p>
 
 <h2>8. And the last level?</h2>
 <p>Research on STEM learning distinguishes between <i>being able to apply</i> and <i>being able to transfer</i>.
@@ -455,6 +455,64 @@ e^(iHt), which is how you simulate a molecule.</p>
 real users. The choices above are defensible on the literature, but the field evidence — how many start it, how
 many finish it, whether it actually helps those who do — I do not have yet.</p>
 
+<h2>22. Ranks, leaderboards and community</h2>
+<p>The course shows two numbers, and they are two different things on purpose.</p>
+<ul>
+  <li><b>XP is the score.</b> It goes up when you pass a level and it goes up when you <b>review</b>: every question
+      recalled from the review deck pays five. It has to: answering the same question again days later is
+      distributed practice, which is the reason you will still know something a month from now. A score that only
+      rewards the first time is a score that says «reviewing is wasted time».</li>
+  <li><b>The rank is the progress.</b> It is not a fixed XP threshold but a <b>fraction of the course</b>: half the
+      main path passed is half, whatever the length of the path. Two reasons. The first is measurement:
+      with fixed thresholds, and with XP rising through review, you could reach the top rank by grinding reviews
+      without ever having seen Shor — the rank measured time spent on the site, not what you can do. The second is
+      that the course grows: the old top threshold, set for a course a third of this length, would now fall just
+      past halfway, and the whole second half would stop giving anything. Written as fractions, the thresholds
+      rescale themselves whenever a level is added.</li>
+</ul>
+<p>The optional parts pay XP but not ranks, and the levels you do there are counted separately, in plain sight,
+under the rank line. That is a matter of honesty: a rank says how far you are <i>through the course</i>.</p>
+
+<h3>Why there is no leaderboard</h3>
+<p>It was the first question I asked myself, and the literature answers it more sharply than I expected. The
+systematic review by Li and colleagues (2024) collects the studies on leaderboards in higher education: they work
+<b>depending on how they are built</b>, and the most frequently reported problem is a specific one — the discomfort
+of the learners who see themselves at the bottom of an <b>absolute, public</b> ranking. Which amounts to saying
+that a leaderboard helps whoever is already ahead and discourages whoever is behind: exactly the person this
+course exists for.</p>
+<p>This is not a theoretical worry. Hanus and Fox (2015) followed two identical courses for a semester, one with a
+leaderboard and badges and one without: <b>the students in the gamified course declined</b> in intrinsic motivation
+and satisfaction over the semester, and their lower final exam score was mediated by precisely that decline. And
+the same leaderboard does not even do the same thing to everyone: a 2024 study in <i>Computers &amp; Education</i>
+finds that a high ranking mostly helps learners low in trait competitiveness, while a low ranking spurs only those
+high in it — the same device, on the same page, with opposite signs on different people.</p>
+<p>The mechanism was known before gamification existed: when feedback is <b>normative</b>, telling you where you
+stand against others, whoever does badly attributes it to their own lack of ability and does less on the next
+task — whereas <b>self-referenced</b> feedback, telling you where you stand against yourself, supports mastery
+goals, which are the ones tied to interest that lasts (Ames, 1992; on negative feedback and intrinsic motivation,
+the meta-analysis by Fong and colleagues, 2019).</p>
+<p>So instead of a leaderboard there is <b>«Last 7 days»</b>, under the rank line: how many levels and how many
+reviews you did this week, and how many the week before. It is a comparison, but with yourself. It needs no
+account, no other players, and it has nobody at the bottom.</p>
+<p>If a leaderboard ever appears, this is the shape the research supports, and it is worth stating now rather than
+inventing later: <b>opt-in</b> (you join it, you don't land in it), <b>weekly with a reset</b> (whoever starts today
+is not chasing three years of head start), in <b>small randomly drawn groups</b> of thirty, showing only <b>your
+neighbours in the ranking</b> and not the whole table. Never an all-time absolute ranking, and never a yearly one:
+that is the shape with every flaw described above, multiplied by how long it takes to catch up. There is also a
+practical reason not to build it now: a leaderboard makes sense when there are enough simultaneous players to fill
+a group, otherwise it is a list of three names.</p>
+
+<h3>Community</h3>
+<p>Here the research says the opposite, and it is a yes. <b>Relatedness</b> is one of the three needs in
+self-determination theory, alongside competence and autonomy; and a sense of belonging correlates with mastery
+goals and with staying (Korpershoek and colleagues, 2020, eighty-two studies). But a community is not a generic
+chat: the kind that helps learning is tied to the task. The natural place here is level 22 — the workshop where
+you invent an algorithm of your own: a place to publish yours and look at other people's does exactly the work of
+comparing cases (see the section on analogies), on top of the work of relatedness.</p>
+<p class="dim small">Honest note: the community <b>does not exist yet</b>, and I will not open one until I can
+moderate it — an abandoned public space does more harm than none at all. And «Last 7 days» is new: it is defensible
+on the literature, but on this site I have not yet measured it on real users.</p>
+
 <h2>Sources</h2>
 <p class="dim small">Listed in the order they appear in the text. Where there is no link it is because the reference
 is a book or a classic paper that is easy to find: I prefer citing it that way rather than linking a copy
@@ -494,6 +552,12 @@ of dubious provenance.</p>
   <li>Yun, J. (2011). <i>The effects of hypertext glosses on L2 vocabulary acquisition: a meta-analysis</i>. Computer Assisted Language Learning, 24(1), 39–58.</li>
   <li>Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., Willingham, D. T. (2013). <i>Improving Students' Learning With Effective Learning Techniques</i>. Psychological Science in the Public Interest, 14(1), 4–58 — the review that rates ten study techniques: retrieval practice and distributed practice at high utility, elaborative interrogation and self-explanation at moderate utility. — <a href="https://journals.sagepub.com/doi/abs/10.1177/1529100612453266" target="_blank" rel="noopener">publisher's page</a></li>
   <li>Chi, M. T. H., de Leeuw, N., Chiu, M.-H., LaVancher, C. (1994). <i>Eliciting self-explanations improves understanding</i>. Cognitive Science, 18(3), 439–477 — explaining out loud what you are reading improves understanding.</li>
+  <li>Li, C., Liang, L., Fryer, L. K., Shum, A. (2024). <i>The use of leaderboards in education: A systematic review of empirical evidence in higher education</i>. Journal of Computer Assisted Learning, 40(6), 3406–3442 — the effect depends on the type of leaderboard; the most frequently reported problem is the discomfort of those at the bottom of an absolute, public ranking. — <a href="https://onlinelibrary.wiley.com/doi/10.1111/jcal.13077" target="_blank" rel="noopener">open-access article</a></li>
+  <li>Hanus, M. D., Fox, J. (2015). <i>Assessing the effects of gamification in the classroom: A longitudinal study on intrinsic motivation, social comparison, satisfaction, effort, and academic performance</i>. Computers &amp; Education, 80, 152–161 — a leaderboard and badges for a semester: intrinsic motivation and satisfaction declining, and a lower final score mediated by that decline. — <a href="https://www.sciencedirect.com/science/article/abs/pii/S0360131514002000" target="_blank" rel="noopener">article</a></li>
+  <li><i>Personalization in educational gamification: Learners with different trait competitiveness benefit differently from rankings on leaderboards</i> (2024). Computers &amp; Education — the same leaderboard has opposite effects on people with different trait competitiveness. — <a href="https://www.sciencedirect.com/science/article/abs/pii/S0360131524002100" target="_blank" rel="noopener">article</a></li>
+  <li>Ames, C. (1992). <i>Classrooms: Goals, Structures, and Student Motivation</i>. Journal of Educational Psychology, 84(3), 261–271 — the difference between a mastery structure (comparison with yourself) and a performance structure (comparison with others), and what the second does to those who are behind.</li>
+  <li>Fong, C. J., Patall, E. A., Vasquez, A. C., Stautberg, S. (2019). <i>A Meta-Analysis of Negative Feedback on Intrinsic Motivation</i>. Educational Psychology Review, 31, 121–162. — <a href="https://selfdeterminationtheory.org/wp-content/uploads/2019/11/2019_FongPatallETAL_EdPsychReview.pdf" target="_blank" rel="noopener">PDF</a></li>
+  <li>Korpershoek, H., Canrinus, E. T., Fokkens-Bruinsma, M., de Boer, H. (2020). <i>The relationships between school belonging and students' motivational, social-emotional, behavioural, and academic outcomes in secondary education: a meta-analytic review</i>. Research Papers in Education, 35(6), 641–680 — eighty-two studies: belonging correlates with mastery goals and with staying. — <a href="https://www.tandfonline.com/doi/full/10.1080/02671522.2019.1615116" target="_blank" rel="noopener">article</a></li>
 </ul>
 
 <div class="callout"><b>Intellectual honesty:</b> none of these studies is about <i>this</i> course in particular, and effect sizes

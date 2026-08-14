@@ -106,6 +106,7 @@ function renderStatus() {
     (extra ? ' · ' + t(':n facoltativi', { n: extra }) : '') +
     (dopo ? ' · ' + t('prossimo grado: :grado', { grado: dopo.name }) : '') +
     (done === 0 ? t(' — si comincia quando vuoi.') : '');
+  renderSettimana(done);
   /* "Continua" punta sempre al percorso principale: le parti facoltative si
      scelgono, non si subiscono, e chi torna dopo una settimana vuole riprendere
      da dove si era fermato, non dal primo livello di ripasso che non ha fatto. */
@@ -116,6 +117,26 @@ function renderStatus() {
   cont.textContent = (done ? '▶ ' + t('Continua — livello :n: :titolo', { n: first.n, titolo: first.title }) : '▶ ' + t('Inizia dal livello 1'));
 }
 renderStatus();
+
+/* ---------------- il proprio ritmo ---------------- */
+
+/**
+ * «Ultimi 7 giorni» — il confronto è con la settimana scorsa, cioè con sé
+ * stessi. Non c'è una classifica, e non è una dimenticanza: le classifiche
+ * pubbliche aiutano chi sta in cima e scoraggiano chi sta in fondo, che è
+ * esattamente la persona per cui questo corso esiste. Il ragionamento per
+ * esteso, con le ricerche, sta nella pagina del metodo.
+ */
+function renderSettimana(done) {
+  const box = document.getElementById('settimana');
+  if (!box) return;
+  const s = store.settimana();
+  if (!done && !s.ripassi) { box.textContent = ''; box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+  box.innerHTML = t('Ultimi 7 giorni · livelli: :liv · ripassi: :rip · nei 7 giorni prima: :prima', {
+    liv: s.livelli, rip: s.ripassi, prima: s.prima,
+  }) + (s.livelli > s.prima && s.prima >= 0 && s.livelli > 0 ? ' 📈' : '');
+}
 
 /* ---------------- impostazioni ---------------- */
 

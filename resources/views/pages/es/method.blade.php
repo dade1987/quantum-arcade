@@ -115,8 +115,8 @@ Los metaanálisis sobre gamificación muestran efectos positivos pero <b>frágil
 <i>competencia adquirida</i>, y pueden ser contraproducentes si se convierten en la única razón para jugar o si crean
 presión por comparación social.</p>
 <p><b>Lo que sacamos de aquí:</b> los XP llegan solo por cosas realmente hechas (misión superada, pregunta recordada),
-los rangos describen una habilidad ("Señor de las flechas", "Cazador de periodos") y <b>no existe ninguna clasificación</b>
-ni cronómetro corriendo. La autonomía queda protegida por el modo libre y por poder rejugar cualquier nivel.</p>
+los grados describen una habilidad ("Señor de las flechas", "Cazador de periodos") y <b>no existe ninguna clasificación</b>
+ni cronómetro corriendo — el porqué, con las investigaciones, está en la sección 22. La autonomía queda protegida por el modo libre y por poder rejugar cualquier nivel.</p>
 
 <h2>8. ¿Y el último nivel?</h2>
 <p>La investigación sobre el aprendizaje de las STEM distingue entre <i>saber aplicar</i> y <i>saber transferir</i>.
@@ -460,6 +460,66 @@ término, cómo se calcula e^(iHt), es decir cómo se simula una molécula.</p>
 usuarios reales. Las decisiones de arriba son defendibles sobre la literatura, pero la prueba de campo — cuántos
 la empiezan, cuántos la terminan, si de verdad sirve a quien la hace — todavía no la tengo.</p>
 
+<h2>22. Los grados, las clasificaciones y la comunidad</h2>
+<p>El curso da dos números, y son dos cosas distintas a propósito.</p>
+<ul>
+  <li><b>Los XP son la puntuación.</b> Suben al superar un nivel y suben también al <b>repasar</b>: cada pregunta
+      recuperada del mazo de repaso paga cinco. Tienen que pagarlos: rehacer la misma pregunta días después es la
+      práctica distribuida, es decir el motivo por el que dentro de un mes seguirás sabiendo algo. Una puntuación
+      que solo premia la primera vez es una puntuación que dice «repasar es tiempo perdido».</li>
+  <li><b>El grado es el avance.</b> No es un umbral fijo de XP sino una <b>fracción del curso</b>: la mitad del
+      recorrido principal superada es la mitad, sea cual sea la longitud del recorrido. Dos motivos. El primero es de medida:
+      con umbrales fijos, y con los XP subiendo al repasar, se llegaba al último grado a base de repasos sin haber
+      visto nunca a Shor — el grado medía el tiempo pasado en el sitio, no lo que se sabe hacer. El segundo es que
+      el curso crece: el viejo umbral máximo, ajustado para un curso de un tercio de esta longitud, hoy caería poco
+      después de la mitad, y toda la segunda mitad dejaría de dar nada. Escritos en fracciones, los umbrales se
+      reescalan solos cada vez que se añade un nivel.</li>
+</ul>
+<p>Las partes opcionales dan XP pero no grados, y los niveles que haces allí se cuentan aparte, a la vista, bajo la
+línea del grado. Es una cuestión de honestidad: un grado dice por dónde vas <i>del curso</i>.</p>
+
+<h3>Por qué no hay una clasificación de los mejores</h3>
+<p>Es la primera pregunta que me hice, y la respuesta de la literatura es más rotunda de lo que esperaba. La
+revisión sistemática de Li y colegas (2024) recoge los estudios sobre clasificaciones en la enseñanza
+universitaria: funcionan <b>según cómo estén hechas</b>, y el problema señalado con más frecuencia es preciso — el
+malestar de quien se ve al final de una clasificación <b>absoluta y pública</b>. Lo cual equivale a decir que la
+clasificación ayuda a quien ya va delante y desanima a quien va detrás: exactamente la persona para la que existe
+este curso.</p>
+<p>No es un temor teórico. Hanus y Fox (2015) siguieron durante un semestre dos cursos idénticos, uno con
+clasificación e insignias y otro sin ellas: <b>los estudiantes del curso con clasificación bajaron</b> en motivación
+intrínseca y satisfacción a lo largo del semestre, y su nota final más baja pasaba justamente por esa caída de
+motivación. Y la misma clasificación ni siquiera hace lo mismo con todos: un estudio de 2024 en <i>Computers &amp;
+Education</i> encuentra que una posición alta ayuda sobre todo a quien es poco competitivo de carácter, mientras
+que una posición baja solo espolea a quien lo es mucho — el mismo instrumento, en la misma página, con efectos de
+signo opuesto en personas distintas.</p>
+<p>El mecanismo se conocía desde antes de la gamificación: cuando el feedback es <b>normativo</b>, es decir te dice
+cómo estás respecto a los demás, quien va mal atribuye el resultado a su propia falta de capacidad y rinde menos en
+la tarea siguiente — mientras que un feedback <b>autorreferido</b>, que te dice cómo estás respecto a ti mismo,
+sostiene las metas de dominio, que son las ligadas al interés que dura (Ames, 1992; sobre el feedback negativo y la
+motivación intrínseca, el metaanálisis de Fong y colegas, 2019).</p>
+<p>Así que en lugar de la clasificación está <b>«Últimos 7 días»</b>, bajo la línea del grado: cuántos niveles y
+cuántos repasos has hecho esta semana, y cuántos la semana anterior. Es una comparación, pero contigo mismo. No
+necesita cuenta, no necesita otros jugadores, y no tiene a nadie al final.</p>
+<p>Si algún día hay una clasificación, esta es la forma que la investigación respalda, y conviene decirla antes
+para no inventarla después: <b>opcional</b> (uno se apunta, no acaba dentro), <b>semanal y con reinicio</b> (quien
+empieza hoy no persigue tres años de ventaja), en <b>grupitos pequeños sorteados</b> de treinta personas, mostrando
+solo <b>a los vecinos de posición</b> y no la tabla entera. Nunca una clasificación absoluta de siempre, y nunca una
+anual: es la forma con todos los defectos descritos arriba, multiplicados por el tiempo que hace falta para
+recuperar. Hay además un motivo práctico para no hacerla ahora: una clasificación tiene sentido cuando hay
+bastantes jugadores simultáneos para llenar un grupito; si no, es una lista de tres nombres.</p>
+
+<h3>La comunidad</h3>
+<p>Aquí la investigación dice lo contrario, y es un sí. La <b>relación</b> es una de las tres necesidades de la
+teoría de la autodeterminación, junto con la competencia y la autonomía; y el sentido de pertenencia correlaciona
+con las metas de dominio y con quedarse (Korpershoek y colegas, 2020, ochenta y dos estudios). Pero una comunidad
+no es un chat genérico: la que sirve para aprender está ligada a la tarea. El sitio natural, aquí, es el nivel 22 —
+el taller donde se inventa un algoritmo propio: un lugar donde publicar el tuyo y mirar los de los demás hace
+exactamente el trabajo de la comparación entre casos (véase la sección sobre las analogías), además del trabajo de
+la relación.</p>
+<p class="dim small">Nota honesta: la comunidad <b>todavía no existe</b>, y no la abriré hasta que pueda moderarla —
+un espacio público abandonado hace más daño que no tenerlo. Y «Últimos 7 días» es nuevo: es defendible sobre la
+literatura, pero en este sitio aún no lo he medido con usuarios reales.</p>
+
 <h2>Fuentes</h2>
 <p class="dim small">Listadas en el orden en que aparecen en el texto. Donde no hay enlace es porque la referencia
 es un libro o un artículo clásico fácil de encontrar: prefiero citarlo así antes que enlazar una copia
@@ -499,6 +559,12 @@ de origen dudoso.</p>
   <li>Yun, J. (2011). <i>The effects of hypertext glosses on L2 vocabulary acquisition: a meta-analysis</i>. Computer Assisted Language Learning, 24(1), 39–58.</li>
   <li>Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., Willingham, D. T. (2013). <i>Improving Students' Learning With Effective Learning Techniques</i>. Psychological Science in the Public Interest, 14(1), 4–58 — la revisión que evalúa diez técnicas de estudio: práctica de recuperación y práctica distribuida con utilidad alta, interrogación elaborativa y autoexplicación con utilidad moderada. — <a href="https://journals.sagepub.com/doi/abs/10.1177/1529100612453266" target="_blank" rel="noopener">ficha del editor</a></li>
   <li>Chi, M. T. H., de Leeuw, N., Chiu, M.-H., LaVancher, C. (1994). <i>Eliciting self-explanations improves understanding</i>. Cognitive Science, 18(3), 439–477 — explicarse en voz alta lo que se está leyendo mejora la comprensión.</li>
+  <li>Li, C., Liang, L., Fryer, L. K., Shum, A. (2024). <i>The use of leaderboards in education: A systematic review of empirical evidence in higher education</i>. Journal of Computer Assisted Learning, 40(6), 3406–3442 — el efecto depende del tipo de clasificación; el problema señalado con más frecuencia es el malestar de quien está al final de una clasificación absoluta y pública. — <a href="https://onlinelibrary.wiley.com/doi/10.1111/jcal.13077" target="_blank" rel="noopener">artículo (acceso abierto)</a></li>
+  <li>Hanus, M. D., Fox, J. (2015). <i>Assessing the effects of gamification in the classroom: A longitudinal study on intrinsic motivation, social comparison, satisfaction, effort, and academic performance</i>. Computers &amp; Education, 80, 152–161 — clasificación e insignias durante un semestre: motivación intrínseca y satisfacción a la baja, y nota final más baja mediada por esa caída. — <a href="https://www.sciencedirect.com/science/article/abs/pii/S0360131514002000" target="_blank" rel="noopener">artículo</a></li>
+  <li><i>Personalization in educational gamification: Learners with different trait competitiveness benefit differently from rankings on leaderboards</i> (2024). Computers &amp; Education — la misma clasificación tiene efectos de signo opuesto en personas con distinta competitividad de carácter. — <a href="https://www.sciencedirect.com/science/article/abs/pii/S0360131524002100" target="_blank" rel="noopener">artículo</a></li>
+  <li>Ames, C. (1992). <i>Classrooms: Goals, Structures, and Student Motivation</i>. Journal of Educational Psychology, 84(3), 261–271 — la diferencia entre estructura de dominio (comparación con uno mismo) y estructura de rendimiento (comparación con los demás), y lo que hace la segunda a quien va detrás.</li>
+  <li>Fong, C. J., Patall, E. A., Vasquez, A. C., Stautberg, S. (2019). <i>A Meta-Analysis of Negative Feedback on Intrinsic Motivation</i>. Educational Psychology Review, 31, 121–162. — <a href="https://selfdeterminationtheory.org/wp-content/uploads/2019/11/2019_FongPatallETAL_EdPsychReview.pdf" target="_blank" rel="noopener">PDF</a></li>
+  <li>Korpershoek, H., Canrinus, E. T., Fokkens-Bruinsma, M., de Boer, H. (2020). <i>The relationships between school belonging and students' motivational, social-emotional, behavioural, and academic outcomes in secondary education: a meta-analytic review</i>. Research Papers in Education, 35(6), 641–680 — ochenta y dos estudios: la pertenencia correlaciona con las metas de dominio y con quedarse. — <a href="https://www.tandfonline.com/doi/full/10.1080/02671522.2019.1615116" target="_blank" rel="noopener">artículo</a></li>
 </ul>
 
 <div class="callout"><b>Honestidad intelectual:</b> ninguno de estos estudios trata de <i>este</i> curso en particular, y los tamaños de efecto

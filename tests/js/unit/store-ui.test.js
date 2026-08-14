@@ -77,6 +77,33 @@ describe('store: XP e padronanza', () => {
     assert.equal(store.prossimoGrado(), null);
   });
 
+  /* Il confronto è con sé stessi: settimana contro settimana. Serve che il
+     confine dei sette giorni sia netto, altrimenti «nei 7 giorni prima»
+     conterebbe due volte le stesse cose. */
+  test('settimana separa gli ultimi 7 giorni dai 7 prima', () => {
+    const ora = Date.parse('2026-03-15T12:00:00Z');
+    const giorno = 24 * 3600 * 1000;
+    const s = store.getState();
+    s.lessons['01-qubit'] = { at: ora - 2 * giorno, mastered: true };
+    s.lessons['02-bloch'] = { at: ora - 6 * giorno, mastered: true };
+    s.lessons['03-porte'] = { at: ora - 9 * giorno, mastered: true };
+    s.lessons['04-due-qubit'] = { at: ora - 20 * giorno, mastered: true };
+    s.lessons['05-circuiti'] = { at: ora - giorno, mastered: false };   // aperto, non superato
+    s.bank['01-qubit/0'] = { box: 2, last: ora - 3 * giorno };
+    s.bank['01-qubit/1'] = { box: 3, last: ora - 30 * giorno };
+    s.bank['01-qubit/2'] = { box: 1 };                                   // mai ripassata
+
+    const r = store.settimana(ora);
+    assert.equal(r.livelli, 2, 'due negli ultimi sette giorni');
+    assert.equal(r.prima, 1, 'uno nei sette precedenti, e quello di venti giorni fa fuori');
+    assert.equal(r.ripassi, 1);
+  });
+
+  test('settimana su uno stato vuoto non esplode e dice zero', () => {
+    const r = store.settimana(Date.now());
+    assert.deepEqual(r, { livelli: 0, prima: 0, ripassi: 0 });
+  });
+
   test('award assegna una sola volta per chiave', () => {
     assert.equal(store.award('k1', 100), true);
     assert.equal(store.award('k1', 100), false, 'la seconda volta non deve pagare');

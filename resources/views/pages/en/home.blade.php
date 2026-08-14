@@ -1,8 +1,8 @@
 @extends('layouts.page', [
     'title' => 'Quantum Arcade — Quantum computing by playing | free interactive course in English',
-    'description' => 'Free game-course in English to learn quantum computing from scratch: waves, phase, complex numbers, the Fourier transform (DFT), qubits, gates, entanglement, Grover, QFT and Shor\'s algorithm. 42 interactive levels with a real quantum simulator. By Davide Cavallini.',
+    'description' => 'Free game-course in English to learn quantum computing from scratch: waves, phase, complex numbers, the Fourier transform (DFT), qubits, gates, entanglement, Grover, QFT and Shor\'s algorithm. 55 interactive levels with a real quantum simulator. By Davide Cavallini.',
     'ogTitle' => 'Quantum Arcade — learn quantum computing by playing',
-    'ogDescription' => '42 interactive levels in English: from waves to the quantum Fourier transform and Shor\'s algorithm. With a real quantum simulator and unlock-by-mastery.',
+    'ogDescription' => '55 interactive levels in English: from waves to the quantum Fourier transform and Shor\'s algorithm. With a real quantum simulator and unlock-by-mastery.',
 ])
 
 @push('head')
@@ -15,7 +15,7 @@
       "@type": "Course",
       "@id": "https://quantumarcade.it/en/#course",
       "name": "Quantum Arcade — Quantum computing by playing",
-      "description": "Free interactive course in English that teaches quantum computing starting from waves and the Fourier transform all the way to the QFT and Shor's algorithm, through 34 playable levels with a state-vector quantum simulator.",
+      "description": "Free interactive course in English that teaches quantum computing starting from waves and the Fourier transform all the way to the QFT and Shor's algorithm, through 55 playable levels with a state-vector quantum simulator.",
       "inLanguage": "en",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
@@ -121,7 +121,7 @@
     <span class="tag cyan">🎮 free game-course in English</span>
     <h1 style="margin-top:14px">Learn quantum computing<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">by actually playing it.</span></h1>
     <p class="lead">
-      Forty-two interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
+      Fifty-five interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
       (amplitude, frequency and phase: the three knobs that fully describe a sine wave — the period is just
       frequency the other way round, T = 1/f) and arrive at the <b>quantum Fourier transform</b> and <b>Shor's algorithm</b>.
       Every formula is taken apart piece by piece, and every piece is something you can
@@ -137,6 +137,7 @@
     </div>
 
     <p id="progress-line" class="dim" style="font-size:15px"></p>
+    <p id="settimana" class="dim hidden" style="font-size:13px;margin-top:-6px"></p>
     <div class="btn-row" style="margin:18px 0 6px">
       <a class="btn primary" id="continue" href="{{ \App\Support\Site::lessonPath('01-qubit', $locale) }}">▶ Start</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('00-numeri', $locale) }}">🧮 I am starting from absolute zero (Part 0)</a>
