@@ -51,6 +51,7 @@ const SLUG = {
   'm7-probabilita': { en: 'm7-probability', es: 'm7-probabilidad' },
   'm8-limiti': { en: 'm8-limits', es: 'm8-limites' },
   'm9-integrali': { en: 'm9-integrals', es: 'm9-integrales' },
+  'm10-taylor': { en: 'm10-taylor', es: 'm10-taylor' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -215,6 +216,10 @@ export const LEVELS = [
   { id: 'm9-integrali', part: 'M', n: 'M·9', open: true,
     title: t('Integrali: l\'area, e il teorema che la lega alla derivata'),
     desc: t('Rettangoli sempre più stretti, il tachimetro che è la pendenza del contachilometri, e due aree che hanno un nome: il logaritmo e la probabilità che fa 1.'), xp: 95 },
+
+  { id: 'm10-taylor', part: 'M', n: 'M·10', open: true,
+    title: t('Serie di Taylor: qualunque curva, vista da vicino, è un polinomio'),
+    desc: t('Il polinomio che insegue la curva finché ce la fa, la formula di Eulero letta sul foglio — e la scoperta che il √N di Grover è un\'approssimazione troncata al primo termine.'), xp: 100 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

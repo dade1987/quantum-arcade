@@ -446,6 +446,27 @@ return [
             ],
         ],
         [
+            'id' => 'm10-taylor',
+            'n' => 'M·10',
+            'part' => 'M',
+            'xp' => 100,
+            'slug' => [
+                'it' => 'm10-taylor',
+                'en' => 'm10-taylor',
+                'es' => 'm10-taylor',
+            ],
+            'title' => [
+                'it' => 'Serie di Taylor: qualunque curva, vista da vicino, è un polinomio',
+                'en' => 'Taylor series: any curve, seen from close up, is a polynomial',
+                'es' => 'Series de Taylor: cualquier curva, vista de cerca, es un polinomio',
+            ],
+            'description' => [
+                'it' => 'Il polinomio che insegue la curva finché ce la fa, la formula di Eulero letta sul foglio — e la scoperta che il √N di Grover è un\'approssimazione troncata al primo termine.',
+                'en' => 'The polynomial that chases the curve for as long as it can, Euler\'s formula read straight off the page — and the discovery that Grover\'s √N is an approximation stopped at the first term.',
+                'es' => 'El polinomio que persigue a la curva mientras puede, la fórmula de Euler leída en el papel — y el descubrimiento de que el √N de Grover es una aproximación parada en el primer término.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

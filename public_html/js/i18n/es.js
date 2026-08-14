@@ -3618,4 +3618,63 @@ export default {
     "Dicho en palabras: el camino recorrido crece a la velocidad que marca el velocímetro. Dicho en fórmulas: la derivada del área es la función de partida. Es el <b>teorema fundamental del cálculo</b>, y liga las dos mitades del análisis.",
   "<b>Le due metà dell'analisi sono una cosa sola.</b> La derivata (livello :d) misura quanto una cosa cambia; l'integrale somma i cambiamenti e ricostruisce la cosa. Per questo si può calcolare un'area senza contare un solo rettangolo: basta trovare una funzione la cui derivata sia quella di partenza, e guardare quanto è cresciuta agli estremi.":
     "<b>Las dos mitades del análisis son una sola cosa.</b> La derivada (nivel :d) mide cuánto cambia una cosa; la integral suma los cambios y reconstruye la cosa. Por eso se puede calcular un área sin contar ni un rectángulo: basta encontrar una función cuya derivada sea la de partida, y mirar cuánto ha crecido entre los extremos.",
+  /* ---------------- livello M·10: serie di Taylor ---------------- */
+  "Serie di Taylor: qualunque curva, vista da vicino, è un polinomio":
+    "Series de Taylor: cualquier curva, vista de cerca, es un polinomio",
+  "Il polinomio che insegue la curva finché ce la fa, la formula di Eulero letta sul foglio — e la scoperta che il √N di Grover è un'approssimazione troncata al primo termine.":
+    "El polinomio que persigue a la curva mientras puede, la fórmula de Euler leída en el papel — y el descubrimiento de que el √N de Grover es una aproximación parada en el primer término.",
+  "Il polinomio che insegue la curva":
+    "El polinomio que persigue a la curva",
+  "aggiungi termini e guarda quanto lontano riesce a starle dietro":
+    "añade términos y mira hasta dónde consigue seguirla",
+  "errore sotto :s ovunque":
+    "error por debajo de :s en todas partes",
+  "curve inseguite: :fatte su :totali":
+    "curvas perseguidas: :fatte de :totali",
+  "qui dentro funziona":
+    "aquí dentro funciona",
+  "grado :n · errore peggiore: :e":
+    "grado :n · peor error: :e",
+  "incollato in zero, si stacca allontanandosi":
+    "pegado en cero, se despega al alejarse",
+  "grado del polinomio":
+    "grado del polinomio",
+  "Il polinomio di grado <b>:n</b> vale <b>:p</b> in x = :x, dove la funzione vale <b>:v</b>. Sul tratto disegnato l'errore peggiore è <b>:e</b>.":
+    "El polinomio de grado <b>:n</b> vale <b>:p</b> en x = :x, donde la función vale <b>:v</b>. En el tramo dibujado el peor error es <b>:e</b>.",
+  "Vicino a zero bastano pochi termini; per stare dietro anche lontano ne servono molti di più. È sempre la stessa domanda: non «ci arriva», ma <b>quanto in fretta</b>.":
+    "Cerca de cero bastan pocos términos; para seguirla también lejos hacen falta muchos más. Es siempre la misma pregunta: no «¿llega?», sino <b>cuán deprisa</b>.",
+  "Ma questa ha un muro. Fuori dalla striscia verde — cioè per |x| ≥ 1 — la serie non si avvicina a niente: <b>esplode</b>, e aggiungere termini peggiora. Si chiama <b>raggio di convergenza</b>, e qui vale 1. Provaci: porta il grado al massimo e guarda cosa fa la curva gialla ai bordi.":
+    "Pero esta tiene un muro. Fuera de la franja verde — es decir, para |x| ≥ 1 — la serie no se acerca a nada: <b>explota</b>, y añadir términos empeora. Se llama <b>radio de convergencia</b>, y aquí vale 1. Pruébalo: sube el grado al máximo y mira qué hace la curva amarilla en los bordes.",
+  "Guarda il primo termine: per il seno è <b>x</b>. Vuol dire che per angoli piccoli <b>sin x ≈ x</b>, ed è l'approssimazione più usata di tutta la fisica. Nel gioco qui sotto è quella che fa comparire il √N di Grover.":
+    "Mira el primer término: para el seno es <b>x</b>. Quiere decir que para ángulos pequeños <b>sin x ≈ x</b>, y es la aproximación más usada de toda la física. En el juego de abajo es la que hace aparecer el √N de Grover.",
+  "<b>Perché funziona.</b> Il polinomio di Taylor è costruito per <b>copiare</b> la funzione in un punto: stesso valore, stessa pendenza (la derivata del livello :d), stessa curvatura, e così via. Ogni termine in più impone che coincida anche la derivata successiva. Da lì la formula dei coefficienti, f⁽ᵏ⁾(0)/k!, e il fatto che l'inseguimento parta perfetto in zero e si allenti man mano che ci si allontana.":
+    "<b>Por qué funciona.</b> El polinomio de Taylor está construido para <b>copiar</b> la función en un punto: mismo valor, misma pendiente (la derivada del nivel :d), misma curvatura, y así sucesivamente. Cada término más obliga a que coincida también la derivada siguiente. De ahí la fórmula de los coeficientes, f⁽ᵏ⁾(0)/k!, y el hecho de que la persecución empiece perfecta en cero y se afloje a medida que uno se aleja.",
+  "Da sin x ≈ x al √N di Grover":
+    "De sin x ≈ x al √N de Grover",
+  "l'approssimazione più famosa della fisica, e il numero di giri che ne esce":
+    "la aproximación más famosa de la física, y el número de vueltas que sale de ella",
+  "scarto sotto l'1%":
+    "diferencia por debajo del 1%",
+  "prove: :fatte su :totali":
+    "intentos: :fatte de :totali",
+  "N = :n · θ vero :v · θ ≈ :a":
+    "N = :n · θ verdadero :v · θ ≈ :a",
+  "scarto :s% · giri veri :v · formula :f":
+    "diferencia :s% · vueltas reales :v · fórmula :f",
+  "più lunga è la lista, più l'approssimazione è buona":
+    "cuanto más larga es la lista, mejor es la aproximación",
+  "quanto è lunga la lista":
+    "cuánto mide la lista",
+  "lista corta":
+    "lista corta",
+  "lista lunga":
+    "lista larga",
+  "Con una lista di <b>:n</b> caselle l'angolo di Grover vale <b>:v</b> radianti. Il primo termine di Taylor dice 1/√N = <b>:a</b>: sbaglia del <b>:s%</b>.":
+    "Con una lista de <b>:n</b> casillas el ángulo de Grover vale <b>:v</b> radianes. El primer término de Taylor dice 1/√N = <b>:a</b>: se equivoca en un <b>:s%</b>.",
+  "I giri che davvero danno la probabilità più alta sono <b>:v</b>. La formula famosa (π/4)·√N ne dice <b>:f</b>.":
+    "Las vueltas que de verdad dan la probabilidad más alta son <b>:v</b>. La fórmula famosa (π/4)·√N dice <b>:f</b>.",
+  "Ecco da dove viene il √N. Servono circa (π/4)/θ giri, e se θ ≈ 1/√N allora i giri sono circa (π/4)·√N. Il vantaggio quantistico più famoso del corso è <b>un'approssimazione di Taylor troncata al primo termine</b>.":
+    "De aquí viene el √N. Hacen falta unas (π/4)/θ vueltas, y si θ ≈ 1/√N entonces las vueltas son unas (π/4)·√N. La ventaja cuántica más famosa del curso es <b>una aproximación de Taylor parada en el primer término</b>.",
+  "<b>Approssimare qui non è essere sbrigativi: è il conto.</b> Al livello :g hai visto che ogni giro di Grover aggiunge 2θ e che i giri utili sono quelli che portano vicino a 90°. Quel θ è arcsin(√(1/N)), e per liste grandi la serie di Taylor dice che vale 1/√N a meno di un pelo. Da lì, e solo da lì, esce il √N che rende Grover più veloce di qualunque ricerca classica.":
+    "<b>Aproximar aquí no es ir con prisa: es la cuenta.</b> En el nivel :g viste que cada vuelta de Grover añade 2θ y que las vueltas útiles son las que llevan cerca de 90°. Ese θ es arcsin(√(1/N)), y para listas grandes la serie de Taylor dice que vale 1/√N por un pelo. De ahí, y solo de ahí, sale el √N que hace a Grover más rápido que cualquier búsqueda clásica.",
 };
