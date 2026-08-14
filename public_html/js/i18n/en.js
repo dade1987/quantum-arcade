@@ -2704,4 +2704,83 @@ export default {
     "take away and divide on both sides: the scale stays balanced",
   "un numero entra, uno esce: si può risalire a quello entrato?":
     "one number goes in, one comes out: can you work back to the one that went in?",
+  /* ---------------- livello 0·8: esponenziali e logaritmi ---------------- */
+  ":caso (:quanti casi) — risolti :fatti su :totali":
+    ":caso (:quanti cases) — solved :fatti of :totali",
+  ":n interruttori":
+    ":n switches",
+  "<b>Che cos'è un logaritmo, detto una volta per tutte:</b> è la risposta alla domanda «a quale potenza devo elevare?». Se 2¹⁰ = 1024, allora log₂(1024) = 10. Nel corso serve quasi sempre in questa forma: <b>quanti bit (o quanti qubit) servono per N casi</b>.":
+    "<b>What a logarithm is, once and for all:</b> it is the answer to «to what power must I raise?». If 2¹⁰ = 1024, then log₂(1024) = 10. In this course it almost always shows up in this shape: <b>how many bits (or qubits) are needed for N cases</b>.",
+  "<b>Perché è la stessa cosa:</b> dimezzare fino a 1 e chiedersi quanti bit servono sono due modi di fare la stessa domanda — «quante volte ci sta il 2 dentro N, moltiplicandolo per sé stesso?». La risposta è log₂N in tutti e due i casi. E questo numero è dappertutto: i confronti della ricerca binaria (livello :k), gli stadi della FFT (livello :f), e il numero di qubit che servono per rappresentare N possibilità.":
+    "<b>Why it is the same thing:</b> halving down to 1 and asking how many bits are needed are two ways of asking the same question — «how many times does 2 fit inside N, multiplied by itself?». The answer is log₂N either way. And that number is everywhere: the comparisons of binary search (level :k), the stages of the FFT (level :f), and the number of qubits needed to represent N possibilities.",
+  "Cerca il <b>minimo</b> numero di interruttori che basta: uno in meno non deve farcela.":
+    "Look for the <b>smallest</b> number of switches that does it: one fewer must not be enough.",
+  "Ci sono voluti <b>:n</b> dimezzamenti. E ora guarda: <b>:n</b> è anche il numero di interruttori che servirebbero per :N casi. Non è una coincidenza: è lo stesso logaritmo.":
+    "It took <b>:n</b> halvings. Now look: <b>:n</b> is also the number of switches you would need for :N cases. That is no coincidence: it is the same logarithm.",
+  "Con <b>:n</b> interruttori copri <b>:copre</b> casi. Te ne servono <b>:servono</b>.":
+    "With <b>:n</b> switches you cover <b>:copre</b> cases. You need <b>:servono</b>.",
+  "Esatto: log₂(:N) arrotondato in su fa :n.":
+    "Correct: log₂(:N) rounded up is :n.",
+  "Esponenziali e logaritmi: quante cifre servono":
+    "Exponentials and logarithms: how many digits it takes",
+  "Il minimo è <b>:serve</b>. Questo numero si chiama <b>logaritmo in base 2</b> di :N, arrotondato in su: log₂(:N) ≈ :esatto.":
+    "The minimum is <b>:serve</b>. That number is called the <b>base-2 logarithm</b> of :N, rounded up: log₂(:N) ≈ :esatto.",
+  "Il numero di partenza":
+    "The starting number",
+  "Interruttori accesi":
+    "Switches on",
+  "No: conta le barre disegnate, quella di partenza esclusa.":
+    "No: count the bars drawn, not counting the first one.",
+  "Ogni taglio dimezza. Da mille a uno bastano dieci tagli: è questo che rende la ricerca binaria così veloce.":
+    "Every cut halves. From a thousand down to one takes ten cuts: that is what makes binary search so fast.",
+  "Parti da <b>:N</b>. Dopo <b>:n</b> dimezzamenti resta <b>:v</b>.":
+    "You start from <b>:N</b>. After <b>:n</b> halvings, <b>:v</b> is left.",
+  "Quante cose devi distinguere":
+    "How many things you must tell apart",
+  "Quante volte posso dimezzare":
+    "How many times can I halve",
+  "Quanti interruttori per mille casi, quante volte si può dimezzare, e perché «polinomiale nel numero di cifre» cambia tutto.":
+    "How many switches for a thousand cases, how many times you can halve, and why «polynomial in the number of digits» changes everything.",
+  "Quanti interruttori servono":
+    "How many switches it takes",
+  "arriva a uno solo":
+    "get down to one",
+  "bastano, ma ne stai usando più del necessario":
+    "enough, but you are using more than you need",
+  "ci vogliono :n dimezzamenti":
+    "it takes :n halvings",
+  "copri :quanti casi":
+    "you cover :quanti cases",
+  "da :N a 1 in :n dimezzamenti":
+    "from :N to 1 in :n halvings",
+  "dimezza":
+    "halve",
+  "dimezza finché non resta uno solo: quante volte ci riesci?":
+    "halve until one is left: how many times can you do it?",
+  "dimezzamenti fatti: :n":
+    "halvings so far: :n",
+  "i giorni dell'anno":
+    "the days of the year",
+  "il minimo che basta":
+    "the minimum that does it",
+  "le carte di un mazzo":
+    "the cards in a deck",
+  "le lettere dell'alfabeto inglese":
+    "the letters of the English alphabet",
+  "mille numeri":
+    "a thousand numbers",
+  "non bastano: ne servono di più":
+    "not enough: you need more",
+  "non «quanto fa 2⁵», ma «per 26 lettere quanti bit?»: la domanda girata":
+    "not «what is 2⁵», but «for 26 letters, how many bits?»: the question turned around",
+  "numeri finiti: :fatti su :totali":
+    "numbers finished: :fatti of :totali",
+  "resta :v":
+    ":v left",
+  "te ne servono :quanti":
+    "you need :quanti",
+  "un milione di numeri":
+    "a million numbers",
+  "✓ :n è il minimo: con :meno non basterebbe":
+    "✓ :n is the minimum: with :meno it would not be enough",
 };

@@ -194,6 +194,27 @@ return [
             ],
         ],
         [
+            'id' => '00-logaritmi',
+            'n' => '0·8',
+            'part' => '0',
+            'xp' => 80,
+            'slug' => [
+                'it' => '00-logaritmi',
+                'en' => '00-logarithms',
+                'es' => '00-logaritmos',
+            ],
+            'title' => [
+                'it' => 'Esponenziali e logaritmi: quante cifre servono',
+                'en' => 'Exponentials and logarithms: how many digits it takes',
+                'es' => 'Exponenciales y logaritmos: cuántas cifras hacen falta',
+            ],
+            'description' => [
+                'it' => 'Quanti interruttori per mille casi, quante volte si può dimezzare, e perché «polinomiale nel numero di cifre» cambia tutto.',
+                'en' => 'How many switches for a thousand cases, how many times you can halve, and why «polynomial in the number of digits» changes everything.',
+                'es' => 'Cuántos interruptores para mil casos, cuántas veces se puede dividir por la mitad y por qué «polinómico en el número de cifras» lo cambia todo.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

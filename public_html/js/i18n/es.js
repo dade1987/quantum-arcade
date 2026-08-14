@@ -2705,4 +2705,83 @@ export default {
     "quita y divide en los dos lados: la balanza sigue en equilibrio",
   "un numero entra, uno esce: si può risalire a quello entrato?":
     "entra un número, sale otro: ¿se puede volver al que entró?",
+  /* ---------------- livello 0·8: esponenziali e logaritmi ---------------- */
+  ":caso (:quanti casi) — risolti :fatti su :totali":
+    ":caso (:quanti casos) — resueltos :fatti de :totali",
+  ":n interruttori":
+    ":n interruptores",
+  "<b>Che cos'è un logaritmo, detto una volta per tutte:</b> è la risposta alla domanda «a quale potenza devo elevare?». Se 2¹⁰ = 1024, allora log₂(1024) = 10. Nel corso serve quasi sempre in questa forma: <b>quanti bit (o quanti qubit) servono per N casi</b>.":
+    "<b>Qué es un logaritmo, de una vez por todas:</b> es la respuesta a la pregunta «¿a qué potencia tengo que elevar?». Si 2¹⁰ = 1024, entonces log₂(1024) = 10. En el curso hace falta casi siempre con esta forma: <b>cuántos bits (o cuántos cúbits) hacen falta para N casos</b>.",
+  "<b>Perché è la stessa cosa:</b> dimezzare fino a 1 e chiedersi quanti bit servono sono due modi di fare la stessa domanda — «quante volte ci sta il 2 dentro N, moltiplicandolo per sé stesso?». La risposta è log₂N in tutti e due i casi. E questo numero è dappertutto: i confronti della ricerca binaria (livello :k), gli stadi della FFT (livello :f), e il numero di qubit che servono per rappresentare N possibilità.":
+    "<b>Por qué es lo mismo:</b> dividir por la mitad hasta 1 y preguntarse cuántos bits hacen falta son dos formas de hacer la misma pregunta: «¿cuántas veces cabe el 2 dentro de N, multiplicándolo por sí mismo?». La respuesta es log₂N en los dos casos. Y ese número está por todas partes: las comparaciones de la búsqueda binaria (nivel :k), las etapas de la FFT (nivel :f) y el número de cúbits que hacen falta para representar N posibilidades.",
+  "Cerca il <b>minimo</b> numero di interruttori che basta: uno in meno non deve farcela.":
+    "Busca el número <b>mínimo</b> de interruptores que baste: con uno menos no debe llegar.",
+  "Ci sono voluti <b>:n</b> dimezzamenti. E ora guarda: <b>:n</b> è anche il numero di interruttori che servirebbero per :N casi. Non è una coincidenza: è lo stesso logaritmo.":
+    "Han hecho falta <b>:n</b> divisiones. Y ahora mira: <b>:n</b> es también el número de interruptores que harían falta para :N casos. No es casualidad: es el mismo logaritmo.",
+  "Con <b>:n</b> interruttori copri <b>:copre</b> casi. Te ne servono <b>:servono</b>.":
+    "Con <b>:n</b> interruptores cubres <b>:copre</b> casos. Necesitas <b>:servono</b>.",
+  "Esatto: log₂(:N) arrotondato in su fa :n.":
+    "Exacto: log₂(:N) redondeado hacia arriba da :n.",
+  "Esponenziali e logaritmi: quante cifre servono":
+    "Exponenciales y logaritmos: cuántas cifras hacen falta",
+  "Il minimo è <b>:serve</b>. Questo numero si chiama <b>logaritmo in base 2</b> di :N, arrotondato in su: log₂(:N) ≈ :esatto.":
+    "El mínimo es <b>:serve</b>. Ese número se llama <b>logaritmo en base 2</b> de :N, redondeado hacia arriba: log₂(:N) ≈ :esatto.",
+  "Il numero di partenza":
+    "El número de partida",
+  "Interruttori accesi":
+    "Interruptores encendidos",
+  "No: conta le barre disegnate, quella di partenza esclusa.":
+    "No: cuenta las barras dibujadas, sin contar la de partida.",
+  "Ogni taglio dimezza. Da mille a uno bastano dieci tagli: è questo che rende la ricerca binaria così veloce.":
+    "Cada corte divide por la mitad. De mil a uno bastan diez cortes: eso es lo que hace tan rápida la búsqueda binaria.",
+  "Parti da <b>:N</b>. Dopo <b>:n</b> dimezzamenti resta <b>:v</b>.":
+    "Partes de <b>:N</b>. Tras <b>:n</b> divisiones queda <b>:v</b>.",
+  "Quante cose devi distinguere":
+    "Cuántas cosas tienes que distinguir",
+  "Quante volte posso dimezzare":
+    "Cuántas veces puedo dividir por la mitad",
+  "Quanti interruttori per mille casi, quante volte si può dimezzare, e perché «polinomiale nel numero di cifre» cambia tutto.":
+    "Cuántos interruptores para mil casos, cuántas veces se puede dividir por la mitad y por qué «polinómico en el número de cifras» lo cambia todo.",
+  "Quanti interruttori servono":
+    "Cuántos interruptores hacen falta",
+  "arriva a uno solo":
+    "llega a uno solo",
+  "bastano, ma ne stai usando più del necessario":
+    "bastan, pero estás usando más de los necesarios",
+  "ci vogliono :n dimezzamenti":
+    "hacen falta :n divisiones",
+  "copri :quanti casi":
+    "cubres :quanti casos",
+  "da :N a 1 in :n dimezzamenti":
+    "de :N a 1 en :n divisiones",
+  "dimezza":
+    "divide por la mitad",
+  "dimezza finché non resta uno solo: quante volte ci riesci?":
+    "divide por la mitad hasta que quede uno solo: ¿cuántas veces lo consigues?",
+  "dimezzamenti fatti: :n":
+    "divisiones hechas: :n",
+  "i giorni dell'anno":
+    "los días del año",
+  "il minimo che basta":
+    "el mínimo que basta",
+  "le carte di un mazzo":
+    "las cartas de una baraja",
+  "le lettere dell'alfabeto inglese":
+    "las letras del alfabeto inglés",
+  "mille numeri":
+    "mil números",
+  "non bastano: ne servono di più":
+    "no bastan: hacen falta más",
+  "non «quanto fa 2⁵», ma «per 26 lettere quanti bit?»: la domanda girata":
+    "no «cuánto es 2⁵», sino «para 26 letras, ¿cuántos bits?»: la pregunta girada",
+  "numeri finiti: :fatti su :totali":
+    "números terminados: :fatti de :totali",
+  "resta :v":
+    "queda :v",
+  "te ne servono :quanti":
+    "necesitas :quanti",
+  "un milione di numeri":
+    "un millón de números",
+  "✓ :n è il minimo: con :meno non basterebbe":
+    "✓ :n es el mínimo: con :meno no bastaría",
 };

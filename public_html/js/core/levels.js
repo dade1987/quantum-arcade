@@ -39,6 +39,7 @@ const SLUG = {
   '00-orologio': { en: '00-clock', es: '00-reloj' },
   '00-matrici': { en: '00-matrices', es: '00-matrices' },
   '00-equazioni': { en: '00-equations', es: '00-ecuaciones' },
+  '00-logaritmi': { en: '00-logarithms', es: '00-logaritmos' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -148,6 +149,10 @@ export const LEVELS = [
   { id: '00-equazioni', part: '0', n: '0·7', open: true,
     title: t('Equazioni, formule girate e macchine che tornano indietro'),
     desc: t('La bilancia che non si sbilancia mai, come si gira una formula, e la domanda che vale tutto: si può risalire da dove si è arrivati?'), xp: 80 },
+
+  { id: '00-logaritmi', part: '0', n: '0·8', open: true,
+    title: t('Esponenziali e logaritmi: quante cifre servono'),
+    desc: t('Quanti interruttori per mille casi, quante volte si può dimezzare, e perché «polinomiale nel numero di cifre» cambia tutto.'), xp: 80 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,
