@@ -37,6 +37,7 @@ const SLUG = {
   '00-seno': { en: '00-sine', es: '00-seno' },
   '00-caso': { en: '00-chance', es: '00-azar' },
   '00-orologio': { en: '00-clock', es: '00-reloj' },
+  '00-matrici': { en: '00-matrices', es: '00-matrices' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -79,7 +80,7 @@ export const PARTS = [
   {
     id: '0',
     title: t('Parte 0 — Le basi (per chi parte proprio da zero)'),
-    sub: t('Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri. Per chi ha finito le medie. Facoltativa se le sai già.'),
+    sub: t('Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici. Per chi ha finito le medie. Facoltativa se le sai già.'),
     color: 'green',
   },
   {
@@ -135,6 +136,10 @@ export const LEVELS = [
   { id: '00-orologio', part: '0', n: '0·5', open: true,
     title: t("L'orologio dei numeri: resto, MCD e ritmi che tornano"),
     desc: t('Contare a giri, il pavimento di Euclide e il ritmo di a^x mod N: la matematica classica che sta dentro Shor.'), xp: 80 },
+
+  { id: '00-matrici', part: '0', n: '0·6', open: true,
+    title: t('La macchina che trasforma le frecce: le matrici'),
+    desc: t('Quattro manopole, due frecce e la scoperta che ogni porta quantistica è una tabella di numeri.'), xp: 90 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

@@ -13,8 +13,8 @@
 export default {
   /* ---------------- mapa, partes, rangos ---------------- */
   'Parte 0 — Le basi (per chi parte proprio da zero)': 'Parte 0 — Las bases (para quien empieza desde cero)',
-  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri. Per chi ha finito le medie. Facoltativa se le sai già.":
-    'Números, porcentajes, coordenadas, grados, seno y coseno, probabilidad. Nivel de secundaria. Opcional si ya lo sabes.',
+  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici. Per chi ha finito le medie. Facoltativa se le sai già.":
+    "Números, porcentajes, coordenadas, grados, seno y coseno, probabilidad, contar dando vueltas, matrices. Nivel de secundaria. Opcional si ya lo sabes.",
   'Parte A — Il qubit, subito': 'Parte A — El cúbit, ya mismo',
   'Sovrapposizione, misura, porte, entanglement, circuiti. Con ampiezze positive e negative: nessuna matematica difficile.':
     'Superposición, medida, puertas, entrelazamiento, circuitos. Con amplitudes positivas y negativas: nada de matemáticas difíciles.',
@@ -2294,4 +2294,92 @@ export default {
     "fracción continua",
   "massimo comune divisore, massimi comuni divisori":
     "máximo común divisor, máximos comunes divisores",
+  /* ---------------- livello 0·6: le matrici ---------------- */
+  "<b>La regola sta tutta qui:</b> le due colonne della matrice sono i due posti dove finiscono le frecce di base. Sapendo quelli, sai dove finisce <b>qualunque</b> altra freccia — perché ogni freccia è una somma delle due di base. Non c'è altro da sapere su cosa fa una matrice.":
+    "<b>Toda la regla está aquí:</b> las dos columnas de la matriz son los dos lugares donde acaban las flechas de base. Sabiendo esos, sabes dónde acaba <b>cualquier</b> otra flecha, porque toda flecha es una suma de las dos de base. No hay nada más que saber sobre lo que hace una matriz.",
+  "<b>Perché la freccia resta sul cerchio:</b> X, Z e H sono matrici <b>unitarie</b>, cioè macchine che non allungano e non accorciano niente. Siccome la probabilità è il quadrato dell'ampiezza, una freccia sempre lunga 1 vuol dire probabilità che fanno sempre 100%. È la ragione per cui non esiste una porta quantistica che «perde» un pezzo di stato — e la ritroverai al livello :n.":
+    "<b>Por qué la flecha se queda en el círculo:</b> X, Z y H son matrices <b>unitarias</b>, es decir, máquinas que no alargan ni acortan nada. Como la probabilidad es el cuadrado de la amplitud, una flecha siempre de longitud 1 significa probabilidades que siempre suman 100%. Por eso no existe una puerta cuántica que «pierda» un trozo de estado, y volverás a encontrarlo en el nivel :n.",
+  "E hai appena dimostrato che <b>:mosse fanno la stessa cosa della X</b>: più macchine di fila sono una macchina sola.":
+    "Y acabas de demostrar que <b>:mosse hacen lo mismo que la X</b>: varias máquinas seguidas son una sola máquina.",
+  "Il puzzle delle porte":
+    "El puzle de las puertas",
+  "La freccia rossa (1, 0) finisce in (<b>:x</b>, <b>:y</b>) — che è la <b>prima colonna</b>.":
+    "La flecha roja (1, 0) acaba en (<b>:x</b>, <b>:y</b>), que es la <b>primera columna</b>.",
+  "La freccia verde (0, 1) finisce in (<b>:x</b>, <b>:y</b>) — che è la <b>seconda colonna</b>.":
+    "La flecha verde (0, 1) acaba en (<b>:x</b>, <b>:y</b>), que es la <b>segunda columna</b>.",
+  "La macchina a quattro manopole":
+    "La máquina de cuatro mandos",
+  "La macchina che trasforma le frecce: le matrici":
+    "La máquina que transforma las flechas: las matrices",
+  "La macchina, scritta come tabella:":
+    "La máquina, escrita como tabla:",
+  "Obiettivo: :puzzle. Prova una porta e guarda dove va la freccia — la lunghezza non cambia mai.":
+    "Objetivo: :puzzle. Prueba una puerta y mira adónde va la flecha: la longitud no cambia nunca.",
+  "Obiettivo: :sfida. Le frecce tratteggiate dicono dove devono arrivare.":
+    "Objetivo: :sfida. Las flechas discontinuas dicen dónde tienen que llegar.",
+  "Quattro manopole, due frecce e la scoperta che ogni porta quantistica è una tabella di numeri.":
+    "Cuatro mandos, dos flechas y el descubrimiento de que cada puerta cuántica es una tabla de números.",
+  "Questa macchina allunga o accorcia le frecce: nel quantistico non sarebbe una porta valida.":
+    "Esta máquina alarga o acorta las flechas: en lo cuántico no sería una puerta válida.",
+  "Questa macchina non cambia le lunghezze: nel quantistico sarebbe una porta valida.":
+    "Esta máquina no cambia las longitudes: en lo cuántico sería una puerta válida.",
+  "Stato: (<b>:zero</b> · <b>:uno</b>). Lunghezza della freccia: <b>:lung</b>.":
+    "Estado: (<b>:zero</b> · <b>:uno</b>). Longitud de la flecha: <b>:lung</b>.",
+  "altra sfida":
+    "otro reto",
+  "altro puzzle":
+    "otro puzle",
+  "ampiezza di |0⟩":
+    "amplitud de |0⟩",
+  "ampiezza di |1⟩":
+    "amplitud de |1⟩",
+  "arriva alla sovrapposizione (0,71 · 0,71)":
+    "llega a la superposición (0,71 · 0,71)",
+  "arriva alla sovrapposizione con il meno (0,71 · −0,71)":
+    "llega a la superposición con el menos (0,71 · −0,71)",
+  "bersaglio centrato in :n mosse: :mosse":
+    "objetivo acertado en :n jugadas: :mosse",
+  "gira le manopole e guarda dove finiscono le due frecce":
+    "gira los mandos y mira dónde acaban las dos flechas",
+  "gira tutto di 90° in senso antiorario":
+    "gíralo todo 90° en sentido antihorario",
+  "identità":
+    "identidad",
+  "lascia ferma la rossa e ribalta la verde":
+    "deja quieta la roja y voltea la verde",
+  "mosse: :mosse":
+    "jugadas: :mosse",
+  "porta lo stato da |0⟩ a |1⟩":
+    "lleva el estado de |0⟩ a |1⟩",
+  "probabilità: :zero% e :uno%":
+    "probabilidades: :zero% y :uno%",
+  "puzzle risolti: :fatti su :totali":
+    "puzles resueltos: :fatti de :totali",
+  "raddoppia la lunghezza di tutte e due":
+    "duplica la longitud de las dos",
+  "ribalta (Z)":
+    "voltea (Z)",
+  "rossa: dove finisce (1, 0)":
+    "roja: dónde acaba (1, 0)",
+  "scambia (X)":
+    "intercambia (X)",
+  "scambia le due frecce":
+    "intercambia las dos flechas",
+  "sfida risolta! Premi «altra sfida» per la prossima.":
+    "¡reto resuelto! Pulsa «otro reto» para el siguiente.",
+  "sfide risolte: :fatte su :totali":
+    "retos resueltos: :fatte de :totali",
+  "somma: :tot% — sempre":
+    "suma: :tot% — siempre",
+  "tre matrici, un bersaglio: quale sequenza ci arriva?":
+    "tres matrices, un objetivo: ¿qué secuencia llega?",
+  "verde: dove finisce (0, 1)":
+    "verde: dónde acaba (0, 1)",
+  /* ---------------- glossario: matrice ---------------- */
+  "Matrice":
+    "Matriz",
+  "Una tabella di numeri che trasforma una freccia in un'altra. Le sue colonne dicono dove finiscono le frecce di base: da lì si ricava dove finisce qualunque altra freccia.":
+    "Una tabla de números que convierte una flecha en otra. Sus columnas dicen dónde acaban las flechas de base: de ahí se deduce dónde acaba cualquier otra flecha.",
+  "matrici, matrice 2×2":
+    "matrices, matriz 2×2",
 };

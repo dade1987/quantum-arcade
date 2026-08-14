@@ -90,6 +90,9 @@ export const VOCI = [
   { id: 'interferenza', liv: ['07-interferenza'], voce: t('Interferenza'), alt: t('interferenze, interferire, interferiscono'),
     def: t('Le ampiezze si sommano prima del quadrato: quelle concordi si rinforzano, quelle opposte si annullano.') },
 
+  { id: 'matrice', liv: ['00-matrici', '03-porte'], voce: t('Matrice'), alt: t('matrici, matrice 2×2'),
+    def: t("Una tabella di numeri che trasforma una freccia in un'altra. Le sue colonne dicono dove finiscono le frecce di base: da lì si ricava dove finisce qualunque altra freccia.") },
+
   { id: 'mcd', liv: ['00-orologio', '20-shor'], voce: t('MCD (massimo comune divisore)'), alt: t('massimo comune divisore, massimi comuni divisori'),
     def: t("Il numero più grande che divide due numeri senza lasciare resto. Si trova con l'algoritmo di Euclide, ed è l'ultimo passo — tutto classico — dell'algoritmo di Shor.") },
 
@@ -144,7 +147,7 @@ export const VOCI = [
   { id: 'teletrasporto', liv: ['06-teletrasporto'], voce: t('Teletrasporto'), alt: t('teletrasportare'),
     def: t("Trasferire uno stato usando entanglement + 2 bit classici. L'originale viene distrutto.") },
 
-  { id: 'unitaria', liv: ['03-porte'], voce: t('Unitaria (operazione)'), alt: t('unitaria, unitarie, operazione unitaria'),
+  { id: 'unitaria', liv: ['00-matrici', '03-porte'], voce: t('Unitaria (operazione)'), alt: t('unitaria, unitarie, operazione unitaria'),
     def: t('Conserva la probabilità totale ed è reversibile: tutte le porte lo sono, la misura no.') },
 ];
 

@@ -152,6 +152,27 @@ return [
             ],
         ],
         [
+            'id' => '00-matrici',
+            'n' => '0·6',
+            'part' => '0',
+            'xp' => 90,
+            'slug' => [
+                'it' => '00-matrici',
+                'en' => '00-matrices',
+                'es' => '00-matrices',
+            ],
+            'title' => [
+                'it' => 'La macchina che trasforma le frecce: le matrici',
+                'en' => 'The machine that transforms arrows: matrices',
+                'es' => 'La máquina que transforma las flechas: las matrices',
+            ],
+            'description' => [
+                'it' => 'Quattro manopole, due frecce e la scoperta che ogni porta quantistica è una tabella di numeri.',
+                'en' => 'Four knobs, two arrows and the discovery that every quantum gate is a table of numbers.',
+                'es' => 'Cuatro mandos, dos flechas y el descubrimiento de que cada puerta cuántica es una tabla de números.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

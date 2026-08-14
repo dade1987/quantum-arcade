@@ -12,8 +12,8 @@
 export default {
   /* ---------------- map, parts, ranks ---------------- */
   'Parte 0 — Le basi (per chi parte proprio da zero)': 'Part 0 — The basics (for absolute beginners)',
-  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri. Per chi ha finito le medie. Facoltativa se le sai già.":
-    'Numbers, percentages, coordinates, degrees, sine and cosine, probability. Middle-school level. Optional if you already know it.',
+  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici. Per chi ha finito le medie. Facoltativa se le sai già.":
+    "Numbers, percentages, coordinates, degrees, sine and cosine, probability, counting in laps, matrices. Middle-school level. Optional if you already know it.",
   'Parte A — Il qubit, subito': 'Part A — The qubit, right away',
   'Sovrapposizione, misura, porte, entanglement, circuiti. Con ampiezze positive e negative: nessuna matematica difficile.':
     'Superposition, measurement, gates, entanglement, circuits. With positive and negative amplitudes: no hard maths.',
@@ -2293,4 +2293,92 @@ export default {
     "continued fraction",
   "massimo comune divisore, massimi comuni divisori":
     "greatest common divisor, greatest common divisors",
+  /* ---------------- livello 0·6: le matrici ---------------- */
+  "<b>La regola sta tutta qui:</b> le due colonne della matrice sono i due posti dove finiscono le frecce di base. Sapendo quelli, sai dove finisce <b>qualunque</b> altra freccia — perché ogni freccia è una somma delle due di base. Non c'è altro da sapere su cosa fa una matrice.":
+    "<b>The whole rule is here:</b> the two columns of the matrix are the two places where the basis arrows land. Knowing those, you know where <b>any</b> other arrow lands — because every arrow is a sum of the two basis ones. There is nothing else to know about what a matrix does.",
+  "<b>Perché la freccia resta sul cerchio:</b> X, Z e H sono matrici <b>unitarie</b>, cioè macchine che non allungano e non accorciano niente. Siccome la probabilità è il quadrato dell'ampiezza, una freccia sempre lunga 1 vuol dire probabilità che fanno sempre 100%. È la ragione per cui non esiste una porta quantistica che «perde» un pezzo di stato — e la ritroverai al livello :n.":
+    "<b>Why the arrow stays on the circle:</b> X, Z and H are <b>unitary</b> matrices, machines that neither stretch nor shrink anything. Since probability is the square of the amplitude, an arrow that is always 1 long means probabilities that always add to 100%. That is why no quantum gate can «lose» a piece of the state — and you will meet it again at level :n.",
+  "E hai appena dimostrato che <b>:mosse fanno la stessa cosa della X</b>: più macchine di fila sono una macchina sola.":
+    "And you have just shown that <b>:mosse do the same as X</b>: several machines in a row are a single machine.",
+  "Il puzzle delle porte":
+    "The gate puzzle",
+  "La freccia rossa (1, 0) finisce in (<b>:x</b>, <b>:y</b>) — che è la <b>prima colonna</b>.":
+    "The red arrow (1, 0) lands at (<b>:x</b>, <b>:y</b>) — which is the <b>first column</b>.",
+  "La freccia verde (0, 1) finisce in (<b>:x</b>, <b>:y</b>) — che è la <b>seconda colonna</b>.":
+    "The green arrow (0, 1) lands at (<b>:x</b>, <b>:y</b>) — which is the <b>second column</b>.",
+  "La macchina a quattro manopole":
+    "The four-knob machine",
+  "La macchina che trasforma le frecce: le matrici":
+    "The machine that transforms arrows: matrices",
+  "La macchina, scritta come tabella:":
+    "The machine, written as a table:",
+  "Obiettivo: :puzzle. Prova una porta e guarda dove va la freccia — la lunghezza non cambia mai.":
+    "Goal: :puzzle. Try a gate and watch where the arrow goes — the length never changes.",
+  "Obiettivo: :sfida. Le frecce tratteggiate dicono dove devono arrivare.":
+    "Goal: :sfida. The dashed arrows show where they have to land.",
+  "Quattro manopole, due frecce e la scoperta che ogni porta quantistica è una tabella di numeri.":
+    "Four knobs, two arrows and the discovery that every quantum gate is a table of numbers.",
+  "Questa macchina allunga o accorcia le frecce: nel quantistico non sarebbe una porta valida.":
+    "This machine stretches or shrinks the arrows: in the quantum world it would not be a valid gate.",
+  "Questa macchina non cambia le lunghezze: nel quantistico sarebbe una porta valida.":
+    "This machine does not change lengths: in the quantum world it would be a valid gate.",
+  "Stato: (<b>:zero</b> · <b>:uno</b>). Lunghezza della freccia: <b>:lung</b>.":
+    "State: (<b>:zero</b> · <b>:uno</b>). Arrow length: <b>:lung</b>.",
+  "altra sfida":
+    "another challenge",
+  "altro puzzle":
+    "another puzzle",
+  "ampiezza di |0⟩":
+    "amplitude of |0⟩",
+  "ampiezza di |1⟩":
+    "amplitude of |1⟩",
+  "arriva alla sovrapposizione (0,71 · 0,71)":
+    "reach the superposition (0.71 · 0.71)",
+  "arriva alla sovrapposizione con il meno (0,71 · −0,71)":
+    "reach the superposition with the minus (0.71 · −0.71)",
+  "bersaglio centrato in :n mosse: :mosse":
+    "target hit in :n moves: :mosse",
+  "gira le manopole e guarda dove finiscono le due frecce":
+    "turn the knobs and watch where the two arrows land",
+  "gira tutto di 90° in senso antiorario":
+    "turn everything 90° anticlockwise",
+  "identità":
+    "identity",
+  "lascia ferma la rossa e ribalta la verde":
+    "leave the red one alone and flip the green one",
+  "mosse: :mosse":
+    "moves: :mosse",
+  "porta lo stato da |0⟩ a |1⟩":
+    "take the state from |0⟩ to |1⟩",
+  "probabilità: :zero% e :uno%":
+    "probabilities: :zero% and :uno%",
+  "puzzle risolti: :fatti su :totali":
+    "puzzles solved: :fatti of :totali",
+  "raddoppia la lunghezza di tutte e due":
+    "double the length of both",
+  "ribalta (Z)":
+    "flip (Z)",
+  "rossa: dove finisce (1, 0)":
+    "red: where (1, 0) lands",
+  "scambia (X)":
+    "swap (X)",
+  "scambia le due frecce":
+    "swap the two arrows",
+  "sfida risolta! Premi «altra sfida» per la prossima.":
+    "challenge solved! Press «another challenge» for the next one.",
+  "sfide risolte: :fatte su :totali":
+    "challenges solved: :fatte of :totali",
+  "somma: :tot% — sempre":
+    "total: :tot% — always",
+  "tre matrici, un bersaglio: quale sequenza ci arriva?":
+    "three matrices, one target: which sequence gets there?",
+  "verde: dove finisce (0, 1)":
+    "green: where (0, 1) lands",
+  /* ---------------- glossario: matrice ---------------- */
+  "Matrice":
+    "Matrix",
+  "Una tabella di numeri che trasforma una freccia in un'altra. Le sue colonne dicono dove finiscono le frecce di base: da lì si ricava dove finisce qualunque altra freccia.":
+    "A table of numbers that turns one arrow into another. Its columns say where the basis arrows land: from those you can work out where any other arrow lands.",
+  "matrici, matrice 2×2":
+    "matrices, 2×2 matrix",
 };
