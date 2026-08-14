@@ -796,6 +796,41 @@ if (existsSync(certCfg)) {
       const totali = [...src.matchAll(/\.mission\(\s*\{/g)].length;
       if (totali !== viste.length)
         err(rel(p), `${totali} missioni dichiarate ma ${viste.length} riconosciute: scrivile come "const m = api.mission({ key: '…' })" dentro un mount:`);
+
+      /* Due missioni con la STESSA chiave nello stesso livello: il difetto più
+         subdolo di tutti, perché non rompe niente — semplicemente mente. Il
+         progresso è salvato come «livello/chiave», quindi completandone una si
+         segnano fatte tutte e due: la prova di padronanza scrive «missioni
+         completate: 2/2» mentre il secondo riquadro resta grigio e chi gioca
+         non capisce cosa gli manchi. È successo davvero al livello dei due
+         qubit, dove la sfida di Bell e lo stato di Bell si chiamavano
+         entrambi «bell». */
+      const doppie = viste.filter((k, i) => viste.indexOf(k) !== i);
+      if (doppie.length)
+        err(rel(p), `la chiave di missione "${doppie[0]}" è usata due volte: il progresso le confonde e un riquadro non diventerà mai verde`);
+      else ok();
+    }
+  }
+
+  /* Le chiavi devono essere le stesse in tutte le lingue, e nello stesso
+     ordine: il progresso vive sull'id del livello e sulla chiave, quindi chi
+     gioca un livello in italiano e lo riapre in inglese deve ritrovarlo
+     fatto. Una chiave tradotta per sbaglio azzererebbe quella missione. */
+  const italiano = linguePubblicate.find(l => l.code === 'it');
+  for (const id of declared) {
+    const chiaviDi = l => {
+      const f = fileLezione(id, l);
+      if (!existsSync(f)) return null;
+      return [...readFileSync(f, 'utf8').matchAll(/\.mission\(\s*\{\s*key:\s*'([^']+)'/g)].map(m => m[1]).join(',');
+    };
+    const riferimento = italiano ? chiaviDi(italiano) : null;
+    if (riferimento === null) continue;
+    for (const l of linguePubblicate.filter(x => x.code !== 'it')) {
+      const altre = chiaviDi(l);
+      if (altre === null) continue;
+      if (altre !== riferimento)
+        err(`lessons/${l.code}/${id}`, `le chiavi delle missioni non combaciano con l'italiano: "${altre}" invece di "${riferimento}" — il progresso non passerebbe da una lingua all'altra`);
+      else ok();
     }
   }
 }
