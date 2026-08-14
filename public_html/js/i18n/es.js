@@ -3799,4 +3799,53 @@ export default {
     "Esto es literalmente lo que hace un ordenador cuántico cuando simula una molécula: no sabe aplicar e^(−iHt) de golpe, pero sabe aplicar las piezas una a una. Más trocitos, más puertas que ejecutar, menos error. Ese es el precio, y no hay más.",
   "<b>Perché non si può spezzare e basta.</b> Con i numeri e^(a+b) = e^a·e^b sempre, perché a·b = b·a. Con le matrici no: se AB ≠ BA quella regola salta, e la differenza si chiama <b>commutatore</b>. Il commutatore è la stessa cosa che al livello :i rende impossibile misurare due grandezze insieme — il principio di indeterminazione è una disuguaglianza sul commutatore. Qui lo vedi come uno scarto fra due frecce.":
     "<b>Por qué no se puede trocear y ya está.</b> Con los números e^(a+b) = e^a·e^b siempre, porque a·b = b·a. Con las matrices no: si AB ≠ BA esa regla se rompe, y la diferencia se llama <b>conmutador</b>. El conmutador es lo mismo que en el nivel :i hace imposible medir dos magnitudes a la vez — el principio de indeterminación es una desigualdad sobre el conmutador. Aquí lo ves como una separación entre dos flechas.",
+  /* ---------------- glossario: i termini della Parte M ---------------- */
+  "Limite":
+    "Límite",
+  "limiti, tende a, converge, convergenza":
+    "límites, tiende a, converge, convergencia",
+  "Il numero a cui una successione si avvicina, nel senso preciso del gioco: per ogni corridoio largo quanto vuoi attorno a quel numero, da un certo punto in poi la successione ci resta dentro. Non vuol dire «ci arriva».":
+    "El número al que una sucesión se acerca, en el sentido preciso del juego: para cada pasillo del ancho que quieras alrededor de ese número, a partir de cierto punto la sucesión se queda dentro. No quiere decir «llega».",
+  "Serie di Taylor":
+    "Serie de Taylor",
+  "serie di Taylor, polinomio di Taylor, sviluppo in serie":
+    "serie de Taylor, polinomio de Taylor, desarrollo en serie",
+  "Il polinomio che copia una funzione in un punto: stesso valore, stessa pendenza, stessa curvatura, e così via. Ogni termine in più allarga il tratto in cui la copia regge. È il modo in cui un computer calcola davvero il seno.":
+    "El polinomio que copia una función en un punto: mismo valor, misma pendiente, misma curvatura, y así sucesivamente. Cada término más ensancha el tramo en el que la copia aguanta. Es como un ordenador calcula de verdad el seno.",
+  "Raggio di convergenza":
+    "Radio de convergencia",
+  "raggio di convergenza":
+    "radio de convergencia",
+  "La distanza entro cui una serie di potenze funziona. Fuori di lì aggiungere termini peggiora invece di migliorare: per 1/(1−x) vale 1, cioè la distanza dal punto in cui la funzione esplode.":
+    "La distancia dentro de la cual funciona una serie de potencias. Fuera de ahí añadir términos empeora en vez de mejorar: para 1/(1−x) vale 1, es decir la distancia al punto donde la función explota.",
+  "Integrale":
+    "Integral",
+  "integrali, integrare, primitiva, primitive":
+    "integrales, integrar, primitiva, primitivas",
+  "L'area sotto una curva, cioè il limite delle somme di rettangoli sempre più stretti. Il teorema fondamentale dice che derivare e integrare sono operazioni inverse: da lì la scorciatoia F(b) − F(a), che rende inutile contare rettangoli.":
+    "El área bajo una curva, es decir el límite de las sumas de rectángulos cada vez más estrechos. El teorema fundamental dice que derivar e integrar son operaciones inversas: de ahí el atajo F(b) − F(a), que hace innecesario contar rectángulos.",
+  "Cambio di base":
+    "Cambio de base",
+  "cambio di base, cambiare base, diagonalizzare, diagonalizzazione":
+    "cambio de base, cambiar de base, diagonalizar, diagonalización",
+  "Riscrivere lo stesso oggetto con un altro righello. Lo stato non si muove, cambiano i numeri che lo descrivono — e le probabilità con loro. Per una matrice esiste spesso una base in cui diventa diagonale: lì è solo una stiratura, e applicarla mille volte costa due potenze invece di mille prodotti.":
+    "Reescribir el mismo objeto con otra regla. El estado no se mueve, cambian los números que lo describen — y las probabilidades con ellos. Para una matriz suele existir una base en la que se vuelve diagonal: allí es solo un estiramiento, y aplicarla mil veces cuesta dos potencias en vez de mil productos.",
+  "Commutatore":
+    "Conmutador",
+  "commutatore, commutano, commutare, non commutano":
+    "conmutador, conmutan, conmutar, no conmutan",
+  "AB − BA: quanto conta l'ordine in cui si applicano due operazioni. Se è zero le due si possono scambiare, e allora e^(A+B) = e^A·e^B. Se non è zero quella regola salta — ed è la stessa quantità che dà il principio di indeterminazione.":
+    "AB − BA: cuánto cuenta el orden en que se aplican dos operaciones. Si es cero las dos se pueden intercambiar, y entonces e^(A+B) = e^A·e^B. Si no es cero esa regla se rompe — y es la misma cantidad que da el principio de indeterminación.",
+  "Esponenziale di matrice":
+    "Exponencial de matriz",
+  "esponenziale di matrice, e elevato a una matrice":
+    "exponencial de matriz, e elevado a una matriz",
+  "La stessa serie di e^x con una matrice al posto del numero. Serve perché un sistema fisico che parte da ψ e ha energia H, dopo un tempo t, si trova in e^(−iHt)·ψ: è la soluzione dell'equazione di Schrödinger.":
+    "La misma serie de e^x con una matriz en lugar del número. Importa porque un sistema físico que parte de ψ y tiene energía H se encuentra, tras un tiempo t, en e^(−iHt)·ψ: es la solución de la ecuación de Schrödinger.",
+  "Trotter (formula di)":
+    "Trotter (fórmula de)",
+  "formula di Trotter, decomposizione di Trotter, trotterizzazione":
+    "fórmula de Trotter, descomposición de Trotter, trotterización",
+  "Quando l'energia è fatta di pezzi che non commutano, e^(A+B) non è e^A·e^B. Si spezza allora il tempo in n pezzetti applicando i pezzi a turno: l'errore scende come 1/n. È il modo in cui un computer quantistico simula una molecola, e il conto di quante porte costa.":
+    "Cuando la energía está hecha de piezas que no conmutan, e^(A+B) no es e^A·e^B. Entonces se trocea el tiempo en n pedazos aplicando las piezas por turnos: el error baja como 1/n. Es como un ordenador cuántico simula una molécula, y la cuenta de cuántas puertas cuesta.",
 };

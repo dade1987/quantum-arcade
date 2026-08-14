@@ -3798,4 +3798,53 @@ export default {
     "This is literally what a quantum computer does when it simulates a molecule: it cannot apply e^(−iHt) in one go, but it can apply the pieces one at a time. More slices, more gates to run, less error. That is the price, and that is all there is to it.",
   "<b>Perché non si può spezzare e basta.</b> Con i numeri e^(a+b) = e^a·e^b sempre, perché a·b = b·a. Con le matrici no: se AB ≠ BA quella regola salta, e la differenza si chiama <b>commutatore</b>. Il commutatore è la stessa cosa che al livello :i rende impossibile misurare due grandezze insieme — il principio di indeterminazione è una disuguaglianza sul commutatore. Qui lo vedi come uno scarto fra due frecce.":
     "<b>Why you cannot just split it.</b> With numbers e^(a+b) = e^a·e^b always, because a·b = b·a. With matrices, no: if AB ≠ BA that rule breaks, and the difference is called the <b>commutator</b>. The commutator is the same thing that at level :i makes it impossible to measure two quantities together — the uncertainty principle is an inequality about the commutator. Here you see it as a gap between two arrows.",
+  /* ---------------- glossario: i termini della Parte M ---------------- */
+  "Limite":
+    "Limit",
+  "limiti, tende a, converge, convergenza":
+    "limits, tends to, converge, converges, convergence",
+  "Il numero a cui una successione si avvicina, nel senso preciso del gioco: per ogni corridoio largo quanto vuoi attorno a quel numero, da un certo punto in poi la successione ci resta dentro. Non vuol dire «ci arriva».":
+    "The number a sequence closes in on, in the precise sense of the game: for any corridor you like around that number, from some point on the sequence stays inside it. It does not mean «it gets there».",
+  "Serie di Taylor":
+    "Taylor series",
+  "serie di Taylor, polinomio di Taylor, sviluppo in serie":
+    "Taylor series, Taylor polynomial, series expansion",
+  "Il polinomio che copia una funzione in un punto: stesso valore, stessa pendenza, stessa curvatura, e così via. Ogni termine in più allarga il tratto in cui la copia regge. È il modo in cui un computer calcola davvero il seno.":
+    "The polynomial that copies a function at a point: same value, same slope, same curvature, and so on. Each extra term widens the stretch where the copy holds. It is how a computer actually computes the sine.",
+  "Raggio di convergenza":
+    "Radius of convergence",
+  "raggio di convergenza":
+    "radius of convergence",
+  "La distanza entro cui una serie di potenze funziona. Fuori di lì aggiungere termini peggiora invece di migliorare: per 1/(1−x) vale 1, cioè la distanza dal punto in cui la funzione esplode.":
+    "The distance within which a power series works. Outside it, adding terms makes things worse instead of better: for 1/(1−x) it is 1, the distance to the point where the function blows up.",
+  "Integrale":
+    "Integral",
+  "integrali, integrare, primitiva, primitive":
+    "integrals, integrate, antiderivative, antiderivatives",
+  "L'area sotto una curva, cioè il limite delle somme di rettangoli sempre più stretti. Il teorema fondamentale dice che derivare e integrare sono operazioni inverse: da lì la scorciatoia F(b) − F(a), che rende inutile contare rettangoli.":
+    "The area under a curve, that is the limit of sums of ever narrower rectangles. The fundamental theorem says differentiating and integrating are inverse operations: from there comes the shortcut F(b) − F(a), which makes counting rectangles unnecessary.",
+  "Cambio di base":
+    "Change of basis",
+  "cambio di base, cambiare base, diagonalizzare, diagonalizzazione":
+    "change of basis, change basis, diagonalise, diagonalisation",
+  "Riscrivere lo stesso oggetto con un altro righello. Lo stato non si muove, cambiano i numeri che lo descrivono — e le probabilità con loro. Per una matrice esiste spesso una base in cui diventa diagonale: lì è solo una stiratura, e applicarla mille volte costa due potenze invece di mille prodotti.":
+    "Rewriting the same object with a different ruler. The state does not move, the numbers describing it do — and the probabilities with them. For a matrix there is often a basis where it becomes diagonal: there it is just a stretch, and applying it a thousand times costs two powers instead of a thousand products.",
+  "Commutatore":
+    "Commutator",
+  "commutatore, commutano, commutare, non commutano":
+    "commutator, commute, commutes, do not commute",
+  "AB − BA: quanto conta l'ordine in cui si applicano due operazioni. Se è zero le due si possono scambiare, e allora e^(A+B) = e^A·e^B. Se non è zero quella regola salta — ed è la stessa quantità che dà il principio di indeterminazione.":
+    "AB − BA: how much the order of two operations matters. If it is zero the two can be swapped, and then e^(A+B) = e^A·e^B. If it is not zero that rule breaks — and it is the same quantity that gives the uncertainty principle.",
+  "Esponenziale di matrice":
+    "Matrix exponential",
+  "esponenziale di matrice, e elevato a una matrice":
+    "matrix exponential, e to the power of a matrix",
+  "La stessa serie di e^x con una matrice al posto del numero. Serve perché un sistema fisico che parte da ψ e ha energia H, dopo un tempo t, si trova in e^(−iHt)·ψ: è la soluzione dell'equazione di Schrödinger.":
+    "The same series as e^x with a matrix in place of the number. It matters because a physical system starting from ψ with energy H is found, after a time t, in e^(−iHt)·ψ: that is the solution of the Schrödinger equation.",
+  "Trotter (formula di)":
+    "Trotter (formula)",
+  "formula di Trotter, decomposizione di Trotter, trotterizzazione":
+    "Trotter formula, Trotter decomposition, Trotterisation",
+  "Quando l'energia è fatta di pezzi che non commutano, e^(A+B) non è e^A·e^B. Si spezza allora il tempo in n pezzetti applicando i pezzi a turno: l'errore scende come 1/n. È il modo in cui un computer quantistico simula una molecola, e il conto di quante porte costa.":
+    "When the energy is made of pieces that do not commute, e^(A+B) is not e^A·e^B. So time is sliced into n pieces and the parts are applied in turn: the error falls like 1/n. It is how a quantum computer simulates a molecule, and the count of how many gates that costs.",
 };

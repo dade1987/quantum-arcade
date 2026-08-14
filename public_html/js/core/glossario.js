@@ -149,6 +149,32 @@ export const VOCI = [
 
   { id: 'unitaria', liv: ['00-matrici', '03-porte'], voce: t('Unitaria (operazione)'), alt: t('unitaria, unitarie, operazione unitaria'),
     def: t('Conserva la probabilità totale ed è reversibile: tutte le porte lo sono, la misura no.') },
+
+  /* ---- termini della Parte M (facoltativa) ---- */
+
+  { id: 'limite', liv: ['m8-limiti'], voce: t('Limite'), alt: t('limiti, tende a, converge, convergenza'),
+    def: t('Il numero a cui una successione si avvicina, nel senso preciso del gioco: per ogni corridoio largo quanto vuoi attorno a quel numero, da un certo punto in poi la successione ci resta dentro. Non vuol dire «ci arriva».') },
+
+  { id: 'serie-taylor', liv: ['m10-taylor'], voce: t('Serie di Taylor'), alt: t('serie di Taylor, polinomio di Taylor, sviluppo in serie'),
+    def: t('Il polinomio che copia una funzione in un punto: stesso valore, stessa pendenza, stessa curvatura, e così via. Ogni termine in più allarga il tratto in cui la copia regge. È il modo in cui un computer calcola davvero il seno.') },
+
+  { id: 'raggio-convergenza', liv: ['m10-taylor'], voce: t('Raggio di convergenza'), alt: t('raggio di convergenza'),
+    def: t('La distanza entro cui una serie di potenze funziona. Fuori di lì aggiungere termini peggiora invece di migliorare: per 1/(1−x) vale 1, cioè la distanza dal punto in cui la funzione esplode.') },
+
+  { id: 'integrale', liv: ['m9-integrali'], voce: t('Integrale'), alt: t('integrali, integrare, primitiva, primitive'),
+    def: t("L'area sotto una curva, cioè il limite delle somme di rettangoli sempre più stretti. Il teorema fondamentale dice che derivare e integrare sono operazioni inverse: da lì la scorciatoia F(b) − F(a), che rende inutile contare rettangoli.") },
+
+  { id: 'cambio-base', liv: ['m11-base'], voce: t('Cambio di base'), alt: t('cambio di base, cambiare base, diagonalizzare, diagonalizzazione'),
+    def: t('Riscrivere lo stesso oggetto con un altro righello. Lo stato non si muove, cambiano i numeri che lo descrivono — e le probabilità con loro. Per una matrice esiste spesso una base in cui diventa diagonale: lì è solo una stiratura, e applicarla mille volte costa due potenze invece di mille prodotti.') },
+
+  { id: 'commutatore', liv: ['m12-evoluzione'], voce: t('Commutatore'), alt: t('commutatore, commutano, commutare, non commutano'),
+    def: t('AB − BA: quanto conta l\'ordine in cui si applicano due operazioni. Se è zero le due si possono scambiare, e allora e^(A+B) = e^A·e^B. Se non è zero quella regola salta — ed è la stessa quantità che dà il principio di indeterminazione.') },
+
+  { id: 'esponenziale-matrice', liv: ['m12-evoluzione'], voce: t('Esponenziale di matrice'), alt: t('esponenziale di matrice, e elevato a una matrice'),
+    def: t('La stessa serie di e^x con una matrice al posto del numero. Serve perché un sistema fisico che parte da ψ e ha energia H, dopo un tempo t, si trova in e^(−iHt)·ψ: è la soluzione dell\'equazione di Schrödinger.') },
+
+  { id: 'trotter', liv: ['m12-evoluzione'], voce: t('Trotter (formula di)'), alt: t('formula di Trotter, decomposizione di Trotter, trotterizzazione'),
+    def: t("Quando l'energia è fatta di pezzi che non commutano, e^(A+B) non è e^A·e^B. Si spezza allora il tempo in n pezzetti applicando i pezzi a turno: l'errore scende come 1/n. È il modo in cui un computer quantistico simula una molecola, e il conto di quante porte costa.") },
 ];
 
 /** Una voce dal suo id, o null. */
