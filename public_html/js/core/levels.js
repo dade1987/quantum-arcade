@@ -52,6 +52,7 @@ const SLUG = {
   'm8-limiti': { en: 'm8-limits', es: 'm8-limites' },
   'm9-integrali': { en: 'm9-integrals', es: 'm9-integrales' },
   'm10-taylor': { en: 'm10-taylor', es: 'm10-taylor' },
+  'm11-base': { en: 'm11-change-of-basis', es: 'm11-cambio-de-base' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -220,6 +221,10 @@ export const LEVELS = [
   { id: 'm10-taylor', part: 'M', n: 'M·10', open: true,
     title: t('Serie di Taylor: qualunque curva, vista da vicino, è un polinomio'),
     desc: t('Il polinomio che insegue la curva finché ce la fa, la formula di Eulero letta sul foglio — e la scoperta che il √N di Grover è un\'approssimazione troncata al primo termine.'), xp: 100 },
+
+  { id: 'm11-base', part: 'M', n: 'M·11', open: true,
+    title: t('Cambio di base: lo stesso stato, due righelli diversi'),
+    desc: t('Misurare è proiettare, la porta di Hadamard è un cambio di righello, e nella base giusta una matrice diventa una pura stiratura — che è la scorciatoia su cui è costruita la stima di fase.'), xp: 95 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

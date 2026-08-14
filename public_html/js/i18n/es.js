@@ -3677,4 +3677,69 @@ export default {
     "De aquí viene el √N. Hacen falta unas (π/4)/θ vueltas, y si θ ≈ 1/√N entonces las vueltas son unas (π/4)·√N. La ventaja cuántica más famosa del curso es <b>una aproximación de Taylor parada en el primer término</b>.",
   "<b>Approssimare qui non è essere sbrigativi: è il conto.</b> Al livello :g hai visto che ogni giro di Grover aggiunge 2θ e che i giri utili sono quelli che portano vicino a 90°. Quel θ è arcsin(√(1/N)), e per liste grandi la serie di Taylor dice che vale 1/√N a meno di un pelo. Da lì, e solo da lì, esce il √N che rende Grover più veloce di qualunque ricerca classica.":
     "<b>Aproximar aquí no es ir con prisa: es la cuenta.</b> En el nivel :g viste que cada vuelta de Grover añade 2θ y que las vueltas útiles son las que llevan cerca de 90°. Ese θ es arcsin(√(1/N)), y para listas grandes la serie de Taylor dice que vale 1/√N por un pelo. De ahí, y solo de ahí, sale el √N que hace a Grover más rápido que cualquier búsqueda clásica.",
+  /* ---------------- livello M·11: cambio di base ---------------- */
+  "Cambio di base: lo stesso stato, due righelli diversi":
+    "Cambio de base: el mismo estado, dos reglas distintas",
+  "Misurare è proiettare, la porta di Hadamard è un cambio di righello, e nella base giusta una matrice diventa una pura stiratura — che è la scorciatoia su cui è costruita la stima di fase.":
+    "Medir es proyectar, la puerta de Hadamard es un cambio de regla, y en la base correcta una matriz se convierte en un simple estiramiento — el atajo sobre el que está construida la estimación de fase.",
+  "Due righelli, una freccia sola":
+    "Dos reglas, una sola flecha",
+  "la freccia non si muove: cambia chi la misura":
+    "la flecha no se mueve: cambia quien la mide",
+  "rendi certa la misura":
+    "haz que la medida sea segura",
+  "coordinate: :a e :b":
+    "coordenadas: :a y :b",
+  "probabilità: :p% e :q%":
+    "probabilidades: :p% y :q%",
+  "misurare = proiettare sugli assi del righello":
+    "medir = proyectar sobre los ejes de la regla",
+  "inclinazione del righello":
+    "inclinación de la regla",
+  "righello Z (0°)":
+    "regla Z (0°)",
+  "righello X (45°)":
+    "regla X (45°)",
+  "obliquo":
+    "oblicuo",
+  "La freccia è sempre la stessa. Con il righello a <b>:g°</b> le sue coordinate sono <b>:a</b> e <b>:b</b>, e misurando esce la prima direzione il <b>:p%</b> delle volte.":
+    "La flecha es siempre la misma. Con la regla a <b>:g°</b> sus coordenadas son <b>:a</b> y <b>:b</b>, y al medir sale la primera dirección el <b>:p%</b> de las veces.",
+  "Le probabilità sono i <b>quadrati</b> delle coordinate: è la regola di Born, ed è il motivo per cui in questo corso si somma sempre il quadrato delle ampiezze.":
+    "Las probabilidades son los <b>cuadrados</b> de las coordenadas: es la regla de Born, y es el motivo por el que en este curso siempre se suma el cuadrado de las amplitudes.",
+  "Qui la misura è <b>certa</b>: la freccia è esattamente su un asse del righello, e l'altro asse riceve zero. Nessun caso, nessuna moneta.":
+    "Aquí la medida es <b>segura</b>: la flecha está exactamente sobre un eje de la regla, y el otro eje recibe cero. Ningún azar, ninguna moneda.",
+  "Qui la misura è <b>testa o croce</b>: 50 e 50. Ed è la stessa freccia di prima — non è cambiato lo stato, è cambiato il righello.":
+    "Aquí la medida es <b>cara o cruz</b>: 50 y 50. Y es la misma flecha de antes — no ha cambiado el estado, ha cambiado la regla.",
+  "<b>La porta di Hadamard è questo, e nient'altro.</b> Al livello :h arriva come «la porta che mette in sovrapposizione». Guardala qui: è la macchina che riscrive uno stato nel righello a 45°. I due numeri che ne escono, al quadrato, sono esattamente le due probabilità che vedi nel gioco — e i test lo verificano su ogni stato. Per questo manda |0⟩ in una cosa che lungo Z è 50 e 50, e per questo applicandola due volte si torna al punto di partenza: cambiare righello e ricambiarlo non fa niente.":
+    "<b>La puerta de Hadamard es esto, y nada más.</b> En el nivel :h llega como «la puerta que pone en superposición». Mírala aquí: es la máquina que reescribe un estado en la regla de 45°. Los dos números que salen, al cuadrado, son exactamente las dos probabilidades que ves en el juego — y los tests lo verifican en cada estado. Por eso manda |0⟩ a algo que a lo largo de Z es 50 y 50, y por eso aplicándola dos veces se vuelve al punto de partida: cambiar de regla y volver a cambiarla no hace nada.",
+  "La base in cui la macchina si semplifica":
+    "La base en la que la máquina se simplifica",
+  "gira il righello finché la matrice non ha più angoli storti":
+    "gira la regla hasta que la matriz no tenga esquinas torcidas",
+  "azzera i numeri fuori diagonale":
+    "pon a cero los números de fuera de la diagonal",
+  "macchine domate: :fatte su :totali":
+    "máquinas domadas: :fatte de :totali",
+  "vista dal righello":
+    "vista por la regla",
+  "righello a :g° · fuori diagonale: :f":
+    "regla a :g° · fuera de la diagonal: :f",
+  "frecce dritte = solo una stiratura":
+    "flechas rectas = solo un estiramiento",
+  "portami nella base giusta":
+    "llévame a la base correcta",
+  "stira e taglia":
+    "estira y corta",
+  "specchio storto":
+    "espejo torcido",
+  "Con il righello a <b>:g°</b> la stessa macchina si scrive con i numeri qui a destra. Fuori dalla diagonale c'è <b>:f</b>: è quanto la macchina «mescola» le due direzioni.":
+    "Con la regla a <b>:g°</b> la misma máquina se escribe con los números de la derecha. Fuera de la diagonal hay <b>:f</b>: es cuánto mezcla la máquina las dos direcciones.",
+  "Trovata. In questa base la macchina non mescola più niente: <b>allunga la prima direzione di :a e la seconda di :b</b>, e basta. Quei due numeri sono gli <b>autovalori</b>, e quelle due direzioni gli <b>autovettori</b> del livello :n.":
+    "Encontrada. En esta base la máquina ya no mezcla nada: <b>estira la primera dirección :a y la segunda :b</b>, y ya está. Esos dos números son los <b>autovalores</b>, y esas dos direcciones los <b>autovectores</b> del nivel :n.",
+  "E adesso il regalo: in questa base applicare la macchina <b>mille volte</b> vuol dire elevare due numeri alla millesima. Fuori da questa base vorrebbe dire moltiplicare mille matrici. È la scorciatoia su cui è costruita la stima di fase.":
+    "Y ahora el regalo: en esta base aplicar la máquina <b>mil veces</b> significa elevar dos números a la milésima. Fuera de esta base significaría multiplicar mil matrices. Es el atajo sobre el que está construida la estimación de fase.",
+  "Gira il righello: c'è un'inclinazione in cui i due numeri fuori diagonale diventano zero. Le frecce verde e rosa te lo dicono — quando escono dritte invece che storte, ci sei.":
+    "Gira la regla: hay una inclinación en la que los dos números de fuera de la diagonal se vuelven cero. Las flechas verde y rosa te lo dicen — cuando salen rectas en vez de torcidas, ya está.",
+  "<b>Perché questa è la cosa più utile del livello.</b> Una matrice generica è difficile da capire: mescola tutto con tutto. Ma se esiste una base in cui diventa diagonale, in quella base è solo «moltiplica per un numero, ciascuno per conto suo». Elevare a potenza, calcolare e^(matrice), applicare mille volte: tutto diventa un conto su singoli numeri. Al livello :n hai trovato gli autovettori; qui hai visto <b>a che servono</b>.":
+    "<b>Por qué esto es lo más útil del nivel.</b> Una matriz cualquiera es difícil de entender: mezcla todo con todo. Pero si existe una base en la que se vuelve diagonal, en esa base es solo «multiplica por un número, cada uno por su cuenta». Elevar a potencia, calcular e^(matriz), aplicar mil veces: todo se convierte en una cuenta con números sueltos. En el nivel :n encontraste los autovectores; aquí has visto <b>para qué sirven</b>.",
 };

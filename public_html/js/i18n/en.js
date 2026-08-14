@@ -3676,4 +3676,69 @@ export default {
     "This is where the √N comes from. You need about (π/4)/θ turns, and if θ ≈ 1/√N then the turns are about (π/4)·√N. The most famous quantum advantage in this course is <b>a Taylor approximation stopped at the first term</b>.",
   "<b>Approssimare qui non è essere sbrigativi: è il conto.</b> Al livello :g hai visto che ogni giro di Grover aggiunge 2θ e che i giri utili sono quelli che portano vicino a 90°. Quel θ è arcsin(√(1/N)), e per liste grandi la serie di Taylor dice che vale 1/√N a meno di un pelo. Da lì, e solo da lì, esce il √N che rende Grover più veloce di qualunque ricerca classica.":
     "<b>Approximating here is not being sloppy: it is the calculation.</b> At level :g you saw that every Grover turn adds 2θ and that the useful turns are the ones that get close to 90°. That θ is arcsin(√(1/N)), and for large lists the Taylor series says it is 1/√N to within a hair. From there, and only from there, comes the √N that makes Grover faster than any classical search.",
+  /* ---------------- livello M·11: cambio di base ---------------- */
+  "Cambio di base: lo stesso stato, due righelli diversi":
+    "Change of basis: the same state, two different rulers",
+  "Misurare è proiettare, la porta di Hadamard è un cambio di righello, e nella base giusta una matrice diventa una pura stiratura — che è la scorciatoia su cui è costruita la stima di fase.":
+    "Measuring is projecting, the Hadamard gate is a change of ruler, and in the right basis a matrix becomes a pure stretch — the shortcut phase estimation is built on.",
+  "Due righelli, una freccia sola":
+    "Two rulers, one single arrow",
+  "la freccia non si muove: cambia chi la misura":
+    "the arrow does not move: what changes is who measures it",
+  "rendi certa la misura":
+    "make the measurement certain",
+  "coordinate: :a e :b":
+    "coordinates: :a and :b",
+  "probabilità: :p% e :q%":
+    "probabilities: :p% and :q%",
+  "misurare = proiettare sugli assi del righello":
+    "measuring = projecting onto the ruler's axes",
+  "inclinazione del righello":
+    "tilt of the ruler",
+  "righello Z (0°)":
+    "Z ruler (0°)",
+  "righello X (45°)":
+    "X ruler (45°)",
+  "obliquo":
+    "oblique",
+  "La freccia è sempre la stessa. Con il righello a <b>:g°</b> le sue coordinate sono <b>:a</b> e <b>:b</b>, e misurando esce la prima direzione il <b>:p%</b> delle volte.":
+    "The arrow is always the same one. With the ruler at <b>:g°</b> its coordinates are <b>:a</b> and <b>:b</b>, and measuring gives the first direction <b>:p%</b> of the time.",
+  "Le probabilità sono i <b>quadrati</b> delle coordinate: è la regola di Born, ed è il motivo per cui in questo corso si somma sempre il quadrato delle ampiezze.":
+    "The probabilities are the <b>squares</b> of the coordinates: that is the Born rule, and it is why this course always adds up the squares of the amplitudes.",
+  "Qui la misura è <b>certa</b>: la freccia è esattamente su un asse del righello, e l'altro asse riceve zero. Nessun caso, nessuna moneta.":
+    "Here the measurement is <b>certain</b>: the arrow lies exactly on one axis of the ruler, and the other axis gets zero. No randomness, no coin.",
+  "Qui la misura è <b>testa o croce</b>: 50 e 50. Ed è la stessa freccia di prima — non è cambiato lo stato, è cambiato il righello.":
+    "Here the measurement is a <b>coin toss</b>: 50-50. And it is the same arrow as before — the state did not change, the ruler did.",
+  "<b>La porta di Hadamard è questo, e nient'altro.</b> Al livello :h arriva come «la porta che mette in sovrapposizione». Guardala qui: è la macchina che riscrive uno stato nel righello a 45°. I due numeri che ne escono, al quadrato, sono esattamente le due probabilità che vedi nel gioco — e i test lo verificano su ogni stato. Per questo manda |0⟩ in una cosa che lungo Z è 50 e 50, e per questo applicandola due volte si torna al punto di partenza: cambiare righello e ricambiarlo non fa niente.":
+    "<b>The Hadamard gate is this, and nothing else.</b> At level :h it arrives as «the gate that puts things in superposition». Look at it here: it is the machine that rewrites a state in the 45° ruler. The two numbers it produces, squared, are exactly the two probabilities you see in the game — and the tests check that on every state. That is why it sends |0⟩ to something that is 50-50 along Z, and why applying it twice brings you home: changing ruler and changing it back does nothing.",
+  "La base in cui la macchina si semplifica":
+    "The basis where the machine gets simple",
+  "gira il righello finché la matrice non ha più angoli storti":
+    "turn the ruler until the matrix has no skewed corners left",
+  "azzera i numeri fuori diagonale":
+    "zero the off-diagonal numbers",
+  "macchine domate: :fatte su :totali":
+    "machines tamed: :fatte of :totali",
+  "vista dal righello":
+    "as the ruler sees it",
+  "righello a :g° · fuori diagonale: :f":
+    "ruler at :g° · off-diagonal: :f",
+  "frecce dritte = solo una stiratura":
+    "straight arrows = just a stretch",
+  "portami nella base giusta":
+    "take me to the right basis",
+  "stira e taglia":
+    "stretch and cut",
+  "specchio storto":
+    "skewed mirror",
+  "Con il righello a <b>:g°</b> la stessa macchina si scrive con i numeri qui a destra. Fuori dalla diagonale c'è <b>:f</b>: è quanto la macchina «mescola» le due direzioni.":
+    "With the ruler at <b>:g°</b> the same machine is written with the numbers on the right. Off the diagonal there is <b>:f</b>: that is how much the machine «mixes» the two directions.",
+  "Trovata. In questa base la macchina non mescola più niente: <b>allunga la prima direzione di :a e la seconda di :b</b>, e basta. Quei due numeri sono gli <b>autovalori</b>, e quelle due direzioni gli <b>autovettori</b> del livello :n.":
+    "Found it. In this basis the machine mixes nothing any more: <b>it stretches the first direction by :a and the second by :b</b>, and that is all. Those two numbers are the <b>eigenvalues</b>, and those two directions the <b>eigenvectors</b> of level :n.",
+  "E adesso il regalo: in questa base applicare la macchina <b>mille volte</b> vuol dire elevare due numeri alla millesima. Fuori da questa base vorrebbe dire moltiplicare mille matrici. È la scorciatoia su cui è costruita la stima di fase.":
+    "And now the gift: in this basis, applying the machine <b>a thousand times</b> means raising two numbers to the thousandth power. Outside this basis it would mean multiplying a thousand matrices. It is the shortcut phase estimation is built on.",
+  "Gira il righello: c'è un'inclinazione in cui i due numeri fuori diagonale diventano zero. Le frecce verde e rosa te lo dicono — quando escono dritte invece che storte, ci sei.":
+    "Turn the ruler: there is a tilt at which the two off-diagonal numbers go to zero. The green and pink arrows tell you — when they come out straight instead of skewed, you are there.",
+  "<b>Perché questa è la cosa più utile del livello.</b> Una matrice generica è difficile da capire: mescola tutto con tutto. Ma se esiste una base in cui diventa diagonale, in quella base è solo «moltiplica per un numero, ciascuno per conto suo». Elevare a potenza, calcolare e^(matrice), applicare mille volte: tutto diventa un conto su singoli numeri. Al livello :n hai trovato gli autovettori; qui hai visto <b>a che servono</b>.":
+    "<b>Why this is the most useful thing in the level.</b> A generic matrix is hard to understand: it mixes everything with everything. But if there is a basis in which it becomes diagonal, in that basis it is just «multiply by a number, each one on its own». Raising to a power, computing e^(matrix), applying it a thousand times: it all turns into arithmetic on single numbers. At level :n you found the eigenvectors; here you have seen <b>what they are for</b>.",
 };

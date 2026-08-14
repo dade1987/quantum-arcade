@@ -467,6 +467,27 @@ return [
             ],
         ],
         [
+            'id' => 'm11-base',
+            'n' => 'M·11',
+            'part' => 'M',
+            'xp' => 95,
+            'slug' => [
+                'it' => 'm11-base',
+                'en' => 'm11-change-of-basis',
+                'es' => 'm11-cambio-de-base',
+            ],
+            'title' => [
+                'it' => 'Cambio di base: lo stesso stato, due righelli diversi',
+                'en' => 'Change of basis: the same state, two different rulers',
+                'es' => 'Cambio de base: el mismo estado, dos reglas distintas',
+            ],
+            'description' => [
+                'it' => 'Misurare è proiettare, la porta di Hadamard è un cambio di righello, e nella base giusta una matrice diventa una pura stiratura — che è la scorciatoia su cui è costruita la stima di fase.',
+                'en' => 'Measuring is projecting, the Hadamard gate is a change of ruler, and in the right basis a matrix becomes a pure stretch — the shortcut phase estimation is built on.',
+                'es' => 'Medir es proyectar, la puerta de Hadamard es un cambio de regla, y en la base correcta una matriz se convierte en un simple estiramiento — el atajo sobre el que está construida la estimación de fase.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',
