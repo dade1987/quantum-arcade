@@ -42,7 +42,7 @@ const L = renderLesson({
              da un ente accreditato: dichiararlo sarebbe falso e ti metterebbe in difficoltà il giorno in cui qualcuno
              lo verificasse.</div>
              <p><b>Quindi a cosa serve davvero?</b> A dimostrare, in modo concreto e verificabile, che hai completato un
-             percorso strutturato di 34 livelli su un argomento tecnico non banale. In un colloquio, in un CV o su LinkedIn
+             percorso strutturato di 55 livelli su un argomento tecnico non banale. In un colloquio, in un CV o su LinkedIn
              vale come <b>prova di iniziativa e di curiosità</b>: metticelo, ma descrivilo per quello che è.</p>
              <h3>Se ti serve un titolo formalmente riconosciuto</h3>
              <p>Le strade vere sono queste, e sono indipendenti da questo sito:</p>

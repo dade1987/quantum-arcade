@@ -14,8 +14,14 @@ import { t, num } from '../core/i18n.js';
    in alto l'OBIETTIVO scritto grande, e una barra che dice
    "quanto sei vicino". Colore + suono + scritta: tre canali
    per la stessa informazione, così è impossibile non capire.
+
+   È esportato — insieme al suono di prossimità — perché la Parte 0 non sta
+   più in un file solo: i giochi dell'orologio modulare vivono in
+   widgets/modmath.js e devono avere ESATTAMENTE lo stesso cruscotto. Un
+   secondo HUD copiato-incollato divergerebbe al primo ritocco, e lo
+   studente si troverebbe due grammatiche diverse nella stessa parte.
    ------------------------------------------------------------ */
-function hud(ctx, s, { goal = '', closeness = 0, hit = false, sub = '' }) {
+export function hud(ctx, s, { goal = '', closeness = 0, hit = false, sub = '' }) {
   roundRect(ctx, 8, 6, s.w - 16, hit ? 34 : 34, 9, {
     fill: hit ? 'rgba(52,211,153,.16)' : 'rgba(255,255,255,.035)',
     stroke: hit ? COL.green : '#22304d',
@@ -31,7 +37,7 @@ function hud(ctx, s, { goal = '', closeness = 0, hit = false, sub = '' }) {
 }
 
 /** suono di prossimità con anti-spam */
-function nearSound() {
+export function nearSound() {
   let last = 0, lastC = -1;
   return c => {
     const now = performance.now();

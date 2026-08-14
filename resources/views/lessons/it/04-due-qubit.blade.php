@@ -105,7 +105,7 @@ insieme:  a₀b₀|00⟩ + a₀b₁|01⟩ + a₁b₀|10⟩ + a₁b₁|11⟩
       html: `<p>Adesso il momento clou. Nel gioco premi in sequenza <b>H q0</b> e poi <b>CNOT q0→q1</b>.
              Guarda le barre delle ampiezze e le due sfere di Bloch.</p>`,
       mount: (el, api) => {
-        const m = api.mission({ key: 'bell', title: 'Crea uno stato di Bell', text: 'premi H q0 e poi CNOT q0→q1: il test di separabilità deve segnalare "intrecciati".', xp: 50 });
+        const m = api.mission({ key: 'stato-bell', title: 'Crea uno stato di Bell', text: 'premi H q0 e poi CNOT q0→q1: il test di separabilità deve segnalare "intrecciati".', xp: 50 });
         el.appendChild(m.root);
         twoQubitLab(el, { onEntangle: () => m.complete() });
       },

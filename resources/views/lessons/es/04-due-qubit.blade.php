@@ -105,7 +105,7 @@ juntos:   a₀b₀|00⟩ + a₀b₁|01⟩ + a₁b₀|10⟩ + a₁b₁|11⟩
       html: `<p>Y ahora el momento clave. En el juego pulsa en secuencia <b>H q0</b> y luego <b>CNOT q0→q1</b>.
              Mira las barras de las amplitudes y las dos esferas de Bloch.</p>`,
       mount: (el, api) => {
-        const m = api.mission({ key: 'bell', title: 'Crea un estado de Bell', text: 'pulsa H q0 y luego CNOT q0→q1: el test de separabilidad tiene que señalar "entrelazados".', xp: 50 });
+        const m = api.mission({ key: 'stato-bell', title: 'Crea un estado de Bell', text: 'pulsa H q0 y luego CNOT q0→q1: el test de separabilidad tiene que señalar "entrelazados".', xp: 50 });
         el.appendChild(m.root);
         twoQubitLab(el, { onEntangle: () => m.complete() });
       },

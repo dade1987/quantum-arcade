@@ -1,8 +1,8 @@
 @extends('layouts.page', [
     'title' => 'Quantum Arcade — Computación cuántica jugando | curso interactivo gratuito en español',
-    'description' => 'Curso-videojuego gratuito en español para aprender computación cuántica desde cero: ondas, fase, números complejos, transformada de Fourier (DFT), cúbits, puertas, entrelazamiento, Grover, QFT y algoritmo de Shor. 34 niveles interactivos con un simulador cuántico real. De Davide Cavallini.',
+    'description' => 'Curso-videojuego gratuito en español para aprender computación cuántica desde cero: ondas, fase, números complejos, transformada de Fourier (DFT), cúbits, puertas, entrelazamiento, Grover, QFT y algoritmo de Shor. 55 niveles interactivos con un simulador cuántico real. De Davide Cavallini.',
     'ogTitle' => 'Quantum Arcade — aprende computación cuántica jugando',
-    'ogDescription' => '34 niveles interactivos en español: de las ondas a la transformada de Fourier cuántica y al algoritmo de Shor. Con un simulador cuántico de verdad y desbloqueo por dominio.',
+    'ogDescription' => '55 niveles interactivos en español: de las ondas a la transformada de Fourier cuántica y al algoritmo de Shor. Con un simulador cuántico de verdad y desbloqueo por dominio.',
 ])
 
 @push('head')
@@ -15,7 +15,7 @@
       "@type": "Course",
       "@id": "https://quantumarcade.it/es/#course",
       "name": "Quantum Arcade — Computación cuántica jugando",
-      "description": "Curso interactivo gratuito en español que enseña computación cuántica partiendo de las ondas y la transformada de Fourier hasta la QFT y el algoritmo de Shor, con 34 niveles jugables y un simulador cuántico de vector de estado.",
+      "description": "Curso interactivo gratuito en español que enseña computación cuántica partiendo de las ondas y la transformada de Fourier hasta la QFT y el algoritmo de Shor, con 55 niveles jugables y un simulador cuántico de vector de estado.",
       "inLanguage": "es",
       "isAccessibleForFree": true,
       "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
@@ -70,7 +70,7 @@
         {
           "@type": "Question",
           "name": "¿Hace falta saber matemáticas para aprender computación cuántica?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Quantum Arcade empieza con una Parte 0 dedicada a las bases (números negativos, fracciones y porcentajes, coordenadas, grados, probabilidad) pensada para quien ha terminado la secundaria. El seno, el coseno, los números complejos y la exponencial compleja se construyen dentro del curso partiendo de un punto que gira en un círculo." }
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Quantum Arcade empieza con una Parte 0 dedicada a las bases (números negativos, fracciones y porcentajes, coordenadas, grados, probabilidad, ecuaciones, logaritmos, producto escalar) pensada para quien ha terminado la secundaria. El seno, el coseno, los números complejos y la exponencial compleja se construyen dentro del curso partiendo de un punto que gira en un círculo. Quien quiera profundizar tiene una Parte M opcional que cubre el temario de matemáticas desde el primer curso de bachillerato hasta Análisis 2, pero solo las piezas que el curso usa de verdad." }
         },
         {
           "@type": "Question",
@@ -121,7 +121,7 @@
     <span class="tag cyan">🎮 curso-videojuego gratuito en español</span>
     <h1 style="margin-top:14px">Aprende computación cuántica<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">jugando de verdad.</span></h1>
     <p class="lead">
-      Treinta y cuatro niveles interactivos que parten de las <b>matemáticas de secundaria</b>, pasan por las <b>ondas</b>
+      Cuarenta y dos niveles interactivos que parten de las <b>matemáticas de secundaria</b>, pasan por las <b>ondas</b>
       (amplitud, frecuencia y fase: los tres mandos que bastan para describir una sinusoide — el periodo es la frecuencia
       del revés, T = 1/f) y llegan hasta la <b>transformada de Fourier cuántica</b> y el <b>algoritmo de Shor</b>.
       Cada fórmula está desmontada pieza a pieza, y cada pieza la puedes <b>tocar, arrastrar y romper</b>
@@ -141,6 +141,7 @@
       <a class="btn primary" id="continue" href="{{ \App\Support\Site::lessonPath('01-qubit', $locale) }}">▶ Empezar</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('00-numeri', $locale) }}">🧮 Empiezo desde cero absoluto (Parte 0)</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('k1-bit', $locale) }}">💻 No sé qué es un bit (Parte K)</a>
+      <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('m1-polinomi', $locale) }}">📐 Quiero las matemáticas de debajo (Parte M)</a>
       <a class="btn ghost" href="#mapa">🗺️ Todos los niveles</a>
       <a class="btn ghost" href="{{ \App\Support\Site::page('method', $locale) }}">🔬 El método (y la investigación)</a>
     </div>
@@ -316,8 +317,9 @@
   <h2 id="mapa">🗺️ El mapa de niveles</h2>
   <p class="dim">Cada nivel se abre superando la prueba del anterior: una <b>misión práctica</b> dentro del juego
   más el <b>cuestionario de recuerdo</b>. Intentos ilimitados, sin penalización, sin nota.
-  La <b>Parte 0</b> (matemáticas de secundaria), la <b>Parte K</b> (el ordenador clásico) y el <b>nivel 1</b>
-  están siempre abiertos: las dos primeras son opcionales y se juegan cuando hacen falta.</p>
+  La <b>Parte 0</b> (matemáticas de secundaria), la <b>Parte K</b> (el ordenador clásico), la <b>Parte M</b>
+  (del bachillerato a Análisis 2) y el <b>nivel 1</b> están siempre abiertos: las tres primeras son opcionales y
+  se juegan cuando hacen falta.</p>
   <div id="map"></div>
 
   <!-- ============ FAQ ============ -->
@@ -325,9 +327,18 @@
   <div class="grid-2">
     <div class="panel">
       <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>¿Tengo que saber matemáticas?</h3>
-      <p class="mb0 dim">No. La <b>Parte 0</b> cubre números negativos, fracciones y porcentajes, coordenadas, grados y probabilidad:
-      está pensada para quien acaba de terminar la secundaria. El seno, el coseno, los números complejos y e^{iθ} se construyen
-      dentro del curso, partiendo de un punto que gira en un círculo.</p>
+      <p class="mb0 dim">No. La <b>Parte 0</b> cubre números negativos, fracciones y porcentajes, coordenadas,
+      grados, probabilidad, ecuaciones, logaritmos y producto escalar: está pensada para quien acaba de terminar la
+      secundaria. El seno, el coseno, los números complejos y e^{iθ} se construyen dentro del curso, partiendo de un
+      punto que gira en un círculo.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>¿Y si quiero profundizar más?</h3>
+      <p class="mb0 dim">Está la <b>Parte M</b>, opcional: cubre el temario de matemáticas <b>del primer curso de
+      bachillerato a Análisis 2</b>, pero solo las piezas que el curso usa de verdad, y siempre con la curiosidad
+      dentro — por qué la fórmula de la ecuación de segundo grado es así, de dónde sale el número <i>e</i>, por qué
+      el √N de Grover es una serie de Taylor parada en el primer término, cómo se calcula e^(iHt), es decir cómo se
+      simula una molécula. Nadie te obliga a hacerla: quien la hace entiende mucho mejor el resto.</p>
     </div>
     <div class="panel">
       <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>¿Tengo que saber ya cómo funciona un ordenador normal?</h3>

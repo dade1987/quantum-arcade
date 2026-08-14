@@ -1,8 +1,8 @@
 @extends('layouts.page', [
     'title' => 'Quantum Arcade — Quantum computing by playing | free interactive course in English',
-    'description' => 'Free game-course in English to learn quantum computing from scratch: waves, phase, complex numbers, the Fourier transform (DFT), qubits, gates, entanglement, Grover, QFT and Shor\'s algorithm. 34 interactive levels with a real quantum simulator. By Davide Cavallini.',
+    'description' => 'Free game-course in English to learn quantum computing from scratch: waves, phase, complex numbers, the Fourier transform (DFT), qubits, gates, entanglement, Grover, QFT and Shor\'s algorithm. 42 interactive levels with a real quantum simulator. By Davide Cavallini.',
     'ogTitle' => 'Quantum Arcade — learn quantum computing by playing',
-    'ogDescription' => '34 interactive levels in English: from waves to the quantum Fourier transform and Shor\'s algorithm. With a real quantum simulator and unlock-by-mastery.',
+    'ogDescription' => '42 interactive levels in English: from waves to the quantum Fourier transform and Shor\'s algorithm. With a real quantum simulator and unlock-by-mastery.',
 ])
 
 @push('head')
@@ -70,7 +70,7 @@
         {
           "@type": "Question",
           "name": "Do I need to know maths already to learn quantum computing?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Quantum Arcade starts with a Part 0 devoted to the basics (negative numbers, fractions and percentages, coordinates, degrees, probability) written for anyone who has finished middle school. Sine, cosine, complex numbers and the complex exponential are built inside the course, starting from a point turning on a circle." }
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Quantum Arcade starts with a Part 0 devoted to the basics (negative numbers, fractions and percentages, coordinates, degrees, probability, equations, logarithms, dot product) written for anyone who has finished middle school. Sine, cosine, complex numbers and the complex exponential are built inside the course, starting from a point turning on a circle. Anyone who wants to go deeper has an optional Part M covering the maths syllabus from the first year of secondary school to second-year calculus, but only the pieces the course actually uses." }
         },
         {
           "@type": "Question",
@@ -121,7 +121,7 @@
     <span class="tag cyan">🎮 free game-course in English</span>
     <h1 style="margin-top:14px">Learn quantum computing<br><span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent">by actually playing it.</span></h1>
     <p class="lead">
-      Thirty-four interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
+      Forty-two interactive levels that start from <b>middle-school maths</b>, pass through <b>waves</b>
       (amplitude, frequency and phase: the three knobs that fully describe a sine wave — the period is just
       frequency the other way round, T = 1/f) and arrive at the <b>quantum Fourier transform</b> and <b>Shor's algorithm</b>.
       Every formula is taken apart piece by piece, and every piece is something you can
@@ -141,6 +141,7 @@
       <a class="btn primary" id="continue" href="{{ \App\Support\Site::lessonPath('01-qubit', $locale) }}">▶ Start</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('00-numeri', $locale) }}">🧮 I am starting from absolute zero (Part 0)</a>
       <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('k1-bit', $locale) }}">💻 I do not know what a bit is (Part K)</a>
+      <a class="btn ghost" href="{{ \App\Support\Site::lessonPath('m1-polinomi', $locale) }}">📐 I want the maths underneath (Part M)</a>
       <a class="btn ghost" href="#map-section">🗺️ All the levels</a>
       <a class="btn ghost" href="{{ \App\Support\Site::page('method', $locale) }}">🔬 The method (and the research)</a>
     </div>
@@ -316,8 +317,9 @@
   <h2 id="map-section">🗺️ The level map</h2>
   <p class="dim">Each level opens by passing the previous one's check: a <b>hands-on mission</b> inside the game
   plus the <b>recall quiz</b>. Unlimited attempts, no penalty, no grade.
-  <b>Part 0</b> (middle-school maths), <b>Part K</b> (the classical computer) and <b>level 1</b> are always
-  open: the first two are optional and can be played whenever you need them.</p>
+  <b>Part 0</b> (middle-school maths), <b>Part K</b> (the classical computer), <b>Part M</b> (from secondary
+  school to second-year calculus) and <b>level 1</b> are always open: the first three are optional and can be
+  played whenever you need them.</p>
   <div id="map"></div>
 
   <!-- ============ FAQ ============ -->
@@ -325,9 +327,18 @@
   <div class="grid-2">
     <div class="panel">
       <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Do I need to know maths already?</h3>
-      <p class="mb0 dim">No. <b>Part 0</b> covers negative numbers, fractions and percentages, coordinates, degrees and probability:
-      it is written for someone who has just finished middle school. Sine, cosine, complex numbers and e^{iθ} get built
-      inside the course, starting from a point turning on a circle.</p>
+      <p class="mb0 dim">No. <b>Part 0</b> covers negative numbers, fractions and percentages, coordinates, degrees,
+      probability, equations, logarithms and the dot product: it is written for someone who has just finished middle
+      school. Sine, cosine, complex numbers and e^{iθ} get built inside the course, starting from a point turning on a
+      circle.</p>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>And what if I want to go deeper?</h3>
+      <p class="mb0 dim">There is <b>Part M</b>, optional: it covers the maths syllabus <b>from the first year of
+      secondary school to second-year calculus</b>, but only the pieces the course actually uses, and always with the
+      curiosity inside — why the quadratic formula looks the way it does, where the number <i>e</i> comes from, why
+      Grover's √N is a Taylor series stopped at the first term, how you compute e^(iHt), which is how you simulate a
+      molecule. Nobody makes you do it: those who do understand the rest much better.</p>
     </div>
     <div class="panel">
       <h3 class="panel-title" style="margin-top:0"><span class="dot"></span>Do I need to know how a normal computer works?</h3>

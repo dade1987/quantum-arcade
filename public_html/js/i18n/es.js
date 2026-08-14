@@ -13,8 +13,8 @@
 export default {
   /* ---------------- mapa, partes, rangos ---------------- */
   'Parte 0 — Le basi (per chi parte proprio da zero)': 'Parte 0 — Las bases (para quien empieza desde cero)',
-  'Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità. Per chi ha finito le medie. Facoltativa se le sai già.':
-    'Números, porcentajes, coordenadas, grados, seno y coseno, probabilidad. Nivel de secundaria. Opcional si ya lo sabes.',
+  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici, equazioni (anche di secondo grado), logaritmi e prodotto scalare. Dalle medie in su. Facoltativa se le sai già.":
+    "Números, porcentajes, coordenadas, grados, seno y coseno, probabilidad, contar en círculo, matrices, ecuaciones (también de segundo grado), logaritmos y producto escalar. De secundaria en adelante. Opcional si ya las sabes.",
   'Parte A — Il qubit, subito': 'Parte A — El cúbit, ya mismo',
   'Sovrapposizione, misura, porte, entanglement, circuiti. Con ampiezze positive e negative: nessuna matematica difficile.':
     'Superposición, medida, puertas, entrelazamiento, circuitos. Con amplitudes positivas y negativas: nada de matemáticas difíciles.',
@@ -1921,7 +1921,7 @@ export default {
     'El registro contiene <b>:valore</b> y nada más. Las otras :quante configuraciones son posibles, no presentes: nadie las está calculando.',
   'Leggerlo non lo cambia: puoi leggerlo mille volte e trovare mille volte lo stesso numero. Letture fatte: <b>:n</b>, valori diversi usciti: <b>:diversi</b>.':
     'Leerlo no lo cambia: puedes leerlo mil veces y encontrar mil veces el mismo número. Lecturas hechas: <b>:n</b>, valores distintos salidos: <b>:diversi</b>.',
-  'Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :p%.':
+  'Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :percento%.':
     'El circuito que has montado enciende <b>:piene amplitudes</b> de :totale. Con una H por cúbit se encienden las :totale, cada una con probabilidad :p%.',
   'La misura ne restituirà <b>una sola</b>, a caso — e quella che esce è tutto quello che ti resta.':
     'La medida devolverá <b>una sola</b>, al azar — y la que sale es todo lo que te queda.',
@@ -2058,8 +2058,6 @@ export default {
   "Quanto è alta un'onda; nel suono è il volume.":
     'Cómo de alta es una onda; en el sonido es el volumen.',
   'Autostato / autovalore': 'Autoestado / autovalor',
-  "Stato che un'operazione lascia identico a parte una fase; quella fase è l'autovalore.":
-    'Estado que una operación deja idéntico salvo por una fase; esa fase es el autovalor.',
   'Base di misura': 'Base de medida',
   'La "direzione" lungo cui si misura. Misurare in base Z dà 0/1; in base X dà +/−. Non esiste uno stato certo in tutte le basi.':
     'La "dirección" a lo largo de la cual se mide. Medir en base Z da 0/1; en base X da +/−. No existe un estado que sea seguro en todas las bases.',
@@ -2121,8 +2119,8 @@ export default {
   "Scatola nera che marca con un segno meno gli stati che soddisfano una condizione: scrive l'informazione nelle fasi.":
     'Caja negra que marca con un signo menos los estados que cumplen una condición: escribe la información en las fases.',
   'Periodo': 'Periodo',
-  'Ogni quanto una cosa si ripete. T = 1/f.':
-    'Cada cuánto se repite una cosa. T = 1/f.',
+  "Ogni quanto una cosa si ripete. Per un'onda T = 1/f; per la sequenza a^x mod N è dopo quanti passi si ritorna sull'1, ed è il numero che Shor va a cercare.":
+    'Cada cuánto se repite algo. Para una onda T = 1/f; para la secuencia a^x mod N es tras cuántos pasos se vuelve al 1, y es el número que Shor va a buscar.',
   'Phase kickback': 'Phase kickback',
   'Il trucco per cui la fase generata da un oracolo "rimbalza" sul registro di controllo.':
     'El truco por el que la fase generada por un oráculo "rebota" sobre el registro de control.',
@@ -2162,7 +2160,6 @@ export default {
 
   /* other written forms of each term, used only to spot it in the text */
   'ampiezze': 'amplitudes',
-  'autostati, autovalore, autovalori': 'autoestados, autovalor, autovalores',
   'basi di misura, base Z, base X': 'bases de medida, base Z, base X',
   'sfera di Bloch': 'esfera de Bloch',
   'regola di Born': 'regla de Born',
@@ -2190,4 +2187,1665 @@ export default {
   'sovrapposizioni': 'superposiciones',
   'teletrasportare': 'teletransportar',
   'unitaria, unitarie, operazione unitaria': 'unitaria, unitarias, operación unitaria',
+  /* ---------------- livello 0·5: l'orologio dei numeri ---------------- */
+  ":giri giri + :resto":
+    ":giri vueltas + :resto",
+  "<b>:numero</b> diviso :ore fa :giri con il resto di <b>:resto</b>.":
+    "<b>:numero</b> dividido entre :ore da :giri con resto <b>:resto</b>.",
+  "<b>Da portarsi dietro:</b> «mod» non è un'operazione strana, è <b>il resto della divisione</b>. E i numeri che finiscono nella stessa ora — 3, 10, 17, 24 con un quadrante da 7 — per l'orologio sono <b>la stessa cosa</b>. Nel livello di Shor l'orologio avrà N ore, con N il numero da fattorizzare.":
+    "<b>Para llevarte:</b> «mod» no es una operación rara, es <b>el resto de la división</b>. Y los números que caen en la misma hora — 3, 10, 17, 24 con una esfera de 7 — para el reloj son <b>la misma cosa</b>. En el nivel de Shor la esfera tendrá N horas, siendo N el número que hay que factorizar.",
+  "<b>Perché ci servirà:</b> è l'algoritmo di Euclide, di circa 2300 anni fa, e in Shor è <b>l'ultimo passo</b>: trovato il periodo, i fattori del numero saltano fuori con due massimi comuni divisori. Su numeri da centinaia di cifre ci mette meno di un battito di ciglia — il collo di bottiglia è tutto altrove.":
+    "<b>Por qué nos servirá:</b> es el algoritmo de Euclides, de hace unos 2300 años, y en Shor es <b>el último paso</b>: hallado el periodo, los factores del número salen con dos máximos comunes divisores. Con números de cientos de cifras tarda menos que un parpadeo: el cuello de botella está en otra parte.",
+  "<b>Qui c'è tutto Shor:</b> fattorizzare un numero N si riduce a trovare questo ritmo r. Su un quadrante da 15 lo si vede a occhio; su un N da 600 cifre nemmeno tutti i computer del mondo messi insieme ci arrivano, perché i passi da provare sono troppi. Il computer quantistico non prova i passi uno per uno: li fa <b>tutti insieme</b> e poi usa la trasformata di Fourier per far emergere il ritmo. È il livello :n.":
+    "<b>Aquí está todo Shor:</b> factorizar un número N se reduce a encontrar este ritmo r. En una esfera de 15 se ve a simple vista; con una N de 600 cifras no llegan ni todos los ordenadores del mundo juntos, porque los pasos que habría que probar son demasiados. El ordenador cuántico no prueba los pasos uno por uno: los hace <b>todos a la vez</b> y luego usa la transformada de Fourier para hacer emerger el ritmo. Es el nivel :n.",
+  "Avanza sempre un rettangolo più piccolo: è per questo che il metodo finisce presto. Continua.":
+    "Siempre sobra un rectángulo más pequeño: por eso el método termina pronto. Sigue.",
+  "Contare a giri, il pavimento di Euclide e il ritmo di a^x mod N: la matematica classica che sta dentro Shor.":
+    "Contar dando vueltas, el suelo de Euclides y el ritmo de a^x mod N: la matemática clásica que hay dentro de Shor.",
+  "Esatto: r = :r. Prova ora un'altra coppia (N, a): il ritmo cambia.":
+    "Exacto: r = :r. Prueba ahora otra pareja (N, a): el ritmo cambia.",
+  "Il bersaglio è <b>:ora</b>: cerca un numero che finisca lì. Ce ne sono infiniti, distanti :ore l'uno dall'altro.":
+    "El objetivo es <b>:ora</b>: busca un número que caiga ahí. Hay infinitos, separados exactamente por :ore.",
+  "Il moltiplicatore (a)":
+    "El multiplicador (a)",
+  "Il numero da contare":
+    "El número que hay que contar",
+  "Il pavimento di Euclide":
+    "El suelo de Euclides",
+  "Il quadrante (N)":
+    "La esfera (N)",
+  "Il ritmo che torna":
+    "El ritmo que vuelve",
+  "L'orologio dei numeri":
+    "El reloj de los números",
+  "L'orologio dei numeri: resto, MCD e ritmi che tornano":
+    "El reloj de los números: resto, MCD y ritmos que vuelven",
+  "L'ultimo quadrato ha lato <b>:mcd</b>: è il righello più grande che misura per intero sia :a sia :b. Si chiama <b>massimo comune divisore</b>.":
+    "El último cuadrado tiene lado <b>:mcd</b>: es la regla más larga que mide por entero tanto :a como :b. Se llama <b>máximo común divisor</b>.",
+  "No: conta i passi disegnati, l'1 di partenza non si conta.":
+    "No: cuenta los pasos dibujados, el 1 de partida no cuenta.",
+  "Ogni passo è «moltiplica per :a e prendi il resto della divisione per :N». Continua finché non ricompare l'1.":
+    "Cada paso es «multiplica por :a y toma el resto de la división entre :N». Sigue hasta que reaparezca el 1.",
+  "Pavimento <b>:a × :b</b>. Quadrati posati finora (lato): :lati":
+    "Suelo <b>:a × :b</b>. Cuadrados colocados hasta ahora (lado): :lati",
+  "Quadrante <b>:N</b>, moltiplicatore <b>:a</b>. Passeggiata: :seq":
+    "Esfera <b>:N</b>, multiplicador <b>:a</b>. Paseo: :seq",
+  "Quante ore ha il quadrante":
+    "Cuántas horas tiene la esfera",
+  "Sei tornato sull'1 dopo <b>:quanti</b> passi. Quel numero si chiama <b>periodo</b> e si scrive r.":
+    "Has vuelto al 1 tras <b>:quanti</b> pasos. Ese número se llama <b>periodo</b> y se escribe r.",
+  "altra coppia":
+    "otra pareja",
+  "cambia bersaglio":
+    "cambiar objetivo",
+  "conta oltre la fine del quadrante e guarda dove ti fermi":
+    "cuenta más allá del final de la esfera y mira dónde te paras",
+  "sempre il più grande che ci sta — risolti: :fatte su :totali":
+    "siempre el más grande que quepa — resueltos: :fatte de :totali",
+  "copri :a × :b con quadrati":
+    "cubre :a × :b con cuadrados",
+  "porta la lancetta sul :ora":
+    "para la aguja en :ora",
+  "fino in fondo":
+    "hasta el final",
+  "il periodo è :n":
+    "el periodo es :n",
+  "moltiplica":
+    "multiplica",
+  "moltiplica sempre per lo stesso numero: quando ripassi dall'1?":
+    "multiplica siempre por el mismo número: ¿cuándo vuelves a pasar por el 1?",
+  "passi fatti: :quanti":
+    "pasos dados: :quanti",
+  "piastrelle quadrate, tutte uguali alla fine: quanto misura il lato?":
+    "baldosas cuadradas, todas iguales: ¿cuánto mide el lado?",
+  "premi «taglia» e guarda cosa avanza":
+    "pulsa «corta» y mira lo que sobra",
+  "torna sull'1 premendo ×:a":
+    "vuelve al 1 pulsando ×:a",
+  "ritmi trovati: :fatti su :totali":
+    "ritmos encontrados: :fatti de :totali",
+  "sul bersaglio! Numeri diversi trovati: :fatti su :totali":
+    "¡en el objetivo! Números distintos encontrados: :fatti de :totali",
+  "taglia un quadrato":
+    "corta un cuadrado",
+  "servono :totali numeri diversi — trovati: :fatti":
+    "hacen falta :totali números distintos — encontrados: :fatti",
+  "ultimo quadrato: lato :lato = MCD(:a, :b)":
+    "último cuadrado: lado :lato = MCD(:a, :b)",
+  /* ---------------- glossario: modulo, MCD, frazioni continue ---------------- */
+  "Frazioni continue":
+    "Fracciones continuas",
+  "Il modo di trovare la frazione più semplice vicinissima a un numero decimale. In Shor traducono il numero misurato nel periodo cercato: il denominatore è la risposta.":
+    "La forma de encontrar la fracción más simple pegadísima a un número decimal. En Shor traducen el número medido en el periodo buscado: el denominador es la respuesta.",
+  "Il numero più grande che divide due numeri senza lasciare resto. Si trova con l'algoritmo di Euclide, ed è l'ultimo passo — tutto classico — dell'algoritmo di Shor.":
+    "El número más grande que divide a dos números sin dejar resto. Se encuentra con el algoritmo de Euclides y es el último paso — completamente clásico — del algoritmo de Shor.",
+  "Il resto della divisione: 17 mod 5 = 2. Contare «mod N» vuol dire contare a giri su un quadrante da N ore, come sull'orologio.":
+    "El resto de la división: 17 mod 5 = 2. Contar «mod N» significa contar dando vueltas en una esfera de N horas, como en el reloj.",
+  "MCD (massimo comune divisore)":
+    "MCD (máximo común divisor)",
+  "Modulo (mod)":
+    "Módulo (mod)",
+  "aritmetica modulare, mod":
+    "aritmética modular, mod",
+  "frazione continua":
+    "fracción continua",
+  "massimo comune divisore, massimi comuni divisori":
+    "máximo común divisor, máximos comunes divisores",
+  /* ---------------- livello 0·6: le matrici ---------------- */
+  "<b>La regola sta tutta qui:</b> le due colonne della matrice sono i due posti dove finiscono le frecce di base. Sapendo quelli, sai dove finisce <b>qualunque</b> altra freccia — perché ogni freccia è una somma delle due di base. Non c'è altro da sapere su cosa fa una matrice.":
+    "<b>Toda la regla está aquí:</b> las dos columnas de la matriz son los dos lugares donde acaban las flechas de base. Sabiendo esos, sabes dónde acaba <b>cualquier</b> otra flecha, porque toda flecha es una suma de las dos de base. No hay nada más que saber sobre lo que hace una matriz.",
+  "<b>Perché la freccia resta sul cerchio:</b> X, Z e H sono matrici <b>unitarie</b>, cioè macchine che non allungano e non accorciano niente. Siccome la probabilità è il quadrato dell'ampiezza, una freccia sempre lunga 1 vuol dire probabilità che fanno sempre 100%. È la ragione per cui non esiste una porta quantistica che «perde» un pezzo di stato — e la ritroverai al livello :n.":
+    "<b>Por qué la flecha se queda en el círculo:</b> X, Z y H son matrices <b>unitarias</b>, es decir, máquinas que no alargan ni acortan nada. Como la probabilidad es el cuadrado de la amplitud, una flecha siempre de longitud 1 significa probabilidades que siempre suman 100%. Por eso no existe una puerta cuántica que «pierda» un trozo de estado, y volverás a encontrarlo en el nivel :n.",
+  "E hai appena dimostrato che <b>:mosse fanno la stessa cosa della X</b>: più macchine di fila sono una macchina sola.":
+    "Y acabas de demostrar que <b>:mosse hacen lo mismo que la X</b>: varias máquinas seguidas son una sola máquina.",
+  "Il puzzle delle porte":
+    "El puzle de las puertas",
+  "La freccia rossa (1, 0) finisce in (<b>:x</b>, <b>:y</b>) — che è la <b>prima colonna</b>.":
+    "La flecha roja (1, 0) acaba en (<b>:x</b>, <b>:y</b>), que es la <b>primera columna</b>.",
+  "La freccia verde (0, 1) finisce in (<b>:x</b>, <b>:y</b>) — che è la <b>seconda colonna</b>.":
+    "La flecha verde (0, 1) acaba en (<b>:x</b>, <b>:y</b>), que es la <b>segunda columna</b>.",
+  "La macchina a quattro manopole":
+    "La máquina de cuatro mandos",
+  "La macchina che trasforma le frecce: le matrici":
+    "La máquina que transforma las flechas: las matrices",
+  "La macchina, scritta come tabella:":
+    "La máquina, escrita como tabla:",
+  "Obiettivo: :puzzle. Prova una porta e guarda dove va la freccia — la lunghezza non cambia mai.":
+    "Objetivo: :puzzle. Prueba una puerta y mira adónde va la flecha: la longitud no cambia nunca.",
+  "Obiettivo: :sfida. Le frecce tratteggiate dicono dove devono arrivare.":
+    "Objetivo: :sfida. Las flechas discontinuas dicen dónde tienen que llegar.",
+  "Quattro manopole, due frecce e la scoperta che ogni porta quantistica è una tabella di numeri.":
+    "Cuatro mandos, dos flechas y el descubrimiento de que cada puerta cuántica es una tabla de números.",
+  "Questa macchina allunga o accorcia le frecce: nel quantistico non sarebbe una porta valida.":
+    "Esta máquina alarga o acorta las flechas: en lo cuántico no sería una puerta válida.",
+  "Questa macchina non cambia le lunghezze: nel quantistico sarebbe una porta valida.":
+    "Esta máquina no cambia las longitudes: en lo cuántico sería una puerta válida.",
+  "Stato: (<b>:zero</b> · <b>:uno</b>). Lunghezza della freccia: <b>:lung</b>.":
+    "Estado: (<b>:zero</b> · <b>:uno</b>). Longitud de la flecha: <b>:lung</b>.",
+  "altra sfida":
+    "otro reto",
+  "altro puzzle":
+    "otro puzle",
+  "ampiezza di |0⟩":
+    "amplitud de |0⟩",
+  "ampiezza di |1⟩":
+    "amplitud de |1⟩",
+  "arriva alla sovrapposizione (0,71 · 0,71)":
+    "llega a la superposición (0,71 · 0,71)",
+  "arriva alla sovrapposizione con il meno (0,71 · −0,71)":
+    "llega a la superposición con el menos (0,71 · −0,71)",
+  "bersaglio centrato in :n mosse: :mosse":
+    "objetivo acertado en :n jugadas: :mosse",
+  "gira le manopole e guarda dove finiscono le due frecce":
+    "gira los mandos y mira dónde acaban las dos flechas",
+  "gira tutto di 90° in senso antiorario":
+    "gíralo todo 90° en sentido antihorario",
+  "identità":
+    "identidad",
+  "lascia ferma la rossa e ribalta la verde":
+    "deja quieta la roja y voltea la verde",
+  "mosse: :mosse":
+    "jugadas: :mosse",
+  "porta lo stato da |0⟩ a |1⟩":
+    "lleva el estado de |0⟩ a |1⟩",
+  "probabilità: :zero% e :uno%":
+    "probabilidades: :zero% y :uno%",
+  "puzzle risolti: :fatti su :totali":
+    "puzles resueltos: :fatti de :totali",
+  "raddoppia la lunghezza di tutte e due":
+    "duplica la longitud de las dos",
+  "ribalta (Z)":
+    "voltea (Z)",
+  "rossa: dove finisce (1, 0)":
+    "roja: dónde acaba (1, 0)",
+  "scambia (X)":
+    "intercambia (X)",
+  "scambia le due frecce":
+    "intercambia las dos flechas",
+  "sfida risolta! Premi «altra sfida» per la prossima.":
+    "¡reto resuelto! Pulsa «otro reto» para el siguiente.",
+  "sfide risolte: :fatte su :totali":
+    "retos resueltos: :fatte de :totali",
+  "somma: :tot% — sempre":
+    "suma: :tot% — siempre",
+  "tre matrici, un bersaglio: quale sequenza ci arriva?":
+    "tres matrices, un objetivo: ¿qué secuencia llega?",
+  "verde: dove finisce (0, 1)":
+    "verde: dónde acaba (0, 1)",
+  /* ---------------- glossario: matrice ---------------- */
+  "Matrice":
+    "Matriz",
+  "Una tabella di numeri che trasforma una freccia in un'altra. Le sue colonne dicono dove finiscono le frecce di base: da lì si ricava dove finisce qualunque altra freccia.":
+    "Una tabla de números que convierte una flecha en otra. Sus columnas dicen dónde acaban las flechas de base: de ahí se deduce dónde acaba cualquier otra flecha.",
+  "matrici, matrice 2×2":
+    "matrices, matriz 2×2",
+  /* ---------------- livello 18·b: autovettori e autovalori ---------------- */
+  "<b>I nomi:</b> una freccia che la macchina lascia in linea con sé stessa si chiama <b>autovettore</b>; il numero per cui viene moltiplicata si chiama <b>autovalore</b>. Sono le due parole che aprono il livello :n — e la rotazione, che di autovettori reali non ne ha nessuno, spiega da sola perché nel quantistico gli autovalori sono <b>fasi</b> e non allungamenti.":
+    "<b>Los nombres:</b> una flecha que la máquina deja en línea consigo misma se llama <b>autovector</b>; el número por el que queda multiplicada se llama <b>autovalor</b>. Son las dos palabras con las que empieza el nivel :n, y la rotación, que no tiene ningún autovector real, explica por sí sola por qué en lo cuántico los autovalores son <b>fases</b> y no estiramientos.",
+  "<b>Questa è la stima di fase, fatta a mano.</b> Tu hai contato le applicazioni una per una: sono tante quante il denominatore della frazione di giro. Il livello :n fa la stessa identica cosa <b>in sovrapposizione</b> — applica U una volta, due, quattro, otto in parallelo, e poi con la trasformata di Fourier legge la fase da un picco solo. E se il conteggio ti ricorda il ritmo che tornava sull'orologio del livello :m, hai visto giusto: è la stessa matematica.":
+    "<b>Esto es la estimación de fase, hecha a mano.</b> Tú has contado las aplicaciones una a una: son tantas como el denominador de la fracción de vuelta. El nivel :n hace exactamente lo mismo <b>en superposición</b>: aplica U una vez, dos, cuatro, ocho en paralelo, y luego con la transformada de Fourier lee la fase de un único pico. Y si el recuento te recuerda al ritmo que volvía en el reloj del nivel :m, has visto bien: es la misma matemática.",
+  "Esatto: :n applicazioni per un giro intero, cioè :g° l'una. Prova un'altra porta.":
+    "Exacto: :n aplicaciones para una vuelta entera, es decir :g° cada una. Prueba otra puerta.",
+  "Fuori linea: la freccia in uscita punta da un'altra parte. Continua a girare.":
+    "Fuera de línea: la flecha de salida apunta a otro sitio. Sigue girando.",
+  "IN LINEA! ×:lambda":
+    "¡EN LÍNEA! ×:lambda",
+  "In linea! La macchina non ha girato questa freccia: l'ha solo moltiplicata per <b>:lambda</b>. È un <b>autovettore</b>, e :lambda è il suo <b>autovalore</b>.":
+    "¡En línea! La máquina no ha girado esta flecha: solo la ha multiplicado por <b>:lambda</b>. Es un <b>autovector</b>, y :lambda es su <b>autovalor</b>.",
+  "La caccia alle frecce che non girano":
+    "La caza de las flechas que no giran",
+  "La fase che si conta":
+    "La fase que se cuenta",
+  "La macchina da esaminare":
+    "La máquina que examinar",
+  "La porta U (di quanto gira la fase)":
+    "La puerta U (cuánto gira la fase)",
+  "La probabilità di leggere il risultato non è cambiata di un capello: la fase da sola non si vede. Si vede solo <b>facendola interferire</b> — ed è quello che fa la QFT.":
+    "La probabilidad de leer el resultado no ha cambiado ni un pelo: la fase por sí sola no se ve. Solo se ve <b>haciéndola interferir</b>, que es lo que hace la QFT.",
+  "Le frecce che la macchina non gira: autovettori e autovalori":
+    "Las flechas que la máquina no gira: autovectores y autovalores",
+  "Macchina: <b>:nome</b>. La tua freccia punta a :gradi°.":
+    "Máquina: <b>:nome</b>. Tu flecha apunta a :gradi°.",
+  "No: conta le applicazioni che hai fatto per tornare a casa.":
+    "No: cuenta las aplicaciones que has hecho para volver a casa.",
+  "Ogni applicazione di U gira la fase di <b>:g°</b>. Applicazioni fatte: <b>:n</b>, fase totale <b>:tot°</b>.":
+    "Cada aplicación de U gira la fase <b>:g°</b>. Aplicaciones hechas: <b>:n</b>, fase total <b>:tot°</b>.",
+  "Questa macchina ha :quante direzioni ferme.":
+    "Esta máquina tiene :quante direcciones quietas.",
+  "Questa macchina non ha nessuna direzione ferma: gira tutto. Con i soli numeri reali, qui non c'è niente da trovare.":
+    "Esta máquina no tiene ninguna dirección quieta: lo gira todo. Solo con números reales aquí no hay nada que encontrar.",
+  "Sei tornato a casa dopo <b>:n</b> applicazioni. Quindi ogni applicazione valeva <b>1/:n di giro</b>: hai misurato la fase contando.":
+    "Has vuelto a casa tras <b>:n</b> aplicaciones. Así que cada aplicación valía <b>1/:n de vuelta</b>: has medido la fase contando.",
+  "Trascina finché la freccia non resta in linea con sé stessa. E scopri che su quelle frecce una porta cambia solo la fase.":
+    "Arrastra hasta que la flecha se quede en línea consigo misma. Y descubre que sobre esas flechas una puerta solo cambia la fase.",
+  "applica U":
+    "aplica U",
+  "riporta la freccia a casa":
+    "lleva la flecha a casa",
+  "applicazioni: :n":
+    "aplicaciones: :n",
+  "cambia solo la fase":
+    "solo cambia la fase",
+  "casa":
+    "casa",
+  ":macchina — trovate :fatte su :totali":
+    ":macchina — encontradas :fatte de :totali",
+  "fase totale: :g°":
+    "fase total: :g°",
+  "fasi misurate: :fatte su :totali":
+    "fases medidas: :fatte de :totali",
+  "la porta H":
+    "la puerta H",
+  "la porta non muove lo stato: gli gira solo la freccia della fase":
+    "la puerta no mueve el estado: solo le gira la flecha de la fase",
+  "la rotazione di 90°: nessuna freccia resta in linea":
+    "la rotación de 90°: ninguna flecha se queda en línea",
+  "la tua freccia":
+    "tu flecha",
+  "lo scivolo: una sola direzione ferma":
+    "el tobogán: una sola dirección quieta",
+  "lo specchio: Z":
+    "el espejo: Z",
+  "lo stato non cambia:":
+    "el estado no cambia:",
+  "porta H":
+    "puerta H",
+  "probabilità: 100%":
+    "probabilidad: 100%",
+  "quella che esce dalla macchina":
+    "la que sale de la máquina",
+  "rotazione 90°":
+    "rotación 90°",
+  "ruota di poco":
+    "gira un poco",
+  "ruota indietro":
+    "gira hacia atrás",
+  "scivolo":
+    "tobogán",
+  "specchio Z":
+    "espejo Z",
+  "stira":
+    "estira",
+  "stira in orizzontale, schiaccia in verticale":
+    "estira en horizontal, aplasta en vertical",
+  "trascina la freccia: per quasi tutte la macchina cambia direzione. Per qualcuna no.":
+    "arrastra la flecha: para casi todas la máquina cambia la dirección. Para alguna, no.",
+  "un giro = :n applicazioni":
+    "una vuelta = :n aplicaciones",
+  /* ---------------- glossario: autostato ampliato ---------------- */
+  "Stato (o freccia) che un'operazione lascia in linea con sé stesso: cambia solo per un fattore, l'autovalore. Su una porta quantistica quel fattore è una fase, ed è il numero che la stima di fase va a leggere.":
+    "Estado (o flecha) que una operación deja en línea consigo mismo: solo cambia por un factor, el autovalor. En una puerta cuántica ese factor es una fase, y es el número que la estimación de fase va a leer.",
+  "autostati, autovalore, autovalori, autovettore, autovettori":
+    "autoestados, autovalor, autovalores, autovector, autovectores",
+  "trova una direzione ferma":
+    "encuentra una dirección quieta",
+  /* ---------------- livello 15·b: la serie geometrica ---------------- */
+  "<b>Il fatto sorprendente:</b> infiniti pezzi, totale finito. Mezzo più un quarto più un ottavo… non arriva mai a 2, ci si avvicina e basta. La formula che lo dice — <b>(1 − rⁿ)/(1 − r)</b> — è la stessa che fra un attimo farà nascere il picco della trasformata di Fourier: cambia solo che al posto di una frazione ci sarà una <b>rotazione</b>.":
+    "<b>Lo sorprendente:</b> infinitos trozos, total finito. Un medio más un cuarto más un octavo… nunca llega a 2, solo se acerca. La fórmula que lo dice — <b>(1 − rⁿ)/(1 − r)</b> — es la misma que dentro de un momento hará nacer el pico de la transformada de Fourier: lo único que cambia es que en lugar de una fracción habrá una <b>rotación</b>.",
+  "<b>Questa è la trasformata di Fourier, in una frase.</b> Per ogni frequenza di prova, la DFT gira i dati di un passo fisso e li somma: se il passo è sbagliato, la catena si chiude e viene zero; se è quello giusto, il passo è nullo, le frecce si allineano e nasce il <b>picco</b>. Il livello :n lo fa sui dati veri — ma il motivo per cui funziona è quello che hai appena mosso con il cursore.":
+    "<b>Esto es la transformada de Fourier, en una frase.</b> Para cada frecuencia de prueba, la DFT gira los datos un paso fijo y los suma: si el paso es equivocado, la cadena se cierra y sale cero; si es el correcto, el paso es nulo, las flechas se alinean y nace el <b>pico</b>. El nivel :n lo hace con datos de verdad, pero el motivo por el que funciona es lo que acabas de mover con el cursor.",
+  "Con la formula: (1 − :r^:n) / (1 − :r) = <b>:formula</b> — stesso numero, senza sommare a mano.":
+    "Con la fórmula: (1 − :r^:n) / (1 − :r) = <b>:formula</b>, el mismo número sin sumar a mano.",
+  "Con la formula: |sin(:n·Δ/2) / sin(Δ/2)| = <b>:formula</b>.":
+    "Con la fórmula: |sin(:n·Δ/2) / sin(Δ/2)| = <b>:formula</b>.",
+  "Di quanto gira ogni freccia in più (gradi)":
+    "Cuánto gira de más cada flecha (grados)",
+  "I pezzi che si rimpiccioliscono":
+    "Los trozos que se encogen",
+  "La catena di frecce":
+    "La cadena de flechas",
+  "La catena si è chiusa: le frecce fanno un giro esatto e si annullano a vicenda. Somma zero — non \"piccola\": zero.":
+    "La cadena se ha cerrado: las flechas dan una vuelta exacta y se anulan entre sí. Suma cero, no «pequeña»: cero.",
+  "La serie geometrica giocata con i pezzi e con le frecce. È la ragione per cui la trasformata di Fourier fa un picco.":
+    "La serie geométrica jugada con trozos y con flechas. Es la razón por la que la transformada de Fourier hace un pico.",
+  "Le frecce puntano un po' ovunque: la somma è un numero qualunque, né grande né nullo.":
+    "Las flechas apuntan un poco a todas partes: la suma es un número cualquiera, ni grande ni nulo.",
+  "Ogni pezzo è questa frazione del precedente":
+    "Cada trozo es esta fracción del anterior",
+  "Passo <b>:passo°</b>, <b>:n</b> frecce. Lunghezza della somma: <b>:mod</b> (su :n possibili).":
+    "Paso <b>:passo°</b>, <b>:n</b> flechas. Longitud de la suma: <b>:mod</b> (de :n posibles).",
+  "Passo nullo (o un giro intero): tutte le frecce puntano nello stesso verso e si sommano tutte. È il picco.":
+    "Paso nulo (o una vuelta entera): todas las flechas apuntan en el mismo sentido y se suman. Ese es el pico.",
+  "Quanti pezzi":
+    "Cuántos trozos",
+  "Se i pezzi non finissero mai: <b>:limite</b>. Il totale non supera mai quel muro, per quanti pezzi aggiungi.":
+    "Si los trozos no acabaran nunca: <b>:limite</b>. El total nunca pasa de ese muro, por muchos trozos que añadas.",
+  "Somma dei primi :n pezzi: <b>:tot</b>.":
+    "Suma de los primeros :n trozos: <b>:tot</b>.",
+  "Tante cose sommate: quando si accumulano e quando si annullano":
+    "Muchas cosas sumadas: cuándo se acumulan y cuándo se anulan",
+  "altro bersaglio":
+    "otro objetivo",
+  "bersaglio centrato!":
+    "¡objetivo acertado!",
+  "cambia obiettivo":
+    "cambiar objetivo",
+  "fai la somma più grande possibile":
+    "haz la suma lo más grande posible",
+  "fai sparire la somma":
+    "haz desaparecer la suma",
+  "il muro: :limite":
+    "el muro: :limite",
+  "lunghezza della somma: :mod su :n":
+    "longitud de la suma: :mod de :n",
+    "metà ogni volta":
+    "la mitad cada vez",
+  "obiettivi centrati: :fatti su :totali":
+    "objetivos acertados: :fatti de :totali",
+  "ogni pezzo è una frazione del precedente: dove si ferma il totale?":
+    "cada trozo es una fracción del anterior: ¿dónde se para el total?",
+  "porta il totale a :bersaglio":
+    "lleva el total a :bersaglio",
+  "stessa somma, ma ogni pezzo è girato di un passo fisso":
+    "la misma suma, pero cada trozo está girado un paso fijo",
+  "totale: :tot":
+    "total: :tot",
+  "totali centrati: :fatti su :totali":
+    "totales acertados: :fatti de :totali",
+  "un giro diviso il numero di frecce":
+    "una vuelta dividida entre el número de flechas",
+  /* ---------------- livello 21·b: pendenza e algoritmi variazionali ---------------- */
+  ":curva — valli trovate: :fatte su :totali":
+    ":curva — valles encontrados: :fatte de :totali",
+  ":problema — minimi raggiunti: :fatti su :totali":
+    ":problema — mínimos alcanzados: :fatti de :totali",
+  "<b>Il nome:</b> questa pendenza si chiama <b>derivata</b>. Serve a una cosa sola, ma fondamentale: se vuoi far scendere un numero, la derivata ti dice da che parte muoverti e quando fermarti. È il motore di tutto l'apprendimento automatico — e, come vedrai fra un attimo, anche del quantistico che gira oggi sulle macchine vere.":
+    "<b>El nombre:</b> esta pendiente se llama <b>derivada</b>. Sirve para una sola cosa, pero fundamental: si quieres hacer bajar un número, la derivada te dice hacia dónde moverte y cuándo parar. Es el motor de todo el aprendizaje automático y, como verás enseguida, también de la computación cuántica que hoy se ejecuta en máquinas de verdad.",
+  "<b>Questo è il quantistico che gira oggi.</b> Nessuna macchina al mondo esegue ancora Shor su numeri veri, ma i metodi variazionali girano da anni su processori rumorosi: il quantistico prepara lo stato e misura, il classico gira le manopole. Il rumore lo hai visto: con pochi tiri la pendenza balla. E la parte che il classico non sa fare è proprio quella misura — lo stesso mestiere della stima di fase del livello :n, ma con un obiettivo diverso: non leggere un numero nascosto, bensì <b>abbassarne</b> uno.":
+    "<b>Esto es la computación cuántica que se ejecuta hoy.</b> Ninguna máquina del mundo ejecuta todavía Shor sobre números reales, pero los métodos variacionales llevan años funcionando en procesadores ruidosos: lo cuántico prepara el estado y mide, lo clásico gira los mandos. El ruido ya lo has visto: con pocos disparos la pendiente baila. Y la parte que lo clásico no sabe hacer es justamente esa medida, el mismo oficio de la estimación de fase del nivel :n, pero con otro objetivo: no leer un número escondido, sino <b>bajar</b> uno.",
+  "Curva: <b>:curva</b>. Sei in x = <b>:x</b>, l'altezza è <b>:y</b>.":
+    "Curva: <b>:curva</b>. Estás en x = <b>:x</b>, la altura es <b>:y</b>.",
+  "Dove sei sulla curva":
+    "Dónde estás en la curva",
+  "H = Z + 0,5·X":
+    "H = Z + 0,5·X",
+  "H = −0,4·Z + X":
+    "H = −0,4·Z + X",
+  "Il problema da risolvere":
+    "El problema que resolver",
+  "Il segno dice il verso: pendenza positiva → si scende andando a sinistra; negativa → a destra.":
+    "El signo da el sentido: pendiente positiva → se baja hacia la izquierda; negativa → hacia la derecha.",
+  "La curva":
+    "La curva",
+  "La derivata giocata come pendenza, e la discesa che i computer quantistici veri fanno adesso, rumore compreso.":
+    "La derivada jugada como pendiente, y la bajada que los ordenadores cuánticos de verdad hacen ahora mismo, ruido incluido.",
+  "La discesa variazionale":
+    "La bajada variacional",
+  "La manopola del circuito (θ)":
+    "El mando del circuito (θ)",
+  "La pendenza":
+    "La pendiente",
+  "La pendenza e il quantistico che gira oggi: VQE":
+    "La pendiente y la computación cuántica que se ejecuta hoy: VQE",
+  "La pendenza si misura <b>senza derivate approssimate</b>: si valuta la stessa energia con la manopola spostata di un quarto di giro avanti e indietro, e si divide per due. Qui: <b>:spost</b>, che è esattamente la pendenza vera.":
+    "La pendiente se mide <b>sin derivadas aproximadas</b>: se evalúa la misma energía con el mando desplazado un cuarto de vuelta hacia delante y hacia atrás, y se divide entre dos. Aquí: <b>:spost</b>, que es exactamente la pendiente verdadera.",
+  "Manopola a <b>:g°</b> → energia <b>:e</b>. Il fondo vale <b>:min</b>. Passi di discesa fatti: <b>:passi</b>.":
+    "Mando a <b>:g°</b> → energía <b>:e</b>. El fondo vale <b>:min</b>. Pasos de bajada dados: <b>:passi</b>.",
+  "Pendenza della retta che tocca la curva: <b>:p</b>. Misurata a mano con due punti vicini: <b>:num</b>.":
+    "Pendiente de la recta que toca la curva: <b>:p</b>. Medida a mano con dos puntos cercanos: <b>:num</b>.",
+  "Pendenza zero e curva che risale da tutte e due le parti: sei <b>in fondo a una valle</b>. È quello che cerca un algoritmo variazionale.":
+    "Pendiente cero y curva que sube por los dos lados: estás <b>en el fondo de un valle</b>. Es lo que busca un algoritmo variacional.",
+  "Pendenza zero, ma sei <b>in cima</b>: da qui si scende da entrambe le parti. Pendenza nulla non vuol dire minimo — è la trappola numero uno di questi metodi.":
+    "Pendiente cero, pero estás <b>en la cima</b>: desde aquí se baja por los dos lados. Pendiente nula no significa mínimo; es la trampa número uno de estos métodos.",
+  "Quanti tiri per ogni misura":
+    "Cuántos disparos por medida",
+  "Scendi: la pendenza dice da che parte. Con pochi tiri la misura balla, e i passi ballano con lei.":
+    "Baja: la pendiente dice por dónde. Con pocos disparos la medida baila, y los pasos bailan con ella.",
+  "Sei in fondo. Questo numero è la risposta che il VQE cerca: la minima energia raggiungibile con quel circuito.":
+    "Estás en el fondo. Este número es la respuesta que busca el VQE: la mínima energía alcanzable con ese circuito.",
+  "abbassa l'energia":
+    "baja la energía",
+  "energia: :e":
+    "energía: :e",
+  "il computer quantistico misura, quello normale gira la manopola":
+    "el ordenador cuántico mide, el normal gira el mando",
+  "il fondo: :e":
+    "el fondo: :e",
+  "l'onda":
+    "la onda",
+  "la valle":
+    "el valle",
+  "la valle doppia":
+    "el valle doble",
+  "misura la pendenza":
+    "mide la pendiente",
+  "muovi il punto: la retta che lo tocca dice da che parte si scende":
+    "mueve el punto: la recta que lo toca dice por dónde se baja",
+  "pendenza misurata con :tiri tiri: :p (esatta: :vera)":
+    "pendiente medida con :tiri disparos: :p (exacta: :vera)",
+  "pendenza: :p":
+    "pendiente: :p",
+  "pendenza a zero, in fondo":
+    "pendiente a cero, en el fondo",
+  "chiedila alla macchina: «misura la pendenza»":
+    "pídesela a la máquina: «mide la pendiente»",
+  "riparti da un punto a caso":
+    "vuelve a empezar en un punto al azar",
+  "scendi di un passo":
+    "baja un paso",
+  "scendi finché puoi":
+    "baja todo lo que puedas",
+  "si scende di qua":
+    "se baja por aquí",
+  /* ---------------- livello 0·7: equazioni e funzioni ---------------- */
+  "<b>Il ponte con il quantistico:</b> una macchina si può percorrere all'indietro solo se non fa mai finire due numeri diversi nello stesso posto. Quando succede, l'informazione non è «difficile da recuperare»: <b>non c'è più</b>. È esattamente la reversibilità del livello :k, ed è il motivo per cui ogni porta quantistica dev'essere invertibile — nel livello :m lo vedrai scritto come «unitaria».":
+    "<b>El puente con lo cuántico:</b> una máquina se puede recorrer hacia atrás solo si nunca manda dos números distintos al mismo sitio. Cuando ocurre, la información no es «difícil de recuperar»: <b>ya no está</b>. Es exactamente la reversibilidad del nivel :k, y es la razón por la que toda puerta cuántica tiene que ser invertible; en el nivel :m lo verás escrito como «unitaria».",
+  "<b>La regola, tutta:</b> quello che fai a un piatto lo devi fare anche all'altro. Se lo fai, l'equilibrio regge e la risposta non cambia; se non lo fai, hai scritto una cosa falsa. La parola <b>algebra</b> viene proprio da qui: nel titolo del libro di al-Khwārizmī, intorno all'820, «al-jabr» vuol dire «rimettere a posto».":
+    "<b>La regla, entera:</b> lo que le haces a un platillo se lo tienes que hacer al otro. Si lo haces, el equilibrio aguanta y la respuesta no cambia; si no, has escrito algo falso. La palabra <b>álgebra</b> viene justo de aquí: en el título del libro de al-Juarismi, hacia el 820, «al-yabr» significa «recomponer».",
+  "Adesso la bilancia dice: <b>:sinistra = :destra</b>.":
+    "Ahora la balanza dice: <b>:sinistra = :destra</b>.",
+  "Da :y non si può risalire: per esempio :a e :b escono <b>tutti e due</b> come :uguale.":
+    "Desde :y no se puede volver: por ejemplo :a y :b salen <b>los dos</b> como :uguale.",
+  "Equazioni, formule girate e macchine che tornano indietro":
+    "Ecuaciones, fórmulas giradas y máquinas que vuelven atrás",
+  "Giusto: ci sono ingressi diversi con la stessa uscita, quindi dall'uscita non si può sapere da dove si veniva. L'informazione è persa.":
+    "Correcto: hay entradas distintas con la misma salida, así que desde la salida no se puede saber de dónde se venía. La información se ha perdido.",
+  "Giusto: nessun ingresso finisce dove ne finisce un altro, quindi dall'uscita si risale sempre.":
+    "Correcto: ninguna entrada acaba donde acaba otra, así que desde la salida siempre se puede volver.",
+  "Il numero che entra":
+    "El número que entra",
+  "La bilancia":
+    "La balanza",
+  "La bilancia che non si sbilancia mai, come si gira una formula, e la domanda che vale tutto: si può risalire da dove si è arrivati?":
+    "La balanza que nunca se desequilibra, cómo se gira una fórmula y la pregunta que lo decide todo: ¿se puede volver desde donde has llegado?",
+  "La macchina":
+    "La máquina",
+  "La macchina dei numeri":
+    "La máquina de los números",
+  "La x vale <b>:vera</b> anche adesso: qualunque mossa fatta su tutti e due i piatti lascia la risposta dov'era. Continua finché a sinistra non resta una scatola sola.":
+    "La x vale <b>:vera</b> también ahora: cualquier jugada hecha en los dos platillos deja la respuesta donde estaba. Sigue hasta que a la izquierda quede una sola caja.",
+  "Macchina <b>:nome</b>: entra <b>:x</b>, esce <b>:y</b>.":
+    "Máquina <b>:nome</b>: entra <b>:x</b>, sale <b>:y</b>.",
+  "No. Guarda se esistono due numeri diversi che escono uguali: se esistono, indietro non si torna.":
+    "No. Mira si existen dos números distintos que salgan iguales: si existen, no se vuelve atrás.",
+  "Prova a tornare indietro: da :y si risale a <b>:x</b>. Funziona per <b>ogni</b> numero, non solo per questo.":
+    "Prueba a volver atrás: desde :y se llega a <b>:x</b>. Funciona para <b>cualquier</b> número, no solo para este.",
+  "Risolta: <b>x = :valore</b>. Nota che la x valeva :valore fin dall'inizio — le mosse non l'hanno cambiata, l'hanno solo <b>messa in mostra</b>.":
+    "Resuelta: <b>x = :valore</b>. Fíjate en que la x valía :valore desde el principio: las jugadas no la han cambiado, solo la han <b>sacado a la vista</b>.",
+  "aggiungi 3":
+    "suma 3",
+  "altra equazione":
+    "otra ecuación",
+  "due numeri diversi, stessa uscita":
+    "dos números distintos, la misma salida",
+  "e attenzione:":
+    "y atención:",
+  "eleva al quadrato":
+    "eleva al cuadrado",
+  "entra":
+    "entra",
+  "equazioni risolte: :fatte su :totali":
+    "ecuaciones resueltas: :fatte de :totali",
+  "esce":
+    "sale",
+  "lascia una sola scatola, da sola":
+    "deja una sola caja, ella sola",
+  "macchine classificate: :fatte su :totali":
+    "máquinas clasificadas: :fatte de :totali",
+  "moltiplica per zero":
+    "multiplica por cero",
+  "nessuna mossa ancora":
+    "todavía ninguna jugada",
+  "no, è persa":
+    "no, se ha perdido",
+  "raddoppia":
+    "duplica",
+  "resto della divisione per 4":
+    "resto de la división entre 4",
+  "si può tornare indietro?":
+    "¿se puede volver atrás?",
+  "si torna indietro, e si ritrova esattamente il numero di partenza":
+    "se vuelve atrás, y se recupera exactamente el número de partida",
+  "sì, si torna indietro":
+    "sí, se vuelve atrás",
+  "togli e dividi da tutte e due le parti: la bilancia resta in equilibrio":
+    "quita y divide en los dos lados: la balanza sigue en equilibrio",
+  "un numero entra, uno esce: si può risalire a quello entrato?":
+    "entra un número, sale otro: ¿se puede volver al que entró?",
+  /* ---------------- livello 0·8: esponenziali e logaritmi ---------------- */
+  ":caso (:quanti casi) — risolti :fatti su :totali":
+    ":caso (:quanti casos) — resueltos :fatti de :totali",
+  ":n interruttori":
+    ":n interruptores",
+  "<b>Che cos'è un logaritmo, detto una volta per tutte:</b> è la risposta alla domanda «a quale potenza devo elevare?». Se 2¹⁰ = 1024, allora log₂(1024) = 10. Nel corso serve quasi sempre in questa forma: <b>quanti bit (o quanti qubit) servono per N casi</b>.":
+    "<b>Qué es un logaritmo, de una vez por todas:</b> es la respuesta a la pregunta «¿a qué potencia tengo que elevar?». Si 2¹⁰ = 1024, entonces log₂(1024) = 10. En el curso hace falta casi siempre con esta forma: <b>cuántos bits (o cuántos cúbits) hacen falta para N casos</b>.",
+  "<b>Perché è la stessa cosa:</b> dimezzare fino a 1 e chiedersi quanti bit servono sono due modi di fare la stessa domanda — «quante volte ci sta il 2 dentro N, moltiplicandolo per sé stesso?». La risposta è log₂N in tutti e due i casi. E questo numero è dappertutto: i confronti della ricerca binaria (livello :k), gli stadi della FFT (livello :f), e il numero di qubit che servono per rappresentare N possibilità.":
+    "<b>Por qué es lo mismo:</b> dividir por la mitad hasta 1 y preguntarse cuántos bits hacen falta son dos formas de hacer la misma pregunta: «¿cuántas veces cabe el 2 dentro de N, multiplicándolo por sí mismo?». La respuesta es log₂N en los dos casos. Y ese número está por todas partes: las comparaciones de la búsqueda binaria (nivel :k), las etapas de la FFT (nivel :f) y el número de cúbits que hacen falta para representar N posibilidades.",
+  "Cerca il <b>minimo</b> numero di interruttori che basta: uno in meno non deve farcela.":
+    "Busca el número <b>mínimo</b> de interruptores que baste: con uno menos no debe llegar.",
+  "Ci sono voluti <b>:n</b> dimezzamenti. E ora guarda: <b>:n</b> è anche il numero di interruttori che servirebbero per :N casi. Non è una coincidenza: è lo stesso logaritmo.":
+    "Han hecho falta <b>:n</b> divisiones. Y ahora mira: <b>:n</b> es también el número de interruptores que harían falta para :N casos. No es casualidad: es el mismo logaritmo.",
+  "Con <b>:n</b> interruttori copri <b>:copre</b> casi. Te ne servono <b>:servono</b>.":
+    "Con <b>:n</b> interruptores cubres <b>:copre</b> casos. Necesitas <b>:servono</b>.",
+  "Esatto: log₂(:N) arrotondato in su fa :n.":
+    "Exacto: log₂(:N) redondeado hacia arriba da :n.",
+  "Esponenziali e logaritmi: quante cifre servono":
+    "Exponenciales y logaritmos: cuántas cifras hacen falta",
+  "Il minimo è <b>:serve</b>. Questo numero si chiama <b>logaritmo in base 2</b> di :N, arrotondato in su: log₂(:N) ≈ :esatto.":
+    "El mínimo es <b>:serve</b>. Ese número se llama <b>logaritmo en base 2</b> de :N, redondeado hacia arriba: log₂(:N) ≈ :esatto.",
+  "Il numero di partenza":
+    "El número de partida",
+  "Interruttori accesi":
+    "Interruptores encendidos",
+  "No: conta le barre disegnate, quella di partenza esclusa.":
+    "No: cuenta las barras dibujadas, sin contar la de partida.",
+  "Ogni taglio dimezza. Da mille a uno bastano dieci tagli: è questo che rende la ricerca binaria così veloce.":
+    "Cada corte divide por la mitad. De mil a uno bastan diez cortes: eso es lo que hace tan rápida la búsqueda binaria.",
+  "Parti da <b>:N</b>. Dopo <b>:n</b> dimezzamenti resta <b>:v</b>.":
+    "Partes de <b>:N</b>. Tras <b>:n</b> divisiones queda <b>:v</b>.",
+  "Quante cose devi distinguere":
+    "Cuántas cosas tienes que distinguir",
+  "Quante volte posso dimezzare":
+    "Cuántas veces puedo dividir por la mitad",
+  "Quanti interruttori per mille casi, quante volte si può dimezzare, e perché «polinomiale nel numero di cifre» cambia tutto.":
+    "Cuántos interruptores para mil casos, cuántas veces se puede dividir por la mitad y por qué «polinómico en el número de cifras» lo cambia todo.",
+  "Quanti interruttori servono":
+    "Cuántos interruptores hacen falta",
+  "arriva a uno solo":
+    "llega a uno solo",
+  "bastano, ma ne stai usando più del necessario":
+    "bastan, pero estás usando más de los necesarios",
+  "ci vogliono :n dimezzamenti":
+    "hacen falta :n divisiones",
+  "copri :quanti casi":
+    "cubres :quanti casos",
+  "da :N a 1 in :n dimezzamenti":
+    "de :N a 1 en :n divisiones",
+  "dimezza":
+    "divide por la mitad",
+  "dimezza finché non resta uno solo: quante volte ci riesci?":
+    "divide por la mitad hasta que quede uno solo: ¿cuántas veces lo consigues?",
+  "dimezzamenti fatti: :n":
+    "divisiones hechas: :n",
+  "i giorni dell'anno":
+    "los días del año",
+  "il minimo che basta":
+    "el mínimo que basta",
+  "le carte di un mazzo":
+    "las cartas de una baraja",
+  "le lettere dell'alfabeto inglese":
+    "las letras del alfabeto inglés",
+  "mille numeri":
+    "mil números",
+  "non bastano: ne servono di più":
+    "no bastan: hacen falta más",
+  "non «quanto fa 2⁵», ma «per 26 lettere quanti bit?»: la domanda girata":
+    "no «cuánto es 2⁵», sino «para 26 letras, ¿cuántos bits?»: la pregunta girada",
+  "numeri finiti: :fatti su :totali":
+    "números terminados: :fatti de :totali",
+  "resta :v":
+    "queda :v",
+  "te ne servono :quanti":
+    "necesitas :quanti",
+  "un milione di numeri":
+    "un millón de números",
+  "✓ :n è il minimo: con :meno non basterebbe":
+    "✓ :n es el mínimo: con :meno no bastaría",
+  /* ---------------- livello 0·9: il prodotto scalare ---------------- */
+  "<b>Le due formule sono una sola.</b> «Moltiplica le coordinate e somma» e «lunghezza × lunghezza × coseno dell'angolo» danno sempre lo stesso numero: la prima si calcola, la seconda si capisce. E il caso che conta è quello di mezzo: <b>prodotto zero = perpendicolari</b>.":
+    "<b>Las dos fórmulas son una sola.</b> «Multiplica las coordenadas y suma» y «longitud × longitud × coseno del ángulo» dan siempre el mismo número: la primera se calcula, la segunda se entiende. Y el caso que importa es el de en medio: <b>producto cero = perpendiculares</b>.",
+  "<b>Questa figura è la regola di Born.</b> L'ampiezza di un risultato è l'<b>ombra</b> dello stato sulla direzione di quel risultato — cioè il prodotto scalare — e la probabilità è quell'ombra al quadrato. Le due direzioni sono perpendicolari, quindi vale Pitagora e i quadrati fanno sempre 1. Girare la base è cambiare <b>domanda</b>: è la base di misura del livello :n.":
+    "<b>Esta figura es la regla de Born.</b> La amplitud de un resultado es la <b>sombra</b> del estado sobre la dirección de ese resultado — es decir, el producto escalar — y la probabilidad es esa sombra al cuadrado. Las dos direcciones son perpendiculares, así que vale Pitágoras y los cuadrados suman siempre 1. Girar la base es cambiar de <b>pregunta</b>: es la base de medida del nivel :n.",
+  "Centrato. Nota che la somma dei quadrati non si è mossa: è Pitagora, e nel quantistico si chiama «le probabilità fanno 100%».":
+    "Acertado. Fíjate en que la suma de los cuadrados no se ha movido: es Pitágoras, y en lo cuántico se llama «las probabilidades suman 100%».",
+  "Come è girata la base di misura":
+    "Cómo está girada la base de medida",
+  "Freccia azzurra (:ax · :ay), lunga :la. Freccia viola (:bx · :by), lunga :lb.":
+    "Flecha azul (:ax · :ay), de longitud :la. Flecha violeta (:bx · :by), de longitud :lb.",
+  "La misura è un'ombra":
+    "La medida es una sombra",
+  "Lo stato punta a <b>:g°</b>; la base di misura è girata di <b>:b°</b>.":
+    "El estado apunta a <b>:g°</b>; la base de medida está girada <b>:b°</b>.",
+  "Negativo: puntano <b>in versi opposti</b>.":
+    "Negativo: apuntan <b>en sentidos opuestos</b>.",
+  "Ombre (le <b>ampiezze</b>): :a0 e :a1. Quadrati (le <b>probabilità</b>): :p0% e :p1%. Somma: <b>:tot%</b>.":
+    "Sombras (las <b>amplitudes</b>): :a0 y :a1. Cuadrados (las <b>probabilidades</b>): :p0% y :p1%. Suma: <b>:tot%</b>.",
+  "Positivo: puntano <b>più o meno dalla stessa parte</b>.":
+    "Positivo: apuntan <b>más o menos al mismo lado</b>.",
+  "Quanto due frecce si somigliano: il prodotto scalare":
+    "Cuánto se parecen dos flechas: el producto escalar",
+  "Quanto due frecce vanno d'accordo":
+    "Cuánto se llevan bien dos flechas",
+  "Stesso numero anche così: :la × :lb × cos(:g°) = :p — le due formule sono la stessa cosa.":
+    "El mismo número también así: :la × :lb × cos(:g°) = :p — las dos fórmulas son lo mismo.",
+  "Trascina la freccia dello stato, oppure gira la base: le ombre cambiano, la loro somma di quadrati no.":
+    "Arrastra la flecha del estado o gira la base: las sombras cambian, la suma de sus cuadrados no.",
+  "Un numero solo che dice se due frecce vanno d'accordo. E la misura quantistica scoperta per quello che è: un'ombra.":
+    "Un solo número que dice si dos flechas se llevan bien. Y la medida cuántica descubierta por lo que es: una sombra.",
+  "Zero: le due frecce sono <b>perpendicolari</b>. Non si somigliano per niente — nel quantistico è la condizione che rende due stati distinguibili con certezza.":
+    "Cero: las dos flechas son <b>perpendiculares</b>. No se parecen en nada, y en lo cuántico esa es la condición que hace distinguibles con certeza dos estados.",
+  "al quadrato: :p%":
+    "al cuadrado: :p%",
+  "altra configurazione":
+    "otra configuración",
+  "angolo fra le due: :g°  ·  ombra: :om":
+    "ángulo entre las dos: :g°  ·  sombra: :om",
+  "configurazioni centrate: :fatte su :totali":
+    "configuraciones acertadas: :fatte de :totali",
+  "fai venire il prodotto ZERO":
+    "haz que el producto dé CERO",
+  "fallo diventare negativo":
+    "haz que se vuelva negativo",
+  "fallo più grande che puoi":
+    "hazlo lo más grande posible",
+  "gira la base e guarda le due ombre: sono le ampiezze":
+    "gira la base y mira las dos sombras: son las amplitudes",
+  "mettile perpendicolari":
+    "ponlas perpendiculares",
+  "ombra su 0: :a":
+    "sombra sobre 0: :a",
+  "ombra su 1: :a":
+    "sombra sobre 1: :a",
+  "portalo a metà e metà":
+    "llévalo a mitad y mitad",
+  "prodotto scalare: :p":
+    "producto escalar: :p",
+  "rendi certo il secondo risultato":
+    "haz cierto el segundo resultado",
+  "rendi il primo risultato certo (100%)":
+    "haz cierto el primer resultado (100%)",
+  "rimettile come erano":
+    "vuélvelas a poner como estaban",
+  "sempre 100, comunque giri":
+    "siempre 100, gires como gires",
+  "sfide riuscite: :fatte su :totali":
+    "retos logrados: :fatte de :totali",
+  "somma: :tot%":
+    "suma: :tot%",
+  "trascina le punte: un numero solo dice quanto puntano nella stessa direzione":
+    "arrastra las puntas: un solo número dice cuánto apuntan en la misma dirección",
+  /* ---------------- livello 0·7b: equazioni di secondo grado ---------------- */
+  "Secondo grado: la parabola e il quadrato a cui manca un angolo":
+    "Segundo grado: la parábola y el cuadrado al que le falta una esquina",
+  "Il delta in tre parole, la formula costruita invece che imparata, e il «mai» che nel Cinquecento ha aperto la porta ai numeri immaginari.":
+    "El discriminante en tres palabras, la fórmula construida en vez de memorizada, y el «nunca» que en el siglo XVI abrió la puerta a los números imaginarios.",
+  "La parabola e le sue radici":
+    "La parábola y sus raíces",
+  "muovi i tre numeri: le soluzioni sono i punti dove la curva taglia la riga":
+    "mueve los tres números: las soluciones son los puntos donde la curva corta la recta",
+  "fai tagliare la parabola in DUE punti":
+    "haz que la parábola corte en DOS puntos",
+  "falla toccare l'asse in UN punto solo":
+    "haz que toque el eje en UN solo punto",
+  "fai in modo che non lo tocchi MAI":
+    "haz que NUNCA lo toque",
+  "situazioni trovate: :fatte su :totali":
+    "casos encontrados: :fatte de :totali",
+  "delta = b² − 4ac = :d":
+    "discriminante = b² − 4ac = :d",
+  "due soluzioni":
+    "dos soluciones",
+  "una soluzione sola":
+    "una sola solución",
+  "nessuna soluzione reale":
+    "ninguna solución real",
+  "altra situazione":
+    "otro caso",
+  "Equazione: <b>:a x² + :b x + :c = 0</b>.":
+    "Ecuación: <b>:a x² + :b x + :c = 0</b>.",
+  "delta = :b² − 4·:a·:c = <b>:d</b>":
+    "discriminante = :b² − 4·:a·:c = <b>:d</b>",
+  "Due soluzioni: x = :x1 e x = :x2. La curva taglia la riga in due punti.":
+    "Dos soluciones: x = :x1 y x = :x2. La curva corta la recta en dos puntos.",
+  "Una soluzione sola: x = :x. La curva <b>tocca</b> la riga senza attraversarla — il delta è zero.":
+    "Una sola solución: x = :x. La curva <b>toca</b> la recta sin atravesarla — el discriminante es cero.",
+  "Nessuna soluzione reale: la curva sta tutta da una parte. Il delta è negativo, e la radice di un numero negativo non è un numero della retta.":
+    "Ninguna solución real: la curva se queda entera de un lado. El discriminante es negativo, y la raíz de un número negativo no es un número de la recta.",
+  "<b>Il delta in tre parole:</b> è quello che sta sotto la radice, e dice <b>quante volte</b> la parabola incontra la riga: due volte se è positivo, una se è zero, mai se è negativo. Quel «mai» non è un vicolo cieco: è la porta da cui, nel Cinquecento, sono entrati i numeri immaginari.":
+    "<b>El discriminante en tres palabras:</b> es lo que está bajo la raíz, y dice <b>cuántas veces</b> la parábola encuentra la recta: dos veces si es positivo, una si es cero, nunca si es negativo. Ese «nunca» no es un callejón sin salida: es la puerta por la que, en el siglo XVI, entraron los números imaginarios.",
+  "Il quadrato a cui manca un angolo":
+    "El cuadrado al que le falta una esquina",
+  "il metodo di mille anni fa: completa il disegno e la soluzione compare":
+    "el método de hace mil años: completa el dibujo y aparece la solución",
+  "completa il quadrato":
+    "completa el cuadrado",
+  "equazioni risolte col disegno: :fatte su :totali":
+    "ecuaciones resueltas con el dibujo: :fatte de :totali",
+  "lato = x + :m = :r":
+    "lado = x + :m = :r",
+  "metà di :b è :m":
+    "la mitad de :b es :m",
+  "L'equazione":
+    "La ecuación",
+  "spezza in due il rettangolo":
+    "parte el rectángulo en dos",
+  "aggiungi l'angolo mancante":
+    "añade la esquina que falta",
+  "prendi la radice":
+    "toma la raíz",
+  "Parti da <b>x² + :b x = :c</b>. Il disegno è un quadrato di lato x, e :b x da sistemare intorno.":
+    "Parte de <b>x² + :b x = :c</b>. El dibujo es un cuadrado de lado x, y :b x que hay que colocar alrededor.",
+  "I :b nani si mettono in <b>due file uguali da :m</b>, una a destra e una sotto: due rettangoli da :m x. Adesso il disegno è quasi un quadrato grande — ma manca l'angolo.":
+    "Los :b enanos se ponen en <b>dos filas iguales de :m</b>, una a la derecha y otra debajo: dos rectángulos de :m x. Ahora el dibujo es casi un cuadrado grande — pero falta la esquina.",
+  "L'angolo che manca è un quadratino <b>:m × :m = :p</b>: la mattonella che avanza. La aggiungi — ma allora, regola della bilancia, la devi aggiungere anche <b>all'altro piatto</b>: :c + :p = :d.":
+    "La esquina que falta es un cuadradito <b>:m × :m = :p</b>: la baldosa que sobra. La añades — pero entonces, regla de la balanza, hay que añadirla también <b>al otro platillo</b>: :c + :p = :d.",
+  "Adesso a sinistra c'è un quadrato perfetto di lato (x + :m), e vale :d. Quindi <b>x + :m = :r</b>, cioè <b>x = :x</b>.":
+    "Ahora a la izquierda hay un cuadrado perfecto de lado (x + :m), y vale :d. Así que <b>x + :m = :r</b>, es decir <b>x = :x</b>.",
+  "E questa è la formula risolutiva, costruita invece che imparata: la radice, la metà di b, la sottrazione.":
+    "Y esta es la fórmula resolutiva, construida en vez de memorizada: la raíz, la mitad de b, la resta.",
+  "<b>Questo disegno ha 1200 anni.</b> È il metodo con cui al-Khwārizmī risolveva «un quadrato e dieci radici uguali a trentanove» — cioè x² + 10x = 39, la seconda equazione qui sopra. Non aveva la formula: aveva il disegno. La formula che si impara a scuola è questo disegno scritto con le lettere, e il pezzo sotto la radice è l'angolo mancante. Nel livello :n ritroverai lo stesso conto sotto un altro nome: il polinomio degli autovalori.":
+    "<b>Este dibujo tiene 1200 años.</b> Es el método con el que al-Juarismi resolvía «un cuadrado y diez raíces igual a treinta y nueve» — es decir x² + 10x = 39, la segunda ecuación de aquí arriba. No tenía la fórmula: tenía el dibujo. La fórmula que se aprende en la escuela es este dibujo escrito con letras, y la pieza bajo la raíz es la esquina que falta. En el nivel :n reencontrarás la misma cuenta con otro nombre: el polinomio de los autovalores.",
+  /* ---------------- livello M·1: polinomi e Ruffini ---------------- */
+  "Parte M — La matematica delle superiori e dell'università":
+    "Parte M — Las matemáticas del instituto y de la universidad",
+  "Dalla prima superiore ad Analisi 2, ma solo i pezzi che questo corso usa davvero, e sempre con la curiosità dentro: perché quella formula è fatta così, da quale problema è nata, e a che serve qui. Facoltativa come la Parte 0 — però chi la fa capisce il resto molto meglio.":
+    "Desde primero de instituto hasta Análisis 2, pero solo las piezas que este curso usa de verdad, y siempre con la curiosidad dentro: por qué esa fórmula es así, de qué problema nació y para qué sirve aquí. Opcional como la Parte 0 — pero quien la hace entiende el resto mucho mejor.",
+  "Polinomi, Ruffini e la formula che non esiste":
+    "Polinomios, Ruffini y la fórmula que no existe",
+  "Scomporre cercando i sospettati, la staffetta di Ruffini che è anche il modo più veloce di calcolare un polinomio, e il motivo per cui dal quinto grado in poi una formula non c'è — e non ci sarà mai.":
+    "Factorizar interrogando a los sospechosos, el relevo de Ruffini que es también la forma más rápida de calcular un polinomio, y el motivo por el que del quinto grado en adelante no hay fórmula — ni la habrá.",
+  "I sospettati":
+    "Los sospechosos",
+  "le radici intere si nascondono solo fra i divisori del termine noto: interrogali":
+    "las raíces enteras se esconden solo entre los divisores del término independiente: interrógalos",
+  "non si scompone più: fatto":
+    "ya no se factoriza más: hecho",
+  "trova le radici e sfilale una per una":
+    "encuentra las raíces y sácalas una a una",
+  "polinomi scomposti: :fatte su :totali":
+    "polinomios factorizados: :fatte de :totali",
+  "sfilate finora: :lista":
+    "sacadas hasta ahora: :lista",
+  "ancora nessuna radice sfilata":
+    "todavía ninguna raíz sacada",
+  "Il polinomio":
+    "El polinomio",
+  "Termine noto <b>:noto</b> → i sospettati sono solo i suoi divisori, col più e col meno: <b>:lista</b>. Tutti gli altri numeri hanno un alibi automatico.":
+    "Término independiente <b>:noto</b> → los sospechosos son solo sus divisores, con más y con menos: <b>:lista</b>. Todos los demás números tienen una coartada automática.",
+  "x = :c non è una radice: il resto viene :r, non zero. Alibi confermato.":
+    "x = :c no es una raíz: el resto sale :r, no cero. Coartada confirmada.",
+  "Finora: :pezzi · (:resto)":
+    "Hasta ahora: :pezzi · (:resto)",
+  "Quello che resta non ha radici intere: si ferma qui, ed è una risposta giusta. Guarda il suo delta.":
+    "Lo que queda no tiene raíces enteras: se para aquí, y es una respuesta correcta. Mira su discriminante.",
+  "Scomposto fino in fondo.":
+    "Factorizado hasta el final.",
+  "<b>Perché i sospettati sono così pochi.</b> Se un intero r annulla il polinomio, raccogliendo r da tutti i termini con la x resta da spartire solo il <b>termine noto</b>: quindi r deve dividerlo esatto. Da infiniti candidati a una manciata — la stessa mossa che al livello :n rende Grover utile: prima si restringe lo spazio di ricerca, poi si cerca.":
+    "<b>Por qué los sospechosos son tan pocos.</b> Si un entero r anula el polinomio, sacando factor r de todos los términos con x queda por repartir solo el <b>término independiente</b>: así que r tiene que dividirlo exacto. De infinitos candidatos a un puñado — el mismo movimiento que en el nivel :n hace útil a Grover: primero se estrecha el espacio de búsqueda, luego se busca.",
+  "La staffetta di Ruffini":
+    "El relevo de Ruffini",
+  "ogni corridore riceve il testimone, lo moltiplica per r e lo passa: alla fine esce il valore del polinomio":
+    "cada corredor recibe el testigo, lo multiplica por r y lo pasa: al final sale el valor del polinomio",
+  "porta il testimone fino in fondo":
+    "lleva el testigo hasta el final",
+  "staffette finite: :fatte su :totali":
+    "relevos terminados: :fatte de :totali",
+  "coefficienti":
+    "coeficientes",
+  "× :r e passa avanti":
+    "× :r y pásalo",
+  "testimone":
+    "testigo",
+  "P(:r) = :v = il resto della divisione":
+    "P(:r) = :v = el resto de la división",
+  "moltiplicazioni: :h con la staffetta, :b a forza bruta":
+    "multiplicaciones: :h con el relevo, :b a fuerza bruta",
+  "Il numero r":
+    "El número r",
+  "passa il testimone":
+    "pasa el testigo",
+  "Il primo corridore parte con il coefficiente più alto: non riceve niente da nessuno.":
+    "El primer corredor sale con el coeficiente más alto: no recibe nada de nadie.",
+  "Testimone: <b>:s</b>. Adesso lo moltiplichi per r = :r e lo passi al corridore dopo.":
+    "Testigo: <b>:s</b>. Ahora lo multiplicas por r = :r y se lo pasas al corredor siguiente.",
+  "Il corridore :quale riceve <b>:portato</b> (cioè :prima × :erre), lo somma al suo coefficiente :suo e ottiene <b>:totale</b>.":
+    "El corredor :quale recibe <b>:portato</b> (es decir :prima × :erre), lo suma a su coeficiente :suo y obtiene <b>:totale</b>.",
+  "L'ultimo numero è <b>:v</b>. Se è zero, r è una radice e gli altri numeri sono il polinomio rimasto. Se non è zero, hai comunque appena calcolato P(:r) con :h sole moltiplicazioni invece di :b.":
+    "El último número es <b>:v</b>. Si es cero, r es una raíz y los demás números son el polinomio que queda. Si no es cero, has calculado igualmente P(:r) con solo :h multiplicaciones en vez de :b.",
+  "<b>La stessa riga di numeri fa due cose.</b> Se il resto è zero hai <b>diviso</b> il polinomio; se non lo è hai <b>calcolato</b> il polinomio in quel punto (teorema del resto). E l'hai fatto con una moltiplicazione per coefficiente: è lo schema di Horner, il modo più veloce che si conosca. Al livello :n scoprirai che la DFT è proprio questo — calcolare un polinomio in tanti punti — e la FFT è il «dividi a metà» applicato qui dentro.":
+    "<b>La misma fila de números hace dos cosas.</b> Si el resto es cero has <b>dividido</b> el polinomio; si no lo es has <b>calculado</b> el polinomio en ese punto (teorema del resto). Y lo has hecho con una multiplicación por coeficiente: es el esquema de Horner, el más rápido que se conoce. En el nivel :n descubrirás que la DFT es justo esto — calcular un polinomio en muchos puntos — y la FFT es el «parte por la mitad» aplicado aquí dentro.",
+  /* ---------------- livello M·2: goniometria ---------------- */
+  "Girare due volte: le formule di addizione":
+    "Girar dos veces: las fórmulas de adición",
+  "L'identità fondamentale che è Pitagora travestito, due giri che ne fanno uno solo — e la scoperta che ogni giro di Grover aggiunge 2θ.":
+    "La identidad fundamental que es Pitágoras disfrazado, dos giros que hacen uno solo — y el descubrimiento de que cada vuelta de Grover añade 2θ.",
+  "La giostra: due giri fanno un giro solo":
+    "El tiovivo: dos giros hacen un solo giro",
+  "gira di a, poi di b: dove finisci? e che numeri ci sono dietro?":
+    "gira a, luego b: ¿dónde acabas? ¿y qué números hay detrás?",
+  "arriva esattamente a :b° sommando i due giri":
+    "llega exactamente a :b° sumando los dos giros",
+  "bersagli presi: :fatte su :totali":
+    "objetivos acertados: :fatte de :totali",
+  "a = :a°":
+    "a = :a°",
+  "b = :b°":
+    "b = :b°",
+  "a + b = :s°":
+    "a + b = :s°",
+  "sin² + cos² = :p":
+    "sin² + cos² = :p",
+  "il giro azzurro poi quello viola finiscono dove finisce un giro solo di :s°":
+    "el giro azul y luego el violeta acaban donde acaba un solo giro de :s°",
+  "Giro di <b>:a°</b>, poi di <b>:b°</b>: finisci a <b>:s°</b>.":
+    "Giro de <b>:a°</b>, luego de <b>:b°</b>: acabas en <b>:s°</b>.",
+  "Con la formula: cos(a+b) = cos a · cos b − sin a · sin b = <b>:f</b>.":
+    "Con la fórmula: cos(a+b) = cos a · cos b − sin a · sin b = <b>:f</b>.",
+  "Girando davvero di :s°: cos = <b>:d</b>.":
+    "Girando de verdad :s°: cos = <b>:d</b>.",
+  "Stesso numero. Non è una coincidenza: la formula dice soltanto che due giri sono un giro solo.":
+    "El mismo número. No es casualidad: la fórmula solo dice que dos giros son un giro solo.",
+  "<b>Da dove esce la formula.</b> Al livello :n hai visto che una rotazione è una matrice. Fare due rotazioni è <b>moltiplicare le due matrici</b>: svolgi il prodotto riga per colonna e nelle caselle compaiono, già scritte, cos a·cos b − sin a·sin b e sin a·cos b + cos a·sin b. Le formule di addizione non sono da imparare: sono il prodotto di due matrici letto ad alta voce.":
+    "<b>De dónde sale la fórmula.</b> En el nivel :n viste que una rotación es una matriz. Hacer dos rotaciones es <b>multiplicar las dos matrices</b>: haz el producto fila por columna y en las casillas aparecen, ya escritas, cos a·cos b − sin a·sin b y sin a·cos b + cos a·sin b. Las fórmulas de adición no hay que aprenderlas: son el producto de dos matrices leído en voz alta.",
+  "Grover visto come un angolo che cresce":
+    "Grover visto como un ángulo que crece",
+  "ogni giro aggiunge 2θ: arriva più vicino che puoi a 90°, e prova a superarlo":
+    "cada vuelta añade 2θ: acércate a 90° todo lo que puedas, y luego prueba a pasarte",
+  "porta la freccia il più vicino possibile a 90°":
+    "lleva la flecha lo más cerca posible de 90°",
+  "elenchi centrati: :fatte su :totali":
+    "listas acertadas: :fatte de :totali",
+  "sbagliate":
+    "equivocadas",
+  "giusta":
+    "correcta",
+  "probabilità":
+    "probabilidad",
+  "θ = :t° · giri fatti: :k · angolo = (2·:k+1)·θ = :a°":
+    "θ = :t° · vueltas dadas: :k · ángulo = (2·:k+1)·θ = :a°",
+  "hai superato i 90°: da qui in poi la probabilità SCENDE":
+    "te has pasado de 90°: de aquí en adelante la probabilidad BAJA",
+  "il numero di giri che centra meglio è :o":
+    "el número de vueltas que acierta mejor es :o",
+  "Quante risposte in tutto":
+    "Cuántas respuestas en total",
+  "un giro di Grover":
+    "una vuelta de Grover",
+  "Su <b>:n</b> risposte, all'inizio la freccia sta a θ = <b>:t°</b> dall'asse delle sbagliate: sin θ = √(1/:n).":
+    "Con <b>:n</b> respuestas, al principio la flecha está a θ = <b>:t°</b> del eje de las equivocadas: sin θ = √(1/:n).",
+  "Dopo <b>:k</b> giri l'angolo è (2·:k+1)·θ = <b>:a°</b>, e la probabilità di leggere la risposta giusta è sin² di quell'angolo = <b>:p%</b>.":
+    "Tras <b>:k</b> vueltas el ángulo es (2·:k+1)·θ = <b>:a°</b>, y la probabilidad de leer la respuesta correcta es sin² de ese ángulo = <b>:p%</b>.",
+  "Oltre i 90° la freccia si allontana di nuovo: continuare a girare PEGGIORA le cose. È il difetto che nessuna ricerca classica ha.":
+    "Pasados los 90° la flecha se aleja otra vez: seguir girando EMPEORA las cosas. Es el defecto que ninguna búsqueda clásica tiene.",
+  "Questo è il punto migliore: :o giri, cioè circa π/4·√:n. Ecco da dove esce il √N di Grover.":
+    "Este es el mejor punto: :o vueltas, es decir unos π/4·√:n. De ahí sale el √N de Grover.",
+  "Ancora lontano dai 90°: prova un altro giro.":
+    "Todavía lejos de 90°: prueba otra vuelta.",
+  "<b>Perché 2θ e non θ.</b> Un giro di Grover fa due specchiate, e due specchiate di fila sono <b>una rotazione del doppio dell'angolo fra i due specchi</b>. Quindi ogni giro somma 2θ — ed è la formula di duplicazione applicata al livello :n. Il √N non è una scelta: è il numero di volte che ci sta 2θ dentro 90°.":
+    "<b>Por qué 2θ y no θ.</b> Una vuelta de Grover hace dos reflexiones, y dos reflexiones seguidas son <b>una rotación del doble del ángulo entre los dos espejos</b>. Así que cada vuelta suma 2θ — y es la fórmula de duplicación aplicada al nivel :n. El √N no es una elección: es el número de veces que cabe 2θ dentro de 90°.",
+  /* ---------------- livello M·3: numeri complessi ---------------- */
+  "Numeri complessi per bene: e^(iθ) e le radici dell'unità":
+    "Números complejos como es debido: e^(iθ) y las raíces de la unidad",
+  "Moltiplicare è allungare e girare, da lì la scrittura e^(iθ) — e le n frecce che sommate fanno zero, cioè il motore della trasformata di Fourier.":
+    "Multiplicar es alargar y girar, de ahí la escritura e^(iθ) — y las n flechas que sumadas dan cero, es decir el motor de la transformada de Fourier.",
+  "Moltiplicare due frecce":
+    "Multiplicar dos flechas",
+  "le lunghezze si moltiplicano, gli angoli si sommano: guardalo succedere":
+    "las longitudes se multiplican, los ángulos se suman: míralo suceder",
+  "fai finire il prodotto sul bersaglio (lungo :r, girato di :g°)":
+    "haz que el producto acabe en el objetivo (longitud :r, girado :g°)",
+  "freccia 1: lunga :r, a :g°":
+    "flecha 1: longitud :r, a :g°",
+  "freccia 2: lunga :r, a :g°":
+    "flecha 2: longitud :r, a :g°",
+  "prodotto: lungo :r, a :g°":
+    "producto: longitud :r, a :g°",
+  ":a × :b = :c":
+    ":a × :b = :c",
+  ":a° + :b° = :c°":
+    ":a° + :b° = :c°",
+  "in coordinate: (:a + :b i) × (:c + :d i)":
+    "en coordenadas: (:a + :b i) × (:c + :d i)",
+  "= :e + :f i":
+    "= :e + :f i",
+  "lunghezza 1":
+    "longitud 1",
+  "angolo 1":
+    "ángulo 1",
+  "lunghezza 2":
+    "longitud 2",
+  "angolo 2":
+    "ángulo 2",
+  "Lunghezze: :a × :b = <b>:c</b>. Angoli: :d° + :e° = <b>:f°</b>.":
+    "Longitudes: :a × :b = <b>:c</b>. Ángulos: :d° + :e° = <b>:f°</b>.",
+  "E il prodotto calcolato in coordinate viene lungo <b>:r</b> e girato di <b>:g°</b>: gli stessi due numeri.":
+    "Y el producto calculado en coordenadas sale de longitud <b>:r</b> y girado <b>:g°</b>: los mismos dos números.",
+  "Moltiplicare non è «fare più grande»: è <b>allungare e girare</b>. Con lunghezza 1 resta solo il girare — ed è quello che fa una fase quantistica.":
+    "Multiplicar no es «hacer más grande»: es <b>alargar y girar</b>. Con longitud 1 solo queda el girar — y es lo que hace una fase cuántica.",
+  "<b>Perché gli angoli si sommano.</b> Svolgi il prodotto di due frecce di lunghezza 1: (cos a + i·sin a)(cos b + i·sin b). La parte senza i viene cos a·cos b − sin a·sin b, quella con la i viene sin a·cos b + cos a·sin b. Sono <b>esattamente</b> le formule di addizione del livello :n: cioè cos(a+b) e sin(a+b). Il prodotto è la freccia a a+b gradi, e non poteva essere altro.":
+    "<b>Por qué se suman los ángulos.</b> Desarrolla el producto de dos flechas de longitud 1: (cos a + i·sin a)(cos b + i·sin b). La parte sin i sale cos a·cos b − sin a·sin b, la parte con la i sale sin a·cos b + cos a·sin b. Son <b>exactamente</b> las fórmulas de adición del nivel :n: es decir cos(a+b) y sin(a+b). El producto es la flecha a a+b grados, y no podía ser otra cosa.",
+  "Le radici dell'unità: n frecce che si annullano":
+    "Las raíces de la unidad: n flechas que se anulan",
+  "gli n numeri che elevati alla n danno 1 — e la loro somma":
+    "los n números que elevados a la n dan 1 — y su suma",
+  "somma tutte le :n frecce e guarda dove arrivi":
+    "suma las :n flechas y mira dónde llegas",
+  "poligoni chiusi: :fatte su :totali":
+    "polígonos cerrados: :fatte de :totali",
+  "punta contro coda":
+    "punta con cola",
+  "torna al punto di partenza: somma = 0":
+    "vuelve al punto de partida: suma = 0",
+  "somma delle prime :q: (:a ; :b)":
+    "suma de las primeras :q: (:a ; :b)",
+  "Quante radici":
+    "Cuántas raíces",
+  "aggiungi una freccia":
+    "añade una flecha",
+  "tutte insieme":
+    "todas a la vez",
+  "Le <b>:n</b> radici stanno a :p° una dall'altra: sono i vertici di un poligono regolare, il primo in 1.":
+    "Las <b>:n</b> raíces están a :p° una de otra: son los vértices de un polígono regular, la primera en el 1.",
+  "Sommate le prime :q, sei arrivato a (<b>:a</b> ; <b>:b</b>).":
+    "Sumadas las primeras :q, has llegado a (<b>:a</b> ; <b>:b</b>).",
+  "Zero. Le :n frecce si annullano fra loro: puntano in tutte le direzioni in modo perfettamente bilanciato, e la catena si chiude.":
+    "Cero. Las :n flechas se anulan entre sí: apuntan en todas las direcciones de forma perfectamente equilibrada, y la cadena se cierra.",
+  "Aggiungine ancora: la catena non si è ancora chiusa.":
+    "Añade alguna más: la cadena todavía no se ha cerrado.",
+  "<b>Questo zero è l'interferenza distruttiva.</b> Le n radici dell'unità sono le stesse frecce che la DFT del livello :dft usa per pesare i campioni, e il fatto che sommate facciano zero è il motivo per cui tutte le frequenze sbagliate si cancellano e resta solo il picco. La stessa catena che si chiude l'hai già vista al livello :serie: qui sai anche <b>chi sono</b> quelle frecce.":
+    "<b>Este cero es la interferencia destructiva.</b> Las n raíces de la unidad son las mismas flechas que la DFT del nivel :dft usa para pesar las muestras, y el hecho de que sumadas den cero es el motivo por el que todas las frecuencias equivocadas se cancelan y solo queda el pico. La misma cadena que se cierra ya la viste en el nivel :serie: aquí sabes además <b>quiénes son</b> esas flechas.",
+  /* ---------------- livello M·4: spazi vettoriali ---------------- */
+  "Spazi vettoriali: base, dimensione, e perché 2^n":
+    "Espacios vectoriales: base, dimensión y por qué 2^n",
+  "Poche frecce che raggiungono tutto, il numero che non cambia qualunque base tu scelga, e la ragione per cui n qubit vivono in uno spazio di dimensione 2^n.":
+    "Pocas flechas que lo alcanzan todo, el número que no cambia elijas la base que elijas, y la razón por la que n cúbits viven en un espacio de dimensión 2^n.",
+  "Costruire una freccia da altre due":
+    "Construir una flecha a partir de otras dos",
+  "allunga le due frecce della base e sommale: ci arrivi sempre?":
+    "alarga las dos flechas de la base y súmalas: ¿llegas siempre?",
+  "arriva sul bersaglio (:x ; :y)":
+    "llega al objetivo (:x ; :y)",
+  "bersagli raggiunti: :fatte su :totali":
+    "objetivos alcanzados: :fatte de :totali",
+  "prima freccia × :a":
+    "primera flecha × :a",
+  "seconda freccia × :c":
+    "segunda flecha × :c",
+  "arrivi in (:x ; :y)":
+    "llegas a (:x ; :y)",
+  "è una base: ci arrivi sempre":
+    "es una base: siempre llegas",
+  "NON è una base":
+    "NO es una base",
+  "due frecce non in linea bastano per tutto il piano":
+    "dos flechas no alineadas bastan para todo el plano",
+  "le due frecce sono in linea: si raggiunge solo la retta tratteggiata":
+    "las dos flechas están alineadas: solo se alcanza la recta discontinua",
+  "La base":
+    "La base",
+  "gli assi":
+    "los ejes",
+  "girata di 45°":
+    "girada 45°",
+  "storta":
+    "torcida",
+  "due in linea":
+    "dos en línea",
+  "quanto della prima":
+    "cuánto de la primera",
+  "quanto della seconda":
+    "cuánto de la segunda",
+  "Stai costruendo <b>:a</b> volte la prima freccia più <b>:c</b> volte la seconda, e arrivi in (<b>:x</b> ; <b>:y</b>).":
+    "Estás construyendo <b>:a</b> veces la primera flecha más <b>:c</b> veces la segunda, y llegas a (<b>:x</b> ; <b>:y</b>).",
+  "Questa è una <b>base</b>: le due frecce non stanno in linea, quindi con i due cursori si arriva in <b>qualunque</b> punto del piano. Per questo bersaglio i numeri giusti sono :a e :c.":
+    "Esta es una <b>base</b>: las dos flechas no están alineadas, así que con los dos deslizadores se llega a <b>cualquier</b> punto del plano. Para este objetivo los números correctos son :a y :c.",
+  "Queste due frecce stanno <b>sulla stessa retta</b>: allungale come vuoi, la somma resterà sempre su quella retta. Non è un tuo errore ed è inutile insistere — non è una base, e metà del piano è irraggiungibile.":
+    "Estas dos flechas están <b>sobre la misma recta</b>: alárgalas como quieras, la suma se quedará siempre en esa recta. No es un error tuyo y no sirve de nada insistir — no es una base, y medio plano es inalcanzable.",
+  "Centrato.":
+    "Acertado.",
+  "<b>Due parole che adesso hai in mano.</b> Le due frecce che bastano si chiamano <b>base</b>; il loro numero — qui due — si chiama <b>dimensione</b>, ed è lo stesso qualunque base tu scelga. I due numeri dei cursori sono le <b>coordinate</b> del punto <i>in quella base</i>: cambiando base cambiano i numeri, ma il punto resta dov'è. È esattamente ciò che succede quando al livello :n misuri lo stesso qubit in due basi diverse.":
+    "<b>Dos palabras que ahora tienes en la mano.</b> Las dos flechas que bastan se llaman <b>base</b>; su número — aquí dos — se llama <b>dimensión</b>, y es el mismo elijas la base que elijas. Los dos números de los deslizadores son las <b>coordenadas</b> del punto <i>en esa base</i>: al cambiar de base cambian los números, pero el punto se queda donde está. Es exactamente lo que pasa cuando en el nivel :n mides el mismo cúbit en dos bases distintas.",
+  "Quante frecce servono davvero":
+    "Cuántas flechas hacen falta de verdad",
+  "accendi e spegni le frecce: quali insiemi coprono tutto il piano?":
+    "enciende y apaga las flechas: ¿qué conjuntos cubren todo el plano?",
+  "copri tutto il piano con il <b>minimo</b> numero di frecce":
+    "cubre todo el plano con el <b>mínimo</b> número de flechas",
+  "insiemi minimi trovati: :fatte su :totali":
+    "conjuntos mínimos encontrados: :fatte de :totali",
+  "raggiungi TUTTO il piano":
+    "alcanzas TODO el plano",
+  "raggiungi solo una retta":
+    "solo alcanzas una recta",
+  "non raggiungi niente":
+    "no alcanzas nada",
+  "frecce accese: :q · direzioni indipendenti: :r":
+    "flechas encendidas: :q · direcciones independientes: :r",
+  "La collezione":
+    "La colección",
+  "collezione :n":
+    "colección :n",
+  "freccia :n":
+    "flecha :n",
+  "Frecce accese: <b>:q</b>. Direzioni indipendenti: <b>:r</b>.":
+    "Flechas encendidas: <b>:q</b>. Direcciones independientes: <b>:r</b>.",
+  "Senza frecce non si va da nessuna parte.":
+    "Sin flechas no se va a ninguna parte.",
+  "Tutte le frecce accese stanno sulla stessa retta: sommandole e allungandole resti sempre lì. Una direzione sola.":
+    "Todas las flechas encendidas están sobre la misma recta: sumándolas y alargándolas te quedas siempre ahí. Una sola dirección.",
+  "Due frecce, due direzioni: questa è una <b>base</b>, ed è il minimo possibile. La <b>dimensione</b> del piano è 2.":
+    "Dos flechas, dos direcciones: esto es una <b>base</b>, y es el mínimo posible. La <b>dimensión</b> del plano es 2.",
+  "Copri tutto il piano, ma con :q frecce: una è di troppo, si può scrivere usando le altre. Spegnine una.":
+    "Cubres todo el plano, pero con :q flechas: una sobra, se puede escribir usando las otras. Apaga una.",
+  "<b>Il numero che non cambia mai.</b> Comunque scegli le frecce, per coprire il piano ce ne vogliono <b>esattamente due</b>: meno non bastano, di più sono ridondanti. Quel numero è la <b>dimensione</b>, e non dipende dalla base. Un qubit vive in dimensione 2 (le ampiezze di 0 e 1); due qubit in dimensione 4; <b>n qubit in dimensione 2^n</b> — non 2n. È tutta lì la ragione per cui, da qualche decina di qubit in su, simulare il registro su un computer normale diventa impossibile.":
+    "<b>El número que nunca cambia.</b> Elijas las flechas como las elijas, para cubrir el plano hacen falta <b>exactamente dos</b>: menos no bastan, más son redundantes. Ese número es la <b>dimensión</b>, y no depende de la base. Un cúbit vive en dimensión 2 (las amplitudes de 0 y 1); dos cúbits en dimensión 4; <b>n cúbits en dimensión 2^n</b> — no 2n. Ahí está toda la razón por la que, de unas decenas de cúbits en adelante, simular el registro en un ordenador normal se vuelve imposible.",
+  /* ---------------- livello M·5: operatori ---------------- */
+  "Operatori: porte, osservabili e misure sono tre tipi di matrice":
+    "Operadores: puertas, observables y medidas son tres tipos de matriz",
+  "Unitaria = non cambia le lunghezze. Hermitiana = autovalori reali. Proiettore = rifarlo non cambia niente. Le tre parole della quantistica, costruite con quattro manopole.":
+    "Unitaria = no cambia las longitudes. Hermítica = autovalores reales. Proyector = rehacerlo no cambia nada. Las tres palabras de lo cuántico, construidas con cuatro mandos.",
+  "Che razza di macchina è?":
+    "¿Qué clase de máquina es?",
+  "quattro manopole, tre etichette: conserva le lunghezze? è uguale al suo aggiunto? si può rifare?":
+    "cuatro mandos, tres etiquetas: ¿conserva las longitudes? ¿es igual a su adjunto? ¿se puede rehacer?",
+  "costruisci una unitaria, una hermitiana e una che sia tutte e due":
+    "construye una unitaria, una hermítica y una que sea las dos",
+  "famiglie trovate: :fatte su :totali":
+    "familias encontradas: :fatte de :totali",
+  "✓ unitaria: non cambia le lunghezze":
+    "✓ unitaria: no cambia las longitudes",
+  "✗ non unitaria: le lunghezze cambiano":
+    "✗ no unitaria: las longitudes cambian",
+  "✓ hermitiana: uguale al suo aggiunto":
+    "✓ hermítica: igual a su adjunto",
+  "✗ non hermitiana":
+    "✗ no hermítica",
+  "✓ proiettore: rifarlo non cambia niente":
+    "✓ proyector: rehacerlo no cambia nada",
+  "autovalori: :a e :b":
+    "autovalores: :a y :b",
+  "autovalori complessi (delta < 0)":
+    "autovalores complejos (discriminante < 0)",
+  "unitaria":
+    "unitaria",
+  "hermitiana":
+    "hermítica",
+  "proiettore":
+    "proyector",
+  "i pallini grigi sono le frecce di partenza, quelli colorati dove finiscono":
+    "los puntos grises son las flechas de partida, los de color dónde acaban",
+  "Macchine pronte":
+    "Máquinas listas",
+  "rotazione":
+    "rotación",
+  "schiaccia":
+    "aplasta",
+  "Traccia :t, determinante :d.":
+    "Traza :t, determinante :d.",
+  "Autovalori <b>:a</b> e <b>:b</b>: numeri veri, quindi ci sono direzioni ferme.":
+    "Autovalores <b>:a</b> y <b>:b</b>: números reales, así que hay direcciones fijas.",
+  "Autovalori complessi: nessuna direzione resta ferma — è una rotazione.":
+    "Autovalores complejos: ninguna dirección se queda quieta — es una rotación.",
+  "Unitaria <b>e</b> hermitiana insieme: è una specchiata. Applicandola due volte torni al punto di partenza — come le porte X, Z e H.":
+    "Unitaria <b>y</b> hermítica a la vez: es una reflexión. Aplicándola dos veces vuelves al punto de partida — como las puertas X, Z y H.",
+  "Unitaria: nessuna freccia cambia lunghezza. Una porta quantistica deve essere così, altrimenti le probabilità non farebbero più 100%.":
+    "Unitaria: ninguna flecha cambia de longitud. Una puerta cuántica tiene que ser así, si no las probabilidades dejarían de sumar 100%.",
+  "Hermitiana: uguale al suo aggiunto, e i suoi autovalori sono sempre numeri reali. È la forma di un'osservabile.":
+    "Hermítica: igual a su adjunto, y sus autovalores son siempre números reales. Es la forma de un observable.",
+  "Proiettore: schiaccia tutto su una retta, e rifarlo non cambia più niente. È la forma di una misura.":
+    "Proyector: aplasta todo sobre una recta, y rehacerlo ya no cambia nada. Es la forma de una medida.",
+  "Per ora non è di nessuna delle tre famiglie: continua a girare le manopole.":
+    "Por ahora no es de ninguna de las tres familias: sigue girando los mandos.",
+  "<b>Le tre parole della meccanica quantistica.</b> Una <b>porta</b> è una macchina unitaria: non cambia le lunghezze, quindi le probabilità restano 100% e il circuito si può rifare al contrario (livello :k). Un'<b>osservabile</b> è una macchina hermitiana: i suoi autovalori sono reali, cioè numeri che si possono leggere su uno strumento. Una <b>misura</b> è un proiettore. Tre famiglie di matrici, tre concetti — e li hai appena costruiti con quattro manopole.":
+    "<b>Las tres palabras de la mecánica cuántica.</b> Una <b>puerta</b> es una máquina unitaria: no cambia las longitudes, así que las probabilidades siguen sumando 100% y el circuito se puede rehacer al revés (nivel :k). Un <b>observable</b> es una máquina hermítica: sus autovalores son reales, es decir números que se pueden leer en un instrumento. Una <b>medida</b> es un proyector. Tres familias de matrices, tres conceptos — y acabas de construirlos con cuatro mandos.",
+  "Misurare è proiettare":
+    "Medir es proyectar",
+  "lo stato si schiaccia sulla direzione che esce — e se rileggi, trovi lo stesso":
+    "el estado se aplasta sobre la dirección que sale — y si vuelves a leer, encuentras lo mismo",
+  "misura, poi rimisura: cambia qualcosa?":
+    "mide, luego vuelve a medir: ¿cambia algo?",
+  "basi provate: :fatte su :totali":
+    "bases probadas: :fatte de :totali",
+  "probabilità: :a% sulla verde, :b% sulla rosa":
+    "probabilidad: :a% en la verde, :b% en la rosa",
+  "letture: :l":
+    "lecturas: :l",
+  "verde":
+    "verde",
+  "rosa":
+    "rosa",
+  "nessuna lettura ancora":
+    "todavía ninguna lectura",
+  "Direzione di misura":
+    "Dirección de medida",
+  "lo stato, a quanti gradi":
+    "el estado, a cuántos grados",
+  "rimetti lo stato com'era":
+    "deja el estado como estaba",
+  "Lo stato è a <b>:s°</b>, la direzione di misura a <b>:d°</b>. Le due ombre al quadrato fanno <b>:a%</b> e <b>:b%</b> — e sommano a 100.":
+    "El estado está a <b>:s°</b>, la dirección de medida a <b>:d°</b>. Las dos sombras al cuadrado dan <b>:a%</b> y <b>:b%</b> — y suman 100.",
+  "Premi «misura»: il risultato esce a caso, con quelle probabilità.":
+    "Pulsa «medir»: el resultado sale al azar, con esas probabilidades.",
+  "È uscito <b>:e</b>, e lo stato si è schiacciato su quella direzione. Adesso rimisura: la probabilità è diventata 100% da quella parte.":
+    "Ha salido <b>:e</b>, y el estado se ha aplastado sobre esa dirección. Ahora vuelve a medir: la probabilidad se ha vuelto 100% por ese lado.",
+  "Letto :q volte, sempre lo stesso. Non è fortuna: il proiettore applicato due volte dà lo stesso risultato della prima — P·P = P, e i numeri lo confermano: :n.":
+    "Leído :q veces, siempre lo mismo. No es suerte: el proyector aplicado dos veces da el mismo resultado que la primera — P·P = P, y los números lo confirman: :n.",
+  "<b>Perché rileggere non cambia la risposta.</b> Un proiettore ha una proprietà che si scrive in tre simboli — <b>P·P = P</b> — e vuol dire «applicarlo due volte è come applicarlo una volta». Nel mondo quantistico è la frase «una volta misurato, lo stato è quello»: il collasso non è un'ipotesi in più, è la faccia fisica dell'idempotenza. E le due probabilità che sommano a 100 sono l'altra proprietà: i due proiettori messi insieme fanno l'identità.":
+    "<b>Por qué releer no cambia la respuesta.</b> Un proyector tiene una propiedad que cabe en tres símbolos — <b>P·P = P</b> — y significa «aplicarlo dos veces es como aplicarlo una». En el mundo cuántico es la frase «una vez medido, el estado es ese»: el colapso no es una hipótesis de más, es la cara física de la idempotencia. Y las dos probabilidades que suman 100 son la otra propiedad: los dos proyectores juntos dan la identidad.",
+  /* ---------------- livello M·6: prodotto tensoriale ---------------- */
+  "Prodotto tensoriale: e finalmente cosa vuol dire «entangled»":
+    "Producto tensorial: y por fin qué significa «entrelazado»",
+  "Mettere insieme due registri moltiplica le dimensioni invece di sommarle — e uno stato è entangled quando quel prodotto non si può disfare. Con il conto che lo dice in una riga.":
+    "Juntar dos registros multiplica las dimensiones en vez de sumarlas — y un estado está entrelazado cuando ese producto no se puede deshacer. Con la cuenta que lo dice en una línea.",
+  "Due qubit fanno quattro ampiezze":
+    "Dos cúbits dan cuatro amplitudes",
+  "ogni ampiezza del primo per ogni ampiezza del secondo: le dimensioni si moltiplicano":
+    "cada amplitud del primero por cada amplitud del segundo: las dimensiones se multiplican",
+  "costruisci la coppia :a° e :b°":
+    "construye la pareja :a° y :b°",
+  "coppie costruite: :fatte su :totali":
+    "parejas construidas: :fatte de :totali",
+  "primo qubit":
+    "primer cúbit",
+  "secondo qubit":
+    "segundo cúbit",
+  "la coppia: quattro ampiezze":
+    "la pareja: cuatro amplitudes",
+  "incrocio a00·a11 − a01·a10 = :i → separabile per costruzione":
+    "cruce a00·a11 − a01·a10 = :i → separable por construcción",
+  "Primo qubit (<b>:a0</b> ; <b>:a1</b>), secondo (<b>:b0</b> ; <b>:b1</b>).":
+    "Primer cúbit (<b>:a0</b> ; <b>:a1</b>), segundo (<b>:b0</b> ; <b>:b1</b>).",
+  "La coppia: |00⟩ = :p00, |01⟩ = :p01, |10⟩ = :p10, |11⟩ = :p11 — ognuna è un prodotto delle due di sopra.":
+    "La pareja: |00⟩ = :p00, |01⟩ = :p01, |10⟩ = :p10, |11⟩ = :p11 — cada una es un producto de las dos de arriba.",
+  "Due numeri più due numeri non fanno quattro numeri qualsiasi: ne fanno solo quelli che si ottengono moltiplicando. Ed è per questo che esistono stati di due qubit che <b>non</b> si possono scrivere così.":
+    "Dos números más dos números no dan cuatro números cualesquiera: dan solo los que se obtienen multiplicando. Y por eso existen estados de dos cúbits que <b>no</b> se pueden escribir así.",
+  "<b>Da dove viene davvero il 2^n.</b> Il livello :m diceva che n qubit vivono in dimensione 2^n; qui vedi il meccanismo. Mettere insieme due registri non somma le dimensioni: le <b>moltiplica</b>, perché ogni ampiezza dell'uno va accoppiata con ogni ampiezza dell'altro. 2 × 2 = 4, poi 4 × 2 = 8, e così via — mentre due registri classici da n bit ne fanno semplicemente 2n.":
+    "<b>De dónde viene de verdad el 2^n.</b> El nivel :m decía que n cúbits viven en dimensión 2^n; aquí ves el mecanismo. Juntar dos registros no suma las dimensiones: las <b>multiplica</b>, porque cada amplitud de uno hay que emparejarla con cada amplitud del otro. 2 × 2 = 4, luego 4 × 2 = 8, y así — mientras que dos registros clásicos de n bits dan simplemente 2n.",
+  "Prova a separarlo":
+    "Intenta separarlo",
+  "cerca i due qubit che ricostruiscono lo stato — e guarda quando è impossibile":
+    "busca los dos cúbits que reconstruyen el estado — y mira cuándo es imposible",
+  "trova i due qubit che lo ricostruiscono":
+    "encuentra los dos cúbits que lo reconstruyen",
+  "provaci: poi dichiara che è impossibile":
+    "inténtalo: luego declara que es imposible",
+  "stati classificati: :fatte su :totali":
+    "estados clasificados: :fatte de :totali",
+  "lo stato da separare (viola) e il tuo tentativo (azzurro)":
+    "el estado que hay que separar (violeta) y tu intento (azul)",
+  "incrocio = 0 → separabile":
+    "cruce = 0 → separable",
+  "incrocio = :i → NON separabile":
+    "cruce = :i → NO separable",
+  "scarto dal bersaglio: :s":
+    "distancia al objetivo: :s",
+  "Lo stato":
+    "El estado",
+  "stato :n":
+    "estado :n",
+  "dichiaro: è impossibile":
+    "declaro: es imposible",
+  "Incrocio a00·a11 − a01·a10 = <b>:i</b>.":
+    "Cruce a00·a11 − a01·a10 = <b>:i</b>.",
+  "È <b>separabile</b>: esistono due qubit che lo ricostruiscono, ed è la coppia (:a0 ; :a1) con (:b0 ; :b1). Muovi i cursori finché le barrette azzurre non coprono quelle viola.":
+    "Es <b>separable</b>: existen dos cúbits que lo reconstruyen, y son la pareja (:a0 ; :a1) con (:b0 ; :b1). Mueve los deslizadores hasta que las barritas azules cubran las violetas.",
+  "È <b>entangled</b>: nessuna coppia di qubit lo ricostruisce, e non è una questione di pazienza. Guarda: servirebbe a00·a11 ≠ 0 e insieme a01·a10 = 0 con a01 e a10 che non sono entrambi nulli — cioè due cose che non possono valere insieme. Premi «dichiaro: è impossibile».":
+    "Está <b>entrelazado</b>: ninguna pareja de cúbits lo reconstruye, y no es cuestión de paciencia. Mira: haría falta a00·a11 ≠ 0 y a la vez a01·a10 = 0 con a01 y a10 no ambos nulos — es decir, dos cosas que no pueden valer juntas. Pulsa «declaro: es imposible».",
+  "Questo però si separa: cercalo ancora, i cursori bastano.":
+    "Este sí se separa: sigue buscando, los deslizadores bastan.",
+  "Ricostruito.":
+    "Reconstruido.",
+  "<b>Entangled vuol dire «non si scrive come due cose separate».</b> Non «i due qubit comunicano», non «si influenzano a distanza»: vuol dire che lo stato della coppia <b>non si spezza</b> in uno stato del primo e uno del secondo. E si riconosce con un conto solo, a00·a11 − a01·a10 — la stessa riga che al livello :m diceva se due frecce erano indipendenti. La porta che quel numero lo rende diverso da zero è la CNOT del livello :c.":
+    "<b>Entrelazado significa «no se escribe como dos cosas separadas».</b> No «los dos cúbits se comunican», no «se influyen a distancia»: significa que el estado de la pareja <b>no se parte</b> en un estado del primero y otro del segundo. Y se reconoce con una sola cuenta, a00·a11 − a01·a10 — la misma línea que en el nivel :m decía si dos flechas eran independientes. La puerta que hace ese número distinto de cero es la CNOT del nivel :c.",
+  /* ---------------- livello M·7: probabilità ---------------- */
+  "Probabilità sul serio: media, errore, e la prova che il mondo non è classico":
+    "Probabilidad en serio: media, error, y la prueba de que el mundo no es clásico",
+  "Perché un decimale in più costa cento volte le misure, come si aggiorna quello che si crede, e il test di Bell — quello del Nobel 2022 — giocato con le mani.":
+    "Por qué un decimal más cuesta cien veces las medidas, cómo se actualiza lo que uno cree, y el test de Bell — el del Nobel 2022 — jugado con las manos.",
+  "La media si assesta, ma piano":
+    "La media se asienta, pero despacio",
+  "tira, guarda la media avvicinarsi — e guarda quanto costa un decimale in più":
+    "tira, mira cómo la media se acerca — y mira lo que cuesta un decimal más",
+  "errore atteso sotto :s":
+    "error esperado por debajo de :s",
+  "traguardi raggiunti: :fatte su :totali":
+    "metas alcanzadas: :fatte de :totali",
+  "tiri: :n · media: :m · errore atteso σ/√n: :e":
+    "tiradas: :n · media: :m · error esperado σ/√n: :e",
+  "la moneta esce 1 con probabilità":
+    "la moneda sale 1 con probabilidad",
+  "+10 tiri":
+    "+10 tiradas",
+  "+100":
+    "+100",
+  "+1000":
+    "+1000",
+  "altro traguardo":
+    "otra meta",
+  "La moneta vale 1 con probabilità <b>:p</b>. La sua deviazione standard è √(p·(1−p)) = <b>:s</b>.":
+    "La moneda vale 1 con probabilidad <b>:p</b>. Su desviación típica es √(p·(1−p)) = <b>:s</b>.",
+  "Con <b>:n</b> tiri la media misurata è <b>:m</b> e lo scarto vero dal valore giusto è <b>:d</b>; l'errore che ti aspettavi era σ/√n = <b>:e</b>.":
+    "Con <b>:n</b> tiradas la media medida es <b>:m</b> y la diferencia real respecto al valor correcto es <b>:d</b>; el error que esperabas era σ/√n = <b>:e</b>.",
+  "Non hai ancora tirato niente.":
+    "Todavía no has tirado nada.",
+  "Per un errore di :s servono circa <b>:q</b> tiri. Per un decimale in più — cioè dieci volte più preciso — ne servirebbero <b>cento volte tanti</b>.":
+    "Para un error de :s hacen falta unas <b>:q</b> tiradas. Para un decimal más — es decir, diez veces más preciso — harían falta <b>cien veces más</b>.",
+  "<b>Questa è la riga che al livello :n costa cara.</b> Un computer quantistico non «legge» una probabilità: la stima ripetendo la misura, e l'errore sulla stima scende come 1/√tiri. Un decimale in più costa cento volte le misure. Non è un difetto delle macchine di oggi: è statistica, e vale anche per le macchine perfette di domani.":
+    "<b>Esta es la línea que en el nivel :n sale cara.</b> Un ordenador cuántico no «lee» una probabilidad: la estima repitiendo la medida, y el error de la estimación baja como 1/√tiradas. Un decimal más cuesta cien veces las medidas. No es un defecto de las máquinas de hoy: es estadística, y vale también para las máquinas perfectas de mañana.",
+  "Il gioco di Bell":
+    "El juego de Bell",
+  "Anna e Bruno non possono parlarsi: quante domande su quattro riescono a indovinare?":
+    "Ana y Bruno no pueden hablarse: ¿cuántas preguntas de cuatro consiguen acertar?",
+  "arriva al massimo classico":
+    "llega al máximo clásico",
+  "supera il muro del 75%":
+    "supera el muro del 75%",
+  "sfide vinte: :fatte su :totali":
+    "retos ganados: :fatte de :totali",
+  "vinci il :p% delle volte":
+    "ganas el :p% de las veces",
+  "accordo classico":
+    "acuerdo clásico",
+  "coppia entangled":
+    "pareja entrelazada",
+  "Anna, se le chiedono 0: risponde :r":
+    "Ana, si le preguntan 0: responde :r",
+  "Anna, se le chiedono 1: risponde :r":
+    "Ana, si le preguntan 1: responde :r",
+  "Bruno, se gli chiedono 0: risponde :r":
+    "Bruno, si le preguntan 0: responde :r",
+  "Bruno, se gli chiedono 1: risponde :r":
+    "Bruno, si le preguntan 1: responde :r",
+  "Anna, domanda 0":
+    "Ana, pregunta 0",
+  "Anna, domanda 1":
+    "Ana, pregunta 1",
+  "Bruno, domanda 0":
+    "Bruno, pregunta 0",
+  "Bruno, domanda 1":
+    "Bruno, pregunta 1",
+  "Anna e Bruno si sono messi d'accordo <b>prima</b>, e poi non possono più parlarsi. Con questa strategia vincono il <b>:p%</b> delle volte.":
+    "Ana y Bruno se pusieron de acuerdo <b>antes</b>, y después ya no pueden hablarse. Con esta estrategia ganan el <b>:p%</b> de las veces.",
+  "Questo è il massimo. E non è «il massimo che hai trovato»: le strategie possibili sono <b>sedici</b> in tutto, e nessuna supera il 75%. Puoi provarle tutte, ci vogliono due minuti.":
+    "Este es el máximo. Y no es «el máximo que has encontrado»: las estrategias posibles son <b>dieciséis</b> en total, y ninguna supera el 75%. Puedes probarlas todas, se tarda dos minutos.",
+  "Si può fare meglio: prova a cambiare una risposta.":
+    "Se puede hacer mejor: prueba a cambiar una respuesta.",
+  "Anna e Bruno condividono una coppia entangled e misurano ciascuno nella direzione che ha scelto per quella domanda. Vincono il <b>:p%</b>.":
+    "Ana y Bruno comparten una pareja entrelazada y cada uno mide en la dirección que ha elegido para esa pregunta. Ganan el <b>:p%</b>.",
+  "Sopra il 75%. Nessun accordo preso prima può arrivarci: questo è il punto dell'esperimento che ha vinto il Nobel 2022. Il massimo possibile è :m%, cioè cos²(22,5°).":
+    "Por encima del 75%. Ningún acuerdo tomado antes puede llegar ahí: ese es el punto del experimento que ganó el Nobel 2022. El máximo posible es :m%, es decir cos²(22,5°).",
+  "Ancora sotto il muro classico: prova con Anna a 0° e 45°, Bruno a 22,5° e −22,5°.":
+    "Todavía por debajo del muro clásico: prueba con Ana a 0° y 45°, Bruno a 22,5° y −22,5°.",
+  "<b>Perché questo esperimento conta.</b> Se le risposte fossero già decise in partenza — cioè se ogni particella «portasse con sé» il risultato di ogni misura possibile — allora si ricadrebbe in una delle sedici strategie, e il tetto sarebbe il 75%. Superarlo, in laboratorio, vuol dire che quelle risposte <b>non erano decise prima</b>. È la cosa più vicina a una dimostrazione sperimentale che il mondo non è classico, e vale il Nobel per la fisica 2022. Nel corso l'hai già incontrata come sfida delle buste, al livello :n.":
+    "<b>Por qué este experimento importa.</b> Si las respuestas ya estuvieran decididas de partida — es decir, si cada partícula «llevara consigo» el resultado de cada medida posible — entonces se caería en una de las dieciséis estrategias, y el techo sería el 75%. Superarlo, en el laboratorio, significa que esas respuestas <b>no estaban decididas antes</b>. Es lo más parecido a una demostración experimental de que el mundo no es clásico, y vale el Nobel de física 2022. En el curso ya te la has encontrado como el reto de los sobres, en el nivel :n.",
+  "valore vero: :p":
+    "valor verdadero: :p",
+  "quadruplicare i tiri dimezza l'errore":
+    "cuatro veces las tiradas, la mitad del error",
+  "è il √ che sta nella formula σ/√n":
+    "es el √ que está en la fórmula σ/√n",
+  "Anna :x · Bruno :y → risposte :cosa":
+    "Ana :x · Bruno :y → respuestas :cosa",
+  "DIVERSE":
+    "DISTINTAS",
+  "UGUALI":
+    "IGUALES",
+  "nessun accordo preso prima supera il 75%":
+    "ningún acuerdo tomado antes supera el 75%",
+  "il tetto quantistico è cos²(22,5°) = 85,4%":
+    "el techo cuántico es cos²(22,5°) = 85,4%",
+  /* ---------------- livello M·8: successioni e limiti ---------------- */
+  "Successioni e limiti: cosa vuol dire davvero «tende a»":
+    "Sucesiones y límites: qué quiere decir de verdad «tiende a»",
+  "Il gioco del corridoio, la banca che paga interessi immaginari — e la scoperta che «quanti tiri servono» era già la definizione di limite.":
+    "El juego del pasillo, el banco que paga intereses imaginarios — y el descubrimiento de que «cuántas tiradas hacen falta» ya era la definición de límite.",
+  "Il gioco del corridoio":
+    "El juego del pasillo",
+  "io stringo il corridoio, tu dimmi da che punto in poi la successione non esce più":
+    "yo aprieto el pasillo, tú dime a partir de qué punto la sucesión ya no sale",
+  "resta nel corridoio ±:e":
+    "quédate dentro del pasillo ±:e",
+  "corridoi vinti: :fatte su :totali":
+    "pasillos ganados: :fatte de :totali",
+  "limite :L":
+    "límite :L",
+  "da N in poi escono ancora :q termini":
+    "de N en adelante todavía salen :q términos",
+  "da N in poi non esce più nessuno":
+    "de N en adelante ya no sale ninguno",
+  "questa non tende a niente":
+    "esta no tiende a nada",
+  "da qui in poi":
+    "de aquí en adelante",
+  "il più piccolo N che vince":
+    "la N más pequeña que gana",
+  "stringi il corridoio":
+    "aprieta el pasillo",
+  "La sfida è questa: io scelgo un corridoio largo <b>±:e</b> attorno al limite, tu trovi un <b>N</b> tale che da lì in poi la successione ci resti dentro <b>per sempre</b>. Se ci riesci per ogni corridoio, per quanto stretto, allora quella successione <b>tende</b> a quel numero. Questa è la definizione, tutta qui.":
+    "El reto es este: yo elijo un pasillo de <b>±:e</b> de ancho alrededor del límite, tú encuentras una <b>N</b> tal que de ahí en adelante la sucesión se quede dentro <b>para siempre</b>. Si lo consigues para cada pasillo, por estrecho que sea, entonces esa sucesión <b>tiende</b> a ese número. Esta es la definición, toda entera.",
+  "Questa non ha limite: qualunque N scegli, più avanti la successione torna a scappare. Non è che «non lo hai trovato»: non c'è.":
+    "Esta no tiene límite: elijas la N que elijas, más adelante la sucesión vuelve a escaparse. No es que «no lo hayas encontrado»: no lo hay.",
+  "Qui l'N esiste, ma è <b>:m</b>: fuori da questo grafico. Non è un difetto del gioco — è che questa successione ci mette troppo. Con un corridoio così stretto serve una successione che scenda più in fretta.":
+    "Aquí la N existe, pero es <b>:m</b>: fuera de este gráfico. No es un defecto del juego — es que esta sucesión tarda demasiado. Con un pasillo así de estrecho hace falta una sucesión que baje más deprisa.",
+  "Da N = :n in poi escono ancora :q termini. Sposta N più a destra.":
+    "De N = :n en adelante todavía salen :q términos. Mueve N más a la derecha.",
+  "✓ Da N = :n in poi la successione non esce più. Il minimo che bastava era <b>:m</b>.":
+    "✓ De N = :n en adelante la sucesión ya no sale. La mínima que bastaba era <b>:m</b>.",
+  "Nella finestra che si vede non c'è: o la successione non tende a niente, o il corridoio è così stretto che N finisce fuori dal grafico.":
+    "En la ventana que se ve no está: o la sucesión no tiende a nada, o el pasillo es tan estrecho que la N acaba fuera del gráfico.",
+  "<b>Questo gioco lo hai già giocato al livello :n.</b> Lì la domanda era «quanti tiri servono per stare sotto un certo errore», e la risposta era (σ/errore)². Ecco: quel numero È l'N di questo gioco, per la successione 1/√n. La definizione di limite non è un formalismo da matematici — è la stessa domanda che si fa chi deve decidere quante volte far girare un circuito.":
+    "<b>Ya has jugado a este juego en el nivel :n.</b> Allí la pregunta era «cuántas tiradas hacen falta para quedar por debajo de cierto error», y la respuesta era (σ/error)². Pues bien: ese número ES la N de este juego, para la sucesión 1/√n. La definición de límite no es un formalismo de matemáticos — es la misma pregunta que se hace quien tiene que decidir cuántas veces ejecutar un circuito.",
+  "La banca di Bernoulli":
+    "El banco de Bernoulli",
+  "interesse del 100% spezzato in n rate: dove va a finire il capitale?":
+    "un interés del 100% partido en n plazos: ¿dónde acaba el capital?",
+  "arriva a e a meno di :s":
+    "llega a e a menos de :s",
+  "porta la freccia sul cerchio":
+    "lleva la flecha al círculo",
+  "prove riuscite: :fatte su :totali":
+    "intentos logrados: :fatte de :totali",
+  "rate: :n · capitale: :c":
+    "plazos: :n · capital: :c",
+  "più rate, più il capitale sale — ma non supera mai e":
+    "más plazos, más sube el capital — pero nunca pasa de e",
+  "il cerchio dove il capitale non cresce":
+    "el círculo donde el capital no crece",
+  "rate: :n · capitale: :a + :b i · lunghezza: :l":
+    "plazos: :n · capital: :a + :b i · longitud: :l",
+  "l'interesse immaginario non fa crescere il capitale: lo fa girare":
+    "el interés imaginario no hace crecer el capital: lo hace girar",
+  "interesse vero":
+    "interés de verdad",
+  "interesse immaginario":
+    "interés imaginario",
+  "in quante rate":
+    "en cuántos plazos",
+  "interesse immaginario θ":
+    "interés imaginario θ",
+  "Metti 1 in banca al 100% di interesse. Pagato in una volta sola diventa 2. Spezzato in <b>:n</b> rate diventa (1 + 1/:n)^:n = <b>:c</b>: ogni rata è più piccola, ma frutta anche lei.":
+    "Pon 1 en el banco al 100% de interés. Pagado de una sola vez se convierte en 2. Partido en <b>:n</b> plazos se convierte en (1 + 1/:n)^:n = <b>:c</b>: cada plazo es más pequeño, pero también renta.",
+  "Più si spezza, più si guadagna — ma sempre meno. Il capitale non scappa: si ferma a <b>e = 2,718281…</b>, e ne dista ancora :d.":
+    "Cuanto más se parte, más se gana — pero cada vez menos. El capital no se escapa: se para en <b>e = 2,718281…</b>, y todavía está a :d.",
+  "Questo è un limite, ed è il primo numero della storia definito così: non «quanto fa», ma «dove va a finire».":
+    "Esto es un límite, y es el primer número de la historia definido así: no «cuánto da», sino «dónde acaba».",
+  "Stessa banca, ma l'interesse è <b>i·θ</b>: immaginario. Ogni rata moltiplica per (1 + iθ/n), e moltiplicare per un numero complesso vuol dire <b>allungare e girare</b> — solo che qui l'allungamento è quasi zero e il giro no.":
+    "El mismo banco, pero el interés es <b>i·θ</b>: imaginario. Cada plazo multiplica por (1 + iθ/n), y multiplicar por un número complejo significa <b>estirar y girar</b> — solo que aquí el estiramiento es casi cero y el giro no.",
+  "Con <b>:n</b> rate il capitale è <b>:a + :b i</b>, lungo <b>:l</b>. Il punto giusto sul cerchio è (cos θ, sin θ), e ne dista :d.":
+    "Con <b>:n</b> plazos el capital es <b>:a + :b i</b>, de longitud <b>:l</b>. El punto correcto sobre el círculo es (cos θ, sin θ), y está a :d.",
+  "Ecco perché e^(iθ) è la freccia girata di θ e non un'altra cosa: è l'unico posto dove quel limite può andare a finire.":
+    "Por eso e^(iθ) es la flecha girada θ y no otra cosa: es el único sitio donde ese límite puede acabar.",
+  "<b>Serve davvero, e non solo per essere pignoli.</b> Al livello :n si scrive e^(iθ) per «freccia girata di θ», e la giustificazione era che moltiplicando le frecce gli angoli si sommano. Quella è una somiglianza; questo è il conto. E lo stesso limite, con al posto di iθ una matrice, è il modo in cui un computer quantistico simula un sistema fisico: si spezza il tempo in n pezzetti e si applica n volte una porta quasi-identità.":
+    "<b>Sirve de verdad, y no solo para ser puntillosos.</b> En el nivel :n se escribe e^(iθ) para «flecha girada θ», y la justificación era que multiplicando flechas los ángulos se suman. Eso es un parecido; esto es la cuenta. Y el mismo límite, con una matriz en lugar de iθ, es la forma en que un ordenador cuántico simula un sistema físico: se parte el tiempo en n trocitos y se aplica n veces una puerta casi idéntica a la identidad.",
+  /* ---------------- livello M·9: integrali ---------------- */
+  "Integrali: l'area, e il teorema che la lega alla derivata":
+    "Integrales: el área, y el teorema que la liga a la derivada",
+  "Rettangoli sempre più stretti, il tachimetro che è la pendenza del contachilometri, e due aree che hanno un nome: il logaritmo e la probabilità che fa 1.":
+    "Rectángulos cada vez más estrechos, el velocímetro que es la pendiente del cuentakilómetros, y dos áreas que tienen nombre: el logaritmo y la probabilidad que suma 1.",
+  "L'area a colpi di rettangoli":
+    "El área a base de rectángulos",
+  "più rettangoli, meno errore — e conta anche dove li tagli":
+    "más rectángulos, menos error — y también cuenta dónde los cortas",
+  "errore sotto :s":
+    "error por debajo de :s",
+  "funzioni sistemate: :fatte su :totali":
+    "funciones resueltas: :fatte de :totali",
+  "stima: :s · vera: :v · errore: :e":
+    "estimación: :s · verdadera: :v · error: :e",
+  "tagliare a metà conviene: 1/n² invece di 1/n":
+    "cortar por la mitad compensa: 1/n² en vez de 1/n",
+  "bordo sinistro":
+    "borde izquierdo",
+  "punto di mezzo":
+    "punto medio",
+  "bordo destro":
+    "borde derecho",
+  "quanti rettangoli":
+    "cuántos rectángulos",
+  "Con <b>:n</b> rettangoli la stima è <b>:s</b>. Il valore vero è <b>:v</b>, quindi sbagli di <b>:e</b>.":
+    "Con <b>:n</b> rectángulos la estimación es <b>:s</b>. El valor verdadero es <b>:v</b>, así que te equivocas en <b>:e</b>.",
+  "Con lo stesso numero di rettangoli, tagliati al bordo l'errore è :b, tagliati a metà è :m. Non è una furbizia da poco: al bordo l'errore scende come 1/n, a metà come 1/n².":
+    "Con el mismo número de rectángulos, cortados en el borde el error es :b, cortados por la mitad es :m. No es una astucia menor: en el borde el error baja como 1/n, por la mitad como 1/n².",
+  "E questa area ha un nome che conosci: l'area sotto 1/x da 1 a t <b>è</b> il logaritmo naturale di t. Da 1 a e fa esattamente 1 — ecco perché quel numero è la base «naturale».":
+    "Y esta área tiene un nombre que conoces: el área bajo 1/x de 1 a t <b>es</b> el logaritmo natural de t. De 1 a e da exactamente 1 — por eso ese número es la base «natural».",
+  "Questa curva è |ψ|² di una particella chiusa in una scatola: dice dove è probabile trovarla. La sua area fa <b>1</b>, e non per caso — la probabilità totale deve fare 1. È la stessa condizione che nel corso hai visto come «la somma dei quadrati delle ampiezze fa 1», scritta per una cosa continua.":
+    "Esta curva es |ψ|² de una partícula encerrada en una caja: dice dónde es probable encontrarla. Su área da <b>1</b>, y no por casualidad — la probabilidad total tiene que ser 1. Es la misma condición que en el curso has visto como «la suma de los cuadrados de las amplitudes da 1», escrita para algo continuo.",
+  "<b>Questo è il gioco del corridoio del livello :n, in un altro vestito.</b> «L'integrale è il limite delle somme di rettangoli» vuol dire: qualunque errore mi chiedi, io ti trovo un numero di rettangoli che sta sotto. E come al solito la domanda utile non è «ci arriva?» ma «quanto in fretta?»: tagliare a metà invece che al bordo fa risparmiare, a parità di errore, centinaia di rettangoli.":
+    "<b>Este es el juego del pasillo del nivel :n, con otro traje.</b> «La integral es el límite de las sumas de rectángulos» quiere decir: pídeme el error que quieras, yo te encuentro un número de rectángulos que se queda por debajo. Y como siempre la pregunta útil no es «¿llega?» sino «¿cuán deprisa?»: cortar por la mitad en vez de por el borde ahorra, a igualdad de error, cientos de rectángulos.",
+  "Tachimetro e contachilometri":
+    "Velocímetro y cuentakilómetros",
+  "la curva di sopra è la velocità, quella di sotto la strada fatta: guarda come sono legate":
+    "la curva de arriba es la velocidad, la de abajo el camino recorrido: mira cómo están ligadas",
+  "trova dove la strada è più ripida":
+    "encuentra dónde el camino sube más deprisa",
+  "scoperte: :fatte su :totali":
+    "descubrimientos: :fatte de :totali",
+  "velocità: :v":
+    "velocidad: :v",
+  "strada: :s · pendenza: :p":
+    "camino: :s · pendiente: :p",
+  "altezza sopra :v = pendenza sotto :p":
+    "altura arriba :v = pendiente abajo :p",
+  "è il teorema fondamentale, e vale in ogni punto":
+    "es el teorema fundamental, y vale en cada punto",
+  "fin dove sei arrivato":
+    "hasta dónde has llegado",
+  "Sei arrivato a <b>:t</b>. Lì il tachimetro segna <b>:v</b>, e il contachilometri <b>:s</b>.":
+    "Has llegado a <b>:t</b>. Ahí el velocímetro marca <b>:v</b>, y el cuentakilómetros <b>:s</b>.",
+  "La tangente gialla alla curva di sotto ha pendenza <b>:p</b>. Confrontala con la velocità: sono lo stesso numero, e lo sono <b>in ogni punto</b>.":
+    "La tangente amarilla a la curva de abajo tiene pendiente <b>:p</b>. Compárala con la velocidad: son el mismo número, y lo son <b>en cada punto</b>.",
+  "Detto in parole: la strada fatta cresce alla velocità che segna il tachimetro. Detto in formule: la derivata dell'area è la funzione di partenza. È il <b>teorema fondamentale del calcolo</b>, e lega le due metà dell'analisi.":
+    "Dicho en palabras: el camino recorrido crece a la velocidad que marca el velocímetro. Dicho en fórmulas: la derivada del área es la función de partida. Es el <b>teorema fundamental del cálculo</b>, y liga las dos mitades del análisis.",
+  "<b>Le due metà dell'analisi sono una cosa sola.</b> La derivata (livello :d) misura quanto una cosa cambia; l'integrale somma i cambiamenti e ricostruisce la cosa. Per questo si può calcolare un'area senza contare un solo rettangolo: basta trovare una funzione la cui derivata sia quella di partenza, e guardare quanto è cresciuta agli estremi.":
+    "<b>Las dos mitades del análisis son una sola cosa.</b> La derivada (nivel :d) mide cuánto cambia una cosa; la integral suma los cambios y reconstruye la cosa. Por eso se puede calcular un área sin contar ni un rectángulo: basta encontrar una función cuya derivada sea la de partida, y mirar cuánto ha crecido entre los extremos.",
+  /* ---------------- livello M·10: serie di Taylor ---------------- */
+  "Serie di Taylor: qualunque curva, vista da vicino, è un polinomio":
+    "Series de Taylor: cualquier curva, vista de cerca, es un polinomio",
+  "Il polinomio che insegue la curva finché ce la fa, la formula di Eulero letta sul foglio — e la scoperta che il √N di Grover è un'approssimazione troncata al primo termine.":
+    "El polinomio que persigue a la curva mientras puede, la fórmula de Euler leída en el papel — y el descubrimiento de que el √N de Grover es una aproximación parada en el primer término.",
+  "Il polinomio che insegue la curva":
+    "El polinomio que persigue a la curva",
+  "aggiungi termini e guarda quanto lontano riesce a starle dietro":
+    "añade términos y mira hasta dónde consigue seguirla",
+  "errore sotto :s ovunque":
+    "error por debajo de :s en todas partes",
+  "curve inseguite: :fatte su :totali":
+    "curvas perseguidas: :fatte de :totali",
+  "qui dentro funziona":
+    "aquí dentro funciona",
+  "grado :n · errore peggiore: :e":
+    "grado :n · peor error: :e",
+  "incollato in zero, si stacca allontanandosi":
+    "pegado en cero, se despega al alejarse",
+  "grado del polinomio":
+    "grado del polinomio",
+  "Il polinomio di grado <b>:n</b> vale <b>:p</b> in x = :x, dove la funzione vale <b>:v</b>. Sul tratto disegnato l'errore peggiore è <b>:e</b>.":
+    "El polinomio de grado <b>:n</b> vale <b>:p</b> en x = :x, donde la función vale <b>:v</b>. En el tramo dibujado el peor error es <b>:e</b>.",
+  "Vicino a zero bastano pochi termini; per stare dietro anche lontano ne servono molti di più. È sempre la stessa domanda: non «ci arriva», ma <b>quanto in fretta</b>.":
+    "Cerca de cero bastan pocos términos; para seguirla también lejos hacen falta muchos más. Es siempre la misma pregunta: no «¿llega?», sino <b>cuán deprisa</b>.",
+  "Ma questa ha un muro. Fuori dalla striscia verde — cioè per |x| ≥ 1 — la serie non si avvicina a niente: <b>esplode</b>, e aggiungere termini peggiora. Si chiama <b>raggio di convergenza</b>, e qui vale 1. Provaci: porta il grado al massimo e guarda cosa fa la curva gialla ai bordi.":
+    "Pero esta tiene un muro. Fuera de la franja verde — es decir, para |x| ≥ 1 — la serie no se acerca a nada: <b>explota</b>, y añadir términos empeora. Se llama <b>radio de convergencia</b>, y aquí vale 1. Pruébalo: sube el grado al máximo y mira qué hace la curva amarilla en los bordes.",
+  "Guarda il primo termine: per il seno è <b>x</b>. Vuol dire che per angoli piccoli <b>sin x ≈ x</b>, ed è l'approssimazione più usata di tutta la fisica. Nel gioco qui sotto è quella che fa comparire il √N di Grover.":
+    "Mira el primer término: para el seno es <b>x</b>. Quiere decir que para ángulos pequeños <b>sin x ≈ x</b>, y es la aproximación más usada de toda la física. En el juego de abajo es la que hace aparecer el √N de Grover.",
+  "<b>Perché funziona.</b> Il polinomio di Taylor è costruito per <b>copiare</b> la funzione in un punto: stesso valore, stessa pendenza (la derivata del livello :d), stessa curvatura, e così via. Ogni termine in più impone che coincida anche la derivata successiva. Da lì la formula dei coefficienti, f⁽ᵏ⁾(0)/k!, e il fatto che l'inseguimento parta perfetto in zero e si allenti man mano che ci si allontana.":
+    "<b>Por qué funciona.</b> El polinomio de Taylor está construido para <b>copiar</b> la función en un punto: mismo valor, misma pendiente (la derivada del nivel :d), misma curvatura, y así sucesivamente. Cada término más obliga a que coincida también la derivada siguiente. De ahí la fórmula de los coeficientes, f⁽ᵏ⁾(0)/k!, y el hecho de que la persecución empiece perfecta en cero y se afloje a medida que uno se aleja.",
+  "Da sin x ≈ x al √N di Grover":
+    "De sin x ≈ x al √N de Grover",
+  "l'approssimazione più famosa della fisica, e il numero di giri che ne esce":
+    "la aproximación más famosa de la física, y el número de vueltas que sale de ella",
+  "scarto sotto l'1%":
+    "diferencia por debajo del 1%",
+  "prove: :fatte su :totali":
+    "intentos: :fatte de :totali",
+  "N = :n · θ vero :v · θ ≈ :a":
+    "N = :n · θ verdadero :v · θ ≈ :a",
+  "scarto :s% · giri veri :v · formula :f":
+    "diferencia :s% · vueltas reales :v · fórmula :f",
+  "più lunga è la lista, più l'approssimazione è buona":
+    "cuanto más larga es la lista, mejor es la aproximación",
+  "quanto è lunga la lista":
+    "cuánto mide la lista",
+  "lista corta":
+    "lista corta",
+  "lista lunga":
+    "lista larga",
+  "Con una lista di <b>:n</b> caselle l'angolo di Grover vale <b>:v</b> radianti. Il primo termine di Taylor dice 1/√N = <b>:a</b>: sbaglia del <b>:s%</b>.":
+    "Con una lista de <b>:n</b> casillas el ángulo de Grover vale <b>:v</b> radianes. El primer término de Taylor dice 1/√N = <b>:a</b>: se equivoca en un <b>:s%</b>.",
+  "I giri che davvero danno la probabilità più alta sono <b>:v</b>. La formula famosa (π/4)·√N ne dice <b>:f</b>.":
+    "Las vueltas que de verdad dan la probabilidad más alta son <b>:v</b>. La fórmula famosa (π/4)·√N dice <b>:f</b>.",
+  "Ecco da dove viene il √N. Servono circa (π/4)/θ giri, e se θ ≈ 1/√N allora i giri sono circa (π/4)·√N. Il vantaggio quantistico più famoso del corso è <b>un'approssimazione di Taylor troncata al primo termine</b>.":
+    "De aquí viene el √N. Hacen falta unas (π/4)/θ vueltas, y si θ ≈ 1/√N entonces las vueltas son unas (π/4)·√N. La ventaja cuántica más famosa del curso es <b>una aproximación de Taylor parada en el primer término</b>.",
+  "<b>Approssimare qui non è essere sbrigativi: è il conto.</b> Al livello :g hai visto che ogni giro di Grover aggiunge 2θ e che i giri utili sono quelli che portano vicino a 90°. Quel θ è arcsin(√(1/N)), e per liste grandi la serie di Taylor dice che vale 1/√N a meno di un pelo. Da lì, e solo da lì, esce il √N che rende Grover più veloce di qualunque ricerca classica.":
+    "<b>Aproximar aquí no es ir con prisa: es la cuenta.</b> En el nivel :g viste que cada vuelta de Grover añade 2θ y que las vueltas útiles son las que llevan cerca de 90°. Ese θ es arcsin(√(1/N)), y para listas grandes la serie de Taylor dice que vale 1/√N por un pelo. De ahí, y solo de ahí, sale el √N que hace a Grover más rápido que cualquier búsqueda clásica.",
+  /* ---------------- livello M·11: cambio di base ---------------- */
+  "Cambio di base: lo stesso stato, due righelli diversi":
+    "Cambio de base: el mismo estado, dos reglas distintas",
+  "Misurare è proiettare, la porta di Hadamard è un cambio di righello, e nella base giusta una matrice diventa una pura stiratura — che è la scorciatoia su cui è costruita la stima di fase.":
+    "Medir es proyectar, la puerta de Hadamard es un cambio de regla, y en la base correcta una matriz se convierte en un simple estiramiento — el atajo sobre el que está construida la estimación de fase.",
+  "Due righelli, una freccia sola":
+    "Dos reglas, una sola flecha",
+  "la freccia non si muove: cambia chi la misura":
+    "la flecha no se mueve: cambia quien la mide",
+  "rendi certa la misura":
+    "haz que la medida sea segura",
+  "coordinate: :a e :b":
+    "coordenadas: :a y :b",
+  "probabilità: :p% e :q%":
+    "probabilidades: :p% y :q%",
+  "misurare = proiettare sugli assi del righello":
+    "medir = proyectar sobre los ejes de la regla",
+  "inclinazione del righello":
+    "inclinación de la regla",
+  "righello Z (0°)":
+    "regla Z (0°)",
+  "righello X (45°)":
+    "regla X (45°)",
+  "obliquo":
+    "oblicuo",
+  "La freccia è sempre la stessa. Con il righello a <b>:g°</b> le sue coordinate sono <b>:a</b> e <b>:b</b>, e misurando esce la prima direzione il <b>:p%</b> delle volte.":
+    "La flecha es siempre la misma. Con la regla a <b>:g°</b> sus coordenadas son <b>:a</b> y <b>:b</b>, y al medir sale la primera dirección el <b>:p%</b> de las veces.",
+  "Le probabilità sono i <b>quadrati</b> delle coordinate: è la regola di Born, ed è il motivo per cui in questo corso si somma sempre il quadrato delle ampiezze.":
+    "Las probabilidades son los <b>cuadrados</b> de las coordenadas: es la regla de Born, y es el motivo por el que en este curso siempre se suma el cuadrado de las amplitudes.",
+  "Qui la misura è <b>certa</b>: la freccia è esattamente su un asse del righello, e l'altro asse riceve zero. Nessun caso, nessuna moneta.":
+    "Aquí la medida es <b>segura</b>: la flecha está exactamente sobre un eje de la regla, y el otro eje recibe cero. Ningún azar, ninguna moneda.",
+  "Qui la misura è <b>testa o croce</b>: 50 e 50. Ed è la stessa freccia di prima — non è cambiato lo stato, è cambiato il righello.":
+    "Aquí la medida es <b>cara o cruz</b>: 50 y 50. Y es la misma flecha de antes — no ha cambiado el estado, ha cambiado la regla.",
+  "<b>La porta di Hadamard è questo, e nient'altro.</b> Al livello :h arriva come «la porta che mette in sovrapposizione». Guardala qui: è la macchina che riscrive uno stato nel righello a 45°. I due numeri che ne escono, al quadrato, sono esattamente le due probabilità che vedi nel gioco — e i test lo verificano su ogni stato. Per questo manda |0⟩ in una cosa che lungo Z è 50 e 50, e per questo applicandola due volte si torna al punto di partenza: cambiare righello e ricambiarlo non fa niente.":
+    "<b>La puerta de Hadamard es esto, y nada más.</b> En el nivel :h llega como «la puerta que pone en superposición». Mírala aquí: es la máquina que reescribe un estado en la regla de 45°. Los dos números que salen, al cuadrado, son exactamente las dos probabilidades que ves en el juego — y los tests lo verifican en cada estado. Por eso manda |0⟩ a algo que a lo largo de Z es 50 y 50, y por eso aplicándola dos veces se vuelve al punto de partida: cambiar de regla y volver a cambiarla no hace nada.",
+  "La base in cui la macchina si semplifica":
+    "La base en la que la máquina se simplifica",
+  "gira il righello finché la matrice non ha più angoli storti":
+    "gira la regla hasta que la matriz no tenga esquinas torcidas",
+  "azzera i numeri fuori diagonale":
+    "pon a cero los números de fuera de la diagonal",
+  "macchine domate: :fatte su :totali":
+    "máquinas domadas: :fatte de :totali",
+  "vista dal righello":
+    "vista por la regla",
+  "righello a :g° · fuori diagonale: :f":
+    "regla a :g° · fuera de la diagonal: :f",
+  "frecce dritte = solo una stiratura":
+    "flechas rectas = solo un estiramiento",
+  "portami nella base giusta":
+    "llévame a la base correcta",
+  "stira e taglia":
+    "estira y corta",
+  "specchio storto":
+    "espejo torcido",
+  "Con il righello a <b>:g°</b> la stessa macchina si scrive con i numeri qui a destra. Fuori dalla diagonale c'è <b>:f</b>: è quanto la macchina «mescola» le due direzioni.":
+    "Con la regla a <b>:g°</b> la misma máquina se escribe con los números de la derecha. Fuera de la diagonal hay <b>:f</b>: es cuánto mezcla la máquina las dos direcciones.",
+  "Trovata. In questa base la macchina non mescola più niente: <b>allunga la prima direzione di :a e la seconda di :b</b>, e basta. Quei due numeri sono gli <b>autovalori</b>, e quelle due direzioni gli <b>autovettori</b> del livello :n.":
+    "Encontrada. En esta base la máquina ya no mezcla nada: <b>estira la primera dirección :a y la segunda :b</b>, y ya está. Esos dos números son los <b>autovalores</b>, y esas dos direcciones los <b>autovectores</b> del nivel :n.",
+  "E adesso il regalo: in questa base applicare la macchina <b>mille volte</b> vuol dire elevare due numeri alla millesima. Fuori da questa base vorrebbe dire moltiplicare mille matrici. È la scorciatoia su cui è costruita la stima di fase.":
+    "Y ahora el regalo: en esta base aplicar la máquina <b>mil veces</b> significa elevar dos números a la milésima. Fuera de esta base significaría multiplicar mil matrices. Es el atajo sobre el que está construida la estimación de fase.",
+  "Gira il righello: c'è un'inclinazione in cui i due numeri fuori diagonale diventano zero. Le frecce verde e rosa te lo dicono — quando escono dritte invece che storte, ci sei.":
+    "Gira la regla: hay una inclinación en la que los dos números de fuera de la diagonal se vuelven cero. Las flechas verde y rosa te lo dicen — cuando salen rectas en vez de torcidas, ya está.",
+  "<b>Perché questa è la cosa più utile del livello.</b> Una matrice generica è difficile da capire: mescola tutto con tutto. Ma se esiste una base in cui diventa diagonale, in quella base è solo «moltiplica per un numero, ciascuno per conto suo». Elevare a potenza, calcolare e^(matrice), applicare mille volte: tutto diventa un conto su singoli numeri. Al livello :n hai trovato gli autovettori; qui hai visto <b>a che servono</b>.":
+    "<b>Por qué esto es lo más útil del nivel.</b> Una matriz cualquiera es difícil de entender: mezcla todo con todo. Pero si existe una base en la que se vuelve diagonal, en esa base es solo «multiplica por un número, cada uno por su cuenta». Elevar a potencia, calcular e^(matriz), aplicar mil veces: todo se convierte en una cuenta con números sueltos. En el nivel :n encontraste los autovectores; aquí has visto <b>para qué sirven</b>.",
+  /* ---------------- livello M·12: esponenziale di matrice ---------------- */
+  "e elevato a una matrice: come si fa evolvere un sistema fisico":
+    "e elevado a una matriz: cómo se hace evolucionar un sistema físico",
+  "La serie di Taylor con una matrice dentro, la scorciatoia degli autovettori — e la formula di Trotter, cioè il conto vero di quanto costa simulare una molecola.":
+    "La serie de Taylor con una matriz dentro, el atajo de los autovectores — y la fórmula de Trotter, es decir la cuenta real de lo que cuesta simular una molécula.",
+  "e elevato a una matrice":
+    "e elevado a una matriz",
+  "la stessa serie del livello M·10, con una matrice al posto del numero":
+    "la misma serie del nivel M·10, con una matriz en lugar del número",
+  "serie a meno di :s":
+    "serie a menos de :s",
+  "generatori domati: :fatte su :totali":
+    "generadores domados: :fatte de :totali",
+  "termini: :k · errore: :e":
+    "términos: :k · error: :e",
+  "la strada gialla è la somma che si costruisce":
+    "el camino amarillo es la suma construyéndose",
+  "il cerchio verde è dove si deve arrivare":
+    "el círculo verde es donde hay que llegar",
+  "gira":
+    "gira",
+  "storto":
+    "torcido",
+  "per quanto tempo":
+    "durante cuánto tiempo",
+  "quanti termini della serie":
+    "cuántos términos de la serie",
+  "e^M vuol dire <b>I + M + M²/2! + M³/3! + …</b>, esattamente la serie del livello :n con una matrice al posto del numero. Con <b>:k</b> termini sbagli di <b>:e</b>.":
+    "e^M significa <b>I + M + M²/2! + M³/3! + …</b>, exactamente la serie del nivel :n con una matriz en lugar del número. Con <b>:k</b> términos te equivocas en <b>:e</b>.",
+  "Il risultato vero è la matrice [ :a &nbsp;:b ; :c &nbsp;:d ], e si calcola <b>senza sommare niente</b>: nella base degli autovettori (livello :m) basta fare e^(autovalore) su ciascuna direzione.":
+    "El resultado verdadero es la matriz [ :a &nbsp;:b ; :c &nbsp;:d ], y se calcula <b>sin sumar nada</b>: en la base de los autovectores (nivel :m) basta hacer e^(autovalor) en cada dirección.",
+  "E c'è un fatto che vale sempre: <b>det(e^M) = e^(traccia di M)</b>. Qui la traccia è :t e il determinante viene :s. Se la traccia è zero il determinante è 1 — cioè la trasformazione non cambia le aree, e in quantistica vuol dire che le probabilità continuano a fare 1.":
+    "Y hay un hecho que vale siempre: <b>det(e^M) = e^(traza de M)</b>. Aquí la traza es :t y el determinante sale :s. Si la traza es cero el determinante es 1 — la transformación no cambia las áreas, y en cuántica significa que las probabilidades siguen sumando 1.",
+  "<b>A che serve.</b> Un sistema fisico che parte da uno stato ψ e ha energia H si trova, dopo un tempo t, nello stato <b>e^(−iHt)·ψ</b>. È la soluzione dell'equazione di Schrödinger, ed è un esponenziale di matrice — cioè questa cosa qui. Nel gioco è tutto reale per poterlo disegnare: la freccia gira nel piano invece che sulla sfera di Bloch del livello :b, ma la formula è la stessa.":
+    "<b>Para qué sirve.</b> Un sistema físico que parte de un estado ψ y tiene energía H se encuentra, tras un tiempo t, en el estado <b>e^(−iHt)·ψ</b>. Es la solución de la ecuación de Schrödinger, y es una exponencial de matriz — esta cosa de aquí. En el juego todo es real para poder dibujarlo: la flecha gira en el plano en vez de en la esfera de Bloch del nivel :b, pero la fórmula es la misma.",
+  "Spezzare il tempo: la formula di Trotter":
+    "Trocear el tiempo: la fórmula de Trotter",
+  "due pezzi di energia che non vanno d'accordo, e come si fa lo stesso":
+    "dos piezas de energía que no se llevan bien, y cómo se hace igualmente",
+  "avvicinati a meno di :s":
+    "acércate a menos de :s",
+  "pezzetti: :n · errore: :e":
+    "trocitos: :n · error: :e",
+  "viola: spezzato · verde: bersaglio":
+    "morado: troceado · verde: objetivo",
+  "raddoppiare i pezzetti dimezza l'errore":
+    "doblar los trocitos reduce el error a la mitad",
+  "in quanti pezzetti spezzo il tempo":
+    "en cuántos trocitos troceo el tiempo",
+  "L'energia è fatta di due pezzi, A e B. Vorresti scrivere e^(A+B) = e^A·e^B, come si fa con i numeri. <b>Non si può</b>: qui il commutatore AB − BA vale :c, cioè l'ordine conta.":
+    "La energía está hecha de dos piezas, A y B. Te gustaría escribir e^(A+B) = e^A·e^B, como se hace con los números. <b>No se puede</b>: aquí el conmutador AB − BA vale :c, es decir que el orden cuenta.",
+  "Con <b>:n</b> pezzetti il cammino spezzato finisce a <b>:e</b> dal punto giusto. Raddoppia i pezzetti e guarda l'errore: si dimezza.":
+    "Con <b>:n</b> trocitos el camino troceado acaba a <b>:e</b> del punto correcto. Dobla los trocitos y mira el error: se reduce a la mitad.",
+  "Questo è letteralmente quello che fa un computer quantistico quando simula una molecola: non sa applicare e^(−iHt) in un colpo, ma sa applicare i pezzi uno alla volta. Più pezzetti, più porte da eseguire, meno errore. È il prezzo, ed è tutto qui.":
+    "Esto es literalmente lo que hace un ordenador cuántico cuando simula una molécula: no sabe aplicar e^(−iHt) de golpe, pero sabe aplicar las piezas una a una. Más trocitos, más puertas que ejecutar, menos error. Ese es el precio, y no hay más.",
+  "<b>Perché non si può spezzare e basta.</b> Con i numeri e^(a+b) = e^a·e^b sempre, perché a·b = b·a. Con le matrici no: se AB ≠ BA quella regola salta, e la differenza si chiama <b>commutatore</b>. Il commutatore è la stessa cosa che al livello :i rende impossibile misurare due grandezze insieme — il principio di indeterminazione è una disuguaglianza sul commutatore. Qui lo vedi come uno scarto fra due frecce.":
+    "<b>Por qué no se puede trocear y ya está.</b> Con los números e^(a+b) = e^a·e^b siempre, porque a·b = b·a. Con las matrices no: si AB ≠ BA esa regla se rompe, y la diferencia se llama <b>conmutador</b>. El conmutador es lo mismo que en el nivel :i hace imposible medir dos magnitudes a la vez — el principio de indeterminación es una desigualdad sobre el conmutador. Aquí lo ves como una separación entre dos flechas.",
+  /* ---------------- glossario: i termini della Parte M ---------------- */
+  "Limite":
+    "Límite",
+  "limiti, tende a, converge, convergenza":
+    "límites, tiende a, converge, convergencia",
+  "Il numero a cui una successione si avvicina, nel senso preciso del gioco: per ogni corridoio largo quanto vuoi attorno a quel numero, da un certo punto in poi la successione ci resta dentro. Non vuol dire «ci arriva».":
+    "El número al que una sucesión se acerca, en el sentido preciso del juego: para cada pasillo del ancho que quieras alrededor de ese número, a partir de cierto punto la sucesión se queda dentro. No quiere decir «llega».",
+  "Serie di Taylor":
+    "Serie de Taylor",
+  "serie di Taylor, polinomio di Taylor, sviluppo in serie":
+    "serie de Taylor, polinomio de Taylor, desarrollo en serie",
+  "Il polinomio che copia una funzione in un punto: stesso valore, stessa pendenza, stessa curvatura, e così via. Ogni termine in più allarga il tratto in cui la copia regge. È il modo in cui un computer calcola davvero il seno.":
+    "El polinomio que copia una función en un punto: mismo valor, misma pendiente, misma curvatura, y así sucesivamente. Cada término más ensancha el tramo en el que la copia aguanta. Es como un ordenador calcula de verdad el seno.",
+  "Raggio di convergenza":
+    "Radio de convergencia",
+  "raggio di convergenza":
+    "radio de convergencia",
+  "La distanza entro cui una serie di potenze funziona. Fuori di lì aggiungere termini peggiora invece di migliorare: per 1/(1−x) vale 1, cioè la distanza dal punto in cui la funzione esplode.":
+    "La distancia dentro de la cual funciona una serie de potencias. Fuera de ahí añadir términos empeora en vez de mejorar: para 1/(1−x) vale 1, es decir la distancia al punto donde la función explota.",
+  "Integrale":
+    "Integral",
+  "integrali, integrare, primitiva, primitive":
+    "integrales, integrar, primitiva, primitivas",
+  "L'area sotto una curva, cioè il limite delle somme di rettangoli sempre più stretti. Il teorema fondamentale dice che derivare e integrare sono operazioni inverse: da lì la scorciatoia F(b) − F(a), che rende inutile contare rettangoli.":
+    "El área bajo una curva, es decir el límite de las sumas de rectángulos cada vez más estrechos. El teorema fundamental dice que derivar e integrar son operaciones inversas: de ahí el atajo F(b) − F(a), que hace innecesario contar rectángulos.",
+  "Cambio di base":
+    "Cambio de base",
+  "cambio di base, cambiare base, diagonalizzare, diagonalizzazione":
+    "cambio de base, cambiar de base, diagonalizar, diagonalización",
+  "Riscrivere lo stesso oggetto con un altro righello. Lo stato non si muove, cambiano i numeri che lo descrivono — e le probabilità con loro. Per una matrice esiste spesso una base in cui diventa diagonale: lì è solo una stiratura, e applicarla mille volte costa due potenze invece di mille prodotti.":
+    "Reescribir el mismo objeto con otra regla. El estado no se mueve, cambian los números que lo describen — y las probabilidades con ellos. Para una matriz suele existir una base en la que se vuelve diagonal: allí es solo un estiramiento, y aplicarla mil veces cuesta dos potencias en vez de mil productos.",
+  "Commutatore":
+    "Conmutador",
+  "commutatore, commutano, commutare, non commutano":
+    "conmutador, conmutan, conmutar, no conmutan",
+  "AB − BA: quanto conta l'ordine in cui si applicano due operazioni. Se è zero le due si possono scambiare, e allora e^(A+B) = e^A·e^B. Se non è zero quella regola salta — ed è la stessa quantità che dà il principio di indeterminazione.":
+    "AB − BA: cuánto cuenta el orden en que se aplican dos operaciones. Si es cero las dos se pueden intercambiar, y entonces e^(A+B) = e^A·e^B. Si no es cero esa regla se rompe — y es la misma cantidad que da el principio de indeterminación.",
+  "Esponenziale di matrice":
+    "Exponencial de matriz",
+  "esponenziale di matrice, e elevato a una matrice":
+    "exponencial de matriz, e elevado a una matriz",
+  "La stessa serie di e^x con una matrice al posto del numero. Serve perché un sistema fisico che parte da ψ e ha energia H, dopo un tempo t, si trova in e^(−iHt)·ψ: è la soluzione dell'equazione di Schrödinger.":
+    "La misma serie de e^x con una matriz en lugar del número. Importa porque un sistema físico que parte de ψ y tiene energía H se encuentra, tras un tiempo t, en e^(−iHt)·ψ: es la solución de la ecuación de Schrödinger.",
+  "Trotter (formula di)":
+    "Trotter (fórmula de)",
+  "formula di Trotter, decomposizione di Trotter, trotterizzazione":
+    "fórmula de Trotter, descomposición de Trotter, trotterización",
+  "Quando l'energia è fatta di pezzi che non commutano, e^(A+B) non è e^A·e^B. Si spezza allora il tempo in n pezzetti applicando i pezzi a turno: l'errore scende come 1/n. È il modo in cui un computer quantistico simula una molecola, e il conto di quante porte costa.":
+    "Cuando la energía está hecha de piezas que no conmutan, e^(A+B) no es e^A·e^B. Entonces se trocea el tiempo en n pedazos aplicando las piezas por turnos: el error baja como 1/n. Es como un ordenador cuántico simula una molécula, y la cuenta de cuántas puertas cuesta.",
 };

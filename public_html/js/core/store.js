@@ -138,6 +138,12 @@ export function completeLesson(id) {
 /** Il livello è accessibile? (sempre sì in modalità libera o se non ha prerequisiti) */
 export function isUnlocked(id) {
   if (state.free) return true;
+  /* Un livello GIÀ SUPERATO non si richiude mai, qualunque cosa succeda alla
+     mappa. Serve perché il corso cresce: inserire un livello nuovo in mezzo al
+     percorso sposta il prerequisito di quello che segue, e senza questa riga
+     chi aveva già superato il livello successivo se lo ritrovava sbarrato —
+     con il proprio attestato di padronanza in tasca. */
+  if (isLessonDone(id)) return true;
   const lv = levelById(id);
   if (!lv || !lv.req) return true;
   return isLessonDone(lv.req);

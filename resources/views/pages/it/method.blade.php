@@ -199,8 +199,10 @@ all'85%) e al 7 (due strade, dove le probabilità si sommano e le ampiezze si ca
       differenza solo se tutto il resto combacia.</li>
   <li><b>Il modo di calcolo si vede sempre</b>, su ogni mini-gioco del corso: blu «computer normale», viola
       «computer quantistico», con icona e parola scritta accanto al colore — mai il colore da solo, come al
-      punto 6. La Parte 0 e i laboratori delle onde non portano etichetta, perché la matematica non è né l'una
-      né l'altra cosa.</li>
+      punto 6. Un mini-gioco di matematica pura — la parabola, il quadrato di al-Khwārizmī, i laboratori delle
+      onde — <b>non</b> porta etichetta, perché un conto non è né classico né quantistico: l'etichetta compare
+      solo dove il gioco simula davvero una delle due macchine (l'orologio modulare che sta dentro Shor, la porta
+      quantistica fatta di matrici, la misura come ombra).</li>
 </ul>
 
 <h2>11. Il suono: informazione, non decorazione</h2>
@@ -235,7 +237,7 @@ e riferito al <b>compito</b>, non alla persona. Da qui tre aggiunte, presenti or
 <p>Chiedere una registrazione è attrito, e l'attrito fa perdere persone: sarebbe più comodo per tutti far girare
 tutto nel browser. Due ragioni lo rendono comunque la scelta giusta:</p>
 <ul>
-  <li><b>i progressi non devono morire con la cache.</b> Un corso da 34 livelli si fa in più sessioni e spesso su più
+  <li><b>i progressi non devono morire con la cache.</b> Un corso da 55 livelli si fa in più sessioni e spesso su più
       dispositivi: perdere tutto per una pulizia del browser è il modo più stupido di abbandonare;</li>
   <li><b>l'attestato deve valere qualcosa.</b> Le domande dell'esame arrivano dal server <b>senza</b> le risposte esatte
       e la correzione avviene sul server: se lo stato vivesse nel browser, chiunque potrebbe assegnarsi il 100%
@@ -281,7 +283,7 @@ Trovo corretto dichiarare quali leve sto usando, così puoi valutarle:</p>
   <tr><td><b>Progresso donato</b></td><td>Nunes &amp; Drèze (2006)</td>
       <td>la Parte 0 è già "percorso fatto" per chi conosce le basi: si parte da una barra non vuota</td></tr>
   <tr><td><b>Prova sociale</b></td><td>Cialdini</td>
-      <td>numeri <b>veri</b>: 8 realtà in cui ho insegnato, 34 livelli, oltre 300 test automatici. Nessun "10.000 studenti felici" inventato</td></tr>
+      <td>numeri <b>veri</b>: 8 realtà in cui ho insegnato, 55 livelli, oltre 300 test automatici. Nessun "10.000 studenti felici" inventato</td></tr>
   <tr><td><b>Reciprocità</b></td><td>Cialdini</td>
       <td>il corso completo è gratuito e resta gratuito: la richiesta di contatto viene dopo, e solo se ti è servito</td></tr>
   <tr><td><b>Riduzione dell'attrito</b></td><td>modello di Fogg (B = MAP)</td>
@@ -367,6 +369,92 @@ Sotto i 1100 px di larghezza non c'è spazio per due colonne: lì copre, e allor
 quindi la tabella del livello 23, il pannello e le definizioni al tocco non possono più dire tre cose diverse —
 cosa che era già cominciata a succedere fra la versione italiana e quelle tradotte.</p>
 
+<h2>20. Le storielle buffe: quando l'esempio divertente insegna e quando disturba</h2>
+<p>Quasi tutti hanno in testa una scemenza detta da un professore vent'anni fa e mai più dimenticata. A me
+l'hanno segnalata così: <i>«il mio professore spiegava la formula delle equazioni di secondo grado con l'esempio
+dei nani, e oltre a ridere quella cosa ci è rimasta impressa»</i>. È un ricordo vero e la ricerca lo conferma —
+ma <b>a una condizione precisa</b>, senza la quale l'esempio divertente non è neutro: <b>peggiora</b>
+l'apprendimento invece di migliorarlo.</p>
+<p>Il risultato ha due metà, e vanno tenute insieme:</p>
+<ul>
+  <li><b>L'umorismo legato al contenuto aiuta.</b> La rassegna di <b>Banas e colleghi (2011)</b> su quarant'anni di
+      studi trova che lo humour <i>pertinente</i>, non aggressivo e appropriato migliora attenzione, clima e
+      disponibilità a stare sul compito. Gli effetti più solidi sono su motivazione e credibilità; sul <b>ricordo</b>
+      i risultati sono più incostanti, e il caso in cui funziona meglio è quello in cui la battuta sta
+      <b>dentro</b> la spiegazione e viene ripresa dopo, non appiccicata a lato.</li>
+  <li><b>L'umorismo decorativo danneggia.</b> È il <i>seductive details effect</i> (<b>Harp &amp; Mayer, 1998</b>):
+      i dettagli interessanti ma <b>irrilevanti</b> rubano attenzione a quelli che contano. Le meta-analisi di
+      <b>Rey (2012)</b> e di <b>Sundararajan &amp; Adesope (2020)</b> lo confermano: effetto negativo sul ricordo e
+      <b>più grande ancora sul trasferimento</b>, cioè proprio sul saper riusare la cosa in un contesto nuovo —
+      che è tutto quello che serve qui, dove la matematica delle medie deve poi reggere un livello quantistico.</li>
+</ul>
+<div class="callout key"><b>La regola che ne segue, e che vale per tutti gli esercizi di questo corso:</b>
+la storiella buffa è ammessa <b>solo se è la matematica</b>. Ogni suo pezzo deve corrispondere a un pezzo della
+formula: i personaggi sono i termini, quello che fanno è quello che fa il conto. Prova del nove: se togliendo la
+storiella non si perde nessun passaggio, allora era un dettaglio seducente — e va tolta.</div>
+<p>Un terzo risultato completa la regola. Il <b>keyword method</b> (Pressley, Levin &amp; Delaney, 1982) mostra che
+un'immagine mentale vivida che <b>collega</b> due cose le tiene insieme molto meglio della ripetizione: è lo stesso
+meccanismo per cui «i nani» funzionano. Ma lo stesso filone smonta l'idea che <b>bizzarro sia meglio</b>: quello che
+conta non è l'assurdità, è la <b>chiarezza</b> dell'immagine e il fatto che leghi davvero i due pezzi. Una storiella
+strampalata ma vaga non serve a niente; una storiella semplice in cui si vede <b>chi è chi</b> resta.</p>
+<p>Perciò, in pratica, negli esercizi di matematica di questo corso:</p>
+<ul>
+  <li>l'esempio buffo compare <b>nel punto del ragionamento</b> in cui serve, e regge un passaggio che senza di lui
+      andrebbe imparato a memoria (i nani che devono <b>dividersi in due file uguali</b> sono il <i>b/2</i> del
+      completamento del quadrato, e la mattonella che avanza è il <i>(b/2)²</i>: toglili e la formula torna a essere
+      una filastrocca);</li>
+  <li>è <b>ripreso</b> dopo, nel mini-gioco e nel quiz, invece di restare una battuta isolata — che è la condizione
+      in cui la rassegna sull'umorismo trova gli effetti migliori sul ricordo;</li>
+  <li>non ci sono immagini, suoni o aneddoti messi lì «per alleggerire»: quelli sono esattamente i dettagli
+      seducenti, ed è lo stesso motivo per cui al punto 11 i suoni portano informazione e non decorazione;</li>
+  <li>la <b>storia vera</b> della matematica (al-Khwārizmī, Cardano, Hilbert, Schrödinger) non è nella stessa
+      categoria: non è lì per far ridere, è lì perché sapere <b>da quale problema</b> è nata una formula è parte
+      del capirla — e sta comunque in un blocco suo, che si può saltare.</li>
+</ul>
+<p class="dim small">Nota onesta: la parte sull'umorismo è la più debole di tutto questo elenco quanto a forza
+delle prove — la letteratura è fatta di studi piccoli, effetti medi modesti e molta variabilità fra insegnanti.
+Per questo è usata come <b>condimento di un esempio che sta in piedi da solo</b>, mai come veicolo principale
+di un concetto.</p>
+
+<h2>21. La Parte M: la matematica per intero, e perché è facoltativa</h2>
+<p>Il corso ha una regola che vale ovunque: <b>gli attrezzi matematici arrivano giocati, appena prima di
+servire</b>, e nella quantità minima che serve lì. L'aritmetica dell'orologio arriva prima di Shor, gli
+autovettori prima della stima di fase, la derivata prima dei metodi variazionali. Questo tiene il corso
+percorribile, ma lascia un debito: chi vuole sapere <b>da dove viene</b> quello che ha appena usato non trova
+la risposta dentro il livello, perché lì avrebbe fatto solo peso morto.</p>
+<p>La <b>Parte M</b> paga quel debito. Sono dodici livelli facoltativi che coprono il programma dalla prima
+superiore ad <b>Analisi 2</b> — ma soltanto i pezzi che questo corso usa davvero, e sempre con la domanda
+«perché è fatto così» al centro: perché la formula risolutiva ha quella faccia, da dove esce il numero <i>e</i>,
+perché il √N di Grover è una serie di Taylor fermata al primo termine, come si calcola e^(iHt) cioè come si
+simula una molecola.</p>
+<p>Le ragioni per cui è organizzata così:</p>
+<ul>
+  <li><b>La matematica arriva due volte, a distanza.</b> Una prima volta ridotta all'osso dentro il corso, una
+      seconda per intero nella Parte M. Non è una ripetizione sprecata: la <b>pratica distribuita</b> è, insieme
+      alla pratica di richiamo, una delle due sole tecniche a cui Dunlosky e colleghi (2013) assegnano
+      <i>utilità alta</i> nella loro rassegna di dieci metodi di studio. Rivedere la stessa cosa a settimane di
+      distanza, e in una forma diversa, vale più che vederla due volte di fila.</li>
+  <li><b>«Perché è fatto così» non è un ornamento.</b> Chiedersi il motivo di quello che si sta imparando —
+      <i>interrogazione elaborativa</i> — e spiegarselo a parole proprie — <i>auto-spiegazione</i> — sono due
+      tecniche che la stessa rassegna colloca a <i>utilità moderata</i>, e che Chi e colleghi (1994) avevano
+      mostrato migliorare la comprensione anche solo chiedendo allo studente di commentare ad alta voce mentre
+      legge. Sono anche le due che funzionano meglio <b>quando si ha già un aggancio</b> nell'argomento: ed è
+      esattamente la posizione di chi arriva alla Parte M dopo aver già usato quegli attrezzi giocando.</li>
+  <li><b>È facoltativa, e non per gentilezza.</b> L'<i>expertise reversal effect</i> (Kalyuga et al., 2003) dice
+      che la spiegazione che aiuta il principiante <b>ostacola</b> chi quel pezzo lo sa già: gli tocca comunque
+      leggerla per scoprire che non gli serviva. Rendere obbligatoria la Parte M vorrebbe dire far pagare un
+      pedaggio a chi ha già fatto il liceo scientifico. Sta fuori dalla catena dei prerequisiti, e ogni livello
+      del corso principale rimanda al livello M corrispondente: la porta è aperta, non è un cancello.</li>
+  <li><b>Ogni affermazione è verificata da un test, non asserita.</b> Quando un livello della Parte M dice «le
+      strategie classiche possibili sono sedici e nessuna supera il 75%», i test del progetto le enumerano tutte
+      e sedici; quando dice «l'errore scende come 1/n», l'esponente è <b>misurato</b> raddoppiando i termini e
+      guardando per quanto viene diviso l'errore. È la stessa regola con cui è collaudato il simulatore
+      (sezione 15), applicata alle frasi didattiche.</li>
+</ul>
+<p class="dim small">Nota onesta: la Parte M è la parte più giovane del sito ed è quella con meno collaudo su
+utenti veri. Le scelte qui sopra sono difendibili sulla letteratura, ma la prova sul campo — quanti la
+cominciano, quanti la finiscono, se serve davvero a chi la fa — non l'ho ancora.</p>
+
 <h2>Fonti</h2>
 <p class="dim small">Elencate nell'ordine in cui compaiono nel testo. Dove non c'è un link è perché il riferimento
 è un libro o un articolo classico facilmente reperibile: preferisco citarlo così piuttosto che linkare una copia
@@ -386,6 +474,11 @@ di dubbia provenienza.</p>
   <li>Sisini, F. — <i>QuantumSim</i>, simulatore di circuiti quantistici in C, e i libri divulgativi dello stesso autore da cui è cominciato il mio percorso in questa materia. — <a href="https://github.com/francescosisini/QuantumSim" target="_blank" rel="noopener">repository</a></li>
   <li>Gentner, D., Loewenstein, J., Thompson, L. (2003). <i>Learning and Transfer: A General Role for Analogical Encoding</i>. Journal of Educational Psychology — confrontare due casi concreti fa emergere il principio comune meglio che studiarli uno alla volta. — <a href="https://groups.psych.northwestern.edu/gentner/papers/GentnerLoewensteinThompson03.pdf" target="_blank" rel="noopener">PDF</a></li>
   <li>Alfieri, L., Nokes-Malach, T. J., Schunn, C. D. (2013). <i>Learning Through Case Comparisons: A Meta-Analytic Review</i>. Educational Psychologist, 48(2), 87–113. — <a href="https://www.tandfonline.com/doi/abs/10.1080/00461520.2013.775712" target="_blank" rel="noopener">articolo</a></li>
+  <li>Banas, J. A., Dunbar, N., Rodriguez, D., Liu, S.-J. (2011). <i>A Review of Humor in Educational Settings: Four Decades of Research</i>. Communication Education, 60(1), 115–144 — l'umorismo <b>legato al contenuto</b> aiuta clima, motivazione e attenzione; quello aggressivo o fuori tema no. — <a href="https://www.researchgate.net/publication/262966808_A_Review_of_Humor_in_Educational_Settings_Four_Decades_of_Research" target="_blank" rel="noopener">testo</a></li>
+  <li>Harp, S. F., Mayer, R. E. (1998). <i>How Seductive Details Do Their Damage</i>. Journal of Educational Psychology, 90(3), 414–434 — il dettaglio interessante ma irrilevante distrae da quello che conta.</li>
+  <li>Rey, G. D. (2012). <i>A review and a meta-analysis of the seductive detail effect</i>. Educational Research Review, 7(3), 216–237. — <a href="https://www.sciencedirect.com/science/article/abs/pii/S1747938X12000413" target="_blank" rel="noopener">articolo</a></li>
+  <li>Sundararajan, N., Adesope, O. (2020). <i>Keep it Coherent: A Meta-Analysis of the Seductive Details Effect</i>. Educational Psychology Review, 32, 707–734 — effetto negativo su ricordo e, più marcato, sul <b>trasferimento</b>. — <a href="https://link.springer.com/article/10.1007/s10648-020-09522-4" target="_blank" rel="noopener">articolo</a></li>
+  <li>Pressley, M., Levin, J. R., Delaney, H. D. (1982). <i>The Mnemonic Keyword Method</i>. Review of Educational Research, 52(1), 61–91 — l'immagine mentale che <b>collega</b> due cose batte la ripetizione; ma «bizzarro» non è meglio: conta che l'immagine sia <b>chiara</b>. — <a href="https://journals.sagepub.com/doi/10.3102/00346543052001061" target="_blank" rel="noopener">articolo</a></li>
   <li>Landauer, R. (1961), <i>Irreversibility and Heat Generation in the Computing Process</i>, e Bérut, A. et al. (2012), <i>Experimental verification of Landauer's principle</i>, Nature 483, 187–189 — il costo termodinamico di cancellare un bit, previsto e poi misurato. — <a href="https://www.nature.com/articles/nature10872" target="_blank" rel="noopener">articolo su Nature</a></li>
   <li>Bruner, J. S. (1960). <i>The Process of Education</i> — il curriculum a spirale: tornare sugli stessi concetti a livelli via via più profondi.</li>
   <li>Sweller, J. — teoria del carico cognitivo; Mayer, R. E. — principi di apprendimento multimediale (coerenza, segnalazione, contiguità, segmentazione, pre-addestramento, stile colloquiale).</li>
@@ -399,6 +492,8 @@ di dubbia provenienza.</p>
   <li>Nielsen, J. — <i>10 Usability Heuristics for User Interface Design</i>, in particolare la sesta («recognition rather than recall»). — <a href="https://www.nngroup.com/articles/ten-usability-heuristics/" target="_blank" rel="noopener">testo</a></li>
   <li>Nation, I. S. P. (2001). <i>Learning Vocabulary in Another Language</i>. Cambridge University Press — sul ruolo delle glosse.</li>
   <li>Yun, J. (2011). <i>The effects of hypertext glosses on L2 vocabulary acquisition: a meta-analysis</i>. Computer Assisted Language Learning, 24(1), 39–58.</li>
+  <li>Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., Willingham, D. T. (2013). <i>Improving Students' Learning With Effective Learning Techniques</i>. Psychological Science in the Public Interest, 14(1), 4–58 — la rassegna che valuta dieci tecniche di studio: pratica di richiamo e pratica distribuita a utilità alta, interrogazione elaborativa e auto-spiegazione a utilità moderata. — <a href="https://journals.sagepub.com/doi/abs/10.1177/1529100612453266" target="_blank" rel="noopener">scheda dell'editore</a></li>
+  <li>Chi, M. T. H., de Leeuw, N., Chiu, M.-H., LaVancher, C. (1994). <i>Eliciting self-explanations improves understanding</i>. Cognitive Science, 18(3), 439–477 — spiegarsi a voce quello che si sta leggendo migliora la comprensione.</li>
 </ul>
 
 <div class="callout"><b>Onestà intellettuale:</b> nessuno di questi studi riguarda <i>questo</i> corso in particolare, e gli effect size

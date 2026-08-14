@@ -36,8 +36,8 @@ export const VOCI = [
   { id: 'ampiezza-onda', liv: ['13-onde'], voce: t("Ampiezza (di un'onda)"),
     def: t("Quanto è alta un'onda; nel suono è il volume.") },
 
-  { id: 'autostato', liv: ['19-qpe'], voce: t('Autostato / autovalore'), alt: t('autostati, autovalore, autovalori'),
-    def: t("Stato che un'operazione lascia identico a parte una fase; quella fase è l'autovalore.") },
+  { id: 'autostato', liv: ['18b-autovettori', '19-qpe'], voce: t('Autostato / autovalore'), alt: t('autostati, autovalore, autovalori, autovettore, autovettori'),
+    def: t("Stato (o freccia) che un'operazione lascia in linea con sé stesso: cambia solo per un fattore, l'autovalore. Su una porta quantistica quel fattore è una fase, ed è il numero che la stima di fase va a leggere.") },
 
   { id: 'base-misura', liv: ['02-bloch'], voce: t('Base di misura'), alt: t('basi di misura, base Z, base X'),
     def: t('La "direzione" lungo cui si misura. Misurare in base Z dà 0/1; in base X dà +/−. Non esiste uno stato certo in tutte le basi.') },
@@ -75,6 +75,9 @@ export const VOCI = [
   { id: 'fft', liv: ['17-fft'], voce: t('FFT'),
     def: t('Algoritmo classico che calcola la DFT in N·log N invece di N² (dividi et impera).') },
 
+  { id: 'frazioni-continue', liv: ['00-orologio', '20-shor'], voce: t('Frazioni continue'), alt: t('frazione continua'),
+    def: t("Il modo di trovare la frazione più semplice vicinissima a un numero decimale. In Shor traducono il numero misurato nel periodo cercato: il denominatore è la risposta.") },
+
   { id: 'frequenza', liv: ['13-onde'], voce: t('Frequenza'), alt: t('frequenze'),
     def: t('Quanti cicli al secondo (Hz). Inversa del periodo: f = 1/T.') },
 
@@ -87,8 +90,17 @@ export const VOCI = [
   { id: 'interferenza', liv: ['07-interferenza'], voce: t('Interferenza'), alt: t('interferenze, interferire, interferiscono'),
     def: t('Le ampiezze si sommano prima del quadrato: quelle concordi si rinforzano, quelle opposte si annullano.') },
 
+  { id: 'matrice', liv: ['00-matrici', '03-porte'], voce: t('Matrice'), alt: t('matrici, matrice 2×2'),
+    def: t("Una tabella di numeri che trasforma una freccia in un'altra. Le sue colonne dicono dove finiscono le frecce di base: da lì si ricava dove finisce qualunque altra freccia.") },
+
+  { id: 'mcd', liv: ['00-orologio', '20-shor'], voce: t('MCD (massimo comune divisore)'), alt: t('massimo comune divisore, massimi comuni divisori'),
+    def: t("Il numero più grande che divide due numeri senza lasciare resto. Si trova con l'algoritmo di Euclide, ed è l'ultimo passo — tutto classico — dell'algoritmo di Shor.") },
+
   { id: 'misura', liv: ['01-qubit', '02-bloch'], voce: t('Misura'), alt: t('misure, misurare, misurazione'),
     def: t('Operazione irreversibile: sceglie un risultato a caso secondo |ampiezza|² e riscrive lo stato.') },
+
+  { id: 'modulo', liv: ['00-orologio'], voce: t('Modulo (mod)'), alt: t('aritmetica modulare, mod'),
+    def: t("Il resto della divisione: 17 mod 5 = 2. Contare «mod N» vuol dire contare a giri su un quadrante da N ore, come sull'orologio.") },
 
   { id: 'no-cloning', liv: ['06-teletrasporto'], voce: t('No-cloning'), alt: t('teorema di no-cloning'),
     def: t('Non esiste una macchina che copia uno stato quantistico sconosciuto.') },
@@ -99,8 +111,8 @@ export const VOCI = [
   { id: 'oracolo', liv: ['09-deutsch'], voce: t('Oracolo'), alt: t('oracoli'),
     def: t("Scatola nera che marca con un segno meno gli stati che soddisfano una condizione: scrive l'informazione nelle fasi.") },
 
-  { id: 'periodo', liv: ['13-onde'], voce: t('Periodo'), alt: t('periodi, periodicità'),
-    def: t('Ogni quanto una cosa si ripete. T = 1/f.') },
+  { id: 'periodo', liv: ['00-orologio', '13-onde'], voce: t('Periodo'), alt: t('periodi, periodicità'),
+    def: t("Ogni quanto una cosa si ripete. Per un'onda T = 1/f; per la sequenza a^x mod N è dopo quanti passi si ritorna sull'1, ed è il numero che Shor va a cercare.") },
 
   { id: 'phase-kickback', liv: ['09-deutsch', '19-qpe'], voce: t('Phase kickback'), alt: t('kickback'),
     def: t('Il trucco per cui la fase generata da un oracolo "rimbalza" sul registro di controllo.') },
@@ -135,8 +147,34 @@ export const VOCI = [
   { id: 'teletrasporto', liv: ['06-teletrasporto'], voce: t('Teletrasporto'), alt: t('teletrasportare'),
     def: t("Trasferire uno stato usando entanglement + 2 bit classici. L'originale viene distrutto.") },
 
-  { id: 'unitaria', liv: ['03-porte'], voce: t('Unitaria (operazione)'), alt: t('unitaria, unitarie, operazione unitaria'),
+  { id: 'unitaria', liv: ['00-matrici', '03-porte'], voce: t('Unitaria (operazione)'), alt: t('unitaria, unitarie, operazione unitaria'),
     def: t('Conserva la probabilità totale ed è reversibile: tutte le porte lo sono, la misura no.') },
+
+  /* ---- termini della Parte M (facoltativa) ---- */
+
+  { id: 'limite', liv: ['m8-limiti'], voce: t('Limite'), alt: t('limiti, tende a, converge, convergenza'),
+    def: t('Il numero a cui una successione si avvicina, nel senso preciso del gioco: per ogni corridoio largo quanto vuoi attorno a quel numero, da un certo punto in poi la successione ci resta dentro. Non vuol dire «ci arriva».') },
+
+  { id: 'serie-taylor', liv: ['m10-taylor'], voce: t('Serie di Taylor'), alt: t('serie di Taylor, polinomio di Taylor, sviluppo in serie'),
+    def: t('Il polinomio che copia una funzione in un punto: stesso valore, stessa pendenza, stessa curvatura, e così via. Ogni termine in più allarga il tratto in cui la copia regge. È il modo in cui un computer calcola davvero il seno.') },
+
+  { id: 'raggio-convergenza', liv: ['m10-taylor'], voce: t('Raggio di convergenza'), alt: t('raggio di convergenza'),
+    def: t('La distanza entro cui una serie di potenze funziona. Fuori di lì aggiungere termini peggiora invece di migliorare: per 1/(1−x) vale 1, cioè la distanza dal punto in cui la funzione esplode.') },
+
+  { id: 'integrale', liv: ['m9-integrali'], voce: t('Integrale'), alt: t('integrali, integrare, primitiva, primitive'),
+    def: t("L'area sotto una curva, cioè il limite delle somme di rettangoli sempre più stretti. Il teorema fondamentale dice che derivare e integrare sono operazioni inverse: da lì la scorciatoia F(b) − F(a), che rende inutile contare rettangoli.") },
+
+  { id: 'cambio-base', liv: ['m11-base'], voce: t('Cambio di base'), alt: t('cambio di base, cambiare base, diagonalizzare, diagonalizzazione'),
+    def: t('Riscrivere lo stesso oggetto con un altro righello. Lo stato non si muove, cambiano i numeri che lo descrivono — e le probabilità con loro. Per una matrice esiste spesso una base in cui diventa diagonale: lì è solo una stiratura, e applicarla mille volte costa due potenze invece di mille prodotti.') },
+
+  { id: 'commutatore', liv: ['m12-evoluzione'], voce: t('Commutatore'), alt: t('commutatore, commutano, commutare, non commutano'),
+    def: t('AB − BA: quanto conta l\'ordine in cui si applicano due operazioni. Se è zero le due si possono scambiare, e allora e^(A+B) = e^A·e^B. Se non è zero quella regola salta — ed è la stessa quantità che dà il principio di indeterminazione.') },
+
+  { id: 'esponenziale-matrice', liv: ['m12-evoluzione'], voce: t('Esponenziale di matrice'), alt: t('esponenziale di matrice, e elevato a una matrice'),
+    def: t('La stessa serie di e^x con una matrice al posto del numero. Serve perché un sistema fisico che parte da ψ e ha energia H, dopo un tempo t, si trova in e^(−iHt)·ψ: è la soluzione dell\'equazione di Schrödinger.') },
+
+  { id: 'trotter', liv: ['m12-evoluzione'], voce: t('Trotter (formula di)'), alt: t('formula di Trotter, decomposizione di Trotter, trotterizzazione'),
+    def: t("Quando l'energia è fatta di pezzi che non commutano, e^(A+B) non è e^A·e^B. Si spezza allora il tempo in n pezzetti applicando i pezzi a turno: l'errore scende come 1/n. È il modo in cui un computer quantistico simula una molecola, e il conto di quante porte costa.") },
 ];
 
 /** Una voce dal suo id, o null. */

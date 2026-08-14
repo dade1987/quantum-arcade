@@ -104,7 +104,7 @@ together: a₀b₀|00⟩ + a₀b₁|01⟩ + a₁b₀|10⟩ + a₁b₁|11⟩
       html: `<p>Now the big moment. In the game press, in sequence, <b>H q0</b> and then <b>CNOT q0→q1</b>.
              Watch the amplitude bars and the two Bloch spheres.</p>`,
       mount: (el, api) => {
-        const m = api.mission({ key: 'bell', title: 'Create a Bell state', text: 'press H q0 and then CNOT q0→q1: the separability test has to report "entangled".', xp: 50 });
+        const m = api.mission({ key: 'stato-bell', title: 'Create a Bell state', text: 'press H q0 and then CNOT q0→q1: the separability test has to report "entangled".', xp: 50 });
         el.appendChild(m.root);
         twoQubitLab(el, { onEntangle: () => m.complete() });
       },

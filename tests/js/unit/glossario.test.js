@@ -60,7 +60,8 @@ describe('voci del glossario', () => {
     const nDi = id => G.livelliDellaVoce(G.voceById(id)).map(l => String(l.n));
     assert.deepEqual(nDi('qft'), ['18']);
     assert.deepEqual(nDi('qpe'), ['19']);
-    assert.deepEqual(nDi('autostato'), ['19']);
+    // «autostato» si incontra due volte: dove lo si costruisce giocando e dove serve
+    assert.deepEqual(nDi('autostato'), ['18·b', '19']);
     assert.deepEqual(nDi('shor'), ['20']);
     assert.deepEqual(nDi('decoerenza'), ['21']);
   });

@@ -36,6 +36,24 @@ const SLUG = {
   '00-griglia': { en: '00-grid', es: '00-cuadricula' },
   '00-seno': { en: '00-sine', es: '00-seno' },
   '00-caso': { en: '00-chance', es: '00-azar' },
+  '00-orologio': { en: '00-clock', es: '00-reloj' },
+  '00-matrici': { en: '00-matrices', es: '00-matrices' },
+  '00-equazioni': { en: '00-equations', es: '00-ecuaciones' },
+  '00-secondogrado': { en: '00-quadratics', es: '00-segundo-grado' },
+  '00-logaritmi': { en: '00-logarithms', es: '00-logaritmos' },
+  '00-scalare': { en: '00-dot-product', es: '00-producto-escalar' },
+  'm1-polinomi': { en: 'm1-polynomials', es: 'm1-polinomios' },
+  'm2-goniometria': { en: 'm2-trigonometry', es: 'm2-trigonometria' },
+  'm3-complessi': { en: 'm3-complex-numbers', es: 'm3-numeros-complejos' },
+  'm4-spazi': { en: 'm4-vector-spaces', es: 'm4-espacios-vectoriales' },
+  'm5-operatori': { en: 'm5-operators', es: 'm5-operadores' },
+  'm6-tensore': { en: 'm6-tensor-product', es: 'm6-producto-tensorial' },
+  'm7-probabilita': { en: 'm7-probability', es: 'm7-probabilidad' },
+  'm8-limiti': { en: 'm8-limits', es: 'm8-limites' },
+  'm9-integrali': { en: 'm9-integrals', es: 'm9-integrales' },
+  'm10-taylor': { en: 'm10-taylor', es: 'm10-taylor' },
+  'm11-base': { en: 'm11-change-of-basis', es: 'm11-cambio-de-base' },
+  'm12-evoluzione': { en: 'm12-matrix-exponential', es: 'm12-exponencial-de-matriz' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -57,12 +75,15 @@ const SLUG = {
   '13-onde': { en: '13-waves', es: '13-ondas' },
   '14-fase': { en: '14-phase', es: '14-fase' },
   '15-somma-onde': { en: '15-wave-sum', es: '15-suma-de-ondas' },
+  '15b-serie': { en: '15b-geometric-series', es: '15b-serie-geometrica' },
   '16-dft': { en: '16-dft', es: '16-dft' },
   '17-fft': { en: '17-fft', es: '17-fft' },
   '18-qft': { en: '18-qft', es: '18-qft' },
+  '18b-autovettori': { en: '18b-eigenvectors', es: '18b-autovectores' },
   '19-qpe': { en: '19-qpe', es: '19-qpe' },
   '20-shor': { en: '20-shor', es: '20-shor' },
   '21-rumore': { en: '21-noise', es: '21-ruido' },
+  '21b-variazionale': { en: '21b-variational', es: '21b-variacional' },
   '22-officina': { en: '22-workshop', es: '22-taller' },
   '23-glossario': { en: '23-glossary', es: '23-glosario' },
   '24-esame': { en: '24-exam', es: '24-examen' },
@@ -78,7 +99,13 @@ export const PARTS = [
   {
     id: '0',
     title: t('Parte 0 — Le basi (per chi parte proprio da zero)'),
-    sub: t('Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità. Per chi ha finito le medie. Facoltativa se le sai già.'),
+    sub: t('Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici, equazioni (anche di secondo grado), logaritmi e prodotto scalare. Dalle medie in su. Facoltativa se le sai già.'),
+    color: 'green',
+  },
+  {
+    id: 'M',
+    title: t('Parte M — La matematica delle superiori e dell\'università'),
+    sub: t('Dalla prima superiore ad Analisi 2, ma solo i pezzi che questo corso usa davvero, e sempre con la curiosità dentro: perché quella formula è fatta così, da quale problema è nata, e a che serve qui. Facoltativa come la Parte 0 — però chi la fa capisce il resto molto meglio.'),
     color: 'green',
   },
   {
@@ -130,6 +157,79 @@ export const LEVELS = [
   { id: '00-caso',    part: '0', n: '0·4', open: true,
     title: t('Il caso: monete, dadi, probabilità'),
     desc: t('Lancia, conta, scopri che le percentuali si sistemano da sole.'), xp: 60 },
+
+  { id: '00-orologio', part: '0', n: '0·5', open: true,
+    title: t("L'orologio dei numeri: resto, MCD e ritmi che tornano"),
+    desc: t('Contare a giri, il pavimento di Euclide e il ritmo di a^x mod N: la matematica classica che sta dentro Shor.'), xp: 80 },
+
+  { id: '00-matrici', part: '0', n: '0·6', open: true,
+    title: t('La macchina che trasforma le frecce: le matrici'),
+    desc: t('Quattro manopole, due frecce e la scoperta che ogni porta quantistica è una tabella di numeri.'), xp: 90 },
+
+  { id: '00-equazioni', part: '0', n: '0·7', open: true,
+    title: t('Equazioni, formule girate e macchine che tornano indietro'),
+    desc: t('La bilancia che non si sbilancia mai, come si gira una formula, e la domanda che vale tutto: si può risalire da dove si è arrivati?'), xp: 80 },
+
+  { id: '00-secondogrado', part: '0', n: '0·7b', open: true,
+    title: t('Secondo grado: la parabola e il quadrato a cui manca un angolo'),
+    desc: t('Il delta in tre parole, la formula costruita invece che imparata, e il «mai» che nel Cinquecento ha aperto la porta ai numeri immaginari.'), xp: 85 },
+
+  { id: '00-logaritmi', part: '0', n: '0·8', open: true,
+    title: t('Esponenziali e logaritmi: quante cifre servono'),
+    desc: t('Quanti interruttori per mille casi, quante volte si può dimezzare, e perché «polinomiale nel numero di cifre» cambia tutto.'), xp: 80 },
+
+  { id: '00-scalare', part: '0', n: '0·9', open: true,
+    title: t('Quanto due frecce si somigliano: il prodotto scalare'),
+    desc: t('Un numero solo che dice se due frecce vanno d\'accordo. E la misura quantistica scoperta per quello che è: un\'ombra.'), xp: 85 },
+
+  // ---------- PARTE M — matematica delle superiori e dell'università, sempre aperta ----------
+  { id: 'm1-polinomi', part: 'M', n: 'M·1', open: true,
+    title: t('Polinomi, Ruffini e la formula che non esiste'),
+    desc: t('Scomporre cercando i sospettati, la staffetta di Ruffini che è anche il modo più veloce di calcolare un polinomio, e il motivo per cui dal quinto grado in poi una formula non c\'è — e non ci sarà mai.'), xp: 90 },
+
+  { id: 'm2-goniometria', part: 'M', n: 'M·2', open: true,
+    title: t('Girare due volte: le formule di addizione'),
+    desc: t('L\'identità fondamentale che è Pitagora travestito, due giri che ne fanno uno solo — e la scoperta che ogni giro di Grover aggiunge 2θ.'), xp: 90 },
+
+  { id: 'm3-complessi', part: 'M', n: 'M·3', open: true,
+    title: t('Numeri complessi per bene: e^(iθ) e le radici dell\'unità'),
+    desc: t('Moltiplicare è allungare e girare, da lì la scrittura e^(iθ) — e le n frecce che sommate fanno zero, cioè il motore della trasformata di Fourier.'), xp: 95 },
+
+  { id: 'm4-spazi', part: 'M', n: 'M·4', open: true,
+    title: t('Spazi vettoriali: base, dimensione, e perché 2^n'),
+    desc: t('Poche frecce che raggiungono tutto, il numero che non cambia qualunque base tu scelga, e la ragione per cui n qubit vivono in uno spazio di dimensione 2^n.'), xp: 90 },
+
+  { id: 'm5-operatori', part: 'M', n: 'M·5', open: true,
+    title: t('Operatori: porte, osservabili e misure sono tre tipi di matrice'),
+    desc: t('Unitaria = non cambia le lunghezze. Hermitiana = autovalori reali. Proiettore = rifarlo non cambia niente. Le tre parole della quantistica, costruite con quattro manopole.'), xp: 95 },
+
+  { id: 'm6-tensore', part: 'M', n: 'M·6', open: true,
+    title: t('Prodotto tensoriale: e finalmente cosa vuol dire «entangled»'),
+    desc: t('Mettere insieme due registri moltiplica le dimensioni invece di sommarle — e uno stato è entangled quando quel prodotto non si può disfare. Con il conto che lo dice in una riga.'), xp: 95 },
+
+  { id: 'm7-probabilita', part: 'M', n: 'M·7', open: true,
+    title: t('Probabilità sul serio: media, errore, e la prova che il mondo non è classico'),
+    desc: t('Perché un decimale in più costa cento volte le misure, come si aggiorna quello che si crede, e il test di Bell — quello del Nobel 2022 — giocato con le mani.'), xp: 100 },
+
+  { id: 'm8-limiti', part: 'M', n: 'M·8', open: true,
+    title: t('Successioni e limiti: cosa vuol dire davvero «tende a»'),
+    desc: t('Il gioco del corridoio, la banca che paga interessi immaginari — e la scoperta che «quanti tiri servono» era già la definizione di limite.'), xp: 95 },
+
+  { id: 'm9-integrali', part: 'M', n: 'M·9', open: true,
+    title: t('Integrali: l\'area, e il teorema che la lega alla derivata'),
+    desc: t('Rettangoli sempre più stretti, il tachimetro che è la pendenza del contachilometri, e due aree che hanno un nome: il logaritmo e la probabilità che fa 1.'), xp: 95 },
+
+  { id: 'm10-taylor', part: 'M', n: 'M·10', open: true,
+    title: t('Serie di Taylor: qualunque curva, vista da vicino, è un polinomio'),
+    desc: t('Il polinomio che insegue la curva finché ce la fa, la formula di Eulero letta sul foglio — e la scoperta che il √N di Grover è un\'approssimazione troncata al primo termine.'), xp: 100 },
+
+  { id: 'm11-base', part: 'M', n: 'M·11', open: true,
+    title: t('Cambio di base: lo stesso stato, due righelli diversi'),
+    desc: t('Misurare è proiettare, la porta di Hadamard è un cambio di righello, e nella base giusta una matrice diventa una pura stiratura — che è la scorciatoia su cui è costruita la stima di fase.'), xp: 95 },
+
+  { id: 'm12-evoluzione', part: 'M', n: 'M·12', open: true,
+    title: t('e elevato a una matrice: come si fa evolvere un sistema fisico'),
+    desc: t('La serie di Taylor con una matrice dentro, la scorciatoia degli autovettori — e la formula di Trotter, cioè il conto vero di quanto costa simulare una molecola.'), xp: 105 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,
@@ -219,6 +319,10 @@ export const LEVELS = [
     title: t('Ogni segnale è una somma di onde'),
     desc: t('Sfida: ricostruisci il segnale misterioso mescolando onde semplici.'), xp: 90 },
 
+  { id: '15b-serie', part: 'C', n: '15·b',
+    title: t('Tante cose sommate: quando si accumulano e quando si annullano'),
+    desc: t('La serie geometrica giocata con i pezzi e con le frecce. È la ragione per cui la trasformata di Fourier fa un picco.'), xp: 100 },
+
   { id: '16-dft', part: 'C', n: 16,
     title: t('La DFT passo passo: il rilevatore di periodicità'),
     desc: t('La formula smontata pezzo per pezzo, con le frecce che vedi ruotare.'), xp: 140 },
@@ -232,6 +336,10 @@ export const LEVELS = [
     title: t('QFT: Fourier sulle ampiezze quantistiche'),
     desc: t('Il cuore del corso: dalla DFT al circuito con Hadamard, rotazioni controllate e SWAP.'), xp: 200 },
 
+  { id: '18b-autovettori', part: 'D', n: '18·b',
+    title: t('Le frecce che la macchina non gira: autovettori e autovalori'),
+    desc: t('Trascina finché la freccia non resta in linea con sé stessa. E scopri che su quelle frecce una porta cambia solo la fase.'), xp: 130 },
+
   { id: '19-qpe', part: 'D', n: 19,
     title: t('Quantum Phase Estimation'),
     desc: t('Leggere una fase nascosta come numero binario: la QFT usata al contrario.'), xp: 150 },
@@ -243,6 +351,10 @@ export const LEVELS = [
   { id: '21-rumore', part: 'D', n: 21,
     title: t('Rumore, decoerenza e correzione d\'errore'),
     desc: t('Perché non hai ancora un computer quantistico in tasca. E come si combatte.'), xp: 130 },
+
+  { id: '21b-variazionale', part: 'D', n: '21·b',
+    title: t('La pendenza e il quantistico che gira oggi: VQE'),
+    desc: t('La derivata giocata come pendenza, e la discesa che i computer quantistici veri fanno adesso, rumore compreso.'), xp: 140 },
 
   { id: '22-officina', part: 'D', n: 22, boss: true,
     title: t('OFFICINA — inventa il tuo algoritmo'),
