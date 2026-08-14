@@ -3377,4 +3377,101 @@ export default {
     "Reconstruido.",
   "<b>Entangled vuol dire «non si scrive come due cose separate».</b> Non «i due qubit comunicano», non «si influenzano a distanza»: vuol dire che lo stato della coppia <b>non si spezza</b> in uno stato del primo e uno del secondo. E si riconosce con un conto solo, a00·a11 − a01·a10 — la stessa riga che al livello :m diceva se due frecce erano indipendenti. La porta che quel numero lo rende diverso da zero è la CNOT del livello :c.":
     "<b>Entrelazado significa «no se escribe como dos cosas separadas».</b> No «los dos cúbits se comunican», no «se influyen a distancia»: significa que el estado de la pareja <b>no se parte</b> en un estado del primero y otro del segundo. Y se reconoce con una sola cuenta, a00·a11 − a01·a10 — la misma línea que en el nivel :m decía si dos flechas eran independientes. La puerta que hace ese número distinto de cero es la CNOT del nivel :c.",
+  /* ---------------- livello M·7: probabilità ---------------- */
+  "Probabilità sul serio: media, errore, e la prova che il mondo non è classico":
+    "Probabilidad en serio: media, error, y la prueba de que el mundo no es clásico",
+  "Perché un decimale in più costa cento volte le misure, come si aggiorna quello che si crede, e il test di Bell — quello del Nobel 2022 — giocato con le mani.":
+    "Por qué un decimal más cuesta cien veces las medidas, cómo se actualiza lo que uno cree, y el test de Bell — el del Nobel 2022 — jugado con las manos.",
+  "La media si assesta, ma piano":
+    "La media se asienta, pero despacio",
+  "tira, guarda la media avvicinarsi — e guarda quanto costa un decimale in più":
+    "tira, mira cómo la media se acerca — y mira lo que cuesta un decimal más",
+  "errore atteso sotto :s":
+    "error esperado por debajo de :s",
+  "traguardi raggiunti: :fatte su :totali":
+    "metas alcanzadas: :fatte de :totali",
+  "tiri: :n · media: :m · errore atteso σ/√n: :e":
+    "tiradas: :n · media: :m · error esperado σ/√n: :e",
+  "la moneta esce 1 con probabilità":
+    "la moneda sale 1 con probabilidad",
+  "+10 tiri":
+    "+10 tiradas",
+  "+100":
+    "+100",
+  "+1000":
+    "+1000",
+  "altro traguardo":
+    "otra meta",
+  "La moneta vale 1 con probabilità <b>:p</b>. La sua deviazione standard è √(p·(1−p)) = <b>:s</b>.":
+    "La moneda vale 1 con probabilidad <b>:p</b>. Su desviación típica es √(p·(1−p)) = <b>:s</b>.",
+  "Con <b>:n</b> tiri la media misurata è <b>:m</b> e lo scarto vero dal valore giusto è <b>:d</b>; l'errore che ti aspettavi era σ/√n = <b>:e</b>.":
+    "Con <b>:n</b> tiradas la media medida es <b>:m</b> y la diferencia real respecto al valor correcto es <b>:d</b>; el error que esperabas era σ/√n = <b>:e</b>.",
+  "Non hai ancora tirato niente.":
+    "Todavía no has tirado nada.",
+  "Per un errore di :s servono circa <b>:q</b> tiri. Per un decimale in più — cioè dieci volte più preciso — ne servirebbero <b>cento volte tanti</b>.":
+    "Para un error de :s hacen falta unas <b>:q</b> tiradas. Para un decimal más — es decir, diez veces más preciso — harían falta <b>cien veces más</b>.",
+  "<b>Questa è la riga che al livello :n costa cara.</b> Un computer quantistico non «legge» una probabilità: la stima ripetendo la misura, e l'errore sulla stima scende come 1/√tiri. Un decimale in più costa cento volte le misure. Non è un difetto delle macchine di oggi: è statistica, e vale anche per le macchine perfette di domani.":
+    "<b>Esta es la línea que en el nivel :n sale cara.</b> Un ordenador cuántico no «lee» una probabilidad: la estima repitiendo la medida, y el error de la estimación baja como 1/√tiradas. Un decimal más cuesta cien veces las medidas. No es un defecto de las máquinas de hoy: es estadística, y vale también para las máquinas perfectas de mañana.",
+  "Il gioco di Bell":
+    "El juego de Bell",
+  "Anna e Bruno non possono parlarsi: quante domande su quattro riescono a indovinare?":
+    "Ana y Bruno no pueden hablarse: ¿cuántas preguntas de cuatro consiguen acertar?",
+  "arriva al massimo classico":
+    "llega al máximo clásico",
+  "supera il muro del 75%":
+    "supera el muro del 75%",
+  "sfide vinte: :fatte su :totali":
+    "retos ganados: :fatte de :totali",
+  "vinci il :p% delle volte":
+    "ganas el :p% de las veces",
+  "accordo classico":
+    "acuerdo clásico",
+  "coppia entangled":
+    "pareja entrelazada",
+  "Anna, se le chiedono 0: risponde :r":
+    "Ana, si le preguntan 0: responde :r",
+  "Anna, se le chiedono 1: risponde :r":
+    "Ana, si le preguntan 1: responde :r",
+  "Bruno, se gli chiedono 0: risponde :r":
+    "Bruno, si le preguntan 0: responde :r",
+  "Bruno, se gli chiedono 1: risponde :r":
+    "Bruno, si le preguntan 1: responde :r",
+  "Anna, domanda 0":
+    "Ana, pregunta 0",
+  "Anna, domanda 1":
+    "Ana, pregunta 1",
+  "Bruno, domanda 0":
+    "Bruno, pregunta 0",
+  "Bruno, domanda 1":
+    "Bruno, pregunta 1",
+  "Anna e Bruno si sono messi d'accordo <b>prima</b>, e poi non possono più parlarsi. Con questa strategia vincono il <b>:p%</b> delle volte.":
+    "Ana y Bruno se pusieron de acuerdo <b>antes</b>, y después ya no pueden hablarse. Con esta estrategia ganan el <b>:p%</b> de las veces.",
+  "Questo è il massimo. E non è «il massimo che hai trovato»: le strategie possibili sono <b>sedici</b> in tutto, e nessuna supera il 75%. Puoi provarle tutte, ci vogliono due minuti.":
+    "Este es el máximo. Y no es «el máximo que has encontrado»: las estrategias posibles son <b>dieciséis</b> en total, y ninguna supera el 75%. Puedes probarlas todas, se tarda dos minutos.",
+  "Si può fare meglio: prova a cambiare una risposta.":
+    "Se puede hacer mejor: prueba a cambiar una respuesta.",
+  "Anna e Bruno condividono una coppia entangled e misurano ciascuno nella direzione che ha scelto per quella domanda. Vincono il <b>:p%</b>.":
+    "Ana y Bruno comparten una pareja entrelazada y cada uno mide en la dirección que ha elegido para esa pregunta. Ganan el <b>:p%</b>.",
+  "Sopra il 75%. Nessun accordo preso prima può arrivarci: questo è il punto dell'esperimento che ha vinto il Nobel 2022. Il massimo possibile è :m%, cioè cos²(22,5°).":
+    "Por encima del 75%. Ningún acuerdo tomado antes puede llegar ahí: ese es el punto del experimento que ganó el Nobel 2022. El máximo posible es :m%, es decir cos²(22,5°).",
+  "Ancora sotto il muro classico: prova con Anna a 0° e 45°, Bruno a 22,5° e −22,5°.":
+    "Todavía por debajo del muro clásico: prueba con Ana a 0° y 45°, Bruno a 22,5° y −22,5°.",
+  "<b>Perché questo esperimento conta.</b> Se le risposte fossero già decise in partenza — cioè se ogni particella «portasse con sé» il risultato di ogni misura possibile — allora si ricadrebbe in una delle sedici strategie, e il tetto sarebbe il 75%. Superarlo, in laboratorio, vuol dire che quelle risposte <b>non erano decise prima</b>. È la cosa più vicina a una dimostrazione sperimentale che il mondo non è classico, e vale il Nobel per la fisica 2022. Nel corso l'hai già incontrata come sfida delle buste, al livello :n.":
+    "<b>Por qué este experimento importa.</b> Si las respuestas ya estuvieran decididas de partida — es decir, si cada partícula «llevara consigo» el resultado de cada medida posible — entonces se caería en una de las dieciséis estrategias, y el techo sería el 75%. Superarlo, en el laboratorio, significa que esas respuestas <b>no estaban decididas antes</b>. Es lo más parecido a una demostración experimental de que el mundo no es clásico, y vale el Nobel de física 2022. En el curso ya te la has encontrado como el reto de los sobres, en el nivel :n.",
+  "valore vero: :p":
+    "valor verdadero: :p",
+  "quadruplicare i tiri dimezza l'errore":
+    "cuatro veces las tiradas, la mitad del error",
+  "è il √ che sta nella formula σ/√n":
+    "es el √ que está en la fórmula σ/√n",
+  "Anna :x · Bruno :y → risposte :cosa":
+    "Ana :x · Bruno :y → respuestas :cosa",
+  "DIVERSE":
+    "DISTINTAS",
+  "UGUALI":
+    "IGUALES",
+  "nessun accordo preso prima supera il 75%":
+    "ningún acuerdo tomado antes supera el 75%",
+  "il tetto quantistico è cos²(22,5°) = 85,4%":
+    "el techo cuántico es cos²(22,5°) = 85,4%",
 };

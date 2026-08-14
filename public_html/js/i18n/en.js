@@ -3376,4 +3376,101 @@ export default {
     "Rebuilt.",
   "<b>Entangled vuol dire «non si scrive come due cose separate».</b> Non «i due qubit comunicano», non «si influenzano a distanza»: vuol dire che lo stato della coppia <b>non si spezza</b> in uno stato del primo e uno del secondo. E si riconosce con un conto solo, a00·a11 − a01·a10 — la stessa riga che al livello :m diceva se due frecce erano indipendenti. La porta che quel numero lo rende diverso da zero è la CNOT del livello :c.":
     "<b>Entangled means «it cannot be written as two separate things».</b> Not «the two qubits communicate», not «they influence each other at a distance»: it means the pair's state <b>does not split</b> into a state of the first and a state of the second. And it is detected by one calculation, a00·a11 − a01·a10 — the same line that at level :m said whether two arrows were independent. The gate that makes that number non-zero is the CNOT of level :c.",
+  /* ---------------- livello M·7: probabilità ---------------- */
+  "Probabilità sul serio: media, errore, e la prova che il mondo non è classico":
+    "Probability for real: mean, error, and the proof the world is not classical",
+  "Perché un decimale in più costa cento volte le misure, come si aggiorna quello che si crede, e il test di Bell — quello del Nobel 2022 — giocato con le mani.":
+    "Why one more decimal digit costs a hundred times the measurements, how you update what you believe, and the Bell test — the 2022 Nobel one — played by hand.",
+  "La media si assesta, ma piano":
+    "The mean settles, but slowly",
+  "tira, guarda la media avvicinarsi — e guarda quanto costa un decimale in più":
+    "throw, watch the mean close in — and watch what one more decimal digit costs",
+  "errore atteso sotto :s":
+    "expected error below :s",
+  "traguardi raggiunti: :fatte su :totali":
+    "targets reached: :fatte of :totali",
+  "tiri: :n · media: :m · errore atteso σ/√n: :e":
+    "throws: :n · mean: :m · expected error σ/√n: :e",
+  "la moneta esce 1 con probabilità":
+    "the coin comes up 1 with probability",
+  "+10 tiri":
+    "+10 throws",
+  "+100":
+    "+100",
+  "+1000":
+    "+1000",
+  "altro traguardo":
+    "another target",
+  "La moneta vale 1 con probabilità <b>:p</b>. La sua deviazione standard è √(p·(1−p)) = <b>:s</b>.":
+    "The coin is worth 1 with probability <b>:p</b>. Its standard deviation is √(p·(1−p)) = <b>:s</b>.",
+  "Con <b>:n</b> tiri la media misurata è <b>:m</b> e lo scarto vero dal valore giusto è <b>:d</b>; l'errore che ti aspettavi era σ/√n = <b>:e</b>.":
+    "With <b>:n</b> throws the measured mean is <b>:m</b> and the true gap from the right value is <b>:d</b>; the error you expected was σ/√n = <b>:e</b>.",
+  "Non hai ancora tirato niente.":
+    "You have not thrown anything yet.",
+  "Per un errore di :s servono circa <b>:q</b> tiri. Per un decimale in più — cioè dieci volte più preciso — ne servirebbero <b>cento volte tanti</b>.":
+    "An error of :s takes about <b>:q</b> throws. For one more decimal digit — ten times more precise — it would take <b>a hundred times as many</b>.",
+  "<b>Questa è la riga che al livello :n costa cara.</b> Un computer quantistico non «legge» una probabilità: la stima ripetendo la misura, e l'errore sulla stima scende come 1/√tiri. Un decimale in più costa cento volte le misure. Non è un difetto delle macchine di oggi: è statistica, e vale anche per le macchine perfette di domani.":
+    "<b>This is the line that costs dearly at level :n.</b> A quantum computer does not «read» a probability: it estimates it by repeating the measurement, and the error on the estimate falls as 1/√shots. One more decimal digit costs a hundred times the measurements. It is not a flaw of today's machines: it is statistics, and it holds for tomorrow's perfect machines too.",
+  "Il gioco di Bell":
+    "The Bell game",
+  "Anna e Bruno non possono parlarsi: quante domande su quattro riescono a indovinare?":
+    "Anna and Bruno cannot talk to each other: how many of the four questions can they get right?",
+  "arriva al massimo classico":
+    "reach the classical maximum",
+  "supera il muro del 75%":
+    "break the 75% wall",
+  "sfide vinte: :fatte su :totali":
+    "challenges won: :fatte of :totali",
+  "vinci il :p% delle volte":
+    "you win :p% of the time",
+  "accordo classico":
+    "classical agreement",
+  "coppia entangled":
+    "entangled pair",
+  "Anna, se le chiedono 0: risponde :r":
+    "Anna, if asked 0: answers :r",
+  "Anna, se le chiedono 1: risponde :r":
+    "Anna, if asked 1: answers :r",
+  "Bruno, se gli chiedono 0: risponde :r":
+    "Bruno, if asked 0: answers :r",
+  "Bruno, se gli chiedono 1: risponde :r":
+    "Bruno, if asked 1: answers :r",
+  "Anna, domanda 0":
+    "Anna, question 0",
+  "Anna, domanda 1":
+    "Anna, question 1",
+  "Bruno, domanda 0":
+    "Bruno, question 0",
+  "Bruno, domanda 1":
+    "Bruno, question 1",
+  "Anna e Bruno si sono messi d'accordo <b>prima</b>, e poi non possono più parlarsi. Con questa strategia vincono il <b>:p%</b> delle volte.":
+    "Anna and Bruno agreed <b>beforehand</b>, and after that they cannot talk. With this strategy they win <b>:p%</b> of the time.",
+  "Questo è il massimo. E non è «il massimo che hai trovato»: le strategie possibili sono <b>sedici</b> in tutto, e nessuna supera il 75%. Puoi provarle tutte, ci vogliono due minuti.":
+    "This is the maximum. And not «the maximum you found»: the possible strategies are <b>sixteen</b> in all, and none exceeds 75%. You can try them all, it takes two minutes.",
+  "Si può fare meglio: prova a cambiare una risposta.":
+    "You can do better: try changing one answer.",
+  "Anna e Bruno condividono una coppia entangled e misurano ciascuno nella direzione che ha scelto per quella domanda. Vincono il <b>:p%</b>.":
+    "Anna and Bruno share an entangled pair and each measures in the direction they chose for that question. They win <b>:p%</b>.",
+  "Sopra il 75%. Nessun accordo preso prima può arrivarci: questo è il punto dell'esperimento che ha vinto il Nobel 2022. Il massimo possibile è :m%, cioè cos²(22,5°).":
+    "Above 75%. No agreement made beforehand can get there: that is the point of the experiment that won the 2022 Nobel. The best possible is :m%, that is cos²(22.5°).",
+  "Ancora sotto il muro classico: prova con Anna a 0° e 45°, Bruno a 22,5° e −22,5°.":
+    "Still below the classical wall: try Anna at 0° and 45°, Bruno at 22.5° and −22.5°.",
+  "<b>Perché questo esperimento conta.</b> Se le risposte fossero già decise in partenza — cioè se ogni particella «portasse con sé» il risultato di ogni misura possibile — allora si ricadrebbe in una delle sedici strategie, e il tetto sarebbe il 75%. Superarlo, in laboratorio, vuol dire che quelle risposte <b>non erano decise prima</b>. È la cosa più vicina a una dimostrazione sperimentale che il mondo non è classico, e vale il Nobel per la fisica 2022. Nel corso l'hai già incontrata come sfida delle buste, al livello :n.":
+    "<b>Why this experiment matters.</b> If the answers were already settled in advance — that is, if every particle «carried with it» the result of every possible measurement — then you would fall back into one of the sixteen strategies, and the ceiling would be 75%. Beating it, in a laboratory, means those answers <b>were not decided beforehand</b>. It is the closest thing to an experimental proof that the world is not classical, and it is worth the 2022 Nobel Prize in Physics. You have already met it in this course as the envelope challenge, at level :n.",
+  "valore vero: :p":
+    "true value: :p",
+  "quadruplicare i tiri dimezza l'errore":
+    "four times the throws, half the error",
+  "è il √ che sta nella formula σ/√n":
+    "that is the √ in the formula σ/√n",
+  "Anna :x · Bruno :y → risposte :cosa":
+    "Anna :x · Bruno :y → answers :cosa",
+  "DIVERSE":
+    "DIFFERENT",
+  "UGUALI":
+    "THE SAME",
+  "nessun accordo preso prima supera il 75%":
+    "no agreement made beforehand beats 75%",
+  "il tetto quantistico è cos²(22,5°) = 85,4%":
+    "the quantum ceiling is cos²(22.5°) = 85.4%",
 };

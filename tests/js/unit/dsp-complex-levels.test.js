@@ -147,8 +147,8 @@ describe('DFT e FFT', () => {
 });
 
 describe('mappa dei livelli', () => {
-  test('49 livelli in 7 parti, tutti con file e XP', () => {
-    assert.equal(LEVELS.length, 49);
+  test('50 livelli in 7 parti, tutti con file e XP', () => {
+    assert.equal(LEVELS.length, 50);
     assert.equal(PARTS.length, 7);
     for (const l of LEVELS) {
       assert.ok(l.id && l.file && l.title && l.desc, 'livello incompleto: ' + l.id);
@@ -158,8 +158,8 @@ describe('mappa dei livelli', () => {
   });
 
   test('gli id sono unici e i file pure', () => {
-    assert.equal(new Set(LEVELS.map(l => l.id)).size, 49);
-    assert.equal(new Set(LEVELS.map(l => l.file)).size, 49);
+    assert.equal(new Set(LEVELS.map(l => l.id)).size, 50);
+    assert.equal(new Set(LEVELS.map(l => l.file)).size, 50);
   });
 
   test('la catena dei prerequisiti non ha buchi né anelli', () => {

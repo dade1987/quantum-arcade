@@ -383,6 +383,27 @@ return [
             ],
         ],
         [
+            'id' => 'm7-probabilita',
+            'n' => 'M·7',
+            'part' => 'M',
+            'xp' => 100,
+            'slug' => [
+                'it' => 'm7-probabilita',
+                'en' => 'm7-probability',
+                'es' => 'm7-probabilidad',
+            ],
+            'title' => [
+                'it' => 'Probabilità sul serio: media, errore, e la prova che il mondo non è classico',
+                'en' => 'Probability for real: mean, error, and the proof the world is not classical',
+                'es' => 'Probabilidad en serio: media, error, y la prueba de que el mundo no es clásico',
+            ],
+            'description' => [
+                'it' => 'Perché un decimale in più costa cento volte le misure, come si aggiorna quello che si crede, e il test di Bell — quello del Nobel 2022 — giocato con le mani.',
+                'en' => 'Why one more decimal digit costs a hundred times the measurements, how you update what you believe, and the Bell test — the 2022 Nobel one — played by hand.',
+                'es' => 'Por qué un decimal más cuesta cien veces las medidas, cómo se actualiza lo que uno cree, y el test de Bell — el del Nobel 2022 — jugado con las manos.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

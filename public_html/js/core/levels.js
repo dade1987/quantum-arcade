@@ -48,6 +48,7 @@ const SLUG = {
   'm4-spazi': { en: 'm4-vector-spaces', es: 'm4-espacios-vectoriales' },
   'm5-operatori': { en: 'm5-operators', es: 'm5-operadores' },
   'm6-tensore': { en: 'm6-tensor-product', es: 'm6-producto-tensorial' },
+  'm7-probabilita': { en: 'm7-probability', es: 'm7-probabilidad' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -200,6 +201,10 @@ export const LEVELS = [
   { id: 'm6-tensore', part: 'M', n: 'M·6', open: true,
     title: t('Prodotto tensoriale: e finalmente cosa vuol dire «entangled»'),
     desc: t('Mettere insieme due registri moltiplica le dimensioni invece di sommarle — e uno stato è entangled quando quel prodotto non si può disfare. Con il conto che lo dice in una riga.'), xp: 95 },
+
+  { id: 'm7-probabilita', part: 'M', n: 'M·7', open: true,
+    title: t('Probabilità sul serio: media, errore, e la prova che il mondo non è classico'),
+    desc: t('Perché un decimale in più costa cento volte le misure, come si aggiorna quello che si crede, e il test di Bell — quello del Nobel 2022 — giocato con le mani.'), xp: 100 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,
