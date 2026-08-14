@@ -2629,4 +2629,79 @@ export default {
     "walk down as far as you can",
   "si scende di qua":
     "down is this way",
+  /* ---------------- livello 0·7: equazioni e funzioni ---------------- */
+  "<b>Il ponte con il quantistico:</b> una macchina si può percorrere all'indietro solo se non fa mai finire due numeri diversi nello stesso posto. Quando succede, l'informazione non è «difficile da recuperare»: <b>non c'è più</b>. È esattamente la reversibilità del livello :k, ed è il motivo per cui ogni porta quantistica dev'essere invertibile — nel livello :m lo vedrai scritto come «unitaria».":
+    "<b>The bridge to quantum:</b> a machine can be run backwards only if it never sends two different numbers to the same place. When it does, the information is not «hard to recover»: it is <b>gone</b>. This is exactly the reversibility of level :k, and it is why every quantum gate must be invertible — in level :m you will see it written as «unitary».",
+  "<b>La regola, tutta:</b> quello che fai a un piatto lo devi fare anche all'altro. Se lo fai, l'equilibrio regge e la risposta non cambia; se non lo fai, hai scritto una cosa falsa. La parola <b>algebra</b> viene proprio da qui: nel titolo del libro di al-Khwārizmī, intorno all'820, «al-jabr» vuol dire «rimettere a posto».":
+    "<b>The rule, all of it:</b> whatever you do to one pan you must do to the other. Do that and the balance holds and the answer does not change; fail to, and you have written something false. The word <b>algebra</b> comes from exactly here: in the title of al-Khwārizmī's book, around 820, «al-jabr» means «restoring».",
+  "Adesso la bilancia dice: <b>:sinistra = :destra</b>.":
+    "Now the scale reads: <b>:sinistra = :destra</b>.",
+  "Da :y non si può risalire: per esempio :a e :b escono <b>tutti e due</b> come :uguale.":
+    "From :y there is no way back: for instance :a and :b <b>both</b> come out as :uguale.",
+  "Equazioni, formule girate e macchine che tornano indietro":
+    "Equations, formulas turned around, and machines that go back",
+  "Giusto: ci sono ingressi diversi con la stessa uscita, quindi dall'uscita non si può sapere da dove si veniva. L'informazione è persa.":
+    "Right: there are different inputs with the same output, so from the output there is no telling where you came from. The information is lost.",
+  "Giusto: nessun ingresso finisce dove ne finisce un altro, quindi dall'uscita si risale sempre.":
+    "Right: no input lands where another one lands, so from the output you can always work your way back.",
+  "Il numero che entra":
+    "The number going in",
+  "La bilancia":
+    "The balance scale",
+  "La bilancia che non si sbilancia mai, come si gira una formula, e la domanda che vale tutto: si può risalire da dove si è arrivati?":
+    "The scale that never tips, how to turn a formula around, and the question that decides everything: can you work back from where you ended up?",
+  "La macchina":
+    "The machine",
+  "La macchina dei numeri":
+    "The number machine",
+  "La x vale <b>:vera</b> anche adesso: qualunque mossa fatta su tutti e due i piatti lascia la risposta dov'era. Continua finché a sinistra non resta una scatola sola.":
+    "x is worth <b>:vera</b> right now too: any move made on both pans leaves the answer where it was. Carry on until a single box is left on the left.",
+  "Macchina <b>:nome</b>: entra <b>:x</b>, esce <b>:y</b>.":
+    "Machine <b>:nome</b>: <b>:x</b> goes in, <b>:y</b> comes out.",
+  "No. Guarda se esistono due numeri diversi che escono uguali: se esistono, indietro non si torna.":
+    "No. Check whether two different numbers come out the same: if they do, there is no going back.",
+  "Prova a tornare indietro: da :y si risale a <b>:x</b>. Funziona per <b>ogni</b> numero, non solo per questo.":
+    "Try going back: from :y you get to <b>:x</b>. It works for <b>every</b> number, not just this one.",
+  "Risolta: <b>x = :valore</b>. Nota che la x valeva :valore fin dall'inizio — le mosse non l'hanno cambiata, l'hanno solo <b>messa in mostra</b>.":
+    "Solved: <b>x = :valore</b>. Note that x was worth :valore from the start — the moves did not change it, they only <b>brought it into view</b>.",
+  "aggiungi 3":
+    "add 3",
+  "altra equazione":
+    "another equation",
+  "due numeri diversi, stessa uscita":
+    "two different numbers, same output",
+  "e attenzione:":
+    "and watch out:",
+  "eleva al quadrato":
+    "square it",
+  "entra":
+    "in",
+  "equazioni risolte: :fatte su :totali":
+    "equations solved: :fatte of :totali",
+  "esce":
+    "out",
+  "lascia una sola scatola, da sola":
+    "leave a single box, on its own",
+  "macchine classificate: :fatte su :totali":
+    "machines classified: :fatte of :totali",
+  "moltiplica per zero":
+    "multiply by zero",
+  "nessuna mossa ancora":
+    "no moves yet",
+  "no, è persa":
+    "no, it is lost",
+  "raddoppia":
+    "double it",
+  "resto della divisione per 4":
+    "remainder of division by 4",
+  "si può tornare indietro?":
+    "can you go back?",
+  "si torna indietro, e si ritrova esattamente il numero di partenza":
+    "you can go back, and you land exactly on the number you started from",
+  "sì, si torna indietro":
+    "yes, you can go back",
+  "togli e dividi da tutte e due le parti: la bilancia resta in equilibrio":
+    "take away and divide on both sides: the scale stays balanced",
+  "un numero entra, uno esce: si può risalire a quello entrato?":
+    "one number goes in, one comes out: can you work back to the one that went in?",
 };

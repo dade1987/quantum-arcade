@@ -173,6 +173,27 @@ return [
             ],
         ],
         [
+            'id' => '00-equazioni',
+            'n' => '0·7',
+            'part' => '0',
+            'xp' => 80,
+            'slug' => [
+                'it' => '00-equazioni',
+                'en' => '00-equations',
+                'es' => '00-ecuaciones',
+            ],
+            'title' => [
+                'it' => 'Equazioni, formule girate e macchine che tornano indietro',
+                'en' => 'Equations, formulas turned around, and machines that go back',
+                'es' => 'Ecuaciones, fórmulas giradas y máquinas que vuelven atrás',
+            ],
+            'description' => [
+                'it' => 'La bilancia che non si sbilancia mai, come si gira una formula, e la domanda che vale tutto: si può risalire da dove si è arrivati?',
+                'en' => 'The scale that never tips, how to turn a formula around, and the question that decides everything: can you work back from where you ended up?',
+                'es' => 'La balanza que nunca se desequilibra, cómo se gira una fórmula y la pregunta que lo decide todo: ¿se puede volver desde donde has llegado?',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

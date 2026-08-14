@@ -38,6 +38,7 @@ const SLUG = {
   '00-caso': { en: '00-chance', es: '00-azar' },
   '00-orologio': { en: '00-clock', es: '00-reloj' },
   '00-matrici': { en: '00-matrices', es: '00-matrices' },
+  '00-equazioni': { en: '00-equations', es: '00-ecuaciones' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -143,6 +144,10 @@ export const LEVELS = [
   { id: '00-matrici', part: '0', n: '0·6', open: true,
     title: t('La macchina che trasforma le frecce: le matrici'),
     desc: t('Quattro manopole, due frecce e la scoperta che ogni porta quantistica è una tabella di numeri.'), xp: 90 },
+
+  { id: '00-equazioni', part: '0', n: '0·7', open: true,
+    title: t('Equazioni, formule girate e macchine che tornano indietro'),
+    desc: t('La bilancia che non si sbilancia mai, come si gira una formula, e la domanda che vale tutto: si può risalire da dove si è arrivati?'), xp: 80 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

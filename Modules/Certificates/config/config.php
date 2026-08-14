@@ -39,7 +39,7 @@ return [
      * ci pensa `npm run validate`, che confronta i due numeri e si ferma se
      * hanno preso strade diverse — è già successo aggiungendo il livello 12.
      */
-    'levels_count' => 39,
+    'levels_count' => 40,
 
     // Vero quando sul server c'è l'esame vero e non quello d'esempio:
     // lo usa `php artisan site:check` per avvisare prima di aprire al pubblico.

@@ -2630,4 +2630,79 @@ export default {
     "baja todo lo que puedas",
   "si scende di qua":
     "se baja por aquí",
+  /* ---------------- livello 0·7: equazioni e funzioni ---------------- */
+  "<b>Il ponte con il quantistico:</b> una macchina si può percorrere all'indietro solo se non fa mai finire due numeri diversi nello stesso posto. Quando succede, l'informazione non è «difficile da recuperare»: <b>non c'è più</b>. È esattamente la reversibilità del livello :k, ed è il motivo per cui ogni porta quantistica dev'essere invertibile — nel livello :m lo vedrai scritto come «unitaria».":
+    "<b>El puente con lo cuántico:</b> una máquina se puede recorrer hacia atrás solo si nunca manda dos números distintos al mismo sitio. Cuando ocurre, la información no es «difícil de recuperar»: <b>ya no está</b>. Es exactamente la reversibilidad del nivel :k, y es la razón por la que toda puerta cuántica tiene que ser invertible; en el nivel :m lo verás escrito como «unitaria».",
+  "<b>La regola, tutta:</b> quello che fai a un piatto lo devi fare anche all'altro. Se lo fai, l'equilibrio regge e la risposta non cambia; se non lo fai, hai scritto una cosa falsa. La parola <b>algebra</b> viene proprio da qui: nel titolo del libro di al-Khwārizmī, intorno all'820, «al-jabr» vuol dire «rimettere a posto».":
+    "<b>La regla, entera:</b> lo que le haces a un platillo se lo tienes que hacer al otro. Si lo haces, el equilibrio aguanta y la respuesta no cambia; si no, has escrito algo falso. La palabra <b>álgebra</b> viene justo de aquí: en el título del libro de al-Juarismi, hacia el 820, «al-yabr» significa «recomponer».",
+  "Adesso la bilancia dice: <b>:sinistra = :destra</b>.":
+    "Ahora la balanza dice: <b>:sinistra = :destra</b>.",
+  "Da :y non si può risalire: per esempio :a e :b escono <b>tutti e due</b> come :uguale.":
+    "Desde :y no se puede volver: por ejemplo :a y :b salen <b>los dos</b> como :uguale.",
+  "Equazioni, formule girate e macchine che tornano indietro":
+    "Ecuaciones, fórmulas giradas y máquinas que vuelven atrás",
+  "Giusto: ci sono ingressi diversi con la stessa uscita, quindi dall'uscita non si può sapere da dove si veniva. L'informazione è persa.":
+    "Correcto: hay entradas distintas con la misma salida, así que desde la salida no se puede saber de dónde se venía. La información se ha perdido.",
+  "Giusto: nessun ingresso finisce dove ne finisce un altro, quindi dall'uscita si risale sempre.":
+    "Correcto: ninguna entrada acaba donde acaba otra, así que desde la salida siempre se puede volver.",
+  "Il numero che entra":
+    "El número que entra",
+  "La bilancia":
+    "La balanza",
+  "La bilancia che non si sbilancia mai, come si gira una formula, e la domanda che vale tutto: si può risalire da dove si è arrivati?":
+    "La balanza que nunca se desequilibra, cómo se gira una fórmula y la pregunta que lo decide todo: ¿se puede volver desde donde has llegado?",
+  "La macchina":
+    "La máquina",
+  "La macchina dei numeri":
+    "La máquina de los números",
+  "La x vale <b>:vera</b> anche adesso: qualunque mossa fatta su tutti e due i piatti lascia la risposta dov'era. Continua finché a sinistra non resta una scatola sola.":
+    "La x vale <b>:vera</b> también ahora: cualquier jugada hecha en los dos platillos deja la respuesta donde estaba. Sigue hasta que a la izquierda quede una sola caja.",
+  "Macchina <b>:nome</b>: entra <b>:x</b>, esce <b>:y</b>.":
+    "Máquina <b>:nome</b>: entra <b>:x</b>, sale <b>:y</b>.",
+  "No. Guarda se esistono due numeri diversi che escono uguali: se esistono, indietro non si torna.":
+    "No. Mira si existen dos números distintos que salgan iguales: si existen, no se vuelve atrás.",
+  "Prova a tornare indietro: da :y si risale a <b>:x</b>. Funziona per <b>ogni</b> numero, non solo per questo.":
+    "Prueba a volver atrás: desde :y se llega a <b>:x</b>. Funciona para <b>cualquier</b> número, no solo para este.",
+  "Risolta: <b>x = :valore</b>. Nota che la x valeva :valore fin dall'inizio — le mosse non l'hanno cambiata, l'hanno solo <b>messa in mostra</b>.":
+    "Resuelta: <b>x = :valore</b>. Fíjate en que la x valía :valore desde el principio: las jugadas no la han cambiado, solo la han <b>sacado a la vista</b>.",
+  "aggiungi 3":
+    "suma 3",
+  "altra equazione":
+    "otra ecuación",
+  "due numeri diversi, stessa uscita":
+    "dos números distintos, la misma salida",
+  "e attenzione:":
+    "y atención:",
+  "eleva al quadrato":
+    "eleva al cuadrado",
+  "entra":
+    "entra",
+  "equazioni risolte: :fatte su :totali":
+    "ecuaciones resueltas: :fatte de :totali",
+  "esce":
+    "sale",
+  "lascia una sola scatola, da sola":
+    "deja una sola caja, ella sola",
+  "macchine classificate: :fatte su :totali":
+    "máquinas clasificadas: :fatte de :totali",
+  "moltiplica per zero":
+    "multiplica por cero",
+  "nessuna mossa ancora":
+    "todavía ninguna jugada",
+  "no, è persa":
+    "no, se ha perdido",
+  "raddoppia":
+    "duplica",
+  "resto della divisione per 4":
+    "resto de la división entre 4",
+  "si può tornare indietro?":
+    "¿se puede volver atrás?",
+  "si torna indietro, e si ritrova esattamente il numero di partenza":
+    "se vuelve atrás, y se recupera exactamente el número de partida",
+  "sì, si torna indietro":
+    "sí, se vuelve atrás",
+  "togli e dividi da tutte e due le parti: la bilancia resta in equilibrio":
+    "quita y divide en los dos lados: la balanza sigue en equilibrio",
+  "un numero entra, uno esce: si può risalire a quello entrato?":
+    "entra un número, sale otro: ¿se puede volver al que entró?",
 };
