@@ -27,6 +27,12 @@ di Shor**. Ogni concetto ha un mini-gioco: prima muovi, poi capisci. Sotto c'è 
 quantistico a vettore di stato scritto da zero, verificato dai test: il circuito della QFT
 riproduce **esattamente** la matrice di Fourier.
 
+Gli attrezzi matematici non arrivano mai come premessa: arrivano **giocati, appena prima di
+servire**. L'aritmetica dell'orologio e il massimo comune divisore stanno prima di Shor, le
+matrici prima delle porte, gli autovettori prima della stima di fase, la serie geometrica prima
+della trasformata di Fourier — e la derivata prima dei **metodi variazionali**, cioè del
+quantistico che gira davvero, oggi, sull'hardware rumoroso.
+
 Ogni livello quantistico si apre con il **confronto fianco a fianco**: come si farebbe la stessa
 cosa con un computer normale, cosa cambia con quello quantistico, e il numero che dice quanto vale
 la differenza. Perché «quantistico» non è una cosa: è una differenza, e una differenza si vede solo
