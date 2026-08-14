@@ -603,6 +603,36 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://quantumarcade.it/lezioni/m9-integrali.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/m9-integrali.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/m9-integrals.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/m9-integrales.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/m9-integrali.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantumarcade.it/en/lessons/m9-integrals.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/m9-integrali.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/m9-integrals.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/m9-integrales.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/m9-integrali.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantumarcade.it/es/lecciones/m9-integrales.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/m9-integrali.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/m9-integrals.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/m9-integrales.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/m9-integrali.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://quantumarcade.it/lezioni/k1-bit.html</loc>
     <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/k1-bit.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/k1-bit.html"/>

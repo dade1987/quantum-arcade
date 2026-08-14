@@ -425,6 +425,27 @@ return [
             ],
         ],
         [
+            'id' => 'm9-integrali',
+            'n' => 'M·9',
+            'part' => 'M',
+            'xp' => 95,
+            'slug' => [
+                'it' => 'm9-integrali',
+                'en' => 'm9-integrals',
+                'es' => 'm9-integrales',
+            ],
+            'title' => [
+                'it' => 'Integrali: l\'area, e il teorema che la lega alla derivata',
+                'en' => 'Integrals: area, and the theorem that ties it to the derivative',
+                'es' => 'Integrales: el área, y el teorema que la liga a la derivada',
+            ],
+            'description' => [
+                'it' => 'Rettangoli sempre più stretti, il tachimetro che è la pendenza del contachilometri, e due aree che hanno un nome: il logaritmo e la probabilità che fa 1.',
+                'en' => 'Ever narrower rectangles, the speedometer that is the slope of the odometer, and two areas that have a name: the logarithm and the probability that adds up to 1.',
+                'es' => 'Rectángulos cada vez más estrechos, el velocímetro que es la pendiente del cuentakilómetros, y dos áreas que tienen nombre: el logaritmo y la probabilidad que suma 1.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

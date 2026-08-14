@@ -3557,4 +3557,65 @@ export default {
     "Por eso e^(iθ) es la flecha girada θ y no otra cosa: es el único sitio donde ese límite puede acabar.",
   "<b>Serve davvero, e non solo per essere pignoli.</b> Al livello :n si scrive e^(iθ) per «freccia girata di θ», e la giustificazione era che moltiplicando le frecce gli angoli si sommano. Quella è una somiglianza; questo è il conto. E lo stesso limite, con al posto di iθ una matrice, è il modo in cui un computer quantistico simula un sistema fisico: si spezza il tempo in n pezzetti e si applica n volte una porta quasi-identità.":
     "<b>Sirve de verdad, y no solo para ser puntillosos.</b> En el nivel :n se escribe e^(iθ) para «flecha girada θ», y la justificación era que multiplicando flechas los ángulos se suman. Eso es un parecido; esto es la cuenta. Y el mismo límite, con una matriz en lugar de iθ, es la forma en que un ordenador cuántico simula un sistema físico: se parte el tiempo en n trocitos y se aplica n veces una puerta casi idéntica a la identidad.",
+  /* ---------------- livello M·9: integrali ---------------- */
+  "Integrali: l'area, e il teorema che la lega alla derivata":
+    "Integrales: el área, y el teorema que la liga a la derivada",
+  "Rettangoli sempre più stretti, il tachimetro che è la pendenza del contachilometri, e due aree che hanno un nome: il logaritmo e la probabilità che fa 1.":
+    "Rectángulos cada vez más estrechos, el velocímetro que es la pendiente del cuentakilómetros, y dos áreas que tienen nombre: el logaritmo y la probabilidad que suma 1.",
+  "L'area a colpi di rettangoli":
+    "El área a base de rectángulos",
+  "più rettangoli, meno errore — e conta anche dove li tagli":
+    "más rectángulos, menos error — y también cuenta dónde los cortas",
+  "errore sotto :s":
+    "error por debajo de :s",
+  "funzioni sistemate: :fatte su :totali":
+    "funciones resueltas: :fatte de :totali",
+  "stima: :s · vera: :v · errore: :e":
+    "estimación: :s · verdadera: :v · error: :e",
+  "tagliare a metà conviene: 1/n² invece di 1/n":
+    "cortar por la mitad compensa: 1/n² en vez de 1/n",
+  "bordo sinistro":
+    "borde izquierdo",
+  "punto di mezzo":
+    "punto medio",
+  "bordo destro":
+    "borde derecho",
+  "quanti rettangoli":
+    "cuántos rectángulos",
+  "Con <b>:n</b> rettangoli la stima è <b>:s</b>. Il valore vero è <b>:v</b>, quindi sbagli di <b>:e</b>.":
+    "Con <b>:n</b> rectángulos la estimación es <b>:s</b>. El valor verdadero es <b>:v</b>, así que te equivocas en <b>:e</b>.",
+  "Con lo stesso numero di rettangoli, tagliati al bordo l'errore è :b, tagliati a metà è :m. Non è una furbizia da poco: al bordo l'errore scende come 1/n, a metà come 1/n².":
+    "Con el mismo número de rectángulos, cortados en el borde el error es :b, cortados por la mitad es :m. No es una astucia menor: en el borde el error baja como 1/n, por la mitad como 1/n².",
+  "E questa area ha un nome che conosci: l'area sotto 1/x da 1 a t <b>è</b> il logaritmo naturale di t. Da 1 a e fa esattamente 1 — ecco perché quel numero è la base «naturale».":
+    "Y esta área tiene un nombre que conoces: el área bajo 1/x de 1 a t <b>es</b> el logaritmo natural de t. De 1 a e da exactamente 1 — por eso ese número es la base «natural».",
+  "Questa curva è |ψ|² di una particella chiusa in una scatola: dice dove è probabile trovarla. La sua area fa <b>1</b>, e non per caso — la probabilità totale deve fare 1. È la stessa condizione che nel corso hai visto come «la somma dei quadrati delle ampiezze fa 1», scritta per una cosa continua.":
+    "Esta curva es |ψ|² de una partícula encerrada en una caja: dice dónde es probable encontrarla. Su área da <b>1</b>, y no por casualidad — la probabilidad total tiene que ser 1. Es la misma condición que en el curso has visto como «la suma de los cuadrados de las amplitudes da 1», escrita para algo continuo.",
+  "<b>Questo è il gioco del corridoio del livello :n, in un altro vestito.</b> «L'integrale è il limite delle somme di rettangoli» vuol dire: qualunque errore mi chiedi, io ti trovo un numero di rettangoli che sta sotto. E come al solito la domanda utile non è «ci arriva?» ma «quanto in fretta?»: tagliare a metà invece che al bordo fa risparmiare, a parità di errore, centinaia di rettangoli.":
+    "<b>Este es el juego del pasillo del nivel :n, con otro traje.</b> «La integral es el límite de las sumas de rectángulos» quiere decir: pídeme el error que quieras, yo te encuentro un número de rectángulos que se queda por debajo. Y como siempre la pregunta útil no es «¿llega?» sino «¿cuán deprisa?»: cortar por la mitad en vez de por el borde ahorra, a igualdad de error, cientos de rectángulos.",
+  "Tachimetro e contachilometri":
+    "Velocímetro y cuentakilómetros",
+  "la curva di sopra è la velocità, quella di sotto la strada fatta: guarda come sono legate":
+    "la curva de arriba es la velocidad, la de abajo el camino recorrido: mira cómo están ligadas",
+  "trova dove la strada è più ripida":
+    "encuentra dónde el camino sube más deprisa",
+  "scoperte: :fatte su :totali":
+    "descubrimientos: :fatte de :totali",
+  "velocità: :v":
+    "velocidad: :v",
+  "strada: :s · pendenza: :p":
+    "camino: :s · pendiente: :p",
+  "altezza sopra :v = pendenza sotto :p":
+    "altura arriba :v = pendiente abajo :p",
+  "è il teorema fondamentale, e vale in ogni punto":
+    "es el teorema fundamental, y vale en cada punto",
+  "fin dove sei arrivato":
+    "hasta dónde has llegado",
+  "Sei arrivato a <b>:t</b>. Lì il tachimetro segna <b>:v</b>, e il contachilometri <b>:s</b>.":
+    "Has llegado a <b>:t</b>. Ahí el velocímetro marca <b>:v</b>, y el cuentakilómetros <b>:s</b>.",
+  "La tangente gialla alla curva di sotto ha pendenza <b>:p</b>. Confrontala con la velocità: sono lo stesso numero, e lo sono <b>in ogni punto</b>.":
+    "La tangente amarilla a la curva de abajo tiene pendiente <b>:p</b>. Compárala con la velocidad: son el mismo número, y lo son <b>en cada punto</b>.",
+  "Detto in parole: la strada fatta cresce alla velocità che segna il tachimetro. Detto in formule: la derivata dell'area è la funzione di partenza. È il <b>teorema fondamentale del calcolo</b>, e lega le due metà dell'analisi.":
+    "Dicho en palabras: el camino recorrido crece a la velocidad que marca el velocímetro. Dicho en fórmulas: la derivada del área es la función de partida. Es el <b>teorema fundamental del cálculo</b>, y liga las dos mitades del análisis.",
+  "<b>Le due metà dell'analisi sono una cosa sola.</b> La derivata (livello :d) misura quanto una cosa cambia; l'integrale somma i cambiamenti e ricostruisce la cosa. Per questo si può calcolare un'area senza contare un solo rettangolo: basta trovare una funzione la cui derivata sia quella di partenza, e guardare quanto è cresciuta agli estremi.":
+    "<b>Las dos mitades del análisis son una sola cosa.</b> La derivada (nivel :d) mide cuánto cambia una cosa; la integral suma los cambios y reconstruye la cosa. Por eso se puede calcular un área sin contar ni un rectángulo: basta encontrar una función cuya derivada sea la de partida, y mirar cuánto ha crecido entre los extremos.",
 };

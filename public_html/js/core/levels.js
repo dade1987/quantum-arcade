@@ -50,6 +50,7 @@ const SLUG = {
   'm6-tensore': { en: 'm6-tensor-product', es: 'm6-producto-tensorial' },
   'm7-probabilita': { en: 'm7-probability', es: 'm7-probabilidad' },
   'm8-limiti': { en: 'm8-limits', es: 'm8-limites' },
+  'm9-integrali': { en: 'm9-integrals', es: 'm9-integrales' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -210,6 +211,10 @@ export const LEVELS = [
   { id: 'm8-limiti', part: 'M', n: 'M·8', open: true,
     title: t('Successioni e limiti: cosa vuol dire davvero «tende a»'),
     desc: t('Il gioco del corridoio, la banca che paga interessi immaginari — e la scoperta che «quanti tiri servono» era già la definizione di limite.'), xp: 95 },
+
+  { id: 'm9-integrali', part: 'M', n: 'M·9', open: true,
+    title: t('Integrali: l\'area, e il teorema che la lega alla derivata'),
+    desc: t('Rettangoli sempre più stretti, il tachimetro che è la pendenza del contachilometri, e due aree che hanno un nome: il logaritmo e la probabilità che fa 1.'), xp: 95 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

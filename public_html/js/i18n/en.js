@@ -3556,4 +3556,65 @@ export default {
     "This is why e^(iθ) is the arrow turned by θ and not something else: it is the only place that limit can end up.",
   "<b>Serve davvero, e non solo per essere pignoli.</b> Al livello :n si scrive e^(iθ) per «freccia girata di θ», e la giustificazione era che moltiplicando le frecce gli angoli si sommano. Quella è una somiglianza; questo è il conto. E lo stesso limite, con al posto di iθ una matrice, è il modo in cui un computer quantistico simula un sistema fisico: si spezza il tempo in n pezzetti e si applica n volte una porta quasi-identità.":
     "<b>This is genuinely useful, not just fussy.</b> At level :n we write e^(iθ) for «arrow turned by θ», and the justification was that multiplying arrows adds the angles. That is a resemblance; this is the calculation. And the same limit, with a matrix in place of iθ, is how a quantum computer simulates a physical system: time is split into n little pieces and an almost-identity gate is applied n times.",
+  /* ---------------- livello M·9: integrali ---------------- */
+  "Integrali: l'area, e il teorema che la lega alla derivata":
+    "Integrals: area, and the theorem that ties it to the derivative",
+  "Rettangoli sempre più stretti, il tachimetro che è la pendenza del contachilometri, e due aree che hanno un nome: il logaritmo e la probabilità che fa 1.":
+    "Ever narrower rectangles, the speedometer that is the slope of the odometer, and two areas that have a name: the logarithm and the probability that adds up to 1.",
+  "L'area a colpi di rettangoli":
+    "Area, one rectangle at a time",
+  "più rettangoli, meno errore — e conta anche dove li tagli":
+    "more rectangles, less error — and where you cut them matters too",
+  "errore sotto :s":
+    "error below :s",
+  "funzioni sistemate: :fatte su :totali":
+    "functions nailed: :fatte of :totali",
+  "stima: :s · vera: :v · errore: :e":
+    "estimate: :s · true: :v · error: :e",
+  "tagliare a metà conviene: 1/n² invece di 1/n":
+    "cutting at the midpoint pays: 1/n² instead of 1/n",
+  "bordo sinistro":
+    "left edge",
+  "punto di mezzo":
+    "midpoint",
+  "bordo destro":
+    "right edge",
+  "quanti rettangoli":
+    "how many rectangles",
+  "Con <b>:n</b> rettangoli la stima è <b>:s</b>. Il valore vero è <b>:v</b>, quindi sbagli di <b>:e</b>.":
+    "With <b>:n</b> rectangles the estimate is <b>:s</b>. The true value is <b>:v</b>, so you are off by <b>:e</b>.",
+  "Con lo stesso numero di rettangoli, tagliati al bordo l'errore è :b, tagliati a metà è :m. Non è una furbizia da poco: al bordo l'errore scende come 1/n, a metà come 1/n².":
+    "With the same number of rectangles, cut at the edge the error is :b, cut at the midpoint it is :m. That is no small trick: at the edge the error falls like 1/n, at the midpoint like 1/n².",
+  "E questa area ha un nome che conosci: l'area sotto 1/x da 1 a t <b>è</b> il logaritmo naturale di t. Da 1 a e fa esattamente 1 — ecco perché quel numero è la base «naturale».":
+    "And this area has a name you know: the area under 1/x from 1 to t <b>is</b> the natural logarithm of t. From 1 to e it is exactly 1 — which is why that number is the «natural» base.",
+  "Questa curva è |ψ|² di una particella chiusa in una scatola: dice dove è probabile trovarla. La sua area fa <b>1</b>, e non per caso — la probabilità totale deve fare 1. È la stessa condizione che nel corso hai visto come «la somma dei quadrati delle ampiezze fa 1», scritta per una cosa continua.":
+    "This curve is |ψ|² of a particle shut in a box: it says where it is likely to be found. Its area is <b>1</b>, and not by chance — the total probability must be 1. It is the same condition you have met in this course as «the squares of the amplitudes add up to 1», written for something continuous.",
+  "<b>Questo è il gioco del corridoio del livello :n, in un altro vestito.</b> «L'integrale è il limite delle somme di rettangoli» vuol dire: qualunque errore mi chiedi, io ti trovo un numero di rettangoli che sta sotto. E come al solito la domanda utile non è «ci arriva?» ma «quanto in fretta?»: tagliare a metà invece che al bordo fa risparmiare, a parità di errore, centinaia di rettangoli.":
+    "<b>This is the corridor game of level :n, in different clothes.</b> «The integral is the limit of sums of rectangles» means: whatever error you ask me for, I will find you a number of rectangles that stays below it. And as usual the useful question is not «does it get there?» but «how fast?»: cutting at the midpoint instead of the edge saves, for the same error, hundreds of rectangles.",
+  "Tachimetro e contachilometri":
+    "Speedometer and odometer",
+  "la curva di sopra è la velocità, quella di sotto la strada fatta: guarda come sono legate":
+    "the upper curve is the speed, the lower one the distance covered: watch how they are tied together",
+  "trova dove la strada è più ripida":
+    "find where the distance climbs fastest",
+  "scoperte: :fatte su :totali":
+    "discoveries: :fatte of :totali",
+  "velocità: :v":
+    "speed: :v",
+  "strada: :s · pendenza: :p":
+    "distance: :s · slope: :p",
+  "altezza sopra :v = pendenza sotto :p":
+    "height above :v = slope below :p",
+  "è il teorema fondamentale, e vale in ogni punto":
+    "that is the fundamental theorem, and it holds at every point",
+  "fin dove sei arrivato":
+    "how far you have got",
+  "Sei arrivato a <b>:t</b>. Lì il tachimetro segna <b>:v</b>, e il contachilometri <b>:s</b>.":
+    "You have got to <b>:t</b>. There the speedometer reads <b>:v</b>, and the odometer <b>:s</b>.",
+  "La tangente gialla alla curva di sotto ha pendenza <b>:p</b>. Confrontala con la velocità: sono lo stesso numero, e lo sono <b>in ogni punto</b>.":
+    "The yellow tangent to the lower curve has slope <b>:p</b>. Compare it with the speed: they are the same number, and they are <b>at every point</b>.",
+  "Detto in parole: la strada fatta cresce alla velocità che segna il tachimetro. Detto in formule: la derivata dell'area è la funzione di partenza. È il <b>teorema fondamentale del calcolo</b>, e lega le due metà dell'analisi.":
+    "In words: the distance covered grows at the speed the speedometer reads. In formulas: the derivative of the area is the original function. It is the <b>fundamental theorem of calculus</b>, and it ties the two halves of analysis together.",
+  "<b>Le due metà dell'analisi sono una cosa sola.</b> La derivata (livello :d) misura quanto una cosa cambia; l'integrale somma i cambiamenti e ricostruisce la cosa. Per questo si può calcolare un'area senza contare un solo rettangolo: basta trovare una funzione la cui derivata sia quella di partenza, e guardare quanto è cresciuta agli estremi.":
+    "<b>The two halves of analysis are one single thing.</b> The derivative (level :d) measures how much something changes; the integral adds the changes up and rebuilds the thing. That is why an area can be computed without counting a single rectangle: find a function whose derivative is the original one, and look at how much it has grown between the ends.",
 };
