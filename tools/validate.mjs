@@ -767,6 +767,37 @@ if (existsSync(certCfg)) {
    Due controlli, per ogni blocco mount: della missione si deve vedere il
    riquadro (m.root appeso alla pagina) e si deve poter chiudere (m.complete()
    invocata da qualche parte nello stesso blocco). */
+/* [5d-bis] SEGNAPOSTO CHE SI MANGIANO A VICENDA
+   -----------------------------------------------------------------
+   t() sostituisce i segnaposto uno per uno, con out.split(':' + k):
+   quindi se in una stessa frase convivono `:p` e `:prec`, il primo
+   viene sostituito PRIMA e di `:prec` resta «<valore>rec» attaccato al
+   testo. Non è un'ipotesi: è successo qui, nella staffetta di Ruffini,
+   e a schermo si leggeva «riceve −6rec».
+
+   Il difetto è silenzioso — nessun errore, nessun test rosso, solo una
+   parola sbagliata dentro una frase — e si vede solo aprendo la pagina
+   giusta al passo giusto. Quindi lo si cerca a monte: dentro una stessa
+   frase, nessun segnaposto può essere prefisso di un altro. */
+{
+  console.log('\n[5d-bis] Segnaposto che non si mangiano a vicenda');
+  const frasi = [];
+  for (const { f, src } of allSources) {
+    for (const m of src.matchAll(/\bt\(\s*'((?:[^'\\]|\\.)*)'/g)) frasi.push([f, m[1]]);
+    for (const m of src.matchAll(/\bt\(\s*"((?:[^"\\]|\\.)*)"/g)) frasi.push([f, m[1]]);
+  }
+  for (const [f, frase] of frasi) {
+    const segnaposto = [...new Set([...frase.matchAll(/:([a-zA-Z][a-zA-Z0-9_]*)/g)].map(m => m[1]))];
+    for (const a of segnaposto) {
+      for (const b of segnaposto) {
+        if (a !== b && b.startsWith(a)) {
+          err(rel(f), `i segnaposto ":${a}" e ":${b}" convivono nella stessa frase: t() sostituisce ":${a}" per primo e di ":${b}" resta un pezzo attaccato al testo. Rinominane uno.\n     frase: «${frase.slice(0, 80)}…»`);
+        } else ok();
+      }
+    }
+  }
+}
+
 {
   console.log('\n[5e] Missioni mostrate e completabili');
   for (const l of linguePubblicate) {

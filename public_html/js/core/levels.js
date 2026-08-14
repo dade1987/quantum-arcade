@@ -42,6 +42,7 @@ const SLUG = {
   '00-secondogrado': { en: '00-quadratics', es: '00-segundo-grado' },
   '00-logaritmi': { en: '00-logarithms', es: '00-logaritmos' },
   '00-scalare': { en: '00-dot-product', es: '00-producto-escalar' },
+  'm1-polinomi': { en: 'm1-polynomials', es: 'm1-polinomios' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -88,6 +89,12 @@ export const PARTS = [
     id: '0',
     title: t('Parte 0 — Le basi (per chi parte proprio da zero)'),
     sub: t('Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici, equazioni (anche di secondo grado), logaritmi e prodotto scalare. Dalle medie in su. Facoltativa se le sai già.'),
+    color: 'green',
+  },
+  {
+    id: 'M',
+    title: t('Parte M — La matematica delle superiori e dell\'università'),
+    sub: t('Dalla prima superiore ad Analisi 2, ma solo i pezzi che questo corso usa davvero, e sempre con la curiosità dentro: perché quella formula è fatta così, da quale problema è nata, e a che serve qui. Facoltativa come la Parte 0 — però chi la fa capisce il resto molto meglio.'),
     color: 'green',
   },
   {
@@ -163,6 +170,11 @@ export const LEVELS = [
   { id: '00-scalare', part: '0', n: '0·9', open: true,
     title: t('Quanto due frecce si somigliano: il prodotto scalare'),
     desc: t('Un numero solo che dice se due frecce vanno d\'accordo. E la misura quantistica scoperta per quello che è: un\'ombra.'), xp: 85 },
+
+  // ---------- PARTE M — matematica delle superiori e dell'università, sempre aperta ----------
+  { id: 'm1-polinomi', part: 'M', n: 'M·1', open: true,
+    title: t('Polinomi, Ruffini e la formula che non esiste'),
+    desc: t('Scomporre cercando i sospettati, la staffetta di Ruffini che è anche il modo più veloce di calcolare un polinomio, e il motivo per cui dal quinto grado in poi una formula non c\'è — e non ci sarà mai.'), xp: 90 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

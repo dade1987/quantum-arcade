@@ -257,6 +257,27 @@ return [
             ],
         ],
         [
+            'id' => 'm1-polinomi',
+            'n' => 'M·1',
+            'part' => 'M',
+            'xp' => 90,
+            'slug' => [
+                'it' => 'm1-polinomi',
+                'en' => 'm1-polynomials',
+                'es' => 'm1-polinomios',
+            ],
+            'title' => [
+                'it' => 'Polinomi, Ruffini e la formula che non esiste',
+                'en' => 'Polynomials, Ruffini, and the formula that does not exist',
+                'es' => 'Polinomios, Ruffini y la fórmula que no existe',
+            ],
+            'description' => [
+                'it' => 'Scomporre cercando i sospettati, la staffetta di Ruffini che è anche il modo più veloce di calcolare un polinomio, e il motivo per cui dal quinto grado in poi una formula non c\'è — e non ci sarà mai.',
+                'en' => 'Factoring by questioning the suspects, Ruffini\'s relay which is also the fastest way to evaluate a polynomial, and the reason why from the fifth degree on there is no formula — and never will be.',
+                'es' => 'Factorizar interrogando a los sospechosos, el relevo de Ruffini que es también la forma más rápida de calcular un polinomio, y el motivo por el que del quinto grado en adelante no hay fórmula — ni la habrá.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

@@ -1921,7 +1921,7 @@ export default {
     'El registro contiene <b>:valore</b> y nada más. Las otras :quante configuraciones son posibles, no presentes: nadie las está calculando.',
   'Leggerlo non lo cambia: puoi leggerlo mille volte e trovare mille volte lo stesso numero. Letture fatte: <b>:n</b>, valori diversi usciti: <b>:diversi</b>.':
     'Leerlo no lo cambia: puedes leerlo mil veces y encontrar mil veces el mismo número. Lecturas hechas: <b>:n</b>, valores distintos salidos: <b>:diversi</b>.',
-  'Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :p%.':
+  'Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :percento%.':
     'El circuito que has montado enciende <b>:piene amplitudes</b> de :totale. Con una H por cúbit se encienden las :totale, cada una con probabilidad :p%.',
   'La misura ne restituirà <b>una sola</b>, a caso — e quella che esce è tutto quello che ti resta.':
     'La medida devolverá <b>una sola</b>, al azar — y la que sale es todo lo que te queda.',
@@ -2925,4 +2925,73 @@ export default {
     "Y esta es la fórmula resolutiva, construida en vez de memorizada: la raíz, la mitad de b, la resta.",
   "<b>Questo disegno ha 1200 anni.</b> È il metodo con cui al-Khwārizmī risolveva «un quadrato e dieci radici uguali a trentanove» — cioè x² + 10x = 39, la seconda equazione qui sopra. Non aveva la formula: aveva il disegno. La formula che si impara a scuola è questo disegno scritto con le lettere, e il pezzo sotto la radice è l'angolo mancante. Nel livello :n ritroverai lo stesso conto sotto un altro nome: il polinomio degli autovalori.":
     "<b>Este dibujo tiene 1200 años.</b> Es el método con el que al-Juarismi resolvía «un cuadrado y diez raíces igual a treinta y nueve» — es decir x² + 10x = 39, la segunda ecuación de aquí arriba. No tenía la fórmula: tenía el dibujo. La fórmula que se aprende en la escuela es este dibujo escrito con letras, y la pieza bajo la raíz es la esquina que falta. En el nivel :n reencontrarás la misma cuenta con otro nombre: el polinomio de los autovalores.",
+  /* ---------------- livello M·1: polinomi e Ruffini ---------------- */
+  "Parte M — La matematica delle superiori e dell'università":
+    "Parte M — Las matemáticas del instituto y de la universidad",
+  "Dalla prima superiore ad Analisi 2, ma solo i pezzi che questo corso usa davvero, e sempre con la curiosità dentro: perché quella formula è fatta così, da quale problema è nata, e a che serve qui. Facoltativa come la Parte 0 — però chi la fa capisce il resto molto meglio.":
+    "Desde primero de instituto hasta Análisis 2, pero solo las piezas que este curso usa de verdad, y siempre con la curiosidad dentro: por qué esa fórmula es así, de qué problema nació y para qué sirve aquí. Opcional como la Parte 0 — pero quien la hace entiende el resto mucho mejor.",
+  "Polinomi, Ruffini e la formula che non esiste":
+    "Polinomios, Ruffini y la fórmula que no existe",
+  "Scomporre cercando i sospettati, la staffetta di Ruffini che è anche il modo più veloce di calcolare un polinomio, e il motivo per cui dal quinto grado in poi una formula non c'è — e non ci sarà mai.":
+    "Factorizar interrogando a los sospechosos, el relevo de Ruffini que es también la forma más rápida de calcular un polinomio, y el motivo por el que del quinto grado en adelante no hay fórmula — ni la habrá.",
+  "I sospettati":
+    "Los sospechosos",
+  "le radici intere si nascondono solo fra i divisori del termine noto: interrogali":
+    "las raíces enteras se esconden solo entre los divisores del término independiente: interrógalos",
+  "non si scompone più: fatto":
+    "ya no se factoriza más: hecho",
+  "trova le radici e sfilale una per una":
+    "encuentra las raíces y sácalas una a una",
+  "polinomi scomposti: :fatte su :totali":
+    "polinomios factorizados: :fatte de :totali",
+  "sfilate finora: :lista":
+    "sacadas hasta ahora: :lista",
+  "ancora nessuna radice sfilata":
+    "todavía ninguna raíz sacada",
+  "Il polinomio":
+    "El polinomio",
+  "Termine noto <b>:noto</b> → i sospettati sono solo i suoi divisori, col più e col meno: <b>:lista</b>. Tutti gli altri numeri hanno un alibi automatico.":
+    "Término independiente <b>:noto</b> → los sospechosos son solo sus divisores, con más y con menos: <b>:lista</b>. Todos los demás números tienen una coartada automática.",
+  "x = :c non è una radice: il resto viene :r, non zero. Alibi confermato.":
+    "x = :c no es una raíz: el resto sale :r, no cero. Coartada confirmada.",
+  "Finora: :pezzi · (:resto)":
+    "Hasta ahora: :pezzi · (:resto)",
+  "Quello che resta non ha radici intere: si ferma qui, ed è una risposta giusta. Guarda il suo delta.":
+    "Lo que queda no tiene raíces enteras: se para aquí, y es una respuesta correcta. Mira su discriminante.",
+  "Scomposto fino in fondo.":
+    "Factorizado hasta el final.",
+  "<b>Perché i sospettati sono così pochi.</b> Se un intero r annulla il polinomio, raccogliendo r da tutti i termini con la x resta da spartire solo il <b>termine noto</b>: quindi r deve dividerlo esatto. Da infiniti candidati a una manciata — la stessa mossa che al livello :n rende Grover utile: prima si restringe lo spazio di ricerca, poi si cerca.":
+    "<b>Por qué los sospechosos son tan pocos.</b> Si un entero r anula el polinomio, sacando factor r de todos los términos con x queda por repartir solo el <b>término independiente</b>: así que r tiene que dividirlo exacto. De infinitos candidatos a un puñado — el mismo movimiento que en el nivel :n hace útil a Grover: primero se estrecha el espacio de búsqueda, luego se busca.",
+  "La staffetta di Ruffini":
+    "El relevo de Ruffini",
+  "ogni corridore riceve il testimone, lo moltiplica per r e lo passa: alla fine esce il valore del polinomio":
+    "cada corredor recibe el testigo, lo multiplica por r y lo pasa: al final sale el valor del polinomio",
+  "porta il testimone fino in fondo":
+    "lleva el testigo hasta el final",
+  "staffette finite: :fatte su :totali":
+    "relevos terminados: :fatte de :totali",
+  "coefficienti":
+    "coeficientes",
+  "× :r e passa avanti":
+    "× :r y pásalo",
+  "testimone":
+    "testigo",
+  "P(:r) = :v = il resto della divisione":
+    "P(:r) = :v = el resto de la división",
+  "moltiplicazioni: :h con la staffetta, :b a forza bruta":
+    "multiplicaciones: :h con el relevo, :b a fuerza bruta",
+  "Il numero r":
+    "El número r",
+  "passa il testimone":
+    "pasa el testigo",
+  "Il primo corridore parte con il coefficiente più alto: non riceve niente da nessuno.":
+    "El primer corredor sale con el coeficiente más alto: no recibe nada de nadie.",
+  "Testimone: <b>:s</b>. Adesso lo moltiplichi per r = :r e lo passi al corridore dopo.":
+    "Testigo: <b>:s</b>. Ahora lo multiplicas por r = :r y se lo pasas al corredor siguiente.",
+  "Il corridore :quale riceve <b>:portato</b> (cioè :prima × :erre), lo somma al suo coefficiente :suo e ottiene <b>:totale</b>.":
+    "El corredor :quale recibe <b>:portato</b> (es decir :prima × :erre), lo suma a su coeficiente :suo y obtiene <b>:totale</b>.",
+  "L'ultimo numero è <b>:v</b>. Se è zero, r è una radice e gli altri numeri sono il polinomio rimasto. Se non è zero, hai comunque appena calcolato P(:r) con :h sole moltiplicazioni invece di :b.":
+    "El último número es <b>:v</b>. Si es cero, r es una raíz y los demás números son el polinomio que queda. Si no es cero, has calculado igualmente P(:r) con solo :h multiplicaciones en vez de :b.",
+  "<b>La stessa riga di numeri fa due cose.</b> Se il resto è zero hai <b>diviso</b> il polinomio; se non lo è hai <b>calcolato</b> il polinomio in quel punto (teorema del resto). E l'hai fatto con una moltiplicazione per coefficiente: è lo schema di Horner, il modo più veloce che si conosca. Al livello :n scoprirai che la DFT è proprio questo — calcolare un polinomio in tanti punti — e la FFT è il «dividi a metà» applicato qui dentro.":
+    "<b>La misma fila de números hace dos cosas.</b> Si el resto es cero has <b>dividido</b> el polinomio; si no lo es has <b>calculado</b> el polinomio en ese punto (teorema del resto). Y lo has hecho con una multiplicación por coeficiente: es el esquema de Horner, el más rápido que se conoce. En el nivel :n descubrirás que la DFT es justo esto — calcular un polinomio en muchos puntos — y la FFT es el «parte por la mitad» aplicado aquí dentro.",
 };

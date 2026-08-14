@@ -1920,7 +1920,7 @@ export default {
     'The register holds <b>:valore</b> and nothing else. The other :quante configurations are possible, not present: nobody is computing them.',
   'Leggerlo non lo cambia: puoi leggerlo mille volte e trovare mille volte lo stesso numero. Letture fatte: <b>:n</b>, valori diversi usciti: <b>:diversi</b>.':
     'Reading it does not change it: read it a thousand times and find the same number a thousand times. Readings so far: <b>:n</b>, different values seen: <b>:diversi</b>.',
-  'Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :p%.':
+  'Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :percento%.':
     'The circuit you have built lights up <b>:piene amplitudes</b> out of :totale. With one H per qubit they all become :totale, each with probability :p%.',
   'La misura ne restituirà <b>una sola</b>, a caso — e quella che esce è tutto quello che ti resta.':
     'The measurement will give back <b>one only</b>, at random — and the one that comes out is all you are left with.',
@@ -2924,4 +2924,73 @@ export default {
     "And this is the quadratic formula, built instead of memorised: the square root, half of b, the subtraction.",
   "<b>Questo disegno ha 1200 anni.</b> È il metodo con cui al-Khwārizmī risolveva «un quadrato e dieci radici uguali a trentanove» — cioè x² + 10x = 39, la seconda equazione qui sopra. Non aveva la formula: aveva il disegno. La formula che si impara a scuola è questo disegno scritto con le lettere, e il pezzo sotto la radice è l'angolo mancante. Nel livello :n ritroverai lo stesso conto sotto un altro nome: il polinomio degli autovalori.":
     "<b>This drawing is 1200 years old.</b> It is the method with which al-Khwārizmī solved «a square and ten roots equal to thirty-nine» — that is x² + 10x = 39, the second equation above. He had no formula: he had the drawing. The formula taught at school is this drawing written with letters, and the piece under the square root is the missing corner. At level :n you will meet the same calculation under another name: the eigenvalue polynomial.",
+  /* ---------------- livello M·1: polinomi e Ruffini ---------------- */
+  "Parte M — La matematica delle superiori e dell'università":
+    "Part M — The maths of high school and university",
+  "Dalla prima superiore ad Analisi 2, ma solo i pezzi che questo corso usa davvero, e sempre con la curiosità dentro: perché quella formula è fatta così, da quale problema è nata, e a che serve qui. Facoltativa come la Parte 0 — però chi la fa capisce il resto molto meglio.":
+    "From the first year of high school to second-year calculus, but only the pieces this course actually uses, and always with the curiosity inside: why that formula looks like that, which problem it was born from, and what it is for here. Optional like Part 0 — but whoever does it understands the rest far better.",
+  "Polinomi, Ruffini e la formula che non esiste":
+    "Polynomials, Ruffini, and the formula that does not exist",
+  "Scomporre cercando i sospettati, la staffetta di Ruffini che è anche il modo più veloce di calcolare un polinomio, e il motivo per cui dal quinto grado in poi una formula non c'è — e non ci sarà mai.":
+    "Factoring by questioning the suspects, Ruffini's relay which is also the fastest way to evaluate a polynomial, and the reason why from the fifth degree on there is no formula — and never will be.",
+  "I sospettati":
+    "The suspects",
+  "le radici intere si nascondono solo fra i divisori del termine noto: interrogali":
+    "whole roots hide only among the divisors of the constant term: question them",
+  "non si scompone più: fatto":
+    "it factors no further: done",
+  "trova le radici e sfilale una per una":
+    "find the roots and peel them off one at a time",
+  "polinomi scomposti: :fatte su :totali":
+    "polynomials factored: :fatte of :totali",
+  "sfilate finora: :lista":
+    "peeled off so far: :lista",
+  "ancora nessuna radice sfilata":
+    "no root peeled off yet",
+  "Il polinomio":
+    "The polynomial",
+  "Termine noto <b>:noto</b> → i sospettati sono solo i suoi divisori, col più e col meno: <b>:lista</b>. Tutti gli altri numeri hanno un alibi automatico.":
+    "Constant term <b>:noto</b> → the suspects are only its divisors, plus and minus: <b>:lista</b>. Every other number has an automatic alibi.",
+  "x = :c non è una radice: il resto viene :r, non zero. Alibi confermato.":
+    "x = :c is not a root: the remainder comes out :r, not zero. Alibi confirmed.",
+  "Finora: :pezzi · (:resto)":
+    "So far: :pezzi · (:resto)",
+  "Quello che resta non ha radici intere: si ferma qui, ed è una risposta giusta. Guarda il suo delta.":
+    "What is left has no whole roots: it stops here, and that is a correct answer. Look at its discriminant.",
+  "Scomposto fino in fondo.":
+    "Factored all the way down.",
+  "<b>Perché i sospettati sono così pochi.</b> Se un intero r annulla il polinomio, raccogliendo r da tutti i termini con la x resta da spartire solo il <b>termine noto</b>: quindi r deve dividerlo esatto. Da infiniti candidati a una manciata — la stessa mossa che al livello :n rende Grover utile: prima si restringe lo spazio di ricerca, poi si cerca.":
+    "<b>Why the suspects are so few.</b> If a whole number r makes the polynomial zero, factoring r out of every term containing x leaves only the <b>constant term</b> to be shared out: so r must divide it exactly. From infinitely many candidates to a handful — the same move that makes Grover useful at level :n: first you narrow the search space, then you search.",
+  "La staffetta di Ruffini":
+    "Ruffini's relay",
+  "ogni corridore riceve il testimone, lo moltiplica per r e lo passa: alla fine esce il valore del polinomio":
+    "each runner takes the baton, multiplies it by r and passes it on: at the end out comes the value of the polynomial",
+  "porta il testimone fino in fondo":
+    "carry the baton all the way",
+  "staffette finite: :fatte su :totali":
+    "relays finished: :fatte of :totali",
+  "coefficienti":
+    "coefficients",
+  "× :r e passa avanti":
+    "× :r and pass it on",
+  "testimone":
+    "baton",
+  "P(:r) = :v = il resto della divisione":
+    "P(:r) = :v = the remainder of the division",
+  "moltiplicazioni: :h con la staffetta, :b a forza bruta":
+    "multiplications: :h with the relay, :b by brute force",
+  "Il numero r":
+    "The number r",
+  "passa il testimone":
+    "pass the baton",
+  "Il primo corridore parte con il coefficiente più alto: non riceve niente da nessuno.":
+    "The first runner sets off with the highest coefficient: it receives nothing from anybody.",
+  "Testimone: <b>:s</b>. Adesso lo moltiplichi per r = :r e lo passi al corridore dopo.":
+    "Baton: <b>:s</b>. Now you multiply it by r = :r and pass it to the next runner.",
+  "Il corridore :quale riceve <b>:portato</b> (cioè :prima × :erre), lo somma al suo coefficiente :suo e ottiene <b>:totale</b>.":
+    "Runner :quale receives <b>:portato</b> (that is :prima × :erre), adds it to its own coefficient :suo and gets <b>:totale</b>.",
+  "L'ultimo numero è <b>:v</b>. Se è zero, r è una radice e gli altri numeri sono il polinomio rimasto. Se non è zero, hai comunque appena calcolato P(:r) con :h sole moltiplicazioni invece di :b.":
+    "The last number is <b>:v</b>. If it is zero, r is a root and the other numbers are the polynomial left over. If it is not zero, you have still just evaluated P(:r) with only :h multiplications instead of :b.",
+  "<b>La stessa riga di numeri fa due cose.</b> Se il resto è zero hai <b>diviso</b> il polinomio; se non lo è hai <b>calcolato</b> il polinomio in quel punto (teorema del resto). E l'hai fatto con una moltiplicazione per coefficiente: è lo schema di Horner, il modo più veloce che si conosca. Al livello :n scoprirai che la DFT è proprio questo — calcolare un polinomio in tanti punti — e la FFT è il «dividi a metà» applicato qui dentro.":
+    "<b>The same row of numbers does two things.</b> If the remainder is zero you have <b>divided</b> the polynomial; if it is not, you have <b>evaluated</b> the polynomial at that point (remainder theorem). And you did it with one multiplication per coefficient: that is Horner's scheme, the fastest known. At level :n you will discover that the DFT is exactly this — evaluating a polynomial at many points — and the FFT is the «split in half» applied inside it.",
 };

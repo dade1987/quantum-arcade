@@ -262,8 +262,8 @@ export function registroCoppia(host, opts = {}) {
         { valore: label(valore(), n), quante: N - 1 })
         + '\n' + t('Leggerlo non lo cambia: puoi leggerlo mille volte e trovare mille volte lo stesso numero. Letture fatte: <b>:n</b>, valori diversi usciti: <b>:diversi</b>.',
           { n: st.letture.length, diversi })
-      : t('Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :p%.',
-        { piene: st.pienePreparate, totale: N, p: (100 / N).toFixed(1) })
+      : t('Il circuito che hai montato accende <b>:piene ampiezze</b> su :totale. Con una H per qubit diventano tutte e :totale, ognuna con probabilità :percento%.',
+        { piene: st.pienePreparate, totale: N, percento: (100 / N).toFixed(1) })
         + '\n' + (st.ultima === null
           ? t('La misura ne restituirà <b>una sola</b>, a caso — e quella che esce è tutto quello che ti resta.')
           : t('L\'ultima misura ha fatto <b>collassare</b> lo stato su :valore: le altre ampiezze sono sparite. Premi ancora e il circuito riparte da capo, come su una macchina vera.',
