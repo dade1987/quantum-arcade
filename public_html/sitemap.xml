@@ -303,6 +303,36 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://quantumarcade.it/lezioni/00-scalare.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-scalare.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-dot-product.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/00-producto-escalar.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/00-scalare.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantumarcade.it/en/lessons/00-dot-product.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-scalare.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-dot-product.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/00-producto-escalar.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/00-scalare.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantumarcade.it/es/lecciones/00-producto-escalar.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-scalare.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-dot-product.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/00-producto-escalar.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/00-scalare.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://quantumarcade.it/lezioni/k1-bit.html</loc>
     <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/k1-bit.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/k1-bit.html"/>

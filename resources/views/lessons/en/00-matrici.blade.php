@@ -111,6 +111,24 @@ const L = renderLesson({
     },
 
     {
+      t: 'Where it comes from',
+      html: `<p>Matrices are younger than they look. Tables of numbers had been in use for centuries — in China, in the
+             <i>Jiuzhang Suanshu</i>, linear systems were solved by lining coefficients up in columns two thousand
+             years ago — but the idea that <b>the table is an object in its own right</b>, with a multiplication of
+             its own, arrives in <b>1858</b> with Arthur Cayley and his <i>Memoir on the Theory of Matrices</i>.</p>
+             <p>The part that matters to us is <b>why</b> he defined the product that way, with that rows-times-columns
+             dance that looks arbitrary: because he wanted the product of two tables to be the table of the
+             <b>composed transformation</b>. That is: first one machine, then the other. Matrix multiplication is not
+             an invented rule, it is what that requirement forces.</p>
+             <div class="callout key">And the sequel is the better story. In <b>1925</b> Werner Heisenberg built his
+             quantum mechanics out of tables of numbers that multiplied in a strange way: swap the order and the result
+             changed. He did not know the object already had a name. It was <b>Max Born</b> who recognised it — "that
+             is a matrix" — and who wrote the tidy version with Pascual Jordan. The non-commutativity that looked like
+             a problem to Heisenberg was the signature of the new physics: it is the same "X·Z ≠ Z·X" you have just
+             seen in the game.</div>`,
+    },
+
+    {
       t: '💡 Try it yourself',
       html: `<div class="callout think">
         <p><b>1.</b> In the knobs game, which table <b>squashes everything onto the horizontal axis</b>? Is it unitary?

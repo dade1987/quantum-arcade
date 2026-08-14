@@ -79,6 +79,23 @@ const L = renderLesson({
     },
 
     {
+      t: 'Where it comes from',
+      html: `<p>The question "can infinitely many pieces have a finite total?" is two and a half thousand years old.
+             <b>Zeno of Elea</b> asked it in the fifth century BC, with the paradox of Achilles and the tortoise: to
+             catch her, Achilles must first cover half the distance, then half of what is left, then half again…
+             infinitely many steps, so — Zeno concluded — he never catches her.</p>
+             <p>The game you have just played is the answer: <b>½ + ¼ + ⅛ + … = 1</b>. Infinitely many steps, a finite
+             distance, a finite time. The paradox is not in the race: it is in the assumption that "infinitely many
+             things" must add up to "an infinite thing".</p>
+             <p><b>Archimedes</b>, in the third century BC, was the first to actually sum one: in the <i>Quadrature of
+             the Parabola</i> he computes 1 + ¼ + 1/16 + … = 4/3 and uses it to measure a curved area. He had no
+             limits — those were two thousand years away — and handled it by exhaustion, proving the total can be
+             neither larger nor smaller than 4/3.</p>
+             <div class="callout key">The same formula, with a rotation in place of a fraction, is what makes the peak
+             of the Fourier transform. Two thousand years later, the same calculation.</div>`,
+    },
+
+    {
       t: '💡 Try it yourself',
       html: `<div class="callout think">
         <p><b>1.</b> In the first game set the fraction to <b>0.9</b>: where does the wall end up? And at 0.99? Can you say

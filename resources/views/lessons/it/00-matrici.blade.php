@@ -112,6 +112,24 @@ const L = renderLesson({
     },
 
     {
+      t: 'Da dove viene',
+      html: `<p>Le matrici sono più giovani di quanto sembri. Le tabelle di numeri si usavano da secoli — in Cina,
+             nel <i>Jiuzhang Suanshu</i>, si risolvevano sistemi lineari incolonnando i coefficienti già duemila anni
+             fa — ma l'idea che <b>quella tabella sia un oggetto in sé</b>, con una sua moltiplicazione, arriva nel
+             <b>1858</b> con Arthur Cayley e la sua <i>Memoria sulla teoria delle matrici</i>.</p>
+             <p>La parte che ci interessa è <b>perché</b> definì il prodotto così, con quel giro di righe per colonne
+             che sembra arbitrario: perché voleva che il prodotto di due tabelle fosse la tabella della
+             <b>trasformazione composta</b>. Cioè: prima una macchina, poi l'altra. Il prodotto delle matrici non è
+             una regola inventata, è il risultato di quella richiesta.</p>
+             <div class="callout key">E il seguito è la storia migliore. Nel <b>1925</b> Werner Heisenberg costruì la
+             sua meccanica quantistica con delle tabelle di numeri che si moltiplicavano in un modo strano: cambiando
+             l'ordine, il risultato cambiava. Non sapeva che quell'oggetto avesse già un nome. Fu <b>Max Born</b> a
+             riconoscerlo — «è una matrice» — e a scriverne insieme a Pascual Jordan la versione ordinata. La
+             non-commutatività che a Heisenberg sembrava un problema era la firma della fisica nuova: è lo stesso
+             «X·Z ≠ Z·X» che hai appena visto nel gioco.</div>`,
+    },
+
+    {
       t: '💡 Prova tu',
       html: `<div class="callout think">
         <p><b>1.</b> Nel gioco delle manopole, che tabella serve per <b>schiacciare tutto sull'asse orizzontale</b>?

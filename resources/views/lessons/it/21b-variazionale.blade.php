@@ -98,6 +98,22 @@ const L = renderLesson({
     },
 
     {
+      t: 'Da dove viene tutto questo',
+      html: `<p>C'è un motivo profondo per cui «abbassare l'energia» è una strategia sensata, e non è nuovo: si chiama
+             <b>principio variazionale</b>. Dice una cosa sola, ma potente: <b>qualunque</b> stato tu provi, l'energia
+             media che misuri è <b>maggiore o uguale</b> a quella dello stato fondamentale vero. Non puoi mai finire
+             sotto. Quindi più scendi, più ti avvicini alla risposta — e sai sempre da che parte stai sbagliando.</p>
+             <p>Il metodo di calcolo che ne discende è del 1908 (<b>Walther Ritz</b>, sulla scia di
+             <b>Lord Rayleigh</b>): scegli una famiglia di stati con qualche manopola, e cerca la manopola che dà
+             l'energia più bassa. È esattamente quello che hai fatto nel gioco — solo che lì lo stato lo prepara un
+             circuito quantistico invece di una formula scritta a mano.</p>
+             <div class="callout key">Il resto è recente, e vale la pena datarlo: il primo <b>VQE</b> eseguito su un
+             processore vero è del <b>2014</b> (Peruzzo e colleghi, su un chip fotonico, per la molecola HeH⁺); il
+             <b>QAOA</b> è dello stesso anno (Farhi, Goldstone e Gutmann). La regola dello spostamento, che rende la
+             pendenza esatta, arriva nel 2018-2019. È un campo che ha meno anni di molti di voi che leggete.</div>`,
+    },
+
+    {
       t: '💡 Prova tu',
       html: `<div class="callout think">
         <p><b>1.</b> Nella «valle doppia», parti da destra e scendi. Poi parti da sinistra. Finisci nello stesso fondo?

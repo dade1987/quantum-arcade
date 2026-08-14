@@ -2784,4 +2784,77 @@ export default {
     "un millón de números",
   "✓ :n è il minimo: con :meno non basterebbe":
     "✓ :n es el mínimo: con :meno no bastaría",
+  /* ---------------- livello 0·9: il prodotto scalare ---------------- */
+  "<b>Le due formule sono una sola.</b> «Moltiplica le coordinate e somma» e «lunghezza × lunghezza × coseno dell'angolo» danno sempre lo stesso numero: la prima si calcola, la seconda si capisce. E il caso che conta è quello di mezzo: <b>prodotto zero = perpendicolari</b>.":
+    "<b>Las dos fórmulas son una sola.</b> «Multiplica las coordenadas y suma» y «longitud × longitud × coseno del ángulo» dan siempre el mismo número: la primera se calcula, la segunda se entiende. Y el caso que importa es el de en medio: <b>producto cero = perpendiculares</b>.",
+  "<b>Questa figura è la regola di Born.</b> L'ampiezza di un risultato è l'<b>ombra</b> dello stato sulla direzione di quel risultato — cioè il prodotto scalare — e la probabilità è quell'ombra al quadrato. Le due direzioni sono perpendicolari, quindi vale Pitagora e i quadrati fanno sempre 1. Girare la base è cambiare <b>domanda</b>: è la base di misura del livello :n.":
+    "<b>Esta figura es la regla de Born.</b> La amplitud de un resultado es la <b>sombra</b> del estado sobre la dirección de ese resultado — es decir, el producto escalar — y la probabilidad es esa sombra al cuadrado. Las dos direcciones son perpendiculares, así que vale Pitágoras y los cuadrados suman siempre 1. Girar la base es cambiar de <b>pregunta</b>: es la base de medida del nivel :n.",
+  "Centrato. Nota che la somma dei quadrati non si è mossa: è Pitagora, e nel quantistico si chiama «le probabilità fanno 100%».":
+    "Acertado. Fíjate en que la suma de los cuadrados no se ha movido: es Pitágoras, y en lo cuántico se llama «las probabilidades suman 100%».",
+  "Come è girata la base di misura":
+    "Cómo está girada la base de medida",
+  "Freccia azzurra (:ax · :ay), lunga :la. Freccia viola (:bx · :by), lunga :lb.":
+    "Flecha azul (:ax · :ay), de longitud :la. Flecha violeta (:bx · :by), de longitud :lb.",
+  "La misura è un'ombra":
+    "La medida es una sombra",
+  "Lo stato punta a <b>:g°</b>; la base di misura è girata di <b>:b°</b>.":
+    "El estado apunta a <b>:g°</b>; la base de medida está girada <b>:b°</b>.",
+  "Negativo: puntano <b>in versi opposti</b>.":
+    "Negativo: apuntan <b>en sentidos opuestos</b>.",
+  "Ombre (le <b>ampiezze</b>): :a0 e :a1. Quadrati (le <b>probabilità</b>): :p0% e :p1%. Somma: <b>:tot%</b>.":
+    "Sombras (las <b>amplitudes</b>): :a0 y :a1. Cuadrados (las <b>probabilidades</b>): :p0% y :p1%. Suma: <b>:tot%</b>.",
+  "Positivo: puntano <b>più o meno dalla stessa parte</b>.":
+    "Positivo: apuntan <b>más o menos al mismo lado</b>.",
+  "Quanto due frecce si somigliano: il prodotto scalare":
+    "Cuánto se parecen dos flechas: el producto escalar",
+  "Quanto due frecce vanno d'accordo":
+    "Cuánto se llevan bien dos flechas",
+  "Stesso numero anche così: :la × :lb × cos(:g°) = :p — le due formule sono la stessa cosa.":
+    "El mismo número también así: :la × :lb × cos(:g°) = :p — las dos fórmulas son lo mismo.",
+  "Trascina la freccia dello stato, oppure gira la base: le ombre cambiano, la loro somma di quadrati no.":
+    "Arrastra la flecha del estado o gira la base: las sombras cambian, la suma de sus cuadrados no.",
+  "Un numero solo che dice se due frecce vanno d'accordo. E la misura quantistica scoperta per quello che è: un'ombra.":
+    "Un solo número que dice si dos flechas se llevan bien. Y la medida cuántica descubierta por lo que es: una sombra.",
+  "Zero: le due frecce sono <b>perpendicolari</b>. Non si somigliano per niente — nel quantistico è la condizione che rende due stati distinguibili con certezza.":
+    "Cero: las dos flechas son <b>perpendiculares</b>. No se parecen en nada, y en lo cuántico esa es la condición que hace distinguibles con certeza dos estados.",
+  "al quadrato: :p%":
+    "al cuadrado: :p%",
+  "altra configurazione":
+    "otra configuración",
+  "angolo fra le due: :g°  ·  ombra: :om":
+    "ángulo entre las dos: :g°  ·  sombra: :om",
+  "configurazioni centrate: :fatte su :totali":
+    "configuraciones acertadas: :fatte de :totali",
+  "fai venire il prodotto ZERO":
+    "haz que el producto dé CERO",
+  "fallo diventare negativo":
+    "haz que se vuelva negativo",
+  "fallo più grande che puoi":
+    "hazlo lo más grande posible",
+  "gira la base e guarda le due ombre: sono le ampiezze":
+    "gira la base y mira las dos sombras: son las amplitudes",
+  "mettile perpendicolari":
+    "ponlas perpendiculares",
+  "ombra su 0: :a":
+    "sombra sobre 0: :a",
+  "ombra su 1: :a":
+    "sombra sobre 1: :a",
+  "portalo a metà e metà":
+    "llévalo a mitad y mitad",
+  "prodotto scalare: :p":
+    "producto escalar: :p",
+  "rendi certo il secondo risultato":
+    "haz cierto el segundo resultado",
+  "rendi il primo risultato certo (100%)":
+    "haz cierto el primer resultado (100%)",
+  "rimettile come erano":
+    "vuélvelas a poner como estaban",
+  "sempre 100, comunque giri":
+    "siempre 100, gires como gires",
+  "sfide riuscite: :fatte su :totali":
+    "retos logrados: :fatte de :totali",
+  "somma: :tot%":
+    "suma: :tot%",
+  "trascina le punte: un numero solo dice quanto puntano nella stessa direzione":
+    "arrastra las puntas: un solo número dice cuánto apuntan en la misma dirección",
 };

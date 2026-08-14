@@ -40,6 +40,7 @@ const SLUG = {
   '00-matrici': { en: '00-matrices', es: '00-matrices' },
   '00-equazioni': { en: '00-equations', es: '00-ecuaciones' },
   '00-logaritmi': { en: '00-logarithms', es: '00-logaritmos' },
+  '00-scalare': { en: '00-dot-product', es: '00-producto-escalar' },
   'k1-bit': { en: 'k1-bit', es: 'k1-bit' },
   'k2-porte': { en: 'k2-logic-gates', es: 'k2-puertas-logicas' },
   'k3-somma': { en: 'k3-addition', es: 'k3-suma' },
@@ -153,6 +154,10 @@ export const LEVELS = [
   { id: '00-logaritmi', part: '0', n: '0·8', open: true,
     title: t('Esponenziali e logaritmi: quante cifre servono'),
     desc: t('Quanti interruttori per mille casi, quante volte si può dimezzare, e perché «polinomiale nel numero di cifre» cambia tutto.'), xp: 80 },
+
+  { id: '00-scalare', part: '0', n: '0·9', open: true,
+    title: t('Quanto due frecce si somigliano: il prodotto scalare'),
+    desc: t('Un numero solo che dice se due frecce vanno d\'accordo. E la misura quantistica scoperta per quello che è: un\'ombra.'), xp: 85 },
 
   // ---------- PARTE K — il computer classico, sempre aperta ----------
   { id: 'k1-bit', part: 'K', n: 'K·1', open: true,

@@ -215,6 +215,27 @@ return [
             ],
         ],
         [
+            'id' => '00-scalare',
+            'n' => '0·9',
+            'part' => '0',
+            'xp' => 85,
+            'slug' => [
+                'it' => '00-scalare',
+                'en' => '00-dot-product',
+                'es' => '00-producto-escalar',
+            ],
+            'title' => [
+                'it' => 'Quanto due frecce si somigliano: il prodotto scalare',
+                'en' => 'How alike two arrows are: the dot product',
+                'es' => 'Cuánto se parecen dos flechas: el producto escalar',
+            ],
+            'description' => [
+                'it' => 'Un numero solo che dice se due frecce vanno d\'accordo. E la misura quantistica scoperta per quello che è: un\'ombra.',
+                'en' => 'One number saying whether two arrows agree. And quantum measurement uncovered for what it is: a shadow.',
+                'es' => 'Un solo número que dice si dos flechas se llevan bien. Y la medida cuántica descubierta por lo que es: una sombra.',
+            ],
+        ],
+        [
             'id' => 'k1-bit',
             'n' => 'K·1',
             'part' => 'K',

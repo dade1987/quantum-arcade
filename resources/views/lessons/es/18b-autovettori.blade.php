@@ -98,6 +98,22 @@ const L = renderLesson({
     },
 
     {
+      t: 'De dónde viene',
+      html: `<p>La palabra delata su origen: <b>«auto-»</b> no viene del griego <i>autós</i> sino del alemán
+             <b><i>eigen</i></b>, que significa «propio, característico». <i>Eigenwert</i> es «valor propio»: el valor
+             que pertenece a esa transformación y no a otra. El término se difunde con <b>David Hilbert</b>, hacia 1904,
+             estudiando las ecuaciones integrales; en español ha quedado ese medio calco, «autovalor», que no le explica
+             nada a nadie, mientras que «dirección propia de la máquina» lo diría todo.</p>
+             <p>Pero el momento en que esta matemática se vuelve física tiene fecha exacta: <b>1926</b>. Erwin
+             Schrödinger publica una serie de trabajos titulados <i>Quantisierung als Eigenwertproblem</i> — <b>«la
+             cuantización como problema de valores propios»</b>. El título ya es la tesis: los niveles de energía de un
+             átomo, esos valores discretos que nadie lograba explicar, son los <b>autovalores</b> de una ecuación.</p>
+             <div class="callout key">Por eso la energía está «cuantizada», a escalones en vez de continua: no por un
+             capricho de la naturaleza, sino porque <b>una transformación solo tiene ciertas direcciones propias</b>, y
+             son las que son. Lo mismo que acabas de encontrar arrastrando una flecha hasta que se quedó en línea.</div>`,
+    },
+
+    {
       t: '💡 Pruébalo tú',
       html: `<div class="callout think">
         <p><b>1.</b> En el primer juego prueba la <b>puerta H</b>: sus dos direcciones quietas no están sobre los ejes.

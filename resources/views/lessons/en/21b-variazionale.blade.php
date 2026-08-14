@@ -96,6 +96,23 @@ const L = renderLesson({
     },
 
     {
+      t: 'Where all this comes from',
+      html: `<p>There is a deep reason why "lowering the energy" is a sensible strategy, and it is not new: it is called
+             the <b>variational principle</b>. It says one thing, but a powerful one: <b>whatever</b> state you try, the
+             average energy you measure is <b>greater than or equal</b> to that of the true ground state. You can never
+             end up below it. So the lower you get, the closer you are to the answer — and you always know which way
+             you are wrong.</p>
+             <p>The calculation method that follows dates from 1908 (<b>Walther Ritz</b>, following <b>Lord
+             Rayleigh</b>): pick a family of states with a few knobs, and look for the knob setting giving the lowest
+             energy. That is exactly what you did in the game — except that there the state is prepared by a quantum
+             circuit instead of a hand-written formula.</p>
+             <div class="callout key">The rest is recent, and worth dating: the first <b>VQE</b> run on a real processor
+             is from <b>2014</b> (Peruzzo and colleagues, on a photonic chip, for the HeH⁺ molecule); <b>QAOA</b> is
+             from the same year (Farhi, Goldstone and Gutmann). The parameter-shift rule, which makes the slope exact,
+             arrives in 2018-2019. This is a field younger than many of the people reading it.</div>`,
+    },
+
+    {
       t: '💡 Try it yourself',
       html: `<div class="callout think">
         <p><b>1.</b> In the "double valley", start from the right and walk down. Then start from the left. Do you end up in

@@ -125,6 +125,23 @@ const L = renderLesson({
     },
 
     {
+      t: 'Da dove viene',
+      html: `<p>I logaritmi non nascono in una lezione di matematica: nascono da un <b>problema di fatica</b>. Nel
+             Cinquecento gli astronomi passavano giornate a moltiplicare numeri di otto o dieci cifre — le posizioni
+             dei pianeti, le rotte per mare — e ogni moltiplicazione a mano è un'occasione per sbagliare.</p>
+             <p><b>John Napier</b>, in Scozia, ci lavorò vent'anni e nel <b>1614</b> pubblicò le prime tavole. L'idea
+             era esattamente quella che hai visto nell'ultimo passo: se ogni numero lo scrivi come <b>una potenza</b>,
+             moltiplicare due numeri diventa <b>sommare</b> i loro esponenti. E sommare è una cosa che si fa senza
+             sbagliare.</p>
+             <p>Tre anni dopo <b>Henry Briggs</b> andò a trovarlo e insieme scelsero la base 10, che rende le tavole
+             comode da usare con le cifre decimali. Da lì vengono il regolo calcolatore, un secolo di navigazione e
+             — quando arrivarono i computer — il modo standard di misurare quanto costa un algoritmo.</p>
+             <div class="callout key">Si racconta che Laplace dicesse che i logaritmi, «riducendo a pochi giorni il
+             lavoro di molti mesi, raddoppiarono la vita degli astronomi». Che è poi quello che fa un logaritmo anche
+             qui: prende una crescita che esplode e la riporta a una scala che una persona può guardare.</div>`,
+    },
+
+    {
       t: '💡 Prova tu',
       html: `<div class="callout think">
         <p><b>1.</b> Quanti qubit servono per rappresentare tutte le possibili risposte di un problema con un miliardo

@@ -126,6 +126,22 @@ const L = renderLesson({
     },
 
     {
+      t: 'De dónde viene',
+      html: `<p>Los logaritmos no nacen en una clase de matemáticas: nacen de un <b>problema de fatiga</b>. En el siglo XVI
+             los astrónomos pasaban días multiplicando números de ocho o diez cifras — posiciones de los planetas, rutas
+             marítimas — y cada multiplicación a mano es una ocasión para equivocarse.</p>
+             <p><b>John Napier</b>, en Escocia, trabajó veinte años en ello y en <b>1614</b> publicó las primeras tablas.
+             La idea era exactamente la del último paso: si cada número se escribe como una <b>potencia</b>, multiplicar
+             dos números pasa a ser <b>sumar</b> sus exponentes. Y sumar es algo que se hace sin equivocarse.</p>
+             <p>Tres años después <b>Henry Briggs</b> fue a visitarlo y juntos eligieron la base 10, que hace cómodas las
+             tablas con cifras decimales. De ahí salen la regla de cálculo, un siglo de navegación y — cuando llegaron
+             los ordenadores — la forma estándar de medir lo que cuesta un algoritmo.</p>
+             <div class="callout key">Se cuenta que Laplace decía que los logaritmos, «al reducir a pocos días el trabajo
+             de muchos meses, duplicaron la vida de los astrónomos». Que es lo que hace un logaritmo también aquí: coge
+             un crecimiento que explota y lo devuelve a una escala que una persona puede mirar.</div>`,
+    },
+
+    {
       t: '💡 Pruébalo tú',
       html: `<div class="callout think">
         <p><b>1.</b> ¿Cuántos cúbits hacen falta para representar todas las respuestas posibles de un problema con mil

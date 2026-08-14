@@ -2783,4 +2783,77 @@ export default {
     "a million numbers",
   "✓ :n è il minimo: con :meno non basterebbe":
     "✓ :n is the minimum: with :meno it would not be enough",
+  /* ---------------- livello 0·9: il prodotto scalare ---------------- */
+  "<b>Le due formule sono una sola.</b> «Moltiplica le coordinate e somma» e «lunghezza × lunghezza × coseno dell'angolo» danno sempre lo stesso numero: la prima si calcola, la seconda si capisce. E il caso che conta è quello di mezzo: <b>prodotto zero = perpendicolari</b>.":
+    "<b>The two formulas are one.</b> «Multiply the coordinates and add» and «length × length × cosine of the angle» always give the same number: the first is for computing, the second for understanding. And the case that matters is the one in between: <b>product zero = perpendicular</b>.",
+  "<b>Questa figura è la regola di Born.</b> L'ampiezza di un risultato è l'<b>ombra</b> dello stato sulla direzione di quel risultato — cioè il prodotto scalare — e la probabilità è quell'ombra al quadrato. Le due direzioni sono perpendicolari, quindi vale Pitagora e i quadrati fanno sempre 1. Girare la base è cambiare <b>domanda</b>: è la base di misura del livello :n.":
+    "<b>This picture is Born's rule.</b> The amplitude of a result is the <b>shadow</b> of the state on that result's direction — the dot product — and the probability is that shadow squared. The two directions are perpendicular, so Pythagoras holds and the squares always add to 1. Turning the basis means changing the <b>question</b>: it is the measurement basis of level :n.",
+  "Centrato. Nota che la somma dei quadrati non si è mossa: è Pitagora, e nel quantistico si chiama «le probabilità fanno 100%».":
+    "Hit. Notice the sum of the squares has not moved: that is Pythagoras, and in the quantum world it is called «the probabilities make 100%».",
+  "Come è girata la base di misura":
+    "How the measurement basis is turned",
+  "Freccia azzurra (:ax · :ay), lunga :la. Freccia viola (:bx · :by), lunga :lb.":
+    "Blue arrow (:ax · :ay), length :la. Purple arrow (:bx · :by), length :lb.",
+  "La misura è un'ombra":
+    "Measurement is a shadow",
+  "Lo stato punta a <b>:g°</b>; la base di misura è girata di <b>:b°</b>.":
+    "The state points at <b>:g°</b>; the measurement basis is turned by <b>:b°</b>.",
+  "Negativo: puntano <b>in versi opposti</b>.":
+    "Negative: they point <b>opposite ways</b>.",
+  "Ombre (le <b>ampiezze</b>): :a0 e :a1. Quadrati (le <b>probabilità</b>): :p0% e :p1%. Somma: <b>:tot%</b>.":
+    "Shadows (the <b>amplitudes</b>): :a0 and :a1. Squares (the <b>probabilities</b>): :p0% and :p1%. Total: <b>:tot%</b>.",
+  "Positivo: puntano <b>più o meno dalla stessa parte</b>.":
+    "Positive: they point <b>roughly the same way</b>.",
+  "Quanto due frecce si somigliano: il prodotto scalare":
+    "How alike two arrows are: the dot product",
+  "Quanto due frecce vanno d'accordo":
+    "How well two arrows agree",
+  "Stesso numero anche così: :la × :lb × cos(:g°) = :p — le due formule sono la stessa cosa.":
+    "Same number this way too: :la × :lb × cos(:g°) = :p — the two formulas are the same thing.",
+  "Trascina la freccia dello stato, oppure gira la base: le ombre cambiano, la loro somma di quadrati no.":
+    "Drag the state arrow, or turn the basis: the shadows change, the sum of their squares does not.",
+  "Un numero solo che dice se due frecce vanno d'accordo. E la misura quantistica scoperta per quello che è: un'ombra.":
+    "One number saying whether two arrows agree. And quantum measurement uncovered for what it is: a shadow.",
+  "Zero: le due frecce sono <b>perpendicolari</b>. Non si somigliano per niente — nel quantistico è la condizione che rende due stati distinguibili con certezza.":
+    "Zero: the two arrows are <b>perpendicular</b>. Not alike at all — in the quantum world that is the condition making two states tellable apart with certainty.",
+  "al quadrato: :p%":
+    "squared: :p%",
+  "altra configurazione":
+    "another configuration",
+  "angolo fra le due: :g°  ·  ombra: :om":
+    "angle between them: :g°  ·  shadow: :om",
+  "configurazioni centrate: :fatte su :totali":
+    "configurations hit: :fatte of :totali",
+  "fai venire il prodotto ZERO":
+    "make the product come out ZERO",
+  "fallo diventare negativo":
+    "make it go negative",
+  "fallo più grande che puoi":
+    "make it as large as you can",
+  "gira la base e guarda le due ombre: sono le ampiezze":
+    "turn the basis and watch the two shadows: they are the amplitudes",
+  "mettile perpendicolari":
+    "make them perpendicular",
+  "ombra su 0: :a":
+    "shadow on 0: :a",
+  "ombra su 1: :a":
+    "shadow on 1: :a",
+  "portalo a metà e metà":
+    "bring it to fifty-fifty",
+  "prodotto scalare: :p":
+    "dot product: :p",
+  "rendi certo il secondo risultato":
+    "make the second result certain",
+  "rendi il primo risultato certo (100%)":
+    "make the first result certain (100%)",
+  "rimettile come erano":
+    "put them back as they were",
+  "sempre 100, comunque giri":
+    "always 100, however you turn",
+  "sfide riuscite: :fatte su :totali":
+    "challenges done: :fatte of :totali",
+  "somma: :tot%":
+    "total: :tot%",
+  "trascina le punte: un numero solo dice quanto puntano nella stessa direzione":
+    "drag the tips: one number says how much they point the same way",
 };

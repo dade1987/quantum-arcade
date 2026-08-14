@@ -125,6 +125,23 @@ const L = renderLesson({
     },
 
     {
+      t: 'Where it comes from',
+      html: `<p>Logarithms were not born in a maths lesson: they were born out of a <b>problem of drudgery</b>. In the
+             sixteenth century astronomers spent days multiplying eight- and ten-digit numbers — planetary positions,
+             sea routes — and every multiplication by hand is a chance to get it wrong.</p>
+             <p><b>John Napier</b>, in Scotland, worked on it for twenty years and published the first tables in
+             <b>1614</b>. The idea was exactly the one you saw in the last step: if every number is written as a
+             <b>power</b>, multiplying two numbers becomes <b>adding</b> their exponents. And adding is something you
+             can do without slipping.</p>
+             <p>Three years later <b>Henry Briggs</b> travelled to meet him and together they settled on base 10, which
+             makes the tables convenient with decimal digits. From there come the slide rule, a century of navigation
+             and — once computers arrived — the standard way of measuring what an algorithm costs.</p>
+             <div class="callout key">Laplace is said to have remarked that logarithms, "by shortening the labours,
+             doubled the life of the astronomer". Which is what a logarithm does here too: it takes a growth that
+             explodes and brings it back to a scale a person can look at.</div>`,
+    },
+
+    {
       t: '💡 Try it yourself',
       html: `<div class="callout think">
         <p><b>1.</b> How many qubits do you need to represent every possible answer to a problem with a billion cases?

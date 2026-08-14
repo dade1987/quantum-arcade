@@ -81,6 +81,23 @@ const L = renderLesson({
     },
 
     {
+      t: 'Da dove viene',
+      html: `<p>La domanda «infiniti pezzi possono avere un totale finito?» ha duemilacinquecento anni. La pose
+             <b>Zenone di Elea</b>, nel V secolo a.C., con il paradosso di Achille e la tartaruga: per raggiungerla,
+             Achille deve prima coprire metà della distanza, poi metà di quel che resta, poi metà ancora… infiniti
+             passi, quindi — concludeva Zenone — non la raggiunge mai.</p>
+             <p>Il gioco che hai appena fatto è la risposta: <b>½ + ¼ + ⅛ + … = 1</b>. Infiniti passi, distanza finita,
+             tempo finito. Il paradosso non è nella corsa: è nell'idea che «infinite cose» debbano fare «una cosa
+             infinita».</p>
+             <p><b>Archimede</b>, nel III secolo a.C., fu il primo a sommarne davvero una: nella <i>Quadratura della
+             parabola</i> calcola 1 + ¼ + 1/16 + … = 4/3, e la usa per misurare un'area curva. Non aveva i limiti — li
+             avremmo aspettati altri duemila anni — e la trattò con il metodo di esaustione, cioè dimostrando che il
+             totale non può essere né più grande né più piccolo di 4/3.</p>
+             <div class="callout key">La stessa formula, con una rotazione al posto di una frazione, è quella che fa
+             il picco della trasformata di Fourier. Duemila anni dopo, lo stesso conto.</div>`,
+    },
+
+    {
       t: '💡 Prova tu',
       html: `<div class="callout think">
         <p><b>1.</b> Nel primo gioco metti la frazione a <b>0,9</b>: dove finisce il muro? E a 0,99? Sai dire perché una

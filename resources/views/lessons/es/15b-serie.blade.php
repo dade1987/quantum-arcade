@@ -79,6 +79,23 @@ const L = renderLesson({
     },
 
     {
+      t: 'De dónde viene',
+      html: `<p>La pregunta «¿pueden infinitos trozos tener un total finito?» tiene dos mil quinientos años. La planteó
+             <b>Zenón de Elea</b>, en el siglo V a.C., con la paradoja de Aquiles y la tortuga: para alcanzarla, Aquiles
+             tiene que cubrir primero la mitad de la distancia, luego la mitad de lo que queda, luego otra mitad…
+             infinitos pasos, así que — concluía Zenón — no la alcanza nunca.</p>
+             <p>El juego que acabas de hacer es la respuesta: <b>½ + ¼ + ⅛ + … = 1</b>. Infinitos pasos, distancia
+             finita, tiempo finito. La paradoja no está en la carrera: está en suponer que «infinitas cosas» tengan que
+             dar «una cosa infinita».</p>
+             <p><b>Arquímedes</b>, en el siglo III a.C., fue el primero en sumar una de verdad: en la <i>Cuadratura de la
+             parábola</i> calcula 1 + ¼ + 1/16 + … = 4/3 y la usa para medir un área curva. No tenía límites — faltaban
+             dos mil años — y lo resolvió por exhausción, demostrando que el total no puede ser ni mayor ni menor que
+             4/3.</p>
+             <div class="callout key">La misma fórmula, con una rotación en lugar de una fracción, es la que hace el pico
+             de la transformada de Fourier. Dos mil años después, la misma cuenta.</div>`,
+    },
+
+    {
       t: '💡 Pruébalo tú',
       html: `<div class="callout think">
         <p><b>1.</b> En el primer juego pon la fracción a <b>0,9</b>: ¿dónde acaba el muro? ¿Y con 0,99? ¿Sabes decir por

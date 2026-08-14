@@ -112,6 +112,24 @@ const L = renderLesson({
     },
 
     {
+      t: 'De dónde viene',
+      html: `<p>Las matrices son más jóvenes de lo que parecen. Las tablas de números se usaban desde hacía siglos — en
+             China, en el <i>Jiuzhang Suanshu</i>, se resolvían sistemas lineales alineando los coeficientes hace dos
+             mil años — pero la idea de que <b>esa tabla es un objeto en sí</b>, con su propia multiplicación, llega en
+             <b>1858</b> con Arthur Cayley y su <i>Memoria sobre la teoría de matrices</i>.</p>
+             <p>Lo que nos importa es <b>por qué</b> definió así el producto, con ese baile de filas por columnas que
+             parece arbitrario: porque quería que el producto de dos tablas fuera la tabla de la <b>transformación
+             compuesta</b>. Es decir: primero una máquina, luego la otra. El producto de matrices no es una regla
+             inventada, es lo que esa exigencia obliga a escribir.</p>
+             <div class="callout key">Y la continuación es la mejor historia. En <b>1925</b> Werner Heisenberg construyó
+             su mecánica cuántica con tablas de números que se multiplicaban de una forma rara: al cambiar el orden, el
+             resultado cambiaba. No sabía que ese objeto ya tenía nombre. Fue <b>Max Born</b> quien lo reconoció — «eso
+             es una matriz» — y quien escribió con Pascual Jordan la versión ordenada. La no conmutatividad que a
+             Heisenberg le parecía un problema era la firma de la física nueva: es el mismo «X·Z ≠ Z·X» que acabas de
+             ver en el juego.</div>`,
+    },
+
+    {
       t: '💡 Pruébalo tú',
       html: `<div class="callout think">
         <p><b>1.</b> En el juego de los mandos, ¿qué tabla <b>aplasta todo sobre el eje horizontal</b>? ¿Es unitaria?

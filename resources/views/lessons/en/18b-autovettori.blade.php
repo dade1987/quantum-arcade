@@ -94,6 +94,22 @@ const L = renderLesson({
     },
 
     {
+      t: 'Where it comes from',
+      html: `<p>The word gives away its origin: <b>"eigen-"</b> is not Greek, it is the German <b><i>eigen</i></b>,
+             meaning "own, characteristic". <i>Eigenwert</i> is "own value": the value belonging to that transformation
+             and no other. The term spread through <b>David Hilbert</b>, around 1904, while he was working on integral
+             equations — and English kept the German half untranslated, which is why "eigenvalue" explains nothing to
+             anyone, while "the machine's own direction" would say it all.</p>
+             <p>But the moment this mathematics turned into physics has a precise date: <b>1926</b>. Erwin Schrödinger
+             published a series of papers titled <i>Quantisierung als Eigenwertproblem</i> — <b>"quantisation as an
+             eigenvalue problem"</b>. The title is already the thesis: the energy levels of an atom, those discrete
+             values nobody could explain, are the <b>eigenvalues</b> of an equation.</p>
+             <div class="callout key">That is why energy is "quantised", stepped rather than continuous: not out of some
+             whim of nature, but because <b>a transformation has only so many directions of its own</b>, and they are as
+             many as they are. The very thing you just found by dragging an arrow until it stayed in line.</div>`,
+    },
+
+    {
       t: '💡 Try it yourself',
       html: `<div class="callout think">
         <p><b>1.</b> In the first game, try the <b>H gate</b>: its two still directions are not on the axes. Roughly what
