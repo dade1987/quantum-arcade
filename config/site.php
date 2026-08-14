@@ -194,6 +194,27 @@ return [
             ],
         ],
         [
+            'id' => '00-secondogrado',
+            'n' => '0·7b',
+            'part' => '0',
+            'xp' => 85,
+            'slug' => [
+                'it' => '00-secondogrado',
+                'en' => '00-quadratics',
+                'es' => '00-segundo-grado',
+            ],
+            'title' => [
+                'it' => 'Secondo grado: la parabola e il quadrato a cui manca un angolo',
+                'en' => 'Quadratics: the parabola and the square with a missing corner',
+                'es' => 'Segundo grado: la parábola y el cuadrado al que le falta una esquina',
+            ],
+            'description' => [
+                'it' => 'Il delta in tre parole, la formula costruita invece che imparata, e il «mai» che nel Cinquecento ha aperto la porta ai numeri immaginari.',
+                'en' => 'The discriminant in three words, the formula built instead of memorised, and the «never» that opened the door to imaginary numbers in the sixteenth century.',
+                'es' => 'El discriminante en tres palabras, la fórmula construida en vez de memorizada, y el «nunca» que en el siglo XVI abrió la puerta a los números imaginarios.',
+            ],
+        ],
+        [
             'id' => '00-logaritmi',
             'n' => '0·8',
             'part' => '0',

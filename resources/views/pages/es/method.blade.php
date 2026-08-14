@@ -201,8 +201,10 @@ cancelan).</div>
       solo si todo lo demás coincide.</li>
   <li><b>El modo de cálculo se ve siempre</b>, en cada minijuego del curso: azul «ordenador normal», violeta
       «ordenador cuántico», con icono y palabra escrita junto al color — nunca el color solo, como en el punto 6.
-      La Parte 0 y los laboratorios de ondas no llevan etiqueta, porque las matemáticas no son ni una cosa ni la
-      otra.</li>
+      Un minijuego de matemática pura — la parábola, el cuadrado de al-Juarismi, los laboratorios de ondas —
+      <b>no</b> lleva etiqueta, porque una cuenta no es ni clásica ni cuántica: la etiqueta aparece solo donde el
+      juego simula de verdad una de las dos máquinas (el reloj modular que está dentro de Shor, la puerta cuántica
+      hecha de matrices, la medida como sombra).</li>
 </ul>
 
 <h2>11. El sonido: información, no decoración</h2>
@@ -237,7 +239,7 @@ y referida a la <b>tarea</b>, no a la persona. De ahí tres añadidos, presentes
 <p>Pedir un registro es fricción, y la fricción hace perder gente: sería más cómodo para todos hacer correr
 todo en el navegador. Dos razones lo convierten igualmente en la decisión correcta:</p>
 <ul>
-  <li><b>el progreso no debe morir con la caché.</b> Un curso de 42 niveles se hace en varias sesiones y a menudo en varios
+  <li><b>el progreso no debe morir con la caché.</b> Un curso de 43 niveles se hace en varias sesiones y a menudo en varios
       dispositivos: perderlo todo por una limpieza del navegador es la forma más tonta de abandonar;</li>
   <li><b>el certificado tiene que valer algo.</b> Las preguntas del examen llegan del servidor <b>sin</b> las respuestas correctas
       y la corrección ocurre en el servidor: si el estado viviera en el navegador, cualquiera podría asignarse el 100%
@@ -283,7 +285,7 @@ Me parece honesto declarar qué palancas estoy usando, para que puedas valorarla
   <tr><td><b>Progreso regalado</b></td><td>Nunes &amp; Drèze (2006)</td>
       <td>la Parte 0 ya es "camino recorrido" para quien conoce las bases: se parte de una barra que no está vacía</td></tr>
   <tr><td><b>Prueba social</b></td><td>Cialdini</td>
-      <td>números <b>reales</b>: 8 organizaciones en las que he enseñado, 42 niveles, más de 300 pruebas automáticas. Ningún "10.000 alumnos felices" inventado</td></tr>
+      <td>números <b>reales</b>: 8 organizaciones en las que he enseñado, 43 niveles, más de 300 pruebas automáticas. Ningún "10.000 alumnos felices" inventado</td></tr>
   <tr><td><b>Reciprocidad</b></td><td>Cialdini</td>
       <td>el curso completo es gratuito y sigue siéndolo: la petición de contacto llega después, y solo si te ha servido</td></tr>
   <tr><td><b>Reducción de la fricción</b></td><td>modelo de Fogg (B = MAP)</td>
@@ -371,6 +373,54 @@ ancho no hay sitio para dos columnas: ahí sí tapa, y basta con tocar fuera par
 (<code>js/core/glossario.js</code>), así que la tabla del nivel 23, el panel y las definiciones al toque ya no pueden
 decir tres cosas distintas — algo que ya había empezado a pasar entre la versión italiana y las traducidas.</p>
 
+<h2>20. Los ejemplos graciosos: cuándo enseñan y cuándo estorban</h2>
+<p>Casi todo el mundo lleva en la cabeza una tontería que dijo un profesor hace veinte años y que nunca ha olvidado.
+A mí me lo contaron así: <i>«mi profesor de matemáticas explicaba la fórmula de las ecuaciones de segundo grado con
+el ejemplo de los enanos, y además de reírnos aquello se nos quedó grabado»</i>. El recuerdo es real y la
+investigación lo respalda — pero <b>con una condición precisa</b>, sin la cual el ejemplo divertido no es neutro:
+<b>empeora</b> el aprendizaje en vez de mejorarlo.</p>
+<p>El resultado tiene dos mitades, y hay que sostenerlas juntas:</p>
+<ul>
+  <li><b>El humor ligado al contenido ayuda.</b> La revisión de <b>Banas y colegas (2011)</b> sobre cuarenta años de
+      estudios encuentra que el humor <i>pertinente</i>, no agresivo y apropiado mejora la atención, el clima y la
+      disposición a seguir en la tarea. Los efectos más sólidos están en motivación y credibilidad; sobre el
+      <b>recuerdo</b> los resultados son más irregulares, y el caso en que mejor funciona es aquel en el que la
+      broma está <b>dentro</b> de la explicación y se retoma después, en vez de quedar pegada al margen.</li>
+  <li><b>El humor decorativo perjudica.</b> Es el <i>seductive details effect</i> (<b>Harp y Mayer, 1998</b>): los
+      detalles interesantes pero <b>irrelevantes</b> roban atención a los que importan. Los metaanálisis de
+      <b>Rey (2012)</b> y de <b>Sundararajan y Adesope (2020)</b> lo confirman: efecto negativo sobre el recuerdo y
+      <b>mayor todavía sobre la transferencia</b>, es decir, justo sobre saber reutilizar la cosa en un contexto
+      nuevo — que es todo lo que hace falta aquí, donde las matemáticas de secundaria tienen que sostener después
+      un nivel cuántico.</li>
+</ul>
+<div class="callout key"><b>La regla que se sigue, y vale para todos los ejercicios de este curso:</b> la historieta
+graciosa se admite <b>solo si es la matemática</b>. Cada pieza suya debe corresponder a una pieza de la fórmula: los
+personajes son los términos, lo que hacen es lo que hace la cuenta. La prueba del nueve: si al quitar la historieta
+no se pierde ningún paso, entonces era un detalle seductor — y se quita.</div>
+<p>Un tercer resultado completa la regla. El <b>keyword method</b> (Pressley, Levin y Delaney, 1982) muestra que una
+imagen mental vívida que <b>conecta</b> dos cosas las mantiene juntas mucho mejor que la repetición: es el mismo
+mecanismo por el que «los enanos» funcionan. Pero esa misma línea desmonta la idea de que <b>lo raro sea mejor</b>:
+lo que cuenta no es lo absurdo, es la <b>claridad</b> de la imagen y que ate de verdad las dos piezas. Una historieta
+estrafalaria pero vaga no sirve de nada; una sencilla en la que se ve <b>quién es quién</b> se queda.</p>
+<p>Por eso, en la práctica, en los ejercicios de matemáticas de este curso:</p>
+<ul>
+  <li>el ejemplo gracioso aparece <b>en el punto del razonamiento</b> donde hace falta, y sostiene un paso que sin él
+      habría que aprender de memoria (los enanos que deben <b>repartirse en dos filas iguales</b> son el <i>b/2</i>
+      del completar el cuadrado, y la baldosa que sobra es el <i>(b/2)²</i>: quítalos y la fórmula vuelve a ser una
+      cantinela);</li>
+  <li>se <b>retoma</b> después, en el minijuego y en el test, en vez de quedarse en un chiste aislado — que es la
+      condición en la que la revisión sobre el humor encuentra los mejores efectos sobre el recuerdo;</li>
+  <li>no hay imágenes, sonidos ni anécdotas puestos ahí «para aligerar»: esos son exactamente los detalles
+      seductores, y es el mismo motivo por el que en el punto 11 los sonidos llevan información y no decoración;</li>
+  <li>la <b>historia real</b> de las matemáticas (al-Juarismi, Cardano, Hilbert, Schrödinger) no está en la misma
+      categoría: no está para hacer reír, está porque saber <b>de qué problema</b> nació una fórmula es parte de
+      entenderla — y vive en un bloque propio que se puede saltar.</li>
+</ul>
+<p class="dim small">Nota honesta: la parte del humor es la más débil de toda esta lista en cuanto a fuerza de las
+pruebas — la literatura está hecha de estudios pequeños, efectos medios modestos y mucha variación entre docentes.
+Por eso se usa como <b>condimento de un ejemplo que se sostiene solo</b>, nunca como vehículo principal de un
+concepto.</p>
+
 <h2>Fuentes</h2>
 <p class="dim small">Listadas en el orden en que aparecen en el texto. Donde no hay enlace es porque la referencia
 es un libro o un artículo clásico fácil de encontrar: prefiero citarlo así antes que enlazar una copia
@@ -390,6 +440,11 @@ de origen dudoso.</p>
   <li>Sisini, F. — <i>QuantumSim</i>, simulador de circuitos cuánticos en C, y los libros divulgativos del mismo autor con los que empezó mi camino en esta materia. — <a href="https://github.com/francescosisini/QuantumSim" target="_blank" rel="noopener">repositorio</a></li>
   <li>Gentner, D., Loewenstein, J., Thompson, L. (2003). <i>Learning and Transfer: A General Role for Analogical Encoding</i>. Journal of Educational Psychology — comparar dos casos concretos hace emerger el principio común mejor que estudiarlos de uno en uno. — <a href="https://groups.psych.northwestern.edu/gentner/papers/GentnerLoewensteinThompson03.pdf" target="_blank" rel="noopener">PDF</a></li>
   <li>Alfieri, L., Nokes-Malach, T. J., Schunn, C. D. (2013). <i>Learning Through Case Comparisons: A Meta-Analytic Review</i>. Educational Psychologist, 48(2), 87–113. — <a href="https://www.tandfonline.com/doi/abs/10.1080/00461520.2013.775712" target="_blank" rel="noopener">artículo</a></li>
+  <li>Banas, J. A., Dunbar, N., Rodriguez, D., Liu, S.-J. (2011). <i>A Review of Humor in Educational Settings: Four Decades of Research</i>. Communication Education, 60(1), 115–144 — el humor <b>ligado al contenido</b> ayuda al clima, a la motivación y a la atención; el agresivo o fuera de tema no. — <a href="https://www.researchgate.net/publication/262966808_A_Review_of_Humor_in_Educational_Settings_Four_Decades_of_Research" target="_blank" rel="noopener">texto</a></li>
+  <li>Harp, S. F., Mayer, R. E. (1998). <i>How Seductive Details Do Their Damage</i>. Journal of Educational Psychology, 90(3), 414–434 — el detalle interesante pero irrelevante distrae de lo que importa.</li>
+  <li>Rey, G. D. (2012). <i>A review and a meta-analysis of the seductive detail effect</i>. Educational Research Review, 7(3), 216–237. — <a href="https://www.sciencedirect.com/science/article/abs/pii/S1747938X12000413" target="_blank" rel="noopener">artículo</a></li>
+  <li>Sundararajan, N., Adesope, O. (2020). <i>Keep it Coherent: A Meta-Analysis of the Seductive Details Effect</i>. Educational Psychology Review, 32, 707–734 — negativo sobre el recuerdo y, de forma más marcada, sobre la <b>transferencia</b>. — <a href="https://link.springer.com/article/10.1007/s10648-020-09522-4" target="_blank" rel="noopener">artículo</a></li>
+  <li>Pressley, M., Levin, J. R., Delaney, H. D. (1982). <i>The Mnemonic Keyword Method</i>. Review of Educational Research, 52(1), 61–91 — la imagen mental que <b>conecta</b> dos cosas gana a la repetición; pero «raro» no es mejor: cuenta que la imagen sea <b>clara</b>. — <a href="https://journals.sagepub.com/doi/10.3102/00346543052001061" target="_blank" rel="noopener">artículo</a></li>
   <li>Landauer, R. (1961), <i>Irreversibility and Heat Generation in the Computing Process</i>, y Bérut, A. et al. (2012), <i>Experimental verification of Landauer's principle</i>, Nature 483, 187–189 — el coste termodinámico de borrar un bit, predicho y luego medido. — <a href="https://www.nature.com/articles/nature10872" target="_blank" rel="noopener">artículo en Nature</a></li>
   <li>Bruner, J. S. (1960). <i>The Process of Education</i> — el currículo en espiral: volver sobre los mismos conceptos a niveles cada vez más profundos.</li>
   <li>Sweller, J. — teoría de la carga cognitiva; Mayer, R. E. — principios del aprendizaje multimedia (coherencia, señalización, contigüidad, segmentación, preentrenamiento, estilo coloquial).</li>

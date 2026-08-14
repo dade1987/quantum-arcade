@@ -12,8 +12,8 @@
 export default {
   /* ---------------- map, parts, ranks ---------------- */
   'Parte 0 — Le basi (per chi parte proprio da zero)': 'Part 0 — The basics (for absolute beginners)',
-  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici. Per chi ha finito le medie. Facoltativa se le sai già.":
-    "Numbers, percentages, coordinates, degrees, sine and cosine, probability, counting in laps, matrices. Middle-school level. Optional if you already know it.",
+  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici, equazioni (anche di secondo grado), logaritmi e prodotto scalare. Dalle medie in su. Facoltativa se le sai già.":
+    "Numbers, percentages, coordinates, degrees, sine and cosine, probability, counting in circles, matrices, equations (quadratics included), logarithms and the dot product. Middle school and up. Optional if you already know them.",
   'Parte A — Il qubit, subito': 'Part A — The qubit, right away',
   'Sovrapposizione, misura, porte, entanglement, circuiti. Con ampiezze positive e negative: nessuna matematica difficile.':
     'Superposition, measurement, gates, entanglement, circuits. With positive and negative amplitudes: no hard maths.',
@@ -2057,8 +2057,6 @@ export default {
   "Quanto è alta un'onda; nel suono è il volume.":
     'How tall a wave is; in sound it is the volume.',
   'Autostato / autovalore': 'Eigenstate / eigenvalue',
-  "Stato che un'operazione lascia identico a parte una fase; quella fase è l'autovalore.":
-    'A state that an operation leaves identical apart from a phase; that phase is the eigenvalue.',
   'Base di misura': 'Measurement basis',
   'La "direzione" lungo cui si misura. Misurare in base Z dà 0/1; in base X dà +/−. Non esiste uno stato certo in tutte le basi.':
     'The "direction" along which you measure. Measuring in the Z basis gives 0/1; in the X basis it gives +/−. There is no state that is certain in every basis.',
@@ -2161,7 +2159,6 @@ export default {
 
   /* other written forms of each term, used only to spot it in the text */
   'ampiezze': 'amplitudes',
-  'autostati, autovalore, autovalori': 'eigenstates, eigenvalue, eigenvalues',
   'basi di misura, base Z, base X': 'measurement bases, Z basis, X basis',
   'sfera di Bloch': 'Bloch sphere',
   'regola di Born': "Born rule, Born's rule",
@@ -2856,4 +2853,75 @@ export default {
     "total: :tot%",
   "trascina le punte: un numero solo dice quanto puntano nella stessa direzione":
     "drag the tips: one number says how much they point the same way",
+  /* ---------------- livello 0·7b: equazioni di secondo grado ---------------- */
+  "Secondo grado: la parabola e il quadrato a cui manca un angolo":
+    "Quadratics: the parabola and the square with a missing corner",
+  "Il delta in tre parole, la formula costruita invece che imparata, e il «mai» che nel Cinquecento ha aperto la porta ai numeri immaginari.":
+    "The discriminant in three words, the formula built instead of memorised, and the «never» that opened the door to imaginary numbers in the sixteenth century.",
+  "La parabola e le sue radici":
+    "The parabola and its roots",
+  "muovi i tre numeri: le soluzioni sono i punti dove la curva taglia la riga":
+    "move the three numbers: the solutions are the points where the curve cuts the line",
+  "fai tagliare la parabola in DUE punti":
+    "make the parabola cut at TWO points",
+  "falla toccare l'asse in UN punto solo":
+    "make it touch the axis at just ONE point",
+  "fai in modo che non lo tocchi MAI":
+    "make it NEVER touch the axis",
+  "situazioni trovate: :fatte su :totali":
+    "cases found: :fatte of :totali",
+  "delta = b² − 4ac = :d":
+    "discriminant = b² − 4ac = :d",
+  "due soluzioni":
+    "two solutions",
+  "una soluzione sola":
+    "just one solution",
+  "nessuna soluzione reale":
+    "no real solution",
+  "altra situazione":
+    "another case",
+  "Equazione: <b>:a x² + :b x + :c = 0</b>.":
+    "Equation: <b>:a x² + :b x + :c = 0</b>.",
+  "delta = :b² − 4·:a·:c = <b>:d</b>":
+    "discriminant = :b² − 4·:a·:c = <b>:d</b>",
+  "Due soluzioni: x = :x1 e x = :x2. La curva taglia la riga in due punti.":
+    "Two solutions: x = :x1 and x = :x2. The curve cuts the line at two points.",
+  "Una soluzione sola: x = :x. La curva <b>tocca</b> la riga senza attraversarla — il delta è zero.":
+    "Just one solution: x = :x. The curve <b>touches</b> the line without crossing it — the discriminant is zero.",
+  "Nessuna soluzione reale: la curva sta tutta da una parte. Il delta è negativo, e la radice di un numero negativo non è un numero della retta.":
+    "No real solution: the curve stays entirely on one side. The discriminant is negative, and the square root of a negative number is not a number on the line.",
+  "<b>Il delta in tre parole:</b> è quello che sta sotto la radice, e dice <b>quante volte</b> la parabola incontra la riga: due volte se è positivo, una se è zero, mai se è negativo. Quel «mai» non è un vicolo cieco: è la porta da cui, nel Cinquecento, sono entrati i numeri immaginari.":
+    "<b>The discriminant in three words:</b> it is what sits under the square root, and it says <b>how many times</b> the parabola meets the line: twice if it is positive, once if it is zero, never if it is negative. That «never» is not a dead end: it is the door through which, in the sixteenth century, imaginary numbers came in.",
+  "Il quadrato a cui manca un angolo":
+    "The square with a missing corner",
+  "il metodo di mille anni fa: completa il disegno e la soluzione compare":
+    "the method from a thousand years ago: complete the drawing and the solution appears",
+  "completa il quadrato":
+    "complete the square",
+  "equazioni risolte col disegno: :fatte su :totali":
+    "equations solved with the drawing: :fatte of :totali",
+  "lato = x + :m = :r":
+    "side = x + :m = :r",
+  "metà di :b è :m":
+    "half of :b is :m",
+  "L'equazione":
+    "The equation",
+  "spezza in due il rettangolo":
+    "split the rectangle in two",
+  "aggiungi l'angolo mancante":
+    "add the missing corner",
+  "prendi la radice":
+    "take the square root",
+  "Parti da <b>x² + :b x = :c</b>. Il disegno è un quadrato di lato x, e :b x da sistemare intorno.":
+    "Start from <b>x² + :b x = :c</b>. The drawing is a square of side x, with :b x to arrange around it.",
+  "I :b nani si mettono in <b>due file uguali da :m</b>, una a destra e una sotto: due rettangoli da :m x. Adesso il disegno è quasi un quadrato grande — ma manca l'angolo.":
+    "The :b dwarfs split into <b>two equal rows of :m</b>, one on the right and one below: two rectangles of :m x. Now the drawing is almost a big square — but the corner is missing.",
+  "L'angolo che manca è un quadratino <b>:m × :m = :p</b>: la mattonella che avanza. La aggiungi — ma allora, regola della bilancia, la devi aggiungere anche <b>all'altro piatto</b>: :c + :p = :d.":
+    "The missing corner is a little square <b>:m × :m = :p</b>: the leftover tile. You add it — but then, by the balance rule, you have to add it <b>to the other pan too</b>: :c + :p = :d.",
+  "Adesso a sinistra c'è un quadrato perfetto di lato (x + :m), e vale :d. Quindi <b>x + :m = :r</b>, cioè <b>x = :x</b>.":
+    "Now on the left there is a perfect square of side (x + :m), and it is worth :d. So <b>x + :m = :r</b>, that is <b>x = :x</b>.",
+  "E questa è la formula risolutiva, costruita invece che imparata: la radice, la metà di b, la sottrazione.":
+    "And this is the quadratic formula, built instead of memorised: the square root, half of b, the subtraction.",
+  "<b>Questo disegno ha 1200 anni.</b> È il metodo con cui al-Khwārizmī risolveva «un quadrato e dieci radici uguali a trentanove» — cioè x² + 10x = 39, la seconda equazione qui sopra. Non aveva la formula: aveva il disegno. La formula che si impara a scuola è questo disegno scritto con le lettere, e il pezzo sotto la radice è l'angolo mancante. Nel livello :n ritroverai lo stesso conto sotto un altro nome: il polinomio degli autovalori.":
+    "<b>This drawing is 1200 years old.</b> It is the method with which al-Khwārizmī solved «a square and ten roots equal to thirty-nine» — that is x² + 10x = 39, the second equation above. He had no formula: he had the drawing. The formula taught at school is this drawing written with letters, and the piece under the square root is the missing corner. At level :n you will meet the same calculation under another name: the eigenvalue polynomial.",
 };

@@ -13,8 +13,8 @@
 export default {
   /* ---------------- mapa, partes, rangos ---------------- */
   'Parte 0 — Le basi (per chi parte proprio da zero)': 'Parte 0 — Las bases (para quien empieza desde cero)',
-  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici. Per chi ha finito le medie. Facoltativa se le sai già.":
-    "Números, porcentajes, coordenadas, grados, seno y coseno, probabilidad, contar dando vueltas, matrices. Nivel de secundaria. Opcional si ya lo sabes.",
+  "Numeri, percentuali, coordinate, gradi, seno e coseno, probabilità, contare a giri, matrici, equazioni (anche di secondo grado), logaritmi e prodotto scalare. Dalle medie in su. Facoltativa se le sai già.":
+    "Números, porcentajes, coordenadas, grados, seno y coseno, probabilidad, contar en círculo, matrices, ecuaciones (también de segundo grado), logaritmos y producto escalar. De secundaria en adelante. Opcional si ya las sabes.",
   'Parte A — Il qubit, subito': 'Parte A — El cúbit, ya mismo',
   'Sovrapposizione, misura, porte, entanglement, circuiti. Con ampiezze positive e negative: nessuna matematica difficile.':
     'Superposición, medida, puertas, entrelazamiento, circuitos. Con amplitudes positivas y negativas: nada de matemáticas difíciles.',
@@ -2058,8 +2058,6 @@ export default {
   "Quanto è alta un'onda; nel suono è il volume.":
     'Cómo de alta es una onda; en el sonido es el volumen.',
   'Autostato / autovalore': 'Autoestado / autovalor',
-  "Stato che un'operazione lascia identico a parte una fase; quella fase è l'autovalore.":
-    'Estado que una operación deja idéntico salvo por una fase; esa fase es el autovalor.',
   'Base di misura': 'Base de medida',
   'La "direzione" lungo cui si misura. Misurare in base Z dà 0/1; in base X dà +/−. Non esiste uno stato certo in tutte le basi.':
     'La "dirección" a lo largo de la cual se mide. Medir en base Z da 0/1; en base X da +/−. No existe un estado que sea seguro en todas las bases.',
@@ -2162,7 +2160,6 @@ export default {
 
   /* other written forms of each term, used only to spot it in the text */
   'ampiezze': 'amplitudes',
-  'autostati, autovalore, autovalori': 'autoestados, autovalor, autovalores',
   'basi di misura, base Z, base X': 'bases de medida, base Z, base X',
   'sfera di Bloch': 'esfera de Bloch',
   'regola di Born': 'regla de Born',
@@ -2857,4 +2854,75 @@ export default {
     "suma: :tot%",
   "trascina le punte: un numero solo dice quanto puntano nella stessa direzione":
     "arrastra las puntas: un solo número dice cuánto apuntan en la misma dirección",
+  /* ---------------- livello 0·7b: equazioni di secondo grado ---------------- */
+  "Secondo grado: la parabola e il quadrato a cui manca un angolo":
+    "Segundo grado: la parábola y el cuadrado al que le falta una esquina",
+  "Il delta in tre parole, la formula costruita invece che imparata, e il «mai» che nel Cinquecento ha aperto la porta ai numeri immaginari.":
+    "El discriminante en tres palabras, la fórmula construida en vez de memorizada, y el «nunca» que en el siglo XVI abrió la puerta a los números imaginarios.",
+  "La parabola e le sue radici":
+    "La parábola y sus raíces",
+  "muovi i tre numeri: le soluzioni sono i punti dove la curva taglia la riga":
+    "mueve los tres números: las soluciones son los puntos donde la curva corta la recta",
+  "fai tagliare la parabola in DUE punti":
+    "haz que la parábola corte en DOS puntos",
+  "falla toccare l'asse in UN punto solo":
+    "haz que toque el eje en UN solo punto",
+  "fai in modo che non lo tocchi MAI":
+    "haz que NUNCA lo toque",
+  "situazioni trovate: :fatte su :totali":
+    "casos encontrados: :fatte de :totali",
+  "delta = b² − 4ac = :d":
+    "discriminante = b² − 4ac = :d",
+  "due soluzioni":
+    "dos soluciones",
+  "una soluzione sola":
+    "una sola solución",
+  "nessuna soluzione reale":
+    "ninguna solución real",
+  "altra situazione":
+    "otro caso",
+  "Equazione: <b>:a x² + :b x + :c = 0</b>.":
+    "Ecuación: <b>:a x² + :b x + :c = 0</b>.",
+  "delta = :b² − 4·:a·:c = <b>:d</b>":
+    "discriminante = :b² − 4·:a·:c = <b>:d</b>",
+  "Due soluzioni: x = :x1 e x = :x2. La curva taglia la riga in due punti.":
+    "Dos soluciones: x = :x1 y x = :x2. La curva corta la recta en dos puntos.",
+  "Una soluzione sola: x = :x. La curva <b>tocca</b> la riga senza attraversarla — il delta è zero.":
+    "Una sola solución: x = :x. La curva <b>toca</b> la recta sin atravesarla — el discriminante es cero.",
+  "Nessuna soluzione reale: la curva sta tutta da una parte. Il delta è negativo, e la radice di un numero negativo non è un numero della retta.":
+    "Ninguna solución real: la curva se queda entera de un lado. El discriminante es negativo, y la raíz de un número negativo no es un número de la recta.",
+  "<b>Il delta in tre parole:</b> è quello che sta sotto la radice, e dice <b>quante volte</b> la parabola incontra la riga: due volte se è positivo, una se è zero, mai se è negativo. Quel «mai» non è un vicolo cieco: è la porta da cui, nel Cinquecento, sono entrati i numeri immaginari.":
+    "<b>El discriminante en tres palabras:</b> es lo que está bajo la raíz, y dice <b>cuántas veces</b> la parábola encuentra la recta: dos veces si es positivo, una si es cero, nunca si es negativo. Ese «nunca» no es un callejón sin salida: es la puerta por la que, en el siglo XVI, entraron los números imaginarios.",
+  "Il quadrato a cui manca un angolo":
+    "El cuadrado al que le falta una esquina",
+  "il metodo di mille anni fa: completa il disegno e la soluzione compare":
+    "el método de hace mil años: completa el dibujo y aparece la solución",
+  "completa il quadrato":
+    "completa el cuadrado",
+  "equazioni risolte col disegno: :fatte su :totali":
+    "ecuaciones resueltas con el dibujo: :fatte de :totali",
+  "lato = x + :m = :r":
+    "lado = x + :m = :r",
+  "metà di :b è :m":
+    "la mitad de :b es :m",
+  "L'equazione":
+    "La ecuación",
+  "spezza in due il rettangolo":
+    "parte el rectángulo en dos",
+  "aggiungi l'angolo mancante":
+    "añade la esquina que falta",
+  "prendi la radice":
+    "toma la raíz",
+  "Parti da <b>x² + :b x = :c</b>. Il disegno è un quadrato di lato x, e :b x da sistemare intorno.":
+    "Parte de <b>x² + :b x = :c</b>. El dibujo es un cuadrado de lado x, y :b x que hay que colocar alrededor.",
+  "I :b nani si mettono in <b>due file uguali da :m</b>, una a destra e una sotto: due rettangoli da :m x. Adesso il disegno è quasi un quadrato grande — ma manca l'angolo.":
+    "Los :b enanos se ponen en <b>dos filas iguales de :m</b>, una a la derecha y otra debajo: dos rectángulos de :m x. Ahora el dibujo es casi un cuadrado grande — pero falta la esquina.",
+  "L'angolo che manca è un quadratino <b>:m × :m = :p</b>: la mattonella che avanza. La aggiungi — ma allora, regola della bilancia, la devi aggiungere anche <b>all'altro piatto</b>: :c + :p = :d.":
+    "La esquina que falta es un cuadradito <b>:m × :m = :p</b>: la baldosa que sobra. La añades — pero entonces, regla de la balanza, hay que añadirla también <b>al otro platillo</b>: :c + :p = :d.",
+  "Adesso a sinistra c'è un quadrato perfetto di lato (x + :m), e vale :d. Quindi <b>x + :m = :r</b>, cioè <b>x = :x</b>.":
+    "Ahora a la izquierda hay un cuadrado perfecto de lado (x + :m), y vale :d. Así que <b>x + :m = :r</b>, es decir <b>x = :x</b>.",
+  "E questa è la formula risolutiva, costruita invece che imparata: la radice, la metà di b, la sottrazione.":
+    "Y esta es la fórmula resolutiva, construida en vez de memorizada: la raíz, la mitad de b, la resta.",
+  "<b>Questo disegno ha 1200 anni.</b> È il metodo con cui al-Khwārizmī risolveva «un quadrato e dieci radici uguali a trentanove» — cioè x² + 10x = 39, la seconda equazione qui sopra. Non aveva la formula: aveva il disegno. La formula che si impara a scuola è questo disegno scritto con le lettere, e il pezzo sotto la radice è l'angolo mancante. Nel livello :n ritroverai lo stesso conto sotto un altro nome: il polinomio degli autovalori.":
+    "<b>Este dibujo tiene 1200 años.</b> Es el método con el que al-Juarismi resolvía «un cuadrado y diez raíces igual a treinta y nueve» — es decir x² + 10x = 39, la segunda ecuación de aquí arriba. No tenía la fórmula: tenía el dibujo. La fórmula que se aprende en la escuela es este dibujo escrito con letras, y la pieza bajo la raíz es la esquina que falta. En el nivel :n reencontrarás la misma cuenta con otro nombre: el polinomio de los autovalores.",
 };

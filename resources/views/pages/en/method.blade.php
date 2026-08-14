@@ -199,7 +199,10 @@ reaches 85%) and at level 7 (two routes, where probabilities add and amplitudes 
       isolates the difference only when everything else matches.</li>
   <li><b>The mode of computation is always visible</b>, on every mini-game in the course: blue "normal computer",
       violet "quantum computer", with an icon and a written word next to the colour — never colour alone, as at
-      point 6. Part 0 and the wave labs carry no badge, because maths is neither one nor the other.</li>
+      point 6. A pure-maths mini-game — the parabola, al-Khwārizmī's square, the wave labs — carries <b>no</b>
+      badge, because a calculation is neither classical nor quantum: the badge appears only where the game really
+      simulates one of the two machines (the modular clock inside Shor, the quantum gate made of matrices,
+      measurement as a shadow).</li>
 </ul>
 
 <h2>11. Sound: information, not decoration</h2>
@@ -280,7 +283,7 @@ I think it is only fair to declare which levers I am pulling, so you can weigh t
   <tr><td><b>Endowed progress</b></td><td>Nunes &amp; Drèze (2006)</td>
       <td>Part 0 is already "path covered" for anyone who knows the basics: you start from a bar that is not empty</td></tr>
   <tr><td><b>Social proof</b></td><td>Cialdini</td>
-      <td><b>real</b> numbers: 8 organisations I have taught at, 42 levels, over 300 automated tests. No made-up "10,000 happy students"</td></tr>
+      <td><b>real</b> numbers: 8 organisations I have taught at, 43 levels, over 300 automated tests. No made-up "10,000 happy students"</td></tr>
   <tr><td><b>Reciprocity</b></td><td>Cialdini</td>
       <td>the full course is free and stays free: the contact request comes afterwards, and only if it was useful to you</td></tr>
   <tr><td><b>Friction reduction</b></td><td>Fogg's model (B = MAP)</td>
@@ -367,6 +370,52 @@ Below 1100 px of width there is no room for two columns: there it does cover the
 so the level 23 table, the panel and the tap-for-definition bubbles can no longer say three different things —
 which had already started happening between the Italian version and the translations.</p>
 
+<h2>20. Funny examples: when a joke teaches and when it gets in the way</h2>
+<p>Almost everyone carries around some silly thing a teacher said twenty years ago and never forgot. It was put to
+me like this: <i>«my maths teacher explained the quadratic formula with the dwarfs example, and besides laughing,
+that stuck with us»</i>. The memory is real and the research backs it — but <b>on one precise condition</b>, without
+which a funny example is not neutral: it makes learning <b>worse</b>, not better.</p>
+<p>The result has two halves, and they have to be held together:</p>
+<ul>
+  <li><b>Content-related humour helps.</b> The review by <b>Banas and colleagues (2011)</b> across forty years of
+      studies finds that <i>relevant</i>, non-aggressive, appropriate humour improves attention, climate and
+      willingness to stay on task. The sturdiest effects are on motivation and credibility; on <b>recall</b> the
+      findings are patchier, and the case where it works best is the one where the joke sits <b>inside</b> the
+      explanation and gets picked up again later, rather than being stuck on the side.</li>
+  <li><b>Decorative humour damages.</b> That is the <i>seductive details effect</i> (<b>Harp &amp; Mayer, 1998</b>):
+      interesting but <b>irrelevant</b> details steal attention from the ones that matter. The meta-analyses by
+      <b>Rey (2012)</b> and <b>Sundararajan &amp; Adesope (2020)</b> confirm it: a negative effect on retention and
+      <b>a bigger one still on transfer</b> — that is, precisely on being able to reuse the thing in a new context,
+      which is all that matters here, where middle-school maths has to hold up a quantum level later on.</li>
+</ul>
+<div class="callout key"><b>The rule that follows, and it holds for every exercise in this course:</b> the funny story
+is allowed <b>only if it is the mathematics</b>. Every piece of it must match a piece of the formula: the characters
+are the terms, what they do is what the calculation does. The acid test: if removing the story costs you no step of
+the reasoning, then it was a seductive detail — and out it goes.</div>
+<p>A third result completes the rule. The <b>keyword method</b> (Pressley, Levin &amp; Delaney, 1982) shows that a
+vivid mental image which <b>links</b> two things holds them together far better than repetition: that is the same
+mechanism that makes "the dwarfs" work. But the same line of work dismantles the idea that <b>bizarre is better</b>:
+what counts is not absurdity, it is the <b>clarity</b> of the image and whether it really ties the two pieces
+together. A wacky but vague story does nothing; a simple one where you can see <b>who is who</b> stays.</p>
+<p>So, in practice, in this course's maths exercises:</p>
+<ul>
+  <li>the funny example appears <b>at the point in the reasoning</b> where it is needed, and it carries a step that
+      would otherwise have to be memorised (the dwarfs having to <b>split into two equal rows</b> are the <i>b/2</i>
+      of completing the square, and the tile left over is the <i>(b/2)²</i>: take them away and the formula goes back
+      to being a nursery rhyme);</li>
+  <li>it is <b>picked up again</b> later, in the mini-game and in the quiz, instead of staying an isolated gag —
+      which is the condition under which the humour review finds the best effects on recall;</li>
+  <li>there are no images, sounds or anecdotes put there "to lighten things up": those are exactly the seductive
+      details, and it is the same reason why in point 11 the sounds carry information rather than decoration;</li>
+  <li>the <b>real history</b> of the mathematics (al-Khwārizmī, Cardano, Hilbert, Schrödinger) is not in the same
+      category: it is not there for laughs, it is there because knowing <b>which problem</b> a formula was born from
+      is part of understanding it — and it lives in a block of its own that you can skip.</li>
+</ul>
+<p class="dim small">An honest note: the humour part is the weakest item on this whole list in terms of strength of
+evidence — the literature is made of small studies, modest average effects and a lot of variation between teachers.
+That is why it is used as <b>seasoning on an example that stands up on its own</b>, never as the main vehicle for
+a concept.</p>
+
 <h2>Sources</h2>
 <p class="dim small">Listed in the order they appear in the text. Where there is no link it is because the reference
 is a book or a classic paper that is easy to find: I prefer citing it that way rather than linking a copy
@@ -386,6 +435,11 @@ of dubious provenance.</p>
   <li>Sisini, F. — <i>QuantumSim</i>, a quantum circuit simulator in C, and the popular books by the same author from which my path into this subject began. — <a href="https://github.com/francescosisini/QuantumSim" target="_blank" rel="noopener">repository</a></li>
   <li>Gentner, D., Loewenstein, J., Thompson, L. (2003). <i>Learning and Transfer: A General Role for Analogical Encoding</i>. Journal of Educational Psychology — comparing two concrete cases surfaces the shared principle better than studying them one at a time. — <a href="https://groups.psych.northwestern.edu/gentner/papers/GentnerLoewensteinThompson03.pdf" target="_blank" rel="noopener">PDF</a></li>
   <li>Alfieri, L., Nokes-Malach, T. J., Schunn, C. D. (2013). <i>Learning Through Case Comparisons: A Meta-Analytic Review</i>. Educational Psychologist, 48(2), 87–113. — <a href="https://www.tandfonline.com/doi/abs/10.1080/00461520.2013.775712" target="_blank" rel="noopener">article</a></li>
+  <li>Banas, J. A., Dunbar, N., Rodriguez, D., Liu, S.-J. (2011). <i>A Review of Humor in Educational Settings: Four Decades of Research</i>. Communication Education, 60(1), 115–144 — <b>content-related</b> humour helps climate, motivation and attention; aggressive or off-topic humour does not. — <a href="https://www.researchgate.net/publication/262966808_A_Review_of_Humor_in_Educational_Settings_Four_Decades_of_Research" target="_blank" rel="noopener">text</a></li>
+  <li>Harp, S. F., Mayer, R. E. (1998). <i>How Seductive Details Do Their Damage</i>. Journal of Educational Psychology, 90(3), 414–434 — the interesting but irrelevant detail distracts from what matters.</li>
+  <li>Rey, G. D. (2012). <i>A review and a meta-analysis of the seductive detail effect</i>. Educational Research Review, 7(3), 216–237. — <a href="https://www.sciencedirect.com/science/article/abs/pii/S1747938X12000413" target="_blank" rel="noopener">article</a></li>
+  <li>Sundararajan, N., Adesope, O. (2020). <i>Keep it Coherent: A Meta-Analysis of the Seductive Details Effect</i>. Educational Psychology Review, 32, 707–734 — negative on retention and, more markedly, on <b>transfer</b>. — <a href="https://link.springer.com/article/10.1007/s10648-020-09522-4" target="_blank" rel="noopener">article</a></li>
+  <li>Pressley, M., Levin, J. R., Delaney, H. D. (1982). <i>The Mnemonic Keyword Method</i>. Review of Educational Research, 52(1), 61–91 — a mental image that <b>links</b> two things beats repetition; but "bizarre" is not better: what counts is that the image be <b>clear</b>. — <a href="https://journals.sagepub.com/doi/10.3102/00346543052001061" target="_blank" rel="noopener">article</a></li>
   <li>Landauer, R. (1961), <i>Irreversibility and Heat Generation in the Computing Process</i>, and Bérut, A. et al. (2012), <i>Experimental verification of Landauer's principle</i>, Nature 483, 187–189 — the thermodynamic cost of erasing a bit, predicted and then measured. — <a href="https://www.nature.com/articles/nature10872" target="_blank" rel="noopener">article in Nature</a></li>
   <li>Bruner, J. S. (1960). <i>The Process of Education</i> — the spiral curriculum: returning to the same concepts at ever deeper levels.</li>
   <li>Sweller, J. — cognitive load theory; Mayer, R. E. — principles of multimedia learning (coherence, signalling, contiguity, segmenting, pre-training, conversational style).</li>

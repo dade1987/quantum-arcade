@@ -273,6 +273,36 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://quantumarcade.it/lezioni/00-secondogrado.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-secondogrado.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-quadratics.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/00-segundo-grado.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/00-secondogrado.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantumarcade.it/en/lessons/00-quadratics.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-secondogrado.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-quadratics.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/00-segundo-grado.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/00-secondogrado.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://quantumarcade.it/es/lecciones/00-segundo-grado.html</loc>
+    <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-secondogrado.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-quadratics.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://quantumarcade.it/es/lecciones/00-segundo-grado.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://quantumarcade.it/lezioni/00-secondogrado.html"/>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://quantumarcade.it/lezioni/00-logaritmi.html</loc>
     <xhtml:link rel="alternate" hreflang="it" href="https://quantumarcade.it/lezioni/00-logaritmi.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://quantumarcade.it/en/lessons/00-logarithms.html"/>

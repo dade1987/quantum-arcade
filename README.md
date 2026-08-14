@@ -20,7 +20,7 @@
 
 ---
 
-42 livelli interattivi che partono dalle **basi di matematica delle medie**, passano dal
+43 livelli interattivi che partono dalle **basi di matematica delle medie**, passano dal
 **computer classico** (bit, porte logiche, somma binaria, ricerca, complessità, reversibilità)
 e arrivano alla **trasformata di Fourier quantistica**, alla **stima di fase** e all'**algoritmo
 di Shor**. Ogni concetto ha un mini-gioco: prima muovi, poi capisci. Sotto c'è un simulatore
@@ -107,7 +107,7 @@ resources/views/           LE PAGINE. Una view per pagina per lingua, un layout 
   layouts/lesson.blade.php titolo e descrizione di una lezione, presi da levels.js
   partials/                il selettore di lingua, in un posto solo
   pages/{it,en,es}/        home, metodo, privacy
-  lessons/{it,en,es}/      i 42 livelli, con il nome dell'ID (lo slug sta nell'indirizzo)
+  lessons/{it,en,es}/      i 43 livelli, con il nome dell'ID (lo slug sta nell'indirizzo)
 
 config/site.php            GENERATO da levels.js con `npm run sync`: lingue, livelli, slug,
                            titoli. È da qui che nascono le rotte e i <head>
@@ -134,7 +134,7 @@ docs/BACKEND.md            architettura e messa online su Hostinger
 ## Collaudo
 
 ```bash
-npm test                 # motore del gioco (252 test) + validatore + stato delle lingue
+npm test                 # motore del gioco (265 test) + validatore + stato delle lingue
 npm run test:coverage    # copertura del frontend
 npm run test:php         # 124 test dei moduli Laravel
 npm run test:php:coverage
