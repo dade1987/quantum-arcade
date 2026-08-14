@@ -782,6 +782,27 @@ return [
             ],
         ],
         [
+            'id' => '21b-variazionale',
+            'n' => '21·b',
+            'part' => 'D',
+            'xp' => 140,
+            'slug' => [
+                'it' => '21b-variazionale',
+                'en' => '21b-variational',
+                'es' => '21b-variacional',
+            ],
+            'title' => [
+                'it' => 'La pendenza e il quantistico che gira oggi: VQE',
+                'en' => 'The slope and the quantum computing that runs today: VQE',
+                'es' => 'La pendiente y la computación cuántica que se ejecuta hoy: VQE',
+            ],
+            'description' => [
+                'it' => 'La derivata giocata come pendenza, e la discesa che i computer quantistici veri fanno adesso, rumore compreso.',
+                'en' => 'The derivative played as a slope, and the descent that real quantum computers are doing right now, noise included.',
+                'es' => 'La derivada jugada como pendiente, y la bajada que los ordenadores cuánticos de verdad hacen ahora mismo, ruido incluido.',
+            ],
+        ],
+        [
             'id' => '22-officina',
             'n' => '22',
             'part' => 'D',

@@ -67,6 +67,7 @@ const SLUG = {
   '19-qpe': { en: '19-qpe', es: '19-qpe' },
   '20-shor': { en: '20-shor', es: '20-shor' },
   '21-rumore': { en: '21-noise', es: '21-ruido' },
+  '21b-variazionale': { en: '21b-variational', es: '21b-variacional' },
   '22-officina': { en: '22-workshop', es: '22-taller' },
   '23-glossario': { en: '23-glossary', es: '23-glosario' },
   '24-esame': { en: '24-exam', es: '24-examen' },
@@ -263,6 +264,10 @@ export const LEVELS = [
   { id: '21-rumore', part: 'D', n: 21,
     title: t('Rumore, decoerenza e correzione d\'errore'),
     desc: t('Perché non hai ancora un computer quantistico in tasca. E come si combatte.'), xp: 130 },
+
+  { id: '21b-variazionale', part: 'D', n: '21·b',
+    title: t('La pendenza e il quantistico che gira oggi: VQE'),
+    desc: t('La derivata giocata come pendenza, e la discesa che i computer quantistici veri fanno adesso, rumore compreso.'), xp: 140 },
 
   { id: '22-officina', part: 'D', n: 22, boss: true,
     title: t('OFFICINA — inventa il tuo algoritmo'),

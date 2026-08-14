@@ -2547,4 +2547,87 @@ export default {
     "totales acertados: :fatti de :totali",
   "un giro diviso il numero di frecce":
     "una vuelta dividida entre el número de flechas",
+  /* ---------------- livello 21·b: pendenza e algoritmi variazionali ---------------- */
+  ":curva — valli trovate: :fatte su :totali":
+    ":curva — valles encontrados: :fatte de :totali",
+  ":problema — minimi raggiunti: :fatti su :totali":
+    ":problema — mínimos alcanzados: :fatti de :totali",
+  "<b>Il nome:</b> questa pendenza si chiama <b>derivata</b>. Serve a una cosa sola, ma fondamentale: se vuoi far scendere un numero, la derivata ti dice da che parte muoverti e quando fermarti. È il motore di tutto l'apprendimento automatico — e, come vedrai fra un attimo, anche del quantistico che gira oggi sulle macchine vere.":
+    "<b>El nombre:</b> esta pendiente se llama <b>derivada</b>. Sirve para una sola cosa, pero fundamental: si quieres hacer bajar un número, la derivada te dice hacia dónde moverte y cuándo parar. Es el motor de todo el aprendizaje automático y, como verás enseguida, también de la computación cuántica que hoy se ejecuta en máquinas de verdad.",
+  "<b>Questo è il quantistico che gira oggi.</b> Nessuna macchina al mondo esegue ancora Shor su numeri veri, ma i metodi variazionali girano da anni su processori rumorosi: il quantistico prepara lo stato e misura, il classico gira le manopole. Il rumore lo hai visto: con pochi tiri la pendenza balla. E la parte che il classico non sa fare è proprio quella misura — lo stesso mestiere della stima di fase del livello :n, ma con un obiettivo diverso: non leggere un numero nascosto, bensì <b>abbassarne</b> uno.":
+    "<b>Esto es la computación cuántica que se ejecuta hoy.</b> Ninguna máquina del mundo ejecuta todavía Shor sobre números reales, pero los métodos variacionales llevan años funcionando en procesadores ruidosos: lo cuántico prepara el estado y mide, lo clásico gira los mandos. El ruido ya lo has visto: con pocos disparos la pendiente baila. Y la parte que lo clásico no sabe hacer es justamente esa medida, el mismo oficio de la estimación de fase del nivel :n, pero con otro objetivo: no leer un número escondido, sino <b>bajar</b> uno.",
+  "Curva: <b>:curva</b>. Sei in x = <b>:x</b>, l'altezza è <b>:y</b>.":
+    "Curva: <b>:curva</b>. Estás en x = <b>:x</b>, la altura es <b>:y</b>.",
+  "Dove sei sulla curva":
+    "Dónde estás en la curva",
+  "H = Z + 0,5·X":
+    "H = Z + 0,5·X",
+  "H = −0,4·Z + X":
+    "H = −0,4·Z + X",
+  "Il problema da risolvere":
+    "El problema que resolver",
+  "Il segno dice il verso: pendenza positiva → si scende andando a sinistra; negativa → a destra.":
+    "El signo da el sentido: pendiente positiva → se baja hacia la izquierda; negativa → hacia la derecha.",
+  "La curva":
+    "La curva",
+  "La derivata giocata come pendenza, e la discesa che i computer quantistici veri fanno adesso, rumore compreso.":
+    "La derivada jugada como pendiente, y la bajada que los ordenadores cuánticos de verdad hacen ahora mismo, ruido incluido.",
+  "La discesa variazionale":
+    "La bajada variacional",
+  "La manopola del circuito (θ)":
+    "El mando del circuito (θ)",
+  "La pendenza":
+    "La pendiente",
+  "La pendenza e il quantistico che gira oggi: VQE":
+    "La pendiente y la computación cuántica que se ejecuta hoy: VQE",
+  "La pendenza si misura <b>senza derivate approssimate</b>: si valuta la stessa energia con la manopola spostata di un quarto di giro avanti e indietro, e si divide per due. Qui: <b>:spost</b>, che è esattamente la pendenza vera.":
+    "La pendiente se mide <b>sin derivadas aproximadas</b>: se evalúa la misma energía con el mando desplazado un cuarto de vuelta hacia delante y hacia atrás, y se divide entre dos. Aquí: <b>:spost</b>, que es exactamente la pendiente verdadera.",
+  "Manopola a <b>:g°</b> → energia <b>:e</b>. Il fondo vale <b>:min</b>. Passi di discesa fatti: <b>:passi</b>.":
+    "Mando a <b>:g°</b> → energía <b>:e</b>. El fondo vale <b>:min</b>. Pasos de bajada dados: <b>:passi</b>.",
+  "Pendenza della retta che tocca la curva: <b>:p</b>. Misurata a mano con due punti vicini: <b>:num</b>.":
+    "Pendiente de la recta que toca la curva: <b>:p</b>. Medida a mano con dos puntos cercanos: <b>:num</b>.",
+  "Pendenza zero e curva che risale da tutte e due le parti: sei <b>in fondo a una valle</b>. È quello che cerca un algoritmo variazionale.":
+    "Pendiente cero y curva que sube por los dos lados: estás <b>en el fondo de un valle</b>. Es lo que busca un algoritmo variacional.",
+  "Pendenza zero, ma sei <b>in cima</b>: da qui si scende da entrambe le parti. Pendenza nulla non vuol dire minimo — è la trappola numero uno di questi metodi.":
+    "Pendiente cero, pero estás <b>en la cima</b>: desde aquí se baja por los dos lados. Pendiente nula no significa mínimo; es la trampa número uno de estos métodos.",
+  "Quanti tiri per ogni misura":
+    "Cuántos disparos por medida",
+  "Scendi: la pendenza dice da che parte. Con pochi tiri la misura balla, e i passi ballano con lei.":
+    "Baja: la pendiente dice por dónde. Con pocos disparos la medida baila, y los pasos bailan con ella.",
+  "Sei in fondo. Questo numero è la risposta che il VQE cerca: la minima energia raggiungibile con quel circuito.":
+    "Estás en el fondo. Este número es la respuesta que busca el VQE: la mínima energía alcanzable con ese circuito.",
+  "abbassa l'energia":
+    "baja la energía",
+  "energia: :e":
+    "energía: :e",
+  "il computer quantistico misura, quello normale gira la manopola":
+    "el ordenador cuántico mide, el normal gira el mando",
+  "il fondo: :e":
+    "el fondo: :e",
+  "l'onda":
+    "la onda",
+  "la valle":
+    "el valle",
+  "la valle doppia":
+    "el valle doble",
+  "misura la pendenza":
+    "mide la pendiente",
+  "muovi il punto: la retta che lo tocca dice da che parte si scende":
+    "mueve el punto: la recta que lo toca dice por dónde se baja",
+  "pendenza misurata con :tiri tiri: :p (esatta: :vera)":
+    "pendiente medida con :tiri disparos: :p (exacta: :vera)",
+  "pendenza: :p":
+    "pendiente: :p",
+  "pendenza a zero, in fondo":
+    "pendiente a cero, en el fondo",
+  "chiedila alla macchina: «misura la pendenza»":
+    "pídesela a la máquina: «mide la pendiente»",
+  "riparti da un punto a caso":
+    "vuelve a empezar en un punto al azar",
+  "scendi di un passo":
+    "baja un paso",
+  "scendi finché puoi":
+    "baja todo lo que puedas",
+  "si scende di qua":
+    "se baja por aquí",
 };

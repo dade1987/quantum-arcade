@@ -2546,4 +2546,87 @@ export default {
     "totals hit: :fatti of :totali",
   "un giro diviso il numero di frecce":
     "one turn divided by the number of arrows",
+  /* ---------------- livello 21·b: pendenza e algoritmi variazionali ---------------- */
+  ":curva — valli trovate: :fatte su :totali":
+    ":curva — valleys found: :fatte of :totali",
+  ":problema — minimi raggiunti: :fatti su :totali":
+    ":problema — minima reached: :fatti of :totali",
+  "<b>Il nome:</b> questa pendenza si chiama <b>derivata</b>. Serve a una cosa sola, ma fondamentale: se vuoi far scendere un numero, la derivata ti dice da che parte muoverti e quando fermarti. È il motore di tutto l'apprendimento automatico — e, come vedrai fra un attimo, anche del quantistico che gira oggi sulle macchine vere.":
+    "<b>The name:</b> this slope is called the <b>derivative</b>. It is good for one thing, but a crucial one: if you want to bring a number down, the derivative tells you which way to move and when to stop. It is the engine of all machine learning — and, as you are about to see, of the quantum computing that runs today on real machines.",
+  "<b>Questo è il quantistico che gira oggi.</b> Nessuna macchina al mondo esegue ancora Shor su numeri veri, ma i metodi variazionali girano da anni su processori rumorosi: il quantistico prepara lo stato e misura, il classico gira le manopole. Il rumore lo hai visto: con pochi tiri la pendenza balla. E la parte che il classico non sa fare è proprio quella misura — lo stesso mestiere della stima di fase del livello :n, ma con un obiettivo diverso: non leggere un numero nascosto, bensì <b>abbassarne</b> uno.":
+    "<b>This is the quantum computing that runs today.</b> No machine in the world runs Shor on real numbers yet, but variational methods have been running for years on noisy processors: the quantum side prepares the state and measures, the classical side turns the knobs. You have seen the noise: with few shots the slope jumps about. And the part the classical side cannot do is precisely that measurement — the same trade as phase estimation in level :n, with a different goal: not reading a hidden number, but <b>bringing one down</b>.",
+  "Curva: <b>:curva</b>. Sei in x = <b>:x</b>, l'altezza è <b>:y</b>.":
+    "Curve: <b>:curva</b>. You are at x = <b>:x</b>, the height is <b>:y</b>.",
+  "Dove sei sulla curva":
+    "Where you are on the curve",
+  "H = Z + 0,5·X":
+    "H = Z + 0.5·X",
+  "H = −0,4·Z + X":
+    "H = −0.4·Z + X",
+  "Il problema da risolvere":
+    "The problem to solve",
+  "Il segno dice il verso: pendenza positiva → si scende andando a sinistra; negativa → a destra.":
+    "The sign gives the direction: positive slope → down is to the left; negative → to the right.",
+  "La curva":
+    "The curve",
+  "La derivata giocata come pendenza, e la discesa che i computer quantistici veri fanno adesso, rumore compreso.":
+    "The derivative played as a slope, and the descent that real quantum computers are doing right now, noise included.",
+  "La discesa variazionale":
+    "The variational descent",
+  "La manopola del circuito (θ)":
+    "The circuit knob (θ)",
+  "La pendenza":
+    "The slope",
+  "La pendenza e il quantistico che gira oggi: VQE":
+    "The slope and the quantum computing that runs today: VQE",
+  "La pendenza si misura <b>senza derivate approssimate</b>: si valuta la stessa energia con la manopola spostata di un quarto di giro avanti e indietro, e si divide per due. Qui: <b>:spost</b>, che è esattamente la pendenza vera.":
+    "The slope is measured <b>with no approximate derivatives</b>: you evaluate the same energy with the knob shifted a quarter turn forwards and backwards, and divide by two. Here: <b>:spost</b>, which is exactly the true slope.",
+  "Manopola a <b>:g°</b> → energia <b>:e</b>. Il fondo vale <b>:min</b>. Passi di discesa fatti: <b>:passi</b>.":
+    "Knob at <b>:g°</b> → energy <b>:e</b>. The bottom is <b>:min</b>. Descent steps taken: <b>:passi</b>.",
+  "Pendenza della retta che tocca la curva: <b>:p</b>. Misurata a mano con due punti vicini: <b>:num</b>.":
+    "Slope of the line touching the curve: <b>:p</b>. Measured by hand from two nearby points: <b>:num</b>.",
+  "Pendenza zero e curva che risale da tutte e due le parti: sei <b>in fondo a una valle</b>. È quello che cerca un algoritmo variazionale.":
+    "Zero slope and the curve rising on both sides: you are <b>at the bottom of a valley</b>. That is what a variational algorithm is looking for.",
+  "Pendenza zero, ma sei <b>in cima</b>: da qui si scende da entrambe le parti. Pendenza nulla non vuol dire minimo — è la trappola numero uno di questi metodi.":
+    "Zero slope, but you are <b>at the top</b>: from here it goes down both ways. A null slope does not mean a minimum — it is trap number one for these methods.",
+  "Quanti tiri per ogni misura":
+    "How many shots per measurement",
+  "Scendi: la pendenza dice da che parte. Con pochi tiri la misura balla, e i passi ballano con lei.":
+    "Walk down: the slope says which way. With few shots the measurement jumps about, and the steps jump with it.",
+  "Sei in fondo. Questo numero è la risposta che il VQE cerca: la minima energia raggiungibile con quel circuito.":
+    "You are at the bottom. This number is the answer a VQE is after: the lowest energy that circuit can reach.",
+  "abbassa l'energia":
+    "bring the energy down",
+  "energia: :e":
+    "energy: :e",
+  "il computer quantistico misura, quello normale gira la manopola":
+    "the quantum computer measures, the ordinary one turns the knob",
+  "il fondo: :e":
+    "the bottom: :e",
+  "l'onda":
+    "the wave",
+  "la valle":
+    "the valley",
+  "la valle doppia":
+    "the double valley",
+  "misura la pendenza":
+    "measure the slope",
+  "muovi il punto: la retta che lo tocca dice da che parte si scende":
+    "move the point: the line touching it says which way is down",
+  "pendenza misurata con :tiri tiri: :p (esatta: :vera)":
+    "slope measured with :tiri shots: :p (exact: :vera)",
+  "pendenza: :p":
+    "slope: :p",
+  "pendenza a zero, in fondo":
+    "slope to zero, at the bottom",
+  "chiedila alla macchina: «misura la pendenza»":
+    "ask the machine: «measure the slope»",
+  "riparti da un punto a caso":
+    "restart from a random point",
+  "scendi di un passo":
+    "take one step down",
+  "scendi finché puoi":
+    "walk down as far as you can",
+  "si scende di qua":
+    "down is this way",
 };
