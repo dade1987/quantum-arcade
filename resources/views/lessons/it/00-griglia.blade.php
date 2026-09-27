@@ -36,8 +36,18 @@ const L = renderLesson({
     },
     {
       t: 'Gradi: quanto è girata una freccia',
-      html: `<p>Un giro completo è <b>360°</b>. È una convenzione antica (i babilonesi contavano in sessantine),
-             ma è comoda perché 360 si divide bene: metà = 180°, un quarto = 90°, un ottavo = 45°.</p>
+      html: `<p>Un giro completo è <b>360°</b>. L'idea viene dai <b>babilonesi</b>, un popolo antico che contava a gruppi di 60 invece che di 10.</p>
+             <p>Il 60 era comodo perché si divide in parti uguali in tanti modi. Per esempio, 60 caramelle si dividono senza avanzi fra:</p>
+             <ul>
+               <li>2 amici → 30 a testa</li>
+               <li>3 amici → 20 a testa</li>
+               <li>4 amici → 15 a testa</li>
+               <li>5 amici → 12 a testa</li>
+               <li>6 amici → 10 a testa</li>
+             </ul>
+             <p>Con 10 caramelle, invece, fra 3 o 4 amici ne avanza sempre qualcuna.</p>
+             <p>Ne resta traccia nell'orologio: 60 minuti fanno un'ora.</p>
+             <p>360 (= 6 × 60) si divide bene allo stesso modo: metà = 180°, un quarto = 90°, un ottavo = 45°.</p>
              <table class="table">
                <tr><th>Angolo</th><th>Parte di giro</th><th>Dove punta la freccia</th></tr>
                <tr><td class="mono">0°</td><td>niente</td><td>a destra →</td></tr>

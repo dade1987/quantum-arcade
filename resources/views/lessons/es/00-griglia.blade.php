@@ -36,8 +36,18 @@ const L = renderLesson({
     },
     {
       t: 'Grados: cuánto ha girado una flecha',
-      html: `<p>Una vuelta completa son <b>360°</b>. Es una convención antigua (los babilonios contaban de sesenta en sesenta),
-             pero cómoda porque 360 se divide bien: mitad = 180°, un cuarto = 90°, un octavo = 45°.</p>
+      html: `<p>Una vuelta completa son <b>360°</b>. La idea viene de los <b>babilonios</b>, un pueblo antiguo que contaba en grupos de 60 en vez de 10.</p>
+             <p>El 60 era cómodo porque se divide en partes iguales de muchas maneras. Por ejemplo, 60 caramelos se reparten sin que sobre ninguno entre:</p>
+             <ul>
+               <li>2 amigos → 30 cada uno</li>
+               <li>3 amigos → 20 cada uno</li>
+               <li>4 amigos → 15 cada uno</li>
+               <li>5 amigos → 12 cada uno</li>
+               <li>6 amigos → 10 cada uno</li>
+             </ul>
+             <p>Con 10 caramelos, en cambio, entre 3 o 4 amigos siempre sobra alguno.</p>
+             <p>Aún se nota en el reloj: 60 minutos hacen una hora.</p>
+             <p>360 (= 6 × 60) se divide bien de la misma manera: mitad = 180°, un cuarto = 90°, un octavo = 45°.</p>
              <table class="table">
                <tr><th>Ángulo</th><th>Parte de vuelta</th><th>Adónde apunta la flecha</th></tr>
                <tr><td class="mono">0°</td><td>nada</td><td>a la derecha →</td></tr>

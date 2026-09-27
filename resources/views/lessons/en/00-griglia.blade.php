@@ -36,8 +36,18 @@ const L = renderLesson({
     },
     {
       t: 'Degrees: how far an arrow has turned',
-      html: `<p>A full turn is <b>360°</b>. It is an ancient convention (the Babylonians counted in sixties),
-             but a handy one, because 360 divides nicely: half = 180°, a quarter = 90°, an eighth = 45°.</p>
+      html: `<p>A full turn is <b>360°</b>. The idea comes from the <b>Babylonians</b>, an ancient people who counted in groups of 60 instead of 10.</p>
+             <p>60 was handy because it splits into equal parts in many ways. For example, 60 sweets can be shared with nothing left over among:</p>
+             <ul>
+               <li>2 friends → 30 each</li>
+               <li>3 friends → 20 each</li>
+               <li>4 friends → 15 each</li>
+               <li>5 friends → 12 each</li>
+               <li>6 friends → 10 each</li>
+             </ul>
+             <p>With 10 sweets, on the other hand, sharing among 3 or 4 friends always leaves some over.</p>
+             <p>You can still see it on the clock: 60 minutes make an hour.</p>
+             <p>360 (= 6 × 60) divides nicely in the same way: half = 180°, a quarter = 90°, an eighth = 45°.</p>
              <table class="table">
                <tr><th>Angle</th><th>Fraction of a turn</th><th>Where the arrow points</th></tr>
                <tr><td class="mono">0°</td><td>nothing</td><td>right →</td></tr>
