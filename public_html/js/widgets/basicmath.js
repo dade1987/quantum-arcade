@@ -651,7 +651,7 @@ export function diceLab(host, opts = {}) {
     if (st.total >= 1000 && !st.won) { st.won = true; sfx.ok(); fx.burst(stage.w / 2, stage.h / 2); fx.flash(); cfg.onWin && cfg.onWin(); }
   }
   upd();
-  w.setFoot(t('<b>Attenzione al tranello:</b> con pochi lanci le percentuali ballano parecchio. Nel corso misureremo i qubit centinaia di volte proprio per questo: una misura sola non dice quasi nulla, tante misure disegnano la forma della probabilità.'));
+  w.setFoot(t('<b>Attenzione al tranello:</b> con pochi lanci le percentuali ballano parecchio. Un lancio solo non dice quasi nulla: tanti lanci mostrano la probabilità vera.'));
   return { state: st };
 }
 

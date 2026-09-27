@@ -99,6 +99,6 @@ const L = renderLesson({
   ],
 
   outro: `<div class="callout ok"><b>Fatto!</b> Seno e coseno non sono più due parole misteriose: sono le due ombre
-          di un punto che gira. Ultimo livello di base: il <b>caso</b>, cioè le probabilità.</div>`,
+          di un punto che gira. Nel prossimo livello: il <b>caso</b>, cioè le probabilità.</div>`,
 });
 @endsection

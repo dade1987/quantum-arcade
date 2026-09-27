@@ -99,6 +99,6 @@ const L = renderLesson({
   ],
 
   outro: `<div class="callout ok"><b>¡Hecho!</b> El seno y el coseno ya no son dos palabras misteriosas: son las dos sombras
-          de un punto que gira. Último nivel de base: el <b>azar</b>, es decir las probabilidades.</div>`,
+          de un punto que gira. En el siguiente nivel: el <b>azar</b>, es decir las probabilidades.</div>`,
 });
 @endsection

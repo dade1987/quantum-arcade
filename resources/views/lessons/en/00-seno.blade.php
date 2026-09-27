@@ -99,6 +99,6 @@ const L = renderLesson({
   ],
 
   outro: `<div class="callout ok"><b>Done!</b> Sine and cosine are no longer two mysterious words: they are the two shadows
-          of a turning point. Last basics level: <b>chance</b>, that is probability.</div>`,
+          of a turning point. In the next level: <b>chance</b>, that is probability.</div>`,
 });
 @endsection

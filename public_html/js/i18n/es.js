@@ -401,8 +401,8 @@ export default {
     "<b>Ahora el nombre:</b> lo que acabas de mover se llama <b>amplitud</b>, y el área del cuadrado — la amplitud multiplicada por sí misma — es la <b>probabilidad</b> de obtener ese resultado al medir. Se escribe <code>|amplitud|²</code>: son las mismas tres cosas que tienes delante, escritas corto.",
   "<b>Attenzione a cosa NON è:</b> nessuna materia si sposta e nessuna informazione viaggia più veloce della luce — servono i due <b>bit classici</b> telefonati a Bob, che viaggiano normalmente. E lo stato di partenza viene <b>distrutto</b> dalla misura: è un trasferimento, non una fotocopia. Il teorema di <b>no-cloning</b> resta salvo.":
     "<b>Cuidado con lo que NO es:</b> no se desplaza materia y ninguna información viaja más rápido que la luz — hacen falta los dos <b>bits clásicos</b> que se le dictan a Bob, y esos viajan normalmente. Y el estado de partida queda <b>destruido</b> por la medida: es una transferencia, no una fotocopia. El teorema de <b>no-clonación</b> sigue en pie.",
-  "<b>Attenzione al tranello:</b> con pochi lanci le percentuali ballano parecchio. Nel corso misureremo i qubit centinaia di volte proprio per questo: una misura sola non dice quasi nulla, tante misure disegnano la forma della probabilità.":
-    "<b>Cuidado con la trampa:</b> con pocos lanzamientos los porcentajes bailan mucho. Por eso en el curso mediremos los cúbits cientos de veces: una sola medida no dice casi nada, muchas medidas dibujan la forma de la probabilidad.",
+  "<b>Attenzione al tranello:</b> con pochi lanci le percentuali ballano parecchio. Un lancio solo non dice quasi nulla: tanti lanci mostrano la probabilità vera.":
+    "<b>Cuidado con la trampa:</b> con pocos lanzamientos los porcentajes bailan mucho. Un solo lanzamiento no dice casi nada: muchos lanzamientos muestran la probabilidad real.",
   "<b>Bersaglio:</b> ampiezza :a · frequenza :f · fase :p":
     "<b>Objetivo:</b> amplitud :a · frecuencia :f · fase :p",
   "<b>DOPO la QFT</b> — restano solo i multipli di N/r":

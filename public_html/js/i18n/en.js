@@ -400,8 +400,8 @@ export default {
     "<b>Now the name:</b> what you just moved is called an <b>amplitude</b>, and the area of the square — the amplitude times itself — is the <b>probability</b> of getting that outcome when you measure. It is written <code>|amplitude|²</code>: the same three things you have in front of you, written short.",
   "<b>Attenzione a cosa NON è:</b> nessuna materia si sposta e nessuna informazione viaggia più veloce della luce — servono i due <b>bit classici</b> telefonati a Bob, che viaggiano normalmente. E lo stato di partenza viene <b>distrutto</b> dalla misura: è un trasferimento, non una fotocopia. Il teorema di <b>no-cloning</b> resta salvo.":
     "<b>Careful about what it is NOT:</b> no matter moves and no information travels faster than light — you still need the two <b>classical bits</b> phoned over to Bob, and those travel normally. And the starting state is <b>destroyed</b> by the measurement: it is a transfer, not a photocopy. The <b>no-cloning</b> theorem is safe.",
-  "<b>Attenzione al tranello:</b> con pochi lanci le percentuali ballano parecchio. Nel corso misureremo i qubit centinaia di volte proprio per questo: una misura sola non dice quasi nulla, tante misure disegnano la forma della probabilità.":
-    "<b>Mind the trap:</b> with few tosses the percentages swing wildly. That is exactly why in this course we measure qubits hundreds of times: a single measurement says almost nothing, many measurements draw the shape of the probability.",
+  "<b>Attenzione al tranello:</b> con pochi lanci le percentuali ballano parecchio. Un lancio solo non dice quasi nulla: tanti lanci mostrano la probabilità vera.":
+    "<b>Mind the trap:</b> with few tosses the percentages swing wildly. A single toss says almost nothing: many tosses show the real probability.",
   "<b>Bersaglio:</b> ampiezza :a · frequenza :f · fase :p":
     "<b>Target:</b> amplitude :a · frequency :f · phase :p",
   "<b>DOPO la QFT</b> — restano solo i multipli di N/r":

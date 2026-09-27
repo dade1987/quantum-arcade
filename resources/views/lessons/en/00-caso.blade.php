@@ -8,8 +8,7 @@ import { diceLab } from '/js/widgets/basicmath.js';
 
 const L = renderLesson({
   id: '00-caso',
-  lead: `Last basics level. Every time you measure a qubit you will get a result <b>at random</b>, but not
-         "random random": with precise probabilities that a quantum computer knows how to compute. Here we learn what that means.`,
+  lead: `Coins and dice: we learn how to say how likely something is to happen, and why chance, over many tosses, becomes predictable.`,
 
   steps: [
     {
@@ -30,41 +29,22 @@ const L = renderLesson({
               becomes incredibly predictable. It is why casinos never go bust.</p>`,
     },
     {
-      t: 'Why we need it in the quantum world',
-      html: `<p>A quantum computer, when you measure it, gives you <b>one single result</b>, picked at random among the possible ones,
-             with probabilities decided by the state. A single run tells you almost nothing. That is why real experiments
-             are run <b>thousands of times</b> (in the jargon: "shots") and you look at the histogram.</p>
-             <table class="table">
-               <tr><th>Coin / die</th><th>Qubit</th></tr>
-               <tr><td>possibilities: heads or tails</td><td>possibilities: |0⟩ or |1⟩</td></tr>
-               <tr><td>probabilities decided by how the coin is made</td><td>probabilities decided by the <b>amplitudes</b></td></tr>
-               <tr><td>you toss many times to estimate the percentages</td><td>you measure many times to estimate the percentages</td></tr>
-               <tr><td>a shuffled coin stays random forever</td><td>a qubit can <b>come back</b>: amplitudes cancel</td></tr>
-             </table>
-             <div class="callout warn"><b>The only difference — but it is enormous:</b> classical probabilities are positive numbers
-             that can only be added. Quantum amplitudes are <b>arrows</b> (level 0·2!) and two opposite arrows
-             <b>annihilate</b>. We get there at level 1, and that is the moment the whole course makes sense.</div>`,
-    },
-    {
-      t: 'A bit of easy arithmetic (genuinely useful)',
+      t: 'A bit of easy arithmetic',
       html: `<p><b>Probability of two things together (independent):</b> you <b>multiply</b>.<br>
              Two heads in a row: 1/2 × 1/2 = 1/4 = 25%.<br>
              Three heads in a row: 1/2 × 1/2 × 1/2 = 1/8 = 12.5%. <span class="muted">(there are the powers of 2 again!)</span></p>
              <p><b>Probability of "this or that" (different cases):</b> you <b>add</b>.<br>
              With a die, "a 1 or a 6 comes up" = 1/6 + 1/6 = 2/6 = 33.3%.</p>
-             <div class="callout"><b>Direct link:</b> with <b>n</b> qubits there are <b>2^n</b> possible results,
-             each with its own probability, and they all add up to 100%. With 3 qubits the outcomes are 000, 001, 010, 011,
-             100, 101, 110, 111: eight, exactly like three coin tosses.</div>`,
+             <div class="callout">With 3 coins the possible results are HHH, HHT, HTH, HTT, THH, THT, TTH, TTT (H = heads, T = tails): that is <b>8 = 2³</b>.
+             Every extra coin doubles the results.</div>`,
     },
     {
       t: '💡 Your turn',
       html: `<div class="callout think">
         <p><b>1.</b> With the die, how many rolls does it take for all the bars to sit within 1% of the theoretical line? Try it.</p>
         <p><b>2.</b> If you toss 10 coins, what is the probability that they all come up heads? <span class="muted">(1/2^10 = 1/1024)</span></p>
-        <p><b>3.</b> A friend says: "five tails in a row have come up, now heads is more likely". Are they right?
+        <p class="mb0"><b>3.</b> A friend says: "five tails in a row have come up, now heads is more likely". Are they right?
            <span class="muted">(no: the coin has no memory — that is the "gambler's fallacy")</span></p>
-        <p class="mb0"><b>4.</b> A question we pick up at level 1: is there a way to make two possibilities,
-           both of them possible, become <b>impossible</b> when you put them together? With coins, no. With qubits… yes.</p>
       </div>`,
     },
   ],
@@ -78,10 +58,10 @@ const L = renderLesson({
       why: 'Independent events: you multiply. 1/2 × 1/2 × 1/2 = 1/8 = 12.5%.' },
     { q: 'The probabilities of all possible results add up to…',
       options: ['0', '1 (that is, 100%)', 'it depends', 'the number of results'], correct: 1,
-      why: 'Something has to happen: the sum is always 1. In the quantum world this rule becomes "the squared amplitudes add up to 1".' },
+      why: 'Something has to happen: the sum is always 1.' },
   ],
 
-  outro: `<div class="callout ok"><b>Part 0 complete!</b> You have numbers, percentages, squares, powers of 2, coordinates,
-          degrees, sine, cosine and probability: everything you need. Now it starts for real, from <b>level 1: the qubit</b>.</div>`,
+  outro: `<div class="callout ok"><b>Done!</b> You can work out the probabilities of coins and dice. In the next level:
+          the <b>clock of numbers</b>, that is counting in rounds like the hours on a clock.</div>`,
 });
 @endsection

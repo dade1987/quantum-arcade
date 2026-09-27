@@ -8,8 +8,7 @@ import { diceLab } from '/js/widgets/basicmath.js';
 
 const L = renderLesson({
   id: '00-caso',
-  lead: `Último nivel de base. Cada vez que midas un cúbit obtendrás un resultado <b>al azar</b>, pero no
-         "al azar del todo": con probabilidades precisas, que el ordenador cuántico sabe calcular. Aquí aprendemos qué quiere decir eso.`,
+  lead: `Monedas y dados: aprendemos a decir lo probable que es que pase algo, y por qué el azar, con muchos lanzamientos, se vuelve previsible.`,
 
   steps: [
     {
@@ -30,41 +29,22 @@ const L = renderLesson({
               se vuelve increíblemente previsible. Es la razón por la que los casinos nunca quiebran.</p>`,
     },
     {
-      t: 'Por qué nos hace falta en lo cuántico',
-      html: `<p>Un ordenador cuántico, cuando lo mides, te da <b>un solo resultado</b>, elegido al azar entre los posibles,
-             con probabilidades decididas por el estado. Una única ejecución dice poquísimo. Por eso los experimentos de verdad
-             se ejecutan <b>miles de veces</b> (en la jerga: "shots") y se mira el histograma.</p>
-             <table class="table">
-               <tr><th>Moneda / dado</th><th>Cúbit</th></tr>
-               <tr><td>posibilidades: cara o cruz</td><td>posibilidades: |0⟩ o |1⟩</td></tr>
-               <tr><td>probabilidades decididas por cómo está hecha la moneda</td><td>probabilidades decididas por las <b>amplitudes</b></td></tr>
-               <tr><td>lanzas muchas veces para estimar los porcentajes</td><td>mides muchas veces para estimar los porcentajes</td></tr>
-               <tr><td>una moneda mezclada sigue al azar para siempre</td><td>un cúbit puede <b>volver atrás</b>: las amplitudes se cancelan</td></tr>
-             </table>
-             <div class="callout warn"><b>La única diferencia — pero es enorme:</b> las probabilidades clásicas son números positivos
-             que solo se pueden sumar. Las amplitudes cuánticas son <b>flechas</b> (¡nivel 0·2!) y dos flechas opuestas
-             <b>se anulan</b>. Llegaremos a eso en el nivel 1, y será el momento en que todo el curso cobra sentido.</div>`,
-    },
-    {
-      t: 'Unas cuentas fáciles (útiles de verdad)',
+      t: 'Unas cuentas fáciles',
       html: `<p><b>Probabilidad de dos cosas juntas (independientes):</b> se <b>multiplican</b>.<br>
              Dos caras seguidas: 1/2 × 1/2 = 1/4 = 25%.<br>
              Tres caras seguidas: 1/2 × 1/2 × 1/2 = 1/8 = 12,5%. <span class="muted">(¡otra vez las potencias de 2!)</span></p>
              <p><b>Probabilidad de "esto o aquello" (casos distintos):</b> se <b>suman</b>.<br>
              Con un dado, "sale 1 o 6" = 1/6 + 1/6 = 2/6 = 33,3%.</p>
-             <div class="callout"><b>Conexión directa:</b> con <b>n</b> cúbits hay <b>2^n</b> resultados posibles,
-             cada uno con su probabilidad, y la suma de todas da 100%. Con 3 cúbits los resultados son 000, 001, 010, 011,
-             100, 101, 110, 111: ocho, exactamente como tres lanzamientos de moneda.</div>`,
+             <div class="callout">Con 3 monedas los resultados posibles son CCC, CCX, CXC, CXX, XCC, XCX, XXC, XXX (C = cara, X = cruz): son <b>8 = 2³</b>.
+             Cada moneda de más duplica los resultados.</div>`,
     },
     {
       t: '💡 Pruébalo tú',
       html: `<div class="callout think">
         <p><b>1.</b> Con el dado, ¿cuántos lanzamientos hacen falta para que todas las barras queden a menos del 1% de la línea teórica? Pruébalo.</p>
         <p><b>2.</b> Si lanzas 10 monedas, ¿cuál es la probabilidad de que salgan <b>todas</b> caras? <span class="muted">(1/2^10 = 1/1024)</span></p>
-        <p><b>3.</b> Un amigo dice: "han salido 5 cruces seguidas, ahora es más probable que salga cara". ¿Tiene razón?
+        <p class="mb0"><b>3.</b> Un amigo dice: "han salido 5 cruces seguidas, ahora es más probable que salga cara". ¿Tiene razón?
            <span class="muted">(no: la moneda no tiene memoria — es la "falacia del jugador")</span></p>
-        <p class="mb0"><b>4.</b> Una pregunta que retomaremos en el nivel 1: ¿existe alguna manera de que dos posibilidades,
-           las dos posibles, se vuelvan <b>imposibles</b> al juntarlas? Con monedas no. Con cúbits… sí.</p>
       </div>`,
     },
   ],
@@ -78,10 +58,10 @@ const L = renderLesson({
       why: 'Sucesos independientes: se multiplican. 1/2 × 1/2 × 1/2 = 1/8 = 12,5%.' },
     { q: 'La suma de las probabilidades de todos los resultados posibles vale…',
       options: ['0', '1 (es decir, 100%)', 'depende', 'el número de resultados'], correct: 1,
-      why: 'Algo tiene que pasar: la suma es siempre 1. En lo cuántico esta regla se convierte en "la suma de los cuadrados de las amplitudes da 1".' },
+      why: 'Algo tiene que pasar: la suma es siempre 1.' },
   ],
 
-  outro: `<div class="callout ok"><b>¡Parte 0 completada!</b> Tienes números, porcentajes, cuadrados, potencias de 2, coordenadas,
-          grados, seno, coseno y probabilidad: todo lo que hace falta. Ahora empieza lo bueno, con el <b>nivel 1: el cúbit</b>.</div>`,
+  outro: `<div class="callout ok"><b>¡Hecho!</b> Ya sabes calcular las probabilidades de monedas y dados. En el siguiente nivel:
+          el <b>reloj de los números</b>, es decir contar por vueltas como las horas en el reloj.</div>`,
 });
 @endsection
