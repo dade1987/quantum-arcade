@@ -8,32 +8,31 @@ import { numberLine, percentLab, squareRootLab, powersLab } from '/js/widgets/ba
 
 const L = renderLesson({
   id: '00-numeri',
-  lead: `Este nivel sirve para una sola cosa: que llegues al resto del curso sin tener que decir nunca
-         "ya, pero eso no lo di en el colegio". Son cuatro juegos. Si los superas, tienes <b>todas</b> las matemáticas
-         que hacen falta para entender los cúbits.`,
+  lead: `Cuatro juegos sobre las bases: números negativos, fracciones y porcentajes, cuadrados y raíces, potencias de 2.
+         Te harán falta en todo el resto del curso.`,
 
   steps: [
     {
       t: 'Números por encima y por debajo del cero',
-      html: `<p>La <b>recta numérica</b> es un camino recto con el cero en medio. A la derecha los números positivos
-             (1, 2, 3…), a la izquierda los <b>negativos</b> (−1, −2, −3…). Un número negativo no es "menos que nada":
-             es la misma distancia al cero, pero <b>del otro lado</b>.</p>
-             <p>En el juego tienes cinco movimientos: +1, −1, ×2 (doble), ÷2 (mitad) y ×(−1), que te da la vuelta al otro lado.
-             Intenta llegar al objetivo con el menor número de movimientos.</p>`,
+      html: `<p>La <b>recta numérica</b> tiene el cero en medio: los positivos a la derecha, los <b>negativos</b> a la izquierda.</p>
+             <p><b>Ejemplo:</b> un termómetro. +5° y −5° están los dos a 5 grados del cero, pero en lados opuestos.</p>
+             <p>Multiplicar por <b>−1</b> cambia el lado pero no la distancia al cero: 3 → −3, −7 → 7.</p>
+             <p>En el juego tienes cinco movimientos: +1, −1, ×2 (doble), ÷2 (mitad), ×(−1) (cambia de lado).
+             Llega al objetivo con los menos movimientos posibles.</p>`,
       mount: (el, api) => {
         const m = api.mission({ key: 'linea', title: 'Tiro al blanco', text: 'llega a un objetivo en la recta numérica.', xp: 20 });
         el.appendChild(m.root);
         numberLine(el, { onWin: () => m.complete() });
       },
-      after: `<div class="callout key"><b>Para tener en cuenta más adelante:</b> multiplicar por <b>−1</b> quiere decir
-              "vete al lado contrario". Dentro de unos niveles descubrirás que, para una <b>flecha</b>, multiplicar por −1
-              significa <b>girarla media vuelta</b>. Es exactamente la misma idea.</div>`,
     },
     {
-      t: 'Mitad, un cuarto, 50%: tres maneras de decir lo mismo',
-      html: `<p>Una <b>fracción</b> como 3/4 quiere decir "divide en 4 partes iguales y toma 3".
-             Un <b>decimal</b> como 0,75 es el mismo número escrito con coma.
-             Un <b>porcentaje</b> como 75% es otra vez el mismo número, referido a 100.</p>
+      t: 'De 3/4 a 0,75 a 75%',
+      html: `<p>Una <b>fracción</b> como 3/4 quiere decir: divide en 4 partes iguales y toma 3.</p>
+             <p><b>De fracción a decimal:</b> haz la división. 3/4 = 3 ÷ 4 = 0,75.<br>
+             <i>Ejemplo:</i> 3 euros repartidos entre 4 personas son 0,75 € por cabeza, es decir, 75 céntimos.</p>
+             <p><b>De decimal a porcentaje:</b> multiplica por 100. 0,75 × 100 = 75 → <b>75%</b>.<br>
+             "Por ciento" quiere decir "de cada 100": 75% = 75 partes de 100.</p>
+             <p><i>Ejemplo:</i> una pizza cortada en 4 trozos. Te comes 3: 3/4 = 0,75 = 75% de la pizza.</p>
              <table class="table">
                <tr><th>Fracción</th><th>Decimal</th><th>Porcentaje</th><th>En palabras</th></tr>
                <tr><td class="mono">1/2</td><td class="mono">0,5</td><td class="mono">50%</td><td>mitad</td></tr>
@@ -48,62 +47,74 @@ const L = renderLesson({
       },
     },
     {
-      t: 'El cuadrado y la raíz (hace falta DE VERDAD, no es un capricho)',
-      html: `<p>"Elevar al cuadrado" quiere decir multiplicar un número por sí mismo: 3² = 3×3 = 9.
-             La <b>raíz cuadrada</b> hace la pregunta inversa: "¿qué número multiplicado por sí mismo da 9?" → √9 = 3.</p>
-             <p>La manera más fácil de verlo es un cuadrado dibujado: el <b>lado</b> es el número, el <b>área</b> es su cuadrado.</p>
-             <div class="callout warn"><b>Lo raro que tienes que ver con tus propios ojos:</b> si el lado es <b>menor que 1</b>,
-             ¡el área es <b>todavía más pequeña</b>! 0,5 × 0,5 = 0,25. Mueve el deslizador y compruébalo: es contraintuitivo,
-             pero será utilísimo, porque en el mundo cuántico las "amplitudes" son casi siempre menores que 1.</div>`,
+      t: 'Cuadrado y raíz cuadrada',
+      html: `<p><b>Elevar al cuadrado</b> quiere decir multiplicar un número por sí mismo: 3² = 3 × 3 = 9.</p>
+             <p>La <b>raíz cuadrada</b> hace lo contrario: buscas el número que, multiplicado por sí mismo, da el de partida.</p>
+             <p><b>Cómo se calcula: probando.</b></p>
+             <ul>
+               <li>√16: 3 × 3 = 9 es poco, 4 × 4 = 16 vale → <b>√16 = 4</b>.</li>
+               <li>√20: 4 × 4 = 16 es poco, 5 × 5 = 25 es demasiado, así que está entre 4 y 5. Pruebo 4,5 × 4,5 = 20,25: casi. √20 ≈ 4,47.</li>
+               <li>En una calculadora basta la tecla <b>√</b>.</li>
+             </ul>
+             <p><i>Ejemplo:</i> una habitación cuadrada de 16 m² tiene 4 m de lado, porque 4 × 4 = 16.</p>
+             <div class="callout warn"><p><b>Por qué 0,5 × 0,5 da 0,25.</b> Multiplicar por 0,5 quiere decir <b>tomar la mitad</b>.
+             Así que 0,5 × 0,5 = la mitad de 0,5 = <b>0,25</b>.</p>
+             <ul>
+               <li><i>Pizza:</i> la mitad de media pizza = un cuarto de pizza.</li>
+               <li><i>Dinero:</i> la mitad de 50 céntimos = 25 céntimos.</li>
+             </ul>
+             <p>En general, multiplicar por un número menor que 1 quiere decir tomar solo una parte, así que el resultado se hace más pequeño.</p>
+             <p><b>Cómo se hace la cuenta:</b> multiplica sin comas (5 × 5 = 25). Luego cuenta las cifras después de la coma
+             en los dos números (1 + 1 = 2) y pon 2 también en el resultado: <b>0,25</b>.<br>
+             <i>Otro ejemplo:</i> 0,3 × 0,3 → 3 × 3 = 9 → dos cifras después de la coma → <b>0,09</b>.</p></div>`,
       mount: (el, api) => {
         const m = api.mission({ key: 'radice', title: 'El lado correcto', text: 'encuentra el lado que produce cierta área (es decir, calcula una raíz cuadrada).', xp: 25 });
         el.appendChild(m.root);
         squareRootLab(el, { onWin: () => m.complete() });
       },
-      after: `<div class="callout key"><b>Adelanto:</b> en el resto del curso te encontrarás muchísimas veces el número
-              <b>1/√2 ≈ 0,707</b>. ¿Por qué? Porque su cuadrado da exactamente <b>0,5</b>, es decir el 50%.
-              Es el número que describe un cúbit "a medio camino entre 0 y 1".</div>`,
     },
     {
-      t: 'Duplica, duplica, duplica: las potencias de 2',
-      html: `<p>Hay una leyenda: un rey promete a un inventor un grano de arroz en la primera casilla del tablero,
-             dos en la segunda, cuatro en la tercera, y así duplicando. Parece poco. En la casilla 64 harían falta
-             más granos de los que existen en la Tierra.</p>
-             <p>Esa duplicación se escribe <b>2^n</b> ("dos elevado a n") y quiere decir "multiplica 2 por sí mismo n veces".</p>`,
+      t: 'Las potencias de 2',
+      html: `<p><b>2^n</b> quiere decir: multiplica 2 por sí mismo n veces. 2³ = 2 × 2 × 2 = 8.</p>
+             <p>Cada vez que n sube 1, multiplicas por 2 una vez más, así que el resultado se duplica:</p>
+             <table class="table">
+               <tr><th>n</th><td class="mono">1</td><td class="mono">2</td><td class="mono">3</td><td class="mono">4</td><td class="mono">5</td><td class="mono">6</td><td class="mono">7</td><td class="mono">8</td><td class="mono">9</td><td class="mono">10</td></tr>
+               <tr><th>2^n</th><td class="mono">2</td><td class="mono">4</td><td class="mono">8</td><td class="mono">16</td><td class="mono">32</td><td class="mono">64</td><td class="mono">128</td><td class="mono">256</td><td class="mono">512</td><td class="mono"><b>1.024</b></td></tr>
+             </table>
+             <p><b>n = 10 → unos mil:</b> con 10 duplicaciones llegas a 1.024, es decir, unos 1.000.</p>
+             <p><b>n = 20 → un millón, más o menos:</b> otras 10 duplicaciones multiplican otra vez por 1.024, es decir, por unos 1.000.
+             Así que 1.000 × 1.000 = <b>1.000.000</b>. El valor exacto es 1.048.576.</p>
+             <p><i>Ejemplo:</i> la leyenda del tablero de ajedrez. 1 grano de arroz en la primera casilla, 2 en la segunda, 4 en la tercera,
+             duplicando cada vez. En la casilla 64 harían falta más granos de los que existen en la Tierra.</p>`,
       mount: (el, api) => {
         const m = api.mission({ key: 'pow', title: 'Hasta un millón', text: 'lleva el deslizador a n = 20 y mira en cuántos valores se convierte.', xp: 20 });
         el.appendChild(m.root);
         powersLab(el, { onWin: () => m.complete() });
       },
-      after: `<div class="callout ok"><b>Por qué es el número más importante del curso:</b> con <b>n cúbits</b> el estado del sistema
-              lo describen <b>2^n números</b> todos juntos. 10 cúbits → 1.024 números. 50 cúbits → más de un billón.
-              Toda la potencia (y toda la dificultad) de la computación cuántica nace de esa línea.</div>`,
     },
     {
       t: '💡 Pruébalo tú',
       html: `<div class="callout think">
-        <p><b>1.</b> En el juego de la recta: partiendo de 1, ¿cuál es el menor número de movimientos para llegar a −8?</p>
-        <p><b>2.</b> ¿Cuál es el lado de un cuadrado de área 0,49? ¿Y de área 1? <span class="muted">(la segunda es una trampa simpática)</span></p>
+        <p><b>1.</b> En el juego de la recta: empezando en 1, ¿cuál es el menor número de movimientos para llegar a −8?</p>
+        <p><b>2.</b> ¿Cuál es el lado de un cuadrado de área 0,49? ¿Y de área 1?</p>
         <p><b>3.</b> ¿Cuántas veces tienes que duplicar 1 para pasar de 1.000? ¿Y para pasar de 1.000.000?</p>
-        <p class="mb0"><b>4.</b> Si 1/√2 al cuadrado da 0,5, ¿cuánto da (1/√2) + (1/√2)? ¿Es mayor o menor que 1?
-        <span class="muted">(sorpresa: da alrededor de 1,41. Las amplitudes se suman de forma distinta a las probabilidades — lo notarás en el nivel 1.)</span></p>
+        <p class="mb0"><b>4.</b> ¿0,3 × 0,3 es mayor o menor que 0,3?</p>
       </div>`,
     },
   ],
 
   quiz: [
-    { q: '¿Cuánto da 0,5 × 0,5?', options: ['1', '0,25', '0,5', '2,5'], correct: 1,
-      why: 'Multiplicando dos números menores que 1 el resultado es todavía más pequeño: 0,25, es decir el 25%.' },
+    { q: '¿Cuánto es 0,5 × 0,5?', options: ['1', '0,25', '0,5', '2,5'], correct: 1,
+      why: 'Multiplicar por 0,5 quiere decir tomar la mitad: la mitad de 0,5 es 0,25.' },
     { q: '¿A qué porcentaje corresponde 3/4?', options: ['34%', '43%', '75%', '30%'], correct: 2,
-      why: '3 dividido entre 4 da 0,75, es decir 75 partes de 100 = 75%.' },
-    { q: 'Con 8 cúbits, ¿cuántos estados distintos se pueden describir a la vez?', options: ['8', '16', '64', '256'], correct: 3,
-      why: '2^8 = 256. Cada cúbit de más <b>duplica</b> el número de amplitudes.' },
-    { q: '¿Qué quiere decir multiplicar un número por −1?', options: ['reducirlo a la mitad', 'anularlo', 'mandarlo al lado contrario respecto al cero', 'elevarlo al cuadrado'], correct: 2,
-      why: 'Cambia solo la dirección, no la distancia al cero. Para una flecha, será una rotación de 180°.' },
+      why: '3 ÷ 4 = 0,75, y 0,75 × 100 = 75, es decir, 75 de 100 = 75%.' },
+    { q: '¿Cuánto es 2⁵?', options: ['10', '25', '32', '64'], correct: 2,
+      why: '2 × 2 × 2 × 2 × 2 = 32.' },
+    { q: '¿Qué quiere decir multiplicar un número por −1?', options: ['dividirlo por la mitad', 'anularlo', 'mandarlo al lado opuesto respecto al cero', 'elevarlo al cuadrado'], correct: 2,
+      why: 'Cambia el lado, no la distancia al cero: 5 se convierte en −5.' },
   ],
 
-  outro: `<div class="callout ok"><b>¡Hecho!</b> Ya tienes números negativos, porcentajes, cuadrados, raíces y potencias de 2.
-          En el nivel siguiente añadimos dos cosas: las <b>coordenadas</b> (para decir dónde está un punto) y los <b>grados</b>
-          (para decir cuánto ha girado una flecha).</div>`,
+  outro: `<div class="callout ok"><b>Hecho.</b> En el siguiente nivel: las <b>coordenadas</b> (dónde está un punto)
+          y los <b>grados</b> (cuánto está girado un objeto).</div>`,
 });
 @endsection
