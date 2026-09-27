@@ -46,8 +46,10 @@ const L = renderLesson({
              <p>Fíjate en el ritmo: cuando uno vale 1 o −1, el otro vale 0. Se "van turnando". Y hay un valor especial
              que te encontrarás por todas partes en el curso:</p>
              <div class="formula">cos 45° = sin 45° = <span class="hl-n">1/√2</span> ≈ 0,707</div>
-             <p>A 45° estás exactamente a medio camino entre "del todo a la derecha" y "del todo arriba": las dos sombras son iguales.
-             Y recuerda del nivel 0·1: <b>(0,707)² = 0,5</b>, es decir el 50%. Ese número describirá el cúbit "a medio camino entre 0 y 1".</p>`,
+             <p>A 45° estás a medio camino entre "del todo a la derecha" y "del todo arriba": las dos sombras son iguales.
+             Llamemos x a su valor. El punto está en el círculo, así que está a 1 del centro. Con Pitágoras:</p>
+             <p class="mono">x² + x² = 1 → 2 × x² = 1 → x² = 0,5 → x = √0,5 ≈ <b>0,707</b></p>
+             <p>El mismo número se escribe también <b>1/√2</b>.</p>`,
       mount: el => {
         stepper(el, [
           { h: 'Pregunta', html: 'A 90°, ¿cuánto vale el <b>coseno</b>?' },
@@ -69,7 +71,7 @@ const L = renderLesson({
                <li>punto que gira → <b>seno y coseno</b> (este nivel)</li>
                <li>seno y coseno en el tiempo → <b>ondas</b> (nivel 13)</li>
                <li>ondas desplazadas entre sí → <b>fase</b> (nivel 14)</li>
-               <li>longitud + ángulo de una flecha → <b>números complejos</b> y <b>e^{iθ} = cos θ + i·sin θ</b> (nivel 8)</li>
+               <li>longitud + ángulo de una flecha → <b>números complejos</b> (nivel 8)</li>
                <li>flechas que se suman o se cancelan → <b>interferencia</b> (nivel 7) y <b>Fourier</b> (nivel 16)</li>
              </ul>
              Ningún salto: es una sola cadena, y el primer eslabón es el punto que gira.</div>`,
@@ -79,10 +81,8 @@ const L = renderLesson({
       html: `<div class="callout think">
         <p><b>1.</b> ¿Existe un ángulo en el que el seno y el coseno sean <b>los dos</b> negativos? Encuéntralo en el juego.</p>
         <p><b>2.</b> ¿Cuánto vale cos 360°? ¿Y cos 720°? ¿Por qué?</p>
-        <p><b>3.</b> Haz la cuenta: (cos 45°)² + (sin 45°)² = 0,5 + 0,5 = <b>1</b>. Prueba con otros ángulos:
+        <p class="mb0"><b>3.</b> Haz la cuenta: (cos 45°)² + (sin 45°)² = 0,5 + 0,5 = <b>1</b>. Prueba con otros ángulos:
            sale siempre 1. ¿Sabes por qué? <span class="muted">(pista: Pitágoras sobre un radio de longitud 1)</span></p>
-        <p class="mb0"><b>4.</b> Esa regla — <b>cos² + sin² = 1</b> — en el mundo cuántico se convertirá en
-           "la suma de las probabilidades da 100%". No es casualidad.</p>
       </div>`,
     },
   ],
@@ -99,7 +99,6 @@ const L = renderLesson({
   ],
 
   outro: `<div class="callout ok"><b>¡Hecho!</b> El seno y el coseno ya no son dos palabras misteriosas: son las dos sombras
-          de un punto que gira. Último nivel de base: el <b>azar</b>, es decir las probabilidades — porque toda medida
-          cuántica es, en el fondo, un lanzamiento de moneda muy bien organizado.</div>`,
+          de un punto que gira. Último nivel de base: el <b>azar</b>, es decir las probabilidades.</div>`,
 });
 @endsection

@@ -46,8 +46,10 @@ const L = renderLesson({
              <p>Notice the rhythm: when one is 1 or −1, the other is 0. They "take turns". And there is one special value
              you will meet everywhere in this course:</p>
              <div class="formula">cos 45° = sin 45° = <span class="hl-n">1/√2</span> ≈ 0.707</div>
-             <p>At 45° you are exactly halfway between "far right" and "at the top": the two shadows are equal.
-             And remember from level 0·1: <b>(0.707)² = 0.5</b>, that is 50%. This number will describe the qubit "halfway between 0 and 1".</p>`,
+             <p>At 45° you are halfway between "far right" and "at the top": the two shadows are equal.
+             Call their value x. The point is on the circle, so it is 1 away from the centre. With Pythagoras:</p>
+             <p class="mono">x² + x² = 1 → 2 × x² = 1 → x² = 0.5 → x = √0.5 ≈ <b>0.707</b></p>
+             <p>The same number is also written <b>1/√2</b>.</p>`,
       mount: el => {
         stepper(el, [
           { h: 'Question', html: 'At 90°, what is the <b>cosine</b>?' },
@@ -69,7 +71,7 @@ const L = renderLesson({
                <li>turning point → <b>sine and cosine</b> (this level)</li>
                <li>sine and cosine over time → <b>waves</b> (level 13)</li>
                <li>waves shifted against each other → <b>phase</b> (level 14)</li>
-               <li>length + angle of an arrow → <b>complex numbers</b> and <b>e^{iθ} = cos θ + i·sin θ</b> (level 8)</li>
+               <li>length + angle of an arrow → <b>complex numbers</b> (level 8)</li>
                <li>arrows that add up or cancel → <b>interference</b> (level 7) and <b>Fourier</b> (level 16)</li>
              </ul>
              No jumps: it is one single chain, and the first link is the turning point.</div>`,
@@ -79,10 +81,8 @@ const L = renderLesson({
       html: `<div class="callout think">
         <p><b>1.</b> Is there an angle where sine and cosine are <b>both</b> negative? Find it in the game.</p>
         <p><b>2.</b> What is cos 360°? And cos 720°? Why?</p>
-        <p><b>3.</b> Try the sum: (cos 45°)² + (sin 45°)² = 0.5 + 0.5 = <b>1</b>. Try other angles:
+        <p class="mb0"><b>3.</b> Try the sum: (cos 45°)² + (sin 45°)² = 0.5 + 0.5 = <b>1</b>. Try other angles:
            it always comes out 1. Can you say why? <span class="muted">(hint: Pythagoras on a radius of length 1)</span></p>
-        <p class="mb0"><b>4.</b> That rule — <b>cos² + sin² = 1</b> — will become, in the quantum world,
-           "the probabilities add up to 100%". That is no coincidence.</p>
       </div>`,
     },
   ],
@@ -99,7 +99,6 @@ const L = renderLesson({
   ],
 
   outro: `<div class="callout ok"><b>Done!</b> Sine and cosine are no longer two mysterious words: they are the two shadows
-          of a turning point. Last basics level: <b>chance</b>, that is probability — because every quantum
-          measurement is, at bottom, a very well organised coin toss.</div>`,
+          of a turning point. Last basics level: <b>chance</b>, that is probability.</div>`,
 });
 @endsection

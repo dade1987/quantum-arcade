@@ -46,8 +46,10 @@ const L = renderLesson({
              <p>Nota il ritmo: quando uno vale 1 o −1, l'altro vale 0. Si "danno il cambio". E c'è un valore speciale
              che incontrerai ovunque nel corso:</p>
              <div class="formula">cos 45° = sin 45° = <span class="hl-n">1/√2</span> ≈ 0,707</div>
-             <p>A 45° sei esattamente a metà strada fra "tutto a destra" e "tutto in alto": le due ombre sono uguali.
-             E ricorda dal livello 0·1: <b>(0,707)² = 0,5</b>, cioè il 50%. Questo numero descriverà il qubit "a metà fra 0 e 1".</p>`,
+             <p>A 45° sei a metà strada fra "tutto a destra" e "tutto in alto": le due ombre sono uguali.
+             Chiamiamo x il loro valore. Il punto è sul cerchio, quindi dista 1 dal centro. Con Pitagora:</p>
+             <p class="mono">x² + x² = 1 → 2 × x² = 1 → x² = 0,5 → x = √0,5 ≈ <b>0,707</b></p>
+             <p>Lo stesso numero si scrive anche <b>1/√2</b>.</p>`,
       mount: el => {
         stepper(el, [
           { h: 'Domanda', html: 'A 90° quanto vale il <b>coseno</b>?' },
@@ -69,7 +71,7 @@ const L = renderLesson({
                <li>punto che gira → <b>seno e coseno</b> (questo livello)</li>
                <li>seno e coseno nel tempo → <b>onde</b> (livello 13)</li>
                <li>onde spostate fra loro → <b>fase</b> (livello 14)</li>
-               <li>lunghezza + angolo di una freccia → <b>numeri complessi</b> ed <b>e^{iθ} = cos θ + i·sin θ</b> (livello 8)</li>
+               <li>lunghezza + angolo di una freccia → <b>numeri complessi</b> (livello 8)</li>
                <li>frecce che si sommano o si cancellano → <b>interferenza</b> (livello 7) e <b>Fourier</b> (livello 16)</li>
              </ul>
              Nessun salto: è una catena sola, e il primo anello è il punto che gira.</div>`,
@@ -79,10 +81,8 @@ const L = renderLesson({
       html: `<div class="callout think">
         <p><b>1.</b> Esiste un angolo in cui seno e coseno sono <b>entrambi</b> negativi? Trovalo nel gioco.</p>
         <p><b>2.</b> Quanto vale cos 360°? E cos 720°? Perché?</p>
-        <p><b>3.</b> Prova a fare il conto: (cos 45°)² + (sin 45°)² = 0,5 + 0,5 = <b>1</b>. Prova con altri angoli:
+        <p class="mb0"><b>3.</b> Prova a fare il conto: (cos 45°)² + (sin 45°)² = 0,5 + 0,5 = <b>1</b>. Prova con altri angoli:
            viene sempre 1. Sai dire perché? <span class="muted">(indizio: Pitagora su un raggio lungo 1)</span></p>
-        <p class="mb0"><b>4.</b> Quella regola — <b>cos² + sin² = 1</b> — nel mondo quantistico diventerà
-           "la somma delle probabilità fa 100%". Non è una coincidenza.</p>
       </div>`,
     },
   ],
@@ -99,7 +99,6 @@ const L = renderLesson({
   ],
 
   outro: `<div class="callout ok"><b>Fatto!</b> Seno e coseno non sono più due parole misteriose: sono le due ombre
-          di un punto che gira. Ultimo livello di base: il <b>caso</b>, cioè le probabilità — perché ogni misura
-          quantistica è, in fondo, un lancio di moneta molto ben organizzato.</div>`,
+          di un punto che gira. Ultimo livello di base: il <b>caso</b>, cioè le probabilità.</div>`,
 });
 @endsection
