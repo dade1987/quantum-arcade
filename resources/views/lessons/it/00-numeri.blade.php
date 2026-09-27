@@ -1,4 +1,4 @@
-@php($description = 'Numeri negativi, doppi e metà, frazioni e percentuali, potenze di 2 e radice quadrata: le basi matematiche per l\'informatica quantistica, spiegate giocando.')
+@php($description = 'Numeri negativi, frazioni e percentuali, quadrato e radice, potenze di 2: le basi matematiche per l\'informatica quantistica, spiegate giocando.')
 
 @extends('layouts.lesson')
 
@@ -8,102 +8,106 @@ import { numberLine, percentLab, squareRootLab, powersLab } from '/js/widgets/ba
 
 const L = renderLesson({
   id: '00-numeri',
-  lead: `Questo livello serve a una cosa sola: farti arrivare al resto del corso senza mai dover dire
-         "eh ma questo non l'ho fatto a scuola". Sono quattro giochi. Se li superi, hai <b>tutta</b> la matematica
-         che serve per capire i qubit.`,
+  lead: `Qui ripassiamo quattro cose sui numeri. Sono le uniche che servono per il resto del corso.
+         Ogni cosa ha un piccolo gioco. Niente di nuovo: sono cose delle medie.`,
 
   steps: [
     {
-      t: 'Numeri sopra e sotto lo zero',
-      html: `<p>La <b>linea dei numeri</b> è una strada dritta con lo zero in mezzo. A destra i numeri positivi
-             (1, 2, 3…), a sinistra quelli <b>negativi</b> (−1, −2, −3…). Un numero negativo non è "meno di niente":
-             è la stessa distanza dallo zero, ma <b>dall'altra parte</b>.</p>
-             <p>Nel gioco hai cinque mosse: +1, −1, ×2 (doppio), ÷2 (metà) e ×(−1) che ti ribalta dall'altra parte.
-             Prova a raggiungere il bersaglio nel minor numero di mosse.</p>`,
+      t: 'I numeri negativi',
+      html: `<p>Immagina una strada dritta. In mezzo c'è lo <b>0</b>.</p>
+             <p>A destra ci sono i numeri <b>positivi</b>: 1, 2, 3…<br>
+             A sinistra ci sono i numeri <b>negativi</b>: −1, −2, −3…</p>
+             <p>Esempio: −3 e 3 sono lontani dallo 0 allo stesso modo. Solo che stanno <b>da parti opposte</b>.</p>
+             <p>Una mossa ti porta dall'altra parte: <b>moltiplicare per −1</b>.<br>
+             3 × (−1) = −3. &nbsp; −3 × (−1) = 3. La distanza dallo 0 resta uguale. Cambia solo il lato.</p>
+             <p>Nel gioco hai queste mosse: <b>+1</b>, <b>−1</b>, <b>×2</b> (doppio), <b>÷2</b> (metà) e
+             <b>×(−1)</b> (cambia lato). Porta il razzo sul bersaglio.</p>`,
       mount: (el, api) => {
-        const m = api.mission({ key: 'linea', title: 'Tiro al bersaglio', text: 'raggiungi un bersaglio sulla linea dei numeri.', xp: 20 });
+        const m = api.mission({ key: 'linea', title: 'Tiro al bersaglio', text: 'porta il razzo sul bersaglio.', xp: 20 });
         el.appendChild(m.root);
         numberLine(el, { onWin: () => m.complete() });
       },
-      after: `<div class="callout key"><b>Da tenere a mente per dopo:</b> moltiplicare per <b>−1</b> vuol dire
-              "vai dalla parte opposta". Fra qualche livello scoprirai che, per una <b>freccia</b>, moltiplicare per −1
-              significa <b>girarla di mezzo giro</b>. È la stessa identica idea.</div>`,
+      after: `<div class="callout key"><b>Da ricordare:</b> ×(−1) vuol dire "vai dall'altra parte dello 0".</div>`,
     },
     {
-      t: 'Metà, un quarto, 50%: tre modi di dire la stessa cosa',
-      html: `<p>Una <b>frazione</b> come 3/4 vuol dire "dividi in 4 parti uguali e prendine 3".
-             Un <b>decimale</b> come 0,75 è lo stesso numero scritto con la virgola.
-             Una <b>percentuale</b> come 75% è ancora lo stesso numero, riferito a 100.</p>
+      t: 'Metà, 0,5 e 50% sono la stessa cosa',
+      html: `<p>Prendi una pizza e tagliala in 4 fette uguali. Ne mangi 3.</p>
+             <p>Hai mangiato <b>3/4</b> della pizza. Si può scrivere in tre modi:</p>
+             <ul>
+               <li>come <b>frazione</b>: 3/4</li>
+               <li>come <b>numero con la virgola</b>: 0,75</li>
+               <li>come <b>percentuale</b>: 75%</li>
+             </ul>
+             <p>Sono tre modi di dire <b>la stessa quantità</b>.</p>
              <table class="table">
-               <tr><th>Frazione</th><th>Decimale</th><th>Percentuale</th><th>A parole</th></tr>
+               <tr><th>Frazione</th><th>Con la virgola</th><th>Percentuale</th><th>A parole</th></tr>
                <tr><td class="mono">1/2</td><td class="mono">0,5</td><td class="mono">50%</td><td>metà</td></tr>
                <tr><td class="mono">1/4</td><td class="mono">0,25</td><td class="mono">25%</td><td>un quarto</td></tr>
                <tr><td class="mono">3/4</td><td class="mono">0,75</td><td class="mono">75%</td><td>tre quarti</td></tr>
                <tr><td class="mono">1/1</td><td class="mono">1</td><td class="mono">100%</td><td>tutto</td></tr>
              </table>`,
       mount: (el, api) => {
-        const m = api.mission({ key: 'perc', title: 'Il pasticcere preciso', text: 'centra due bersagli diversi con il cursore.', xp: 20 });
+        const m = api.mission({ key: 'perc', title: 'Il bicchiere giusto', text: 'riempi il bicchiere fino alla riga, per tre volte.', xp: 20 });
         el.appendChild(m.root);
         percentLab(el, { onWin: () => m.complete() });
       },
+      after: `<div class="callout key"><b>Da ricordare:</b> 1 vuol dire "tutto", cioè 100%. 0,5 vuol dire "metà", cioè 50%.</div>`,
     },
     {
-      t: 'Il quadrato e la radice (serve DAVVERO, non è un capriccio)',
-      html: `<p>"Elevare al quadrato" vuol dire moltiplicare un numero per sé stesso: 3² = 3×3 = 9.
-             La <b>radice quadrata</b> fa la domanda inversa: "quale numero moltiplicato per sé stesso dà 9?" → √9 = 3.</p>
-             <p>Il modo più semplice per vederlo è un quadrato disegnato: il <b>lato</b> è il numero, l'<b>area</b> è il suo quadrato.</p>
-             <div class="callout warn"><b>La cosa strana che devi vedere con i tuoi occhi:</b> se il lato è <b>più piccolo di 1</b>,
-             l'area è <b>ancora più piccola</b>! 0,5 × 0,5 = 0,25. Sposta il cursore e verifica: è controintuitivo,
-             ma tornerà utilissimo, perché nel mondo quantistico le "ampiezze" sono quasi sempre minori di 1.</div>`,
+      t: 'Il quadrato e la radice quadrata',
+      html: `<p><b>Quadrato</b> di un numero = il numero moltiplicato per sé stesso.<br>
+             Esempio: il quadrato di 3 è 3 × 3 = <b>9</b>. Si scrive 3² = 9.</p>
+             <p><b>Radice quadrata</b> = la domanda al contrario: "quale numero, moltiplicato per sé stesso, fa 9?".<br>
+             Risposta: 3. Si scrive √9 = 3.</p>
+             <p>Pensa a un quadrato disegnato: il <b>lato</b> è il numero, l'<b>area</b> è il suo quadrato.</p>
+             <div class="callout warn"><b>Attenzione, sembra strano:</b> se il numero è più piccolo di 1, il suo quadrato
+             è <b>ancora più piccolo</b>.<br>
+             Esempio: 0,5 × 0,5 = 0,25. Metà di metà è un quarto.</div>`,
       mount: (el, api) => {
-        const m = api.mission({ key: 'radice', title: 'Il lato giusto', text: 'trova il lato che produce una certa area (cioè calcola una radice quadrata).', xp: 25 });
+        const m = api.mission({ key: 'radice', title: 'Il lato giusto', text: 'trova il lato del quadrato quando conosci l\'area.', xp: 25 });
         el.appendChild(m.root);
         squareRootLab(el, { onWin: () => m.complete() });
       },
-      after: `<div class="callout key"><b>Anticipazione:</b> nel resto del corso incontrerai spessissimo il numero
-              <b>1/√2 ≈ 0,707</b>. Perché? Perché il suo quadrato fa esattamente <b>0,5</b>, cioè il 50%.
-              È il numero che descrive un qubit "a metà fra 0 e 1".</div>`,
+      after: `<div class="callout key"><b>Da ricordare:</b> quadrato = numero × numero. Radice = il numero di partenza.</div>`,
     },
     {
-      t: 'Raddoppia, raddoppia, raddoppia: le potenze di 2',
-      html: `<p>C'è una leggenda: un re promette a un inventore un chicco di riso sulla prima casella della scacchiera,
-             due sulla seconda, quattro sulla terza, e così via raddoppiando. Sembra poco. Alla 64ª casella servirebbero
-             più chicchi di quanti ne esistano sulla Terra.</p>
-             <p>Questo raddoppio si scrive <b>2^n</b> ("due elevato a n") e vuol dire "moltiplica 2 per sé stesso n volte".</p>`,
+      t: 'Le potenze di 2: raddoppiare tante volte',
+      html: `<p>Parti da 1 e raddoppia: 1, 2, 4, 8, 16, 32…</p>
+             <p>Sembra poco. Ma dopo 10 raddoppi sei già a <b>1.024</b>. Dopo 20 raddoppi sei a più di <b>un milione</b>.</p>
+             <p>"Raddoppiare 3 volte" si scrive <b>2³</b> e vuol dire 2 × 2 × 2 = 8.<br>
+             Il numerino in alto dice quante volte moltiplichi per 2.</p>`,
       mount: (el, api) => {
-        const m = api.mission({ key: 'pow', title: 'Fino a un milione', text: 'porta il cursore a n = 20 e guarda quanti valori diventano.', xp: 20 });
+        const m = api.mission({ key: 'pow', title: 'Fino a un milione', text: 'porta il cursore a 20 raddoppi.', xp: 20 });
         el.appendChild(m.root);
         powersLab(el, { onWin: () => m.complete() });
       },
-      after: `<div class="callout ok"><b>Perché è il numero più importante del corso:</b> con <b>n qubit</b> lo stato del sistema
-              è descritto da <b>2^n numeri</b> tutti insieme. 10 qubit → 1.024 numeri. 50 qubit → più di mille miliardi.
-              Tutta la potenza (e tutta la difficoltà) dell'informatica quantistica nasce da questa riga.</div>`,
+      after: `<div class="callout key"><b>Da ricordare:</b> ogni raddoppio in più fa crescere il numero tantissimo.
+              Questa idea tornerà spesso nel corso.</div>`,
     },
     {
       t: '💡 Prova tu',
       html: `<div class="callout think">
-        <p><b>1.</b> Nel gioco della linea: partendo da 1, qual è il minor numero di mosse per arrivare a −8?</p>
-        <p><b>2.</b> Qual è il lato di un quadrato di area 0,49? E di area 1? <span class="muted">(la seconda è un trabocchetto simpatico)</span></p>
-        <p><b>3.</b> Quante volte devi raddoppiare 1 per superare 1.000? E per superare 1.000.000?</p>
-        <p class="mb0"><b>4.</b> Se 1/√2 al quadrato fa 0,5, quanto fa (1/√2) + (1/√2)? È maggiore o minore di 1?
-        <span class="muted">(sorpresa: fa circa 1,41. Le ampiezze si sommano diversamente dalle probabilità — te ne accorgerai al livello 1.)</span></p>
+        <p><b>1.</b> Quanto fa 5 × (−1)? E −5 × (−1)?</p>
+        <p><b>2.</b> Scrivi 1/4 come percentuale.</p>
+        <p><b>3.</b> Qual è la radice quadrata di 16? E di 0,25?</p>
+        <p class="mb0"><b>4.</b> Quanto fa 2⁴, cioè 2 × 2 × 2 × 2?</p>
+        <p class="muted mb0">Soluzioni: 1) −5 e 5 · 2) 25% · 3) 4 e 0,5 · 4) 16</p>
       </div>`,
     },
   ],
 
   quiz: [
     { q: 'Quanto fa 0,5 × 0,5?', options: ['1', '0,25', '0,5', '2,5'], correct: 1,
-      why: 'Moltiplicando due numeri minori di 1 il risultato è ancora più piccolo: 0,25, cioè il 25%.' },
-    { q: '3/4 corrisponde a quale percentuale?', options: ['34%', '43%', '75%', '30%'], correct: 2,
-      why: '3 diviso 4 fa 0,75, cioè 75 parti su 100 = 75%.' },
-    { q: 'Con 8 qubit, quanti stati diversi si possono descrivere insieme?', options: ['8', '16', '64', '256'], correct: 3,
-      why: '2^8 = 256. Ogni qubit in più <b>raddoppia</b> il numero di ampiezze.' },
-    { q: 'Cosa vuol dire moltiplicare un numero per −1?', options: ['dimezzarlo', 'annullarlo', 'mandarlo dalla parte opposta rispetto allo zero', 'elevarlo al quadrato'], correct: 2,
-      why: 'Cambia solo la direzione, non la distanza dallo zero. Per una freccia, sarà una rotazione di 180°.' },
+      why: 'Metà di metà è un quarto: 0,25. Un numero più piccolo di 1, moltiplicato per sé stesso, diventa ancora più piccolo.' },
+    { q: '3/4 a quale percentuale corrisponde?', options: ['34%', '43%', '75%', '30%'], correct: 2,
+      why: '3 diviso 4 fa 0,75, cioè 75 su 100: 75%.' },
+    { q: 'Quanto fa 2³?', options: ['6', '8', '9', '23'], correct: 1,
+      why: '2³ vuol dire 2 × 2 × 2 = 8.' },
+    { q: 'Cosa succede se moltiplichi un numero per −1?', options: ['diventa la metà', 'diventa 0', 'va dall\'altra parte dello 0', 'diventa il suo quadrato'], correct: 2,
+      why: 'La distanza dallo 0 resta uguale. Cambia solo il lato: 4 diventa −4.' },
   ],
 
-  outro: `<div class="callout ok"><b>Fatto!</b> Hai numeri negativi, percentuali, quadrati, radici e potenze di 2.
-          Nel prossimo livello aggiungiamo due cose: le <b>coordinate</b> (per dire dove sta un punto) e i <b>gradi</b>
-          (per dire quanto è girata una freccia).</div>`,
+  outro: `<div class="callout ok"><b>Fatto!</b> Sai usare numeri negativi, percentuali, quadrati, radici e raddoppi.
+          Nel prossimo livello impari a dire <b>dove sta un punto</b> (le coordinate) e <b>quanto è girata una freccia</b> (i gradi).</div>`,
 });
 @endsection
